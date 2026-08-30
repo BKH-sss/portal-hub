@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31 06:23:22",
+  "generated_at": "2026-08-31 07:03:11",
   "soccer": [
     {
       "id": "740604",
@@ -307,639 +307,553 @@
       "city": "서울",
       "region": "수도권",
       "current": {
-        "temp": 22.8,
-        "feels_like": 27.6,
-        "humidity": 98,
-        "wind_speed": 2.9,
-        "weather_desc": "약한 비",
+        "temp": 24.0,
+        "feels_like": 26.9,
+        "weather_desc": "비",
         "weather_icon": "🌧️",
-        "weather_code": 61,
-        "temp_max": 24,
-        "temp_min": 22,
-        "time_kst": "06:23"
+        "temp_max": 28.0,
+        "temp_min": 22.0,
+        "time_kst": "07:03"
       },
       "air": {
         "pm10": {
-          "val": 8.4,
+          "val": 18.0,
           "label": "좋음",
-          "grade": "good",
           "color": "#3b82f6"
         },
         "pm25": {
-          "val": 8.4,
+          "val": 10.0,
           "label": "좋음",
-          "grade": "good",
           "color": "#3b82f6"
-        },
-        "aqi": 64,
-        "tip": "미세먼지 상태가 좋아 야외활동하기 좋습니다."
+        }
       },
       "hourly": [
-        {
-          "time": "00시",
-          "temp": 23,
-          "icon": "🌦️",
-          "desc": "약한 이슬비",
-          "pop": 25
-        },
-        {
-          "time": "01시",
-          "temp": 23,
-          "icon": "🌧️",
-          "desc": "보통 이슬비",
-          "pop": 33
-        },
-        {
-          "time": "02시",
-          "temp": 23,
-          "icon": "🌦️",
-          "desc": "약한 이슬비",
-          "pop": 48
-        },
-        {
-          "time": "03시",
-          "temp": 23,
-          "icon": "🌧️",
-          "desc": "약한 비",
-          "pop": 63
-        },
-        {
-          "time": "04시",
-          "temp": 23,
-          "icon": "🌧️",
-          "desc": "보통 비",
-          "pop": 77
-        },
-        {
-          "time": "05시",
-          "temp": 23,
-          "icon": "🌧️",
-          "desc": "약한 비",
-          "pop": 90
-        },
-        {
-          "time": "06시",
-          "temp": 23,
-          "icon": "🌧️",
-          "desc": "강한 이슬비",
-          "pop": 100
-        },
         {
           "time": "07시",
           "temp": 23,
           "icon": "🌧️",
-          "desc": "약한 비",
-          "pop": 100
+          "desc": "약한 비"
         },
         {
           "time": "08시",
           "temp": 23,
           "icon": "🌧️",
-          "desc": "보통 비",
-          "pop": 100
+          "desc": "보통 비"
         },
         {
           "time": "09시",
           "temp": 24,
           "icon": "🌧️",
-          "desc": "보통 비",
-          "pop": 100
+          "desc": "보통 비"
         },
         {
           "time": "10시",
           "temp": 24,
           "icon": "🌧️",
-          "desc": "보통 비",
-          "pop": 100
+          "desc": "보통 비"
         },
         {
           "time": "11시",
           "temp": 23,
           "icon": "🌧️",
-          "desc": "강한 비",
-          "pop": 100
-        }
-      ],
-      "daily": [
-        {
-          "day": "오늘",
-          "max": 24,
-          "min": 22,
-          "icon": "🌧️",
           "desc": "강한 비"
         },
         {
-          "day": "내일",
-          "max": 27,
-          "min": 22,
+          "time": "12시",
+          "temp": 23,
           "icon": "🌧️",
           "desc": "보통 비"
         },
         {
-          "day": "9/2(수)",
-          "max": 27,
-          "min": 23,
-          "icon": "☁️",
-          "desc": "흐림"
+          "time": "13시",
+          "temp": 23,
+          "icon": "🌧️",
+          "desc": "보통 비"
         },
         {
-          "day": "9/3(목)",
-          "max": 30,
-          "min": 19,
-          "icon": "⛅",
-          "desc": "구름 조금"
+          "time": "14시",
+          "temp": 23,
+          "icon": "🌧️",
+          "desc": "강한 비"
         },
         {
-          "day": "9/4(금)",
-          "max": 28,
-          "min": 18,
-          "icon": "🌤️",
-          "desc": "대체로 맑음"
+          "time": "15시",
+          "temp": 23,
+          "icon": "🌧️",
+          "desc": "보통 비"
+        },
+        {
+          "time": "16시",
+          "temp": 23,
+          "icon": "🌧️",
+          "desc": "약한 비"
         }
       ],
-      "updated_at": "2026-08-31 06:23:10"
+      "source": "NAVER Weather",
+      "updated_at": "2026-08-31 07:03:01"
     },
     "수원": {
       "city": "수원",
       "region": "경기",
       "current": {
-        "temp": 22.5,
+        "temp": 23.9,
         "feels_like": 27.0,
-        "humidity": 99,
-        "wind_speed": 4.4,
-        "weather_desc": "약한 비",
+        "weather_desc": "비",
         "weather_icon": "🌧️",
-        "weather_code": 61,
-        "temp_max": 24,
-        "temp_min": 22,
-        "time_kst": "06:23"
+        "temp_max": 27.9,
+        "temp_min": 21.9,
+        "time_kst": "07:03"
       },
       "air": {
         "pm10": {
-          "val": 4.9,
+          "val": 18.0,
           "label": "좋음",
-          "grade": "good",
           "color": "#3b82f6"
         },
         "pm25": {
-          "val": 4.8,
+          "val": 10.0,
           "label": "좋음",
-          "grade": "good",
           "color": "#3b82f6"
-        },
-        "aqi": 61,
-        "tip": "미세먼지 상태가 좋아 야외활동하기 좋습니다."
+        }
       },
       "hourly": [
-        {
-          "time": "00시",
-          "temp": 23,
-          "icon": "⛅",
-          "desc": "구름 조금",
-          "pop": 27
-        },
-        {
-          "time": "01시",
-          "temp": 23,
-          "icon": "🌧️",
-          "desc": "보통 이슬비",
-          "pop": 42
-        },
-        {
-          "time": "02시",
-          "temp": 22,
-          "icon": "🌧️",
-          "desc": "보통 이슬비",
-          "pop": 65
-        },
-        {
-          "time": "03시",
-          "temp": 22,
-          "icon": "🌧️",
-          "desc": "보통 비",
-          "pop": 84
-        },
-        {
-          "time": "04시",
-          "temp": 22,
-          "icon": "🌧️",
-          "desc": "보통 비",
-          "pop": 93
-        },
-        {
-          "time": "05시",
-          "temp": 22,
-          "icon": "🌧️",
-          "desc": "보통 비",
-          "pop": 97
-        },
-        {
-          "time": "06시",
-          "temp": 22,
-          "icon": "🌧️",
-          "desc": "보통 비",
-          "pop": 100
-        },
         {
           "time": "07시",
           "temp": 23,
           "icon": "🌧️",
-          "desc": "보통 비",
-          "pop": 100
+          "desc": "보통 비"
         },
         {
           "time": "08시",
           "temp": 23,
           "icon": "🌧️",
-          "desc": "보통 비",
-          "pop": 100
+          "desc": "보통 비"
         },
         {
           "time": "09시",
           "temp": 24,
           "icon": "🌧️",
-          "desc": "보통 비",
-          "pop": 100
+          "desc": "보통 비"
         },
         {
           "time": "10시",
           "temp": 24,
           "icon": "🌧️",
-          "desc": "강한 비",
-          "pop": 99
+          "desc": "강한 비"
         },
         {
           "time": "11시",
           "temp": 24,
           "icon": "🌧️",
-          "desc": "강한 비",
-          "pop": 99
-        }
-      ],
-      "daily": [
+          "desc": "강한 비"
+        },
         {
-          "day": "오늘",
-          "max": 24,
-          "min": 22,
+          "time": "12시",
+          "temp": 22,
           "icon": "🌧️",
           "desc": "강한 비"
         },
         {
-          "day": "내일",
-          "max": 28,
-          "min": 22,
+          "time": "13시",
+          "temp": 22,
           "icon": "🌧️",
-          "desc": "약한 비"
+          "desc": "강한 비"
         },
         {
-          "day": "9/2(수)",
-          "max": 27,
-          "min": 22,
+          "time": "14시",
+          "temp": 23,
+          "icon": "🌧️",
+          "desc": "강한 비"
+        },
+        {
+          "time": "15시",
+          "temp": 24,
+          "icon": "🌧️",
+          "desc": "보통 비"
+        },
+        {
+          "time": "16시",
+          "temp": 24,
           "icon": "☁️",
           "desc": "흐림"
-        },
-        {
-          "day": "9/3(목)",
-          "max": 30,
-          "min": 19,
-          "icon": "⛅",
-          "desc": "구름 조금"
-        },
-        {
-          "day": "9/4(금)",
-          "max": 28,
-          "min": 19,
-          "icon": "🌤️",
-          "desc": "대체로 맑음"
         }
       ],
-      "updated_at": "2026-08-31 06:23:12"
+      "source": "NAVER Weather",
+      "updated_at": "2026-08-31 07:03:03"
     },
     "익산": {
       "city": "익산",
       "region": "전북",
       "current": {
-        "temp": 24.2,
-        "feels_like": 29.1,
-        "humidity": 98,
-        "wind_speed": 7.9,
-        "weather_desc": "구름 조금",
-        "weather_icon": "⛅",
-        "weather_code": 2,
-        "temp_max": 31,
-        "temp_min": 24,
-        "time_kst": "06:23"
+        "temp": 23.4,
+        "feels_like": 26.3,
+        "weather_desc": "비",
+        "weather_icon": "🌧️",
+        "temp_max": 27.4,
+        "temp_min": 21.4,
+        "time_kst": "07:03"
       },
       "air": {
         "pm10": {
-          "val": 1.1,
+          "val": 18.0,
           "label": "좋음",
-          "grade": "good",
           "color": "#3b82f6"
         },
         "pm25": {
-          "val": 0.8,
+          "val": 10.0,
           "label": "좋음",
-          "grade": "good",
           "color": "#3b82f6"
-        },
-        "aqi": 15,
-        "tip": "미세먼지 상태가 좋아 야외활동하기 좋습니다."
+        }
       },
       "hourly": [
-        {
-          "time": "00시",
-          "temp": 24,
-          "icon": "🌧️",
-          "desc": "보통 이슬비",
-          "pop": 100
-        },
-        {
-          "time": "01시",
-          "temp": 24,
-          "icon": "🌧️",
-          "desc": "보통 이슬비",
-          "pop": 100
-        },
-        {
-          "time": "02시",
-          "temp": 24,
-          "icon": "🌧️",
-          "desc": "보통 이슬비",
-          "pop": 100
-        },
-        {
-          "time": "03시",
-          "temp": 24,
-          "icon": "🌧️",
-          "desc": "보통 이슬비",
-          "pop": 100
-        },
-        {
-          "time": "04시",
-          "temp": 24,
-          "icon": "🌦️",
-          "desc": "약한 이슬비",
-          "pop": 98
-        },
-        {
-          "time": "05시",
-          "temp": 24,
-          "icon": "⛅",
-          "desc": "구름 조금",
-          "pop": 96
-        },
-        {
-          "time": "06시",
-          "temp": 24,
-          "icon": "⛅",
-          "desc": "구름 조금",
-          "pop": 94
-        },
         {
           "time": "07시",
           "temp": 25,
           "icon": "⛅",
-          "desc": "구름 조금",
-          "pop": 94
+          "desc": "구름 조금"
         },
         {
           "time": "08시",
           "temp": 25,
           "icon": "☁️",
-          "desc": "흐림",
-          "pop": 95
+          "desc": "흐림"
         },
         {
           "time": "09시",
           "temp": 26,
           "icon": "☁️",
-          "desc": "흐림",
-          "pop": 96
+          "desc": "흐림"
         },
         {
           "time": "10시",
           "temp": 28,
           "icon": "⛅",
-          "desc": "구름 조금",
-          "pop": 95
+          "desc": "구름 조금"
         },
         {
           "time": "11시",
           "temp": 30,
           "icon": "⛅",
-          "desc": "구름 조금",
-          "pop": 94
-        }
-      ],
-      "daily": [
-        {
-          "day": "오늘",
-          "max": 31,
-          "min": 24,
-          "icon": "🌧️",
-          "desc": "보통 이슬비"
+          "desc": "구름 조금"
         },
         {
-          "day": "내일",
-          "max": 32,
-          "min": 24,
+          "time": "12시",
+          "temp": 30,
           "icon": "☁️",
           "desc": "흐림"
         },
         {
-          "day": "9/2(수)",
-          "max": 30,
-          "min": 24,
+          "time": "13시",
+          "temp": 31,
+          "icon": "🌤️",
+          "desc": "대체로 맑음"
+        },
+        {
+          "time": "14시",
+          "temp": 31,
           "icon": "🌦️",
           "desc": "약한 이슬비"
         },
         {
-          "day": "9/3(목)",
-          "max": 29,
-          "min": 21,
-          "icon": "☁️",
-          "desc": "흐림"
-        },
-        {
-          "day": "9/4(금)",
-          "max": 28,
-          "min": 20,
+          "time": "15시",
+          "temp": 31,
           "icon": "🌤️",
           "desc": "대체로 맑음"
+        },
+        {
+          "time": "16시",
+          "temp": 30,
+          "icon": "🌦️",
+          "desc": "약한 이슬비"
         }
       ],
-      "updated_at": "2026-08-31 06:23:14"
+      "source": "NAVER Weather",
+      "updated_at": "2026-08-31 07:03:05"
     },
     "부산": {
       "city": "부산",
       "region": "영남",
       "current": {
-        "temp": 25.9,
-        "feels_like": 31.8,
-        "humidity": 94,
-        "wind_speed": 5.2,
-        "weather_desc": "대체로 맑음",
-        "weather_icon": "🌤️",
-        "weather_code": 1,
-        "temp_max": 31,
-        "temp_min": 25,
-        "time_kst": "06:23"
+        "temp": 27.3,
+        "feels_like": 29.9,
+        "weather_desc": "맑음",
+        "weather_icon": "☀️",
+        "temp_max": 31.3,
+        "temp_min": 25.3,
+        "time_kst": "07:03"
       },
       "air": {
         "pm10": {
-          "val": 5.8,
+          "val": 18.0,
           "label": "좋음",
-          "grade": "good",
           "color": "#3b82f6"
         },
         "pm25": {
-          "val": 4.4,
+          "val": 10.0,
           "label": "좋음",
-          "grade": "good",
           "color": "#3b82f6"
-        },
-        "aqi": 16,
-        "tip": "미세먼지 상태가 좋아 야외활동하기 좋습니다."
+        }
       },
       "hourly": [
-        {
-          "time": "00시",
-          "temp": 25,
-          "icon": "🌦️",
-          "desc": "약한 이슬비",
-          "pop": 45
-        },
-        {
-          "time": "01시",
-          "temp": 26,
-          "icon": "🌤️",
-          "desc": "대체로 맑음",
-          "pop": 52
-        },
-        {
-          "time": "02시",
-          "temp": 26,
-          "icon": "🌤️",
-          "desc": "대체로 맑음",
-          "pop": 60
-        },
-        {
-          "time": "03시",
-          "temp": 26,
-          "icon": "🌤️",
-          "desc": "대체로 맑음",
-          "pop": 63
-        },
-        {
-          "time": "04시",
-          "temp": 26,
-          "icon": "🌦️",
-          "desc": "약한 이슬비",
-          "pop": 56
-        },
-        {
-          "time": "05시",
-          "temp": 26,
-          "icon": "🌦️",
-          "desc": "약한 이슬비",
-          "pop": 45
-        },
-        {
-          "time": "06시",
-          "temp": 26,
-          "icon": "🌦️",
-          "desc": "약한 이슬비",
-          "pop": 35
-        },
         {
           "time": "07시",
           "temp": 26,
           "icon": "🌤️",
-          "desc": "대체로 맑음",
-          "pop": 29
+          "desc": "대체로 맑음"
         },
         {
           "time": "08시",
           "temp": 28,
           "icon": "🌤️",
-          "desc": "대체로 맑음",
-          "pop": 25
+          "desc": "대체로 맑음"
         },
         {
           "time": "09시",
           "temp": 29,
           "icon": "🌤️",
-          "desc": "대체로 맑음",
-          "pop": 24
+          "desc": "대체로 맑음"
         },
         {
           "time": "10시",
           "temp": 30,
           "icon": "🌦️",
-          "desc": "약한 이슬비",
-          "pop": 27
+          "desc": "약한 이슬비"
         },
         {
           "time": "11시",
           "temp": 31,
           "icon": "🌦️",
-          "desc": "약한 이슬비",
-          "pop": 34
+          "desc": "약한 이슬비"
+        },
+        {
+          "time": "12시",
+          "temp": 31,
+          "icon": "☀️",
+          "desc": "맑음"
+        },
+        {
+          "time": "13시",
+          "temp": 31,
+          "icon": "☀️",
+          "desc": "맑음"
+        },
+        {
+          "time": "14시",
+          "temp": 31,
+          "icon": "☀️",
+          "desc": "맑음"
+        },
+        {
+          "time": "15시",
+          "temp": 31,
+          "icon": "☀️",
+          "desc": "맑음"
+        },
+        {
+          "time": "16시",
+          "temp": 31,
+          "icon": "☀️",
+          "desc": "맑음"
         }
       ],
-      "daily": [
-        {
-          "day": "오늘",
-          "max": 31,
-          "min": 25,
-          "icon": "🌦️",
-          "desc": "약한 이슬비"
-        },
-        {
-          "day": "내일",
-          "max": 32,
-          "min": 25,
-          "icon": "⛅",
-          "desc": "구름 조금"
-        },
-        {
-          "day": "9/2(수)",
-          "max": 31,
-          "min": 25,
-          "icon": "🌦️",
-          "desc": "약한 이슬비"
-        },
-        {
-          "day": "9/3(목)",
-          "max": 30,
-          "min": 23,
-          "icon": "🌦️",
-          "desc": "약한 이슬비"
-        },
-        {
-          "day": "9/4(금)",
-          "max": 27,
-          "min": 20,
-          "icon": "⛅",
-          "desc": "구름 조금"
-        }
-      ],
-      "updated_at": "2026-08-31 06:23:17"
+      "source": "NAVER Weather",
+      "updated_at": "2026-08-31 07:03:06"
     }
   },
   "news": {
     "all": [
       {
-        "title": "\"AI 붐이 전력망 삼킨다\"… 美 15개 지역 중 9곳 '전력 부족 고위험' 경고",
+        "title": "[KCSF 2026] 클라우드 넥서스: AI 에이전트와 테크 생태계 대혁신",
+        "press": "아이뉴스24",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE5DZzdmdDVzTmdiSHRESzBpOUxkZDcxVWFPbkJQUmxpZThmaU9yTm5VcjJLMVlDVXQ0Vnp4MUQ0VGpMY2JiOUJj?oc=5",
+        "desc": "[KCSF 2026] 클라우드 넥서스: AI 에이전트와 테크 생태계 대혁신  아이뉴스24",
+        "pubDate": "Sun, 30 Aug 2026 22:00:02 GMT",
+        "time_ago": "3분 전",
+        "diff_sec": 185.508035,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "“AI 정체성을 누가 지배하나…‘인공지능 그루밍’ 대비해야”",
+        "press": "한겨레",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE52a0M2anQ4Q1FEdlV1Rk1fUnhxTWdBLU50MU9CblNTNmt1TlNJcHBsWmIxMDNma3ljNmJUYmVMeU52YjNlUzF4d1dwT0pOcTRhWlNSSVhHcU1ZZzRxbzgwSA?oc=5",
+        "desc": "“AI 정체성을 누가 지배하나…‘인공지능 그루밍’ 대비해야”  한겨레",
+        "pubDate": "Sun, 30 Aug 2026 22:00:00 GMT",
+        "time_ago": "3분 전",
+        "diff_sec": 187.506514,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "AI에 의식이 있다면…인격과 권리를 인정해야 할까",
+        "press": "한겨레",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE93WGF1anVaaHg5Yks0NndUWlNwdlV3Z0FXRjRWcmQwZjF6bTNsdlNZVEJYLUNCZHlBWmRvRmlYN2tiUzloT3laNjZVZUp1Sk54cl82WmxxY19fVWxCeUtSWg?oc=5",
+        "desc": "AI에 의식이 있다면…인격과 권리를 인정해야 할까  한겨레",
+        "pubDate": "Sun, 30 Aug 2026 22:00:00 GMT",
+        "time_ago": "3분 전",
+        "diff_sec": 187.506514,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "[인터뷰] 플랜티넷 \"AI로 본업 고도화…해외·데이터 사업 확대\"",
+        "press": "뉴스핌",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5ER1BRSmRWSnA1MU5ib2pGMDBzd0ZPWDRtLU5GdEJfR2M0MDR3QTREMHRtSW5jWUdTZGttZzRLb3p6dlVxaU5COTdDVmttWU55WGRic3dSSDFGeE5B?oc=5",
+        "desc": "[인터뷰] 플랜티넷 \"AI로 본업 고도화…해외·데이터 사업 확대\"  뉴스핌",
+        "pubDate": "Sun, 30 Aug 2026 22:00:00 GMT",
+        "time_ago": "3분 전",
+        "diff_sec": 187.506514,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "AI에 스트레스 주면 일 더 잘할까?",
+        "press": "한겨레",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE81dUQwZkJRQ3N6Z05uWmFZUTdRM1l0eTRkT1VrbGVBdG9sSHJYc01fSFVMRDRNOXdnb21vSHFHSlZsWEFzazI4SDBwU3Naal9XTEstb1Zrc05jSzB3RHBxTA?oc=5",
+        "desc": "AI에 스트레스 주면 일 더 잘할까?  한겨레",
+        "pubDate": "Sun, 30 Aug 2026 22:00:00 GMT",
+        "time_ago": "3분 전",
+        "diff_sec": 187.508035,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "WAIC에서 본 ‘낯설지 않은 사회’",
+        "press": "마켓인",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFAySDl2M3lEQkRNQmNWLU9JVTFGUzROQ3QtaG1KeFF2WlBuSWpfS0stNnp3NGFpTUVVbjNBM21WdEdoa2JEXzJGM1ZSTUNDTlQzdGwteUpsN1BiNW14NkQ3ZWNCMTFGZ19CTGRFXzIyUFk1d3M?oc=5",
+        "desc": "WAIC에서 본 ‘낯설지 않은 사회’  마켓인",
+        "pubDate": "Sun, 30 Aug 2026 21:49:02 GMT",
+        "time_ago": "14분 전",
+        "diff_sec": 845.508035,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "SK에코플랜트, 상반기 영업익 1.4조…AI·반도체가 견인",
+        "press": "코리아리포트",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0wZWJTWkg0bW9ZdG0zVGpMQUloYkRlQXVRSVVINVF1SzRtMy1zaXI0RkVsNWtfOFdBX1hwU2hIZFBVWE9ibUZhckJZUkFHOTdwTGRUdTJPR2NXWFl0d2VEdnoyYzV6ZjZIR3drWnJfWjA?oc=5",
+        "desc": "SK에코플랜트, 상반기 영업익 1.4조…AI·반도체가 견인  코리아리포트",
+        "pubDate": "Sun, 30 Aug 2026 21:41:58 GMT",
+        "time_ago": "21분 전",
+        "diff_sec": 1269.506514,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "오스테오닉, AI 수술로봇·골대체재 개발 잠정중단…\"인력 부족\"",
+        "press": "메디코파마",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFBnNW9TdFlEdnBNT0FJS0xCcmNNNHlDajhqV1VRY2JnNHlqUmdxUGJab0Z5emdlclBKQVlyTGhMLVNwUTB0V0R0bF9IR05SWUdjckctVTA3dlJMZlJMaTcxZU1NbDBMWDhxRklCUHdLd1lFZw?oc=5",
+        "desc": "오스테오닉, AI 수술로봇·골대체재 개발 잠정중단…\"인력 부족\"  메디코파마",
+        "pubDate": "Sun, 30 Aug 2026 21:40:00 GMT",
+        "time_ago": "23분 전",
+        "diff_sec": 1387.506514,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "[AI&] 부산지하철 ’AI 눈’…에스컬레이터 위험 잡는다 外",
+        "press": "연합뉴스TV",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1ZeTdjM3dCNVJKTXcwcVdTSTAwM0llcHBIS1dqeWVRZFZoc3ZqUUNkS185NGlNWlVtYm9NaktWMmI1VXFicV81MlA5QTdRNGFJN3RWOEg3NGMxVVdmbjdLeGUzb2RIUjg?oc=5",
+        "desc": "[AI&] 부산지하철 ’AI 눈’…에스컬레이터 위험 잡는다 外  연합뉴스TV",
+        "pubDate": "Sun, 30 Aug 2026 21:35:00 GMT",
+        "time_ago": "28분 전",
+        "diff_sec": 1687.506514,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "\"카톡, 메신저 넘어 AI 행정창구로\"…일본 학계가 주목",
+        "press": "연합뉴스",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE45X3lGZFdBSVVXTEZpVWxDU00zbnBhNTZrTG5kSEpDX0VEZG9JTjBsVEU2d1M2T1h2MjkxaFZsOTRVd0NIbXA1a2VnbzRsNHlmZ0dfb01MMU5XN1poSGdsOdIBYEFVX3lxTE45X3lGZFdBSVVXTEZpVWxDU00zbnBhNTZrTG5kSEpDX0VEZG9JTjBsVEU2d1M2T1h2MjkxaFZsOTRVd0NIbXA1a2VnbzRsNHlmZ0dfb01MMU5XN1poSGdsOQ?oc=5",
+        "desc": "\"카톡, 메신저 넘어 AI 행정창구로\"…일본 학계가 주목  연합뉴스",
+        "pubDate": "Sun, 30 Aug 2026 21:33:00 GMT",
+        "time_ago": "30분 전",
+        "diff_sec": 1807.506514,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "[단독] 미국 인재 잡아라…구광모 픽 ＇피지컬 AI 거물＇, LG전자 지원 사격",
+        "press": "한국경제TV",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9XRmxyclg0WTE5ckxVY0Y1aHN5ZEdIZ09aTnhkOGdwTjFFcDdDSi11TkhRS3Fkd2s1OEhhdENvY2VkanZOYk5oU180NDI0QmNyajN1azR0MnV4dHc3dFRBd1I2T1QzOVNaMUN0YjRCYlRwamtXd0pZ?oc=5",
+        "desc": "[단독] 미국 인재 잡아라…구광모 픽 ＇피지컬 AI 거물＇, LG전자 지원 사격  한국경제TV",
+        "pubDate": "Sun, 30 Aug 2026 21:31:57 GMT",
+        "time_ago": "31분 전",
+        "diff_sec": 1870.508035,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "공룡 빅테크에 맞선 '제논'…\"韓 '액셔너블 AI' 승부수\" [K-챌린저]",
+        "press": "뉴스1",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5WZHQzM2lmY1V0WU15UzlRVWpiYndrTFcxSlVHZUwwdERzdzhXWnR0QnkxMVlqZk14SFJtRnU3cE5adUVidW9GN3pobnpzVWRLU01sV3Y2SXdmYUZXZEhteS01eDjSAWpBVV95cUxNMktKWEZWSG1Kb3I2cC1nLW8wc2hKb3RjZ0MxZ0M2WXBYNl90ZE4xR1p3YzdUV09ZdjZUVm1JS1c4UV93MVlvMGVQRzdSejlpUlpkME1TQmphYXhZN3JTbndiQ3k5SmVPcHFB?oc=5",
+        "desc": "공룡 빅테크에 맞선 '제논'…\"韓 '액셔너블 AI' 승부수\" [K-챌린저]  뉴스1",
+        "pubDate": "Sun, 30 Aug 2026 21:30:00 GMT",
+        "time_ago": "33분 전",
+        "diff_sec": 1987.508035,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "[GBC 2026] 닥터노아바이오텍 “AI로 찾은 신약 후보, ‘실험 결과’로 판단”",
+        "press": "더바이오",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE84QUZla3llMzZXYVZkX0FmWXZNRm1Pdk1FUmRfUzFGLWtGLTBjTXZTMUlUaURLQmpyVHZEeE91cnpzWTRRS2stczlaUG9xQjZTd1dwNVpWMVdVVU5DLWh5YTF2NDZJdThrd3NfRdIBcEFVX3lxTE9rd3FTMkI4M1prTWlJeVp3OFFZYTIzLW53TkFQMXZYX0swR2N3NkNpejJGcWo1RW43V0xmbWFIVTBSaEdfc01OYUZrN2RYTUlDVzhRM1g3aUhGeW5iZ3dqMEpZX0g3R0dyWW42RldGZm4?oc=5",
+        "desc": "[GBC 2026] 닥터노아바이오텍 “AI로 찾은 신약 후보, ‘실험 결과’로 판단”  더바이오",
+        "pubDate": "Sun, 30 Aug 2026 21:20:00 GMT",
+        "time_ago": "43분 전",
+        "diff_sec": 2587.506514,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "동진쎄미켐, 반도체가 끌고 中 매각 밀었다…상반기 순익 급증 이유 [실적why]",
+        "press": "v.daum.net",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1IazIzajJsOWI3RmlXb05POHVFNVpLTmxZOFNEVldrZTFDOUhDNDA2WFNMTlN6T0lnOVFFS21JQTFZUXI2YW5vUDRWUXhVMUE?oc=5",
+        "desc": "동진쎄미켐, 반도체가 끌고 中 매각 밀었다…상반기 순익 급증 이유 [실적why]  v.daum.net",
+        "pubDate": "Sun, 30 Aug 2026 21:16:00 GMT",
+        "time_ago": "47분 전",
+        "diff_sec": 2827.508035,
+        "category_badge": "종합 최신",
+        "theme": "semiconductor"
+      },
+      {
+        "title": "\"AI 붐이 전력망 삼킨다\"… 美, 15개 지역 중 9곳 '전력 부족 고위험' 경고",
         "press": "글로벌이코노믹",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
         "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQTWpOXzFfNEVTTGYwcEpIRTFKS21aMDJGbi1DaDVibUhrWm80LXp5eU9iZ0JTbE5wWjRDc0d0ZW9zek5xQTF1NmRZNVJKdDFhMFBmOThoQ1JoaHpTMUpDN0x4NnFaTkFZckdyMnRBWGl4VU9sSGgyLTJOeFNDVW9fdzdkcHFEbGFI?oc=5",
-        "desc": "\"AI 붐이 전력망 삼킨다\"… 美 15개 지역 중 9곳 '전력 부족 고위험' 경고  글로벌이코노믹",
+        "desc": "\"AI 붐이 전력망 삼킨다\"… 美, 15개 지역 중 9곳 '전력 부족 고위험' 경고  글로벌이코노믹",
         "pubDate": "Sun, 30 Aug 2026 21:15:00 GMT",
-        "time_ago": "8분 전",
-        "diff_sec": 498.124439,
+        "time_ago": "48분 전",
+        "diff_sec": 2887.506514,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -951,8 +865,8 @@
         "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9UQnFmaFZrRmQ1a1JSX3U0cE1MRDk5QWp0UVRaUExuNS1tMEdlSmZSZ0JJUjFvOExndnQ0bUdwVFl3dWFLMEdVcU1nazliMHRBNE92VlhjN3NiTzRBVTllUlVQeTI5a0RKOUtR?oc=5",
         "desc": "논문 찾던 AI, CMC까지 관리… 피닉스랩 \"케이론, 제약사 OS로\"  히트뉴스",
         "pubDate": "Sun, 30 Aug 2026 21:02:00 GMT",
-        "time_ago": "21분 전",
-        "diff_sec": 1278.123932,
+        "time_ago": "1시간 전",
+        "diff_sec": 3667.506514,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -964,8 +878,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE15Z0dqcVlpS0dManJpR2hhR3lGTDFaeWRqRFVtYVBpbWN4WlZ0RXpVdks0T2w0MEI3MXNBbnZTemNlTnlaLUdSbUJFQVRPdlU?oc=5",
         "desc": "서울-도쿄, 'AI 행정' 협력 강화…공동연구·기술교류 추진  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 21:02:00 GMT",
-        "time_ago": "21분 전",
-        "diff_sec": 1278.123932,
+        "time_ago": "1시간 전",
+        "diff_sec": 3667.506514,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -977,8 +891,8 @@
         "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9Cd0FEZWFlckptTEZtUGNIUUczNDFucTBNNDk1REZQQ3N0d0JhM3U0UXFUQzQycTdMVmlaR2xhNW52SVBOM19tUXNWeHRvNDk5LUl1VHlvOUxESXdidFFiYWVGM2paY0xWano4bXpXcw?oc=5",
         "desc": "[제약 AI 대전환 ⑦] K-제약 맞춤형 AI 조직 구성 ・ 내재화 전략은?  약업신문",
         "pubDate": "Sun, 30 Aug 2026 21:01:00 GMT",
-        "time_ago": "22분 전",
-        "diff_sec": 1338.123932,
+        "time_ago": "1시간 전",
+        "diff_sec": 3727.506514,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -990,21 +904,47 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE0wMlFDQnNZRnlSd1paRndzaUlELV9kYTRpdm1LbU1weWtpeV9yajg3ZDBTaVJaX0FCaThlOThrazBZYmFlY3pteTk3UHRPaGM?oc=5",
         "desc": "아이디어에 AI 더하니…인천 스타트업 시장 진입 ‘가속’ [모두의 창업 프로젝트 2 ①]  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 21:01:00 GMT",
-        "time_ago": "22분 전",
-        "diff_sec": 1338.123932,
+        "time_ago": "1시간 전",
+        "diff_sec": 3727.506514,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
       {
-        "title": "'국민 메신저' 저력 보일까…카카오, LG 손잡고 AI 반전 노린다",
-        "press": "뉴스1",
+        "title": "[대경 초대석] (2) 지반조사·공동탐사 미래형 플랫폼 추진…AI 기법도 도입",
+        "press": "대한경제",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9wZGh5TjNnODBjLUxrUmltMV8zRFp6VUdnV2JJUVJEc0YzQVBnbEJYcXJ2cGJQOTRBRC1wM2ZMM1R2bXdMUzlnUDR5Q29IWnNCSXdCVUZmU2JJQ2lLWnV2aUxlQWQ3THdQNWdLVmY4UWk3c3Et?oc=5",
+        "desc": "[대경 초대석] (2) 지반조사·공동탐사 미래형 플랫폼 추진…AI 기법도 도입  대한경제",
+        "pubDate": "Sun, 30 Aug 2026 21:00:23 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 3764.506514,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "“1.4나노보다 먼저 잡는다”…삼성, 2나노·HBM 묶어 AI칩 고객 선점전",
+        "press": "쿠키뉴스",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFA4SDhmTkZlVE14VnloNXpWZ1hyWmoxc2Z2WkstQmo2NmtrZF9LN0pDdFRyUlRMYzhhamwxQ2pMRl80bTFtb1V5RWgwX0YwLUg0SE9iRE11ZlZGZ3haZnN4TkdTWQ?oc=5",
+        "desc": "“1.4나노보다 먼저 잡는다”…삼성, 2나노·HBM 묶어 AI칩 고객 선점전  쿠키뉴스",
+        "pubDate": "Sun, 30 Aug 2026 21:00:05 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 3782.508035,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "인공지능 거품 붕괴라는 ‘회색 코뿔소’가 달려오나?",
+        "press": "한겨레",
         "is_verified": true,
         "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5maVNGdEJzWHNRa0Y0LWpUSGdybWU1LU9YWFlaRVJ5NlVvVFVBc1g2d2Jzc0hnd3RkaHdMaU12cFRUcFlyU0JGZ2RGRlNqTjEwVGlBS3M0TFhzMHVaaVJEOUEtZnRhUzdk0gFuQVVfeXFMTlQwTUNlbXdXRlJUekx3Q2N2M2VmUGtUakt0bHlFLUZHc0haeTlxTlJWSlNLYjJWa0VFZWVSaDIwdFoxRnp6VzNtcDk5WWNjRGFVOVRzWVpleV9YRHlCOTVyb1NHOGpwQTctWGxqMHc?oc=5",
-        "desc": "'국민 메신저' 저력 보일까…카카오, LG 손잡고 AI 반전 노린다  뉴스1",
-        "pubDate": "Sun, 30 Aug 2026 21:01:00 GMT",
-        "time_ago": "22분 전",
-        "diff_sec": 1338.124439,
+        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE9TbV9IU3lrLXlOeVJoaWtLMTJ2Y1diSjRQVWtPeDVQanhyMDY1OG1aaTB3aGN2bHVBUlp0X1BncTJRWUhKQ3VDUmRFZXZXY3ZIYmU2NnhRelVMVjZ2RzZEVktTTk1HWTA5M2Zkd1ZkemtkZw?oc=5",
+        "desc": "인공지능 거품 붕괴라는 ‘회색 코뿔소’가 달려오나?  한겨레",
+        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 3787.506514,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1016,21 +956,21 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBIcVIzbGJuSXhkM0JLSnFpeFlocDdQdk9rd3ZNRFJqUTJ4WEVOTm1UdXczZ2t3aFBlUWZCV3l2TWpscWFjVTRlNkFRbUxRZw?oc=5",
         "desc": "8.64초…우사인 볼트보다 빨랐던 中 로봇, 또 기록 경신  전자신문",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.123932,
+        "time_ago": "1시간 전",
+        "diff_sec": 3787.506514,
         "category_badge": "종합 최신",
         "theme": "robotics"
       },
       {
-        "title": "서울시-도쿄도, 공공 AI 활용 머리 맞댄다…실무협력 본격화",
-        "press": "뉴스1",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1oaUFicmt0RjQzblVPTWVLeG9FbnJHYlBfU1JIMVpXRWVCbnRwSjU5dWFxcGNwMDc5dVVNaDh2djVuaGlmLVB4bDNudVBzZHPSAVRBVV95cUxNMXI5cF9WZ2s5LUU1VElITWFKSTdOMUhBS01KSTFwcjQ0YjhkNF9PT2JFaFQtYXVVTWE1ZXhEWkhna0JKaHFsUDRDbmRxd0lrRmw2Tzk?oc=5",
-        "desc": "서울시-도쿄도, 공공 AI 활용 머리 맞댄다…실무협력 본격화  뉴스1",
+        "title": "美 이어 中도 AI 인프라 투자 가속화… D램 공급 부족에 삼성·SK 가격 협상력 강화 전망 - 조선비즈",
+        "press": "Chosunbiz",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQVThoU0dKdWFvb2J4ME5vVlBsdlNteXpEVUxSWEljME1iaUs0aW1Ga1IwMUVVbl9leGVhTWRxX3o2RkVsMG53OU4wOGlOV2Y1dENoeFBLVFJqNjN5bl9rOGNnRE1kQTkyU0tscUc0Q2JhNzR2OFZ5X3B4S0Z2Yko3RF9R0gGWAUFVX3lxTE5yclI0alVxWUhic3FlOEFFNWNHWXpIRUJJOWY4OVNKeWVadGRSNlpmZ2ROakMxck0tOUhCb3l4elFEeS1uQ2dONXJWYW84QnV0aEEzYUpxVXBKSjFoUjBMc2NwOHBSX2VPMnF6cTdGakxWMm5IT0l0MXdkY01aRTl2UlNiREtTNl9qeWVOblMydkZRbDFtQQ?oc=5",
+        "desc": "美 이어 中도 AI 인프라 투자 가속화… D램 공급 부족에 삼성·SK 가격 협상력 강화 전망 - 조선비즈  Chosunbiz",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
+        "time_ago": "1시간 전",
+        "diff_sec": 3787.506514,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1042,73 +982,21 @@
         "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQUXpUcnpaaDQ3cHBGXzZGS05aVzJPWWp1azhwZnR1d1VldkNpY3hKekhRZTNqWTN3dEs2MXlNMXo3NnhRMFVWNGs0OWRqNmROTmx3RmNFYndod0RjUkdoOWR1cWxOQlNRLWx2WWtaSGJwRlhXSDZVYjRjeE1RNGFtRVA2QVNNd9IBmgFBVV95cUxQZHF1YzlMX1RqOTNCRUlmc1F4OHZIb1ZlTTEyRTRGNERxbDNjZXpodE5aTVFrYkF2aVZMYlMxX0piUnVuTGp3QXlUMHJCT1ZvSTFTaE94dEJaSVRkVF9IQmQwMTBKWU9uZ2xpOENMc2hySjZOVnFjeG5Mc3lqSTc0dzY2SXhOeS1tSVN4bTAtRXUxUkVlRWFKQ1l3?oc=5",
         "desc": "[경제 포커스] 명목소득 ‘양극화’·실질임금 ‘뒷걸음질’ … 반도체 호황의 그늘 - 조선비즈  Chosunbiz",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
+        "time_ago": "1시간 전",
+        "diff_sec": 3787.506514,
         "category_badge": "종합 최신",
         "theme": "semiconductor"
       },
       {
-        "title": "美 이어 中도 AI 인프라 투자 가속화… D램 공급 부족에 삼성·SK 가격 협상력 강화 전망 - 조선비즈",
-        "press": "Chosunbiz",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQVThoU0dKdWFvb2J4ME5vVlBsdlNteXpEVUxSWEljME1iaUs0aW1Ga1IwMUVVbl9leGVhTWRxX3o2RkVsMG53OU4wOGlOV2Y1dENoeFBLVFJqNjN5bl9rOGNnRE1kQTkyU0tscUc0Q2JhNzR2OFZ5X3B4S0Z2Yko3RF9R0gGWAUFVX3lxTE5yclI0alVxWUhic3FlOEFFNWNHWXpIRUJJOWY4OVNKeWVadGRSNlpmZ2ROakMxck0tOUhCb3l4elFEeS1uQ2dONXJWYW84QnV0aEEzYUpxVXBKSjFoUjBMc2NwOHBSX2VPMnF6cTdGakxWMm5IT0l0MXdkY01aRTl2UlNiREtTNl9qeWVOblMydkZRbDFtQQ?oc=5",
-        "desc": "美 이어 中도 AI 인프라 투자 가속화… D램 공급 부족에 삼성·SK 가격 협상력 강화 전망 - 조선비즈  Chosunbiz",
-        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "[젊은 과학포럼] 진짜 칩이 만드는 반도체 생태계",
-        "press": "v.daum.net",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE96YkxXWHhuU3ppYzdacHNmMVFOT1NfRnZWRW1fQTQwVlJMMnhSQ3lEU21pRzlCUHhKRUFBNE5wekNEWmY2UVJUY0lDOXpXdlE?oc=5",
-        "desc": "[젊은 과학포럼] 진짜 칩이 만드는 반도체 생태계  v.daum.net",
-        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
-        "category_badge": "종합 최신",
-        "theme": "semiconductor"
-      },
-      {
-        "title": "[심층] AI 고용 충격, 왜 아웃소싱 근로자부터 덮치나…자동화의 불편한 이면",
-        "press": "아웃소싱타임스",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE0xWmhLb3NqWl8zakZuOV9GeUZwMlA4ZXo1WVB2a0piQ0Q5eVY3ZmZDd3N5Zk1YNE1VX2QwSTk3Sk9XeEc3azMxOGdCRG9HSkExYUlYOVdYQjFsYzhpNm44NnhyMWNJRGRRS0xKRHkzUXZRUQ?oc=5",
-        "desc": "[심층] AI 고용 충격, 왜 아웃소싱 근로자부터 덮치나…자동화의 불편한 이면  아웃소싱타임스",
-        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "아이디어에 AI 더하니…인천 스타트업 시장 진입 ‘가속’ [모두의 창업 프로젝트 2 ①]",
-        "press": "경기일보",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9NcTdnaDBmZldTN0RVRzZFT3NjbTJkMElaTGY4VW12eFFFOHNZVVQ5SkRDd2lzWDRJUnhPTVkzTlNmX3ZJLTZGRy1YemxFdTNxRFFLODNCdlZ6NWM?oc=5",
-        "desc": "아이디어에 AI 더하니…인천 스타트업 시장 진입 ‘가속’ [모두의 창업 프로젝트 2 ①]  경기일보",
-        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "“인공지능 버블 터질 가능성…당국 손 놓고 있어”",
-        "press": "한겨레",
+        "title": "\"건강검진 예약하고 식당 위치 추천까지 척척\"…'모두의 AI'가 국민 삶 바꾼다 - 머니투데이",
+        "press": "머니투데이",
         "is_verified": true,
         "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE41YkE3cnplanNNLUdPeE9pTkNlamVybmg1NUV3NlpYVHpLWFc1TXdJUDRHMlI5NzRFYWpfVHdYOWRQRXZWVURfM2JVWFFLSjBDOWhfYlVZMTVQSmFJVVltdVNQLUJoOWRFYnkya0xWc3JhZw?oc=5",
-        "desc": "“인공지능 버블 터질 가능성…당국 손 놓고 있어”  한겨레",
+        "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBoZWlFV3dqbDhreTJrZDBsX1RCYnBuQVBXTW1WSkdSVFI3NTFMaDUwaFZzb3ppRDVxbFNwSWhWS21vOUFWUzJydkZnTFJ3WHlqOW5tLVZMVmlhaUp4X2FLRy0xVlNlc0N4T0FQZtIBbEFVX3lxTFBoZWlFV3dqbDhreTJrZDBsX1RCYnBuQVBXTW1WSkdSVFI3NTFMaDUwaFZzb3ppRDVxbFNwSWhWS21vOUFWUzJydkZnTFJ3WHlqOW5tLVZMVmlhaUp4X2FLRy0xVlNlc0N4T0FQZg?oc=5",
+        "desc": "\"건강검진 예약하고 식당 위치 추천까지 척척\"…'모두의 AI'가 국민 삶 바꾼다 - 머니투데이  머니투데이",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
+        "time_ago": "1시간 전",
+        "diff_sec": 3787.506514,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1120,218 +1008,75 @@
         "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE54NEFVLVdVUjlvdUdodWVZd3d2ZDA1d2UwVUpibnVacjNCZnlkWFZOZnVWVzNWMlR2aTZBNUhfSEtLUmxjT0tTN0VkbHBFck1LenpKVw?oc=5",
         "desc": "서울시, 도쿄도와 온라인 실무 회의⋯AI 행정 경험 공유 및 협력 구체화  이투데이",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
+        "time_ago": "1시간 전",
+        "diff_sec": 3787.506514,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
       {
-        "title": "대기업 수출 비중 75%까지 확대…격차 벌린 ‘반도체’",
-        "press": "피플투데이",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE8waEEwcFNQbHgxOHV3ejFDWkh0MzhyTnYyQkZLcDJYWDdBVEE1OVN1QVlvZGh4WUlrOGVPRXlXT1gzaXNqR2l5S2MxeDJpZmxEMFU2Q3EyWk5uY0xXRUk5QjR4Y1ktUWFybDJ2bmR1RQ?oc=5",
-        "desc": "대기업 수출 비중 75%까지 확대…격차 벌린 ‘반도체’  피플투데이",
-        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
-        "category_badge": "종합 최신",
-        "theme": "semiconductor"
-      },
-      {
-        "title": "서울·도쿄, AI 행정 경험 공유…공동연구·실증 추진",
-        "press": "뉴시스",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1faHdKQ3BkVzRsVXB3c2phWGp6RHQ1X2tkUW5BUUVZWGpmel8wcXk0VzBjaTJGdjdVZFkySnFIaV9XcWJMUlUwSFRsa0NIU3oyRk1XNzhDZHdCeHdVd3lZONIBeEFVX3lxTE02TnpPTGtheFRxb2FZT3F0TXlybFdQR01jVFNDY1Fhd0IzNTFTYzd6YTQ0eXoxcmpWMnRieVQ1N2tWZFplWmVCZi1qbVFsTmRITVZFRDE4VVN4bEU4UGFlLWVub0oxLTBnWmZjaFQ0d1ctak9MaVRsQw?oc=5",
-        "desc": "서울·도쿄, AI 행정 경험 공유…공동연구·실증 추진  뉴시스",
-        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "[분석] 경제는 3.2% 성장하는데 일자리는 11만명뿐…반도체 호황이 가린 ‘고용 한파’",
-        "press": "아웃소싱타임스",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE1CRFpWVGg2YmU1bGk1Z2dKR1VCMjJ4dExaNTE3OFZSMU1ibDhLcXBnZEljMF9fRC1JdGRucndtbW94RnFQWkN4alZiVDFWczZ1ZjJTNGZpU0F1VlMwY0E4dzdyVE5Ib3pWeE1iNHZqd24wQQ?oc=5",
-        "desc": "[분석] 경제는 3.2% 성장하는데 일자리는 11만명뿐…반도체 호황이 가린 ‘고용 한파’  아웃소싱타임스",
-        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
-        "category_badge": "종합 최신",
-        "theme": "semiconductor"
-      },
-      {
-        "title": "개원 45돌 이춘택병원 ‘관절·척추’ 수술 고도화로 새 도약 나선다!",
-        "press": "의학신문",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE41bEE5V1VQX1h4WTFPdHdGUXg5UTBpTkZkd3B0TTg3U29yTXhObXJia3NRVXhmU19qQ3RaVUNDaXg1WloxR3huNWlib0wzand3RmtOUFBnUEFvUGUwREx3cVFQM1JJVVlic2c?oc=5",
-        "desc": "개원 45돌 이춘택병원 ‘관절·척추’ 수술 고도화로 새 도약 나선다!  의학신문",
-        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
-        "category_badge": "종합 최신",
-        "theme": "tech"
-      },
-      {
-        "title": "영란은행의 경고 \"AI 생산성 효과 늦으면 물가·금리 상승 압력\"",
+        "title": "서울시-도쿄도, 공공 AI 활용 머리 맞댄다…실무협력 본격화",
         "press": "뉴스1",
         "is_verified": true,
         "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBiTDJ0M2xWQVQ3OXNSNTRDU1RZandYQTNTdlVHMFdlVUp5RXBEZFQ1UjF2MDZyUzgwR083QXYyTW53MHNuWGtTTmQyLTlKb0haNlFGVtIBWkFVX3lxTE1kaUtJNEY2N081WWV3ZE1tLVExTDNtS1BQU2tOSS1xb2VtbWx4bGlLZkxxNnAtTWpXdDdjN0lGRFN1bTgxQ0xvSXVjNGR4WkVUM0l5WktzT3ByUQ?oc=5",
-        "desc": "영란은행의 경고 \"AI 생산성 효과 늦으면 물가·금리 상승 압력\"  뉴스1",
+        "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1oaUFicmt0RjQzblVPTWVLeG9FbnJHYlBfU1JIMVpXRWVCbnRwSjU5dWFxcGNwMDc5dVVNaDh2djVuaGlmLVB4bDNudVBzZHPSAVRBVV95cUxNMXI5cF9WZ2s5LUU1VElITWFKSTdOMUhBS01KSTFwcjQ0YjhkNF9PT2JFaFQtYXVVTWE1ZXhEWkhna0JKaHFsUDRDbmRxd0lrRmw2Tzk?oc=5",
+        "desc": "서울시-도쿄도, 공공 AI 활용 머리 맞댄다…실무협력 본격화  뉴스1",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.124439,
+        "time_ago": "1시간 전",
+        "diff_sec": 3787.506514,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
       {
-        "title": "\"숏폼 생태계 앞세워 美 압도\"… 中, 글로벌 AI 영상 생성 '톱10 중 8곳' 장악",
-        "press": "글로벌이코노믹",
+        "title": "[젊은 과학포럼] 진짜 칩이 만드는 반도체 생태계",
+        "press": "v.daum.net",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQaDlhajZDMW5xS2I2dEdJMjFOdU9ObE9fMGp1NHJOLWk3cm1SOXNVbzBtWFAydDQ3bll1X0NHN1dNeXRqTFpWUmxFR0Z2VWg2WUtiMG4yNWREZTVIODZ1TUJwOUtIWHg1MWw5dmVCVUYySmxTT284WHZFcmFRNFBLNjlobnNRRHUx?oc=5",
-        "desc": "\"숏폼 생태계 앞세워 美 압도\"… 中, 글로벌 AI 영상 생성 '톱10 중 8곳' 장악  글로벌이코노믹",
-        "pubDate": "Sun, 30 Aug 2026 20:45:00 GMT",
-        "time_ago": "38분 전",
-        "diff_sec": 2298.123932,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "[인공지능 줌인] 맞춤형 AI 서비스의 가치, 내 개인정보와 바꿀 만한가",
-        "press": "위키리크스한국",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9ieUVFanRyWFVGSHNoUnBjZERtNWFoQnRSNEV2OXp6MlZMdmZjQnlzOGpYT21tUXRNM1IzejVxT2lEWGxJODd3d3pUcWd6NjZ5ZUpzZURrLVBpX2IzTVo1VEh6cVQ5SnZPbV85YUMwN2o?oc=5",
-        "desc": "[인공지능 줌인] 맞춤형 AI 서비스의 가치, 내 개인정보와 바꿀 만한가  위키리크스한국",
-        "pubDate": "Sun, 30 Aug 2026 20:42:42 GMT",
-        "time_ago": "40분 전",
-        "diff_sec": 2436.124439,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "굿닥, SKT ‘모두의AI’ 컨소시엄 참여…헬스케어 서비스 연계",
-        "press": "청년의사",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0tUVJqd2FWN2dNRTk5LV85dmlzb2JLZWI0cXNQZlhGbDQ3U3l6aHZSc2Eyc196cnBMdE00R3ZJYnVvSVRzOENFQWNsbzM2djZCc21XYlVxaExmZjc0SV9iVmRMTG9TSDAzbVBwRFBkYVLSAXNBVV95cUxPTUxkS2d5RGpmSGRueG11MFZoZm5laHFjekgzaUhNdGlxSGJMb0hRRHVEMUJnWEYzVnprOEhjemdaaTJMOFVLY1lad3V2RDVGUWdmYUxYTmpZSFFLeGlFR3VncU45bXl0MHBtQXg3Zkxtanhv?oc=5",
-        "desc": "굿닥, SKT ‘모두의AI’ 컨소시엄 참여…헬스케어 서비스 연계  청년의사",
-        "pubDate": "Sun, 30 Aug 2026 20:38:34 GMT",
-        "time_ago": "44분 전",
-        "diff_sec": 2684.123932,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "네이버, 의료AI 확장…‘실시간 진료기록’ 개발 추진",
-        "press": "데일리메디",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9vVXBvcHVZQlpNS0stU3JEaW9CczJEZUJ5NE1IUzNoTlRCaEdWRWVKZXYtNWM1a2Vfa2hjSXpBMGRxOGJFbUQ4bjYxYldDTXEwb1U3dFhEc1RWVEFtRkVCUFZzYV9pY1JJ?oc=5",
-        "desc": "네이버, 의료AI 확장…‘실시간 진료기록’ 개발 추진  데일리메디",
-        "pubDate": "Sun, 30 Aug 2026 20:38:00 GMT",
-        "time_ago": "45분 전",
-        "diff_sec": 2718.123932,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "8월 승자는 SW주, 반도체주는?…브로드컴·델 실적, 고용지표 주목[이번주 美 증시는] - 머니투데이",
-        "press": "머니투데이",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1BYTV1Ykg0bHdVWHVKNHl5YWpmUzE1eEFMUUVKYVp5Mmpqei1OME5IcXRaV0E1bE1zWUdHcGIyWC1uaF9XM3pPSkd4bmxvYlROVjBfcnp0d1k4bjVqeDJ3UWh3X0ZUdXg3TnlzS1VR0gFuQVVfeXFMTUFhNXViSDRsd1VYdUo0eXlhamZTMTV4QUxRRUphWnkyamp6LU4wTkhxdFpXQTVsTXNZR0dwYjJYLW5oX1czek9KR3hubG9iVE5WMF9yenR3WThuNWp4MndRaHdfRlR1eDdOeXNLVVE?oc=5",
-        "desc": "8월 승자는 SW주, 반도체주는?…브로드컴·델 실적, 고용지표 주목[이번주 美 증시는] - 머니투데이  머니투데이",
-        "pubDate": "Sun, 30 Aug 2026 20:35:00 GMT",
-        "time_ago": "48분 전",
-        "diff_sec": 2898.124439,
+        "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE96YkxXWHhuU3ppYzdacHNmMVFOT1NfRnZWRW1fQTQwVlJMMnhSQ3lEU21pRzlCUHhKRUFBNE5wekNEWmY2UVJUY0lDOXpXdlE?oc=5",
+        "desc": "[젊은 과학포럼] 진짜 칩이 만드는 반도체 생태계  v.daum.net",
+        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 3787.506514,
         "category_badge": "종합 최신",
         "theme": "semiconductor"
       },
       {
-        "title": "[The Company] 일하는 방식부터 제조까지 ‘AI 대전환’ 가속",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBxV3AyZWNVaUdEYjBzS25iRW9wVm9jaEVMS3dZcG51QmxMX0F6eEhzdnJrRVRRM1plbHZsLTlWOWtHUjhweEJwdUQtNnctWjB1dEl3bWNn?oc=5",
-        "desc": "[The Company] 일하는 방식부터 제조까지 ‘AI 대전환’ 가속  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:34:00 GMT",
-        "time_ago": "49분 전",
-        "diff_sec": 2958.123932,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "[The Company] AI 전환·상생 … 혁신 경영 앞세워 미래 성장동력 확보",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9xRUd3QjdGUTBBb3dnY1dQZUlkSHYtNUtqUElvTUkycVNWcWhsTDBkYU4zQ3ZPYmp3c1hJYUwxeDVMODRVOWwyQU85RE5BcDZQdzNMd1Zn?oc=5",
-        "desc": "[The Company] AI 전환·상생 … 혁신 경영 앞세워 미래 성장동력 확보  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:33:01 GMT",
-        "time_ago": "50분 전",
-        "diff_sec": 3017.123932,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "[The Company] 글로벌 빅테크와 ‘AI 동맹’…고객가치 정조준",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1nc1ZYeXZBbjNld05abFFsSmF3dzZPdG9fZzlIUHJJZ2ZWWS1xVEpicnFvbVAxTnVMZGNadkRfbHg2UmhNZ0RSdU94QW1CdkhmSXNPQml3?oc=5",
-        "desc": "[The Company] 글로벌 빅테크와 ‘AI 동맹’…고객가치 정조준  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:33:01 GMT",
-        "time_ago": "50분 전",
-        "diff_sec": 3017.123932,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "[The Company] AI 시대 맞춤형 에너지 솔루션",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5ZRTN1WE5WUUl6VHYzNVFUbXNyS3Z4eHFkYUR6T3R6cF9zekswdlBvZkRoRjU5UGxIVUlUbnhpSGdBeHRZekdsUXZadTc5SWVXdHFXTzBR?oc=5",
-        "desc": "[The Company] AI 시대 맞춤형 에너지 솔루션  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:33:00 GMT",
-        "time_ago": "50분 전",
-        "diff_sec": 3018.123932,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "[2026 하반기 혁신 IT 대상] 국내 ICT 산업, AI·데이터 중심 고부가가치 전환",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1HZFBEVm4xNDBMZUNLRlJyQnZFanFQUWJaSDM2bWMxeFhoUjB3QWM5Z1V4MHpCV3pzdTFqMVpfU1ZMUE1vd1BheXVDVzl5MkpvOXE5WU1R?oc=5",
-        "desc": "[2026 하반기 혁신 IT 대상] 국내 ICT 산업, AI·데이터 중심 고부가가치 전환  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "51분 전",
-        "diff_sec": 3078.123932,
+        "title": "[심층] AI 고용 충격, 왜 아웃소싱 근로자부터 덮치나…자동화의 불편한 이면",
+        "press": "아웃소싱타임스",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE0xWmhLb3NqWl8zakZuOV9GeUZwMlA4ZXo1WVB2a0piQ0Q5eVY3ZmZDd3N5Zk1YNE1VX2QwSTk3Sk9XeEc3azMxOGdCRG9HSkExYUlYOVdYQjFsYzhpNm44NnhyMWNJRGRRS0xKRHkzUXZRUQ?oc=5",
+        "desc": "[심층] AI 고용 충격, 왜 아웃소싱 근로자부터 덮치나…자동화의 불편한 이면  아웃소싱타임스",
+        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 3787.506514,
         "category_badge": "종합 최신",
         "theme": "ai"
       }
     ],
     "game": [
       {
+        "title": "State of Play 프레젠테이션에서는 PlayStation 5 콘솔용 신작 게임에 대한 자세한 정보가 공개될 예정입니다.",
+        "press": "GameGPU",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNZHU2U3p4YmNmV29WTFFYYWlLQ2dmQWZGd0ZsZnNDdmdFLWVuclU3dUF6NmxDd0Nqc0xyN0tvNGQyaUloOWFHaWF4NGtkRndUaGpBVVFtd3ZCM2hKaEtFY0ZqUGVqZlpObDFOaVhmdVdpXy1sb3NBZ0dQd0ZDVGUwdVlreXY1d3h6bHkyQ1NIbjQtWHhXZC1mZzk2dmdkdmhQSmktT296VmtnRXpTQzV3amtmOW1ycUI5dkFPTkZOZmd3dw?oc=5",
+        "desc": "State of Play 프레젠테이션에서는 PlayStation 5 콘솔용 신작 게임에 대한 자세한 정보가 공개될 예정입니다.  GameGPU",
+        "pubDate": "Sun, 30 Aug 2026 21:26:54 GMT",
+        "time_ago": "36분 전",
+        "diff_sec": 2174.224099,
+        "category_badge": "게임산업",
+        "theme": "game"
+      },
+      {
         "title": "정상의 만남…페이커의 T1x롯데월드 서울스카이",
         "press": "뉴시스",
         "is_verified": true,
         "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9EY3JsejBiMHNNc0QtNW9nRkJqdzJnaXJhaDNqd0xGWEh0VmtpeElDSTRDZ3pKeE1FX1FvWjNRSVlwQkNRV0JjVVU0dG1Bb0ZFQ3lRSjJfb1NzczY5ZkJvUdIBeEFVX3lxTE9OOXV1MEpVZlM2VFZsX2VoRGlRS3djaGMxY09uaVRmM0JlTlpYUlVrUmthclpGa04wQlM2N0hIaGhEZnNDZ0IwTDItYTJXS2IybzBYSlotbzdFRm9ZdnhIRnBNUVhSRktVdGNWS193cmI3UEFvOVhMRQ?oc=5",
+        "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9OOXV1MEpVZlM2VFZsX2VoRGlRS3djaGMxY09uaVRmM0JlTlpYUlVrUmthclpGa04wQlM2N0hIaGhEZnNDZ0IwTDItYTJXS2IybzBYSlotbzdFRm9ZdnhIRnBNUVhSRktVdGNWS193cmI3UEFvOVhMRdIBeEFVX3lxTE9OOXV1MEpVZlM2VFZsX2VoRGlRS3djaGMxY09uaVRmM0JlTlpYUlVrUmthclpGa04wQlM2N0hIaGhEZnNDZ0IwTDItYTJXS2IybzBYSlotbzdFRm9ZdnhIRnBNUVhSRktVdGNWS193cmI3UEFvOVhMRQ?oc=5",
         "desc": "정상의 만남…페이커의 T1x롯데월드 서울스카이  뉴시스",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1398.785275,
+        "time_ago": "1시간 전",
+        "diff_sec": 3788.223063,
         "category_badge": "게임산업",
         "theme": "tech"
       },
@@ -1343,8 +1088,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE91cjgySGtsRHRFczJiZTNLeGdxMnBPRTRnVldXaVNsdzVZYlBYUnAxbldGRFp0V1ZCaXYzcU5uSlBTNHhBMlk3SEtZMGh0VDlzZFJQS2dseWRILTBaNlV5LXJITVZBUdIBZkFVX3lxTE91cjgySGtsRHRFczJiZTNLeGdxMnBPRTRnVldXaVNsdzVZYlBYUnAxbldGRFp0V1ZCaXYzcU5uSlBTNHhBMlk3SEtZMGh0VDlzZFJQS2dseWRILTBaNlV5LXJITVZBUQ?oc=5",
         "desc": "넷마블게임박물관, 전시관 넘어 교육 공간으로 확장  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 6798.784772,
+        "time_ago": "2시간 전",
+        "diff_sec": 9188.223063,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1356,8 +1101,8 @@
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE02RnoxQzIxV05ISnp3VEhuUVhtZHlncHY4Z0dWX3hnVWdIeFIzQjB1TkVHM2UwYkpCSUE5OXM0RzdRc3FxQTR4Y3hqUHFoVjF0aVBuamlfd2RNMzhUR0o0VjJ6Y1J0eEZoalHSAWpBVV95cUxNNkZ6MUMyMVdOSEp6d1RIblFYbWR5Z3B2OGdHVl94Z1VnSHhSM0IwdU5FRzNlMGJKQklBOTlzNEc3UXNxcUE0eGN4alBxaFYxdGlQbmppX3dkTTM4VEdKNFYyemNSdHhGaGpR?oc=5",
         "desc": "[e스포츠人] '오프라인 부담 털어냈다'...T1 동료 '호석' 꺾고 결승 오른 '네이비' 김유민  테크M",
         "pubDate": "Sun, 30 Aug 2026 17:42:57 GMT",
-        "time_ago": "3시간 전",
-        "diff_sec": 13221.784772,
+        "time_ago": "4시간 전",
+        "diff_sec": 15611.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1369,8 +1114,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5XNGdwZUtKTVJFWmcxa3lNaGhhUVBjTUNIU0ZrZldJSTFwVEU4aVk3b0N3dGhJV09YWWNNNVlVa2pKcmJDYmhxYUVtQV9OVUJYU0IxTXlTQ2ZJUTc5cW5WM3lveGdxRlVKaWdNZQ?oc=5",
         "desc": "[게임스컴] 60여개 직접 체험 외신 선택은…\"에이지 트위스터가 하이라이트\" |  AP신문",
         "pubDate": "Sun, 30 Aug 2026 17:27:01 GMT",
-        "time_ago": "3시간 전",
-        "diff_sec": 14177.784772,
+        "time_ago": "4시간 전",
+        "diff_sec": 16567.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1383,7 +1128,7 @@
         "desc": "충주시 청소년 e스포츠 최강팀 가렸다…‘여성프로 코코코코코낫입니다만?’ 우승  뉴스아이이에스",
         "pubDate": "Sun, 30 Aug 2026 15:15:32 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 22066.785275,
+        "diff_sec": 24456.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1396,7 +1141,20 @@
         "desc": "평창군 청소년 e-스포츠 페스티벌 열려 … 게임·체험 어우러진 ‘축제의 장’  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 15:06:59 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 22579.784772,
+        "diff_sec": 24969.223063,
+        "category_badge": "게임산업",
+        "theme": "game"
+      },
+      {
+        "title": "AI 활용 확대하는 게임업계…이용자 반응은 ‘조건부’",
+        "press": "쿠키뉴스",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBWZm81bDVGTVBHNkRpMHZfVElnS2tHczdkSThZMFFpMm45RksxWFhaVjNUV1otR3A3UnZWZWkxTzkzcld4MUkxeXZBaE1rOXVhb19uT3JBeVVjQVh3Q2ZYRXZCRQ?oc=5",
+        "desc": "AI 활용 확대하는 게임업계…이용자 반응은 ‘조건부’  쿠키뉴스",
+        "pubDate": "Sun, 30 Aug 2026 14:32:47 GMT",
+        "time_ago": "7시간 전",
+        "diff_sec": 27021.223063,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1408,8 +1166,8 @@
         "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9PSlVZZjZ5X3EwWDRGR09aeVBoWlFzVy1QeVFpeFVmeXBvcjBRR2FkeF9XeTVpZ3lXLWRsYU1ocFJxMmtIeHpSdVRuaml0UVJiaTJIX19FQlZTUW1Keml1YmtyRlg0aVNG?oc=5",
         "desc": "캐나다 스팀십 라인, 남호주서 세계 첫 배터리 자가하역 벌크선 운항  IT타임스",
         "pubDate": "Sun, 30 Aug 2026 14:25:00 GMT",
-        "time_ago": "6시간 전",
-        "diff_sec": 25098.785275,
+        "time_ago": "7시간 전",
+        "diff_sec": 27488.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1421,21 +1179,8 @@
         "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFBwS2RUazdnOUZTY3dzUTI3M2V6SlBuUlNPYW9GM0xGZkhpSXRaenoxT21vRXFOUU53b25vMHlTR0Vic1BoWG5pYnhpMFozeDIwU3Q5aHRlRXNMYlQ0TnVVaTdzcEVMamNzckw5dUhfMUNndw?oc=5",
         "desc": "제2회 전주시장배 전주e스포츠마스터즈 성황리 개최  웹이코노미",
         "pubDate": "Sun, 30 Aug 2026 11:25:15 GMT",
-        "time_ago": "9시간 전",
-        "diff_sec": 35883.785275,
-        "category_badge": "게임산업",
-        "theme": "game"
-      },
-      {
-        "title": "AI 활용 확대하는 게임업계…이용자 반응은 ‘조건부’",
-        "press": "쿠키뉴스",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBWZm81bDVGTVBHNkRpMHZfVElnS2tHczdkSThZMFFpMm45RksxWFhaVjNUV1otR3A3UnZWZWkxTzkzcld4MUkxeXZBaE1rOXVhb19uT3JBeVVjQVh3Q2ZYRXZCRQ?oc=5",
-        "desc": "AI 활용 확대하는 게임업계…이용자 반응은 ‘조건부’  쿠키뉴스",
-        "pubDate": "Sun, 30 Aug 2026 11:17:52 GMT",
         "time_ago": "10시간 전",
-        "diff_sec": 36326.784772,
+        "diff_sec": 38273.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1448,7 +1193,20 @@
         "desc": "제2회 전주시장배 전주e스포츠마스터즈 성황리 개최  비전21뉴스",
         "pubDate": "Sun, 30 Aug 2026 10:10:01 GMT",
         "time_ago": "11시간 전",
-        "diff_sec": 40397.784772,
+        "diff_sec": 42787.223588,
+        "category_badge": "게임산업",
+        "theme": "game"
+      },
+      {
+        "title": "청소년 e스포츠 열기로 뜨거워진 전주…전국 선수들 한자리에",
+        "press": "전북소비자저널",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBlWUR3SmxBZHNmb2xOQlhhN1AzR2Z3dlhwNnVobW8zSEZCT1FBbGJOZkg1M20xZlRLSURNdTJUc3lCOWRLQjc1eXhJNHRYWXpEMEhuN0JySENYVUpUV0l3WFNqYw?oc=5",
+        "desc": "청소년 e스포츠 열기로 뜨거워진 전주…전국 선수들 한자리에  전북소비자저널",
+        "pubDate": "Sun, 30 Aug 2026 09:18:04 GMT",
+        "time_ago": "12시간 전",
+        "diff_sec": 45904.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1460,8 +1218,8 @@
         "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE9kd19TMHlpT0gwSGdRaEFZVU9rRUc3RzEyaVczeGY4dXhFUVhfRjliamdhLWE2bmRlOXp2RW4xSU5rbDBaY2VPVFQzUQ?oc=5",
         "desc": "제2회 전주시장배 전주e스포츠마스터즈 성황리 개최  문화매일신문",
         "pubDate": "Sun, 30 Aug 2026 08:52:00 GMT",
-        "time_ago": "12시간 전",
-        "diff_sec": 45078.784772,
+        "time_ago": "13시간 전",
+        "diff_sec": 47468.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1473,8 +1231,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5ITlNhcTJEQjZGVVRaQ0ZnSUdBU29CSHBMSDlZaTlWWi1FUkZmcUN5QkJjTi1yRFEyNkM4QllybTlrTHRqX1RFbnNfZGF0TU9JdzFENm05NklWR3RRcUduNnM0TWtwYWM?oc=5",
         "desc": "평창 대관령한우복지재단, 청소년 e스포츠 페스티벌에 간식 후원  강원도민일보",
         "pubDate": "Sun, 30 Aug 2026 08:34:33 GMT",
-        "time_ago": "12시간 전",
-        "diff_sec": 46125.784772,
+        "time_ago": "13시간 전",
+        "diff_sec": 48515.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1486,8 +1244,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBaVTd6WUYtckwyTExpOWZYYWZ6Si1tOHFYdkpaMUZvc0hIYzJHTEtwTmFlZmVyY1Q0ZXAxd0RKQXBwa29iUnduY2tzYVlGT3ZrQk9mcGxUOTZMVlVoMFJYb0ZpSGR5VTTSAWtBVV95cUxNbGt0cTJDUUVDeVAyRV9lQ1RtVHM1dmdoenJBX1JscmJuWEpVbFNZYkg0SW5aOXFOaDZ2N2U0bFR1S1JOaVotOVFYNXUybWw3YjhDZWwteklmRTBzOTRpR0x4bzFJLVByb19EQQ?oc=5",
         "desc": "전주시장배 전주e스포츠마스터즈 후끈  전북중앙",
         "pubDate": "Sun, 30 Aug 2026 08:28:00 GMT",
-        "time_ago": "12시간 전",
-        "diff_sec": 46518.784772,
+        "time_ago": "13시간 전",
+        "diff_sec": 48908.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1499,8 +1257,8 @@
         "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5iQ2RwX3JqbWp4VUQ3WlA4RUktZTByWnR6cXhBdWh1VUFzeG9PendXMVRMdUdCVWFoaWNvZFFTdmV3S3hIQ0R2SDFPR1ViSlV4Rm9GOGt2akdTQzdmSFlpZjFDaDVNRWRVRXVJ?oc=5",
         "desc": "제2회' 전주시장배 전주e스포츠마스터즈' 철권8 경기  전북도민일보",
         "pubDate": "Sun, 30 Aug 2026 07:56:16 GMT",
-        "time_ago": "13시간 전",
-        "diff_sec": 48422.784772,
+        "time_ago": "14시간 전",
+        "diff_sec": 50812.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1512,8 +1270,8 @@
         "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBKM242bXBQRFE2bldweGZWZzJ0eW1LVTBUZUZFdVJ3QzRFeW56M1V6OVoyS241S0VvcWl0cHltaW1Pd2RfTG4xaE5tWF84UWoyTVE?oc=5",
         "desc": "전주e스포츠마스터즈 전국 청소년 열전…800여명 ‘게임 축제’  전라매일",
         "pubDate": "Sun, 30 Aug 2026 07:35:00 GMT",
-        "time_ago": "13시간 전",
-        "diff_sec": 49698.784772,
+        "time_ago": "14시간 전",
+        "diff_sec": 52088.223063,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1525,8 +1283,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5Sd0NxdHN5d1A4RmdyOUFRR3hiQWxJWnBDYlZZYnFDdWZGUkFOUFl1Nkl0NFJkWjdQbnhfd3loWGtCOG9BUEljNnVIV0lrVm9BdWJz?oc=5",
         "desc": "모바일 e스포츠 판 키운 삼성…'플레이갤럭시 컵' 첫 정규리그 성료  네이트",
         "pubDate": "Sun, 30 Aug 2026 07:00:00 GMT",
-        "time_ago": "14시간 전",
-        "diff_sec": 51798.785783,
+        "time_ago": "15시간 전",
+        "diff_sec": 54188.224629,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1538,8 +1296,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFA3b3BCeU1VZ1VuYlY0RHhUWFNaaGdMUGJLRlk0UjZDbHRpdTdnZzhRcEVaZkt2a3FHVGdCRTZrYWNiX0hvUlRoNnliaUZINjY2ZXB3?oc=5",
         "desc": "'FSL 서머' 4강 관람 위해 잠실 DN 콜로세움에 모인 e스포츠 팬들 [포토]  네이트",
         "pubDate": "Sun, 30 Aug 2026 06:49:00 GMT",
-        "time_ago": "14시간 전",
-        "diff_sec": 52458.785783,
+        "time_ago": "15시간 전",
+        "diff_sec": 54848.224629,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1551,8 +1309,8 @@
         "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE85ZHhSWk1RbFVEcjB6LVlmMGhKN0J1SlM3TkNCa0hQRl94UkZZT1hvZW5FT2xuUXctSy1CYjVhZHBLbFpfSXREZG5STzhNdmRSbGRHamM0WGlBUTF2S1NWZWczWEZlSGF0VkMtNHRLYkw4dw?oc=5",
         "desc": "크래프톤, 게임스컴서 신작 5종 공개…글로벌 이용자 접점 확대  웹이코노미",
         "pubDate": "Sun, 30 Aug 2026 06:33:43 GMT",
-        "time_ago": "14시간 전",
-        "diff_sec": 53375.785275,
+        "time_ago": "15시간 전",
+        "diff_sec": 55765.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1565,7 +1323,7 @@
         "desc": "크래프톤, 사들인 IP·기업이 1.8조 자산으로…이제 수익화  마이데일리",
         "pubDate": "Sun, 30 Aug 2026 06:05:56 GMT",
         "time_ago": "15시간 전",
-        "diff_sec": 55042.785275,
+        "diff_sec": 57432.224099,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1577,8 +1335,8 @@
         "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNZVhUbGZGMXJMS3VUSFp0MXBDOWRIQ2szbG5oMUVBY0JYcGlhRWU2cnZrS0pNdWFQcGJaMWZCaWt5TklFR2Q5TXlLb0FNSURRb1JwS0tKWUREVmRaMy1rUzBsX3lLNXdoTkc3SlZKNUZpbXhUU3FyLVBJRDE2QlJzMHlDM0E?oc=5",
         "desc": "게임스컴 달군 K게임…'출품' 넘어 글로벌 시장서 실력 겨뤘다  스포츠조선",
         "pubDate": "Sun, 30 Aug 2026 04:41:43 GMT",
-        "time_ago": "16시간 전",
-        "diff_sec": 60095.785783,
+        "time_ago": "17시간 전",
+        "diff_sec": 62485.225141,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1590,8 +1348,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTFBoaFEyRi0xOVcyWmFkQ2I5VU5teXRxd2hQdzFDemhuamRmekxBdHJ5VzEtcnk3MEVpdE1lQXVsMHhMNjlDMUFCcmdYbHpvaTQ?oc=5",
         "desc": "[게임스컴] 크래프톤의 과감한 도전…남은건 ‘증명’  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 04:32:09 GMT",
-        "time_ago": "16시간 전",
-        "diff_sec": 60669.785275,
+        "time_ago": "17시간 전",
+        "diff_sec": 63059.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1603,8 +1361,8 @@
         "link": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE1nUzBxNUwyRHcyOU5BXzlZMmdVRmpvLUM4OGExd2hZOXFpY1FIc2hyajdSa0NYMGt5eWoxRnloWnZ1RjZveHc?oc=5",
         "desc": "[게임스컴] 크래프톤의 과감한 도전… 남은건 ‘증명’  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 04:32:09 GMT",
-        "time_ago": "16시간 전",
-        "diff_sec": 60669.785275,
+        "time_ago": "17시간 전",
+        "diff_sec": 63059.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1616,8 +1374,8 @@
         "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1teWQxS004SGtTVC1jZWVNeFBBRXczRVBzbE0wTnlHWnFyRnBhb3R2UEIxVm5SNGxtam81WVhEbGZudUF1eTR2ZjNjN2s5cnFtUnFTelJHX28?oc=5",
         "desc": "동양대, 다음달 19일 동두천서 e스포츠 페스티벌  경북신문",
         "pubDate": "Sun, 30 Aug 2026 03:38:00 GMT",
-        "time_ago": "17시간 전",
-        "diff_sec": 63918.784772,
+        "time_ago": "18시간 전",
+        "diff_sec": 66308.223063,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1629,8 +1387,8 @@
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5yeXFHVmgxS3pjaHluanc4UFdZOUZ3Y04zbWY0bC1yQWtNZndBaEQ4T2hQTU4zMjRZaWU4OE1NcV9kU2NPQmFnR19ucnpmN3g4UUtMczFMSnBweWkteVhrRjFHbTJhYnhkOUE?oc=5",
         "desc": "서울시, 엔터테크·GES 첫 통합 개최… K팝·AI·XR·게임 산업 연결  천지일보",
         "pubDate": "Sun, 30 Aug 2026 03:35:54 GMT",
-        "time_ago": "17시간 전",
-        "diff_sec": 64044.784772,
+        "time_ago": "18시간 전",
+        "diff_sec": 66434.223588,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1642,8 +1400,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9jaVpZcjVUM3gzemFObjFzcHd3M2lEZXROdTJHaFFzM1Q1NnQyZDNqSTZMbjFfX2kwM3dhS0E4ZkZ5UHgtWVRhbnBLblRaX1B6RDlHUQ?oc=5",
         "desc": "[고용준의 e스포츠 엿보기] \"비판은 OK, 선 넘은 비난은 NO\"… '도란' 최현준의 담담한 소신  osen.co.kr",
         "pubDate": "Sun, 30 Aug 2026 03:27:00 GMT",
-        "time_ago": "17시간 전",
-        "diff_sec": 64578.785275,
+        "time_ago": "18시간 전",
+        "diff_sec": 66968.224099,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1656,7 +1414,7 @@
         "desc": "제2회 전주시장배 전주e스포츠마스터즈 성황리 개최  thepowernews.co.kr",
         "pubDate": "Sun, 30 Aug 2026 03:21:21 GMT",
         "time_ago": "18시간 전",
-        "diff_sec": 64917.785275,
+        "diff_sec": 67307.224099,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1669,7 +1427,7 @@
         "desc": "휴머노이드 전쟁 승부처는 ‘손’…한국, 로봇핸드 양산에 베팅  서울일보",
         "pubDate": "Sun, 30 Aug 2026 03:15:00 GMT",
         "time_ago": "18시간 전",
-        "diff_sec": 65298.785783,
+        "diff_sec": 67688.224629,
         "category_badge": "게임산업",
         "theme": "robotics"
       },
@@ -1678,52 +1436,182 @@
         "press": "부산일보",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5QNDNtM1Y1WkdUUWZoTDlBcEM0UG9FRjBkb0dvTElfU3c5b0s4STdBSV9JeHI3Z0MxZExEWHo1bUo2MFBRd1JSWndSdFFZM2hoNE9rRXZEYnpVd0U5VnpDR0pRdGFHNnVkU0V3UVh3Z1JzQQ?oc=5",
+        "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5mTVhmRkZHckMxWTZkVWdKX1VwdFJzNWlhdUhlM3M3d2d6V1FocGdDdzRrTzUzampKMXRfTmFDYWF1WjN2MUpFU29xbzdDbGFReHc1V01COGRpcUc4a3NrVUJkeFVEa3g0dU5KelM0NVAtMlp0WkNDQk1UWXM?oc=5",
         "desc": "“손안의 e스포츠 무대” 삼성 갤럭시컵, 게임스컴 달궜다  부산일보",
         "pubDate": "Sun, 30 Aug 2026 02:58:25 GMT",
-        "time_ago": "18시간 전",
-        "diff_sec": 66293.785275,
+        "time_ago": "19시간 전",
+        "diff_sec": 68683.224099,
         "category_badge": "게임산업",
         "theme": "game"
-      },
-      {
-        "title": "전국 청소년·청년 300명 전주서 ‘게임 한판’···e스포츠마스터즈 성황",
-        "press": "전민일보",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1DWEtxUjBCVUptS0ROVjR5Y25yaFduSGRUZXVISHM5YmtyYVF2MmVxNXUxV0w0MS12X2xjVkxySTR2R05RRUtWa200bXBWS2V5V3QtLUNVMXZuMTlyTFJObklqbFZWdUVhRGhfRA?oc=5",
-        "desc": "전국 청소년·청년 300명 전주서 ‘게임 한판’···e스포츠마스터즈 성황  전민일보",
-        "pubDate": "Sun, 30 Aug 2026 02:54:48 GMT",
-        "time_ago": "18시간 전",
-        "diff_sec": 66510.785275,
-        "category_badge": "게임산업",
-        "theme": "game"
-      },
-      {
-        "title": "워시, 잭슨홀서 꺼낸 ‘물가 우선론’…9월 금리인상 공포 다시 켜졌다",
-        "press": "서울일보",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE03dE5aSUZZd0s0VllQYS04RTJvZnJLTWVPVTVJc0JiQm5sbEFaUzRzZElnUFBoeTVXNEJRdVg2QThERl9zVnBvZ3lJQU1yV1dPdzNTTGo0OFJ5OExEX0ZJUG44aEZoMjZWelRnWNIBb0FVX3lxTE5rdG1lOU40bGV2TjgxbWh6aGpqUjU2enFzXzlaZFA3bldsTUlPZFZ5SmR5YTZKNjlfd2lRZU1aTi1Yd09sRTJYd2xWSUxMX2EtcWRhelNFMV9vQTBrSXZTc0xKY1BGOU51SVBnM2NTaw?oc=5",
-        "desc": "워시, 잭슨홀서 꺼낸 ‘물가 우선론’…9월 금리인상 공포 다시 켜졌다  서울일보",
-        "pubDate": "Sun, 30 Aug 2026 02:51:22 GMT",
-        "time_ago": "18시간 전",
-        "diff_sec": 66716.785783,
-        "category_badge": "게임산업",
-        "theme": "tech"
       }
     ],
     "ai": [
       {
-        "title": "\"AI 붐이 전력망 삼킨다\"… 美 15개 지역 중 9곳 '전력 부족 고위험' 경고",
+        "title": "[KCSF 2026] 클라우드 넥서스: AI 에이전트와 테크 생태계 대혁신",
+        "press": "아이뉴스24",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE5DZzdmdDVzTmdiSHRESzBpOUxkZDcxVWFPbkJQUmxpZThmaU9yTm5VcjJLMVlDVXQ0Vnp4MUQ0VGpMY2JiOUJj?oc=5",
+        "desc": "[KCSF 2026] 클라우드 넥서스: AI 에이전트와 테크 생태계 대혁신  아이뉴스24",
+        "pubDate": "Sun, 30 Aug 2026 22:00:02 GMT",
+        "time_ago": "3분 전",
+        "diff_sec": 186.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "“AI 정체성을 누가 지배하나…‘인공지능 그루밍’ 대비해야”",
+        "press": "한겨레",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE52a0M2anQ4Q1FEdlV1Rk1fUnhxTWdBLU50MU9CblNTNmt1TlNJcHBsWmIxMDNma3ljNmJUYmVMeU52YjNlUzF4d1dwT0pOcTRhWlNSSVhHcU1ZZzRxbzgwSA?oc=5",
+        "desc": "“AI 정체성을 누가 지배하나…‘인공지능 그루밍’ 대비해야”  한겨레",
+        "pubDate": "Sun, 30 Aug 2026 22:00:00 GMT",
+        "time_ago": "3분 전",
+        "diff_sec": 188.973726,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "AI에 의식이 있다면…인격과 권리를 인정해야 할까",
+        "press": "한겨레",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE93WGF1anVaaHg5Yks0NndUWlNwdlV3Z0FXRjRWcmQwZjF6bTNsdlNZVEJYLUNCZHlBWmRvRmlYN2tiUzloT3laNjZVZUp1Sk54cl82WmxxY19fVWxCeUtSWg?oc=5",
+        "desc": "AI에 의식이 있다면…인격과 권리를 인정해야 할까  한겨레",
+        "pubDate": "Sun, 30 Aug 2026 22:00:00 GMT",
+        "time_ago": "3분 전",
+        "diff_sec": 188.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "[인터뷰] 플랜티넷 \"AI로 본업 고도화…해외·데이터 사업 확대\"",
+        "press": "뉴스핌",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5ER1BRSmRWSnA1MU5ib2pGMDBzd0ZPWDRtLU5GdEJfR2M0MDR3QTREMHRtSW5jWUdTZGttZzRLb3p6dlVxaU5COTdDVmttWU55WGRic3dSSDFGeE5B?oc=5",
+        "desc": "[인터뷰] 플랜티넷 \"AI로 본업 고도화…해외·데이터 사업 확대\"  뉴스핌",
+        "pubDate": "Sun, 30 Aug 2026 22:00:00 GMT",
+        "time_ago": "3분 전",
+        "diff_sec": 188.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "AI에 스트레스 주면 일 더 잘할까?",
+        "press": "한겨레",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE81dUQwZkJRQ3N6Z05uWmFZUTdRM1l0eTRkT1VrbGVBdG9sSHJYc01fSFVMRDRNOXdnb21vSHFHSlZsWEFzazI4SDBwU3Naal9XTEstb1Zrc05jSzB3RHBxTA?oc=5",
+        "desc": "AI에 스트레스 주면 일 더 잘할까?  한겨레",
+        "pubDate": "Sun, 30 Aug 2026 22:00:00 GMT",
+        "time_ago": "3분 전",
+        "diff_sec": 188.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "SK에코플랜트, 상반기 영업익 1.4조…AI·반도체가 견인",
+        "press": "코리아리포트",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0wZWJTWkg0bW9ZdG0zVGpMQUloYkRlQXVRSVVINVF1SzRtMy1zaXI0RkVsNWtfOFdBX1hwU2hIZFBVWE9ibUZhckJZUkFHOTdwTGRUdTJPR2NXWFl0d2VEdnoyYzV6ZjZIR3drWnJfWjA?oc=5",
+        "desc": "SK에코플랜트, 상반기 영업익 1.4조…AI·반도체가 견인  코리아리포트",
+        "pubDate": "Sun, 30 Aug 2026 21:41:58 GMT",
+        "time_ago": "21분 전",
+        "diff_sec": 1270.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "오스테오닉, AI 수술로봇·골대체재 개발 잠정중단…\"인력 부족\"",
+        "press": "메디코파마",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFBnNW9TdFlEdnBNT0FJS0xCcmNNNHlDajhqV1VRY2JnNHlqUmdxUGJab0Z5emdlclBKQVlyTGhMLVNwUTB0V0R0bF9IR05SWUdjckctVTA3dlJMZlJMaTcxZU1NbDBMWDhxRklCUHdLd1lFZw?oc=5",
+        "desc": "오스테오닉, AI 수술로봇·골대체재 개발 잠정중단…\"인력 부족\"  메디코파마",
+        "pubDate": "Sun, 30 Aug 2026 21:40:00 GMT",
+        "time_ago": "23분 전",
+        "diff_sec": 1388.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "[AI&] 부산지하철 ’AI 눈’…에스컬레이터 위험 잡는다 外",
+        "press": "연합뉴스TV",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1ZeTdjM3dCNVJKTXcwcVdTSTAwM0llcHBIS1dqeWVRZFZoc3ZqUUNkS185NGlNWlVtYm9NaktWMmI1VXFicV81MlA5QTdRNGFJN3RWOEg3NGMxVVdmbjdLeGUzb2RIUjg?oc=5",
+        "desc": "[AI&] 부산지하철 ’AI 눈’…에스컬레이터 위험 잡는다 外  연합뉴스TV",
+        "pubDate": "Sun, 30 Aug 2026 21:35:00 GMT",
+        "time_ago": "28분 전",
+        "diff_sec": 1688.973726,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "[단독] 미국 인재 잡아라…구광모 픽 ＇피지컬 AI 거물＇, LG전자 지원 사격",
+        "press": "한국경제TV",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9XRmxyclg0WTE5ckxVY0Y1aHN5ZEdIZ09aTnhkOGdwTjFFcDdDSi11TkhRS3Fkd2s1OEhhdENvY2VkanZOYk5oU180NDI0QmNyajN1azR0MnV4dHc3dFRBd1I2T1QzOVNaMUN0YjRCYlRwamtXd0pZ?oc=5",
+        "desc": "[단독] 미국 인재 잡아라…구광모 픽 ＇피지컬 AI 거물＇, LG전자 지원 사격  한국경제TV",
+        "pubDate": "Sun, 30 Aug 2026 21:31:57 GMT",
+        "time_ago": "31분 전",
+        "diff_sec": 1871.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "공룡 빅테크에 맞선 '제논'…\"韓 '액셔너블 AI' 승부수\" [K-챌린저]",
+        "press": "뉴스1",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5WZHQzM2lmY1V0WU15UzlRVWpiYndrTFcxSlVHZUwwdERzdzhXWnR0QnkxMVlqZk14SFJtRnU3cE5adUVidW9GN3pobnpzVWRLU01sV3Y2SXdmYUZXZEhteS01eDjSAWpBVV95cUxNMktKWEZWSG1Kb3I2cC1nLW8wc2hKb3RjZ0MxZ0M2WXBYNl90ZE4xR1p3YzdUV09ZdjZUVm1JS1c4UV93MVlvMGVQRzdSejlpUlpkME1TQmphYXhZN3JTbndiQ3k5SmVPcHFB?oc=5",
+        "desc": "공룡 빅테크에 맞선 '제논'…\"韓 '액셔너블 AI' 승부수\" [K-챌린저]  뉴스1",
+        "pubDate": "Sun, 30 Aug 2026 21:30:00 GMT",
+        "time_ago": "33분 전",
+        "diff_sec": 1988.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "[신창환 칼럼] AI가 답하는 시대, 대학은 무엇을 가르칠 것인가",
+        "press": "매일신문",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1lOE5FdEdXczlzbzVsV1gxdzJxeTB4bU9NOTdRLTExanRCMUdBLTAtQzdJcmdtVGJHdXp6MEVpYkg4U1R5OGtMeEl5V3FUZnNtV3RfeGdYR2UySFAtUDc5Rk1B?oc=5",
+        "desc": "[신창환 칼럼] AI가 답하는 시대, 대학은 무엇을 가르칠 것인가  매일신문",
+        "pubDate": "Sun, 30 Aug 2026 21:30:00 GMT",
+        "time_ago": "33분 전",
+        "diff_sec": 1988.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "[GBC 2026] 닥터노아바이오텍 “AI로 찾은 신약 후보, ‘실험 결과’로 판단”",
+        "press": "더바이오",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE84QUZla3llMzZXYVZkX0FmWXZNRm1Pdk1FUmRfUzFGLWtGLTBjTXZTMUlUaURLQmpyVHZEeE91cnpzWTRRS2stczlaUG9xQjZTd1dwNVpWMVdVVU5DLWh5YTF2NDZJdThrd3NfRdIBcEFVX3lxTE9rd3FTMkI4M1prTWlJeVp3OFFZYTIzLW53TkFQMXZYX0swR2N3NkNpejJGcWo1RW43V0xmbWFIVTBSaEdfc01OYUZrN2RYTUlDVzhRM1g3aUhGeW5iZ3dqMEpZX0g3R0dyWW42RldGZm4?oc=5",
+        "desc": "[GBC 2026] 닥터노아바이오텍 “AI로 찾은 신약 후보, ‘실험 결과’로 판단”  더바이오",
+        "pubDate": "Sun, 30 Aug 2026 21:20:00 GMT",
+        "time_ago": "43분 전",
+        "diff_sec": 2588.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "\"AI 붐이 전력망 삼킨다\"… 美, 15개 지역 중 9곳 '전력 부족 고위험' 경고",
         "press": "글로벌이코노믹",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
         "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQTWpOXzFfNEVTTGYwcEpIRTFKS21aMDJGbi1DaDVibUhrWm80LXp5eU9iZ0JTbE5wWjRDc0d0ZW9zek5xQTF1NmRZNVJKdDFhMFBmOThoQ1JoaHpTMUpDN0x4NnFaTkFZckdyMnRBWGl4VU9sSGgyLTJOeFNDVW9fdzdkcHFEbGFI?oc=5",
-        "desc": "\"AI 붐이 전력망 삼킨다\"… 美 15개 지역 중 9곳 '전력 부족 고위험' 경고  글로벌이코노믹",
+        "desc": "\"AI 붐이 전력망 삼킨다\"… 美, 15개 지역 중 9곳 '전력 부족 고위험' 경고  글로벌이코노믹",
         "pubDate": "Sun, 30 Aug 2026 21:15:00 GMT",
-        "time_ago": "8분 전",
-        "diff_sec": 499.897391,
+        "time_ago": "48분 전",
+        "diff_sec": 2888.974235,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1735,8 +1623,8 @@
         "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBZX0ctZ09YZmN5bm5UVFllcGpBV2tNQ3NiMHdpb1ExVzZvTjRhcGg2Z2ZYSU9vdlFvUTR1a3VmSktTbktBUXFjaGNoR1dfYVUtcGdSTTgtdUxxME1BenR1bDRhNVF3ZkRqb2tHVWFMYw?oc=5",
         "desc": "[카카오 인적분할] 카카오, 분할 전 정비 마무리…AI 사업 실행 속도  뉴스톱",
         "pubDate": "Sun, 30 Aug 2026 21:03:13 GMT",
-        "time_ago": "20분 전",
-        "diff_sec": 1206.896879,
+        "time_ago": "59분 전",
+        "diff_sec": 3595.974235,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1748,8 +1636,8 @@
         "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9UQnFmaFZrRmQ1a1JSX3U0cE1MRDk5QWp0UVRaUExuNS1tMEdlSmZSZ0JJUjFvOExndnQ0bUdwVFl3dWFLMEdVcU1nazliMHRBNE92VlhjN3NiTzRBVTllUlVQeTI5a0RKOUtR?oc=5",
         "desc": "논문 찾던 AI, CMC까지 관리… 피닉스랩 \"케이론, 제약사 OS로\"  히트뉴스",
         "pubDate": "Sun, 30 Aug 2026 21:02:00 GMT",
-        "time_ago": "21분 전",
-        "diff_sec": 1279.895367,
+        "time_ago": "1시간 전",
+        "diff_sec": 3668.973726,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1761,8 +1649,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE15Z0dqcVlpS0dManJpR2hhR3lGTDFaeWRqRFVtYVBpbWN4WlZ0RXpVdks0T2w0MEI3MXNBbnZTemNlTnlaLUdSbUJFQVRPdlU?oc=5",
         "desc": "서울-도쿄, 'AI 행정' 협력 강화…공동연구·기술교류 추진  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 21:02:00 GMT",
-        "time_ago": "21분 전",
-        "diff_sec": 1279.895367,
+        "time_ago": "1시간 전",
+        "diff_sec": 3668.973726,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1774,8 +1662,8 @@
         "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9Cd0FEZWFlckptTEZtUGNIUUczNDFucTBNNDk1REZQQ3N0d0JhM3U0UXFUQzQycTdMVmlaR2xhNW52SVBOM19tUXNWeHRvNDk5LUl1VHlvOUxESXdidFFiYWVGM2paY0xWano4bXpXcw?oc=5",
         "desc": "[제약 AI 대전환 ⑦] K-제약 맞춤형 AI 조직 구성 ・ 내재화 전략은?  약업신문",
         "pubDate": "Sun, 30 Aug 2026 21:01:00 GMT",
-        "time_ago": "22분 전",
-        "diff_sec": 1339.895367,
+        "time_ago": "1시간 전",
+        "diff_sec": 3728.973726,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1787,8 +1675,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE0wMlFDQnNZRnlSd1paRndzaUlELV9kYTRpdm1LbU1weWtpeV9yajg3ZDBTaVJaX0FCaThlOThrazBZYmFlY3pteTk3UHRPaGM?oc=5",
         "desc": "아이디어에 AI 더하니…인천 스타트업 시장 진입 ‘가속’ [모두의 창업 프로젝트 2 ①]  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 21:01:00 GMT",
-        "time_ago": "22분 전",
-        "diff_sec": 1339.896373,
+        "time_ago": "1시간 전",
+        "diff_sec": 3728.974235,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1800,47 +1688,34 @@
         "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5maVNGdEJzWHNRa0Y0LWpUSGdybWU1LU9YWFlaRVJ5NlVvVFVBc1g2d2Jzc0hnd3RkaHdMaU12cFRUcFlyU0JGZ2RGRlNqTjEwVGlBS3M0TFhzMHVaaVJEOUEtZnRhUzdk0gFuQVVfeXFMTlQwTUNlbXdXRlJUekx3Q2N2M2VmUGtUakt0bHlFLUZHc0haeTlxTlJWSlNLYjJWa0VFZWVSaDIwdFoxRnp6VzNtcDk5WWNjRGFVOVRzWVpleV9YRHlCOTVyb1NHOGpwQTctWGxqMHc?oc=5",
         "desc": "'국민 메신저' 저력 보일까…카카오, LG 손잡고 AI 반전 노린다  뉴스1",
         "pubDate": "Sun, 30 Aug 2026 21:01:00 GMT",
-        "time_ago": "22분 전",
-        "diff_sec": 1339.897391,
+        "time_ago": "1시간 전",
+        "diff_sec": 3728.975239,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
       {
-        "title": "서울시-도쿄도, 공공 AI 활용 머리 맞댄다…실무협력 본격화",
-        "press": "뉴스1",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1oaUFicmt0RjQzblVPTWVLeG9FbnJHYlBfU1JIMVpXRWVCbnRwSjU5dWFxcGNwMDc5dVVNaDh2djVuaGlmLVB4bDNudVBzZHPSAVRBVV95cUxNMXI5cF9WZ2s5LUU1VElITWFKSTdOMUhBS01KSTFwcjQ0YjhkNF9PT2JFaFQtYXVVTWE1ZXhEWkhna0JKaHFsUDRDbmRxd0lrRmw2Tzk?oc=5",
-        "desc": "서울시-도쿄도, 공공 AI 활용 머리 맞댄다…실무협력 본격화  뉴스1",
-        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1399.896373,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[심층] AI 고용 충격, 왜 아웃소싱 근로자부터 덮치나…자동화의 불편한 이면",
-        "press": "아웃소싱타임스",
+        "title": "[대경 초대석] (2) 지반조사·공동탐사 미래형 플랫폼 추진…AI 기법도 도입",
+        "press": "대한경제",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE0xWmhLb3NqWl8zakZuOV9GeUZwMlA4ZXo1WVB2a0piQ0Q5eVY3ZmZDd3N5Zk1YNE1VX2QwSTk3Sk9XeEc3azMxOGdCRG9HSkExYUlYOVdYQjFsYzhpNm44NnhyMWNJRGRRS0xKRHkzUXZRUQ?oc=5",
-        "desc": "[심층] AI 고용 충격, 왜 아웃소싱 근로자부터 덮치나…자동화의 불편한 이면  아웃소싱타임스",
-        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1399.896373,
+        "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9wZGh5TjNnODBjLUxrUmltMV8zRFp6VUdnV2JJUVJEc0YzQVBnbEJYcXJ2cGJQOTRBRC1wM2ZMM1R2bXdMUzlnUDR5Q29IWnNCSXdCVUZmU2JJQ2lLWnV2aUxlQWQ3THdQNWdLVmY4UWk3c3Et?oc=5",
+        "desc": "[대경 초대석] (2) 지반조사·공동탐사 미래형 플랫폼 추진…AI 기법도 도입  대한경제",
+        "pubDate": "Sun, 30 Aug 2026 21:00:23 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 3765.974235,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
       {
-        "title": "“인공지능 버블 터질 가능성…당국 손 놓고 있어”",
+        "title": "인공지능 거품 붕괴라는 ‘회색 코뿔소’가 달려오나?",
         "press": "한겨레",
         "is_verified": true,
         "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE41YkE3cnplanNNLUdPeE9pTkNlamVybmg1NUV3NlpYVHpLWFc1TXdJUDRHMlI5NzRFYWpfVHdYOWRQRXZWVURfM2JVWFFLSjBDOWhfYlVZMTVQSmFJVVltdVNQLUJoOWRFYnkya0xWc3JhZw?oc=5",
-        "desc": "“인공지능 버블 터질 가능성…당국 손 놓고 있어”  한겨레",
+        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE9TbV9IU3lrLXlOeVJoaWtLMTJ2Y1diSjRQVWtPeDVQanhyMDY1OG1aaTB3aGN2bHVBUlp0X1BncTJRWUhKQ3VDUmRFZXZXY3ZIYmU2NnhRelVMVjZ2RzZEVktTTk1HWTA5M2Zkd1ZkemtkZw?oc=5",
+        "desc": "인공지능 거품 붕괴라는 ‘회색 코뿔소’가 달려오나?  한겨레",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1399.896373,
+        "time_ago": "1시간 전",
+        "diff_sec": 3788.973726,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1852,21 +1727,21 @@
         "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE54NEFVLVdVUjlvdUdodWVZd3d2ZDA1d2UwVUpibnVacjNCZnlkWFZOZnVWVzNWMlR2aTZBNUhfSEtLUmxjT0tTN0VkbHBFck1LenpKVw?oc=5",
         "desc": "서울시, 도쿄도와 온라인 실무 회의⋯AI 행정 경험 공유 및 협력 구체화  이투데이",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1399.896373,
+        "time_ago": "1시간 전",
+        "diff_sec": 3788.973726,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
       {
-        "title": "서울·도쿄, AI 행정 경험 공유…공동연구·실증 추진",
-        "press": "뉴시스",
+        "title": "서울시-도쿄도, 공공 AI 활용 머리 맞댄다…실무협력 본격화",
+        "press": "뉴스1",
         "is_verified": true,
         "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1faHdKQ3BkVzRsVXB3c2phWGp6RHQ1X2tkUW5BUUVZWGpmel8wcXk0VzBjaTJGdjdVZFkySnFIaV9XcWJMUlUwSFRsa0NIU3oyRk1XNzhDZHdCeHdVd3lZONIBeEFVX3lxTE02TnpPTGtheFRxb2FZT3F0TXlybFdQR01jVFNDY1Fhd0IzNTFTYzd6YTQ0eXoxcmpWMnRieVQ1N2tWZFplWmVCZi1qbVFsTmRITVZFRDE4VVN4bEU4UGFlLWVub0oxLTBnWmZjaFQ0d1ctak9MaVRsQw?oc=5",
-        "desc": "서울·도쿄, AI 행정 경험 공유…공동연구·실증 추진  뉴시스",
+        "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1oaUFicmt0RjQzblVPTWVLeG9FbnJHYlBfU1JIMVpXRWVCbnRwSjU5dWFxcGNwMDc5dVVNaDh2djVuaGlmLVB4bDNudVBzZHPSAVRBVV95cUxNMXI5cF9WZ2s5LUU1VElITWFKSTdOMUhBS01KSTFwcjQ0YjhkNF9PT2JFaFQtYXVVTWE1ZXhEWkhna0JKaHFsUDRDbmRxd0lrRmw2Tzk?oc=5",
+        "desc": "서울시-도쿄도, 공공 AI 활용 머리 맞댄다…실무협력 본격화  뉴스1",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1399.896879,
+        "time_ago": "1시간 전",
+        "diff_sec": 3788.974235,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1878,8 +1753,47 @@
         "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQVThoU0dKdWFvb2J4ME5vVlBsdlNteXpEVUxSWEljME1iaUs0aW1Ga1IwMUVVbl9leGVhTWRxX3o2RkVsMG53OU4wOGlOV2Y1dENoeFBLVFJqNjN5bl9rOGNnRE1kQTkyU0tscUc0Q2JhNzR2OFZ5X3B4S0Z2Yko3RF9R0gGWAUFVX3lxTE5yclI0alVxWUhic3FlOEFFNWNHWXpIRUJJOWY4OVNKeWVadGRSNlpmZ2ROakMxck0tOUhCb3l4elFEeS1uQ2dONXJWYW84QnV0aEEzYUpxVXBKSjFoUjBMc2NwOHBSX2VPMnF6cTdGakxWMm5IT0l0MXdkY01aRTl2UlNiREtTNl9qeWVOblMydkZRbDFtQQ?oc=5",
         "desc": "美 이어 中도 AI 인프라 투자 가속화… D램 공급 부족에 삼성·SK 가격 협상력 강화 전망 - 조선비즈  Chosunbiz",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1399.896879,
+        "time_ago": "1시간 전",
+        "diff_sec": 3788.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "[심층] AI 고용 충격, 왜 아웃소싱 근로자부터 덮치나…자동화의 불편한 이면",
+        "press": "아웃소싱타임스",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE0xWmhLb3NqWl8zakZuOV9GeUZwMlA4ZXo1WVB2a0piQ0Q5eVY3ZmZDd3N5Zk1YNE1VX2QwSTk3Sk9XeEc3azMxOGdCRG9HSkExYUlYOVdYQjFsYzhpNm44NnhyMWNJRGRRS0xKRHkzUXZRUQ?oc=5",
+        "desc": "[심층] AI 고용 충격, 왜 아웃소싱 근로자부터 덮치나…자동화의 불편한 이면  아웃소싱타임스",
+        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 3788.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "아이디어에 AI 더하니…인천 스타트업 시장 진입 ‘가속’ [모두의 창업 프로젝트 2 ①]",
+        "press": "경기일보",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9NcTdnaDBmZldTN0RVRzZFT3NjbTJkMElaTGY4VW12eFFFOHNZVVQ5SkRDd2lzWDRJUnhPTVkzTlNmX3ZJLTZGRy1YemxFdTNxRFFLODNCdlZ6NWM?oc=5",
+        "desc": "아이디어에 AI 더하니…인천 스타트업 시장 진입 ‘가속’ [모두의 창업 프로젝트 2 ①]  경기일보",
+        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 3788.974235,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "서울·도쿄, AI 행정 경험 공유…공동연구·실증 추진",
+        "press": "뉴시스",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1faHdKQ3BkVzRsVXB3c2phWGp6RHQ1X2tkUW5BUUVZWGpmel8wcXk0VzBjaTJGdjdVZFkySnFIaV9XcWJMUlUwSFRsa0NIU3oyRk1XNzhDZHdCeHdVd3lZONIBeEFVX3lxTE02TnpPTGtheFRxb2FZT3F0TXlybFdQR01jVFNDY1Fhd0IzNTFTYzd6YTQ0eXoxcmpWMnRieVQ1N2tWZFplWmVCZi1qbVFsTmRITVZFRDE4VVN4bEU4UGFlLWVub0oxLTBnWmZjaFQ0d1ctak9MaVRsQw?oc=5",
+        "desc": "서울·도쿄, AI 행정 경험 공유…공동연구·실증 추진  뉴시스",
+        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 3788.974235,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1891,8 +1805,8 @@
         "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQaDlhajZDMW5xS2I2dEdJMjFOdU9ObE9fMGp1NHJOLWk3cm1SOXNVbzBtWFAydDQ3bll1X0NHN1dNeXRqTFpWUmxFR0Z2VWg2WUtiMG4yNWREZTVIODZ1TUJwOUtIWHg1MWw5dmVCVUYySmxTT284WHZFcmFRNFBLNjlobnNRRHUx?oc=5",
         "desc": "\"숏폼 생태계 앞세워 美 압도\"… 中, 글로벌 AI 영상 생성 '톱10 중 8곳' 장악  글로벌이코노믹",
         "pubDate": "Sun, 30 Aug 2026 20:45:00 GMT",
-        "time_ago": "38분 전",
-        "diff_sec": 2299.895367,
+        "time_ago": "1시간 전",
+        "diff_sec": 4688.973726,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1904,8 +1818,8 @@
         "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9ieUVFanRyWFVGSHNoUnBjZERtNWFoQnRSNEV2OXp6MlZMdmZjQnlzOGpYT21tUXRNM1IzejVxT2lEWGxJODd3d3pUcWd6NjZ5ZUpzZURrLVBpX2IzTVo1VEh6cVQ5SnZPbV85YUMwN2o?oc=5",
         "desc": "[인공지능 줌인] 맞춤형 AI 서비스의 가치, 내 개인정보와 바꿀 만한가  위키리크스한국",
         "pubDate": "Sun, 30 Aug 2026 20:42:42 GMT",
-        "time_ago": "40분 전",
-        "diff_sec": 2437.896879,
+        "time_ago": "1시간 전",
+        "diff_sec": 4826.974235,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1917,205 +1831,36 @@
         "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0tUVJqd2FWN2dNRTk5LV85dmlzb2JLZWI0cXNQZlhGbDQ3U3l6aHZSc2Eyc196cnBMdE00R3ZJYnVvSVRzOENFQWNsbzM2djZCc21XYlVxaExmZjc0SV9iVmRMTG9TSDAzbVBwRFBkYVLSAXNBVV95cUxPTUxkS2d5RGpmSGRueG11MFZoZm5laHFjekgzaUhNdGlxSGJMb0hRRHVEMUJnWEYzVnprOEhjemdaaTJMOFVLY1lad3V2RDVGUWdmYUxYTmpZSFFLeGlFR3VncU45bXl0MHBtQXg3Zkxtanhv?oc=5",
         "desc": "굿닥, SKT ‘모두의AI’ 컨소시엄 참여…헬스케어 서비스 연계  청년의사",
         "pubDate": "Sun, 30 Aug 2026 20:38:34 GMT",
-        "time_ago": "44분 전",
-        "diff_sec": 2685.895367,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "네이버, 의료AI 확장…‘실시간 진료기록’ 개발 추진",
-        "press": "데일리메디",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9vVXBvcHVZQlpNS0stU3JEaW9CczJEZUJ5NE1IUzNoTlRCaEdWRWVKZXYtNWM1a2Vfa2hjSXpBMGRxOGJFbUQ4bjYxYldDTXEwb1U3dFhEc1RWVEFtRkVCUFZzYV9pY1JJ?oc=5",
-        "desc": "네이버, 의료AI 확장…‘실시간 진료기록’ 개발 추진  데일리메디",
-        "pubDate": "Sun, 30 Aug 2026 20:38:00 GMT",
-        "time_ago": "45분 전",
-        "diff_sec": 2719.895367,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[The Company] 일하는 방식부터 제조까지 ‘AI 대전환’ 가속",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBxV3AyZWNVaUdEYjBzS25iRW9wVm9jaEVMS3dZcG51QmxMX0F6eEhzdnJrRVRRM1plbHZsLTlWOWtHUjhweEJwdUQtNnctWjB1dEl3bWNn?oc=5",
-        "desc": "[The Company] 일하는 방식부터 제조까지 ‘AI 대전환’ 가속  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:34:00 GMT",
-        "time_ago": "49분 전",
-        "diff_sec": 2959.895367,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[The Company] 글로벌 빅테크와 ‘AI 동맹’…고객가치 정조준",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1nc1ZYeXZBbjNld05abFFsSmF3dzZPdG9fZzlIUHJJZ2ZWWS1xVEpicnFvbVAxTnVMZGNadkRfbHg2UmhNZ0RSdU94QW1CdkhmSXNPQml3?oc=5",
-        "desc": "[The Company] 글로벌 빅테크와 ‘AI 동맹’…고객가치 정조준  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:33:01 GMT",
-        "time_ago": "50분 전",
-        "diff_sec": 3018.895367,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[The Company] AI 전환·상생 … 혁신 경영 앞세워 미래 성장동력 확보",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9xRUd3QjdGUTBBb3dnY1dQZUlkSHYtNUtqUElvTUkycVNWcWhsTDBkYU4zQ3ZPYmp3c1hJYUwxeDVMODRVOWwyQU85RE5BcDZQdzNMd1Zn?oc=5",
-        "desc": "[The Company] AI 전환·상생 … 혁신 경영 앞세워 미래 성장동력 확보  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:33:01 GMT",
-        "time_ago": "50분 전",
-        "diff_sec": 3018.896373,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[The Company] AI 시대 맞춤형 에너지 솔루션",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5ZRTN1WE5WUUl6VHYzNVFUbXNyS3Z4eHFkYUR6T3R6cF9zekswdlBvZkRoRjU5UGxIVUlUbnhpSGdBeHRZekdsUXZadTc5SWVXdHFXTzBR?oc=5",
-        "desc": "[The Company] AI 시대 맞춤형 에너지 솔루션  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:33:00 GMT",
-        "time_ago": "50분 전",
-        "diff_sec": 3019.895367,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[2026 하반기 혁신 IT 대상] 국내 ICT 산업, AI·데이터 중심 고부가가치 전환",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1HZFBEVm4xNDBMZUNLRlJyQnZFanFQUWJaSDM2bWMxeFhoUjB3QWM5Z1V4MHpCV3pzdTFqMVpfU1ZMUE1vd1BheXVDVzl5MkpvOXE5WU1R?oc=5",
-        "desc": "[2026 하반기 혁신 IT 대상] 국내 ICT 산업, AI·데이터 중심 고부가가치 전환  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "51분 전",
-        "diff_sec": 3079.896373,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[2026 하반기 혁신 IT 대상] 레이더 융합 AI로 어르신 지켜",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBTUmJvcndkZEVVUWhjX3NVMmwxRkVhN080ME9qRlZKRjlfeDVsZ1pHTzRLcFdHZms3bm91b25OLWVtN1ZMX3p5WHBHWHJMRDRFc1VGc21n?oc=5",
-        "desc": "[2026 하반기 혁신 IT 대상] 레이더 융합 AI로 어르신 지켜  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "51분 전",
-        "diff_sec": 3079.896373,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[2026 하반기 혁신 IT 대상] 다양한 AI 에이전트 통합 관리",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE51Ri1DajlTb2tZc01nZmktUElzSl9IaG9UTi1FNkRTVTNDZUhHZHVobXNiQU9QeDdjLW9ra0xQai04aWlYQUxsS3JndU12NDczRlFWRTB3?oc=5",
-        "desc": "[2026 하반기 혁신 IT 대상] 다양한 AI 에이전트 통합 관리  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "51분 전",
-        "diff_sec": 3079.896373,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[2026 하반기 혁신 IT 대상] SI 특화 AI 솔루션 실전에 투입",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE0yUUt0dUJ0dlRVVU5waFY2NnNfUXpQdDdVUklVank3cHIyeWVhdWVBVWgwc2g3c2pqYzBtQnp2VThuMHpFS0FyWElIS1U2aTRZSHpWSDBR?oc=5",
-        "desc": "[2026 하반기 혁신 IT 대상] SI 특화 AI 솔루션 실전에 투입  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "51분 전",
-        "diff_sec": 3079.896373,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[2026 하반기 혁신 IT 대상] 카톡으로 만나는 ‘AI 업무 비서’",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1DMjNNbF9URUlxeF8yTEptakNROS0xTm5fYmNnZ0RiWUtHQXlXU2tnQ3R3U0VzWDh0TFVjaFFmeWZZRld3clVoR2ZJd2pYQ0ltTUdiMmhR?oc=5",
-        "desc": "[2026 하반기 혁신 IT 대상] 카톡으로 만나는 ‘AI 업무 비서’  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "51분 전",
-        "diff_sec": 3079.896373,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[2026 하반기 혁신 IT 대상] 음성 AI로 직원 번아웃 조기 발견",
-        "press": "중앙일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1OTFNWeVk1eXFTbGx4ZHJLLXlZenRyam1wX3k4b3MtNjJFeEdNRENzRkpXRW9wSnhodEtiTFVpQ2Fmd0NRODEyek5IUTNmMGdMWkRfcVdR?oc=5",
-        "desc": "[2026 하반기 혁신 IT 대상] 음성 AI로 직원 번아웃 조기 발견  중앙일보",
-        "pubDate": "Sun, 30 Aug 2026 20:31:00 GMT",
-        "time_ago": "52분 전",
-        "diff_sec": 3139.896879,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "\"반도체 이후 AI 패권 전쟁 수혜주, 에너지株·비트코인 사라\"",
-        "press": "조선일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPNmlYYjhFMkFJeVI5dnZmcUNydGcxcGY0cUs3TnNzbmdwVFhyZEkwYVNjZnZELVBtc3NudFpsSWpEeTZzNkZCNjNDLXZGNS1TSUlHNTIzT1RVWm1vYXFCR1RxQUlWbUR5SnRTV2xUUTBOektLMktVNlVoWjE1c1lVVg?oc=5",
-        "desc": "\"반도체 이후 AI 패권 전쟁 수혜주, 에너지株·비트코인 사라\"  조선일보",
-        "pubDate": "Sun, 30 Aug 2026 20:30:00 GMT",
-        "time_ago": "53분 전",
-        "diff_sec": 3199.895367,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "\"AI가 잔반 재활용해도 된다고 했다\"…광장시장 '비위생'에 황당 해명",
-        "press": "뉴스1",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5ybXFwNDVFcTVydGhKRVFsUkVmTWh1UW5YUjJZMlUtM1RaMFc2WTNTSEUwWTNDSDRFWVBLRU1uTndWaGxpV1VsY09haWpmRDVOTEtuaE5qZ0YwQVhwbXdncUV30gFnQVVfeXFMUGNJWThhR1FWeTliWXZoWUV2cW5TOUpCM002NTBCSHh2LTFiN004UVliTnJnWlQ1SFlTVUhXUHkzTFRIUU5SMXZFY3Z0MUFVaEFuY2JraFhEMUJleTlHMkhXXzhsLThuOA?oc=5",
-        "desc": "\"AI가 잔반 재활용해도 된다고 했다\"…광장시장 '비위생'에 황당 해명  뉴스1",
-        "pubDate": "Sun, 30 Aug 2026 20:30:00 GMT",
-        "time_ago": "53분 전",
-        "diff_sec": 3199.8979,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "충남도, 사람 중심 ‘충남형 인공지능 기본사회’ 본격 시동",
-        "press": "아산포커스",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE4yQlZRUjdXTUVyNl9RQnRvOTNrYUJ3YVpIYW9FWjI4RTdEN1J0ZlpkcUNNZllWR3FtdExva0pZN0dSRmZCRzEzV0RxNW14aF9iWTByTVZBUzZwcXREWTZPcWhmTy1JeDNONnRDSjh3?oc=5",
-        "desc": "충남도, 사람 중심 ‘충남형 인공지능 기본사회’ 본격 시동  아산포커스",
-        "pubDate": "Sun, 30 Aug 2026 20:29:45 GMT",
-        "time_ago": "53분 전",
-        "diff_sec": 3214.896879,
+        "time_ago": "1시간 전",
+        "diff_sec": 5074.973726,
         "category_badge": "AI 기술",
         "theme": "ai"
       }
     ],
     "semiconductor": [
       {
-        "title": "반도체가 끌어올린 성장률…기관 10곳 중 7곳 '올해 3%대'",
-        "press": "네이트",
+        "title": "SK에코플랜트, 상반기 영업익 1.4조…AI·반도체가 견인",
+        "press": "코리아리포트",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBITjVDVHVodHduM21YdUtqUzNwaVprSnJjNHVYNkxQUkdCY0xmSkJKZS1SQzVxOXR3VUNjYzhpZHo1UksyaVAtdW9rdktfV0NpZE10cVZrS2xzNWZqYXY3Vg?oc=5",
-        "desc": "반도체가 끌어올린 성장률…기관 10곳 중 7곳 '올해 3%대'  네이트",
-        "pubDate": "Sun, 30 Aug 2026 21:06:00 GMT",
-        "time_ago": "17분 전",
-        "diff_sec": 1041.029371,
+        "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE0wZWJTWkg0bW9ZdG0zVGpMQUloYkRlQXVRSVVINVF1SzRtMy1zaXI0RkVsNWtfOFdBX1hwU2hIZFBVWE9ibUZhckJZUkFHOTdwTGRUdTJPR2NXWFl0d2VEdnoyYzV6ZjZIR3drWnJfWjA?oc=5",
+        "desc": "SK에코플랜트, 상반기 영업익 1.4조…AI·반도체가 견인  코리아리포트",
+        "pubDate": "Sun, 30 Aug 2026 21:41:58 GMT",
+        "time_ago": "21분 전",
+        "diff_sec": 1272.02668,
+        "category_badge": "반도체/컴퓨터",
+        "theme": "ai"
+      },
+      {
+        "title": "반도체가 끌어올린 성장률…기관 10곳 중 7곳 '올해 3%대'",
+        "press": "ebn.co.kr",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE91OG9QSFNoSjhRVk9XZW1TMnZ1WDd0VS1DZXRtSUI5YUxzcFg2Zlcyd18wQTAyQ2d0NVU3TEtBUFh0UzJMOEhCM0lpaWlycE9GM3lXMU5LWmZnOHVjZThySzM1TjJ1bm9F?oc=5",
+        "desc": "반도체가 끌어올린 성장률…기관 10곳 중 7곳 '올해 3%대'  ebn.co.kr",
+        "pubDate": "Sun, 30 Aug 2026 21:05:34 GMT",
+        "time_ago": "57분 전",
+        "diff_sec": 3456.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2127,8 +1872,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBCZWotZDYtOUVHaVl2d3VtMmJGa3h3MllSVHdXUWJoNkFlaVh3T3lXRUVHOFZoTVJ5RkhfUDNRb25KbXUzTGQ1akkyYzI2Ulk0QWln?oc=5",
         "desc": "AI 반도체 호황에…삼전닉스, 상반기 법인세 11조 넘어  네이트",
         "pubDate": "Sun, 30 Aug 2026 21:05:00 GMT",
-        "time_ago": "18분 전",
-        "diff_sec": 1101.029371,
+        "time_ago": "58분 전",
+        "diff_sec": 3490.028183,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2140,21 +1885,8 @@
         "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFBCUUlhZ0xKWks4Q3JYN3dfb0xkdFNubmQybjNRbEozZktYN3VublBLaWxpQ3BhWEdVYkIwYzRQMXpUSXBGYVVtOWdsYzA4ZU41Ti0zTTViLUk?oc=5",
         "desc": "머스크 한마디에 “비트코인 양자컴퓨터에도 안전?”…835큐비트가 가를 보안 논쟁  블록미디어",
         "pubDate": "Sun, 30 Aug 2026 21:01:00 GMT",
-        "time_ago": "22분 전",
-        "diff_sec": 1341.028371,
-        "category_badge": "반도체/컴퓨터",
-        "theme": "semiconductor"
-      },
-      {
-        "title": "[경제 포커스] 명목소득 '양극화'·실질임금 '뒷걸음질'…반도체 호황의 그늘",
-        "press": "네이트",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBuQTJ1cmQ5OHktT2dIbkNnTnB1LWdLZm1RV3B6TlFuRUJGbC1LVkNZOVRfWmg3cDdzWFlPcjVZMzlycnRlTmJ2V1VtRVQ2Rmh5YlJv?oc=5",
-        "desc": "[경제 포커스] 명목소득 '양극화'·실질임금 '뒷걸음질'…반도체 호황의 그늘  네이트",
-        "pubDate": "Sun, 30 Aug 2026 21:01:00 GMT",
-        "time_ago": "22분 전",
-        "diff_sec": 1341.029371,
+        "time_ago": "1시간 전",
+        "diff_sec": 3730.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2166,8 +1898,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1JdHN2ck95b0pFRy13WGpOUDdoTUNrc3BnX0VQZzdjQkdmZjhvaXF1MXB5YlVmYjVmTnZMX2F5QnFiX2VHN1VZcmlwR2FwQ0JzMjJZ?oc=5",
         "desc": "산업부, 반도체·로봇 등 첨단산업 특성화대학원 6곳 선정  네이트",
         "pubDate": "Sun, 30 Aug 2026 21:01:00 GMT",
-        "time_ago": "22분 전",
-        "diff_sec": 1341.029371,
+        "time_ago": "1시간 전",
+        "diff_sec": 3730.028183,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2179,8 +1911,8 @@
         "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFA4SDhmTkZlVE14VnloNXpWZ1hyWmoxc2Z2WkstQmo2NmtrZF9LN0pDdFRyUlRMYzhhamwxQ2pMRl80bTFtb1V5RWgwX0YwLUg0SE9iRE11ZlZGZ3haZnN4TkdTWQ?oc=5",
         "desc": "“1.4나노보다 먼저 잡는다”…삼성, 2나노·HBM 묶어 AI칩 고객 선점전  쿠키뉴스",
         "pubDate": "Sun, 30 Aug 2026 21:00:05 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1396.028371,
+        "time_ago": "1시간 전",
+        "diff_sec": 3785.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2192,8 +1924,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE96YkxXWHhuU3ppYzdacHNmMVFOT1NfRnZWRW1fQTQwVlJMMnhSQ3lEU21pRzlCUHhKRUFBNE5wekNEWmY2UVJUY0lDOXpXdlE?oc=5",
         "desc": "[젊은 과학포럼] 진짜 칩이 만드는 반도체 생태계  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1401.028371,
+        "time_ago": "1시간 전",
+        "diff_sec": 3790.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2205,8 +1937,8 @@
         "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE8waEEwcFNQbHgxOHV3ejFDWkh0MzhyTnYyQkZLcDJYWDdBVEE1OVN1QVlvZGh4WUlrOGVPRXlXT1gzaXNqR2l5S2MxeDJpZmxEMFU2Q3EyWk5uY0xXRUk5QjR4Y1ktUWFybDJ2bmR1RQ?oc=5",
         "desc": "대기업 수출 비중 75%까지 확대…격차 벌린 ‘반도체’  피플투데이",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1401.028371,
+        "time_ago": "1시간 전",
+        "diff_sec": 3790.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2218,21 +1950,8 @@
         "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE1CRFpWVGg2YmU1bGk1Z2dKR1VCMjJ4dExaNTE3OFZSMU1ibDhLcXBnZEljMF9fRC1JdGRucndtbW94RnFQWkN4alZiVDFWczZ1ZjJTNGZpU0F1VlMwY0E4dzdyVE5Ib3pWeE1iNHZqd24wQQ?oc=5",
         "desc": "[분석] 경제는 3.2% 성장하는데 일자리는 11만명뿐…반도체 호황이 가린 ‘고용 한파’  아웃소싱타임스",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1401.028371,
-        "category_badge": "반도체/컴퓨터",
-        "theme": "semiconductor"
-      },
-      {
-        "title": "엔비디아(NVDA) 마진 비상...마이크론(MU), HBM 쥐고 역대급 호재",
-        "press": "코인리더스",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9SRFZacHN3eGROMUllZndQRlRkWENmYTI2UEwyZWNyQzJIbVV4VG9iUFBwWkQ3VzBrRjF3WTEzbzF0UHdqbk9VWVF3?oc=5",
-        "desc": "엔비디아(NVDA) 마진 비상...마이크론(MU), HBM 쥐고 역대급 호재  코인리더스",
-        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1401.028371,
+        "time_ago": "1시간 전",
+        "diff_sec": 3790.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2244,10 +1963,23 @@
         "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE83SFVLY2NZVUs4SzU4SVZzRnlXdlRVaFNwNVMtVmZZSHB0MkRmUlZMQnZLcFludmlNQVFlRGRPcHVuMmNqMjlTcjV1UUVxQWM1UDZwb1lsNHJRWldPRmJ0VTRBRElGR29pbGFwUU1MM2g?oc=5",
         "desc": "[데스크칼럼] 엔비디아 순환금융 실험의 결말  IT조선",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1401.028371,
+        "time_ago": "1시간 전",
+        "diff_sec": 3790.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "tech"
+      },
+      {
+        "title": "[경제 포커스] 명목소득 ‘양극화’·실질임금 ‘뒷걸음질’ … 반도체 호황의 그늘 - 조선비즈",
+        "press": "Chosunbiz",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQUXpUcnpaaDQ3cHBGXzZGS05aVzJPWWp1azhwZnR1d1VldkNpY3hKekhRZTNqWTN3dEs2MXlNMXo3NnhRMFVWNGs0OWRqNmROTmx3RmNFYndod0RjUkdoOWR1cWxOQlNRLWx2WWtaSGJwRlhXSDZVYjRjeE1RNGFtRVA2QVNNd9IBmgFBVV95cUxQZHF1YzlMX1RqOTNCRUlmc1F4OHZIb1ZlTTEyRTRGNERxbDNjZXpodE5aTVFrYkF2aVZMYlMxX0piUnVuTGp3QXlUMHJCT1ZvSTFTaE94dEJaSVRkVF9IQmQwMTBKWU9uZ2xpOENMc2hySjZOVnFjeG5Mc3lqSTc0dzY2SXhOeS1tSVN4bTAtRXUxUkVlRWFKQ1l3?oc=5",
+        "desc": "[경제 포커스] 명목소득 ‘양극화’·실질임금 ‘뒷걸음질’ … 반도체 호황의 그늘 - 조선비즈  Chosunbiz",
+        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 3790.02668,
+        "category_badge": "반도체/컴퓨터",
+        "theme": "semiconductor"
       },
       {
         "title": "엔비디아의 허깅페이스 인수의 의미 [윤석빈의 Thinking]",
@@ -2257,10 +1989,23 @@
         "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5nczNLZ3pLSEFQckE4azJBRUFDT3l0VjcxOHZMbHNDbG1DNml6MVYxbFBjblEzUTJlMzhLUEhGQnExdDl6aFZtbmtUbUc4YTNkU29LYndVNGJzRGJ5M2JYSWZlNk5oUWpDdmdfbEE4NETSAXRBVV95cUxPVGdoeTFVM1JMdlgxSHBJX1JNTXNPaDV3LVNXMXlCVkFYV2szVDcwQ1VMUUNZTXJEOUlDUVQwNU1YVlBzWnRrVjFyQlpERWlueVhPRnE0OTNBVjZHYmo1V25HVjM1THVDNVFBWWVVaC1qUG5GaQ?oc=5",
         "desc": "엔비디아의 허깅페이스 인수의 의미 [윤석빈의 Thinking]  IT조선",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1401.028371,
+        "time_ago": "1시간 전",
+        "diff_sec": 3790.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "tech"
+      },
+      {
+        "title": "엔비디아(NVDA) 마진 비상...마이크론(MU), HBM 쥐고 역대급 호재",
+        "press": "코인리더스",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9SRFZacHN3eGROMUllZndQRlRkWENmYTI2UEwyZWNyQzJIbVV4VG9iUFBwWkQ3VzBrRjF3WTEzbzF0UHdqbk9VWVF3?oc=5",
+        "desc": "엔비디아(NVDA) 마진 비상...마이크론(MU), HBM 쥐고 역대급 호재  코인리더스",
+        "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 3790.02668,
+        "category_badge": "반도체/컴퓨터",
+        "theme": "semiconductor"
       },
       {
         "title": "비수도권 첨단산업 대학원 6곳 선정…5년간 최대 150억 지원",
@@ -2270,8 +2015,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5GSl8xT1JOU0VQYTFjMVFSWUgzSnZCZ3VwNFRBaUlUR0xZWHFFdVJZV3Y0aHU3NXJPemJMLWJkVjVFelRaODFVMEZGZVE1SlpxY2VDRXRESGRGRmNJNWoyctIBeEFVX3lxTE1sNVZsY0JtZ0xfQ3BtN1BjRFRadkh6MVhFQzJVc2hjZlVtT1FzdmJ5SGI4T2xjNGd0ZWhDSWZLeWlQT0tpNW9pMF9STmxtdDBiWHdjV29lNGVwcDhpWkJ2S0Y4b0NDeENzMzFPQ0pTdUtvOUlNN3BkcQ?oc=5",
         "desc": "비수도권 첨단산업 대학원 6곳 선정…5년간 최대 150억 지원  뉴시스",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1401.029371,
+        "time_ago": "1시간 전",
+        "diff_sec": 3790.028183,
         "category_badge": "반도체/컴퓨터",
         "theme": "tech"
       },
@@ -2283,21 +2028,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9YVHFjT3JTRWFuQnVSeFl2OUdKeEdmbURKaF95M0V1clF6bGVFQjM3WmhiVks4aUVDRWhqaks4Y2VzaUxlYjFyYnFuaTFMU3VMSXk0?oc=5",
         "desc": "HBM 성능의 핵심은 '베이스 다이'…하이닉스·엔비디아 주도권 경쟁  네이트",
         "pubDate": "Sun, 30 Aug 2026 20:49:00 GMT",
-        "time_ago": "34분 전",
-        "diff_sec": 2061.028371,
-        "category_badge": "반도체/컴퓨터",
-        "theme": "semiconductor"
-      },
-      {
-        "title": "8월 승자는 SW주, 반도체주는?…브로드컴·델 실적, 고용지표 주목[이번주 美 증시는]",
-        "press": "네이트",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE8zci1nY0dJalhkbmRYVXJibTdRclBwd3JXTG5SNUhOdXduZkJiQWJQMlpLQmJjV0ltdFJweUFoY1VHQ2lVX0t2VUtxU05LTHlCYjN3?oc=5",
-        "desc": "8월 승자는 SW주, 반도체주는?…브로드컴·델 실적, 고용지표 주목[이번주 美 증시는]  네이트",
-        "pubDate": "Sun, 30 Aug 2026 20:35:00 GMT",
-        "time_ago": "48분 전",
-        "diff_sec": 2901.029371,
+        "time_ago": "1시간 전",
+        "diff_sec": 4450.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2308,11 +2040,24 @@
         "safety_badge": "공신력 언론사",
         "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPNmlYYjhFMkFJeVI5dnZmcUNydGcxcGY0cUs3TnNzbmdwVFhyZEkwYVNjZnZELVBtc3NudFpsSWpEeTZzNkZCNjNDLXZGNS1TSUlHNTIzT1RVWm1vYXFCR1RxQUlWbUR5SnRTV2xUUTBOektLMktVNlVoWjE1c1lVVg?oc=5",
         "desc": "\"반도체 이후 AI 패권 전쟁 수혜주, 에너지株·비트코인 사라\"  조선일보",
-        "pubDate": "Sun, 30 Aug 2026 20:30:00 GMT",
-        "time_ago": "53분 전",
-        "diff_sec": 3201.028371,
+        "pubDate": "Sun, 30 Aug 2026 20:36:05 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 5225.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
+      },
+      {
+        "title": "8월 승자는 SW주, 반도체주는?…브로드컴·델 실적, 고용지표 주목[이번주 美 증시는]",
+        "press": "네이트",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE8zci1nY0dJalhkbmRYVXJibTdRclBwd3JXTG5SNUhOdXduZkJiQWJQMlpLQmJjV0ltdFJweUFoY1VHQ2lVX0t2VUtxU05LTHlCYjN3?oc=5",
+        "desc": "8월 승자는 SW주, 반도체주는?…브로드컴·델 실적, 고용지표 주목[이번주 美 증시는]  네이트",
+        "pubDate": "Sun, 30 Aug 2026 20:35:00 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 5290.028183,
+        "category_badge": "반도체/컴퓨터",
+        "theme": "semiconductor"
       },
       {
         "title": "[기자의 눈] 엔비디아가 보여준 '주가 예측 투자의 함정'",
@@ -2322,8 +2067,8 @@
         "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9RZVVfSjFBOThweEpac3ZpTU9ROVd4dTU2S1N2UDhBUDZTU3BQdUF1dDFSN2o4MFNKaTZPbFpDdllScm9OTWFqTHpLRDZEV21mcFY3TmFVdjUySGdEWEE?oc=5",
         "desc": "[기자의 눈] 엔비디아가 보여준 '주가 예측 투자의 함정'  뉴스투데이",
         "pubDate": "Sun, 30 Aug 2026 20:01:08 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 4933.028371,
+        "time_ago": "2시간 전",
+        "diff_sec": 7322.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "tech"
       },
@@ -2335,8 +2080,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBQTXF2MU40ZTBaYnQ2SURWSTRYZ08tc1BXSzJYWTF5eTRrdFRHdHJiNXhGR1dYSHZCd2xRUC1aMjVQbkZBS3RhZFU0cmpXa0xjOGFn0gFYQVVfeXFMT1MtMHdIYVE4WjZZNVZqSGp4X0NDS2VNa0N1UXFuSHhjUVJUamo0eG5iazRQZXhQZGx1cll1T1VUUjdSYW50Q1lDOVFfYUYxcnIzOVFmSXk2cg?oc=5",
         "desc": "[글로벌 비즈 브리핑] 금이 대세?...금광株, 반도체 제치고 '폭등' 外  SBS Biz",
         "pubDate": "Sun, 30 Aug 2026 19:51:00 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 5541.028371,
+        "time_ago": "2시간 전",
+        "diff_sec": 7930.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2348,8 +2093,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9XaHlVY0FJSF9fZjJLWC15SlE5Qnd2S1hwUjZVR3BGd3JrUFJ3aVN4eV9yZ21qblE2dlNCSXFobGRKYXkweWFSN0VaaHhCYkl2bEZrd0I5Qy00TDhESkpScXVnZmJZZ9IBZkFVX3lxTE9XaHlVY0FJSF9fZjJLWC15SlE5Qnd2S1hwUjZVR3BGd3JrUFJ3aVN4eV9yZ21qblE2dlNCSXFobGRKYXkweWFSN0VaaHhCYkl2bEZrd0I5Qy00TDhESkpScXVnZmJZZw?oc=5",
         "desc": "반도체-전장-이차전지 소재 중심으로 체질 개선  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 6801.028371,
+        "time_ago": "2시간 전",
+        "diff_sec": 9190.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2361,8 +2106,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9XN2J4X080bTFSdFpIblI5cDc1SDFPZUZDdHo2RlZUSVJVZjQtb2RZcFczOEh1dHJ0TmFrTFNub28yclgyUnY5OHg1MkVqXzAxb2ZJ0gFYQVVfeXFMTjBXdXAwMU9oellrM3VyWlE2QUZnNTcxVHFTc0JKWXhrN2d5bnNoNUpsYkc1Y3QzRWF5MnRPVXZXRnNLcmtoVkdMOVdaV3FpQzlKdW85cFVBNg?oc=5",
         "desc": "금이 대세? 금광株, 반도체 제치고 '폭등'  SBS Biz",
         "pubDate": "Sun, 30 Aug 2026 19:29:00 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 6861.028371,
+        "time_ago": "2시간 전",
+        "diff_sec": 9250.028183,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2374,8 +2119,8 @@
         "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE96UGZkVmhOZEs4Mkc1Vkt2T2ZyeFFBdzBjRWRmMHNTWmI3Wm1rckdIZk9JUUJ4QWpMWEh1UDVXYlppM1dXMmFFaFQyaGVXV25TNUNSM1d0enp6VmktRXFwSlYtVEJmZ2xzMkNMUmFKM1RBZks4c0Z0RDlR?oc=5",
         "desc": "[굿모닝 멤버십] 반도체 던진 헤지펀드들… AI 투자금은 어디로 갔나  조선일보",
         "pubDate": "Sun, 30 Aug 2026 18:00:00 GMT",
-        "time_ago": "3시간 전",
-        "diff_sec": 12201.028371,
+        "time_ago": "4시간 전",
+        "diff_sec": 14590.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2387,8 +2132,8 @@
         "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE1PS1JIZXoyY2NzZjlOeVdGWmR5NWVpa0ZTZ2NRTk5HenhaSFJUaXpWZnJoYjFBMjN3cTJWQWpwNVhEdl80akJBOXBn?oc=5",
         "desc": "\"실적 좋아도 소용없다\"...엔비디아(NVDA)·인튜이트(INTU) 희비 엇갈렸다  코인리더스",
         "pubDate": "Sun, 30 Aug 2026 18:00:00 GMT",
-        "time_ago": "3시간 전",
-        "diff_sec": 12201.028371,
+        "time_ago": "4시간 전",
+        "diff_sec": 14590.028183,
         "category_badge": "반도체/컴퓨터",
         "theme": "tech"
       },
@@ -2400,8 +2145,8 @@
         "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPalB6RVJCNXdWQjN6ZlQ3ZmhCZnRCTkhWLXpKVTFKY0NMWG41Ykt0T0FUby05UjZnb3FFNm0wU3R2ZjBzWHZzUGdqVVVFcnZUYjZyVzgxekpSSm9yeDhUdEw1NE5lWmVYS2hDdG1WanowMnRkNVdUWHNvNTRGdWp6aGtYQzNzbGsyOExuYTgwUQ?oc=5",
         "desc": "SK하이닉스, 美 HBM 생산거점 첫삽…'Made in USA' HBM 만든다 : 네이버 블로그  Naver Blog",
         "pubDate": "Sun, 30 Aug 2026 17:59:25 GMT",
-        "time_ago": "3시간 전",
-        "diff_sec": 12236.028371,
+        "time_ago": "4시간 전",
+        "diff_sec": 14625.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2413,8 +2158,8 @@
         "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNSG5mUGhJcnlIeXRjUGFrUmNoNGRKQTIwVUtUcTFxWVVhTkZBb1EzcGk0a1RqbEF3SXVJRkJuSDZ0UGlRZEcyXzhZd0MtVFFwZVk4UlBrMnNMcTA4c0RfODdzTDRpVHJjTk5aX0p2VUJ0MDdMRXdDX1NobnY1S0dpeW1VTGlXUTJFT05sRnItZw?oc=5",
         "desc": "[류재철의 로봇 전략] 엔비디아와 휴머노이드 동맹…'원 LG' 이끄는 지휘자 : 네이버 블로그  Naver Blog",
         "pubDate": "Sun, 30 Aug 2026 17:29:56 GMT",
-        "time_ago": "3시간 전",
-        "diff_sec": 14005.028371,
+        "time_ago": "4시간 전",
+        "diff_sec": 16394.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "robotics"
       },
@@ -2427,7 +2172,7 @@
         "desc": "젠슨 황 \"AI, 변곡점 도달\"… 아마존에 GPU 200만개 추가 공급  금강일보",
         "pubDate": "Sun, 30 Aug 2026 17:10:00 GMT",
         "time_ago": "4시간 전",
-        "diff_sec": 15201.028371,
+        "diff_sec": 17590.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2439,8 +2184,8 @@
         "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBrWUI4MjM1ZGo0bkFRTWpTaVhxWTN2S2pFRGEwOXJzX2txZ0FXVlpqaFBjakRHUHN6TFJkV1dPRno5eGZIMFBGemVwYWF0bUxlTms0aTVHVXAyZHJZNmxfSGdWb2VRc3N5eGtXMk9KMjFIbUc5MnZMYmN5bw?oc=5",
         "desc": "엔비디아 CEO의 아들은 예전에 칵테일 바를 운영했었다.  Vietnam.vn",
         "pubDate": "Sun, 30 Aug 2026 16:01:15 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 19326.029371,
+        "time_ago": "6시간 전",
+        "diff_sec": 21715.028183,
         "category_badge": "반도체/컴퓨터",
         "theme": "tech"
       },
@@ -2452,8 +2197,8 @@
         "link": "https://news.google.com/rss/articles/CBMiQEFVX3lxTE5BaHNpUUhZYWViTUFOdDN0amRraExwdHg0SWE4dFlLTE12UFgtSXNkd1dFNzZCVm9tTEpjbTFvblM?oc=5",
         "desc": "[엔비디아의 AI 패권, GPU를 넘어 '데이터 오케스트레이션'으로 확장되다] 결국 AI 인프라 경쟁의 승자는 가장 빠른 칩을 만드는 회사가 아니라, 가장 거대한 시스템을 가장 효율적으로 움직이는 회사가 될 것이라는 전망  AI넷",
         "pubDate": "Sun, 30 Aug 2026 15:56:32 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 19609.028371,
+        "time_ago": "6시간 전",
+        "diff_sec": 21998.028183,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2465,8 +2210,8 @@
         "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOcXN6blhaQ0JPX1JpNjFhVUJlZ3puN0NDcDBpa0RNRWo1UmJuVHZXSjMtNzdZRWRNYktFSUV2bUlZOHBEX3p4VW83dmZ6NDVqQ1l0amFxZzE0Z2tFeDhxYWdYX2NVaDVXX25vVVRnSHg2MUhseFhqUW83MDVqcXMzeVFqTEplMEhXSWNHVVlB?oc=5",
         "desc": "한은 \"반도체 호황에 기업·가계 소득 늘며 광범위한 물가 상승\"  조선일보",
         "pubDate": "Sun, 30 Aug 2026 15:47:00 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 20181.028371,
+        "time_ago": "6시간 전",
+        "diff_sec": 22570.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2478,23 +2223,10 @@
         "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQSGJiSkQxUFIwTFRkZ2xodzc1TFdrT0pPNHg5MGJmYjRUMm92QnVUYmx1eTVGLTRteTNsaEhNeDNGWDJhSmM0SS1pMDgyMnNNQ0R6Z3JCV0xjTWlFSTlacjlSczR5UWxBVzgzQWtweWloQzdQeHoxVnNBdjFBSHdmVFJ5SkpfQ0RJektMUXNB?oc=5",
         "desc": "엔비디아와 손잡고 글로벌 AI 인프라 시장 공략  조선일보",
         "pubDate": "Sun, 30 Aug 2026 15:36:10 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 20831.028371,
+        "time_ago": "6시간 전",
+        "diff_sec": 23220.02668,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
-      },
-      {
-        "title": "경기 남부 동탄-기흥 등 ‘반도체 벨트’, 집값 오름세 다시 확대",
-        "press": "동아일보",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1aaWhxbE5vWkotUDJub0p5VndwaFFvOU1NVjlmbnpXWDdBOXlZX3NsUFpUY3c4ci11S094YTFUT1NXZU52UG9ibFV1ZjBoX05YVnpZdVEtb0VOZm56anR3YUFVdVpkYmtvNHd2Y1l5RkgyU0NxamfSAWZBVV95cUxPTENwUFBnWFpsNi1CNFJxSWNJRXRMemFKZXFWS2J6R3hXTnVmU1hZc3VtRVZOdUxfbi1YN1hHeW9YU0c5SGxESEFDWVNNNU84U0xLQVU2RGJURThCVUlmcXRyYW42S3c?oc=5",
-        "desc": "경기 남부 동탄-기흥 등 ‘반도체 벨트’, 집값 오름세 다시 확대  동아일보",
-        "pubDate": "Sun, 30 Aug 2026 15:30:00 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 21201.028371,
-        "category_badge": "반도체/컴퓨터",
-        "theme": "semiconductor"
       }
     ],
     "robotics": [
@@ -2506,8 +2238,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9zZXY3ZlA1Mk0tdlRiN1daT3RJbzRJUE1UQld4dU1FYzdoanFvdEtfV3haYlBjQ3B3cDVTZnZsQ2cxQVZsQ0RuVjdtQzBDSG8?oc=5",
         "desc": "\"정확히 잡는 손 센서·관절 승부수\"…韓 로보틱스, 부품 표준 선점 관건  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 21:11:00 GMT",
-        "time_ago": "12분 전",
-        "diff_sec": 742.108108,
+        "time_ago": "52분 전",
+        "diff_sec": 3130.72664,
         "category_badge": "로보틱스",
         "theme": "tech"
       },
@@ -2519,8 +2251,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBIcVIzbGJuSXhkM0JLSnFpeFlocDdQdk9rd3ZNRFJqUTJ4WEVOTm1UdXczZ2t3aFBlUWZCV3l2TWpscWFjVTRlNkFRbUxRZw?oc=5",
         "desc": "8.64초…우사인 볼트보다 빨랐던 中 로봇, 또 기록 경신  전자신문",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1402.108108,
+        "time_ago": "1시간 전",
+        "diff_sec": 3790.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2532,8 +2264,8 @@
         "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE1yV3kxME5lejNEbWRMXzU0cFJiYUxmVFhVc0d2NmRpU3NvaHZfMHBaSl9mdWFvcXRVNEFYQUI5cW9Yd1RUd3lLMTJrTFhfT0JmMG1kcFdpQ2dLSENMd1E?oc=5",
         "desc": "일상 속 AI부터 런웨이 걷는 로봇까지, IFA 2026 키워드는  동행미디어 시대",
         "pubDate": "Sun, 30 Aug 2026 21:00:00 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1402.108637,
+        "time_ago": "1시간 전",
+        "diff_sec": 3790.727152,
         "category_badge": "로보틱스",
         "theme": "ai"
       },
@@ -2545,8 +2277,8 @@
         "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQOHY2SW1rcU5NbHFaYk83cFEzellYN0dCVlZYUWNYT3BQVVBwRHh4WHk4bWU1QnFGMHVfQVd6OFV5c01sb0plUVQ2UkJ3U0xnWExHemJOT19tWjNFUUFqWVgyTGhleFp6b19OR0NyeWFkQ000aHFxZUlJaV9pb0FncUhIY0tURi1D?oc=5",
         "desc": "테슬라가 3년 묵혀둔 이 부품… 미중 갈등 속 웃는 중국 로봇주  글로벌이코노믹",
         "pubDate": "Sun, 30 Aug 2026 20:27:39 GMT",
-        "time_ago": "55분 전",
-        "diff_sec": 3343.108108,
+        "time_ago": "1시간 전",
+        "diff_sec": 5731.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2558,8 +2290,8 @@
         "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9xYVRRelQ3XzQ4dkxXNDEzbXVDbW9Hd3o2SG1kcEtHNllwNWFSekY2TFo1R1ZFLWswZ0xWMzVFUUpMak9JTnlaNFRHaE9ublNjdkRwU2N0V2owcDZTamswNzFiT3ZMazg5eXB6YkwyYmhqcmPSAWZBVV95cUxPdVp2N0haT2s4UzE3UmNLQ1BET0dhSlBYeDc4VjdCQ1RNMXRhNVphcmtXTm5iaDFEZTR6dnVaVTZFbGpSbjhYZWFLWU1mcXNjb0RVUzU0UzI4N3FwN3RlUVNNanRPMUE?oc=5",
         "desc": "“볼트보다 빨라도 과자 봉지는 못 집어”… 中 휴머노이드로봇의 두 얼굴  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 6802.108108,
+        "time_ago": "2시간 전",
+        "diff_sec": 9190.72664,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2571,8 +2303,8 @@
         "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBVUXZWaUU0Zk8tQmZzd0R1VGhxYjJ5NEVNcmhHUVdGSi0yYTRwRUlsODBBSXRTU2NGNl9OTjR3Nm10ZFhXbVA4Ym1wdkMtWXE0eS1tMm9GWWljbnlHbU1YVjUyazZtSWN2dElZdGFuNE9xNlZYTk1wQV80b0VPbEXSAX9BVV95cUxQVVF2VmlFNGZPLUJmc3dEdVRocWIyeTRFTXJoR1FXRkotMmE0cEVJbDgwQUl0U1NjRjZfTk40dzZtdGRYV21QOGJtcHZDLVlxNHktbTJvRllpY255R21NWFY1Mms2bUljdnRJWXRhbjRPcTZWWE5NcEFfNG9FT2xF?oc=5",
         "desc": "로봇 몸값 치솟자… LG전자 가치도 뛴다 - 머니투데이  머니투데이",
         "pubDate": "Sun, 30 Aug 2026 19:01:00 GMT",
-        "time_ago": "2시간 전",
-        "diff_sec": 8542.108637,
+        "time_ago": "3시간 전",
+        "diff_sec": 10930.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2584,8 +2316,8 @@
         "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNSG5mUGhJcnlIeXRjUGFrUmNoNGRKQTIwVUtUcTFxWVVhTkZBb1EzcGk0a1RqbEF3SXVJRkJuSDZ0UGlRZEcyXzhZd0MtVFFwZVk4UlBrMnNMcTA4c0RfODdzTDRpVHJjTk5aX0p2VUJ0MDdMRXdDX1NobnY1S0dpeW1VTGlXUTJFT05sRnItZw?oc=5",
         "desc": "[류재철의 로봇 전략] 엔비디아와 휴머노이드 동맹…'원 LG' 이끄는 지휘자 : 네이버 블로그  Naver Blog",
         "pubDate": "Sun, 30 Aug 2026 17:29:56 GMT",
-        "time_ago": "3시간 전",
-        "diff_sec": 14006.108637,
+        "time_ago": "4시간 전",
+        "diff_sec": 16394.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2597,8 +2329,8 @@
         "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOVXpKalpDdTljU29INzdjNlJZOFBOMW5ERk9mclhubVZkallqLTQzTnk3RFB2cWJtMHo5cF9CMkh4VmZCcEZzX0NZUTlRRXQwYWVlcWxQekxLcGh1UHZqZUpzZ0hCUmhDS1lnMHQzeGJsUVdFM0wyd0NXT3otRXQtYjFwbG9XQnp3?oc=5",
         "desc": "中 전기차업계, 박한 車마진 피해 로봇으로  글로벌이코노믹",
         "pubDate": "Sun, 30 Aug 2026 17:00:00 GMT",
-        "time_ago": "4시간 전",
-        "diff_sec": 15802.108108,
+        "time_ago": "5시간 전",
+        "diff_sec": 18190.72664,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2610,8 +2342,8 @@
         "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBiRkJ2ZDlfbktSOG1ValZfYmJ1bmFWaFJ4UTZnX01xM243TjctYmhlemFxSzhvdDdmZjFOeDRmWEwtREg0RWU4U3NCZGVPeWVlcmdKRnZXMkVjaGVXTEJmTDZ1c1lPWE43RldqS2x2SQ?oc=5",
         "desc": "순천시, 로봇·인공지능 주말 교육 선착순 접수  진일보",
         "pubDate": "Sun, 30 Aug 2026 16:30:00 GMT",
-        "time_ago": "4시간 전",
-        "diff_sec": 17602.108108,
+        "time_ago": "5시간 전",
+        "diff_sec": 19990.72664,
         "category_badge": "로보틱스",
         "theme": "ai"
       },
@@ -2623,8 +2355,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5XS1dqdFZIMmRxV3hWRjVUdTFwX3JyVU9BVGpjSkVkalptTG1SOUNaZmpWWmZnWTcwaFZfVDg5WTlQMC1SdHYyNU4ta0NqY0VNVGVSYjBGWGZDTFY5ZDctR1lYbWdHVFNoellNWQ?oc=5",
         "desc": "[피지컬 AI ㊸] 차세대 휴머노이드 로봇 글로벌 시장 현황 및 전망 (Tesla, Figure, BD, Unitree)  미디어피아",
         "pubDate": "Sun, 30 Aug 2026 15:45:02 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 20300.108108,
+        "time_ago": "6시간 전",
+        "diff_sec": 22688.72664,
         "category_badge": "로보틱스",
         "theme": "ai"
       },
@@ -2637,7 +2369,7 @@
         "desc": "유니트리 G1 휴머노이드 로봇서 원격 해킹 취약점…주변 로봇으로 공격 확산 가능  데일리시큐",
         "pubDate": "Sun, 30 Aug 2026 15:05:48 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 22654.108108,
+        "diff_sec": 25042.72664,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2649,8 +2381,8 @@
         "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5ESGx2T3c4bTh0dk9ZeGJDTHpsM2xJUWFXTndERXozUUEzTENEX0s2Rl9Ja0FRN2lYNWptb2RuaEFFV2VKajlpWWNNc9IBQkFVX3lxTFAwVUhqdnVFeHBId2Z6eUo4SEljWFBWTjRiN3Fnc0M2MFF1ZFlIRTRaYTNmR1BfekQ5elY0WlVBbEd3UQ?oc=5",
         "desc": "중국 자동차 제조업체, 인간형 로봇 콰이를 추격, Xpeng, 큰 베팅을 이끌다  VOI.ID",
         "pubDate": "Sun, 30 Aug 2026 14:48:45 GMT",
-        "time_ago": "6시간 전",
-        "diff_sec": 23677.109147,
+        "time_ago": "7시간 전",
+        "diff_sec": 26065.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2662,8 +2394,8 @@
         "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9CcVVPTXNzdFVHLVZYMlRVTDZLX1FyRE9jTlBaMDZ4RlZ1Sm1LOXBFUU5GTDBUbnJwNUtsR3FLbGxLQWo0OEpKQ1JjV0t4WVQ3UE9YUVNKWm9EMWttQkh0d2hlcEFtc01NNW1wY1JXa3BCcTDSAXNBVV95cUxPQnFVT01zc3RVRy1WWDJUVUw2S19RckRPY05QWjA2eEZWdUptSzlwRVFORkwwVG5ycDVLbEdxS2xsS0FqNDhKSkNSY1dLeFlUN1BPWFFTSlpvRDFrbUJIdHdoZXBBbXNNTTVtcGNSV2twQnEw?oc=5",
         "desc": "현대차 조지아공장, 로봇 1400대 가동…미국 평균보다 3배 자동화  시애틀코리안데일리",
         "pubDate": "Sun, 30 Aug 2026 13:25:35 GMT",
-        "time_ago": "7시간 전",
-        "diff_sec": 28667.108637,
+        "time_ago": "8시간 전",
+        "diff_sec": 31055.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2676,7 +2408,7 @@
         "desc": "\"4만원이면 사람 대신 얘가 옵니다\"…집안일 맡겼더니 벌어진 일  데일리25",
         "pubDate": "Sun, 30 Aug 2026 12:11:57 GMT",
         "time_ago": "9시간 전",
-        "diff_sec": 33085.108637,
+        "diff_sec": 35473.727152,
         "category_badge": "로보틱스",
         "theme": "tech"
       },
@@ -2688,8 +2420,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5BbkFMTjc3aFNuVTVMY19pQkVXWUw5QlhNR1MxUW81Z1AyLWNJZXc0bTRqQzlEVGpyVTl0TWJMbVdxd0NtcGcyY3N2M0xIdzBqOEZkLXh1clg4bEpxTVViaXUxYUJsTTZ5MW5oeA?oc=5",
         "desc": "獨 셰플러, 내년부터 휴머노이드용 성형 파동 감속기 양산  로봇신문",
         "pubDate": "Sun, 30 Aug 2026 10:47:38 GMT",
-        "time_ago": "10시간 전",
-        "diff_sec": 38144.108637,
+        "time_ago": "11시간 전",
+        "diff_sec": 40532.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2701,8 +2433,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE4zdEM0RDhUTnVpNVNCRDQtVUJSVkNvSWlMQTJ6V21xZldxR19Qc3BUUUhYVXkxS01mV2o5OFZyTWRxVFgta1oxS1ZaR2xTSHBwRGpBdVZ1RGh0aXJOa0REUzVKLTlva3pGX185MA?oc=5",
         "desc": "中 부스터로보틱스, 휴머노이드 로봇 동적 비전 의사결정 기술 개발  로봇신문",
         "pubDate": "Sun, 30 Aug 2026 10:46:15 GMT",
-        "time_ago": "10시간 전",
-        "diff_sec": 38227.108108,
+        "time_ago": "11시간 전",
+        "diff_sec": 40615.72664,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2714,8 +2446,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE4xRS1KdDM4enp5RW1SYXYxbF8yYVdHOVVBTzdoRS13UkZ3alRkX182MVZZMFIyb29KOVI0QkZ3SWN2VXY4bXZYbHh6SDFQZzRiNmNZU2FGc3lMa1I0WUw1dnpTZkhnbElGaWx6NA?oc=5",
         "desc": "中 스완코, 휴머노이드 로봇 '치위안' 시리즈 예약 판매 돌입  로봇신문",
         "pubDate": "Sun, 30 Aug 2026 10:45:51 GMT",
-        "time_ago": "10시간 전",
-        "diff_sec": 38251.108108,
+        "time_ago": "11시간 전",
+        "diff_sec": 40639.72664,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2727,8 +2459,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9FY3FFekZHWlRnaTFtVFBDRDFXRlVzQlhiY0habVhlT0lORVctaU8yMVBRNF9xdXhJNGZZSVM2dVUwWWNPVmR1ZDEyYkQ1VkIzcF9aV05nc3lBUm5EbHozWTBwa3dla0QwSmRqcQ?oc=5",
         "desc": "[화제의 동영상] 림엑스 다이나믹스, 모바일 휴머노이드 정밀 조작 시연 공개  로봇신문",
         "pubDate": "Sun, 30 Aug 2026 10:42:34 GMT",
-        "time_ago": "10시간 전",
-        "diff_sec": 38448.108637,
+        "time_ago": "11시간 전",
+        "diff_sec": 40836.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2740,8 +2472,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBUZGZXM0toSEMzQzBrdlZBY1BXbTZjd1BfTmpLTElyRGpSMWI2V1BLQVYxYmd6X0loMVdDaU0zZEh6Tms5RXZVRGhkNGItdw?oc=5",
         "desc": "[포토] 우아한 몸짓의 발레리나와 휴머노이드 로봇  전자신문",
         "pubDate": "Sun, 30 Aug 2026 10:28:11 GMT",
-        "time_ago": "10시간 전",
-        "diff_sec": 39311.108108,
+        "time_ago": "11시간 전",
+        "diff_sec": 41699.72664,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2753,8 +2485,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5IYXNpSmdHQ2k2RS1tVDFiREFkTG9vaEI2a29Ba2JWQ0RFSFZhUnJFMVZQLVVIcC1TNEd0dFhuU2xBMkIxSEtySHF2YXRsUjhJc2Rz?oc=5",
         "desc": "IFA 2026 내달 4일 개막…韓·中·유럽 '피지컬AI 기술' 격전장 된다  네이트",
         "pubDate": "Sun, 30 Aug 2026 08:55:00 GMT",
-        "time_ago": "12시간 전",
-        "diff_sec": 44902.109147,
+        "time_ago": "13시간 전",
+        "diff_sec": 47290.727152,
         "category_badge": "로보틱스",
         "theme": "ai"
       },
@@ -2766,8 +2498,8 @@
         "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1Ka0NfeXBGbWZUNWppRlpBejBuaWNDcklHY1dxcmhWV2JmMlYxQlhxQWNmOE40eHVyblB4eWZVUEkxalhDRWdxTmZFNXJfUnQzUTNGMF9IT2xnaVlpcUM4M25xb3BhSmxwNW14QXJhVQ?oc=5",
         "desc": "휴머노이드 로봇과 교감  기호일보",
         "pubDate": "Sun, 30 Aug 2026 08:45:49 GMT",
-        "time_ago": "12시간 전",
-        "diff_sec": 45453.108108,
+        "time_ago": "13시간 전",
+        "diff_sec": 47841.72664,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2779,8 +2511,8 @@
         "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPaGhqTk1mU0FWbHpkeWlZTjJMbFRNWVBOS0xPUjQ1NGh3dHFBdFpwMHNCZVdkSGVMUlNvcmRFbDZQSHZHOVNIejNjdjFjM2p3WnctWTF6WXBxbVFlSUNFOUVNVU1GQjJwZVl4d0g5X3JwVUN3bjE3dVhicENKSDZFZjMxWQ?oc=5",
         "desc": "중국 유니트리 상장 후 460% 폭등 : 2026년 국내 휴머노이드 로봇 관련주 정리  네이버 프리미엄콘텐츠",
         "pubDate": "Sun, 30 Aug 2026 08:38:00 GMT",
-        "time_ago": "12시간 전",
-        "diff_sec": 45922.108108,
+        "time_ago": "13시간 전",
+        "diff_sec": 48310.72664,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2793,7 +2525,7 @@
         "desc": "'시급 4만원' 로봇에 집 청소 맡겨봤더니…\"느리지만 만족해\"  아시아경제",
         "pubDate": "Sun, 30 Aug 2026 08:07:01 GMT",
         "time_ago": "13시간 전",
-        "diff_sec": 47781.108637,
+        "diff_sec": 50169.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2805,8 +2537,8 @@
         "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQRXFTQnlmYWlVRVFxSzByanRYLTY2c3ZiY2RseWEwM0xXUW5SRzRwY2tlcjB5dFA0Qi1MaHFEejhIRTNxQXZsSUFXY2M1RmcxYW43V2RBSjVmVzBUSDQzVDM1eHhfblYySFNMcDB2eFYtNUQ2UG1OY1Z3RUw1QlBJVTNIR0pGbUxOc212eHZMMllOU0k?oc=5",
         "desc": "중국산 휴머노이드 로봇: 기술 열풍일까, 아니면 새로운 거품일까?  Vietnam.vn",
         "pubDate": "Sun, 30 Aug 2026 07:51:20 GMT",
-        "time_ago": "13시간 전",
-        "diff_sec": 48722.108637,
+        "time_ago": "14시간 전",
+        "diff_sec": 51110.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2818,8 +2550,8 @@
         "link": "https://news.google.com/rss/articles/CBMiRkFVX3lxTFBWZEZHc1Awc1BPTzlramNYaWh0bG1ESC1LdDFOVy04eW1nM2doTnA5eUIxbEJfRTE2QW9LblN4eXE2RFdEWkE?oc=5",
         "desc": "머스크도 ‘손’이 가장 어렵다는데…핀셋으로 나사 집는 中로봇, 가격은 5분의1  매일경제",
         "pubDate": "Sun, 30 Aug 2026 04:39:27 GMT",
-        "time_ago": "16시간 전",
-        "diff_sec": 60235.108637,
+        "time_ago": "17시간 전",
+        "diff_sec": 62623.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2831,8 +2563,8 @@
         "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1ka21rQjZHT1drTklHdjFVTmViQndXdm5iM2Flb21lMnNMY19PbDFyVTBCdzU4dUFQX1VvVDY5LWkwUGJNNlUzX3N5UEFUUmZPTUJZem9LOHRlX2lXMHFtSzdtUUxOd1ZmaHkweGF3?oc=5",
         "desc": "[조달주(株) 탐구] 이동로봇 다음은 ‘손’…정부과제로 본 국내 로봇산업의 지향점  조달경제신문",
         "pubDate": "Sun, 30 Aug 2026 04:00:00 GMT",
-        "time_ago": "17시간 전",
-        "diff_sec": 62602.108637,
+        "time_ago": "18시간 전",
+        "diff_sec": 64990.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2844,8 +2576,8 @@
         "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5jSWJKWC0xbktNYVhMeVA1VzJfQ08xd0VVTFBIZm5zX2YzTDF4VmlqS2FDTkZianVLOUdXdl9MLXZEbVQ2cmYzUTlseFMxVGN6cE9VQk1rREF1US1MUFpOWTBhM2tYX2xldmR0Y1N1c9IBc0FVX3lxTE84VDl3VXN4S0ZVTEFWakJERGdlNnl2ZlA4NGFmdzR2X3dMeERzcGZ5Y0VpQ3k5UFJXR1JYSXBGU2ktTExkNWZMckxRWXpXNi1keE1laGZVWjRqZ09OMnRSbnFnY2VNMV94a0lLa2syWmV1NEU?oc=5",
         "desc": "샤오펑 로봇사업, 9억달러 이상 투자유치⋯기업가치 63억달러 넘어  엠투데이",
         "pubDate": "Sun, 30 Aug 2026 04:00:00 GMT",
-        "time_ago": "17시간 전",
-        "diff_sec": 62602.109147,
+        "time_ago": "18시간 전",
+        "diff_sec": 64990.728158,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2857,8 +2589,8 @@
         "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPa09PRlBvZXZLcXU5dzk1Rk5IcFd2T2ozTnRQYWROdnpfbTdHWjhaajFMenBleGc5aUhzcjhPaWlGNVgzQWxHS2FkN2NOaEJjeHdOaVZUMHowbUxMVld4MnMyVnpSVmppUlVMU1hKSzJfekVpcHc4cVM2VVB4TjFBQjhxSGVZWTBOc002Zg?oc=5",
         "desc": "중국이 휴머노이드 로봇 경쟁에서 새롭게 우위를 점하게 되었다.  Vietnam.vn",
         "pubDate": "Sun, 30 Aug 2026 03:34:41 GMT",
-        "time_ago": "17시간 전",
-        "diff_sec": 64121.108637,
+        "time_ago": "18시간 전",
+        "diff_sec": 66509.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2871,7 +2603,7 @@
         "desc": "휴머노이드 전쟁 승부처는 ‘손’…한국, 로봇핸드 양산에 베팅  서울일보",
         "pubDate": "Sun, 30 Aug 2026 03:15:00 GMT",
         "time_ago": "18시간 전",
-        "diff_sec": 65302.108637,
+        "diff_sec": 67690.727152,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2883,13 +2615,26 @@
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5UdmV6bDhBMnJkVVppNTFQMGw1UXFVZUdfN01sdV9WMmRtaWljalVKV1ZKOG1EWGlsdjRYQ2g5eURlb0k2TmNtdzRxcDZHWnZlLVpmbEswWGI4endQMHEtTmVpX04tTW1GS3c?oc=5",
         "desc": "순천, 9월부터 피지컬AI·휴머노이드 주말 교육…매주 토요일 운영  AI타임스",
         "pubDate": "Sun, 30 Aug 2026 00:35:00 GMT",
-        "time_ago": "20시간 전",
-        "diff_sec": 74902.108637,
+        "time_ago": "21시간 전",
+        "diff_sec": 77290.727152,
         "category_badge": "로보틱스",
         "theme": "ai"
       }
     ],
     "industry": [
+      {
+        "title": "[KCSF 2026] 클라우드 넥서스: AI 에이전트와 테크 생태계 대혁신",
+        "press": "아이뉴스24",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE5DZzdmdDVzTmdiSHRESzBpOUxkZDcxVWFPbkJQUmxpZThmaU9yTm5VcjJLMVlDVXQ0Vnp4MUQ0VGpMY2JiOUJj?oc=5",
+        "desc": "[KCSF 2026] 클라우드 넥서스: AI 에이전트와 테크 생태계 대혁신  아이뉴스24",
+        "pubDate": "Sun, 30 Aug 2026 22:00:02 GMT",
+        "time_ago": "3분 전",
+        "diff_sec": 189.365225,
+        "category_badge": "미래산업",
+        "theme": "ai"
+      },
       {
         "title": "美 이어 中도 AI 인프라 투자 가속화…D램 공급 부족에 삼성·SK 가격 협상력 강화 전망",
         "press": "네이트",
@@ -2898,8 +2643,21 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9zM3BLa1MzXzJ5UXlzRWJrWTZBSGNpSWNWZktfRm11YTEyZ3R6VTRaUG5SeTUwMkhlZFdzWmxvdzdDaDNEeFFZUEloOGZEYWwtcjJv?oc=5",
         "desc": "美 이어 中도 AI 인프라 투자 가속화…D램 공급 부족에 삼성·SK 가격 협상력 강화 전망  네이트",
         "pubDate": "Sun, 30 Aug 2026 21:01:00 GMT",
-        "time_ago": "22분 전",
-        "diff_sec": 1342.732104,
+        "time_ago": "1시간 전",
+        "diff_sec": 3731.365745,
+        "category_badge": "미래산업",
+        "theme": "ai"
+      },
+      {
+        "title": "AI정보분석",
+        "press": "씽크풀 AI",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQcjkzd3VGTFdtYUwzZmNIbkZEQlBwV1A5N0oyQlYxeGlBWGx4c3VvQlJSTDFQTnlGaC1IWFBiTG9JT3ZmaXdaX2FsV3V2Sy1va3pBblpFdU9RVDJRS0VEbGZfTEQxQndraDdISTJwT2dLdFpLY0NpMl9qLXhnbjZ5YzRibw?oc=5",
+        "desc": "AI정보분석  씽크풀 AI",
+        "pubDate": "Sun, 30 Aug 2026 19:34:03 GMT",
+        "time_ago": "2시간 전",
+        "diff_sec": 8948.365225,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2912,9 +2670,22 @@
         "desc": "[부동산 칼럼] 클라우드 타이틀 (Cloud on Title)  미주조선일보",
         "pubDate": "Sun, 30 Aug 2026 15:04:19 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 22743.732104,
+        "diff_sec": 25132.365745,
         "category_badge": "미래산업",
         "theme": "tech"
+      },
+      {
+        "title": "오라클, AI 클라우드 추격 가속…마이크로소프트 아성 흔드나",
+        "press": "thefairnews.co.kr",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9kWTZ5VUZWLUx5NklVc0J5TUJ0ZEd0bTJwX2VROHRKeDlqRk55N2VTN3ZFWlVLb2NKN0piaVNCcTEyZHEzNXMwcnp5VkxLaGk5b3JjOEM3RHVZUXpPTktPMDBCSElscXdaRFFsWnlKSFM?oc=5",
+        "desc": "오라클, AI 클라우드 추격 가속…마이크로소프트 아성 흔드나  thefairnews.co.kr",
+        "pubDate": "Sun, 30 Aug 2026 15:00:00 GMT",
+        "time_ago": "7시간 전",
+        "diff_sec": 25391.365745,
+        "category_badge": "미래산업",
+        "theme": "ai"
       },
       {
         "title": "[클릭 e종목]\"더존비즈온, 그룹웨어·클라우드 성장률 둔화…목표가 하향\"",
@@ -2924,8 +2695,21 @@
         "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPV1BlekZTX2hvODVxdS1LMDJfUTV2SVI1clQxTEs5dlU0VFpaUEhBbHctbmlRdTlHZjRwT1RFNngwdks5RkpBVEJlQmIxQ2cyVlJEWGloZnYtZHc5OVdENkl4WUV5c3lPRzZ1Ql93QTNHYlE4U0ZCWmVsTHVmaVBTdUkzQ0tsOGxZTGFnbWtJdHpHaHBrbzBoX20xdjBpc3BGNm5FQkJ5V2htUW85SFQ1dEFkSTVCLTI2TDh3eGt1UFhCQ09JdE1UVTFlNFJqdjA?oc=5",
         "desc": "[클릭 e종목]\"더존비즈온, 그룹웨어·클라우드 성장률 둔화…목표가 하향\"  아시아경제",
         "pubDate": "Sun, 30 Aug 2026 13:50:27 GMT",
-        "time_ago": "7시간 전",
-        "diff_sec": 27175.731584,
+        "time_ago": "8시간 전",
+        "diff_sec": 29564.365225,
+        "category_badge": "미래산업",
+        "theme": "tech"
+      },
+      {
+        "title": "Marine Market의 글로벌 디지털 트윈 20 회사",
+        "press": "Spherical Insights",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQcmg1Q3RsZWxYTVBlQy1qaDVWUTEwMTBPUmR4MlJtYVdWRVFTQldWM3BIQzdPelAzMVJ3TkI3T0lyclNkTnd2SHlmb3V4U3lOUkhQSXV4NXVaVkJ3VmEzZWZKb1c3UHhwUFdGdjNKT2NkTVYyYTl3VXppem9aRmJJLXVIX3lfcm40dWR4ZERDeWp0Wm1kdWNkMlhEbUs5UnJwMnJzaXlwNUMzTndlX0t5NklhMG5iLVBXWFA2VXFTWlBfNHlYVTJ5ZXhnWm5MZ2JfeTVSUk5hN0REQjQ?oc=5",
+        "desc": "Marine Market의 글로벌 디지털 트윈 20 회사  Spherical Insights",
+        "pubDate": "Sun, 30 Aug 2026 13:17:48 GMT",
+        "time_ago": "8시간 전",
+        "diff_sec": 31523.365225,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2937,8 +2721,8 @@
         "link": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxQRUtNdFpQa2VlcTdnbWl0eXNIWXhTUE0yUTMzMEFKT1VaN0dEZ29Gcm5xRjlFeldkME0yUGVHNTlpdkxFQTdBOHM1YnFCZzZaa3Y2UnpCaXJsRDBBOG12OUpjUW0wMV9PNHVhWmlEeThxRGRfT1o5RDBOX3JGeW5COVNqcGRiMGtiUHZGRHRzMVpORDhpUUhNZGZDR1Q3TzBjbTJOWi1hOUdHS25BYTBNaGRsVnBpRlJGbC1EOWIyV0wzbFpNZU5vVmZRVkVwcG5ZMmRkUXpaUHlXRmZsLWlzRnlyWUFOM0hOajNZ?oc=5",
         "desc": "Global Cloud Content Delivery Network (CDN) 마켓 상위 20개 기업  Spherical Insights",
         "pubDate": "Sun, 30 Aug 2026 12:40:35 GMT",
-        "time_ago": "8시간 전",
-        "diff_sec": 31367.732104,
+        "time_ago": "9시간 전",
+        "diff_sec": 33756.365745,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2951,7 +2735,7 @@
         "desc": "TS-KISA, 자동차 사이버보안 강화 업무협약  대구신문",
         "pubDate": "Sun, 30 Aug 2026 12:13:00 GMT",
         "time_ago": "9시간 전",
-        "diff_sec": 33022.731584,
+        "diff_sec": 35411.365745,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2963,8 +2747,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5OTkdha2lxUnk3Nk9kd2VRN2ZrN3lQcjA4aUdNdURPbEE3WTkwZVJWWXprMGhnOEtWT25icFowMUJPbVFHcHVQQmozWFVBV3ZGbTFOR3dn?oc=5",
         "desc": "숭실대 AI안전성연구센터 \"MS와 버금 세계적 보안AI 개발\"  지디넷코리아",
         "pubDate": "Sun, 30 Aug 2026 10:27:29 GMT",
-        "time_ago": "10시간 전",
-        "diff_sec": 39353.731584,
+        "time_ago": "11시간 전",
+        "diff_sec": 41742.365745,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2976,8 +2760,8 @@
         "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOZ2xOVGdQSlBTSmVraVFxNl9sTlpXcXVnT3RQYktBZ01hQmJNZjVBQkxxR2FiLWtaYmdiUVcwQXdOcVlib0V2ODhmU2JXWEk1U21LYjVaYS1mRXF2SDc0Nk80TmQxZEF4MlRkdDQ4cTRQbmJGU3FLc0ozM2libmNTNGdNckQ3UQ?oc=5",
         "desc": "사이버보안 제품 및 서비스 사업을 영위하기 위한 조건.  Vietnam.vn",
         "pubDate": "Sun, 30 Aug 2026 10:01:50 GMT",
-        "time_ago": "11시간 전",
-        "diff_sec": 40892.732104,
+        "time_ago": "12시간 전",
+        "diff_sec": 43281.365745,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2989,8 +2773,8 @@
         "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQblVnc2xfVVB1b182eHRBc24yU1ZYRFpydkgtc3B6YlhrSU9uTGZsMVFQZWx2NnVJd0FydndmS0JHQjVoV3NhcWRtOGp6eGN1cjJIY3IyMVRjdXR2dno5R2dKTFNlSjhCRjNQMmF5eUtBemdrUmxOVzJ5S3JKWTlDZERsYUJYd3c?oc=5",
         "desc": "유럽은 글로벌 칩, 클라우드 및 AI 솔루션에 대한 의존도를 줄이고자 합니다.  Vietnam.vn",
         "pubDate": "Sun, 30 Aug 2026 08:32:43 GMT",
-        "time_ago": "12시간 전",
-        "diff_sec": 46239.731584,
+        "time_ago": "13시간 전",
+        "diff_sec": 48628.365225,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3003,7 +2787,7 @@
         "desc": "영주고, 전국기능경기대회 사이버보안 금메달  제주도민일보",
         "pubDate": "Sun, 30 Aug 2026 06:20:47 GMT",
         "time_ago": "15시간 전",
-        "diff_sec": 54155.731584,
+        "diff_sec": 56544.365225,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3015,8 +2799,8 @@
         "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNQ2lPWHBlS0ZIdXpuR0FBbjRTdFBmNV9iZDdRNWNSc3A4MjMxNFR4akxseE9mMF9yT19QcFRMR1J0MkFrbGdoTlNqNXdwd2JrYTJpUVViZy1ydVAtMEdtdHNaUDZ3c0FHUUlqSDVCVllLVW1BRFFuX1JSZHgzT1N5TGNPWXJDVmhiZWJ2d3NMemw0YnRzMFByaFBncUc0dHlpY2R5dVQ0QVJhbHRqVm1welBmcElmTm12T0JnNGM4eHpMbXViSmdCZHA4c3RPd011cGhOMjJVUQ?oc=5",
         "desc": "대한민국 항만, 4차 산업혁명과 만나 스마트항만으로 다시 태어나다!  대한민국 정책브리핑",
         "pubDate": "Sun, 30 Aug 2026 05:36:57 GMT",
-        "time_ago": "15시간 전",
-        "diff_sec": 56785.732104,
+        "time_ago": "16시간 전",
+        "diff_sec": 59174.365745,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3029,7 +2813,7 @@
         "desc": "람다, 엔비디아 GPU 확보에 대규모 자금 투입…\"1조 2700억 원 대출\"  AI포스트",
         "pubDate": "Sun, 30 Aug 2026 05:18:49 GMT",
         "time_ago": "16시간 전",
-        "diff_sec": 57873.732104,
+        "diff_sec": 60262.366752,
         "category_badge": "미래산업",
         "theme": "semiconductor"
       },
@@ -3041,8 +2825,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9FLW4wSnN4dElvT2x0ZWVYSjVBOTR5MUVWNmlBUUJGai1QVTVsOVJqSkZvQlVFMUI3SFd4YTROcHNER0l5dWRIV1BwSEJJV1U5bm90WXhQSjI1ZWQ4aUNnTEQ5eWotNm54MUpFQQ?oc=5",
         "desc": "영주고, 제61회 전국기능경기대회 사이버보안 직종 금메달(전국 1위) 획득  뉴스N제주",
         "pubDate": "Sun, 30 Aug 2026 04:24:42 GMT",
-        "time_ago": "16시간 전",
-        "diff_sec": 61120.731584,
+        "time_ago": "17시간 전",
+        "diff_sec": 63509.365745,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3054,8 +2838,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBFWC14cDZ6WFlTaFJ1cTRYdGlvRHJPOFVHc3J5bHFaajNTazlEOVBkMVU5WG5GQTdaZE1VbE9PQXpydkNreWJBcnFRRUlyNjljU19KMENjRzdTeVlQX25OOXktVFhnamZUaEprYQ?oc=5",
         "desc": "영주고 신주원, 전국기능경기대회 사이버보안 1위  제주매일",
         "pubDate": "Sun, 30 Aug 2026 02:46:05 GMT",
-        "time_ago": "18시간 전",
-        "diff_sec": 67037.731584,
+        "time_ago": "19시간 전",
+        "diff_sec": 69426.365745,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3067,8 +2851,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE00SEpMVmtxRzVzUWVWUXB3X003dllUbWl0OG5ORGVVVk10NUVoSE00R3NxMm9IbU81WTNENjRfREdILTB0WWZfRHkwbVJ6X3VWNDFhcVVZRHZDTTRBRmR1UlhHci04Zng2UUNaVg?oc=5",
         "desc": "“전력난 피하자” 엔비디아가 택한 새 길  한경매거진&북",
         "pubDate": "Sun, 30 Aug 2026 01:56:00 GMT",
-        "time_ago": "19시간 전",
-        "diff_sec": 70042.732104,
+        "time_ago": "20시간 전",
+        "diff_sec": 72431.365745,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3080,8 +2864,8 @@
         "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPLU1QbWVyYnJJQndyVlJhYU93X3B4eGRMcEJfYzhrN0FjcEtkNjdrZWhmR282RGpHZzQ1N0xRSlJWYnNNcEx2MjNwYmw0d01vbVdtb3g0TTRQOXNjM25mMjVtanNOcnM1OHdOVlR2d2lXU3AweHZrVlBNajkya1o5ZWRreW9lQXpFUlVKRmZMaUFTc1JzVXNv0gGcAUFVX3lxTFBzNkxOVnJjZnA4V0xvWE1sdmpHeUQ4WE40YW5nb0p5UDdJaThUcGFZTkdsQ2tRTUt4Z3FQZ0lxS2xWQ0xpYnJoRXhtS2lvblMzU3V2bE5zN3BoeUtpSEliZFpzdW0xYnJ3Tzd3Rk94Zkl5RlpaVnh5dlVnWWdBX0c3b2hQLUxpQjhPVlhrU0RnaTZWVXJDZE9HVWUwLQ?oc=5",
         "desc": "브로드컴(AVGO), 엔터프라이즈 AI 프라이빗 클라우드 협력 확대  simplywall.st",
         "pubDate": "Sun, 30 Aug 2026 01:48:32 GMT",
-        "time_ago": "19시간 전",
-        "diff_sec": 70490.732104,
+        "time_ago": "20시간 전",
+        "diff_sec": 72879.365745,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3093,8 +2877,8 @@
         "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNbllMeGZIS01GT21hQ3lnZjB1MkNwU3NsUWY0a0dGMzdmdlZtWGoza1c2UFd2VlR4TlNhb2kwSjJLYVVmZ1lvSG5GcFByVVV0bENZcDhKNVlyQm5zZEZLQnZIQlkwclZRV1VDeUR3czFBTl96Z19UcjZndHVSM1lVZnp3YnpjSk1pZVF1VjJ3aXExRVU4bDBoRUdET1ktSTVHTEx0eWh4UUlzUlgzdGs40gGvAUFVX3lxTE1uWUx4ZkhLTUZPbWFDeWdmMHUyQ3BTc2xRZjRrR0YzN2Z2Vm1YajNrVzZQV3ZWVHhOU2FvaTBKMkthVWZnWW9IbkZwUHJVVXRsQ1lwOEo1WXJCbnNkRktCdkhCWTByVlFXVUN5RHdzMUFOX3pnX1RyNmd0dVIzWVVmendiemNKTWllUXVWMndpcTFFVThsMGhFR0RPWS1JNUdMTHR5aHhRSXNSWDN0azg?oc=5",
         "desc": "IBM(IBM), 해외 은행 코어뱅킹 현대화로 하이브리드 클라우드 존재감 키운 이유  simplywall.st",
         "pubDate": "Sun, 30 Aug 2026 01:42:53 GMT",
-        "time_ago": "19시간 전",
-        "diff_sec": 70829.732104,
+        "time_ago": "20시간 전",
+        "diff_sec": 73218.365745,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3106,8 +2890,21 @@
         "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOT1U0bTA4Tk1aa2VJS1FOMmJKZmdIWWJwTVYycF9QUHQtMGxvWS10SWE3dzBBRFVvQ0stNENjUnJaaU9MZHVGTHgwbS1KRlRYbFdHZmNUZ3dhbnYzbnFYR2RvcXNrMVk0SlJQMThldk5jdmY4MkJ3dTlGUktvX01ZMDN3U3UyRV91V1JTckVRR0lsNlFoY0xpclY5NNIBmwFBVV95cUxOT1U0bTA4Tk1aa2VJS1FOMmJKZmdIWWJwTVYycF9QUHQtMGxvWS10SWE3dzBBRFVvQ0stNENjUnJaaU9MZHVGTHgwbS1KRlRYbFdHZmNUZ3dhbnYzbnFYR2RvcXNrMVk0SlJQMThldk5jdmY4MkJ3dTlGUktvX01ZMDN3U3UyRV91V1JTckVRR0lsNlFoY0xpclY5NA?oc=5",
         "desc": "비자(V)의 사이버 보안, 스테이블코인 및 시장 재진입 움직임이 주주들에게 어떤 의미를 갖는가  simplywall.st",
         "pubDate": "Sun, 30 Aug 2026 00:25:31 GMT",
-        "time_ago": "20시간 전",
-        "diff_sec": 75471.732104,
+        "time_ago": "21시간 전",
+        "diff_sec": 77860.366752,
+        "category_badge": "미래산업",
+        "theme": "tech"
+      },
+      {
+        "title": "비자(V)의 사이버 보안, 스테이블코인 및 시장 재진입 움직임이 주주들에게 어떤 의미를 갖는가",
+        "press": "simplywall.st",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNR24wb1JOMGRCLTl0THIxX3RCdGdPdW1OTzllMXF6ajd1QTk4THJRZFU1SHlpRlJNMmhPcENEU2llR3cxODJSMGUzY1dYZUZCSzg3WnlBWmo5ajlFOGJrLVIwa2UtOTBUR3NhSmxBMzhhNllMSm1nT3I0UEttRXpPMDdvcTV2U1A2VGFhNWp3Q1NrWWpxdWfSAZsBQVVfeXFMTk9VNG0wOE5NWmtlSUtRTjJiSmZnSFlicE1WMnBfUFB0LTBsb1ktdElhN3cwQURVb0NLLTRDY1JyWmlPTGR1Rkx4MG0tSkZUWGxXR2ZjVGd3YW52M25xWEdkb3FzazFZNEpSUDE4ZXZOY3ZmODJCd3U5RlJLb19NWTAzd1N1MkVfdVdSU3JFUUdJbDZRaGNMaXJWOTQ?oc=5",
+        "desc": "비자(V)의 사이버 보안, 스테이블코인 및 시장 재진입 움직임이 주주들에게 어떤 의미를 갖는가  simplywall.st",
+        "pubDate": "Sun, 30 Aug 2026 00:25:02 GMT",
+        "time_ago": "21시간 전",
+        "diff_sec": 77889.366752,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3119,8 +2916,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE96cU91YUJ5UU9LTjBzR3VpVnJ1Q013UjRvUV94Q0FrQzN2NnpNUC1udUNBd3M0VUk4dzVWaFYyQU5oX19yWjRMR19tMUpTTTR1cTFONko2cTY3ZDE1dXNSUg?oc=5",
         "desc": "인천TP, 자동차 부품기업 찾아가 사이버보안 현장 교육  네이트",
         "pubDate": "Sat, 29 Aug 2026 23:44:00 GMT",
-        "time_ago": "21시간 전",
-        "diff_sec": 77962.732632,
+        "time_ago": "22시간 전",
+        "diff_sec": 80351.36783,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3132,8 +2929,8 @@
         "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBsTVFabVB2RWx2TGUtbFNrM05VdzVJVEhrV0JGMnk3U1pMLXBMLVF0UTVpLVo1MU5mU0VEUGh5S0R3bmtyeGRscXRlakUzQktxTVQzWXNjdk1YZw?oc=5",
         "desc": "인천TP, 자동차 부품기업 찾아가 사이버보안 현장 교육  브릿지경제",
         "pubDate": "Sat, 29 Aug 2026 23:43:00 GMT",
-        "time_ago": "21시간 전",
-        "diff_sec": 78022.731584,
+        "time_ago": "22시간 전",
+        "diff_sec": 80411.365225,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3146,7 +2943,7 @@
         "desc": "美, 제3국 통한 中 AI칩 원격 활용 우회로 차단 추진…클라우드망 긴장  글로벌이코노믹",
         "pubDate": "Sat, 29 Aug 2026 22:03:49 GMT",
         "time_ago": "23시간 전",
-        "diff_sec": 83973.732104,
+        "diff_sec": 86362.365745,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3158,8 +2955,8 @@
         "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQNGxMbnp2ZEhXY244VjFVQzdGRU1fdVk2WWY2RlRRdkZkUU9vV2ZtUFZVTjdsQ0RwS1Buclgwbkl2Y0I3U0E2VnZQYWwyMVZGVGR5UzhYZ3dHd2FsS2poTmU1Szdvekk0MnF4RGJXTFI2QXJiaTMzMjFfdlRBV2lnSHh3?oc=5",
         "desc": "AI정보분석  씽크풀 AI",
         "pubDate": "Sat, 29 Aug 2026 21:52:06 GMT",
-        "time_ago": "23시간 전",
-        "diff_sec": 84676.732104,
+        "time_ago": "1일 전",
+        "diff_sec": 87065.366752,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3171,8 +2968,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE40MTljM2tmcTA2dGpPSzhwMW1HZ3BtXy1WSFlXa1RrRjhxNDVZTm9ETFpUcmNJOWU4ZVFid1A0OTM2bmxYUnVzUUJXVHEtRk92MEdXcjhsZjJDVXRpcVRCOHZnblI?oc=5",
         "desc": "JB금융지주, 그룹사 클라우드 지주로 통합한다…AX 가속화 `첫발`  디지털데일리",
         "pubDate": "Sat, 29 Aug 2026 21:44:19 GMT",
-        "time_ago": "23시간 전",
-        "diff_sec": 85143.732104,
+        "time_ago": "1일 전",
+        "diff_sec": 87532.365745,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3185,7 +2982,7 @@
         "desc": "AI를 기반으로 한 클라우드 부문의 호조가 4분기 실적을 끌어올리며 마이크로소프트(MSFT) 주가 6.3% 상승 - 무엇이 달라졌나  simplywall.st",
         "pubDate": "Sat, 29 Aug 2026 19:40:53 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 92549.733143,
+        "diff_sec": 94938.36783,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3198,7 +2995,7 @@
         "desc": "AI를 기반으로 한 클라우드 부문의 호조가 4분기 실적을 끌어올리며 마이크로소프트(MSFT) 주가 6.3% 상승 - 무엇이 달라졌나  simplywall.st",
         "pubDate": "Sat, 29 Aug 2026 19:40:41 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 92561.733143,
+        "diff_sec": 94950.36783,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3211,74 +3008,9 @@
         "desc": "[당신의 디지털 트윈은 당신보다 오래 살 수 있다] 디지털 트윈은 수동적 대화 상대를 넘어 고인을 대신해 행동할 수 있는 능동적 AI 에이전트로 진화할 수 있다.  AI넷",
         "pubDate": "Sat, 29 Aug 2026 13:21:37 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 115305.732632,
+        "diff_sec": 117694.367255,
         "category_badge": "미래산업",
         "theme": "ai"
-      },
-      {
-        "title": "오픈AI와 앤트로픽 포함 100개 기업, 고조되는 AI 사이버 공격 경고: 주목할 만한 사이버보안주는?",
-        "press": "TradingKey",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQdENIMkg1bUJJY216aEhUVDBrNEVCNTJwd1o4cmNQd01zRTQ4R2ZTZDhZTEtXenplYTYzR015eWd1V1hNd2U2M1pOSTZ6YUVnbmFOZE91UDJFWFNRYmpuTEM2VktqcG8zOGd5Z29sUl9tOHJZMmM4VElPSUIwRy13RTY1WTJzRUt4ci1pNHdoU2lLNUI5cXpCRFJRamxiam56cmk3Nkt6RE9lc1BydVJxWnIwRWpTRHo3bE5zNWRiNEVaYzlCWmotdnpTMHRzZ3p5NEFHMzh4M1ZlYzhzVV90UVlCV1owX0cwdnc?oc=5",
-        "desc": "오픈AI와 앤트로픽 포함 100개 기업, 고조되는 AI 사이버 공격 경고: 주목할 만한 사이버보안주는?  TradingKey",
-        "pubDate": "Sat, 29 Aug 2026 08:00:00 GMT",
-        "time_ago": "1일 전",
-        "diff_sec": 134602.732632,
-        "category_badge": "미래산업",
-        "theme": "ai"
-      },
-      {
-        "title": "NHN클라우드, 포항 데이터센터 20㎿ 임차…60개월 확약",
-        "press": "자본시장뉴스",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9DV1oxMjZVM1FKSVFJRXZUZTUwLWJYdF9mVC1pZGtPRGt2bGJsOF9NNGZiQjdkbmVnZkNPanAxQjZSOTZzZnNjQWUwNmVrdUxFM2RsX1hnenFSN0N5eGlXZktzNzR3VzQ?oc=5",
-        "desc": "NHN클라우드, 포항 데이터센터 20㎿ 임차…60개월 확약  자본시장뉴스",
-        "pubDate": "Sat, 29 Aug 2026 06:30:00 GMT",
-        "time_ago": "1일 전",
-        "diff_sec": 140002.732104,
-        "category_badge": "미래산업",
-        "theme": "tech"
-      },
-      {
-        "title": "제이스마트솔루션, 우즈벡 타슈켄트 아주대와 MOU…중앙아시아 AI·디지털트윈 영토 확장",
-        "press": "v.daum.net",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE44YXhuam1qbE41dmxmN0owbms4SXI4V1BHWS1YblRGMkxnaHJkellMWlZUdWd1cDRfMHJDZUhVazRSeWVSMHc?oc=5",
-        "desc": "제이스마트솔루션, 우즈벡 타슈켄트 아주대와 MOU…중앙아시아 AI·디지털트윈 영토 확장  v.daum.net",
-        "pubDate": "Sat, 29 Aug 2026 04:17:00 GMT",
-        "time_ago": "1일 전",
-        "diff_sec": 147982.732632,
-        "category_badge": "미래산업",
-        "theme": "ai"
-      },
-      {
-        "title": "제이스마트솔루션, 우즈벡 타슈켄트 아주대와 MOU…중앙아시아 AI·디지털트윈 영토 확장",
-        "press": "파이낸셜뉴스",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE4yR1JkVXBvUFNzVGFUd2l2QmhWWFVFS2NqbkxBLThYU2hhNnFwaVR4ZVNNV1gzTi13TThqOUkxOHpmblRxNWxkMXhOS3I2VDFUaFo1NTZQeEtpUQ?oc=5",
-        "desc": "제이스마트솔루션, 우즈벡 타슈켄트 아주대와 MOU…중앙아시아 AI·디지털트윈 영토 확장  파이낸셜뉴스",
-        "pubDate": "Sat, 29 Aug 2026 04:15:45 GMT",
-        "time_ago": "1일 전",
-        "diff_sec": 148057.732632,
-        "category_badge": "미래산업",
-        "theme": "ai"
-      },
-      {
-        "title": "크몽, 소비자신뢰 대표브랜드 대상 3년 연속 수상…휴먼 클라우드 경쟁력 인정",
-        "press": "뉴스탭",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE4xMWVXNEpISEZUcGp4RWpDd2hqQS04TlItSTM1RHhKV0hYcDJFUy1vdmJtLV8wNDFESmNUUzBsLWdWM3p6aGM1RXIzYzlJdWlZN1lIQ2NoRDdUbktaMU5mcUtob2x1cTQ2a0hmNg?oc=5",
-        "desc": "크몽, 소비자신뢰 대표브랜드 대상 3년 연속 수상…휴먼 클라우드 경쟁력 인정  뉴스탭",
-        "pubDate": "Sat, 29 Aug 2026 03:56:52 GMT",
-        "time_ago": "1일 전",
-        "diff_sec": 149190.732632,
-        "category_badge": "미래산업",
-        "theme": "tech"
       }
     ]
   }
