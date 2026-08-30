@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+cloudflared.exe
+*.log
+.chroma/
+chroma_db/
+env/
+venv/

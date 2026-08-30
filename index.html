@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXT PULSE | 4차 산업 브리핑 & 라이브 포털</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        },
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        * {
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.4);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.7);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid rgba(51, 65, 85, 0.8);
+        }
+        .live-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.15); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 min-h-screen flex flex-col">
+
+    <!-- 상단 고정 네비게이션 헤더 -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 gap-4">
+                
+                <!-- 로고 및 서비스 타이틀 -->
+                <div class="flex items-center gap-3 shrink-0">
+                    <a href="/portal" class="flex items-center gap-2 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="font-black text-xl tracking-tight bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">NEXT PULSE</span>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300">4th Industry</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:block">AI · 컴퓨팅 · 신산업 실시간 인텔리전스</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 중앙 검색창 (Google 검색 스타일) -->
+                <div class="flex-1 max-w-xl mx-auto">
+                    <form id="searchForm" class="relative" onsubmit="handleSearch(event)">
+                        <div class="relative flex items-center">
+                            <span class="absolute left-3.5 text-slate-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                            </span>
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                placeholder="4차 산업, 생성형 AI, 양자컴퓨터, 로봇, 반도체 키워드 검색..." 
+                                class="w-full pl-10 pr-24 py-2 text-sm bg-slate-100 dark:bg-slate-800/80 border border-transparent dark:border-slate-700 rounded-full focus:bg-white dark:focus:bg-slate-900 focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none transition"
+                            />
+                            <div class="absolute right-2 flex items-center gap-1">
+                                <button type="submit" class="p-1.5 text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-full px-3 transition shadow-sm">
+                                    검색
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 우측 메뉴: 날짜/시간, 챗봇 이동, 다크모드 -->
+                <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                    <div class="hidden lg:flex flex-col text-right">
+                        <span id="currentTime" class="text-xs font-semibold text-slate-700 dark:text-slate-200 font-mono">00:00</span>
+                        <span id="currentDate" class="text-[10px] text-slate-400">2026. 08. 31</span>
+                    </div>
+
+                    <!-- AI 챗봇 바로가기 링크 -->
+                    <a href="/chatbot.html" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 border border-indigo-200 dark:border-indigo-800 rounded-lg transition" title="J.A.R.V.I.S AI 챗봇 비서 열기">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                        </svg>
+                        <span class="hidden sm:inline">AI 비서실</span>
+                    </a>
+
+                    <!-- 테마 전환 버튼 -->
+                    <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="다크 모드 전환">
+                        <svg id="sunIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        <svg id="moonIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 space-y-6">
+
+        <!-- ⚽ 상단 섹션 1: 축구 경기 일정 캐러셀 (맨체스터 유나이티드 전용) -->
+        <section>
+            <div class="flex items-center justify-between mb-2.5">
+                <div class="flex items-center gap-2">
+                    <img src="https://a.espncdn.com/i/teamlogos/soccer/500/360.png" alt="Man United" class="w-5 h-5 object-contain"/>
+                    <h2 class="text-sm font-bold tracking-tight text-slate-800 dark:text-slate-200">맨체스터 유나이티드(Manchester United) 경기 일정 & 결과</h2>
+                    <span class="text-[10px] font-semibold text-rose-500 bg-rose-50 dark:bg-rose-950/80 px-2 py-0.5 rounded-full border border-rose-200 dark:border-rose-800/60">맨유 전용</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <button onclick="scrollSoccer(-300)" class="p-1 rounded-full bg-slate-200/80 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition text-xs">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button onclick="scrollSoccer(300)" class="p-1 rounded-full bg-slate-200/80 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition text-xs">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 축구 카드 가로 스크롤 컨테이너 -->
+            <div id="soccerCarousel" class="flex gap-3 overflow-x-auto pb-2 scroll-smooth hide-scrollbar">
+                <!-- 로딩 스켈레톤 -->
+                <div class="shrink-0 w-60 h-24 bg-slate-200 dark:bg-slate-800 rounded-2xl animate-pulse"></div>
+                <div class="shrink-0 w-60 h-24 bg-slate-200 dark:bg-slate-800 rounded-2xl animate-pulse"></div>
+                <div class="shrink-0 w-60 h-24 bg-slate-200 dark:bg-slate-800 rounded-2xl animate-pulse"></div>
+                <div class="shrink-0 w-60 h-24 bg-slate-200 dark:bg-slate-800 rounded-2xl animate-pulse"></div>
+            </div>
+        </section>
+
+        <!-- 🌤️ 상단 섹션 2: 날씨 기상 예보 & 미세먼지 위젯 바 -->
+        <section class="glass-card rounded-2xl p-4 sm:p-5 shadow-sm">
+            <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+                
+                <!-- 좌측: 지역 선택 및 현재 날씨 메인 정보 -->
+                <div class="flex items-center gap-4 flex-wrap sm:flex-nowrap">
+                    <!-- 지역 셀렉트 -->
+                    <div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800/90 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <select id="citySelect" onchange="changeCity(this.value)" class="bg-transparent text-xs font-bold text-slate-800 dark:text-slate-100 outline-none cursor-pointer">
+                            <option value="서울" selected>서울 (수도권)</option>
+                            <option value="경기(수원)">수원 (경기)</option>
+                            <option value="인천">인천</option>
+                            <option value="부산">부산</option>
+                            <option value="대구">대구</option>
+                            <option value="대전">대전</option>
+                            <option value="광주">광주</option>
+                            <option value="울산">울산</option>
+                            <option value="강원(춘천)">춘천 (강원)</option>
+                            <option value="제주">제주</option>
+                        </select>
+                    </div>
+
+                    <!-- 현재 날씨 아이콘 및 기온 -->
+                    <div class="flex items-center gap-3">
+                        <span id="weatherIcon" class="text-3xl sm:text-4xl">☀️</span>
+                        <div>
+                            <div class="flex items-baseline gap-1.5">
+                                <span id="currentTemp" class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">--°</span>
+                                <span id="weatherDesc" class="text-xs font-semibold text-slate-600 dark:text-slate-300">맑음</span>
+                            </div>
+                            <div class="text-[11px] text-slate-400">
+                                체감 <span id="feelsLike" class="font-medium text-slate-600 dark:text-slate-300">--°</span> · 
+                                최고 <span id="tempMax" class="text-rose-500 font-medium">--°</span> / 
+                                최저 <span id="tempMin" class="text-blue-500 font-medium">--°</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 실시간 미세먼지 / 초미세먼지 상태 배지 -->
+                    <div class="flex items-center gap-2 pl-0 sm:pl-4 sm:border-l border-slate-200 dark:border-slate-800">
+                        <!-- 미세먼지 PM10 -->
+                        <div class="flex flex-col items-start bg-slate-50 dark:bg-slate-800/50 px-2.5 py-1.5 rounded-lg border border-slate-200/80 dark:border-slate-700/80">
+                            <div class="text-[10px] text-slate-400 font-medium">미세먼지 (PM10)</div>
+                            <div class="flex items-center gap-1 mt-0.5">
+                                <span id="pm10Badge" class="text-xs font-bold px-1.5 py-0.2 rounded text-white bg-blue-500">좋음</span>
+                                <span id="pm10Val" class="text-xs font-mono font-semibold text-slate-700 dark:text-slate-200">18.2 µg</span>
+                            </div>
+                        </div>
+
+                        <!-- 초미세먼지 PM2.5 -->
+                        <div class="flex flex-col items-start bg-slate-50 dark:bg-slate-800/50 px-2.5 py-1.5 rounded-lg border border-slate-200/80 dark:border-slate-700/80">
+                            <div class="text-[10px] text-slate-400 font-medium">초미세먼지 (PM2.5)</div>
+                            <div class="flex items-center gap-1 mt-0.5">
+                                <span id="pm25Badge" class="text-xs font-bold px-1.5 py-0.2 rounded text-white bg-emerald-500">좋음</span>
+                                <span id="pm25Val" class="text-xs font-mono font-semibold text-slate-700 dark:text-slate-200">11.4 µg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 우측: 향후 시간별 예보 가로 미니 띠 -->
+                <div class="flex-1 max-w-full lg:max-w-md overflow-x-auto hide-scrollbar pt-1 lg:pt-0">
+                    <div id="hourlyForecast" class="flex items-center gap-3 text-center">
+                        <!-- 시간별 예보 동적 삽입 -->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 🚀 메인 섹션 3: 4차 산업 뉴스 피드 (AI, 컴퓨터, 반도체, 미래산업) -->
+        <section class="space-y-4">
+            
+            <!-- 뉴스 카테고리 필터 탭 & 툴바 -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
+                
+                <!-- 카테고리 탭 버튼들 -->
+                <div class="flex items-center gap-1.5 overflow-x-auto hide-scrollbar">
+                    <button onclick="setNewsCategory('all')" id="cat-all" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition bg-indigo-600 text-white shadow-sm shadow-indigo-500/20">
+                        ✨ 전체 최신
+                    </button>
+                    <button onclick="setNewsCategory('ai')" id="cat-ai" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium transition text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800">
+                        🤖 AI · 생성형AI
+                    </button>
+                    <button onclick="setNewsCategory('semiconductor')" id="cat-semiconductor" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium transition text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800">
+                        💻 반도체 · 컴퓨터
+                    </button>
+                    <button onclick="setNewsCategory('robotics')" id="cat-robotics" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium transition text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800">
+                        🦾 로봇 · 모빌리티
+                    </button>
+                    <button onclick="setNewsCategory('industry')" id="cat-industry" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium transition text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800">
+                        🏭 미래 혁신 산업
+                    </button>
+                </div>
+
+                <!-- 상태 표시 및 새로고침 버튼 -->
+                <div class="flex items-center justify-between sm:justify-end gap-2 text-xs text-slate-500">
+                    <span id="newsStatusBadge" class="inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                        안전 공신력 언론 검증됨
+                    </span>
+                    <button onclick="refreshData(true)" id="refreshBtn" class="flex items-center gap-1 px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition text-xs font-medium">
+                        <svg id="refreshIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        <span>새로고침</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 핫 토픽 헤드라인 하이라이트 배너 (Hero Card) -->
+            <div id="heroNewsCard" class="hidden relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-900 via-slate-900 to-slate-900 text-white p-6 sm:p-8 shadow-md border border-indigo-500/20">
+                <div class="relative z-10 max-w-3xl space-y-2.5">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300 border border-indigo-400/30 text-xs font-bold">🔥 오늘의 핵심 4차산업 이슈</span>
+                        <span id="heroPress" class="text-xs text-slate-300 font-medium">연합뉴스</span>
+                        <span id="heroTime" class="text-xs text-slate-400">10분 전</span>
+                    </div>
+                    <h3 id="heroTitle" class="text-xl sm:text-2xl font-bold tracking-tight leading-snug cursor-pointer hover:text-indigo-300 transition">
+                        로딩 중...
+                    </h3>
+                    <p id="heroDesc" class="text-sm text-slate-300 line-clamp-2 leading-relaxed">
+                        로딩 중입니다...
+                    </p>
+                    <div class="pt-2 flex items-center gap-3">
+                        <a id="heroLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-md shadow-indigo-600/30">
+                            기사 원문 읽기
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </a>
+                        <button id="heroSummaryBtn" onclick="openSummaryModal(currentHeroItem)" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-medium transition backdrop-blur-sm">
+                            ✨ AI 3줄 요약
+                        </button>
+                    </div>
+                </div>
+                <!-- 배경 그라데이션 장식 -->
+                <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            </div>
+
+            <!-- 뉴스 카드 그리드 컨테이너 -->
+            <div id="newsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                <!-- 스켈레톤 로딩 카드 -->
+                <div class="glass-card rounded-2xl p-5 space-y-3 animate-pulse">
+                    <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
+                    <div class="h-5 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
+                    <div class="h-12 bg-slate-200 dark:bg-slate-800 rounded"></div>
+                </div>
+                <div class="glass-card rounded-2xl p-5 space-y-3 animate-pulse">
+                    <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
+                    <div class="h-5 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
+                    <div class="h-12 bg-slate-200 dark:bg-slate-800 rounded"></div>
+                </div>
+                <div class="glass-card rounded-2xl p-5 space-y-3 animate-pulse">
+                    <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
+                    <div class="h-5 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
+                    <div class="h-12 bg-slate-200 dark:bg-slate-800 rounded"></div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- 모달: AI 핵심 요약 및 기사 정보 다이얼로그 -->
+    <div id="summaryModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-200">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 transform scale-95 transition-transform duration-200" id="modalCard">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-sm">AI</span>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">기사 핵심 인텔리전스</h3>
+                        <span id="modalPress" class="text-[11px] text-slate-400">출처: 공신력 언론사</span>
+                    </div>
+                </div>
+                <button onclick="closeSummaryModal()" class="p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <h4 id="modalTitle" class="text-base font-bold text-slate-900 dark:text-white mb-3 leading-snug">기사 제목</h4>
+            
+            <div class="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-4 border border-slate-100 dark:border-slate-700/80 mb-5 space-y-2.5">
+                <div class="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    핵심 요약 포인트
+                </div>
+                <div id="modalSummaryPoints" class="text-xs text-slate-700 dark:text-slate-300 space-y-1.5 leading-relaxed">
+                    <!-- 포인트 1, 2, 3 -->
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-3">
+                <span id="modalTime" class="text-[11px] text-slate-400">발행 시간</span>
+                <div class="flex items-center gap-2">
+                    <button onclick="closeSummaryModal()" class="px-3.5 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition">
+                        닫기
+                    </button>
+                    <a id="modalSourceLink" href="#" target="_blank" class="px-4 py-1.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition shadow-sm">
+                        안전 원문 보기 →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 하단 푸터 -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 py-6 text-center text-xs text-slate-400 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 space-y-1.5">
+            <p class="font-medium text-slate-600 dark:text-slate-300">NEXT PULSE 4차 산업 브리핑 센터</p>
+            <p>신뢰할 수 있는 공신력 있는 언론사의 AI, 반도체, 컴퓨터, 산업 뉴스를 엄선하여 실시간으로 제공합니다.</p>
+            <div class="flex justify-center items-center gap-4 pt-1 text-[11px]">
+                <a href="/chatbot.html" class="hover:text-indigo-500 underline underline-offset-2">AI 게임 비서(J.A.R.V.I.S)</a>
+                <span>·</span>
+                <a href="/admin.html" class="hover:text-indigo-500 underline underline-offset-2">서버 관리자 대시보드</a>
+                <span>·</span>
+                <span class="text-slate-500 font-mono">Status: Online</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 자바스크립트 비즈니스 로직 -->
+    <script>
+        // 전역 상태 관리
+        let currentCity = "서울";
+        let currentCategory = "all";
+        let currentSearchQuery = "";
+        let newsDataCache = [];
+        let currentHeroItem = null;
+
+        // 테마 관리 (다크모드 / 라이트모드)
+        function initTheme() {
+            const isDark = localStorage.getItem('portal_theme') === 'dark' || 
+                (!localStorage.getItem('portal_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('moonIcon').classList.add('hidden');
+                document.getElementById('sunIcon').classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('sunIcon').classList.add('hidden');
+                document.getElementById('moonIcon').classList.remove('hidden');
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('portal_theme', isDark ? 'dark' : 'light');
+            if (isDark) {
+                document.getElementById('moonIcon').classList.add('hidden');
+                document.getElementById('sunIcon').classList.remove('hidden');
+            } else {
+                document.getElementById('sunIcon').classList.add('hidden');
+                document.getElementById('moonIcon').classList.remove('hidden');
+            }
+        }
+
+        // 실시간 시계 업데이트
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeEl = document.getElementById('currentTime');
+            if (timeEl) timeEl.textContent = `${hours}:${minutes}:${seconds}`;
+
+            const days = ['일', '월', '화', '수', '목', '금', '토'];
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const date = String(now.getDate()).padStart(2, '0');
+            const day = days[now.getDay()];
+            const dateEl = document.getElementById('currentDate');
+            if (dateEl) dateEl.textContent = `${year}. ${month}. ${date} (${day})`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ⚽ 축구 일정 가로 스크롤 제어
+        function scrollSoccer(offset) {
+            const container = document.getElementById('soccerCarousel');
+            if (container) {
+                container.scrollBy({ left: offset, behavior: 'smooth' });
+            }
+        }
+
+        // ⚽ 축구 카드 렌더링 (사진과 동일한 AVL 대 ARS, BAR 대 RAY 스타일)
+        function renderSoccer(matches) {
+            const container = document.getElementById('soccerCarousel');
+            if (!container) return;
+
+            if (!matches || matches.length === 0) {
+                container.innerHTML = `
+                    <div class="px-4 py-3 bg-slate-100 dark:bg-slate-800/60 rounded-xl text-xs text-slate-500 dark:text-slate-400">
+                        현재 예정된 주요 경기 일정이 없습니다.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = matches.map(m => {
+                const isLive = m.is_live;
+                const isFinished = m.is_finished;
+                
+                // 팀 약어 및 로고 매핑
+                const home = m.home || {};
+                const away = m.away || {};
+                const homeName = home.name || '홈';
+                const awayName = away.name || '원정';
+                const homeAbbr = home.abbr || (homeName.slice(0, 3).toUpperCase());
+                const awayAbbr = away.abbr || (awayName.slice(0, 3).toUpperCase());
+
+                // 상단 라벨 (예: AVL 대 ARS)
+                const matchHeader = `${homeAbbr} 대 ${awayAbbr}`;
+
+                // 상태 텍스트 (예: 내일 오전 4:00 또는 LIVE 2 - 1 또는 FT)
+                let statusText = m.time_kst || '경기 예정';
+                let scoreDisplay = '';
+
+                if (isLive) {
+                    statusText = `<span class="text-rose-500 font-bold flex items-center justify-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-rose-500 live-pulse"></span>LIVE</span>`;
+                    scoreDisplay = `<span class="text-sm font-black text-rose-500">${home.score || 0} - ${away.score || 0}</span>`;
+                } else if (isFinished) {
+                    statusText = `<span class="text-slate-400 font-medium">종료</span>`;
+                    scoreDisplay = `<span class="text-sm font-bold text-slate-700 dark:text-slate-300">${home.score || 0} : ${away.score || 0}</span>`;
+                }
+
+                return `
+                    <div class="shrink-0 w-60 sm:w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500/50 rounded-2xl p-3.5 shadow-sm transition hover:shadow-md flex flex-col justify-between cursor-pointer group">
+                        
+                        <!-- 카드 상단: 경기 이름 (AVL 대 ARS) & 리그 뱃지 -->
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-indigo-500 transition">
+                                ${matchHeader}
+                            </span>
+                            <span class="text-[10px] px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-medium">
+                                ${m.league_short || m.league}
+                            </span>
+                        </div>
+
+                        <!-- 카드 중단: 팀 로고 1 - 시간/스코어 - 팀 로고 2 -->
+                        <div class="flex items-center justify-between py-1">
+                            <!-- 홈 팀 -->
+                            <div class="flex flex-col items-center w-14 text-center">
+                                <img src="${home.logo}" alt="${homeName}" class="w-8 h-8 object-contain drop-shadow-sm mb-1" onerror="this.src='https://cdn-icons-png.flaticon.com/512/53/53283.png'"/>
+                                <span class="text-[11px] font-medium text-slate-700 dark:text-slate-300 truncate w-full" title="${homeName}">${homeName}</span>
+                            </div>
+
+                            <!-- 경기 시간 또는 스코어 -->
+                            <div class="flex flex-col items-center justify-center flex-1 px-1 text-center">
+                                ${scoreDisplay}
+                                <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5 leading-tight">
+                                    ${statusText}
+                                </span>
+                            </div>
+
+                            <!-- 원정 팀 -->
+                            <div class="flex flex-col items-center w-14 text-center">
+                                <img src="${away.logo}" alt="${awayName}" class="w-8 h-8 object-contain drop-shadow-sm mb-1" onerror="this.src='https://cdn-icons-png.flaticon.com/512/53/53283.png'"/>
+                                <span class="text-[11px] font-medium text-slate-700 dark:text-slate-300 truncate w-full" title="${awayName}">${awayName}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 🌤️ 날씨 & 미세먼지 렌더링
+        function renderWeather(w) {
+            if (!w || !w.current) return;
+
+            const cur = w.current;
+            const air = w.air || {};
+
+            // 메인 날씨
+            document.getElementById('weatherIcon').textContent = cur.weather_icon || '☀️';
+            document.getElementById('currentTemp').textContent = `${cur.temp}°`;
+            document.getElementById('weatherDesc').textContent = cur.weather_desc || '맑음';
+            document.getElementById('feelsLike').textContent = `${cur.feels_like}°`;
+            document.getElementById('tempMax').textContent = `${cur.temp_max}°`;
+            document.getElementById('tempMin').textContent = `${cur.temp_min}°`;
+
+            // 미세먼지 PM10
+            const pm10 = air.pm10 || {};
+            const pm10Badge = document.getElementById('pm10Badge');
+            pm10Badge.textContent = pm10.label || '보통';
+            pm10Badge.style.backgroundColor = pm10.color || '#10b981';
+            document.getElementById('pm10Val').textContent = `${pm10.val} µg/m³`;
+
+            // 초미세먼지 PM2.5
+            const pm25 = air.pm25 || {};
+            const pm25Badge = document.getElementById('pm25Badge');
+            pm25Badge.textContent = pm25.label || '좋음';
+            pm25Badge.style.backgroundColor = pm25.color || '#3b82f6';
+            document.getElementById('pm25Val').textContent = `${pm25.val} µg/m³`;
+
+            // 시간별 예보
+            const hourlyContainer = document.getElementById('hourlyForecast');
+            if (hourlyContainer && w.hourly) {
+                hourlyContainer.innerHTML = w.hourly.map(h => `
+                    <div class="flex flex-col items-center shrink-0 w-12 py-1 px-1 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <span class="text-[10px] text-slate-400 font-medium">${h.time}</span>
+                        <span class="text-base my-0.5">${h.icon}</span>
+                        <span class="text-xs font-bold text-slate-800 dark:text-slate-200">${h.temp}°</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // 🚀 뉴스 카드 렌더링
+        function renderNews(newsList) {
+            const grid = document.getElementById('newsGrid');
+            const heroCard = document.getElementById('heroNewsCard');
+            if (!grid) return;
+
+            newsDataCache = newsList;
+
+            if (!newsList || newsList.length === 0) {
+                heroCard.classList.add('hidden');
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-slate-400">
+                        <svg class="w-10 h-10 mx-auto mb-2 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                        해당 카테고리의 최신 뉴스를 찾을 수 없습니다.
+                    </div>
+                `;
+                return;
+            }
+
+            // 1위 뉴스는 상단 Hero 배너로 하이라이트
+            const hero = newsList[0];
+            currentHeroItem = hero;
+            document.getElementById('heroPress').textContent = hero.press;
+            document.getElementById('heroTime').textContent = hero.time_ago;
+            document.getElementById('heroTitle').textContent = hero.title;
+            document.getElementById('heroTitle').onclick = () => openSummaryModal(hero);
+            document.getElementById('heroDesc').textContent = hero.desc || '클릭하여 상세 내용을 확인하세요.';
+            document.getElementById('heroLink').href = hero.link;
+            heroCard.classList.remove('hidden');
+
+            // 나머지 뉴스들은 그리드 카드 형태로 렌더링 (2번째 항목부터)
+            const remaining = newsList.slice(1);
+            grid.innerHTML = remaining.map((item, idx) => {
+                // 카테고리별 테마 비주얼 아이콘 및 색상
+                let themeIcon = '💡';
+                let themeBadgeColor = 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/80 border-indigo-200 dark:border-indigo-800';
+                
+                if (item.theme === 'ai') {
+                    themeIcon = '🤖';
+                    themeBadgeColor = 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/80 border-purple-200 dark:border-purple-800';
+                } else if (item.theme === 'semiconductor') {
+                    themeIcon = '💻';
+                    themeBadgeColor = 'text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/80 border-cyan-200 dark:border-cyan-800';
+                } else if (item.theme === 'robotics') {
+                    themeIcon = '🦾';
+                    themeBadgeColor = 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/80 border-emerald-200 dark:border-emerald-800';
+                }
+
+                return `
+                    <article class="glass-card rounded-2xl p-5 flex flex-col justify-between hover:shadow-lg hover:-translate-y-0.5 transition duration-200 group border border-slate-200/80 dark:border-slate-800">
+                        <div class="space-y-3">
+                            <!-- 카드 헤더: 카테고리 뱃지, 출처(언론사), 시간 -->
+                            <div class="flex items-center justify-between text-xs gap-2">
+                                <div class="flex items-center gap-1.5 truncate">
+                                    <span class="text-sm">${themeIcon}</span>
+                                    <span class="font-bold text-slate-800 dark:text-slate-200 truncate">${item.press}</span>
+                                    ${item.is_verified ? `
+                                        <span class="shrink-0 text-[10px] text-blue-600 dark:text-blue-400" title="공신력 인증 언론사">
+                                            <svg class="w-3.5 h-3.5 inline" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                        </span>
+                                    ` : ''}
+                                </div>
+                                <span class="text-[11px] text-slate-400 shrink-0">${item.time_ago}</span>
+                            </div>
+
+                            <!-- 뉴스 제목 -->
+                            <h3 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-snug line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition cursor-pointer" onclick="openSummaryModal(newsDataCache[${idx + 1}])">
+                                ${item.title}
+                            </h3>
+
+                            <!-- 뉴스 요약 설명 -->
+                            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                                ${item.desc || '클릭하여 세부 내용을 확인하세요.'}
+                            </p>
+                        </div>
+
+                        <!-- 카드 하단 푸터: 카테고리 태그 및 액션 버튼 -->
+                        <div class="pt-4 mt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-md border ${themeBadgeColor}">
+                                ${item.category_badge}
+                            </span>
+                            <div class="flex items-center gap-1">
+                                <button onclick="openSummaryModal(newsDataCache[${idx + 1}])" class="p-1.5 text-xs text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="AI 요약 보기">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </button>
+                                <a href="${item.link}" target="_blank" class="p-1.5 text-xs text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="원문 보기">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        // AI 3줄 요약 모달 열기
+        function openSummaryModal(item) {
+            if (!item) return;
+            document.getElementById('modalTitle').textContent = item.title;
+            document.getElementById('modalPress').textContent = `출처: ${item.press} · ${item.time_ago}`;
+            document.getElementById('modalTime').textContent = item.pubDate || '최신';
+            document.getElementById('modalSourceLink').href = item.link;
+
+            // 기사 내용 기반 지능형 3줄 요약 생성
+            const desc = item.desc || item.title;
+            const sentences = desc.split(/[.!?]\s+/).filter(s => s.trim().length > 5);
+            let point1 = sentences[0] || item.title;
+            let point2 = sentences[1] || '해당 분야의 최신 기술 트렌드 및 산업 생태계에 중요한 전환점을 제시합니다.';
+            let point3 = `안전하고 공신력 있는 ${item.press}을 통해 확인된 4차 산업 핵심 소식입니다.`;
+
+            document.getElementById('modalSummaryPoints').innerHTML = `
+                <div class="flex items-start gap-2">
+                    <span class="w-4 h-4 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-600 dark:text-indigo-300 flex items-center justify-center text-[10px] shrink-0 mt-0.5 font-bold">1</span>
+                    <p>${point1}</p>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="w-4 h-4 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-600 dark:text-indigo-300 flex items-center justify-center text-[10px] shrink-0 mt-0.5 font-bold">2</span>
+                    <p>${point2}</p>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="w-4 h-4 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-600 dark:text-indigo-300 flex items-center justify-center text-[10px] shrink-0 mt-0.5 font-bold">3</span>
+                    <p>${point3}</p>
+                </div>
+            `;
+
+            const modal = document.getElementById('summaryModal');
+            const card = document.getElementById('modalCard');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            card.classList.remove('scale-95');
+            card.classList.add('scale-100');
+        }
+
+        function closeSummaryModal() {
+            const modal = document.getElementById('summaryModal');
+            const card = document.getElementById('modalCard');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            card.classList.remove('scale-100');
+            card.classList.add('scale-95');
+        }
+
+        // 카테고리 전환
+        function setNewsCategory(cat) {
+            currentCategory = cat;
+            currentSearchQuery = "";
+            document.getElementById('searchInput').value = "";
+
+            // 탭 스타일 업데이트
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = 'cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium transition text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800';
+            });
+            const activeBtn = document.getElementById(`cat-${cat}`);
+            if (activeBtn) {
+                activeBtn.className = 'cat-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition bg-indigo-600 text-white shadow-sm shadow-indigo-500/20';
+            }
+
+            fetchNewsOnly(cat);
+        }
+
+        // 검색 처리
+        function handleSearch(e) {
+            e.preventDefault();
+            const q = document.getElementById('searchInput').value.trim();
+            if (!q) return;
+
+            currentSearchQuery = q;
+            // 탭 선택 해제
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = 'cat-btn px-3.5 py-1.5 rounded-full text-xs font-medium transition text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800';
+            });
+
+            fetchNewsOnly('all', q);
+        }
+
+        // 도시 변경
+        function changeCity(city) {
+            currentCity = city;
+            fetchWeatherOnly(city);
+        }
+
+        // 데이터 페칭: 종합 오버뷰 (로컬 서버 API 우선 -> 깃허브 페이지 정적 JSON -> 라이브 브라우저 API 순차 폴백)
+        let staticPortalData = null;
+
+        async function fetchOverview() {
+            // 1. 백엔드 서버(FastAPI)가 있는 경우 우선 시도
+            try {
+                const res = await fetch(`/api/portal/overview?city=${encodeURIComponent(currentCity)}&category=${currentCategory}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.soccer) renderSoccer(data.soccer);
+                    if (data.weather) renderWeather(data.weather);
+                    if (data.news) renderNews(data.news);
+                    return;
+                }
+            } catch (err) {
+                // 로컬 서버가 없는 깃허브 페이지 환경 진입
+            }
+
+            // 2. 깃허브 페이지 환경: data/portal_data.json 정적 캐시 로드
+            try {
+                if (!staticPortalData) {
+                    const resJson = await fetch('data/portal_data.json');
+                    if (resJson.ok) {
+                        staticPortalData = await resJson.json();
+                    }
+                }
+                if (staticPortalData) {
+                    if (staticPortalData.soccer) renderSoccer(staticPortalData.soccer);
+                    if (staticPortalData.weather && staticPortalData.weather[currentCity]) {
+                        renderWeather(staticPortalData.weather[currentCity]);
+                    } else if (staticPortalData.weather && staticPortalData.weather['서울']) {
+                        renderWeather(staticPortalData.weather['서울']);
+                    }
+                    if (staticPortalData.news && staticPortalData.news[currentCategory]) {
+                        renderNews(staticPortalData.news[currentCategory]);
+                    }
+                }
+            } catch (jsonErr) {
+                console.warn('portal_data.json fallback load failed:', jsonErr);
+            }
+
+            // 3. 실시간 날씨는 Open-Meteo 공개 CORS API로 브라우저가 직접 최신화
+            fetchWeatherDirect(currentCity);
+        }
+
+        async function fetchSoccerOnly() {
+            if (staticPortalData && staticPortalData.soccer) {
+                renderSoccer(staticPortalData.soccer);
+            }
+        }
+
+        async function fetchWeatherOnly(city) {
+            fetchWeatherDirect(city);
+        }
+
+        async function fetchWeatherDirect(city) {
+            // Open-Meteo는 브라우저 CORS를 기본 허용하므로 깃허브 서버에서도 즉시 동작
+            const cityCoords = {
+                "서울": [37.5665, 126.9780], "경기(수원)": [37.2636, 127.0286], "인천": [37.4563, 126.7052],
+                "부산": [35.1796, 129.0756], "대구": [35.8714, 128.6014], "대전": [36.3504, 127.3845],
+                "광주": [35.1595, 126.8526], "울산": [35.5384, 129.3114], "강원(춘천)": [37.8813, 127.7298],
+                "제주": [33.4996, 126.5312]
+            };
+            const coords = cityCoords[city] || cityCoords["서울"];
+            try {
+                const [wRes, aRes] = await Promise.all([
+                    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords[0]}&longitude=${coords[1]}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code&hourly=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FSeoul`),
+                    fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${coords[0]}&longitude=${coords[1]}&current=pm10,pm2_5&timezone=Asia%2FSeoul`)
+                ]);
+                if (wRes.ok && aRes.ok) {
+                    const wData = await wRes.json();
+                    const aData = await aRes.json();
+                    
+                    const curW = wData.current || {};
+                    const curA = aData.current || {};
+                    const daily = wData.daily || {};
+                    const hourly = wData.hourly || {};
+
+                    const wCodeMap = {
+                        0: ["맑음", "☀️"], 1: ["대체로 맑음", "🌤️"], 2: ["구름 조금", "⛅"], 3: ["흐림", "☁️"],
+                        45: ["안개", "🌫️"], 61: ["약한 비", "🌧️"], 63: ["비", "🌧️"], 71: ["눈", "🌨️"], 95: ["뇌우", "⚡"]
+                    };
+                    const code = curW.weather_code || 0;
+                    const meta = wCodeMap[code] || ["맑음", "☀️"];
+
+                    const pm10 = curA.pm10 || 20;
+                    const pm25 = curA.pm2_5 || 12;
+
+                    const weatherPayload = {
+                        city: city,
+                        current: {
+                            temp: Math.round(curW.temperature_2m || 22),
+                            feels_like: Math.round(curW.apparent_temperature || 23),
+                            weather_desc: meta[0],
+                            weather_icon: meta[1],
+                            temp_max: Math.round((daily.temperature_2m_max || [26])[0]),
+                            temp_min: Math.round((daily.temperature_2m_min || [18])[0]),
+                        },
+                        air: {
+                            pm10: { val: pm10, label: pm10 <= 30 ? "좋음" : (pm10 <= 80 ? "보통" : "나쁨"), color: pm10 <= 30 ? "#3b82f6" : (pm10 <= 80 ? "#10b981" : "#f59e0b") },
+                            pm25: { val: pm25, label: pm25 <= 15 ? "좋음" : (pm25 <= 35 ? "보통" : "나쁨"), color: pm25 <= 15 ? "#3b82f6" : (pm25 <= 35 ? "#10b981" : "#f59e0b") }
+                        },
+                        hourly: (hourly.time || []).slice(0, 10).map((t, idx) => ({
+                            time: t.split('T')[1].slice(0, 2) + '시',
+                            temp: Math.round(hourly.temperature_2m[idx]),
+                            icon: (wCodeMap[hourly.weather_code[idx]] || ["맑음", "☀️"])[1]
+                        }))
+                    };
+                    renderWeather(weatherPayload);
+                }
+            } catch (wErr) {
+                console.warn('Weather direct fetch error:', wErr);
+            }
+        }
+
+        async function fetchNewsOnly(category, query) {
+            if (staticPortalData && staticPortalData.news) {
+                if (query) {
+                    const qLower = query.toLowerCase();
+                    const allNews = staticPortalData.news['all'] || [];
+                    const filtered = allNews.filter(n => (n.title && n.title.toLowerCase().includes(qLower)) || (n.desc && n.desc.toLowerCase().includes(qLower)));
+                    renderNews(filtered.length > 0 ? filtered : allNews);
+                } else {
+                    renderNews(staticPortalData.news[category] || staticPortalData.news['all']);
+                }
+                return;
+            }
+
+            try {
+                let url = `/api/portal/news?category=${category}&limit=25`;
+                if (query) url += `&q=${encodeURIComponent(query)}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                renderNews(data);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function refreshData(isManual = false) {
+            const icon = document.getElementById('refreshIcon');
+            if (icon) icon.classList.add('animate-spin');
+
+            fetchOverview().finally(() => {
+                setTimeout(() => {
+                    if (icon) icon.classList.remove('animate-spin');
+                }, 500);
+            });
+        }
+
+        // 5분마다 자동 갱신
+        setInterval(() => {
+            refreshData(false);
+        }, 300000);
+
+        // 초기 구동
+        window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            fetchOverview();
+        });
+    </script>
+</body>
+</html>
