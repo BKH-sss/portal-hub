@@ -208,7 +208,16 @@
                             <option value="익산">익산 (전북)</option>
                             <option value="부산">부산 (영남)</option>
                         </select>
-                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-200 dark:border-emerald-800/60 hidden sm:inline-block">실시간 관측소 연동</span>
+                        <a href="https://www.weather.go.kr/w/weather/general/current-weather.do" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           title="클릭 시 대한민국 기상청(날씨누리) 공식 날씨 페이지로 이동"
+                           class="flex items-center gap-1 text-[9px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/80 hover:bg-emerald-100 dark:hover:bg-emerald-900/80 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-200 dark:border-emerald-800/60 transition shadow-sm cursor-pointer group">
+                            <span>실시간 관측소 연동</span>
+                            <svg class="w-2.5 h-2.5 group-hover:translate-x-0.5 transition text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                            </svg>
+                        </a>
                     </div>
 
                     <!-- 현재 날씨 아이콘 및 기온 -->
