@@ -50,6 +50,18 @@
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(99, 102, 241, 0.7);
         }
+        .dark {
+            color-scheme: dark;
+        }
+        /* 다크모드 드롭다운 옵션 가독성 보장 */
+        select option {
+            background-color: #ffffff;
+            color: #0f172a;
+        }
+        .dark select option {
+            background-color: #1e293b;
+            color: #f8fafc;
+        }
         .hide-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -202,11 +214,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                         </svg>
-                        <select id="citySelect" onchange="changeCity(this.value)" class="bg-transparent text-xs font-bold text-slate-800 dark:text-slate-100 outline-none cursor-pointer">
-                            <option value="서울" selected>서울 (수도권)</option>
-                            <option value="수원">수원 (경기)</option>
-                            <option value="익산">익산 (전북)</option>
-                            <option value="부산">부산 (영남)</option>
+                        <select id="citySelect" onchange="changeCity(this.value)" class="bg-transparent dark:bg-slate-800 text-xs font-bold text-slate-800 dark:text-slate-100 outline-none cursor-pointer">
+                            <option value="서울" class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100" selected>서울 (수도권)</option>
+                            <option value="수원" class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100">수원 (경기)</option>
+                            <option value="익산" class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100">익산 (전북)</option>
+                            <option value="부산" class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100">부산 (영남)</option>
                         </select>
                         <a id="naverWeatherLink" 
                            href="https://weather.naver.com/" 
