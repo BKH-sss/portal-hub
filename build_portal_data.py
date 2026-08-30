@@ -18,9 +18,9 @@ def build_data():
     soccer = news_service.get_soccer_matches()
     print(f" -> {len(soccer)}개 경기 수집 완료")
 
-    print("[2/3] 주요 도시 실시간 날씨 및 미세먼지 수집 중...")
+    print("[2/3] 4개 도시(서울, 수원, 익산, 부산) 실시간 날씨 및 미세먼지 수집 중...")
     weather = {}
-    for city in ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "제주"]:
+    for city in ["서울", "수원", "익산", "부산"]:
         weather[city] = news_service.get_weather_and_air(city)
     print(" -> 날씨 수집 완료")
 
