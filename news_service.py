@@ -78,7 +78,7 @@ TEAM_NAME_KR = {
     "Sevilla": "세비야", "Bayern Munich": "바이에른 뮌헨", "Borussia Dortmund": "도르트문트", "Bayer Leverkusen": "레버쿠젠",
     "RB Leipzig": "라이프치히", "Paris Saint-Germain": "PSG", "Inter Milan": "인테르", "AC Milan": "AC밀란",
     "Juventus": "유벤투스", "Napoli": "나폴리", "AS Roma": "AS로마", "Lazio": "라치오",
-    "Hull City": "헐 시티", "Leeds United": "리즈", "Leeds": "리즈",
+    "Hull City": "헐 시티", "Leeds United": "리즈", "Leeds": "리즈", "Burnley": "번리",
     "Ulsan HD FC": "울산 HD", "Jeonbuk Hyundai": "전북 현대", "FC Seoul": "FC 서울", "Pohang Steelers": "포항 스틸러스"
 }
 
@@ -277,23 +277,33 @@ def get_weather_and_air(city: str = "서울"):
 
 def get_soccer_matches():
     """
-    맨체스터 유나이티드(Manchester United) 전용 경기 일정 및 최근 경기 결과 수집
+    맨체스터 유나이티드(Manchester United) 전용: 과거 5경기 결과 + 다가오는 경기 일정 수집
     """
     global _CACHE
     now = time.time()
     if _CACHE["soccer"]["data"] and (now - _CACHE["soccer"]["timestamp"] < CACHE_TTL_SOCCER):
         return _CACHE["soccer"]["data"]
 
-    # 맨체스터 유나이티드 경기 일정 수집 (최근 전적 + 다가오는 경기)
+    headers = {"User-Agent": "Mozilla/5.0"}
+    raw_events = []
+
+    # 1. 2025 시즌 일정 (과거 경기 3개 확보용)
+    try:
+        url_2025 = "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/360/schedule?season=2025"
+        req_2025 = urllib.request.Request(url_2025, headers=headers)
+        with urllib.request.urlopen(req_2025, timeout=4) as resp:
+            data_2025 = json.loads(resp.read().decode("utf-8"))
+            for ev in data_2025.get("events", [])[-3:]:
+                raw_events.append(ev)
+    except Exception as e:
+        print(f"[MU 2025 Error] {e}")
+
+    # 2. 2026 시즌 날짜별 스코어보드 (최근 종료 2경기 + 다가오는 경기들)
     dates_to_check = [
-        "20260815", "20260822", "20260830", "20260906", "20260913", 
+        "20260822", "20260830", "20260906", "20260913", 
         "20260920", "20260927", "20261004", "20261018", "20261025"
     ]
 
-    matches = []
-    headers = {"User-Agent": "Mozilla/5.0"}
-
-    # 1. 프리미어리그 날짜별 스코어보드에서 맨체스터 유나이티드 경기 추출
     for d_str in dates_to_check:
         url = f"https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates={d_str}"
         try:
@@ -302,120 +312,140 @@ def get_soccer_matches():
                 payload = json.loads(resp.read().decode("utf-8"))
                 for ev in payload.get("events", []):
                     ev_name = ev.get("name", "").lower()
-                    if "manchester united" not in ev_name:
-                        continue
-
-                    comp = ev.get("competitions", [{}])[0]
-                    teams = comp.get("competitors", [])
-                    if len(teams) < 2:
-                        continue
-
-                    home_team = next((t for t in teams if t.get("homeAway") == "home"), teams[0])
-                    away_team = next((t for t in teams if t.get("homeAway") == "away"), teams[1])
-
-                    raw_date = ev.get("date", "")
-                    kst_time_str = ""
-                    relative_day = "일정"
-                    try:
-                        utc_dt = datetime.fromisoformat(raw_date.replace("Z", "+00:00"))
-                        kst_dt = utc_dt.astimezone(timezone(timedelta(hours=9)))
-                        now_kst = datetime.now(timezone(timedelta(hours=9)))
-                        
-                        diff_days = (kst_dt.date() - now_kst.date()).days
-                        if diff_days == 0:
-                            relative_day = "오늘"
-                        elif diff_days == 1:
-                            relative_day = "내일"
-                        elif diff_days == -1:
-                            relative_day = "어제"
-                        elif diff_days > 1:
-                            relative_day = f"{kst_dt.month}/{kst_dt.day}"
-                        else:
-                            relative_day = f"{kst_dt.month}/{kst_dt.day}"
-
-                        ampm = "오전" if kst_dt.hour < 12 else "오후"
-                        hour12 = kst_dt.hour % 12
-                        if hour12 == 0:
-                            hour12 = 12
-                        kst_time_str = f"{relative_day} {ampm} {hour12}:{kst_dt.minute:02d}"
-                    except Exception:
-                        kst_time_str = raw_date
-
-                    status_obj = comp.get("status", {}).get("type", {})
-                    state = status_obj.get("state", "pre")
-                    detail = status_obj.get("detail", "")
-                    
-                    status_kr = "경기전"
-                    is_live = False
-                    is_finished = False
-                    if state == "post":
-                        status_kr = "종료"
-                        is_finished = True
-                    elif state == "in":
-                        status_kr = "진행중"
-                        is_live = True
-                    else:
-                        status_kr = relative_day
-
-                    h_name_orig = home_team.get("team", {}).get("displayName", "")
-                    a_name_orig = away_team.get("team", {}).get("displayName", "")
-                    
-                    h_name_kr = translate_team_name(h_name_orig)
-                    a_name_kr = translate_team_name(a_name_orig)
-
-                    matches.append({
-                        "id": ev.get("id"),
-                        "league": "맨유 경기 일정",
-                        "league_short": "맨체스터 유나이티드",
-                        "league_code": "eng.1",
-                        "match_name": f"{h_name_kr} vs {a_name_kr}",
-                        "match_short": f"{home_team.get('team', {}).get('abbreviation', 'HOM')} vs {away_team.get('team', {}).get('abbreviation', 'AWY')}",
-                        "time_kst": kst_time_str,
-                        "raw_date": raw_date,
-                        "relative_day": relative_day,
-                        "state": state,
-                        "status_kr": status_kr,
-                        "is_live": is_live,
-                        "is_finished": is_finished,
-                        "home": {
-                            "name": h_name_kr,
-                            "name_en": h_name_orig,
-                            "abbr": home_team.get("team", {}).get("abbreviation", ""),
-                            "logo": home_team.get("team", {}).get("logo") or "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
-                            "score": home_team.get("score", "")
-                        },
-                        "away": {
-                            "name": a_name_kr,
-                            "name_en": a_name_orig,
-                            "abbr": away_team.get("team", {}).get("abbreviation", ""),
-                            "logo": away_team.get("team", {}).get("logo") or "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
-                            "score": away_team.get("score", "")
-                        }
-                    })
+                    if "manchester united" in ev_name:
+                        raw_events.append(ev)
         except Exception:
             continue
 
-    # 중복 제거
-    seen = set()
-    unique_matches = []
-    for m in matches:
-        if m["id"] not in seen:
-            seen.add(m["id"])
-            unique_matches.append(m)
+    processed_matches = []
+    seen_ids = set()
 
-    # 정렬: 라이브 -> 다가오는 경기 (오름차순) -> 최근 종료 경기
-    def sort_key(item):
-        if item["is_live"]:
-            return (0, item.get("raw_date", ""))
-        elif not item["is_finished"]:
-            return (1, item.get("raw_date", ""))
-        else:
-            return (2, item.get("raw_date", ""))
+    for ev in raw_events:
+        ev_id = ev.get("id")
+        if ev_id in seen_ids:
+            continue
+        seen_ids.add(ev_id)
 
-    unique_matches.sort(key=sort_key)
-    _CACHE["soccer"]["data"] = unique_matches
+        comp = ev.get("competitions", [{}])[0]
+        teams = comp.get("competitors", [])
+        if len(teams) < 2:
+            continue
+
+        home_team = next((t for t in teams if t.get("homeAway") == "home"), teams[0])
+        away_team = next((t for t in teams if t.get("homeAway") == "away"), teams[1])
+
+        raw_date = ev.get("date", "")
+        kst_time_str = ""
+        relative_day = "일정"
+        try:
+            utc_dt = datetime.fromisoformat(raw_date.replace("Z", "+00:00"))
+            kst_dt = utc_dt.astimezone(timezone(timedelta(hours=9)))
+            now_kst = datetime.now(timezone(timedelta(hours=9)))
+            
+            diff_days = (kst_dt.date() - now_kst.date()).days
+            if diff_days == 0:
+                relative_day = "오늘"
+            elif diff_days == 1:
+                relative_day = "내일"
+            elif diff_days == -1:
+                relative_day = "어제"
+            else:
+                relative_day = f"{kst_dt.month}/{kst_dt.day}"
+
+            ampm = "오전" if kst_dt.hour < 12 else "오후"
+            hour12 = kst_dt.hour % 12
+            if hour12 == 0:
+                hour12 = 12
+            kst_time_str = f"{relative_day} {ampm} {hour12}:{kst_dt.minute:02d}"
+        except Exception:
+            kst_time_str = raw_date
+
+        status_obj = comp.get("status", {}).get("type", {})
+        state = status_obj.get("state", "pre")
+        completed = status_obj.get("completed", False)
+        
+        is_live = (state == "in")
+        is_finished = (state == "post" or completed)
+        status_kr = "종료" if is_finished else ("진행중" if is_live else relative_day)
+
+        h_name_orig = home_team.get("team", {}).get("displayName", "")
+        a_name_orig = away_team.get("team", {}).get("displayName", "")
+        
+        h_name_kr = translate_team_name(h_name_orig)
+        a_name_kr = translate_team_name(a_name_orig)
+
+        # 구글 검색 링크 자동 생성 (예: 맨유 vs 맨시티 경기 결과 / 일정)
+        query_text = f"맨체스터 유나이티드 {a_name_kr if '맨유' in h_name_kr else h_name_kr} 축구 경기"
+        google_url = f"https://www.google.com/search?q={urllib.parse.quote(query_text)}"
+
+        # 스코어 추출
+        h_score = home_team.get("score", "")
+        if isinstance(h_score, dict):
+            h_score = h_score.get("displayValue", "")
+        a_score = away_team.get("score", "")
+        if isinstance(a_score, dict):
+            a_score = a_score.get("displayValue", "")
+
+        # 로고 추출
+        def get_team_logo(t_obj):
+            t_data = t_obj.get("team", {})
+            if t_data.get("logo"):
+                return t_data["logo"]
+            logos = t_data.get("logos", [])
+            if logos and logos[0].get("href"):
+                return logos[0]["href"]
+            t_id = t_data.get("id")
+            if t_id:
+                return f"https://a.espncdn.com/i/teamlogos/soccer/500/{t_id}.png"
+            return "https://a.espncdn.com/i/teamlogos/soccer/500/360.png"
+
+        processed_matches.append({
+            "id": ev_id,
+            "league": "맨유 경기",
+            "league_short": "맨체스터 유나이티드",
+            "league_code": "eng.1",
+            "match_name": f"{h_name_kr} vs {a_name_kr}",
+            "match_short": f"{home_team.get('team', {}).get('abbreviation', 'HOM')} 대 {away_team.get('team', {}).get('abbreviation', 'AWY')}",
+            "time_kst": kst_time_str,
+            "raw_date": raw_date,
+            "relative_day": relative_day,
+            "state": state,
+            "status_kr": status_kr,
+            "is_live": is_live,
+            "is_finished": is_finished,
+            "google_url": google_url,
+            "home": {
+                "name": h_name_kr,
+                "name_en": h_name_orig,
+                "abbr": home_team.get("team", {}).get("abbreviation", ""),
+                "logo": get_team_logo(home_team),
+                "score": str(h_score) if h_score is not None else ""
+            },
+            "away": {
+                "name": a_name_kr,
+                "name_en": a_name_orig,
+                "abbr": away_team.get("team", {}).get("abbreviation", ""),
+                "logo": get_team_logo(away_team),
+                "score": str(a_score) if a_score is not None else ""
+            }
+        })
+
+    # 과거 종료된 경기 5개 분리 및 다가오는 경기 분리
+    past_matches = [m for m in processed_matches if m["is_finished"]]
+    past_matches.sort(key=lambda x: x.get("raw_date", ""))
+    # 가장 최근 5개 경기만 추출 (오래된 것 -> 최근 것 순서로 오른쪽으로 갈수록 오늘에 가까워짐)
+    past_5 = past_matches[-5:] if len(past_matches) >= 5 else past_matches
+
+    # 다가오는 경기 / 라이브 경기
+    upcoming = [m for m in processed_matches if not m["is_finished"]]
+    upcoming.sort(key=lambda x: x.get("raw_date", ""))
+
+    # 전체 리스트: [과거 경기 5개 (왼쪽)] -> [다가오는 경기들 (오른쪽)]
+    all_combined = past_5 + upcoming
+
+    _CACHE["soccer"]["data"] = all_combined
     _CACHE["soccer"]["timestamp"] = now
-    return unique_matches
+    return all_combined
 
 
 SAFE_PRESS_LIST = [

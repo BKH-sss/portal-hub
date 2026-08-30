@@ -514,16 +514,26 @@
                     scoreDisplay = `<span class="text-sm font-bold text-slate-700 dark:text-slate-300">${home.score || 0} : ${away.score || 0}</span>`;
                 }
 
+                const googleLink = m.google_url || `https://www.google.com/search?q=${encodeURIComponent('맨체스터 유나이티드 ' + (homeName === '맨유' ? awayName : homeName) + ' 축구 경기')}`;
+                const isPast = m.is_finished;
+                const cardBadge = isPast ? '종료 결과' : (isLive ? 'LIVE 중계' : '경기 예정');
+                const cardBadgeClass = isPast 
+                    ? 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' 
+                    : (isLive ? 'bg-rose-100 dark:bg-rose-950/80 text-rose-600 font-bold' : 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 font-medium');
+
                 return `
-                    <div class="shrink-0 w-60 sm:w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500/50 rounded-2xl p-3.5 shadow-sm transition hover:shadow-md flex flex-col justify-between cursor-pointer group">
+                    <div onclick="window.open('${googleLink}', '_blank')" 
+                         title="클릭 시 Google에서 상세 경기 정보 보기"
+                         class="shrink-0 w-60 sm:w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-rose-400 dark:hover:border-rose-500/60 rounded-2xl p-3.5 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 flex flex-col justify-between cursor-pointer group">
                         
-                        <!-- 카드 상단: 경기 이름 (AVL 대 ARS) & 리그 뱃지 -->
+                        <!-- 카드 상단: 경기 이름 & 구글 검색 힌트 아이콘 -->
                         <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-indigo-500 transition">
+                            <span class="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-rose-500 transition flex items-center gap-1">
                                 ${matchHeader}
+                                <svg class="w-3 h-3 text-slate-400 group-hover:text-rose-500 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                             </span>
-                            <span class="text-[10px] px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-medium">
-                                ${m.league_short || m.league}
+                            <span class="text-[10px] px-1.5 py-0.5 rounded-md ${cardBadgeClass}">
+                                ${cardBadge}
                             </span>
                         </div>
 
@@ -531,7 +541,7 @@
                         <div class="flex items-center justify-between py-1">
                             <!-- 홈 팀 -->
                             <div class="flex flex-col items-center w-14 text-center">
-                                <img src="${home.logo}" alt="${homeName}" class="w-8 h-8 object-contain drop-shadow-sm mb-1" onerror="this.src='https://cdn-icons-png.flaticon.com/512/53/53283.png'"/>
+                                <img src="${home.logo}" alt="${homeName}" class="w-8 h-8 object-contain drop-shadow-sm mb-1" onerror="this.src='https://a.espncdn.com/i/teamlogos/soccer/500/360.png'"/>
                                 <span class="text-[11px] font-medium text-slate-700 dark:text-slate-300 truncate w-full" title="${homeName}">${homeName}</span>
                             </div>
 
@@ -545,14 +555,33 @@
 
                             <!-- 원정 팀 -->
                             <div class="flex flex-col items-center w-14 text-center">
-                                <img src="${away.logo}" alt="${awayName}" class="w-8 h-8 object-contain drop-shadow-sm mb-1" onerror="this.src='https://cdn-icons-png.flaticon.com/512/53/53283.png'"/>
+                                <img src="${away.logo}" alt="${awayName}" class="w-8 h-8 object-contain drop-shadow-sm mb-1" onerror="this.src='https://a.espncdn.com/i/teamlogos/soccer/500/360.png'"/>
                                 <span class="text-[11px] font-medium text-slate-700 dark:text-slate-300 truncate w-full" title="${awayName}">${awayName}</span>
                             </div>
+                        </div>
+
+                        <!-- 카드 하단: 클릭 시 구글 이동 안내 태그 -->
+                        <div class="mt-2 pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[10px] text-slate-400">
+                            <span>Google 경기 분석</span>
+                            <span class="group-hover:translate-x-0.5 transition font-medium group-hover:text-rose-500">이동 →</span>
                         </div>
 
                     </div>
                 `;
             }).join('');
+
+            // 다가오는 첫 경기(또는 라이브 경기) 위치로 자동 초기 스크롤
+            // 이를 통해 왼쪽으로 스크롤하면 과거 5경기가 자연스럽게 보임
+            setTimeout(() => {
+                const pastCount = matches.filter(m => m.is_finished).length;
+                if (pastCount > 0 && container.children.length > pastCount) {
+                    const targetCard = container.children[pastCount];
+                    if (targetCard) {
+                        const targetLeft = targetCard.offsetLeft - container.offsetLeft - 16;
+                        container.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+                    }
+                }
+            }, 300);
         }
 
         // 🌤️ 날씨 & 미세먼지 렌더링

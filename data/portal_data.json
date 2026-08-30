@@ -1,49 +1,21 @@
 {
-  "generated_at": "2026-08-31 05:42:32",
+  "generated_at": "2026-08-31 05:45:41",
   "soccer": [
     {
-      "id": "401879291",
-      "league": "맨유 경기 일정",
+      "id": "740604",
+      "league": "맨유 경기",
       "league_short": "맨체스터 유나이티드",
       "league_code": "eng.1",
-      "match_name": "에버튼 vs 맨유",
-      "match_short": "EVE vs MAN",
-      "time_kst": "9/6 오후 10:00",
-      "raw_date": "2026-09-06T13:00Z",
-      "relative_day": "9/6",
-      "state": "pre",
-      "status_kr": "9/6",
+      "match_name": "맨유 vs 아스널",
+      "match_short": "MAN 대 ARS",
+      "time_kst": "8/18 오전 12:30",
+      "raw_date": "2025-08-17T15:30Z",
+      "relative_day": "8/18",
+      "state": "post",
+      "status_kr": "종료",
       "is_live": false,
-      "is_finished": false,
-      "home": {
-        "name": "에버튼",
-        "name_en": "Everton",
-        "abbr": "EVE",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
-        "score": "0"
-      },
-      "away": {
-        "name": "맨유",
-        "name_en": "Manchester United",
-        "abbr": "MAN",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
-        "score": "0"
-      }
-    },
-    {
-      "id": "401879278",
-      "league": "맨유 경기 일정",
-      "league_short": "맨체스터 유나이티드",
-      "league_code": "eng.1",
-      "match_name": "맨유 vs 맨시티",
-      "match_short": "MAN vs MNC",
-      "time_kst": "9/14 오전 12:30",
-      "raw_date": "2026-09-13T15:30Z",
-      "relative_day": "9/14",
-      "state": "pre",
-      "status_kr": "9/14",
-      "is_live": false,
-      "is_finished": false,
+      "is_finished": true,
+      "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EC%95%84%EC%8A%A4%EB%84%90%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
       "home": {
         "name": "맨유",
         "name_en": "Manchester United",
@@ -52,107 +24,80 @@
         "score": "0"
       },
       "away": {
-        "name": "맨시티",
-        "name_en": "Manchester City",
-        "abbr": "MNC",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
-        "score": "0"
+        "name": "아스널",
+        "name_en": "Arsenal",
+        "abbr": "ARS",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+        "score": "1"
       }
     },
     {
-      "id": "401878777",
-      "league": "맨유 경기 일정",
+      "id": "740612",
+      "league": "맨유 경기",
       "league_short": "맨체스터 유나이티드",
       "league_code": "eng.1",
       "match_name": "풀럼 vs 맨유",
-      "match_short": "FUL vs MAN",
-      "time_kst": "9/21 오전 12:30",
-      "raw_date": "2026-09-20T15:30Z",
-      "relative_day": "9/21",
-      "state": "pre",
-      "status_kr": "9/21",
+      "match_short": "FUL 대 MAN",
+      "time_kst": "8/25 오전 12:30",
+      "raw_date": "2025-08-24T15:30Z",
+      "relative_day": "8/25",
+      "state": "post",
+      "status_kr": "종료",
       "is_live": false,
-      "is_finished": false,
+      "is_finished": true,
+      "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%ED%92%80%EB%9F%BC%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
       "home": {
         "name": "풀럼",
         "name_en": "Fulham",
         "abbr": "FUL",
         "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
-        "score": "0"
+        "score": "1"
       },
       "away": {
         "name": "맨유",
         "name_en": "Manchester United",
         "abbr": "MAN",
         "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
-        "score": "0"
+        "score": "1"
       }
     },
     {
-      "id": "401879260",
-      "league": "맨유 경기 일정",
+      "id": "740621",
+      "league": "맨유 경기",
       "league_short": "맨체스터 유나이티드",
       "league_code": "eng.1",
-      "match_name": "리즈 vs 맨유",
-      "match_short": "LEE vs MAN",
-      "time_kst": "10/18 오후 10:00",
-      "raw_date": "2026-10-18T13:00Z",
-      "relative_day": "10/18",
-      "state": "pre",
-      "status_kr": "10/18",
+      "match_name": "맨유 vs 번리",
+      "match_short": "MAN 대 BUR",
+      "time_kst": "8/30 오후 11:00",
+      "raw_date": "2025-08-30T14:00Z",
+      "relative_day": "8/30",
+      "state": "post",
+      "status_kr": "종료",
       "is_live": false,
-      "is_finished": false,
-      "home": {
-        "name": "리즈",
-        "name_en": "Leeds United",
-        "abbr": "LEE",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
-        "score": "0"
-      },
-      "away": {
-        "name": "맨유",
-        "name_en": "Manchester United",
-        "abbr": "MAN",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
-        "score": "0"
-      }
-    },
-    {
-      "id": "401879252",
-      "league": "맨유 경기 일정",
-      "league_short": "맨체스터 유나이티드",
-      "league_code": "eng.1",
-      "match_name": "맨유 vs 본머스",
-      "match_short": "MAN vs BOU",
-      "time_kst": "10/25 오후 11:00",
-      "raw_date": "2026-10-25T14:00Z",
-      "relative_day": "10/25",
-      "state": "pre",
-      "status_kr": "10/25",
-      "is_live": false,
-      "is_finished": false,
+      "is_finished": true,
+      "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EB%B2%88%EB%A6%AC%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
       "home": {
         "name": "맨유",
         "name_en": "Manchester United",
         "abbr": "MAN",
         "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
-        "score": "0"
+        "score": "3"
       },
       "away": {
-        "name": "본머스",
-        "name_en": "AFC Bournemouth",
-        "abbr": "BOU",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
-        "score": "0"
+        "name": "번리",
+        "name_en": "Burnley",
+        "abbr": "BUR",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/379.png",
+        "score": "2"
       }
     },
     {
       "id": "401879322",
-      "league": "맨유 경기 일정",
+      "league": "맨유 경기",
       "league_short": "맨체스터 유나이티드",
       "league_code": "eng.1",
       "match_name": "헐 시티 vs 맨유",
-      "match_short": "HUL vs MAN",
+      "match_short": "HUL 대 MAN",
       "time_kst": "8/22 오후 8:30",
       "raw_date": "2026-08-22T11:30Z",
       "relative_day": "8/22",
@@ -160,6 +105,7 @@
       "status_kr": "종료",
       "is_live": false,
       "is_finished": true,
+      "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%ED%97%90%20%EC%8B%9C%ED%8B%B0%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
       "home": {
         "name": "헐 시티",
         "name_en": "Hull City",
@@ -177,11 +123,11 @@
     },
     {
       "id": "401879293",
-      "league": "맨유 경기 일정",
+      "league": "맨유 경기",
       "league_short": "맨체스터 유나이티드",
       "league_code": "eng.1",
       "match_name": "맨유 vs 입스위치",
-      "match_short": "MAN vs IPS",
+      "match_short": "MAN 대 IPS",
       "time_kst": "오늘 오전 12:30",
       "raw_date": "2026-08-30T15:30Z",
       "relative_day": "오늘",
@@ -189,6 +135,7 @@
       "status_kr": "종료",
       "is_live": false,
       "is_finished": true,
+      "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EC%9E%85%EC%8A%A4%EC%9C%84%EC%B9%98%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
       "home": {
         "name": "맨유",
         "name_en": "Manchester United",
@@ -203,6 +150,156 @@
         "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png",
         "score": "2"
       }
+    },
+    {
+      "id": "401879291",
+      "league": "맨유 경기",
+      "league_short": "맨체스터 유나이티드",
+      "league_code": "eng.1",
+      "match_name": "에버튼 vs 맨유",
+      "match_short": "EVE 대 MAN",
+      "time_kst": "9/6 오후 10:00",
+      "raw_date": "2026-09-06T13:00Z",
+      "relative_day": "9/6",
+      "state": "pre",
+      "status_kr": "9/6",
+      "is_live": false,
+      "is_finished": false,
+      "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EC%97%90%EB%B2%84%ED%8A%BC%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
+      "home": {
+        "name": "에버튼",
+        "name_en": "Everton",
+        "abbr": "EVE",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+        "score": "0"
+      },
+      "away": {
+        "name": "맨유",
+        "name_en": "Manchester United",
+        "abbr": "MAN",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+        "score": "0"
+      }
+    },
+    {
+      "id": "401879278",
+      "league": "맨유 경기",
+      "league_short": "맨체스터 유나이티드",
+      "league_code": "eng.1",
+      "match_name": "맨유 vs 맨시티",
+      "match_short": "MAN 대 MNC",
+      "time_kst": "9/14 오전 12:30",
+      "raw_date": "2026-09-13T15:30Z",
+      "relative_day": "9/14",
+      "state": "pre",
+      "status_kr": "9/14",
+      "is_live": false,
+      "is_finished": false,
+      "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EB%A7%A8%EC%8B%9C%ED%8B%B0%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
+      "home": {
+        "name": "맨유",
+        "name_en": "Manchester United",
+        "abbr": "MAN",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+        "score": "0"
+      },
+      "away": {
+        "name": "맨시티",
+        "name_en": "Manchester City",
+        "abbr": "MNC",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+        "score": "0"
+      }
+    },
+    {
+      "id": "401878777",
+      "league": "맨유 경기",
+      "league_short": "맨체스터 유나이티드",
+      "league_code": "eng.1",
+      "match_name": "풀럼 vs 맨유",
+      "match_short": "FUL 대 MAN",
+      "time_kst": "9/21 오전 12:30",
+      "raw_date": "2026-09-20T15:30Z",
+      "relative_day": "9/21",
+      "state": "pre",
+      "status_kr": "9/21",
+      "is_live": false,
+      "is_finished": false,
+      "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%ED%92%80%EB%9F%BC%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
+      "home": {
+        "name": "풀럼",
+        "name_en": "Fulham",
+        "abbr": "FUL",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
+        "score": "0"
+      },
+      "away": {
+        "name": "맨유",
+        "name_en": "Manchester United",
+        "abbr": "MAN",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+        "score": "0"
+      }
+    },
+    {
+      "id": "401879260",
+      "league": "맨유 경기",
+      "league_short": "맨체스터 유나이티드",
+      "league_code": "eng.1",
+      "match_name": "리즈 vs 맨유",
+      "match_short": "LEE 대 MAN",
+      "time_kst": "10/18 오후 10:00",
+      "raw_date": "2026-10-18T13:00Z",
+      "relative_day": "10/18",
+      "state": "pre",
+      "status_kr": "10/18",
+      "is_live": false,
+      "is_finished": false,
+      "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EB%A6%AC%EC%A6%88%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
+      "home": {
+        "name": "리즈",
+        "name_en": "Leeds United",
+        "abbr": "LEE",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+        "score": "0"
+      },
+      "away": {
+        "name": "맨유",
+        "name_en": "Manchester United",
+        "abbr": "MAN",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+        "score": "0"
+      }
+    },
+    {
+      "id": "401879252",
+      "league": "맨유 경기",
+      "league_short": "맨체스터 유나이티드",
+      "league_code": "eng.1",
+      "match_name": "맨유 vs 본머스",
+      "match_short": "MAN 대 BOU",
+      "time_kst": "10/25 오후 11:00",
+      "raw_date": "2026-10-25T14:00Z",
+      "relative_day": "10/25",
+      "state": "pre",
+      "status_kr": "10/25",
+      "is_live": false,
+      "is_finished": false,
+      "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EB%B3%B8%EB%A8%B8%EC%8A%A4%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
+      "home": {
+        "name": "맨유",
+        "name_en": "Manchester United",
+        "abbr": "MAN",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
+        "score": "0"
+      },
+      "away": {
+        "name": "본머스",
+        "name_en": "AFC Bournemouth",
+        "abbr": "BOU",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+        "score": "0"
+      }
     }
   ],
   "weather": {
@@ -210,16 +307,16 @@
       "city": "서울",
       "region": "수도권",
       "current": {
-        "temp": 22.9,
+        "temp": 22.8,
         "feels_like": 27.6,
         "humidity": 98,
-        "wind_speed": 3.3,
+        "wind_speed": 3.0,
         "weather_desc": "강한 이슬비",
         "weather_icon": "🌧️",
         "weather_code": 55,
         "temp_max": 24,
         "temp_min": 22,
-        "time_kst": "05:42"
+        "time_kst": "05:45"
       },
       "air": {
         "pm10": {
@@ -360,7 +457,7 @@
           "desc": "대체로 맑음"
         }
       ],
-      "updated_at": "2026-08-31 05:42:15"
+      "updated_at": "2026-08-31 05:45:23"
     },
     "부산": {
       "city": "부산",
@@ -369,13 +466,13 @@
         "temp": 25.8,
         "feels_like": 31.7,
         "humidity": 95,
-        "wind_speed": 4.9,
+        "wind_speed": 5.2,
         "weather_desc": "대체로 맑음",
         "weather_icon": "🌤️",
         "weather_code": 1,
         "temp_max": 31,
         "temp_min": 25,
-        "time_kst": "05:42"
+        "time_kst": "05:45"
       },
       "air": {
         "pm10": {
@@ -516,7 +613,7 @@
           "desc": "구름 조금"
         }
       ],
-      "updated_at": "2026-08-31 05:42:17"
+      "updated_at": "2026-08-31 05:45:25"
     },
     "대구": {
       "city": "대구",
@@ -524,14 +621,14 @@
       "current": {
         "temp": 23.9,
         "feels_like": 29.1,
-        "humidity": 98,
-        "wind_speed": 3.8,
+        "humidity": 97,
+        "wind_speed": 4.0,
         "weather_desc": "대체로 맑음",
         "weather_icon": "🌤️",
         "weather_code": 1,
         "temp_max": 33,
         "temp_min": 24,
-        "time_kst": "05:42"
+        "time_kst": "05:45"
       },
       "air": {
         "pm10": {
@@ -672,22 +769,22 @@
           "desc": "대체로 맑음"
         }
       ],
-      "updated_at": "2026-08-31 05:42:19"
+      "updated_at": "2026-08-31 05:45:27"
     },
     "인천": {
       "city": "인천",
       "region": "인천",
       "current": {
         "temp": 22.8,
-        "feels_like": 27.2,
+        "feels_like": 27.3,
         "humidity": 98,
-        "wind_speed": 5.8,
+        "wind_speed": 4.5,
         "weather_desc": "보통 비",
         "weather_icon": "🌧️",
         "weather_code": 63,
         "temp_max": 24,
         "temp_min": 22,
-        "time_kst": "05:42"
+        "time_kst": "05:45"
       },
       "air": {
         "pm10": {
@@ -828,22 +925,22 @@
           "desc": "대체로 맑음"
         }
       ],
-      "updated_at": "2026-08-31 05:42:21"
+      "updated_at": "2026-08-31 05:45:29"
     },
     "광주": {
       "city": "광주",
       "region": "호남",
       "current": {
-        "temp": 25.1,
+        "temp": 25.3,
         "feels_like": 30.3,
-        "humidity": 95,
-        "wind_speed": 7.1,
+        "humidity": 94,
+        "wind_speed": 7.9,
         "weather_desc": "대체로 맑음",
         "weather_icon": "🌤️",
         "weather_code": 1,
         "temp_max": 31,
         "temp_min": 25,
-        "time_kst": "05:42"
+        "time_kst": "05:45"
       },
       "air": {
         "pm10": {
@@ -984,22 +1081,22 @@
           "desc": "흐림"
         }
       ],
-      "updated_at": "2026-08-31 05:42:23"
+      "updated_at": "2026-08-31 05:45:31"
     },
     "대전": {
       "city": "대전",
       "region": "충청",
       "current": {
         "temp": 23.6,
-        "feels_like": 28.5,
-        "humidity": 98,
-        "wind_speed": 4.7,
+        "feels_like": 28.3,
+        "humidity": 97,
+        "wind_speed": 5.1,
         "weather_desc": "약한 이슬비",
         "weather_icon": "🌦️",
         "weather_code": 51,
         "temp_max": 30,
         "temp_min": 24,
-        "time_kst": "05:42"
+        "time_kst": "05:45"
       },
       "air": {
         "pm10": {
@@ -1140,22 +1237,22 @@
           "desc": "구름 조금"
         }
       ],
-      "updated_at": "2026-08-31 05:42:25"
+      "updated_at": "2026-08-31 05:45:33"
     },
     "울산": {
       "city": "울산",
       "region": "영남",
       "current": {
         "temp": 24.2,
-        "feels_like": 29.7,
+        "feels_like": 29.6,
         "humidity": 96,
-        "wind_speed": 2.2,
+        "wind_speed": 2.7,
         "weather_desc": "대체로 맑음",
         "weather_icon": "🌤️",
         "weather_code": 1,
         "temp_max": 33,
         "temp_min": 24,
-        "time_kst": "05:42"
+        "time_kst": "05:45"
       },
       "air": {
         "pm10": {
@@ -1296,22 +1393,22 @@
           "desc": "약한 이슬비"
         }
       ],
-      "updated_at": "2026-08-31 05:42:27"
+      "updated_at": "2026-08-31 05:45:35"
     },
     "제주": {
       "city": "제주",
       "region": "제주",
       "current": {
-        "temp": 25.7,
-        "feels_like": 30.4,
+        "temp": 25.8,
+        "feels_like": 30.5,
         "humidity": 89,
-        "wind_speed": 8.5,
+        "wind_speed": 8.9,
         "weather_desc": "구름 조금",
         "weather_icon": "⛅",
         "weather_code": 2,
         "temp_max": 31,
         "temp_min": 26,
-        "time_kst": "05:42"
+        "time_kst": "05:45"
       },
       "air": {
         "pm10": {
@@ -1452,11 +1549,37 @@
           "desc": "뇌우"
         }
       ],
-      "updated_at": "2026-08-31 05:42:29"
+      "updated_at": "2026-08-31 05:45:37"
     }
   },
   "news": {
     "all": [
+      {
+        "title": "[인공지능 줌인] 맞춤형 AI 서비스의 가치, 내 개인정보와 바꿀 만한가",
+        "press": "위키리크스한국",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9ieUVFanRyWFVGSHNoUnBjZERtNWFoQnRSNEV2OXp6MlZMdmZjQnlzOGpYT21tUXRNM1IzejVxT2lEWGxJODd3d3pUcWd6NjZ5ZUpzZURrLVBpX2IzTVo1VEh6cVQ5SnZPbV85YUMwN2o?oc=5",
+        "desc": "[인공지능 줌인] 맞춤형 AI 서비스의 가치, 내 개인정보와 바꿀 만한가  위키리크스한국",
+        "pubDate": "Sun, 30 Aug 2026 20:42:42 GMT",
+        "time_ago": "2분 전",
+        "diff_sec": 176.166398,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "[이 시각 핫뉴스] ’시급 4만원’ 청소 로봇에 집안일…반응 엇갈려 外",
+        "press": "연합뉴스TV",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE4wR0Y4enhfeTFNOTFva2xuMzhYZEYyQk9oQXJhb0ZlWkNwTEhwOFVmaVlpNmZfbEpsQkZiRUNqVWdLSmFBb2hWQWstbm5lWlJoZGdWYTduUWc2TW9Pa2p0cHVMdV9qRHM?oc=5",
+        "desc": "[이 시각 핫뉴스] ’시급 4만원’ 청소 로봇에 집안일…반응 엇갈려 外  연합뉴스TV",
+        "pubDate": "Sun, 30 Aug 2026 20:40:00 GMT",
+        "time_ago": "5분 전",
+        "diff_sec": 338.165391,
+        "category_badge": "종합 최신",
+        "theme": "robotics"
+      },
       {
         "title": "[The Company] 일하는 방식부터 제조까지 ‘AI 대전환’ 가속",
         "press": "중앙일보",
@@ -1465,8 +1588,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBxV3AyZWNVaUdEYjBzS25iRW9wVm9jaEVMS3dZcG51QmxMX0F6eEhzdnJrRVRRM1plbHZsLTlWOWtHUjhweEJwdUQtNnctWjB1dEl3bWNn?oc=5",
         "desc": "[The Company] 일하는 방식부터 제조까지 ‘AI 대전환’ 가속  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:34:00 GMT",
-        "time_ago": "8분 전",
-        "diff_sec": 509.437885,
+        "time_ago": "11분 전",
+        "diff_sec": 698.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1478,8 +1601,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9xRUd3QjdGUTBBb3dnY1dQZUlkSHYtNUtqUElvTUkycVNWcWhsTDBkYU4zQ3ZPYmp3c1hJYUwxeDVMODRVOWwyQU85RE5BcDZQdzNMd1Zn?oc=5",
         "desc": "[The Company] AI 전환·상생 … 혁신 경영 앞세워 미래 성장동력 확보  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:33:01 GMT",
-        "time_ago": "9분 전",
-        "diff_sec": 568.437885,
+        "time_ago": "12분 전",
+        "diff_sec": 757.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1491,8 +1614,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1nc1ZYeXZBbjNld05abFFsSmF3dzZPdG9fZzlIUHJJZ2ZWWS1xVEpicnFvbVAxTnVMZGNadkRfbHg2UmhNZ0RSdU94QW1CdkhmSXNPQml3?oc=5",
         "desc": "[The Company] 글로벌 빅테크와 ‘AI 동맹’…고객가치 정조준  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:33:01 GMT",
-        "time_ago": "9분 전",
-        "diff_sec": 568.437885,
+        "time_ago": "12분 전",
+        "diff_sec": 757.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1504,8 +1627,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5ZRTN1WE5WUUl6VHYzNVFUbXNyS3Z4eHFkYUR6T3R6cF9zekswdlBvZkRoRjU5UGxIVUlUbnhpSGdBeHRZekdsUXZadTc5SWVXdHFXTzBR?oc=5",
         "desc": "[The Company] AI 시대 맞춤형 에너지 솔루션  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:33:00 GMT",
-        "time_ago": "9분 전",
-        "diff_sec": 569.437885,
+        "time_ago": "12분 전",
+        "diff_sec": 758.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1517,8 +1640,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1HZFBEVm4xNDBMZUNLRlJyQnZFanFQUWJaSDM2bWMxeFhoUjB3QWM5Z1V4MHpCV3pzdTFqMVpfU1ZMUE1vd1BheXVDVzl5MkpvOXE5WU1R?oc=5",
         "desc": "[2026 하반기 혁신 IT 대상] 국내 ICT 산업, AI·데이터 중심 고부가가치 전환  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "10분 전",
-        "diff_sec": 629.437885,
+        "time_ago": "13분 전",
+        "diff_sec": 818.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1530,8 +1653,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBTUmJvcndkZEVVUWhjX3NVMmwxRkVhN080ME9qRlZKRjlfeDVsZ1pHTzRLcFdHZms3bm91b25OLWVtN1ZMX3p5WHBHWHJMRDRFc1VGc21n?oc=5",
         "desc": "[2026 하반기 혁신 IT 대상] 레이더 융합 AI로 어르신 지켜  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "10분 전",
-        "diff_sec": 629.437885,
+        "time_ago": "13분 전",
+        "diff_sec": 818.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1543,8 +1666,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1DMjNNbF9URUlxeF8yTEptakNROS0xTm5fYmNnZ0RiWUtHQXlXU2tnQ3R3U0VzWDh0TFVjaFFmeWZZRld3clVoR2ZJd2pYQ0ltTUdiMmhR?oc=5",
         "desc": "[2026 하반기 혁신 IT 대상] 카톡으로 만나는 ‘AI 업무 비서’  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "10분 전",
-        "diff_sec": 629.437885,
+        "time_ago": "13분 전",
+        "diff_sec": 818.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1556,8 +1679,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9HM3BCSVN6Yl9oenRVQTJOSTctWGF2dVVWd2pxSm9NZjBmYnpKSVFLR3dXNnZ5NE9Vbzd4aWhBYVJjeGpMdVRYdDJRaXdIaXZ0eFJRS1ZaaS04bDhaeXlFQjRGTXYza3FPRzNBMA?oc=5",
         "desc": "[Books] 로봇 디자인 - 기초 이론부터 HRI 디자인 적용까지  로봇신문",
         "pubDate": "Sun, 30 Aug 2026 20:31:17 GMT",
-        "time_ago": "11분 전",
-        "diff_sec": 672.437885,
+        "time_ago": "14분 전",
+        "diff_sec": 861.165391,
         "category_badge": "종합 최신",
         "theme": "robotics"
       },
@@ -1569,8 +1692,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1OTFNWeVk1eXFTbGx4ZHJLLXlZenRyam1wX3k4b3MtNjJFeEdNRENzRkpXRW9wSnhodEtiTFVpQ2Fmd0NRODEyek5IUTNmMGdMWkRfcVdR?oc=5",
         "desc": "[2026 하반기 혁신 IT 대상] 음성 AI로 직원 번아웃 조기 발견  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:31:00 GMT",
-        "time_ago": "11분 전",
-        "diff_sec": 689.437885,
+        "time_ago": "14분 전",
+        "diff_sec": 878.166398,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1582,8 +1705,8 @@
         "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPNmlYYjhFMkFJeVI5dnZmcUNydGcxcGY0cUs3TnNzbmdwVFhyZEkwYVNjZnZELVBtc3NudFpsSWpEeTZzNkZCNjNDLXZGNS1TSUlHNTIzT1RVWm1vYXFCR1RxQUlWbUR5SnRTV2xUUTBOektLMktVNlVoWjE1c1lVVg?oc=5",
         "desc": "\"반도체 이후 AI 패권 전쟁 수혜주, 에너지株·비트코인 사라\"  조선일보",
         "pubDate": "Sun, 30 Aug 2026 20:30:00 GMT",
-        "time_ago": "12분 전",
-        "diff_sec": 749.437885,
+        "time_ago": "15분 전",
+        "diff_sec": 938.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1595,8 +1718,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5ybXFwNDVFcTVydGhKRVFsUkVmTWh1UW5YUjJZMlUtM1RaMFc2WTNTSEUwWTNDSDRFWVBLRU1uTndWaGxpV1VsY09haWpmRDVOTEtuaE5qZ0YwQVhwbXdncUV30gFnQVVfeXFMUGNJWThhR1FWeTliWXZoWUV2cW5TOUpCM002NTBCSHh2LTFiN004UVliTnJnWlQ1SFlTVUhXUHkzTFRIUU5SMXZFY3Z0MUFVaEFuY2JraFhEMUJleTlHMkhXXzhsLThuOA?oc=5",
         "desc": "\"AI가 잔반 재활용해도 된다고 했다\"…광장시장 '비위생'에 황당 해명  뉴스1",
         "pubDate": "Sun, 30 Aug 2026 20:30:00 GMT",
-        "time_ago": "12분 전",
-        "diff_sec": 749.438884,
+        "time_ago": "15분 전",
+        "diff_sec": 938.166919,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1608,8 +1731,8 @@
         "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE4yQlZRUjdXTUVyNl9RQnRvOTNrYUJ3YVpIYW9FWjI4RTdEN1J0ZlpkcUNNZllWR3FtdExva0pZN0dSRmZCRzEzV0RxNW14aF9iWTByTVZBUzZwcXREWTZPcWhmTy1JeDNONnRDSjh3?oc=5",
         "desc": "충남도, 사람 중심 ‘충남형 인공지능 기본사회’ 본격 시동  아산포커스",
         "pubDate": "Sun, 30 Aug 2026 20:29:45 GMT",
-        "time_ago": "12분 전",
-        "diff_sec": 764.437885,
+        "time_ago": "15분 전",
+        "diff_sec": 953.166398,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1621,8 +1744,8 @@
         "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPNHEtelpNUGFXYUxpM0FCZ2FUZWlLYXRyYk5fX0NfRDZqX0lmc3dNeVAwbE9xb1dON1EzWXc0dnNySy0tRnNNaGdpV3hJTnNXUnVNY0tLNFZOYWNnbVZJSU1sZjM2YndwcTRWSE9OekViQ0ltenJILWdmQzhwTV9uZDBHREVnUDZM?oc=5",
         "desc": "美 ICE, 보스턴다이내믹스 ‘로봇개’ 도입 검토  글로벌이코노믹",
         "pubDate": "Sun, 30 Aug 2026 20:00:00 GMT",
-        "time_ago": "42분 전",
-        "diff_sec": 2549.437885,
+        "time_ago": "45분 전",
+        "diff_sec": 2738.165391,
         "category_badge": "종합 최신",
         "theme": "robotics"
       },
@@ -1634,8 +1757,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5IakxubW5XRDRKbXNMVjJEeXdpbW92Z2M4cF9hSUV6bjlwMF9fbl9iNnktYzg3Y1RJWmIzT1k3M2VYa1I2UzJvV19pM2tTRkczY3FuT3Vzak4waG13MlIwdXRNcDHSAWpBVV95cUxNRUNRWWxxby1MSWhhelNxUWlsWk9KNHNKNGlqZzZvVkpHMmNBVXVxZFBiSDBCUmhRTXF6X2Z6WFc2Ump2UzBwOGhWZnNrT05TdkZvbmV6ZkxlZFRJQnNSOExRbV9rSktqdVFR?oc=5",
         "desc": "삼성·SK·현대차·LG, 올 하반기 'AI 인재' 쟁탈전…\"스펙 보단 잠재력\"  뉴스1",
         "pubDate": "Sun, 30 Aug 2026 20:00:00 GMT",
-        "time_ago": "42분 전",
-        "diff_sec": 2549.437885,
+        "time_ago": "45분 전",
+        "diff_sec": 2738.166398,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1647,8 +1770,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBQTXF2MU40ZTBaYnQ2SURWSTRYZ08tc1BXSzJYWTF5eTRrdFRHdHJiNXhGR1dYSHZCd2xRUC1aMjVQbkZBS3RhZFU0cmpXa0xjOGFn0gFYQVVfeXFMT1MtMHdIYVE4WjZZNVZqSGp4X0NDS2VNa0N1UXFuSHhjUVJUamo0eG5iazRQZXhQZGx1cll1T1VUUjdSYW50Q1lDOVFfYUYxcnIzOVFmSXk2cg?oc=5",
         "desc": "[글로벌 비즈 브리핑] 금이 대세?...금광株, 반도체 제치고 '폭등' 外  SBS Biz",
         "pubDate": "Sun, 30 Aug 2026 19:51:00 GMT",
-        "time_ago": "51분 전",
-        "diff_sec": 3089.437885,
+        "time_ago": "54분 전",
+        "diff_sec": 3278.166398,
         "category_badge": "종합 최신",
         "theme": "semiconductor"
       },
@@ -1660,8 +1783,8 @@
         "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE0wT1h5Q05INXNjQXg4VzdYdWliSllQcjdOamxybVBCYWxTcEJuRTY0MzJlUnNSZ0hfSHhqRlB3UTRJOHZjbEFTZVBuaGFRWVRja21GTFhxR0FOTGNpN1E?oc=5",
         "desc": "이번주 코스피 7,000선 재도전…‘워시 쇼크’ 반도체가 끌어올릴까  뉴스투데이",
         "pubDate": "Sun, 30 Aug 2026 19:49:00 GMT",
-        "time_ago": "53분 전",
-        "diff_sec": 3209.438884,
+        "time_ago": "56분 전",
+        "diff_sec": 3398.166398,
         "category_badge": "종합 최신",
         "theme": "semiconductor"
       },
@@ -1674,7 +1797,7 @@
         "desc": "K팝-게임-AI 한자리에… 서울시, ‘엔터테크·GES 서울’ 통합 개최  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 19:34:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4109.437885,
+        "diff_sec": 4298.165391,
         "category_badge": "종합 최신",
         "theme": "game"
       },
@@ -1687,7 +1810,7 @@
         "desc": "AI 기반 ESS에 정밀진단-통합관제… ‘안전운영 기술’ 현장 적용  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 19:32:58 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4171.437885,
+        "diff_sec": 4360.166398,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1700,7 +1823,7 @@
         "desc": "‘체크인 척척’ 인천공항 누비는 AI로봇  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4349.437885,
+        "diff_sec": 4538.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1713,7 +1836,7 @@
         "desc": "금이 대세?...금광株, 반도체 제치고 '폭등'  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4349.437885,
+        "diff_sec": 4538.165391,
         "category_badge": "종합 최신",
         "theme": "semiconductor"
       },
@@ -1726,7 +1849,7 @@
         "desc": "“볼트보다 빨라도 과자 봉지는 못 집어”… 中 휴머노이드로봇의 두 얼굴  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4349.437885,
+        "diff_sec": 4538.165391,
         "category_badge": "종합 최신",
         "theme": "robotics"
       },
@@ -1739,7 +1862,7 @@
         "desc": "초등학생부터 취준생까지 단계별 ‘AI 교육’ 제공  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4349.437885,
+        "diff_sec": 4538.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1752,7 +1875,7 @@
         "desc": "“앤스로픽 AI, 스위프트 등 곡으로 무단 학습”  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4349.437885,
+        "diff_sec": 4538.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1765,7 +1888,7 @@
         "desc": "경남대에 1000억원 규모 피지컬AI 기반 만든다  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4349.437885,
+        "diff_sec": 4538.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1778,7 +1901,7 @@
         "desc": "AI 기반 ESS에 정밀진단-통합관제… ‘안전운영 기술’ 현장 적용  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4349.437885,
+        "diff_sec": 4538.166398,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1791,7 +1914,7 @@
         "desc": "오픈AI, 스페이스X가 품은 커서에 계약해지...머스크 \"사기꾼\" 비난  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 19:27:01 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4528.437885,
+        "diff_sec": 4717.165391,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1804,7 +1927,7 @@
         "desc": "즈푸AI, 中 칩만으로 구동되는 AI 출시  SBS Biz",
         "pubDate": "Sun, 30 Aug 2026 19:25:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4649.438884,
+        "diff_sec": 4838.166398,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1817,33 +1940,7 @@
         "desc": "AI가 넘보지 못하는 '손기술'로…제본·금속공예 견습에 몰린 英 청년들  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 19:21:31 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4858.437885,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "이상감지부터 해결까지… 협업지능 현실로 - 머니투데이",
-        "press": "머니투데이",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5oNmF1VUpUaEZ4QTdPUHU0dzl2aVZqbTE2eVVMa2RnMVMwa1Q4UHlENU04Y1ZCVzJTa3lXa2FHT05GeE1ma1BtcHYwbi1XSFZVTlBnMWpRRmgweEs1U19YbUlYcUw3R3U2TlhaZdIBckFVX3lxTE9Jd1JGUkpYVEpqNXNQekdiU0ZTczZpZERXQlhjdXNlNUF3VmVTck9MYTdneUdkQ09IWk1oOGJhQTBpdW13N1Jnd3FYN2Rod01pRVlYMDMtRW5feGpXbXBWX2pxcEM0WjRaeWhVTU4yNmphdw?oc=5",
-        "desc": "이상감지부터 해결까지… 협업지능 현실로 - 머니투데이  머니투데이",
-        "pubDate": "Sun, 30 Aug 2026 19:04:00 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 5909.438884,
-        "category_badge": "종합 최신",
-        "theme": "tech"
-      },
-      {
-        "title": "\"포메이션 짜고 상대 공략법까지 제시\" AI 어디까지 왔나... '손흥민 선발' 한국-남아공전 맡겨보니 [창간22 기획] - 머니투데이",
-        "press": "머니투데이",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5MNmZ2XzZvdjM3NmQ1allINzRjZmR2ajZXWlBHclQ2S1pDZlFYN0oyV2RuZ3R2ZnF1amFvYjh0ZUVaVjdyaGpGcHVFYTFLMlpKVUhJTmRyTnM1S1BMNWV2a3NWa1VLMDFZS1HSAW9BVV95cUxNUVRDTzJMMkVPYlNseGR1Y29FRng1ZDAzOW1tcWIxRXczUlBPcExvN1pPR29UXzdSUFNtWTZ4aWd5VFQwT1ZKZWwzMmJUVzEwQl9uNlBWNmxnMXZWRFBaNmtVUnRhanRLZ05Hc3J5elU?oc=5",
-        "desc": "\"포메이션 짜고 상대 공략법까지 제시\" AI 어디까지 왔나... '손흥민 선발' 한국-남아공전 맡겨보니 [창간22 기획] - 머니투데이  머니투데이",
-        "pubDate": "Sun, 30 Aug 2026 19:02:00 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 6029.437885,
+        "diff_sec": 5047.166398,
         "category_badge": "종합 최신",
         "theme": "ai"
       }
@@ -1854,11 +1951,11 @@
         "press": "동아일보",
         "is_verified": true,
         "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTFA5ZGdCOFJQWm5Db2tLMmRKV2dPMUF5enZaNTJGWEsxbncwVFhKNnVIOVlLVXVrVk5uWEJ1cUFTWlhibllnRmV1Z1NZUF9QRjl4elRUUTFzSVJRVUVxVE5walRqdV9fUWgwT2NoSXhicnFHdEdmV3fSAWZBVV95cUxPdXI4MkhrbER0RXMyYmUzS3hncTJwT0U0Z1ZXV2lTbHc1WWJQWFJwMW5XRkRadFdWQml2M3FObkpQUzR4QTJZN0hLWTBodFQ5c2RSUEtnbHlkSC0wWjZVeS1ySE1WQVE?oc=5",
+        "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE91cjgySGtsRHRFczJiZTNLeGdxMnBPRTRnVldXaVNsdzVZYlBYUnAxbldGRFp0V1ZCaXYzcU5uSlBTNHhBMlk3SEtZMGh0VDlzZFJQS2dseWRILTBaNlV5LXJITVZBUdIBZkFVX3lxTE91cjgySGtsRHRFczJiZTNLeGdxMnBPRTRnVldXaVNsdzVZYlBYUnAxbldGRFp0V1ZCaXYzcU5uSlBTNHhBMlk3SEtZMGh0VDlzZFJQS2dseWRILTBaNlV5LXJITVZBUQ?oc=5",
         "desc": "넷마블게임박물관, 전시관 넘어 교육 공간으로 확장  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4349.654913,
+        "diff_sec": 4538.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1870,8 +1967,8 @@
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE02RnoxQzIxV05ISnp3VEhuUVhtZHlncHY4Z0dWX3hnVWdIeFIzQjB1TkVHM2UwYkpCSUE5OXM0RzdRc3FxQTR4Y3hqUHFoVjF0aVBuamlfd2RNMzhUR0o0VjJ6Y1J0eEZoalHSAWpBVV95cUxNNkZ6MUMyMVdOSEp6d1RIblFYbWR5Z3B2OGdHVl94Z1VnSHhSM0IwdU5FRzNlMGJKQklBOTlzNEc3UXNxcUE0eGN4alBxaFYxdGlQbmppX3dkTTM4VEdKNFYyemNSdHhGaGpR?oc=5",
         "desc": "[e스포츠人] '오프라인 부담 털어냈다'...T1 동료 '호석' 꺾고 결승 오른 '네이비' 김유민  테크M",
         "pubDate": "Sun, 30 Aug 2026 17:42:57 GMT",
-        "time_ago": "2시간 전",
-        "diff_sec": 10772.654913,
+        "time_ago": "3시간 전",
+        "diff_sec": 10961.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1884,7 +1981,7 @@
         "desc": "[게임스컴] 60여개 직접 체험 외신 선택은…\"에이지 트위스터가 하이라이트\" |  AP신문",
         "pubDate": "Sun, 30 Aug 2026 17:27:01 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 11728.654913,
+        "diff_sec": 11917.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1897,7 +1994,7 @@
         "desc": "충주시 청소년 e스포츠 최강팀 가렸다…‘여성프로 코코코코코낫입니다만?’ 우승  뉴스아이이에스",
         "pubDate": "Sun, 30 Aug 2026 15:15:32 GMT",
         "time_ago": "5시간 전",
-        "diff_sec": 19617.655424,
+        "diff_sec": 19806.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1910,7 +2007,7 @@
         "desc": "평창군 청소년 e-스포츠 페스티벌 열려 … 게임·체험 어우러진 ‘축제의 장’  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 15:06:59 GMT",
         "time_ago": "5시간 전",
-        "diff_sec": 20130.654913,
+        "diff_sec": 20319.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1923,7 +2020,7 @@
         "desc": "캐나다 스팀십 라인, 남호주서 세계 첫 배터리 자가하역 벌크선 운항  IT타임스",
         "pubDate": "Sun, 30 Aug 2026 14:25:00 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 22649.655424,
+        "diff_sec": 22838.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1936,7 +2033,7 @@
         "desc": "제2회 전주시장배 전주e스포츠마스터즈 성황리 개최  웹이코노미",
         "pubDate": "Sun, 30 Aug 2026 11:25:15 GMT",
         "time_ago": "9시간 전",
-        "diff_sec": 33434.655424,
+        "diff_sec": 33623.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1949,7 +2046,20 @@
         "desc": "제2회 전주시장배 전주e스포츠마스터즈 성황리 개최  비전21뉴스",
         "pubDate": "Sun, 30 Aug 2026 10:10:01 GMT",
         "time_ago": "10시간 전",
-        "diff_sec": 37948.654913,
+        "diff_sec": 38137.865336,
+        "category_badge": "게임산업",
+        "theme": "game"
+      },
+      {
+        "title": "청소년 e스포츠 열기로 뜨거워진 전주…전국 선수들 한자리에",
+        "press": "전북소비자저널",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBlWUR3SmxBZHNmb2xOQlhhN1AzR2Z3dlhwNnVobW8zSEZCT1FBbGJOZkg1M20xZlRLSURNdTJUc3lCOWRLQjc1eXhJNHRYWXpEMEhuN0JySENYVUpUV0l3WFNqYw?oc=5",
+        "desc": "청소년 e스포츠 열기로 뜨거워진 전주…전국 선수들 한자리에  전북소비자저널",
+        "pubDate": "Sun, 30 Aug 2026 09:18:04 GMT",
+        "time_ago": "11시간 전",
+        "diff_sec": 41254.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1962,7 +2072,7 @@
         "desc": "제2회 전주시장배 전주e스포츠마스터즈 성황리 개최  문화매일신문",
         "pubDate": "Sun, 30 Aug 2026 08:52:00 GMT",
         "time_ago": "11시간 전",
-        "diff_sec": 42629.654913,
+        "diff_sec": 42818.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1975,7 +2085,7 @@
         "desc": "평창 대관령한우복지재단, 청소년 e스포츠 페스티벌에 간식 후원  강원도민일보",
         "pubDate": "Sun, 30 Aug 2026 08:34:33 GMT",
         "time_ago": "12시간 전",
-        "diff_sec": 43676.654913,
+        "diff_sec": 43865.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1988,7 +2098,7 @@
         "desc": "전주시장배 전주e스포츠마스터즈 후끈  전북중앙",
         "pubDate": "Sun, 30 Aug 2026 08:28:00 GMT",
         "time_ago": "12시간 전",
-        "diff_sec": 44069.654913,
+        "diff_sec": 44258.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2001,7 +2111,7 @@
         "desc": "제2회' 전주시장배 전주e스포츠마스터즈' 철권8 경기  전북도민일보",
         "pubDate": "Sun, 30 Aug 2026 07:56:16 GMT",
         "time_ago": "12시간 전",
-        "diff_sec": 45973.654913,
+        "diff_sec": 46162.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2014,7 +2124,7 @@
         "desc": "전주e스포츠마스터즈 전국 청소년 열전…800여명 ‘게임 축제’  전라매일",
         "pubDate": "Sun, 30 Aug 2026 07:35:00 GMT",
         "time_ago": "13시간 전",
-        "diff_sec": 47249.654913,
+        "diff_sec": 47438.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2027,7 +2137,7 @@
         "desc": "모바일 e스포츠 판 키운 삼성…'플레이갤럭시 컵' 첫 정규리그 성료  네이트",
         "pubDate": "Sun, 30 Aug 2026 07:00:00 GMT",
         "time_ago": "13시간 전",
-        "diff_sec": 49349.655934,
+        "diff_sec": 49538.86634,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2040,7 +2150,7 @@
         "desc": "'FSL 서머' 4강 관람 위해 잠실 DN 콜로세움에 모인 e스포츠 팬들 [포토]  네이트",
         "pubDate": "Sun, 30 Aug 2026 06:49:00 GMT",
         "time_ago": "13시간 전",
-        "diff_sec": 50009.655934,
+        "diff_sec": 50198.86634,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2053,7 +2163,7 @@
         "desc": "크래프톤, 게임스컴서 신작 5종 공개…글로벌 이용자 접점 확대  웹이코노미",
         "pubDate": "Sun, 30 Aug 2026 06:33:43 GMT",
         "time_ago": "14시간 전",
-        "diff_sec": 50926.655424,
+        "diff_sec": 51115.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2066,7 +2176,7 @@
         "desc": "크래프톤, 사들인 IP·기업이 1.8조 자산으로…이제 수익화  마이데일리",
         "pubDate": "Sun, 30 Aug 2026 06:05:56 GMT",
         "time_ago": "14시간 전",
-        "diff_sec": 52593.655424,
+        "diff_sec": 52782.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2079,7 +2189,7 @@
         "desc": "게임스컴 달군 K게임…'출품' 넘어 글로벌 시장서 실력 겨뤘다  스포츠조선",
         "pubDate": "Sun, 30 Aug 2026 04:41:43 GMT",
         "time_ago": "16시간 전",
-        "diff_sec": 57646.655934,
+        "diff_sec": 57835.86634,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2092,7 +2202,7 @@
         "desc": "[게임스컴] 크래프톤의 과감한 도전…남은건 ‘증명’  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 04:32:09 GMT",
         "time_ago": "16시간 전",
-        "diff_sec": 58220.655424,
+        "diff_sec": 58409.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2105,7 +2215,7 @@
         "desc": "[게임스컴] 크래프톤의 과감한 도전… 남은건 ‘증명’  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 04:32:09 GMT",
         "time_ago": "16시간 전",
-        "diff_sec": 58220.655424,
+        "diff_sec": 58409.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2118,7 +2228,7 @@
         "desc": "동양대, 다음달 19일 동두천서 e스포츠 페스티벌  경북신문",
         "pubDate": "Sun, 30 Aug 2026 03:38:00 GMT",
         "time_ago": "17시간 전",
-        "diff_sec": 61469.654913,
+        "diff_sec": 61658.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2131,7 +2241,7 @@
         "desc": "서울시, 엔터테크·GES 첫 통합 개최… K팝·AI·XR·게임 산업 연결  천지일보",
         "pubDate": "Sun, 30 Aug 2026 03:35:54 GMT",
         "time_ago": "17시간 전",
-        "diff_sec": 61595.654913,
+        "diff_sec": 61784.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2144,7 +2254,7 @@
         "desc": "[고용준의 e스포츠 엿보기] \"비판은 OK, 선 넘은 비난은 NO\"… '도란' 최현준의 담담한 소신  osen.co.kr",
         "pubDate": "Sun, 30 Aug 2026 03:27:00 GMT",
         "time_ago": "17시간 전",
-        "diff_sec": 62129.655424,
+        "diff_sec": 62318.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2157,7 +2267,7 @@
         "desc": "제2회 전주시장배 전주e스포츠마스터즈 성황리 개최  thepowernews.co.kr",
         "pubDate": "Sun, 30 Aug 2026 03:21:21 GMT",
         "time_ago": "17시간 전",
-        "diff_sec": 62468.655424,
+        "diff_sec": 62657.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2170,7 +2280,7 @@
         "desc": "휴머노이드 전쟁 승부처는 ‘손’…한국, 로봇핸드 양산에 베팅  서울일보",
         "pubDate": "Sun, 30 Aug 2026 03:15:00 GMT",
         "time_ago": "17시간 전",
-        "diff_sec": 62849.655934,
+        "diff_sec": 63038.86634,
         "category_badge": "게임산업",
         "theme": "robotics"
       },
@@ -2183,7 +2293,7 @@
         "desc": "'엔터테크·GES' 통합…K-팝·AI 융합 콘텐츠 한자리에  더팩트",
         "pubDate": "Sun, 30 Aug 2026 03:13:00 GMT",
         "time_ago": "17시간 전",
-        "diff_sec": 62969.656454,
+        "diff_sec": 63158.86634,
         "category_badge": "게임산업",
         "theme": "ai"
       },
@@ -2192,11 +2302,11 @@
         "press": "부산일보",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5QNDNtM1Y1WkdUUWZoTDlBcEM0UG9FRjBkb0dvTElfU3c5b0s4STdBSV9JeHI3Z0MxZExEWHo1bUo2MFBRd1JSWndSdFFZM2hoNE9rRXZEYnpVd0U5VnpDR0pRdGFHNnVkU0V3UVh3Z1JzQQ?oc=5",
+        "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5mTVhmRkZHckMxWTZkVWdKX1VwdFJzNWlhdUhlM3M3d2d6V1FocGdDdzRrTzUzampKMXRfTmFDYWF1WjN2MUpFU29xbzdDbGFReHc1V01COGRpcUc4a3NrVUJkeFVEa3g0dU5KelM0NVAtMlp0WkNDQk1UWXM?oc=5",
         "desc": "“손안의 e스포츠 무대” 삼성 갤럭시컵, 게임스컴 달궜다  부산일보",
         "pubDate": "Sun, 30 Aug 2026 02:58:25 GMT",
         "time_ago": "17시간 전",
-        "diff_sec": 63844.655424,
+        "diff_sec": 64033.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2209,7 +2319,7 @@
         "desc": "전국 청소년·청년 300명 전주서 ‘게임 한판’···e스포츠마스터즈 성황  전민일보",
         "pubDate": "Sun, 30 Aug 2026 02:54:48 GMT",
         "time_ago": "17시간 전",
-        "diff_sec": 64061.655424,
+        "diff_sec": 64250.865336,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -2222,25 +2332,25 @@
         "desc": "워시, 잭슨홀서 꺼낸 ‘물가 우선론’…9월 금리인상 공포 다시 켜졌다  서울일보",
         "pubDate": "Sun, 30 Aug 2026 02:51:22 GMT",
         "time_ago": "17시간 전",
-        "diff_sec": 64267.655934,
+        "diff_sec": 64456.86634,
         "category_badge": "게임산업",
         "theme": "tech"
-      },
-      {
-        "title": "[르포] 오락 넘어 문화로… 넷마블이 기록한 韓 게임의 가치",
-        "press": "아시아타임즈",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBPdzNzNnRKNWhaR3lvY2NXZU1YejZoSUVHZFNJck85ZGZZNG5Ob29ZR2pnVWpJcTBmZVJOUGhzdGVCQ2JmWER6TDlnY2RFeG04bVNEd2hIdjZTaXhNRkE?oc=5",
-        "desc": "[르포] 오락 넘어 문화로… 넷마블이 기록한 韓 게임의 가치  아시아타임즈",
-        "pubDate": "Sun, 30 Aug 2026 02:28:00 GMT",
-        "time_ago": "18시간 전",
-        "diff_sec": 65669.654913,
-        "category_badge": "게임산업",
-        "theme": "game"
       }
     ],
     "ai": [
+      {
+        "title": "[인공지능 줌인] 맞춤형 AI 서비스의 가치, 내 개인정보와 바꿀 만한가",
+        "press": "위키리크스한국",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9ieUVFanRyWFVGSHNoUnBjZERtNWFoQnRSNEV2OXp6MlZMdmZjQnlzOGpYT21tUXRNM1IzejVxT2lEWGxJODd3d3pUcWd6NjZ5ZUpzZURrLVBpX2IzTVo1VEh6cVQ5SnZPbV85YUMwN2o?oc=5",
+        "desc": "[인공지능 줌인] 맞춤형 AI 서비스의 가치, 내 개인정보와 바꿀 만한가  위키리크스한국",
+        "pubDate": "Sun, 30 Aug 2026 20:42:42 GMT",
+        "time_ago": "2분 전",
+        "diff_sec": 177.557819,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
       {
         "title": "[The Company] 일하는 방식부터 제조까지 ‘AI 대전환’ 가속",
         "press": "중앙일보",
@@ -2249,8 +2359,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBxV3AyZWNVaUdEYjBzS25iRW9wVm9jaEVMS3dZcG51QmxMX0F6eEhzdnJrRVRRM1plbHZsLTlWOWtHUjhweEJwdUQtNnctWjB1dEl3bWNn?oc=5",
         "desc": "[The Company] 일하는 방식부터 제조까지 ‘AI 대전환’ 가속  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:34:00 GMT",
-        "time_ago": "8분 전",
-        "diff_sec": 510.329055,
+        "time_ago": "11분 전",
+        "diff_sec": 699.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2262,8 +2372,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1nc1ZYeXZBbjNld05abFFsSmF3dzZPdG9fZzlIUHJJZ2ZWWS1xVEpicnFvbVAxTnVMZGNadkRfbHg2UmhNZ0RSdU94QW1CdkhmSXNPQml3?oc=5",
         "desc": "[The Company] 글로벌 빅테크와 ‘AI 동맹’…고객가치 정조준  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:33:01 GMT",
-        "time_ago": "9분 전",
-        "diff_sec": 569.329055,
+        "time_ago": "12분 전",
+        "diff_sec": 758.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2275,8 +2385,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9xRUd3QjdGUTBBb3dnY1dQZUlkSHYtNUtqUElvTUkycVNWcWhsTDBkYU4zQ3ZPYmp3c1hJYUwxeDVMODRVOWwyQU85RE5BcDZQdzNMd1Zn?oc=5",
         "desc": "[The Company] AI 전환·상생 … 혁신 경영 앞세워 미래 성장동력 확보  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:33:01 GMT",
-        "time_ago": "9분 전",
-        "diff_sec": 569.329055,
+        "time_ago": "12분 전",
+        "diff_sec": 758.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2288,8 +2398,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5ZRTN1WE5WUUl6VHYzNVFUbXNyS3Z4eHFkYUR6T3R6cF9zekswdlBvZkRoRjU5UGxIVUlUbnhpSGdBeHRZekdsUXZadTc5SWVXdHFXTzBR?oc=5",
         "desc": "[The Company] AI 시대 맞춤형 에너지 솔루션  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:33:00 GMT",
-        "time_ago": "9분 전",
-        "diff_sec": 570.329055,
+        "time_ago": "12분 전",
+        "diff_sec": 759.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2301,8 +2411,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1HZFBEVm4xNDBMZUNLRlJyQnZFanFQUWJaSDM2bWMxeFhoUjB3QWM5Z1V4MHpCV3pzdTFqMVpfU1ZMUE1vd1BheXVDVzl5MkpvOXE5WU1R?oc=5",
         "desc": "[2026 하반기 혁신 IT 대상] 국내 ICT 산업, AI·데이터 중심 고부가가치 전환  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "10분 전",
-        "diff_sec": 630.329055,
+        "time_ago": "13분 전",
+        "diff_sec": 819.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2314,8 +2424,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBTUmJvcndkZEVVUWhjX3NVMmwxRkVhN080ME9qRlZKRjlfeDVsZ1pHTzRLcFdHZms3bm91b25OLWVtN1ZMX3p5WHBHWHJMRDRFc1VGc21n?oc=5",
         "desc": "[2026 하반기 혁신 IT 대상] 레이더 융합 AI로 어르신 지켜  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "10분 전",
-        "diff_sec": 630.329055,
+        "time_ago": "13분 전",
+        "diff_sec": 819.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2327,8 +2437,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE0yUUt0dUJ0dlRVVU5waFY2NnNfUXpQdDdVUklVank3cHIyeWVhdWVBVWgwc2g3c2pqYzBtQnp2VThuMHpFS0FyWElIS1U2aTRZSHpWSDBR?oc=5",
         "desc": "[2026 하반기 혁신 IT 대상] SI 특화 AI 솔루션 실전에 투입  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "10분 전",
-        "diff_sec": 630.329055,
+        "time_ago": "13분 전",
+        "diff_sec": 819.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2340,8 +2450,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1DMjNNbF9URUlxeF8yTEptakNROS0xTm5fYmNnZ0RiWUtHQXlXU2tnQ3R3U0VzWDh0TFVjaFFmeWZZRld3clVoR2ZJd2pYQ0ltTUdiMmhR?oc=5",
         "desc": "[2026 하반기 혁신 IT 대상] 카톡으로 만나는 ‘AI 업무 비서’  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:32:00 GMT",
-        "time_ago": "10분 전",
-        "diff_sec": 630.329055,
+        "time_ago": "13분 전",
+        "diff_sec": 819.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2353,8 +2463,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1OTFNWeVk1eXFTbGx4ZHJLLXlZenRyam1wX3k4b3MtNjJFeEdNRENzRkpXRW9wSnhodEtiTFVpQ2Fmd0NRODEyek5IUTNmMGdMWkRfcVdR?oc=5",
         "desc": "[2026 하반기 혁신 IT 대상] 음성 AI로 직원 번아웃 조기 발견  중앙일보",
         "pubDate": "Sun, 30 Aug 2026 20:31:00 GMT",
-        "time_ago": "11분 전",
-        "diff_sec": 690.329055,
+        "time_ago": "14분 전",
+        "diff_sec": 879.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2366,8 +2476,8 @@
         "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPNmlYYjhFMkFJeVI5dnZmcUNydGcxcGY0cUs3TnNzbmdwVFhyZEkwYVNjZnZELVBtc3NudFpsSWpEeTZzNkZCNjNDLXZGNS1TSUlHNTIzT1RVWm1vYXFCR1RxQUlWbUR5SnRTV2xUUTBOektLMktVNlVoWjE1c1lVVg?oc=5",
         "desc": "\"반도체 이후 AI 패권 전쟁 수혜주, 에너지株·비트코인 사라\"  조선일보",
         "pubDate": "Sun, 30 Aug 2026 20:30:00 GMT",
-        "time_ago": "12분 전",
-        "diff_sec": 750.329055,
+        "time_ago": "15분 전",
+        "diff_sec": 939.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2379,8 +2489,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE5ybXFwNDVFcTVydGhKRVFsUkVmTWh1UW5YUjJZMlUtM1RaMFc2WTNTSEUwWTNDSDRFWVBLRU1uTndWaGxpV1VsY09haWpmRDVOTEtuaE5qZ0YwQVhwbXdncUV30gFnQVVfeXFMUGNJWThhR1FWeTliWXZoWUV2cW5TOUpCM002NTBCSHh2LTFiN004UVliTnJnWlQ1SFlTVUhXUHkzTFRIUU5SMXZFY3Z0MUFVaEFuY2JraFhEMUJleTlHMkhXXzhsLThuOA?oc=5",
         "desc": "\"AI가 잔반 재활용해도 된다고 했다\"…광장시장 '비위생'에 황당 해명  뉴스1",
         "pubDate": "Sun, 30 Aug 2026 20:30:00 GMT",
-        "time_ago": "12분 전",
-        "diff_sec": 750.330058,
+        "time_ago": "15분 전",
+        "diff_sec": 939.55937,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2392,8 +2502,8 @@
         "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE4yQlZRUjdXTUVyNl9RQnRvOTNrYUJ3YVpIYW9FWjI4RTdEN1J0ZlpkcUNNZllWR3FtdExva0pZN0dSRmZCRzEzV0RxNW14aF9iWTByTVZBUzZwcXREWTZPcWhmTy1JeDNONnRDSjh3?oc=5",
         "desc": "충남도, 사람 중심 ‘충남형 인공지능 기본사회’ 본격 시동  아산포커스",
         "pubDate": "Sun, 30 Aug 2026 20:29:45 GMT",
-        "time_ago": "12분 전",
-        "diff_sec": 765.329055,
+        "time_ago": "15분 전",
+        "diff_sec": 954.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2405,8 +2515,8 @@
         "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBqbTk2VE1Ec0JlQkEzNi1Eb3djYkE4ZHNBOTYwbHlTMHFPVEZNLVRVb1lHZ0NtOGdJeks0OS1fZTJaeG1JUi1Ec0VjRGtXd2lfTDNuYjZzVDZEVTJIRFliRlJnWVByT2FSU21zSnpIRDVyTVdv?oc=5",
         "desc": "[재계는 지금] 쪼개고 뭉치고…SK ‘리밸런싱’ 핵심은 ‘AI 집결·중복 정돈’  대한경제",
         "pubDate": "Sun, 30 Aug 2026 20:00:29 GMT",
-        "time_ago": "42분 전",
-        "diff_sec": 2521.329055,
+        "time_ago": "45분 전",
+        "diff_sec": 2710.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2418,8 +2528,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5IakxubW5XRDRKbXNMVjJEeXdpbW92Z2M4cF9hSUV6bjlwMF9fbl9iNnktYzg3Y1RJWmIzT1k3M2VYa1I2UzJvV19pM2tTRkczY3FuT3Vzak4waG13MlIwdXRNcDHSAWpBVV95cUxNRUNRWWxxby1MSWhhelNxUWlsWk9KNHNKNGlqZzZvVkpHMmNBVXVxZFBiSDBCUmhRTXF6X2Z6WFc2Ump2UzBwOGhWZnNrT05TdkZvbmV6ZkxlZFRJQnNSOExRbV9rSktqdVFR?oc=5",
         "desc": "삼성·SK·현대차·LG, 올 하반기 'AI 인재' 쟁탈전…\"스펙 보단 잠재력\"  뉴스1",
         "pubDate": "Sun, 30 Aug 2026 20:00:00 GMT",
-        "time_ago": "42분 전",
-        "diff_sec": 2550.329055,
+        "time_ago": "45분 전",
+        "diff_sec": 2739.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2432,7 +2542,7 @@
         "desc": "K팝-게임-AI 한자리에… 서울시, ‘엔터테크·GES 서울’ 통합 개최  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 19:34:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4110.329055,
+        "diff_sec": 4299.557819,
         "category_badge": "AI 기술",
         "theme": "game"
       },
@@ -2445,7 +2555,7 @@
         "desc": "AI 기반 ESS에 정밀진단-통합관제… ‘안전운영 기술’ 현장 적용  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 19:32:58 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4172.329055,
+        "diff_sec": 4361.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2458,7 +2568,7 @@
         "desc": "“앤스로픽 AI, 스위프트 등 곡으로 무단 학습”  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4350.329055,
+        "diff_sec": 4539.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2471,7 +2581,7 @@
         "desc": "초등학생부터 취준생까지 단계별 ‘AI 교육’ 제공  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4350.329055,
+        "diff_sec": 4539.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2484,7 +2594,7 @@
         "desc": "경남대에 1000억원 규모 피지컬AI 기반 만든다  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4350.329055,
+        "diff_sec": 4539.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2497,7 +2607,7 @@
         "desc": "‘체크인 척척’ 인천공항 누비는 AI로봇  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4350.329055,
+        "diff_sec": 4539.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2510,7 +2620,7 @@
         "desc": "K팝-게임-AI 한자리에… 서울시, ‘엔터테크·GES 서울’ 통합 개최  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4350.329055,
+        "diff_sec": 4539.557819,
         "category_badge": "AI 기술",
         "theme": "game"
       },
@@ -2523,7 +2633,7 @@
         "desc": "오픈AI, 스페이스X가 품은 커서에 계약해지...머스크 \"사기꾼\" 비난  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 19:27:01 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4529.329055,
+        "diff_sec": 4718.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2536,7 +2646,7 @@
         "desc": "즈푸AI, 中 칩만으로 구동되는 AI 출시  SBS Biz",
         "pubDate": "Sun, 30 Aug 2026 19:25:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4650.330058,
+        "diff_sec": 4839.55937,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2549,7 +2659,7 @@
         "desc": "AI가 넘보지 못하는 '손기술'로…제본·금속공예 견습에 몰린 英 청년들  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 19:21:31 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4859.329055,
+        "diff_sec": 5048.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2562,7 +2672,7 @@
         "desc": "\"포메이션 짜고 상대 공략법까지 제시\" AI 어디까지 왔나... '손흥민 선발' 한국-남아공전 맡겨보니 [창간22 기획] - 머니투데이  머니투데이",
         "pubDate": "Sun, 30 Aug 2026 19:02:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 6030.329055,
+        "diff_sec": 6219.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2575,7 +2685,7 @@
         "desc": "AI기업 몸집 커지는데… 韓 '기술신용대출' 비중 30% 그쳐 - 머니투데이  머니투데이",
         "pubDate": "Sun, 30 Aug 2026 18:46:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 6990.329055,
+        "diff_sec": 7179.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2588,7 +2698,7 @@
         "desc": "AI 데이터센터 개발, ‘AI 영향평가’ 제도 도입해야[기고/김귀곤]  동아일보",
         "pubDate": "Sun, 30 Aug 2026 18:15:27 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 8823.329055,
+        "diff_sec": 9012.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2601,7 +2711,7 @@
         "desc": "450억 달러 AI 펀드 강제 청산이 드러낸 월가 고차입 뇌관  글로벌이코노믹",
         "pubDate": "Sun, 30 Aug 2026 18:15:00 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 8850.329055,
+        "diff_sec": 9039.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -2614,20 +2724,7 @@
         "desc": "[굿모닝 멤버십] 반도체 던진 헤지펀드들… AI 투자금은 어디로 갔나  조선일보",
         "pubDate": "Sun, 30 Aug 2026 18:00:00 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 9750.329055,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "네팔 홍수 사망자 538명 속 가짜 AI 영상 확산…진위 판별은 결국 개인 몫",
-        "press": "위키트리",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9SQmlpWlFpWG53VmI5TDdLcGNleUZNWnVLSjhicUxYT3I1TzNxekNXUVc0NzlYeDRRb3RndExXV2dRWXFCbUZyOVh5dkpQVEsxWlZEb2ZR?oc=5",
-        "desc": "네팔 홍수 사망자 538명 속 가짜 AI 영상 확산…진위 판별은 결국 개인 몫  위키트리",
-        "pubDate": "Sun, 30 Aug 2026 17:28:00 GMT",
-        "time_ago": "3시간 전",
-        "diff_sec": 11670.330058,
+        "diff_sec": 9939.557819,
         "category_badge": "AI 기술",
         "theme": "ai"
       }
@@ -2641,8 +2738,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE8zci1nY0dJalhkbmRYVXJibTdRclBwd3JXTG5SNUhOdXduZkJiQWJQMlpLQmJjV0ltdFJweUFoY1VHQ2lVX0t2VUtxU05LTHlCYjN3?oc=5",
         "desc": "8월 승자는 SW주, 반도체주는?…브로드컴·델 실적, 고용지표 주목[이번주 美 증시는]  네이트",
         "pubDate": "Sun, 30 Aug 2026 20:35:00 GMT",
-        "time_ago": "7분 전",
-        "diff_sec": 451.084561,
+        "time_ago": "10분 전",
+        "diff_sec": 640.221317,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2654,8 +2751,8 @@
         "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPNmlYYjhFMkFJeVI5dnZmcUNydGcxcGY0cUs3TnNzbmdwVFhyZEkwYVNjZnZELVBtc3NudFpsSWpEeTZzNkZCNjNDLXZGNS1TSUlHNTIzT1RVWm1vYXFCR1RxQUlWbUR5SnRTV2xUUTBOektLMktVNlVoWjE1c1lVVg?oc=5",
         "desc": "\"반도체 이후 AI 패권 전쟁 수혜주, 에너지株·비트코인 사라\"  조선일보",
         "pubDate": "Sun, 30 Aug 2026 20:30:00 GMT",
-        "time_ago": "12분 전",
-        "diff_sec": 751.084003,
+        "time_ago": "15분 전",
+        "diff_sec": 940.219757,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2667,8 +2764,8 @@
         "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9RZVVfSjFBOThweEpac3ZpTU9ROVd4dTU2S1N2UDhBUDZTU3BQdUF1dDFSN2o4MFNKaTZPbFpDdllScm9OTWFqTHpLRDZEV21mcFY3TmFVdjUySGdEWEE?oc=5",
         "desc": "[기자의 눈] 엔비디아가 보여준 '주가 예측 투자의 함정'  뉴스투데이",
         "pubDate": "Sun, 30 Aug 2026 20:01:08 GMT",
-        "time_ago": "41분 전",
-        "diff_sec": 2483.084003,
+        "time_ago": "44분 전",
+        "diff_sec": 2672.219757,
         "category_badge": "반도체/컴퓨터",
         "theme": "tech"
       },
@@ -2680,8 +2777,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBQTXF2MU40ZTBaYnQ2SURWSTRYZ08tc1BXSzJYWTF5eTRrdFRHdHJiNXhGR1dYSHZCd2xRUC1aMjVQbkZBS3RhZFU0cmpXa0xjOGFn0gFYQVVfeXFMT1MtMHdIYVE4WjZZNVZqSGp4X0NDS2VNa0N1UXFuSHhjUVJUamo0eG5iazRQZXhQZGx1cll1T1VUUjdSYW50Q1lDOVFfYUYxcnIzOVFmSXk2cg?oc=5",
         "desc": "[글로벌 비즈 브리핑] 금이 대세?...금광株, 반도체 제치고 '폭등' 外  SBS Biz",
         "pubDate": "Sun, 30 Aug 2026 19:51:00 GMT",
-        "time_ago": "51분 전",
-        "diff_sec": 3091.084003,
+        "time_ago": "54분 전",
+        "diff_sec": 3280.219757,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2693,21 +2790,21 @@
         "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE0wT1h5Q05INXNjQXg4VzdYdWliSllQcjdOamxybVBCYWxTcEJuRTY0MzJlUnNSZ0hfSHhqRlB3UTRJOHZjbEFTZVBuaGFRWVRja21GTFhxR0FOTGNpN1E?oc=5",
         "desc": "이번주 코스피 7,000선 재도전…‘워시 쇼크’ 반도체가 끌어올릴까  뉴스투데이",
         "pubDate": "Sun, 30 Aug 2026 19:49:00 GMT",
-        "time_ago": "53분 전",
-        "diff_sec": 3211.084003,
+        "time_ago": "56분 전",
+        "diff_sec": 3400.219757,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
       {
-        "title": "금이 대세? 금광株, 반도체 제치고 '폭등' · 시장 영향은?",
-        "press": "supple.kr",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFB1MHN6YmMwVndMS1pBa2U4aEJJVWdwczI1aFEtVnNoc2U1MW1TdzRwdTJobkxENUN3cV9Ua1lEVFhMM1N0a3VFaVBxWlB5eUJDbU9NWjFQS285M2Ew?oc=5",
-        "desc": "금이 대세? 금광株, 반도체 제치고 '폭등' · 시장 영향은?  supple.kr",
-        "pubDate": "Sun, 30 Aug 2026 19:29:18 GMT",
+        "title": "금이 대세? 금광株, 반도체 제치고 '폭등'",
+        "press": "SBS Biz",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE9XN2J4X080bTFSdFpIblI5cDc1SDFPZUZDdHo2RlZUSVJVZjQtb2RZcFczOEh1dHJ0TmFrTFNub28yclgyUnY5OHg1MkVqXzAxb2ZJ0gFYQVVfeXFMTjBXdXAwMU9oellrM3VyWlE2QUZnNTcxVHFTc0JKWXhrN2d5bnNoNUpsYkc1Y3QzRWF5MnRPVXZXRnNLcmtoVkdMOVdaV3FpQzlKdW85cFVBNg?oc=5",
+        "desc": "금이 대세? 금광株, 반도체 제치고 '폭등'  SBS Biz",
+        "pubDate": "Sun, 30 Aug 2026 19:29:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4393.084003,
+        "diff_sec": 4600.220274,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2720,7 +2817,7 @@
         "desc": "[굿모닝 멤버십] 반도체 던진 헤지펀드들… AI 투자금은 어디로 갔나  조선일보",
         "pubDate": "Sun, 30 Aug 2026 18:00:00 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 9751.083494,
+        "diff_sec": 9940.219757,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2733,7 +2830,7 @@
         "desc": "\"실적 좋아도 소용없다\"...엔비디아(NVDA)·인튜이트(INTU) 희비 엇갈렸다  코인리더스",
         "pubDate": "Sun, 30 Aug 2026 18:00:00 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 9751.084003,
+        "diff_sec": 9940.220274,
         "category_badge": "반도체/컴퓨터",
         "theme": "tech"
       },
@@ -2746,7 +2843,7 @@
         "desc": "SK하이닉스, 美 HBM 생산거점 첫삽…'Made in USA' HBM 만든다 : 네이버 블로그  Naver Blog",
         "pubDate": "Sun, 30 Aug 2026 17:59:25 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 9786.084003,
+        "diff_sec": 9975.219757,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2759,7 +2856,7 @@
         "desc": "[류재철의 로봇 전략] 엔비디아와 휴머노이드 동맹…'원 LG' 이끄는 지휘자 : 네이버 블로그  Naver Blog",
         "pubDate": "Sun, 30 Aug 2026 17:29:56 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 11555.084003,
+        "diff_sec": 11744.220274,
         "category_badge": "반도체/컴퓨터",
         "theme": "robotics"
       },
@@ -2772,7 +2869,7 @@
         "desc": "젠슨 황 \"AI, 변곡점 도달\"… 아마존에 GPU 200만개 추가 공급  금강일보",
         "pubDate": "Sun, 30 Aug 2026 17:10:00 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 12751.084003,
+        "diff_sec": 12940.219757,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2785,7 +2882,7 @@
         "desc": "엔비디아 CEO의 아들은 예전에 칵테일 바를 운영했었다.  Vietnam.vn",
         "pubDate": "Sun, 30 Aug 2026 16:01:15 GMT",
         "time_ago": "4시간 전",
-        "diff_sec": 16876.084561,
+        "diff_sec": 17065.221317,
         "category_badge": "반도체/컴퓨터",
         "theme": "tech"
       },
@@ -2798,7 +2895,7 @@
         "desc": "한은 \"반도체 호황에 기업·가계 소득 늘며 광범위한 물가 상승\"  조선일보",
         "pubDate": "Sun, 30 Aug 2026 15:47:00 GMT",
         "time_ago": "4시간 전",
-        "diff_sec": 17731.084003,
+        "diff_sec": 17920.220274,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2811,7 +2908,7 @@
         "desc": "엔비디아와 손잡고 글로벌 AI 인프라 시장 공략  조선일보",
         "pubDate": "Sun, 30 Aug 2026 15:36:10 GMT",
         "time_ago": "5시간 전",
-        "diff_sec": 18381.084003,
+        "diff_sec": 18570.220274,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2824,7 +2921,7 @@
         "desc": "경기 남부 동탄-기흥 등 ‘반도체 벨트’, 집값 오름세 다시 확대  동아일보",
         "pubDate": "Sun, 30 Aug 2026 15:30:00 GMT",
         "time_ago": "5시간 전",
-        "diff_sec": 18751.084003,
+        "diff_sec": 18940.219757,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2837,7 +2934,7 @@
         "desc": "엔비디아, GW당 매출 400억 달러로 2배 껑충…2027년 반도체 최선호주 등극  위키트리",
         "pubDate": "Sun, 30 Aug 2026 15:30:00 GMT",
         "time_ago": "5시간 전",
-        "diff_sec": 18751.084003,
+        "diff_sec": 18940.219757,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2850,7 +2947,7 @@
         "desc": "반도체 낙수… 물가 광범위 자극 가능성  v.daum.net",
         "pubDate": "Sun, 30 Aug 2026 15:25:07 GMT",
         "time_ago": "5시간 전",
-        "diff_sec": 19044.084003,
+        "diff_sec": 19233.220274,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2863,7 +2960,7 @@
         "desc": "[엔비디아의 AI 패권, GPU를 넘어 '데이터 오케스트레이션'으로 확장되다] 결국 AI 인프라 경쟁의 승자는 가장 빠른 칩을 만드는 회사가 아니라, 가장 거대한 시스템을 가장 효율적으로 움직이는 회사가 될 것이라는 전망  AI넷",
         "pubDate": "Sun, 30 Aug 2026 15:16:46 GMT",
         "time_ago": "5시간 전",
-        "diff_sec": 19545.084003,
+        "diff_sec": 19734.220794,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2876,7 +2973,7 @@
         "desc": "엔비디아, 게임스컴 2026서 DLSS 4.5·RTX 등 차세대 게이밍 기술 대거 공개  티뉴스",
         "pubDate": "Sun, 30 Aug 2026 14:20:51 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 22900.084003,
+        "diff_sec": 23089.220274,
         "category_badge": "반도체/컴퓨터",
         "theme": "game"
       },
@@ -2889,7 +2986,7 @@
         "desc": "\"충남반도체마이스터고, 전국기능경기대회 '통신망분배기술' 석권\"  충청일보",
         "pubDate": "Sun, 30 Aug 2026 13:51:46 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 24645.084561,
+        "diff_sec": 24834.220794,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2901,8 +2998,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE0wVVMwRkpCcFRMRkR4Y0FwSkZtTzRrc3JLYjcyb3ZYM21mMWdWMEl2azNaWWZHTWcxOUFHbXVoTlJma1hOel9KamhBV3dWczR0SWRFSE5R?oc=5",
         "desc": "리플, XRP 레저 양자컴퓨터 대비 4단계 로드맵 공개…2028년 메인넷 전환 목표  위키트리",
         "pubDate": "Sun, 30 Aug 2026 13:45:00 GMT",
-        "time_ago": "6시간 전",
-        "diff_sec": 25051.084003,
+        "time_ago": "7시간 전",
+        "diff_sec": 25240.220274,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2915,7 +3012,7 @@
         "desc": "엔비디아 ‘AI 100만 배 가속’ 선언, 반도체를 넘어 지능 생산체계로  케이트렌디뉴스",
         "pubDate": "Sun, 30 Aug 2026 12:51:30 GMT",
         "time_ago": "7시간 전",
-        "diff_sec": 28261.084003,
+        "diff_sec": 28450.219757,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2928,7 +3025,7 @@
         "desc": "[마켓인사이드] 매출 환호뒤에 감춰진 HBM 가격 급등에 발목 잡힌 엔비디아  뉴스투데이",
         "pubDate": "Sun, 30 Aug 2026 11:57:00 GMT",
         "time_ago": "8시간 전",
-        "diff_sec": 31531.084003,
+        "diff_sec": 31720.220274,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2941,7 +3038,7 @@
         "desc": "강원권 3대 성장엔진 '바이오·반도체·관광' 선정 > 뉴스데스크  MBC 강원영동",
         "pubDate": "Sun, 30 Aug 2026 11:10:00 GMT",
         "time_ago": "9시간 전",
-        "diff_sec": 34351.084003,
+        "diff_sec": 34540.220274,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2954,7 +3051,7 @@
         "desc": "반도체 산단에 도시 성장까지…용인, 생활용수 10만㎥ 추가 요청  팔당유역신문",
         "pubDate": "Sun, 30 Aug 2026 10:24:28 GMT",
         "time_ago": "10시간 전",
-        "diff_sec": 37083.084003,
+        "diff_sec": 37272.220274,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2967,7 +3064,7 @@
         "desc": "[홍승표의 세상만사] 선입선출, 반도체에도 원칙은 있다.  중부일보",
         "pubDate": "Sun, 30 Aug 2026 09:54:00 GMT",
         "time_ago": "10시간 전",
-        "diff_sec": 38911.084561,
+        "diff_sec": 39100.221317,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2980,7 +3077,7 @@
         "desc": "[기획] 레드칩 턱밑 왔는데… K-반도체는 ‘5중 압박’  dt.co.kr",
         "pubDate": "Sun, 30 Aug 2026 09:40:32 GMT",
         "time_ago": "11시간 전",
-        "diff_sec": 39719.084003,
+        "diff_sec": 39908.220274,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2993,7 +3090,7 @@
         "desc": "\"AI가 AI 칩을 만든다\"...'핫칩스 2026'서 확인된 반도체 설계의 대변혁  AI타임스",
         "pubDate": "Sun, 30 Aug 2026 09:16:42 GMT",
         "time_ago": "11시간 전",
-        "diff_sec": 41149.084003,
+        "diff_sec": 41338.219757,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -3006,7 +3103,7 @@
         "desc": "반도체 훈풍 탄 디자인하우스, 상반기 실적 ‘훨훨’  파이낸셜뉴스",
         "pubDate": "Sun, 30 Aug 2026 09:07:16 GMT",
         "time_ago": "11시간 전",
-        "diff_sec": 41715.084561,
+        "diff_sec": 41904.220794,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -3019,7 +3116,7 @@
         "desc": "충북TP 반도체 후공정 전문가 양성과정 마무리  충청매일",
         "pubDate": "Sun, 30 Aug 2026 09:05:04 GMT",
         "time_ago": "11시간 전",
-        "diff_sec": 41847.084561,
+        "diff_sec": 42036.221317,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       }
@@ -3033,8 +3130,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBWVGlqYWZPR29lOUlVaVQwT1hiZlpEa2RueFF0MWxQQlFnUEJ0N1BkV1ZXTzVnRlZ6S1lXR3lfMHRHVHB1ZmhLM3B3MVQzOGpTMUJUTWhBaG5OLUllU0RUcWVFX1F1SW8?oc=5",
         "desc": "테슬라가 3년 묵혀둔 이 부품… 미중 갈등 속 웃는 중국 로봇주  초이스스탁US",
         "pubDate": "Sun, 30 Aug 2026 20:29:46 GMT",
-        "time_ago": "12분 전",
-        "diff_sec": 765.746871,
+        "time_ago": "15분 전",
+        "diff_sec": 954.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3047,7 +3144,7 @@
         "desc": "“볼트보다 빨라도 과자 봉지는 못 집어”… 中 휴머노이드로봇의 두 얼굴  동아일보",
         "pubDate": "Sun, 30 Aug 2026 19:30:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4351.746871,
+        "diff_sec": 4540.884043,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3060,7 +3157,7 @@
         "desc": "로봇 몸값 치솟자… LG전자 가치도 뛴다 - 머니투데이  머니투데이",
         "pubDate": "Sun, 30 Aug 2026 19:01:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 6091.747375,
+        "diff_sec": 6280.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3073,7 +3170,7 @@
         "desc": "[류재철의 로봇 전략] 엔비디아와 휴머노이드 동맹…'원 LG' 이끄는 지휘자 : 네이버 블로그  Naver Blog",
         "pubDate": "Sun, 30 Aug 2026 17:29:56 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 11555.747375,
+        "diff_sec": 11744.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3086,7 +3183,7 @@
         "desc": "中 전기차업계, 박한 車마진 피해 로봇으로  글로벌이코노믹",
         "pubDate": "Sun, 30 Aug 2026 17:00:00 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 13351.746871,
+        "diff_sec": 13540.884043,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3099,7 +3196,7 @@
         "desc": "순천시, 로봇·인공지능 주말 교육 선착순 접수  진일보",
         "pubDate": "Sun, 30 Aug 2026 16:30:00 GMT",
         "time_ago": "4시간 전",
-        "diff_sec": 15151.746871,
+        "diff_sec": 15340.884587,
         "category_badge": "로보틱스",
         "theme": "ai"
       },
@@ -3111,8 +3208,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5XS1dqdFZIMmRxV3hWRjVUdTFwX3JyVU9BVGpjSkVkalptTG1SOUNaZmpWWmZnWTcwaFZfVDg5WTlQMC1SdHYyNU4ta0NqY0VNVGVSYjBGWGZDTFY5ZDctR1lYbWdHVFNoellNWQ?oc=5",
         "desc": "[피지컬 AI ㊸] 차세대 휴머노이드 로봇 글로벌 시장 현황 및 전망 (Tesla, Figure, BD, Unitree)  미디어피아",
         "pubDate": "Sun, 30 Aug 2026 15:45:02 GMT",
-        "time_ago": "4시간 전",
-        "diff_sec": 17849.746871,
+        "time_ago": "5시간 전",
+        "diff_sec": 18038.884587,
         "category_badge": "로보틱스",
         "theme": "ai"
       },
@@ -3125,7 +3222,7 @@
         "desc": "유니트리 G1 휴머노이드 로봇서 원격 해킹 취약점…주변 로봇으로 공격 확산 가능  데일리시큐",
         "pubDate": "Sun, 30 Aug 2026 15:05:48 GMT",
         "time_ago": "5시간 전",
-        "diff_sec": 20203.746871,
+        "diff_sec": 20392.884043,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3138,7 +3235,7 @@
         "desc": "중국 자동차 제조업체, 인간형 로봇 콰이를 추격, Xpeng, 큰 베팅을 이끌다  VOI.ID",
         "pubDate": "Sun, 30 Aug 2026 14:48:45 GMT",
         "time_ago": "5시간 전",
-        "diff_sec": 21226.747901,
+        "diff_sec": 21415.885094,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3151,22 +3248,9 @@
         "desc": "현대차 조지아공장, 로봇 1400대 가동…미국 평균보다 3배 자동화  시애틀코리안데일리",
         "pubDate": "Sun, 30 Aug 2026 13:25:35 GMT",
         "time_ago": "7시간 전",
-        "diff_sec": 26216.746871,
+        "diff_sec": 26405.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
-      },
-      {
-        "title": "특징주, 화천기공-피지컬 AI/휴머노이드 로봇 테마 상승세에 0.15% ↑",
-        "press": "씽크풀 AI",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1mdDczWTNDWDlxOUpzVmpqYUN5ckwxU1dBaHhfY3QtZmlMaG1tX29IbXdFQmdEWTltMVlxUlVlOFZValBRZl8zT3FpdFlMX3FqZWswd090Ym5pLVJpU3hrNQ?oc=5",
-        "desc": "특징주, 화천기공-피지컬 AI/휴머노이드 로봇 테마 상승세에 0.15% ↑  씽크풀 AI",
-        "pubDate": "Sun, 30 Aug 2026 13:12:33 GMT",
-        "time_ago": "7시간 전",
-        "diff_sec": 26998.747375,
-        "category_badge": "로보틱스",
-        "theme": "ai"
       },
       {
         "title": "\"4만원이면 사람 대신 얘가 옵니다\"…집안일 맡겼더니 벌어진 일",
@@ -3177,7 +3261,7 @@
         "desc": "\"4만원이면 사람 대신 얘가 옵니다\"…집안일 맡겼더니 벌어진 일  데일리25",
         "pubDate": "Sun, 30 Aug 2026 12:11:57 GMT",
         "time_ago": "8시간 전",
-        "diff_sec": 30634.747375,
+        "diff_sec": 30823.884587,
         "category_badge": "로보틱스",
         "theme": "tech"
       },
@@ -3190,7 +3274,7 @@
         "desc": "獨 셰플러, 내년부터 휴머노이드용 성형 파동 감속기 양산  로봇신문",
         "pubDate": "Sun, 30 Aug 2026 10:47:38 GMT",
         "time_ago": "9시간 전",
-        "diff_sec": 35693.747375,
+        "diff_sec": 35882.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3203,7 +3287,7 @@
         "desc": "中 부스터로보틱스, 휴머노이드 로봇 동적 비전 의사결정 기술 개발  로봇신문",
         "pubDate": "Sun, 30 Aug 2026 10:46:15 GMT",
         "time_ago": "9시간 전",
-        "diff_sec": 35776.746871,
+        "diff_sec": 35965.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3216,7 +3300,7 @@
         "desc": "中 스완코, 휴머노이드 로봇 '치위안' 시리즈 예약 판매 돌입  로봇신문",
         "pubDate": "Sun, 30 Aug 2026 10:45:51 GMT",
         "time_ago": "9시간 전",
-        "diff_sec": 35800.746871,
+        "diff_sec": 35989.884043,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3228,8 +3312,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9FY3FFekZHWlRnaTFtVFBDRDFXRlVzQlhiY0habVhlT0lORVctaU8yMVBRNF9xdXhJNGZZSVM2dVUwWWNPVmR1ZDEyYkQ1VkIzcF9aV05nc3lBUm5EbHozWTBwa3dla0QwSmRqcQ?oc=5",
         "desc": "[화제의 동영상] 림엑스 다이나믹스, 모바일 휴머노이드 정밀 조작 시연 공개  로봇신문",
         "pubDate": "Sun, 30 Aug 2026 10:42:34 GMT",
-        "time_ago": "9시간 전",
-        "diff_sec": 35997.747375,
+        "time_ago": "10시간 전",
+        "diff_sec": 36186.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3242,20 +3326,7 @@
         "desc": "[포토] 우아한 몸짓의 발레리나와 휴머노이드 로봇  전자신문",
         "pubDate": "Sun, 30 Aug 2026 10:28:11 GMT",
         "time_ago": "10시간 전",
-        "diff_sec": 36860.746871,
-        "category_badge": "로보틱스",
-        "theme": "robotics"
-      },
-      {
-        "title": "Transformation #humanoid #robot #aiart #휴머노이드 #로봇 #ヒューマノイド #shorts #변신 Lewandowski (FhDZJdG7Cg)",
-        "press": "Mshale",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBpMG93TUhxMFNteHU2R29xMm9HNS1nVUJvcVZHejBGbGtoZGNXTjF6REJoeWh6SmtXSHRHT19CQXdQUnliTmQwY1dKYkozeDZjQ0U0R3Q3eHZfWEU?oc=5",
-        "desc": "Transformation #humanoid #robot #aiart #휴머노이드 #로봇 #ヒューマノイド #shorts #변신 Lewandowski (FhDZJdG7Cg)  Mshale",
-        "pubDate": "Sun, 30 Aug 2026 09:27:24 GMT",
-        "time_ago": "11시간 전",
-        "diff_sec": 40507.747901,
+        "diff_sec": 37049.884043,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3268,7 +3339,7 @@
         "desc": "IFA 2026 내달 4일 개막…韓·中·유럽 '피지컬AI 기술' 격전장 된다  네이트",
         "pubDate": "Sun, 30 Aug 2026 08:55:00 GMT",
         "time_ago": "11시간 전",
-        "diff_sec": 42451.747901,
+        "diff_sec": 42640.885094,
         "category_badge": "로보틱스",
         "theme": "ai"
       },
@@ -3281,7 +3352,7 @@
         "desc": "휴머노이드 로봇과 교감  기호일보",
         "pubDate": "Sun, 30 Aug 2026 08:45:49 GMT",
         "time_ago": "11시간 전",
-        "diff_sec": 43002.746871,
+        "diff_sec": 43191.884043,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3294,20 +3365,20 @@
         "desc": "중국 유니트리 상장 후 460% 폭등 : 2026년 국내 휴머노이드 로봇 관련주 정리  네이버 프리미엄콘텐츠",
         "pubDate": "Sun, 30 Aug 2026 08:38:00 GMT",
         "time_ago": "12시간 전",
-        "diff_sec": 43471.746871,
+        "diff_sec": 43660.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
       {
         "title": "'시급 4만원' 로봇에 집 청소 맡겨봤더니…\"느리지만 만족해\"",
-        "press": "v.daum.net",
+        "press": "아시아경제",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5KU0NidzdSdGFuendiYkZBR0xFX3poOGlOLUp2XzFvQmhDdG9udmdiRlJlS3p5dWxWaW9sUEJvQ0JMdmpCa1ctLTExdzZhWnc?oc=5",
-        "desc": "'시급 4만원' 로봇에 집 청소 맡겨봤더니…\"느리지만 만족해\"  v.daum.net",
-        "pubDate": "Sun, 30 Aug 2026 08:09:27 GMT",
+        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5qeWVubXBvMldJeWZoR0VBUXFyVVVNT0R4WkhNZDJlQWYxRmd0ak1YQUoySmc2Vm1RUkdkQWtQUjVmblQ4bGxZc1BpcEtCODN1Qy0yLU1MdDRreU4zVjUzdQ?oc=5",
+        "desc": "'시급 4만원' 로봇에 집 청소 맡겨봤더니…\"느리지만 만족해\"  아시아경제",
+        "pubDate": "Sun, 30 Aug 2026 08:07:01 GMT",
         "time_ago": "12시간 전",
-        "diff_sec": 45184.747375,
+        "diff_sec": 45519.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3320,20 +3391,7 @@
         "desc": "중국산 휴머노이드 로봇: 기술 열풍일까, 아니면 새로운 거품일까?  Vietnam.vn",
         "pubDate": "Sun, 30 Aug 2026 07:51:20 GMT",
         "time_ago": "12시간 전",
-        "diff_sec": 46271.747375,
-        "category_badge": "로보틱스",
-        "theme": "robotics"
-      },
-      {
-        "title": "샤오펑 로봇 9억달러 유치, 휴머노이드 공장 배치 경쟁",
-        "press": "tokenpost.kr",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1fNXlsSjdpUW1QWDdsVzcyQ185dUVfbTkza19xLUxIYTgzNHhMdG1FZl8xaTZha244TnpxM3VtN29HWjZlODkzZzd5Q1Jlb2RPUVkzaFh30gFWQVVfeXFMTV81eWxKN2lRbVBYN2xXNzJDXzl1RV9tOTNrX3EtTEhhODM0eEx0bUVmXzFpNmFrbjhOenEzdW03b0daNmU4OTNnN3lDUmVvZE9RWTNoWHc?oc=5",
-        "desc": "샤오펑 로봇 9억달러 유치, 휴머노이드 공장 배치 경쟁  tokenpost.kr",
-        "pubDate": "Sun, 30 Aug 2026 05:15:54 GMT",
-        "time_ago": "15시간 전",
-        "diff_sec": 55597.747375,
+        "diff_sec": 46460.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3346,7 +3404,7 @@
         "desc": "머스크도 ‘손’이 가장 어렵다는데…핀셋으로 나사 집는 中로봇, 가격은 5분의1  매일경제",
         "pubDate": "Sun, 30 Aug 2026 04:39:27 GMT",
         "time_ago": "16시간 전",
-        "diff_sec": 57784.747375,
+        "diff_sec": 57973.885094,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3359,7 +3417,7 @@
         "desc": "[조달주(株) 탐구] 이동로봇 다음은 ‘손’…정부과제로 본 국내 로봇산업의 지향점  조달경제신문",
         "pubDate": "Sun, 30 Aug 2026 04:00:00 GMT",
         "time_ago": "16시간 전",
-        "diff_sec": 60151.747375,
+        "diff_sec": 60340.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3372,7 +3430,7 @@
         "desc": "샤오펑 로봇사업, 9억달러 이상 투자유치⋯기업가치 63억달러 넘어  엠투데이",
         "pubDate": "Sun, 30 Aug 2026 04:00:00 GMT",
         "time_ago": "16시간 전",
-        "diff_sec": 60151.747901,
+        "diff_sec": 60340.885094,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3385,7 +3443,7 @@
         "desc": "중국이 휴머노이드 로봇 경쟁에서 새롭게 우위를 점하게 되었다.  Vietnam.vn",
         "pubDate": "Sun, 30 Aug 2026 03:34:41 GMT",
         "time_ago": "17시간 전",
-        "diff_sec": 61670.747901,
+        "diff_sec": 61859.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3398,7 +3456,7 @@
         "desc": "휴머노이드 전쟁 승부처는 ‘손’…한국, 로봇핸드 양산에 베팅  서울일보",
         "pubDate": "Sun, 30 Aug 2026 03:15:00 GMT",
         "time_ago": "17시간 전",
-        "diff_sec": 62851.747375,
+        "diff_sec": 63040.884587,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -3411,38 +3469,51 @@
         "desc": "순천, 9월부터 피지컬AI·휴머노이드 주말 교육…매주 토요일 운영  AI타임스",
         "pubDate": "Sun, 30 Aug 2026 00:35:00 GMT",
         "time_ago": "20시간 전",
-        "diff_sec": 72451.746871,
+        "diff_sec": 72640.884587,
         "category_badge": "로보틱스",
         "theme": "ai"
+      },
+      {
+        "title": "中, 로봇 1만대 현장 투입 '승부수'...시장 수요는 '미지수'",
+        "press": "초이스경제",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFA5WkZoOXlZVnRrYjFBZGJ5X2Npc1R4dl9qRTVxN0hQb2IxeXJYb0p6ZzhteDdUSG9TNFZtU2FWeV9ITWRvTkVqMVNkbVVmWEtRX04zTGFzZnZDTm1SWEdScUhMS1Z5Qlpjcm5INDR4Y9IBc0FVX3lxTFBrMlFneGV2NE84a0Y1YlBDbV9mR1gxelZMODlUMnhVOTFWYVVUVlExUVo3akQ0WGVVQ3lBNHdZdUlzbkNFR0VvY2wzbVV0YUUxWmlQZjRHRUNvVHp1VUxRbC1obklPTGpqMmxvN2c3dzVBRmc?oc=5",
+        "desc": "中, 로봇 1만대 현장 투입 '승부수'...시장 수요는 '미지수'  초이스경제",
+        "pubDate": "Sun, 30 Aug 2026 00:30:52 GMT",
+        "time_ago": "20시간 전",
+        "diff_sec": 72888.885094,
+        "category_badge": "로보틱스",
+        "theme": "robotics"
+      },
+      {
+        "title": "[특집/ 향후 10년 한국의 수출을 이끌 차세대 산업 시리즈 No.9 로봇] “공장에서 휴머노이드까지”…K-로봇, AI와 결합해 향후 10년 한국 수출 새 성장축으로",
+        "press": "코리아포스트 한글판",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9PN0E2Q085OXNMRG1EZ3RrODBuREgya1dfc19XdXh1cllQZHNkcDVzTDkwbXc4Vm56RnpRSTZHb3RtcEJUcUhRN2lrLS1zZnFkMXpDSlVhRU1VYThHc0lwVVJFTmVlVzN2SUtCTk9B?oc=5",
+        "desc": "[특집/ 향후 10년 한국의 수출을 이끌 차세대 산업 시리즈 No.9 로봇] “공장에서 휴머노이드까지”…K-로봇, AI와 결합해 향후 10년 한국 수출 새 성장축으로  코리아포스트 한글판",
+        "pubDate": "Sun, 30 Aug 2026 00:30:00 GMT",
+        "time_ago": "20시간 전",
+        "diff_sec": 72940.885094,
+        "category_badge": "로보틱스",
+        "theme": "ai"
+      },
+      {
+        "title": "유니트리가 촉발한 '로봇전쟁'...월가는 휴머노이드 아닌 인프라를 택했다",
+        "press": "네이버 프리미엄콘텐츠",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOekg3UlV5N1F3QzluSVFIM0lHUHJkeTF4QnFXSi1ybHBJaGk3U1YxZUpmLUhaRmNtNUpKeWdWbWppb3hBWUpoQlZvSmFOX1ZIRm51R2xPY3VVOE9WRG5JYnE2QW9vX2ZVX2RVczNDR2VOdFcxV0k2TjJaUEpSNHp2UzBtWkVXZw?oc=5",
+        "desc": "유니트리가 촉발한 '로봇전쟁'...월가는 휴머노이드 아닌 인프라를 택했다  네이버 프리미엄콘텐츠",
+        "pubDate": "Sun, 30 Aug 2026 00:05:06 GMT",
+        "time_ago": "20시간 전",
+        "diff_sec": 74434.885094,
+        "category_badge": "로보틱스",
+        "theme": "robotics"
       }
     ],
     "industry": [
-      {
-        "title": "[클릭 e종목]\"더존비즈온, 그룹웨어·클라우드 성장률 둔화…목표가 하향\"",
-        "press": "아시아경제",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPV1BlekZTX2hvODVxdS1LMDJfUTV2SVI1clQxTEs5dlU0VFpaUEhBbHctbmlRdTlHZjRwT1RFNngwdks5RkpBVEJlQmIxQ2cyVlJEWGloZnYtZHc5OVdENkl4WUV5c3lPRzZ1Ql93QTNHYlE4U0ZCWmVsTHVmaVBTdUkzQ0tsOGxZTGFnbWtJdHpHaHBrbzBoX20xdjBpc3BGNm5FQkJ5V2htUW85SFQ1dEFkSTVCLTI2TDh3eGt1UFhCQ09JdE1UVTFlNFJqdjA?oc=5",
-        "desc": "[클릭 e종목]\"더존비즈온, 그룹웨어·클라우드 성장률 둔화…목표가 하향\"  아시아경제",
-        "pubDate": "Sun, 30 Aug 2026 13:50:27 GMT",
-        "time_ago": "6시간 전",
-        "diff_sec": 24725.424332,
-        "category_badge": "미래산업",
-        "theme": "tech"
-      },
-      {
-        "title": "Global Cloud Content Delivery Network (CDN) 마켓 상위 20개 기업",
-        "press": "Spherical Insights",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxQRUtNdFpQa2VlcTdnbWl0eXNIWXhTUE0yUTMzMEFKT1VaN0dEZ29Gcm5xRjlFeldkME0yUGVHNTlpdkxFQTdBOHM1YnFCZzZaa3Y2UnpCaXJsRDBBOG12OUpjUW0wMV9PNHVhWmlEeThxRGRfT1o5RDBOX3JGeW5COVNqcGRiMGtiUHZGRHRzMVpORDhpUUhNZGZDR1Q3TzBjbTJOWi1hOUdHS25BYTBNaGRsVnBpRlJGbC1EOWIyV0wzbFpNZU5vVmZRVkVwcG5ZMmRkUXpaUHlXRmZsLWlzRnlyWUFOM0hOajNZ?oc=5",
-        "desc": "Global Cloud Content Delivery Network (CDN) 마켓 상위 20개 기업  Spherical Insights",
-        "pubDate": "Sun, 30 Aug 2026 12:40:35 GMT",
-        "time_ago": "8시간 전",
-        "diff_sec": 28917.424332,
-        "category_badge": "미래산업",
-        "theme": "tech"
-      },
       {
         "title": "TS-KISA, 자동차 사이버보안 강화 업무협약",
         "press": "대구신문",
@@ -3452,7 +3523,20 @@
         "desc": "TS-KISA, 자동차 사이버보안 강화 업무협약  대구신문",
         "pubDate": "Sun, 30 Aug 2026 12:13:00 GMT",
         "time_ago": "8시간 전",
-        "diff_sec": 30572.424332,
+        "diff_sec": 30761.622817,
+        "category_badge": "미래산업",
+        "theme": "tech"
+      },
+      {
+        "title": "사이버 보안 사고 예방 훈련",
+        "press": "Vietnam.vn",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFB2cXo3cjlRNXRkaC1xSWFzNDdRUHpHelpqbUZSVXhlTkdiT1I1ckNTcXN5bGRIOUM3bFhoZDVfelY3ZlFhRzJkRzhDSGRFTFR6UGZ2WDMtM19NbGVQSEJHMDFKazJjNldVeTJ6Q1Q0WnJBdw?oc=5",
+        "desc": "사이버 보안 사고 예방 훈련  Vietnam.vn",
+        "pubDate": "Sun, 30 Aug 2026 10:57:14 GMT",
+        "time_ago": "9시간 전",
+        "diff_sec": 35307.623327,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3465,7 +3549,7 @@
         "desc": "숭실대 AI안전성연구센터 \"MS와 버금 세계적 보안AI 개발\"  지디넷코리아",
         "pubDate": "Sun, 30 Aug 2026 10:27:29 GMT",
         "time_ago": "10시간 전",
-        "diff_sec": 36903.424332,
+        "diff_sec": 37092.622817,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3478,7 +3562,7 @@
         "desc": "사이버보안 제품 및 서비스 사업을 영위하기 위한 조건.  Vietnam.vn",
         "pubDate": "Sun, 30 Aug 2026 10:01:50 GMT",
         "time_ago": "10시간 전",
-        "diff_sec": 38442.424332,
+        "diff_sec": 38631.622817,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3491,7 +3575,7 @@
         "desc": "유럽은 글로벌 칩, 클라우드 및 AI 솔루션에 대한 의존도를 줄이고자 합니다.  Vietnam.vn",
         "pubDate": "Sun, 30 Aug 2026 08:32:43 GMT",
         "time_ago": "12시간 전",
-        "diff_sec": 43789.424332,
+        "diff_sec": 43978.622307,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3504,20 +3588,7 @@
         "desc": "영주고, 전국기능경기대회 사이버보안 금메달  제주도민일보",
         "pubDate": "Sun, 30 Aug 2026 06:20:47 GMT",
         "time_ago": "14시간 전",
-        "diff_sec": 51705.424332,
-        "category_badge": "미래산업",
-        "theme": "tech"
-      },
-      {
-        "title": "대한민국 항만, 4차 산업혁명과 만나 스마트항만으로 다시 태어나다!",
-        "press": "대한민국 정책브리핑",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNQ2lPWHBlS0ZIdXpuR0FBbjRTdFBmNV9iZDdRNWNSc3A4MjMxNFR4akxseE9mMF9yT19QcFRMR1J0MkFrbGdoTlNqNXdwd2JrYTJpUVViZy1ydVAtMEdtdHNaUDZ3c0FHUUlqSDVCVllLVW1BRFFuX1JSZHgzT1N5TGNPWXJDVmhiZWJ2d3NMemw0YnRzMFByaFBncUc0dHlpY2R5dVQ0QVJhbHRqVm1welBmcElmTm12T0JnNGM4eHpMbXViSmdCZHA4c3RPd011cGhOMjJVUQ?oc=5",
-        "desc": "대한민국 항만, 4차 산업혁명과 만나 스마트항만으로 다시 태어나다!  대한민국 정책브리핑",
-        "pubDate": "Sun, 30 Aug 2026 05:36:57 GMT",
-        "time_ago": "15시간 전",
-        "diff_sec": 54335.424332,
+        "diff_sec": 51894.622817,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3530,7 +3601,7 @@
         "desc": "람다, 엔비디아 GPU 확보에 대규모 자금 투입…\"1조 2700억 원 대출\"  AI포스트",
         "pubDate": "Sun, 30 Aug 2026 05:18:49 GMT",
         "time_ago": "15시간 전",
-        "diff_sec": 55423.425338,
+        "diff_sec": 55612.623327,
         "category_badge": "미래산업",
         "theme": "semiconductor"
       },
@@ -3543,7 +3614,7 @@
         "desc": "영주고, 제61회 전국기능경기대회 사이버보안 직종 금메달(전국 1위) 획득  뉴스N제주",
         "pubDate": "Sun, 30 Aug 2026 04:24:42 GMT",
         "time_ago": "16시간 전",
-        "diff_sec": 58670.424332,
+        "diff_sec": 58859.622817,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3556,7 +3627,7 @@
         "desc": "영주고 신주원, 전국기능경기대회 사이버보안 1위  제주매일",
         "pubDate": "Sun, 30 Aug 2026 02:46:05 GMT",
         "time_ago": "17시간 전",
-        "diff_sec": 64587.424332,
+        "diff_sec": 64776.622817,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3569,7 +3640,7 @@
         "desc": "“전력난 피하자” 엔비디아가 택한 새 길  한경매거진&북",
         "pubDate": "Sun, 30 Aug 2026 01:56:00 GMT",
         "time_ago": "18시간 전",
-        "diff_sec": 67592.425338,
+        "diff_sec": 67781.622817,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3578,26 +3649,13 @@
         "press": "simplywall.st",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPLU1QbWVyYnJJQndyVlJhYU93X3B4eGRMcEJfYzhrN0FjcEtkNjdrZWhmR282RGpHZzQ1N0xRSlJWYnNNcEx2MjNwYmw0d01vbVdtb3g0TTRQOXNjM25mMjVtanNOcnM1OHdOVlR2d2lXU3AweHZrVlBNajkya1o5ZWRreW9lQXpFUlVKRmZMaUFTc1JzVXNv0gGcAUFVX3lxTFBzNkxOVnJjZnA4V0xvWE1sdmpHeUQ4WE40YW5nb0p5UDdJaThUcGFZTkdsQ2tRTUt4Z3FQZ0lxS2xWQ0xpYnJoRXhtS2lvblMzU3V2bE5zN3BoeUtpSEliZFpzdW0xYnJ3Tzd3Rk94Zkl5RlpaVnh5dlVnWWdBX0c3b2hQLUxpQjhPVlhrU0RnaTZWVXJDZE9HVWUwLQ?oc=5",
+        "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNRHJjQTgxNE5sWXJGZDZNQ00xUEFULURFcC1aS1RDdDB3QkNLWWQtWm14dHdISkVVM3VDTDBfVl9CQjduZndEb0U1UWJnT2JqY3JxcjhLYjJvazdtWUNWNmZTRjhUczhDenlTMnBMQWFuWnIyeFNKMUtFWGpjczBjbGhhSllTNmZsRnp6ajBwMWJJTDhtMnlPQ1B1VWxQazNpS0VCd2ltN0djRkt4SmJTMU5nQVFtVWtIRjJhWFNsSUhmRWFyR2daY2lQc04tZDNIWlHSAZwBQVVfeXFMUHM2TE5WcmNmcDhXTG9YTWx2akd5RDhYTjRhbmdvSnlQN0lpOFRwYVlOR2xDa1FNS3hncVBnSXFLbFZDTGlicmhFeG1LaW9uUzNTdXZsTnM3cGh5S2lISWJkWnN1bTFicndPN3dGT3hmSXlGWlpWeHl2VWdZZ0FfRzdvaFAtTGlCOE9WWGtTRGdpNlZVckNkT0dVZTAt?oc=5",
         "desc": "브로드컴(AVGO), 엔터프라이즈 AI 프라이빗 클라우드 협력 확대  simplywall.st",
-        "pubDate": "Sun, 30 Aug 2026 01:48:32 GMT",
-        "time_ago": "18시간 전",
-        "diff_sec": 68040.424332,
+        "pubDate": "Sun, 30 Aug 2026 01:40:49 GMT",
+        "time_ago": "19시간 전",
+        "diff_sec": 68692.622817,
         "category_badge": "미래산업",
         "theme": "ai"
-      },
-      {
-        "title": "IBM(IBM), 해외 은행 코어뱅킹 현대화로 하이브리드 클라우드 존재감 키운 이유",
-        "press": "simplywall.st",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNbllMeGZIS01GT21hQ3lnZjB1MkNwU3NsUWY0a0dGMzdmdlZtWGoza1c2UFd2VlR4TlNhb2kwSjJLYVVmZ1lvSG5GcFByVVV0bENZcDhKNVlyQm5zZEZLQnZIQlkwclZRV1VDeUR3czFBTl96Z19UcjZndHVSM1lVZnp3YnpjSk1pZVF1VjJ3aXExRVU4bDBoRUdET1ktSTVHTEx0eWh4UUlzUlgzdGs40gGvAUFVX3lxTE1uWUx4ZkhLTUZPbWFDeWdmMHUyQ3BTc2xRZjRrR0YzN2Z2Vm1YajNrVzZQV3ZWVHhOU2FvaTBKMkthVWZnWW9IbkZwUHJVVXRsQ1lwOEo1WXJCbnNkRktCdkhCWTByVlFXVUN5RHdzMUFOX3pnX1RyNmd0dVIzWVVmendiemNKTWllUXVWMndpcTFFVThsMGhFR0RPWS1JNUdMTHR5aHhRSXNSWDN0azg?oc=5",
-        "desc": "IBM(IBM), 해외 은행 코어뱅킹 현대화로 하이브리드 클라우드 존재감 키운 이유  simplywall.st",
-        "pubDate": "Sun, 30 Aug 2026 01:42:53 GMT",
-        "time_ago": "18시간 전",
-        "diff_sec": 68379.425338,
-        "category_badge": "미래산업",
-        "theme": "tech"
       },
       {
         "title": "비자(V)의 사이버 보안, 스테이블코인 및 시장 재진입 움직임이 주주들에게 어떤 의미를 갖는가",
@@ -3608,7 +3666,7 @@
         "desc": "비자(V)의 사이버 보안, 스테이블코인 및 시장 재진입 움직임이 주주들에게 어떤 의미를 갖는가  simplywall.st",
         "pubDate": "Sun, 30 Aug 2026 00:25:31 GMT",
         "time_ago": "20시간 전",
-        "diff_sec": 73021.425338,
+        "diff_sec": 73210.623327,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3620,8 +3678,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE96cU91YUJ5UU9LTjBzR3VpVnJ1Q013UjRvUV94Q0FrQzN2NnpNUC1udUNBd3M0VUk4dzVWaFYyQU5oX19yWjRMR19tMUpTTTR1cTFONko2cTY3ZDE1dXNSUg?oc=5",
         "desc": "인천TP, 자동차 부품기업 찾아가 사이버보안 현장 교육  네이트",
         "pubDate": "Sat, 29 Aug 2026 23:44:00 GMT",
-        "time_ago": "20시간 전",
-        "diff_sec": 75512.425841,
+        "time_ago": "21시간 전",
+        "diff_sec": 75701.62385,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3633,8 +3691,8 @@
         "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBsTVFabVB2RWx2TGUtbFNrM05VdzVJVEhrV0JGMnk3U1pMLXBMLVF0UTVpLVo1MU5mU0VEUGh5S0R3bmtyeGRscXRlakUzQktxTVQzWXNjdk1YZw?oc=5",
         "desc": "인천TP, 자동차 부품기업 찾아가 사이버보안 현장 교육  브릿지경제",
         "pubDate": "Sat, 29 Aug 2026 23:43:00 GMT",
-        "time_ago": "20시간 전",
-        "diff_sec": 75572.424332,
+        "time_ago": "21시간 전",
+        "diff_sec": 75761.622307,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3647,7 +3705,7 @@
         "desc": "美, 제3국 통한 中 AI칩 원격 활용 우회로 차단 추진…클라우드망 긴장  글로벌이코노믹",
         "pubDate": "Sat, 29 Aug 2026 22:03:49 GMT",
         "time_ago": "22시간 전",
-        "diff_sec": 81523.424332,
+        "diff_sec": 81712.622817,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3660,7 +3718,7 @@
         "desc": "AI정보분석  씽크풀 AI",
         "pubDate": "Sat, 29 Aug 2026 21:52:06 GMT",
         "time_ago": "22시간 전",
-        "diff_sec": 82226.425338,
+        "diff_sec": 82415.623327,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3672,8 +3730,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE40MTljM2tmcTA2dGpPSzhwMW1HZ3BtXy1WSFlXa1RrRjhxNDVZTm9ETFpUcmNJOWU4ZVFid1A0OTM2bmxYUnVzUUJXVHEtRk92MEdXcjhsZjJDVXRpcVRCOHZnblI?oc=5",
         "desc": "JB금융지주, 그룹사 클라우드 지주로 통합한다…AX 가속화 `첫발`  디지털데일리",
         "pubDate": "Sat, 29 Aug 2026 21:44:19 GMT",
-        "time_ago": "22시간 전",
-        "diff_sec": 82693.424332,
+        "time_ago": "23시간 전",
+        "diff_sec": 82882.622817,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3686,7 +3744,7 @@
         "desc": "AI를 기반으로 한 클라우드 부문의 호조가 4분기 실적을 끌어올리며 마이크로소프트(MSFT) 주가 6.3% 상승 - 무엇이 달라졌나  simplywall.st",
         "pubDate": "Sat, 29 Aug 2026 19:40:53 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 90099.425841,
+        "diff_sec": 90288.624358,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3699,7 +3757,7 @@
         "desc": "AI를 기반으로 한 클라우드 부문의 호조가 4분기 실적을 끌어올리며 마이크로소프트(MSFT) 주가 6.3% 상승 - 무엇이 달라졌나  simplywall.st",
         "pubDate": "Sat, 29 Aug 2026 19:40:41 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 90111.425841,
+        "diff_sec": 90300.624358,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3712,7 +3770,7 @@
         "desc": "[당신의 디지털 트윈은 당신보다 오래 살 수 있다] 디지털 트윈은 수동적 대화 상대를 넘어 고인을 대신해 행동할 수 있는 능동적 AI 에이전트로 진화할 수 있다.  AI넷",
         "pubDate": "Sat, 29 Aug 2026 13:21:37 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 112855.425841,
+        "diff_sec": 113044.62385,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3725,7 +3783,7 @@
         "desc": "오픈AI와 앤트로픽 포함 100개 기업, 고조되는 AI 사이버 공격 경고: 주목할 만한 사이버보안주는?  TradingKey",
         "pubDate": "Sat, 29 Aug 2026 08:00:00 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 132152.425841,
+        "diff_sec": 132341.62385,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3738,7 +3796,7 @@
         "desc": "NHN클라우드, 포항 데이터센터 20㎿ 임차…60개월 확약  자본시장뉴스",
         "pubDate": "Sat, 29 Aug 2026 06:30:00 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 137552.425338,
+        "diff_sec": 137741.623327,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3751,7 +3809,7 @@
         "desc": "제이스마트솔루션, 우즈벡 타슈켄트 아주대와 MOU…중앙아시아 AI·디지털트윈 영토 확장  v.daum.net",
         "pubDate": "Sat, 29 Aug 2026 04:17:00 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 145532.425841,
+        "diff_sec": 145721.62385,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3764,7 +3822,7 @@
         "desc": "제이스마트솔루션, 우즈벡 타슈켄트 아주대와 MOU…중앙아시아 AI·디지털트윈 영토 확장  파이낸셜뉴스",
         "pubDate": "Sat, 29 Aug 2026 04:15:45 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 145607.425841,
+        "diff_sec": 145796.62385,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -3777,7 +3835,7 @@
         "desc": "크몽, 소비자신뢰 대표브랜드 대상 3년 연속 수상…휴먼 클라우드 경쟁력 인정  뉴스탭",
         "pubDate": "Sat, 29 Aug 2026 03:56:52 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 146740.425841,
+        "diff_sec": 146929.62385,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3790,7 +3848,7 @@
         "desc": "\"싱가포르·태국 클라우드 렌탈 막는다\"…美, 中 원격 칩 접근 빗장 잠근다  디지털데일리",
         "pubDate": "Sat, 29 Aug 2026 02:04:13 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 153499.425338,
+        "diff_sec": 153688.623327,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3803,7 +3861,46 @@
         "desc": "메가존클라우드, 스노우플레이크 '올해의 파트너상' 2년 연속 수상  디지털경제뉴스",
         "pubDate": "Sat, 29 Aug 2026 01:09:18 GMT",
         "time_ago": "1일 전",
-        "diff_sec": 156794.425841,
+        "diff_sec": 156983.62385,
+        "category_badge": "미래산업",
+        "theme": "tech"
+      },
+      {
+        "title": "앤드리슨 호로비츠, 노틸러스 바이오테크놀로지 지분 6.0%로 축소…장내 매도 지속",
+        "press": "데이터투자",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE04aHViNFJ1dS1BSmZscXJjb1ltUE9QRkp0R3BYNU1qcnhpOEI2MV9MbndWSHVpRGZpVW9RWDRhNXItLUlOekNsZHloaWZlNGh5T3RhdzhwNnVZaGIxVV9pT0FDNEVHa0FjVUFSUmRzaV9vQQ?oc=5",
+        "desc": "앤드리슨 호로비츠, 노틸러스 바이오테크놀로지 지분 6.0%로 축소…장내 매도 지속  데이터투자",
+        "pubDate": "Fri, 28 Aug 2026 23:45:11 GMT",
+        "time_ago": "1일 전",
+        "diff_sec": 162030.624358,
+        "category_badge": "미래산업",
+        "theme": "tech"
+      },
+      {
+        "title": "카지노 브라이언 을 활용한 효율적인 방법: 시간과 비용 절약 - 실전 사례 분석",
+        "press": "Platea Magazine",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1WS0VTQ2RNX19zSy1CbFN4RUI2bWtHYjkxVU9QMDFnSkVGempTcmFuZmlHY3ZHOVZfbXdmVWktQXNsTElYanZ4RzlmS3ZLajlIQnZva19NWlE?oc=5",
+        "desc": "카지노 브라이언 을 활용한 효율적인 방법: 시간과 비용 절약 - 실전 사례 분석  Platea Magazine",
+        "pubDate": "Fri, 28 Aug 2026 23:16:47 GMT",
+        "time_ago": "1일 전",
+        "diff_sec": 163734.623327,
+        "category_badge": "미래산업",
+        "theme": "tech"
+      },
+      {
+        "title": "[금주핫템] 뉴발란스 '880R'·AGE20'S '클라우드 컴포트 파우더 팩트'",
+        "press": "v.daum.net",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5YX1Z4amZnY1hKSVNRMzhCdFpnQ3hMckJLQmNTdGVBUzltVDdXNWtNbVcyR2JWSnY1LTI1RWRTYVJpcFdRbDRBNFRObzRfOTdWY09HUw?oc=5",
+        "desc": "[금주핫템] 뉴발란스 '880R'·AGE20'S '클라우드 컴포트 파우더 팩트'  v.daum.net",
+        "pubDate": "Fri, 28 Aug 2026 22:04:13 GMT",
+        "time_ago": "1일 전",
+        "diff_sec": 168088.624358,
         "category_badge": "미래산업",
         "theme": "tech"
       }
