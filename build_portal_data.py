@@ -24,13 +24,14 @@ def build_data():
         weather[city] = news_service.get_weather_and_air(city)
     print(" -> 날씨 수집 완료")
 
-    print("[3/3] 4차 산업 5개 카테고리 핵심 뉴스 수집 중...")
+    print("[3/3] 4차 산업 및 게임 산업 6개 카테고리 핵심 뉴스 수집 중...")
     news = {
-        "all": news_service.get_4th_industry_news("all", limit=25),
-        "ai": news_service.get_4th_industry_news("ai", limit=25),
-        "semiconductor": news_service.get_4th_industry_news("semiconductor", limit=25),
-        "robotics": news_service.get_4th_industry_news("robotics", limit=25),
-        "industry": news_service.get_4th_industry_news("industry", limit=25),
+        "all": news_service.get_4th_industry_news("all", limit=30),
+        "game": news_service.get_4th_industry_news("game", limit=30),
+        "ai": news_service.get_4th_industry_news("ai", limit=30),
+        "semiconductor": news_service.get_4th_industry_news("semiconductor", limit=30),
+        "robotics": news_service.get_4th_industry_news("robotics", limit=30),
+        "industry": news_service.get_4th_industry_news("industry", limit=30),
     }
     print(" -> 뉴스 수집 완료")
 

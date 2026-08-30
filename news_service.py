@@ -423,33 +423,39 @@ SAFE_PRESS_LIST = [
     "지디넷코리아", "아이뉴스24", "AI타임스", "동아일보", "조선일보", "중앙일보",
     "경향신문", "한겨레", "YTN", "KBS", "MBC", "SBS", "JTBC", "머니투데이",
     "이데일리", "파이낸셜뉴스", "뉴시스", "뉴스1", "인공지능신문", "테크M", "IT조선",
-    "블로터", "보안뉴스", "로봇신문", "디지털타임스"
+    "블로터", "보안뉴스", "로봇신문", "디지털타임스", "인벤", "디스이즈게임",
+    "게임메카", "게임포커스", "데일리게임", "경향게임스", "게임톡", "포모스"
 ]
 
 NEWS_CATEGORIES = {
     "all": {
-        "title": "전체 최신",
-        "query": "AI 인공지능 OR 컴퓨터 반도체 OR 4차산업 로봇",
-        "badge": "종합 4차산업"
+        "title": "전체 최신 소식",
+        "query": "(AI OR 인공지능 OR 반도체 OR GPU OR 양자컴퓨터 OR 로봇 OR 게임산업 OR 게임업계 OR 미래기술) when:2d",
+        "badge": "종합 최신"
+    },
+    "game": {
+        "title": "게임 업계 · 산업",
+        "query": "(게임산업 OR 게임업계 OR 넥슨 OR 크래프톤 OR 엔씨소프트 OR 넷마블 OR 콘솔 OR 스팀 OR e스포츠) when:3d",
+        "badge": "게임산업"
     },
     "ai": {
         "title": "AI · 인공지능",
-        "query": "AI 인공지능 OR 생성형AI OR LLM OR 딥러닝",
+        "query": "(AI OR 인공지능 OR 생성형AI OR LLM OR OpenAI OR 딥러닝) when:3d",
         "badge": "AI 기술"
     },
     "semiconductor": {
         "title": "반도체 · 컴퓨터",
-        "query": "반도체 OR GPU OR HBM OR 양자컴퓨터 OR 슈퍼컴퓨팅",
-        "badge": "하드웨어/컴퓨터"
+        "query": "(반도체 OR GPU OR HBM OR 양자컴퓨터 OR 슈퍼컴퓨팅 OR 엔비디아) when:3d",
+        "badge": "반도체/컴퓨터"
     },
     "robotics": {
         "title": "로봇 · 자율주행",
-        "query": "휴머노이드 로봇 OR 자율주행 OR 스마트팩토리 OR UAM",
+        "query": "(휴머노이드 로봇 OR 자율주행 OR 스마트팩토리 OR UAM OR 보스턴다이내믹스) when:3d",
         "badge": "로보틱스"
     },
     "industry": {
         "title": "미래 산업 · 혁신",
-        "query": "4차산업혁명 OR 클라우드 OR 디지털트윈 OR 사이버보안 OR 바이오테크",
+        "query": "(4차산업혁명 OR 클라우드 OR 디지털트윈 OR 사이버보안 OR 바이오테크) when:3d",
         "badge": "미래산업"
     }
 }
@@ -463,7 +469,7 @@ def clean_html(raw_html: str) -> str:
 
 def get_4th_industry_news(category: str = "all", query_keyword: str = None, limit: int = 30):
     """
-    공신력 있는 뉴스 사이트에서 4차 산업(AI, 컴퓨터, 첨단산업) 뉴스 실시간 수집
+    공신력 있는 뉴스 사이트에서 4차 산업 & 게임 산업 실시간 최신 뉴스 수집
     """
     global _CACHE
     cache_key = f"{category}_{query_keyword or ''}_{limit}"
@@ -472,9 +478,9 @@ def get_4th_industry_news(category: str = "all", query_keyword: str = None, limi
         return _CACHE["news"][cache_key]["data"]
 
     target_query = ""
-    badge_label = "4차 산업"
+    badge_label = "최신 소식"
     if query_keyword and query_keyword.strip():
-        target_query = f"{query_keyword.strip()} (AI OR 컴퓨터 OR 반도체 OR 기술 OR 산업)"
+        target_query = f"{query_keyword.strip()} (AI OR 컴퓨터 OR 반도체 OR 게임 OR 로봇 OR 산업) when:3d"
         badge_label = f"검색: {query_keyword.strip()}"
     else:
         cat_info = NEWS_CATEGORIES.get(category, NEWS_CATEGORIES["all"])
@@ -496,7 +502,7 @@ def get_4th_industry_news(category: str = "all", query_keyword: str = None, limi
             root = ET.fromstring(xml_bytes.decode("utf-8", errors="replace"))
             items = root.findall(".//item")
 
-            for item in items[:limit]:
+            for item in items:
                 title = item.findtext("title") or ""
                 link = item.findtext("link") or ""
                 pubDate = item.findtext("pubDate") or ""
@@ -512,10 +518,10 @@ def get_4th_industry_news(category: str = "all", query_keyword: str = None, limi
                         press_name = parts[1].strip()
 
                 if not press_name:
-                    press_name = "IT 전문뉴스"
+                    press_name = "전문 뉴스"
 
                 is_verified = any(safe in press_name for safe in SAFE_PRESS_LIST)
-                safety_badge = "공신력 언론사" if is_verified else "기술 뉴스"
+                safety_badge = "공신력 언론사" if is_verified else "전문 뉴스"
 
                 clean_desc = clean_html(description)
                 clean_desc = re.sub(r"모두 보기", "", clean_desc).strip()
@@ -523,11 +529,18 @@ def get_4th_industry_news(category: str = "all", query_keyword: str = None, limi
                     clean_desc = clean_desc[:157] + "..."
 
                 time_ago = "최근"
+                diff_sec = 0
                 try:
                     pub_dt = datetime.strptime(pubDate[:25], "%a, %d %b %Y %H:%M:%S")
                     diff = datetime.utcnow() - pub_dt
-                    hours = diff.total_seconds() // 3600
-                    minutes = (diff.total_seconds() % 3600) // 60
+                    diff_sec = diff.total_seconds()
+                    
+                    # 7일 이상 지난 구형 기사는 제외
+                    if diff_sec > 7 * 86400:
+                        continue
+
+                    hours = diff_sec // 3600
+                    minutes = (diff_sec % 3600) // 60
                     if hours < 1:
                         time_ago = f"{int(max(1, minutes))}분 전"
                     elif hours < 24:
@@ -535,10 +548,12 @@ def get_4th_industry_news(category: str = "all", query_keyword: str = None, limi
                     else:
                         time_ago = f"{int(hours // 24)}일 전"
                 except Exception:
-                    time_ago = "최신 기사"
+                    time_ago = "방금 전"
 
                 thumb_theme = "tech"
-                if any(w in clean_title for w in ["인공지능", "AI", "LLM", "GPT", "딥러닝"]):
+                if any(w in clean_title for w in ["게임", "넥슨", "크래프톤", "엔씨", "넷마블", "스팀", "콘솔", "롤", "e스포츠"]):
+                    thumb_theme = "game"
+                elif any(w in clean_title for w in ["인공지능", "AI", "LLM", "GPT", "딥러닝"]):
                     thumb_theme = "ai"
                 elif any(w in clean_title for w in ["반도체", "GPU", "컴퓨터", "HBM", "양자"]):
                     thumb_theme = "semiconductor"
@@ -554,13 +569,18 @@ def get_4th_industry_news(category: str = "all", query_keyword: str = None, limi
                     "desc": clean_desc,
                     "pubDate": pubDate,
                     "time_ago": time_ago,
+                    "diff_sec": diff_sec,
                     "category_badge": badge_label,
                     "theme": thumb_theme
                 })
 
-        _CACHE["news"][cache_key] = {"data": news_list, "timestamp": now}
-        return news_list
+        # 초 단위 시간 기준 가장 최신 기사가 1등으로 오도록 정렬
+        news_list.sort(key=lambda x: x.get("diff_sec", 999999))
+        result = news_list[:limit]
+        _CACHE["news"][cache_key] = {"data": result, "timestamp": now}
+        return result
 
     except Exception as e:
         print(f"[Portal News Error] {e}")
+        return []
         return []
