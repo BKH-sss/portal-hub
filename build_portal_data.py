@@ -14,9 +14,10 @@ def build_data():
     data_dir = os.path.join(base_dir, "data")
     os.makedirs(data_dir, exist_ok=True)
     
-    print("[1/3] 맨체스터 유나이티드 경기 일정 수집 중...")
+    print("[1/3] 맨체스터 유나이티드 경기 일정 및 순위 수집 중...")
     soccer = news_service.get_soccer_matches()
-    print(f" -> {len(soccer)}개 경기 수집 완료")
+    standing = news_service.get_mu_standing()
+    print(f" -> {len(soccer)}개 경기 및 순위({standing['badge_text']}) 수집 완료")
 
     print("[2/3] 4개 도시(서울, 수원, 익산, 부산) 실시간 날씨 및 미세먼지 수집 중...")
     weather = {}
@@ -38,6 +39,7 @@ def build_data():
     output = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "soccer": soccer,
+        "mu_standing": standing,
         "weather": weather,
         "news": news
     }
