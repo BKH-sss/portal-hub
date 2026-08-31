@@ -347,12 +347,20 @@
 
                 <!-- 우측 상단: Windows 스타일 '오늘의 배경(건축 & 자연)' 뱃지 및 다음 사진 버튼 -->
                 <div class="absolute top-4 right-4 z-20 flex items-center gap-2">
-                    <div id="wallpaperBadge" class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-[11px] text-slate-200 transition shadow-sm">
-                        <span class="text-xs">🏛️</span>
-                        <span id="wallpaperTitle" class="font-medium tracking-wide">에레크테이온 신전</span>
+                    <a id="wallpaperBadge" 
+                       href="https://www.google.com/search?q=%EC%97%90%EB%A0%88%ED%81%AC%ED%85%8C%EC%9D%B4%EC%98%A8+%EC%8B%A0%EC%A0%84" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       title="클릭 시 Google에서 해당 건축물/자연 명소 상세 정보 검색"
+                       class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/45 hover:bg-black/75 border border-white/20 hover:border-white/40 backdrop-blur-md text-[11px] text-slate-200 hover:text-white transition shadow-sm cursor-pointer group/wp">
+                        <span id="wallpaperIcon" class="text-xs">🏛️</span>
+                        <span id="wallpaperTitle" class="font-bold tracking-wide group-hover/wp:text-indigo-300 transition">에레크테이온 신전</span>
                         <span class="text-slate-400 hidden sm:inline">|</span>
                         <span id="wallpaperDesc" class="text-slate-300 text-[10px] hidden sm:inline">그리스 아테네</span>
-                    </div>
+                        <svg class="w-3 h-3 text-slate-400 group-hover/wp:text-indigo-300 group-hover/wp:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                    </a>
                     <!-- 배경화면 다음 사진 넘기기 버튼 -->
                     <button onclick="nextHeroWallpaper(event)" title="다른 건축/자연 배경화면 보기 (새로고침)" class="p-1.5 rounded-full bg-black/40 hover:bg-black/70 border border-white/20 backdrop-blur-md text-white/80 hover:text-white transition shadow-sm hover:rotate-180 duration-300">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
@@ -1172,6 +1180,7 @@
             const bgEl = document.getElementById('heroBgImage');
             const titleEl = document.getElementById('wallpaperTitle');
             const descEl = document.getElementById('wallpaperDesc');
+            const iconEl = document.getElementById('wallpaperIcon');
             const badgeEl = document.getElementById('wallpaperBadge');
 
             if (bgEl) {
@@ -1183,7 +1192,11 @@
             }
             if (titleEl) titleEl.textContent = item.title;
             if (descEl) descEl.textContent = item.desc;
-            if (badgeEl) badgeEl.title = `[오늘의 배경화면] ${item.title} (${item.desc})`;
+            if (iconEl) iconEl.textContent = item.icon || "🏛️";
+            if (badgeEl) {
+                badgeEl.href = `https://www.google.com/search?q=${encodeURIComponent(item.title)}`;
+                badgeEl.title = `클릭 시 Google에서 '${item.title}' 상세 정보 검색`;
+            }
         }
 
         function nextHeroWallpaper(e) {
