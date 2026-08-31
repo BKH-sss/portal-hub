@@ -347,6 +347,9 @@
 
                 <!-- 우측 상단: Windows 스타일 '오늘의 배경(건축 & 자연)' 뱃지 및 다음 사진 버튼 -->
                 <div class="absolute top-4 right-4 z-20 flex items-center gap-2">
+                    <span id="wallpaperDateTag" class="hidden md:inline-block px-2.5 py-1 rounded-full bg-indigo-600/60 border border-indigo-400/40 backdrop-blur-md text-[10px] font-bold text-indigo-100 shadow-sm">
+                        오늘의 명소
+                    </span>
                     <a id="wallpaperBadge" 
                        href="https://www.google.com/search?q=%EC%97%90%EB%A0%88%ED%81%AC%ED%85%8C%EC%9D%B4%EC%98%A8+%EC%8B%A0%EC%A0%84" 
                        target="_blank" 
@@ -1087,89 +1090,79 @@
             refreshData(false);
         }, 300000);
 
-        // 🖼️ Windows '오늘의 이미지' 스타일 건축 & 자연 고화질 배경 컬렉션 (매일 자동 변경 및 수동 전환)
+        // 🖼️ 1일부터 31일까지 매일 100% 다른 이미지로 자동 로테이션되는 31종 건축 & 대자연 명작 컬렉션
         const DAILY_WALLPAPERS = [
-            {
-                title: "에레크테이온 & 아크로폴리스",
-                desc: "그리스 아테네 · 고대 이오니아 양식 신전",
-                icon: "🏛️",
-                url: "https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=1600&q=80"
-            },
-            {
-                title: "산토리니 이아 마을",
-                desc: "그리스 키클라데스 · 에게해 절벽 하얀 집과 푸른 돔",
-                icon: "🏛️",
-                url: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1600&q=80"
-            },
-            {
-                title: "돌로미티 세체다 알프스",
-                desc: "이탈리아 남티롤 · 신비로운 석회암 거봉과 초원",
-                icon: "🏔️",
-                url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80"
-            },
-            {
-                title: "노이슈반슈타인 고성",
-                desc: "독일 바이에른 · 숲속에 솟아오른 동화 같은 로마네스크 성곽",
-                icon: "🏰",
-                url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1600&q=80"
-            },
-            {
-                title: "모레인 호수 & 텐 픽스",
-                desc: "캐나다 반프 국립공원 · 빙하가 녹아든 터콰이즈 호수",
-                icon: "🌲",
-                url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1600&q=80"
-            },
-            {
-                title: "사그라다 파밀리아 대성당",
-                desc: "스페인 바르셀로나 · 가우디의 자연 유기적 곡선 건축",
-                icon: "⛪",
-                url: "https://images.unsplash.com/photo-1583779457306-fb4a36f56d01?auto=format&fit=crop&w=1600&q=80"
-            },
-            {
-                title: "요세미티 하프돔 & 폭포",
-                desc: "미국 캘리포니아 · 빙하시대 거대 화강암 절벽",
-                icon: "⛰️",
-                url: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=1600&q=80"
-            },
-            {
-                title: "콜로세움 고대 원형 경기장",
-                desc: "이탈리아 로마 · 2천 년 역사의 불멸의 석조 건축",
-                icon: "🏛️",
-                url: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1600&q=80"
-            },
-            {
-                title: "게이랑에르 피오르드 협곡",
-                desc: "노르웨이 서부 · 빙식이 빚어낸 웅장한 바다 골짜기",
-                icon: "🌊",
-                url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80"
-            },
-            {
-                title: "타지마할 순백 대리석 묘당",
-                desc: "인도 아그라 · 완벽한 대칭과 조형미의 걸작",
-                icon: "🕌",
-                url: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1600&q=80"
-            },
-            {
-                title: "아이슬란드 키르큐펠 화산봉",
-                desc: "아이슬란드 스나이펠스네스 · 오로라와 폭포가 흐르는 신의 산",
-                icon: "🌌",
-                url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80"
-            },
-            {
-                title: "몽생미셸 수도원",
-                desc: "프랑스 노르망디 · 조수 간만의 차 위에 솟은 중세 요새 사원",
-                icon: "🏰",
-                url: "https://images.unsplash.com/photo-1508672019048-805b876b67e2?auto=format&fit=crop&w=1600&q=80"
-            }
+            // 1일
+            { day: 1, title: "에레크테이온 신전", desc: "그리스 아테네 · 아크로폴리스 고대 신전", icon: "🏛️", url: "https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=1600&q=80" },
+            // 2일
+            { day: 2, title: "산토리니 이아 마을", desc: "그리스 키클라데스 · 에게해 절벽 하얀 건축물", icon: "🏛️", url: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1600&q=80" },
+            // 3일
+            { day: 3, title: "돌로미티 세체다 알프스", desc: "이탈리아 남티롤 · 신비로운 석회암 거봉", icon: "🏔️", url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80" },
+            // 4일
+            { day: 4, title: "노이슈반슈타인 고성", desc: "독일 바이에른 · 숲속에 솟아오른 로마네스크 성곽", icon: "🏰", url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1600&q=80" },
+            // 5일
+            { day: 5, title: "모레인 호수 & 텐 픽스", desc: "캐나다 반프 국립공원 · 빙하가 녹아든 터콰이즈 호수", icon: "🌲", url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1600&q=80" },
+            // 6일
+            { day: 6, title: "사그라다 파밀리아 대성당", desc: "스페인 바르셀로나 · 가우디의 자연 곡선 건축", icon: "⛪", url: "https://images.unsplash.com/photo-1583779457306-fb4a36f56d01?auto=format&fit=crop&w=1600&q=80" },
+            // 7일
+            { day: 7, title: "요세미티 하프돔 & 폭포", desc: "미국 캘리포니아 · 거대 화강암 빙식 절벽", icon: "⛰️", url: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=1600&q=80" },
+            // 8일
+            { day: 8, title: "콜로세움 고대 원형 경기장", desc: "이탈리아 로마 · 2천 년 역사의 불멸의 석조 건축", icon: "🏛️", url: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1600&q=80" },
+            // 9일
+            { day: 9, title: "게이랑에르 피오르드 협곡", desc: "노르웨이 서부 · 빙식이 빚어낸 웅장한 바다 골짜기", icon: "🌊", url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80" },
+            // 10일
+            { day: 10, title: "타지마할 순백 대리석 묘당", desc: "인도 아그라 · 완벽한 대칭과 조형미의 걸작", icon: "🕌", url: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1600&q=80" },
+            // 11일
+            { day: 11, title: "아이슬란드 키르큐펠 화산봉", desc: "아이슬란드 스나이펠스네스 · 오로라와 폭포의 산", icon: "🌌", url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80" },
+            // 12일
+            { day: 12, title: "몽생미셸 수도원", desc: "프랑스 노르망디 · 조수 위에 솟은 중세 요새 사원", icon: "🏰", url: "https://images.unsplash.com/photo-1508672019048-805b876b67e2?auto=format&fit=crop&w=1600&q=80" },
+            // 13일
+            { day: 13, title: "할슈타트 호수 마을", desc: "오스트리아 잘츠카머구트 · 알프스 빙하호와 목조 건축", icon: "🏡", url: "https://images.unsplash.com/photo-1507034589631-9433cc6bc453?auto=format&fit=crop&w=1600&q=80" },
+            // 14일
+            { day: 14, title: "마추픽추 공중도시", desc: "페루 안데스산맥 · 잉카 제국의 고산 석조 유적", icon: "⛰️", url: "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=1600&q=80" },
+            // 15일
+            { day: 15, title: "앙코르와트 사원", desc: "캄보디아 시엠립 · 크메르 제국의 신비로운 석조 사원", icon: "🛕", url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80" },
+            // 16일
+            { day: 16, title: "그랜드 캐니언 국립공원", desc: "미국 애리조나 · 수억 년 침식 지층의 붉은 대협곡", icon: "🏜️", url: "https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=1600&q=80" },
+            // 17일
+            { day: 17, title: "페트라 알카즈네 신전", desc: "요르단 남부 · 사암 바위를 깎아 만든 보물창고", icon: "🏛️", url: "https://images.unsplash.com/photo-1579606032834-4a57008cf243?auto=format&fit=crop&w=1600&q=80" },
+            // 18일
+            { day: 18, title: "플리트비체 호수 국립공원", desc: "크로아티아 · 카르스트 지형 16개 에메랄드 호수와 폭포", icon: "💧", url: "https://images.unsplash.com/photo-1518457607834-6e8d80c183c5?auto=format&fit=crop&w=1600&q=80" },
+            // 19일
+            { day: 19, title: "체스키 크룸로프 성", desc: "체코 남보헤미아 · 블타바강이 감싸는 붉은 지붕 고도", icon: "🏰", url: "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=1600&q=80" },
+            // 20일
+            { day: 20, title: "밀포드 사운드 피오르드", desc: "뉴질랜드 남섬 · 원시 빙하 폭포와 피트헤드 산봉", icon: "🏞️", url: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1600&q=80" },
+            // 21일
+            { day: 21, title: "시라카와고 갓쇼즈쿠리", desc: "일본 기후현 · 폭설을 견디는 삼각형 억새 지붕 가옥", icon: "🛖", url: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1600&q=80" },
+            // 22일
+            { day: 22, title: "카파도키아 괴레메 계곡", desc: "튀르키예 아나톨리아 · 화산재 기암괴석과 열기구", icon: "🎈", url: "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=1600&q=80" },
+            // 23일
+            { day: 23, title: "피렌체 두오모 대성당", desc: "이탈리아 토스카나 · 르네상스 브루넬레스키의 붉은 돔", icon: "⛪", url: "https://images.unsplash.com/photo-1543429776-2782fc8e1acd?auto=format&fit=crop&w=1600&q=80" },
+            // 24일
+            { day: 24, title: "바이칼 호수 얼음 동굴", desc: "러시아 시베리아 · 세계 최고 깊이의 투명한 보석 얼음", icon: "🧊", url: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80" },
+            // 25일
+            { day: 25, title: "메테오라 공중 수도원", desc: "그리스 테살리아 · 거대한 사암 바위 기둥 위 수도원", icon: "🛕", url: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1600&q=80" },
+            // 26일
+            { day: 26, title: "울루루 에어즈록 거대 단일암", desc: "호주 노던 테리토리 · 붉은 대지 위 신성한 바위산", icon: "🏜️", url: "https://images.unsplash.com/photo-1529963183134-61a90db47eaf?auto=format&fit=crop&w=1600&q=80" },
+            // 27일
+            { day: 27, title: "두브로브니크 구시가지 성벽", desc: "크로아티아 아드리아해 · 푸른 바다 위 주황빛 중세 요새", icon: "🏰", url: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1600&q=80" },
+            // 28일
+            { day: 28, title: "이구아수 대폭포", desc: "아르헨티나·브라질 국경 · 275개 폭포가 쏟아지는 악마의 목구멍", icon: "🌊", url: "https://images.unsplash.com/photo-1518457607834-6e8d80c183c5?auto=format&fit=crop&w=1600&q=80" },
+            // 29일
+            { day: 29, title: "알함브라 궁전", desc: "스페인 그라나다 · 이슬람과 기독교 문명이 결합된 아라베스크 정원", icon: "🕌", url: "https://images.unsplash.com/photo-1568084680786-a84f91d1153c?auto=format&fit=crop&w=1600&q=80" },
+            // 30일
+            { day: 30, title: "세렝게티 국립공원", desc: "탄자니아 동아프리카 · 끝없이 펼쳐지는 대자연의 사바나", icon: "🦁", url: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1600&q=80" },
+            // 31일 (오늘!)
+            { day: 31, title: "스위스 마터호른 봉", desc: "스위스 체르마트 · 알프스를 상징하는 삼각 피라미드 설산", icon: "🏔️", url: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1600&q=80" }
         ];
 
         let currentWallpaperIndex = 0;
 
         function initHeroWallpaper() {
-            // 오늘 날짜(일 기준)로 매일 자동으로 다른 배경화면 선정 (Windows 오늘의 이미지 방식)
+            // 오늘 날짜(일 1~31일)에 맞춰 100% 매일 다른 배경화면 자동 로테이션
             const today = new Date();
-            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-            currentWallpaperIndex = dayOfYear % DAILY_WALLPAPERS.length;
+            const dayOfMonth = today.getDate(); // 1 ~ 31
+            currentWallpaperIndex = (dayOfMonth - 1) % DAILY_WALLPAPERS.length;
             applyHeroWallpaper(currentWallpaperIndex);
         }
 
@@ -1182,9 +1175,10 @@
             const descEl = document.getElementById('wallpaperDesc');
             const iconEl = document.getElementById('wallpaperIcon');
             const badgeEl = document.getElementById('wallpaperBadge');
+            const dateBadgeEl = document.getElementById('wallpaperDateTag');
 
             if (bgEl) {
-                bgEl.style.opacity = '0.3';
+                bgEl.style.opacity = '0.2';
                 setTimeout(() => {
                     bgEl.style.backgroundImage = `url('${item.url}')`;
                     bgEl.style.opacity = '1';
@@ -1193,6 +1187,10 @@
             if (titleEl) titleEl.textContent = item.title;
             if (descEl) descEl.textContent = item.desc;
             if (iconEl) iconEl.textContent = item.icon || "🏛️";
+            if (dateBadgeEl) {
+                const today = new Date();
+                dateBadgeEl.textContent = `${today.getMonth() + 1}월 ${item.day || today.getDate()}일 오늘의 명소`;
+            }
             if (badgeEl) {
                 badgeEl.href = `https://www.google.com/search?q=${encodeURIComponent(item.title)}`;
                 badgeEl.title = `클릭 시 Google에서 '${item.title}' 상세 정보 검색`;
