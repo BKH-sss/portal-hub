@@ -338,32 +338,50 @@
                 </div>
             </div>
 
-            <!-- 핫 토픽 헤드라인 하이라이트 배너 (Hero Card) -->
-            <div id="heroNewsCard" class="hidden relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-900 via-slate-900 to-slate-900 text-white p-6 sm:p-8 shadow-md border border-indigo-500/20">
+            <!-- 핫 토픽 헤드라인 하이라이트 배너 (Hero Card - Windows 오늘의 이미지 스타일 건축/자연 배경) -->
+            <div id="heroNewsCard" class="hidden relative overflow-hidden rounded-3xl text-white p-6 sm:p-8 shadow-xl border border-slate-700/50 group/hero transition-all duration-500">
+                <!-- 고화질 건축 & 자연 배경화면 레이어 -->
+                <div id="heroBgImage" class="absolute inset-0 bg-cover bg-center transition-all duration-700 transform group-hover/hero:scale-105" style="background-image: url('https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=1600&q=80');"></div>
+                <!-- 윈도우 스포트라이트 스타일 딥 오버레이 (글자 가독성 극대화) -->
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-900/60 backdrop-blur-[2px]"></div>
+
+                <!-- 우측 상단: Windows 스타일 '오늘의 배경(건축 & 자연)' 뱃지 및 다음 사진 버튼 -->
+                <div class="absolute top-4 right-4 z-20 flex items-center gap-2">
+                    <div id="wallpaperBadge" class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 hover:bg-black/60 border border-white/20 backdrop-blur-md text-[11px] text-slate-200 transition shadow-sm">
+                        <span class="text-xs">🏛️</span>
+                        <span id="wallpaperTitle" class="font-medium tracking-wide">에레크테이온 신전</span>
+                        <span class="text-slate-400 hidden sm:inline">|</span>
+                        <span id="wallpaperDesc" class="text-slate-300 text-[10px] hidden sm:inline">그리스 아테네</span>
+                    </div>
+                    <!-- 배경화면 다음 사진 넘기기 버튼 -->
+                    <button onclick="nextHeroWallpaper(event)" title="다른 건축/자연 배경화면 보기 (새로고침)" class="p-1.5 rounded-full bg-black/40 hover:bg-black/70 border border-white/20 backdrop-blur-md text-white/80 hover:text-white transition shadow-sm hover:rotate-180 duration-300">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    </button>
+                </div>
+
+                <!-- 배너 콘텐츠 텍스트 -->
                 <div class="relative z-10 max-w-3xl space-y-2.5">
                     <div class="flex items-center gap-2">
-                        <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300 border border-indigo-400/30 text-xs font-bold">🔥 오늘의 핵심 4차산업 이슈</span>
-                        <span id="heroPress" class="text-xs text-slate-300 font-medium">연합뉴스</span>
-                        <span id="heroTime" class="text-xs text-slate-400">10분 전</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/40 text-indigo-200 border border-indigo-400/40 text-xs font-bold backdrop-blur-md">🔥 오늘의 핵심 4차산업 이슈</span>
+                        <span id="heroPress" class="text-xs text-slate-200 font-medium bg-black/30 px-2 py-0.5 rounded-md backdrop-blur-sm">연합뉴스</span>
+                        <span id="heroTime" class="text-xs text-slate-300 font-mono">10분 전</span>
                     </div>
-                    <h3 id="heroTitle" class="text-xl sm:text-2xl font-bold tracking-tight leading-snug cursor-pointer hover:text-indigo-300 transition">
+                    <h3 id="heroTitle" class="text-xl sm:text-2xl font-bold tracking-tight leading-snug cursor-pointer hover:text-indigo-300 transition drop-shadow-md">
                         로딩 중...
                     </h3>
-                    <p id="heroDesc" class="text-sm text-slate-300 line-clamp-2 leading-relaxed">
+                    <p id="heroDesc" class="text-sm text-slate-200 line-clamp-2 leading-relaxed drop-shadow">
                         로딩 중입니다...
                     </p>
                     <div class="pt-2 flex items-center gap-3">
-                        <a id="heroLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-md shadow-indigo-600/30">
+                        <a id="heroLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-lg shadow-indigo-600/40 border border-indigo-400/30">
                             기사 원문 읽기
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                         </a>
-                        <button id="heroSummaryBtn" onclick="openSummaryModal(currentHeroItem)" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-medium transition backdrop-blur-sm">
+                        <button id="heroSummaryBtn" onclick="openSummaryModal(currentHeroItem)" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-black/40 hover:bg-black/60 border border-white/20 text-white text-xs font-medium transition backdrop-blur-md">
                             ✨ AI 3줄 요약
                         </button>
                     </div>
                 </div>
-                <!-- 배경 그라데이션 장식 -->
-                <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
             </div>
 
             <!-- 뉴스 카드 그리드 컨테이너 -->
@@ -1061,9 +1079,123 @@
             refreshData(false);
         }, 300000);
 
+        // 🖼️ Windows '오늘의 이미지' 스타일 건축 & 자연 고화질 배경 컬렉션 (매일 자동 변경 및 수동 전환)
+        const DAILY_WALLPAPERS = [
+            {
+                title: "에레크테이온 & 아크로폴리스",
+                desc: "그리스 아테네 · 고대 이오니아 양식 신전",
+                icon: "🏛️",
+                url: "https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=1600&q=80"
+            },
+            {
+                title: "산토리니 이아 마을",
+                desc: "그리스 키클라데스 · 에게해 절벽 하얀 집과 푸른 돔",
+                icon: "🏛️",
+                url: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1600&q=80"
+            },
+            {
+                title: "돌로미티 세체다 알프스",
+                desc: "이탈리아 남티롤 · 신비로운 석회암 거봉과 초원",
+                icon: "🏔️",
+                url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80"
+            },
+            {
+                title: "노이슈반슈타인 고성",
+                desc: "독일 바이에른 · 숲속에 솟아오른 동화 같은 로마네스크 성곽",
+                icon: "🏰",
+                url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1600&q=80"
+            },
+            {
+                title: "모레인 호수 & 텐 픽스",
+                desc: "캐나다 반프 국립공원 · 빙하가 녹아든 터콰이즈 호수",
+                icon: "🌲",
+                url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1600&q=80"
+            },
+            {
+                title: "사그라다 파밀리아 대성당",
+                desc: "스페인 바르셀로나 · 가우디의 자연 유기적 곡선 건축",
+                icon: "⛪",
+                url: "https://images.unsplash.com/photo-1583779457306-fb4a36f56d01?auto=format&fit=crop&w=1600&q=80"
+            },
+            {
+                title: "요세미티 하프돔 & 폭포",
+                desc: "미국 캘리포니아 · 빙하시대 거대 화강암 절벽",
+                icon: "⛰️",
+                url: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=1600&q=80"
+            },
+            {
+                title: "콜로세움 고대 원형 경기장",
+                desc: "이탈리아 로마 · 2천 년 역사의 불멸의 석조 건축",
+                icon: "🏛️",
+                url: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1600&q=80"
+            },
+            {
+                title: "게이랑에르 피오르드 협곡",
+                desc: "노르웨이 서부 · 빙식이 빚어낸 웅장한 바다 골짜기",
+                icon: "🌊",
+                url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80"
+            },
+            {
+                title: "타지마할 순백 대리석 묘당",
+                desc: "인도 아그라 · 완벽한 대칭과 조형미의 걸작",
+                icon: "🕌",
+                url: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1600&q=80"
+            },
+            {
+                title: "아이슬란드 키르큐펠 화산봉",
+                desc: "아이슬란드 스나이펠스네스 · 오로라와 폭포가 흐르는 신의 산",
+                icon: "🌌",
+                url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80"
+            },
+            {
+                title: "몽생미셸 수도원",
+                desc: "프랑스 노르망디 · 조수 간만의 차 위에 솟은 중세 요새 사원",
+                icon: "🏰",
+                url: "https://images.unsplash.com/photo-1508672019048-805b876b67e2?auto=format&fit=crop&w=1600&q=80"
+            }
+        ];
+
+        let currentWallpaperIndex = 0;
+
+        function initHeroWallpaper() {
+            // 오늘 날짜(일 기준)로 매일 자동으로 다른 배경화면 선정 (Windows 오늘의 이미지 방식)
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+            currentWallpaperIndex = dayOfYear % DAILY_WALLPAPERS.length;
+            applyHeroWallpaper(currentWallpaperIndex);
+        }
+
+        function applyHeroWallpaper(idx) {
+            const item = DAILY_WALLPAPERS[idx];
+            if (!item) return;
+
+            const bgEl = document.getElementById('heroBgImage');
+            const titleEl = document.getElementById('wallpaperTitle');
+            const descEl = document.getElementById('wallpaperDesc');
+            const badgeEl = document.getElementById('wallpaperBadge');
+
+            if (bgEl) {
+                bgEl.style.opacity = '0.3';
+                setTimeout(() => {
+                    bgEl.style.backgroundImage = `url('${item.url}')`;
+                    bgEl.style.opacity = '1';
+                }, 150);
+            }
+            if (titleEl) titleEl.textContent = item.title;
+            if (descEl) descEl.textContent = item.desc;
+            if (badgeEl) badgeEl.title = `[오늘의 배경화면] ${item.title} (${item.desc})`;
+        }
+
+        function nextHeroWallpaper(e) {
+            if (e) e.stopPropagation();
+            currentWallpaperIndex = (currentWallpaperIndex + 1) % DAILY_WALLPAPERS.length;
+            applyHeroWallpaper(currentWallpaperIndex);
+        }
+
         // 초기 구동
         window.addEventListener('DOMContentLoaded', () => {
             initTheme();
+            initHeroWallpaper();
             fetchOverview();
         });
     </script>
