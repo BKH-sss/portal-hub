@@ -1110,6 +1110,8 @@
         // ==========================================
         // 8. 필터링 및 카테고리 관리
         // ==========================================
+        let staticGlobalDataMap = null;
+
         function setCategory(cat) {
             currentCategory = cat;
             currentSearchQuery = "";
@@ -1143,16 +1145,27 @@
         }
 
         function applyFilters() {
-            let list = [...globalNewsData];
+            let list = [];
 
-            // 1. 카테고리 필터
-            if (currentCategory !== 'all') {
-                list = list.filter(item => item.category === currentCategory);
+            // 1. staticGlobalDataMap에서 현재 카테고리 데이터 확보
+            if (staticGlobalDataMap && staticGlobalDataMap.news) {
+                if (currentCategory === 'all') {
+                    list = [...(staticGlobalDataMap.news['all'] || [])];
+                } else {
+                    list = [...(staticGlobalDataMap.news[currentCategory] || [])];
+                }
+            }
+            
+            // 데이터가 비어있으면 fallback 데이터셋 활용
+            if (list.length === 0) {
+                list = currentCategory === 'all' 
+                    ? [...globalNewsData] 
+                    : globalNewsData.filter(item => item.category === currentCategory);
             }
 
             // 2. 언론사 소스 필터
             if (currentSourceFilter !== 'all') {
-                list = list.filter(item => item.press.toLowerCase().includes(currentSourceFilter.toLowerCase()));
+                list = list.filter(item => item.press && item.press.toLowerCase().includes(currentSourceFilter.toLowerCase()));
             }
 
             // 3. 검색어 필터 (영문 및 한글)
@@ -1180,58 +1193,31 @@
         }
 
         // ==========================================
-        // 9. 실시간 외신 RSS 피드 페칭 & Fallback 연동
+        // 9. 실시간 대량 외신 데이터(global_data.json) 페칭 & Fallback
         // ==========================================
         async function fetchLiveFeeds() {
-            // 초기 데이터 세팅
-            globalNewsData = [...GLOBAL_NEWS_DATASET];
+            // 1. data/global_data.json (GitHub Actions 2시간 주기 자동 수집본) 로드
+            const pathsToTry = ['data/global_data.json', '../data/global_data.json', '/portal-hub/data/global_data.json'];
+            let loaded = false;
 
-            // 실시간 오픈 외신 RSS 피드 엔드포인트 목록
-            const RSS_FEEDS = [
-                { press: "TechCrunch", category: "ai_tech", url: "https://techcrunch.com/feed/" },
-                { press: "BBC", category: "geopolitics", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
-                { press: "The Verge", category: "ai_tech", url: "https://www.theverge.com/rss/index.xml" }
-            ];
-
-            try {
-                // 브라우저에서 CORS 프록시를 통해 최신 RSS 피드 병렬 비동기 조회
-                const feedPromises = RSS_FEEDS.map(f => 
-                    fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(f.url)}`)
-                        .then(r => r.ok ? r.json() : null)
-                        .then(data => {
-                            if (data && data.items && data.items.length > 0) {
-                                return data.items.slice(0, 3).map((it, idx) => ({
-                                    id: `rss_${f.press}_${idx}`,
-                                    category: f.category,
-                                    category_label: f.category === 'ai_tech' ? 'AI & Tech' : 'World',
-                                    press: f.press,
-                                    title: it.title,
-                                    title_ko: `[외신 속보] ${it.title}`,
-                                    desc: it.description ? it.description.replace(/<[^>]*>?/gm, '').slice(0, 180) + '...' : '',
-                                    desc_ko: '실시간 RSS 피드로 수집된 최신 외신 속보입니다. 상세 내용은 기사 원문을 참조하세요.',
-                                    time_ago: 'Live',
-                                    pubDate: it.pubDate ? it.pubDate.slice(0, 10) : 'Today',
-                                    link: it.link,
-                                    points: [
-                                        it.title,
-                                        `${f.press}을 통해 실시간 타임스탬프로 수신된 주요 글로벌 소식입니다.`,
-                                        "클릭 시 원문 기사 및 Google 번역 서비스로 바로 이동하실 수 있습니다."
-                                    ]
-                                }));
-                            }
-                            return [];
-                        })
-                        .catch(() => [])
-                );
-
-                const results = await Promise.all(feedPromises);
-                const liveItems = results.flat();
-                if (liveItems.length > 0) {
-                    // 최신 라이브 아이템을 상단에 병합
-                    globalNewsData = [...liveItems, ...GLOBAL_NEWS_DATASET];
+            for (const p of pathsToTry) {
+                try {
+                    const res = await fetch(p + '?t=' + Date.now());
+                    if (res.ok) {
+                        const json = await res.json();
+                        if (json && json.news) {
+                            staticGlobalDataMap = json;
+                            loaded = true;
+                            break;
+                        }
+                    }
+                } catch (e) {
+                    // 다음 경로 시도
                 }
-            } catch (err) {
-                console.warn('RSS live fetch fallback to embedded dataset:', err);
+            }
+
+            if (!loaded) {
+                globalNewsData = [...GLOBAL_NEWS_DATASET];
             }
 
             applyFilters();
