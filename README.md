@@ -35,8 +35,8 @@
 
 ### 1. 실시간 웹사이트 접속 (추천)
 별도의 설치나 서버 실행 없이 스마트폰, 태블릿, PC 어디서든 브라우저로 바로 접속할 수 있습니다.
-- 🏛️ **국내 포털 (국내 뉴스 · 맨유 축구 · 날씨)**: **[https://bkh-sss.github.io/portal-hub/](https://bkh-sss.github.io/portal-hub/)**
-- 🌍 **글로벌 외신 포털 (해외 외신 전용 · 24/7 AI 요약)**: **[https://bkh-sss.github.io/portal-hub/global/](https://bkh-sss.github.io/portal-hub/global/)**
+- 🏛️ **국내 포털 (ERECHTHEION | 국내 뉴스 · 맨유 축구 · 날씨)**: **[https://bkh-sss.github.io/portal-hub/](https://bkh-sss.github.io/portal-hub/)**
+- 🌍 **해외 외신 포털 (ORBIS | 실시간 글로벌 외신 · 24/7 AI 요약)**: **[https://bkh-sss.github.io/portal-hub/global/](https://bkh-sss.github.io/portal-hub/global/)**
 
 ### 2. 로컬 개발 환경에서 실행 시
 ```bash
