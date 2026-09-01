@@ -1,40 +1,84 @@
-# 🌐 4차 산업 브리핑 & 맨유 경기 포털 (NEXT PULSE Portal Hub)
+# 🏛️ ERECHTHEION & 🌍 ORBIS (통합 인텔리전스 포털 허브)
 
-이 프로젝트는 **맨체스터 유나이티드(Manchester United)**의 실시간 경기 일정과 스코어, 전국 주요 도시의 **실시간 날씨 및 미세먼지 예보**, 그리고 **AI·컴퓨터·반도체·로봇·게임 산업**의 최신 뉴스를 한눈에 모아볼 수 있는 고성능 반응형 웹 포털 서비스입니다.
+> **국내 4차 산업·스포츠·기상 포털(ERECHTHEION)**과 **전 세계 주요 외신 전문 인텔리전스 포털(ORBIS)**을 한곳에서 제공하는 24시간 365일 무중단 반응형 웹 포털 서비스입니다.
+
+---
+
+## 🌐 서비스 라인업 (Two Specialized Hubs)
+
+```
+portal-hub (Repository)
+│
+├── 🏛️ ERECHTHEION (에레크테이온 코리아) ──> https://bkh-sss.github.io/portal-hub/
+│    └── 국내 4차산업 뉴스 · 맨체스터 유나이티드 경기 허브 · 전국 실시간 날씨/미세먼지
+│
+└── 🌍 ORBIS (오르비스 글로벌) ────────────> https://bkh-sss.github.io/portal-hub/global/
+     └── 150개+ 글로벌 외신 실시간 피드 · 한국어 AI 3줄 요약 · 세계 시계 · 금융 티커
+```
 
 ---
 
 ## 🌟 핵심 기능 (Core Features)
 
-- ⚽ **맨체스터 유나이티드 전용 경기 허브**: 과거 5경기 결과(스코어) 및 다가오는 경기 일정 가로 스크롤 캐러셀, 클릭 시 Google 상세 경기 분석 페이지 즉시 연동
-- 🌤️ **실시간 기상 예보 & 미세먼지 바**: 서울, 수원, 부산, 대구, 제주 등 10개 주요 도시의 실시간 기온, 체감온도, PM10/PM2.5 대기질 등급 배지, 12시간 시간별 예보
-- 🤖 **4차 산업 & 게임 산업 전문 뉴스**: AI, 반도체, 양자컴퓨터, 로보틱스, 게임 업계 등 검증된 공신력 언론사의 실시간 최신 기사 큐레이션 및 AI 3줄 요약 모달
-- ⚡ **24시간 무중단 무료 호스팅**: 개인 PC를 켜두지 않아도 GitHub Pages와 GitHub Actions 자동 갱신 로봇을 통해 365일 실시간 유지
+### 1. 🏛️ ERECHTHEION KOREA (국내 종합 포털)
+- ⚽ **맨체스터 유나이티드 전용 경기 허브**: 과거 5경기 스코어 결과 및 향후 경기 일정 반응형 가로 스크롤 캐러셀 (ESPN 연동)
+- 🌤️ **실시간 날씨 & 미세먼지 위젯**: 서울, 수원, 익산, 부산 등 주요 도시 실시간 기온, 체감온도, PM10/PM2.5 등급 배지, 시간별 예보 (Open-Meteo 연동)
+- 🤖 **국내 4차 산업 & 게임 뉴스 피드**: AI, 반도체, 컴퓨터, 로봇, 게임 업계 등 검증된 국내 30개+ 공신력 언론사 기사 큐레이션 및 AI 3줄 요약 모달
+- 🔗 **ORBIS 바로가기 연동**: 상단 헤더 및 하단 푸터에서 원클릭으로 해외 외신 포털로 즉시 전환
+
+---
+
+### 2. 🌍 ORBIS GLOBAL (해외 외신 전문 포털 · `/global/`)
+- 🚫 **외신 집중형 레이아웃**: 축구와 날씨 섹션을 과감히 제거하고 오직 글로벌 외신 인텔리전스에만 집중된 고성능 레이아웃
+- 📰 **150개+ 대량 글로벌 외신 실시간 피드**:
+  - **공신력 외신**: 로이터(Reuters), 블룸버그(Bloomberg), BBC World, 테크크런치(TechCrunch), 더 버지(The Verge), CNBC, 네이처(Nature), NASA 등
+  - **카테고리 구성**:
+    - ⚡ **All Breaking** (전체 글로벌 속보 50개)
+    - 🤖 **AI & Silicon Valley** (생성형 AI, 프론티어 기술, 빅테크 30개)
+    - 📈 **Global Economy & Markets** (월스트리트, 거시경제, 무역, 인플레이션 30개)
+    - 💻 **Chips & Hardware** (2나노 파운드리, HBM4, 양자 컴퓨팅 30개)
+    - 🚀 **Space & Science** (NASA 아르테미스, 우주망원경, 핵융합 청정에너지 30개)
+    - 🌐 **World & Geopolitics** (국제 거버넌스, 안보, 외교 30개)
+- ✨ **한국어 AI 3줄 요약 브리핑 모달**: 영문 기사를 한국어로 친절하게 해설하는 AI 핵심 포인트 3줄 요약 및 Google 번역본 / 원문 바로가기 제공
+- 🌍 **세계 주요 도시 실시간 시계**: KST(서울), EST(뉴욕), GMT(런던) 시간대 실시간 초 단위 동기화
+- 📊 **글로벌 마켓 & 테크 실시간 티커**: 나스닥, S&P 500, 엔비디아, 애플, 환율(USD/KRW), 비트코인 등 롤링 티커
+- 🏛️ **31일 일자별 글로벌 랜드마크 배경화면**: 매일 자동으로 세계 유수 건축물과 대자연 배경이 로테이션되는 Hero 스포트라이트 배너
 
 ---
 
 ## 🏗️ 시스템 아키텍처 (Architecture)
 
-기존의 무거운 서버 의존성을 탈피하고, **[경량화 & 실시간 0초 로딩]**에 최적화된 하이브리드 웹 아키텍처로 설계되었습니다.
+```mermaid
+graph TD
+    subgraph GitHub Actions [🤖 GitHub Actions CI/CD (2시간 주기 자동 실행)]
+        cron[⏰ Cron Schedule 2h] --> runner[GitHub Ubuntu Runner]
+        runner --> build[python build_portal_data.py]
+        build --> engine1[news_service.py<br/>국내 뉴스/맨유/날씨 수집]
+        build --> engine2[global_news_service.py<br/>글로벌 외신 150개+ RSS 수집]
+        engine1 --> data1[(data/portal_data.json)]
+        engine2 --> data2[(data/global_data.json)]
+        data1 & data2 --> git_push[자동 Git Commit & Push]
+    end
 
-1. **⚽ 스포츠 엔진 (ESPN Scoreboard API)**
-   - 맨체스터 유나이티드(Manchester United, ID 360) 전용 경기 파이프라인.
-   - 최근 종료된 5경기와 향후 일정을 자동 수집하며, 한국 시간(KST) 변환 및 팀명 한글화(`맨유`, `맨시티`, `아스널`, `풀럼`, `헐 시티` 등)를 지원합니다.
-2. **🌤️ 기상/대기질 엔진 (Open-Meteo API)**
-   - 기상청 및 유럽 중기 기상 예보 센터 데이터를 기반으로 실시간 기온, WMO 기상 코드, 체감온도를 연동합니다.
-   - 한국 환경부 기준(PM10 30/80/150, PM2.5 15/35/75)에 맞춘 컬러 상태 배지(좋음/보통/나쁨)를 산출합니다.
-3. **📰 뉴스 인텔리전스 (Google News RSS & Verified Press Filter)**
-   - `when:2d`, `when:3d` 엄격한 최신 날짜 필터를 적용하여 오래된 과거 기사를 원천 차단하고 초 단위 실시간 최신순으로 정렬합니다.
-   - 연합뉴스, 한국경제, 전자신문, ZDNet, 인벤, 디스이즈게임 등 30개 이상의 공신력 있는 언론사를 검증하고 인증 마크를 부여합니다.
-4. **🤖 자동 데이터 갱신 로봇 (GitHub Actions CI/CD)**
-   - `.github/workflows/update_data.yml` 워크플로우가 2시간마다 전 세계 축구 일정과 4차 산업 뉴스를 자동 빌드하여 최신 상태로 유지합니다.
+    subgraph GitHub Pages [🚀 GitHub Pages 24/7 Hosting]
+        git_push --> pages_kr[🏛️ ERECHTHEION KOREA<br/>portal-hub/index.html]
+        git_push --> pages_global[🌍 ORBIS GLOBAL<br/>portal-hub/global/index.html]
+    end
+```
+
+1. **⚽ 스포츠 & 날씨 파이프라인 (`news_service.py`)**
+   - ESPN Scoreboard API 및 Open-Meteo API를 통해 맨유 경기 일정과 실시간 기상/미세먼지 정보를 수집합니다.
+2. **📰 글로벌 외신 수집 엔진 (`global_news_service.py`)**
+   - Google News Global RSS 및 공신력 외신 피드를 연동하여 150개 이상의 최신 기사를 카테고리별로 정제하고 한국어 AI 맥락 포인트를 자동 생성합니다.
+3. **🤖 24시간 자동 빌드 로봇 (`.github/workflows/update_data.yml`)**
+   - 2시간마다 GitHub Actions가 실행되어 `data/portal_data.json`과 `data/global_data.json`을 최신 상태로 자동 갱신합니다.
 
 ---
 
 ## 🚀 접속 및 이용 방법
 
 ### 1. 실시간 웹사이트 접속 (추천)
-별도의 설치나 서버 실행 없이 스마트폰, 태블릿, PC 어디서든 브라우저로 바로 접속할 수 있습니다.
+스마트폰, 태블릿, PC 어디서든 브라우저로 24시간 바로 접속할 수 있습니다.
 - 🏛️ **국내 포털 (ERECHTHEION | 국내 뉴스 · 맨유 축구 · 날씨)**: **[https://bkh-sss.github.io/portal-hub/](https://bkh-sss.github.io/portal-hub/)**
 - 🌍 **해외 외신 포털 (ORBIS | 실시간 글로벌 외신 · 24/7 AI 요약)**: **[https://bkh-sss.github.io/portal-hub/global/](https://bkh-sss.github.io/portal-hub/global/)**
 
@@ -44,22 +88,21 @@
 git clone https://github.com/BKH-sss/portal-hub.git
 cd portal-hub
 
-# 2. 최신 포털 데이터 로컬 빌드
+# 2. 국내 및 글로벌 외신 데이터 로컬 빌드 (150개+ 최신 수집)
 python build_portal_data.py
 
-# 3. 로컬 서버 실행 (선택 사항)
+# 3. 로컬 웹 서버 실행
 python -m http.server 8000
-# 브라우저에서 http://localhost:8000 접속
+# 브라우저 접속:
+# - 국내 포털: http://localhost:8000/
+# - 해외 외신(ORBIS): http://localhost:8000/global/
 ```
 
 ---
 
-## 🛠️ 주요 기능 세부 가이드
+## 🛠️ 기술 스택 (Tech Stack)
 
-- **축구 경기 좌우 반응형 네비게이션**: 
-  - 기본 진입 시 **다가오는 첫 경기(예: 에버튼전)** 위치로 자동 포커싱됩니다.
-  - 화면을 **왼쪽으로 스크롤**하면 최근 종료된 **과거 5경기 결과와 스코어**를 확인할 수 있고, **오른쪽으로 스크롤**하면 향후 일정을 연속으로 볼 수 있습니다.
-  - 카드를 클릭하면 새 창에서 Google의 공식 경기 상세 분석 화면이 열립니다.
-- **키워드 즉시 검색**: 상단 검색창에 `엔비디아`, `블랙웰`, `넥슨`, `챗GPT` 등 원하는 단어를 입력하면 관련 4차 산업 뉴스를 즉시 필터링합니다.
-- **AI 3줄 요약 모달**: 각 기사 카드의 요약 버튼을 누르면 본문 핵심 요약과 안전 원문 링크를 팝업으로 즉시 확인할 수 있습니다.
-- **다크 모드 / 라이트 모드**: 사용자의 OS 환경설정을 감지하며, 우측 상단 토글 버튼을 통해 다크/라이트 테마를 자유롭게 전환할 수 있습니다.
+- **Frontend**: HTML5, Tailwind CSS (CDN), Vanilla JavaScript (ES6+), Pretendard & Inter Font
+- **Backend & Crawler**: Python 3.11, urllib, xml.etree, BeautifulSoup
+- **CI/CD & Automation**: GitHub Actions (2시간 주기 자동 데이터 갱신)
+- **Hosting**: GitHub Pages (무중단 24/7 호스팅)
