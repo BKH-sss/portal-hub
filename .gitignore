@@ -1,8 +1,52 @@
+# Python Cache & Environment
 __pycache__/
 *.pyc
-cloudflared.exe
+env/
+venv/
+.env
+.env.*
+
+# Secrets & API Keys (CRITICAL SECURITY)
+config.py
+discord_config.json
+discord_bot/discord_config.json
+*.key
+*.pem
+
+# Logs & Temporary Data
 *.log
 .chroma/
 chroma_db/
-env/
-venv/
+.webview_data/
+.obsidian/
+session_log.json
+summary.txt
+voice_cache/
+discord_bot/voice_cache/
+
+# Binaries, Executables & Large Models
+*.exe
+*.msi
+*.zip
+*.pt
+*.bin
+*.gguf
+*.wav
+*.mp3
+*.mp4
+cloudflared.exe
+
+# Build & Packaging Artifacts
+build/
+dist/
+
+# Local AI Memory, Voice Clones & Private Data
+AI_Brain/
+memory/
+models/
+tts_engine_sovits/
+korean_skadi_voice/
+korean_briar_voice/
+targets/
+tuned_outputs/
+test_scripts_archive/
