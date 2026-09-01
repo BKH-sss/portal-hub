@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-01 14:22:52",
+  "generated_at": "2026-09-01 14:28:34",
   "soccer": [
     {
       "id": "740604",
@@ -320,7 +320,7 @@
         "weather_icon": "🌧️",
         "temp_max": 26,
         "temp_min": 22,
-        "time_kst": "14:22"
+        "time_kst": "14:28"
       },
       "air": {
         "pm10": {
@@ -397,7 +397,7 @@
         }
       ],
       "source": "NAVER Weather",
-      "updated_at": "2026-09-01 14:22:42"
+      "updated_at": "2026-09-01 14:28:24"
     },
     "수원": {
       "city": "수원",
@@ -409,7 +409,7 @@
         "weather_icon": "🌧️",
         "temp_max": 25,
         "temp_min": 22,
-        "time_kst": "14:22"
+        "time_kst": "14:28"
       },
       "air": {
         "pm10": {
@@ -486,7 +486,7 @@
         }
       ],
       "source": "NAVER Weather",
-      "updated_at": "2026-09-01 14:22:43"
+      "updated_at": "2026-09-01 14:28:25"
     },
     "익산": {
       "city": "익산",
@@ -498,7 +498,7 @@
         "weather_icon": "🌤️",
         "temp_max": 32,
         "temp_min": 24,
-        "time_kst": "14:22"
+        "time_kst": "14:28"
       },
       "air": {
         "pm10": {
@@ -575,7 +575,7 @@
         }
       ],
       "source": "NAVER Weather",
-      "updated_at": "2026-09-01 14:22:44"
+      "updated_at": "2026-09-01 14:28:26"
     },
     "부산": {
       "city": "부산",
@@ -587,7 +587,7 @@
         "weather_icon": "⛅",
         "temp_max": 31,
         "temp_min": 24,
-        "time_kst": "14:22"
+        "time_kst": "14:28"
       },
       "air": {
         "pm10": {
@@ -664,11 +664,50 @@
         }
       ],
       "source": "NAVER Weather",
-      "updated_at": "2026-09-01 14:22:45"
+      "updated_at": "2026-09-01 14:28:27"
     }
   },
   "news": {
     "all": [
+      {
+        "title": "[현장] IBM \"성공적인 AI 도입, 모델 넘어 데이터·보안·인프라까지 통합해야\"",
+        "press": "지디넷코리아",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9aNGlpcmk4TEthYVRFZnFrY0pQWkt5TkNQMTdrUHhuOGtFTjRobUg2UGw0aVBWR19nZWFodndkUGt3dTdJZUtRZXVVZVJkUFBjVmlrOTBB?oc=5",
+        "desc": "[현장] IBM \"성공적인 AI 도입, 모델 넘어 데이터·보안·인프라까지 통합해야\"  지디넷코리아",
+        "pubDate": "Tue, 01 Sep 2026 05:24:26 GMT",
+        "time_ago": "4분 전",
+        "diff_sec": 243.042559,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "제논, AI 엔지니어 중심 전 직군 대규모 채용",
+        "press": "AI타임스",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9MWjhxNXd2MUUteXc0R3VpRTBkc1BscWg5YmFDQzRhaURDVEl3QktBeHBWZlFQVFAwWmJkWW9jaG1ZNkVOUlI1emZoVHdISDVaTmhJWWlxTURrN1I4V3JOQmpZN2dEc2k0clE?oc=5",
+        "desc": "제논, AI 엔지니어 중심 전 직군 대규모 채용  AI타임스",
+        "pubDate": "Tue, 01 Sep 2026 05:20:25 GMT",
+        "time_ago": "8분 전",
+        "diff_sec": 484.03595,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "LGU+, 어라이즈 AI와 '신뢰 가능한 AI 에이전트' 체계 구축한다",
+        "press": "AI타임스",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1ZUW9Ua0FDTlktdkN5YWtIbnZqRTJnenl5aHFZUW9CendEYlh5VGxxV2cxcEZYb2pkUHhoRFJCVkdRMkN1RDdvbGx5WFpQM0ZlOFliQ2Z5ekNsWi1tR2tZVlFVNEF5d0F0c1E?oc=5",
+        "desc": "LGU+, 어라이즈 AI와 '신뢰 가능한 AI 에이전트' 체계 구축한다  AI타임스",
+        "pubDate": "Tue, 01 Sep 2026 05:17:45 GMT",
+        "time_ago": "10분 전",
+        "diff_sec": 644.03595,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
       {
         "title": "비드래프트, “AI 문명은 창발인가 암송인가”…라이브 실험세계 ‘ai-월드’ 공개",
         "press": "AI타임스",
@@ -677,8 +716,8 @@
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1CNmxIcS1CMlhSWkl2MjFWSF9WRFZLNmZQbTdlM2VpRW1STTBsWU5tblVpMEdSTEM2NmJySzNHdW9ERklGeUlsVjhVWm56cDdtRGVUWVRQZHplRldCYnQxbDNyS3dDYlFFRlE?oc=5",
         "desc": "비드래프트, “AI 문명은 창발인가 암송인가”…라이브 실험세계 ‘ai-월드’ 공개  AI타임스",
         "pubDate": "Tue, 01 Sep 2026 05:16:33 GMT",
-        "time_ago": "6분 전",
-        "diff_sec": 373.756331,
+        "time_ago": "11분 전",
+        "diff_sec": 716.037958,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -690,8 +729,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9IUmZVeEZ6UWljRld0WW04Nkt5LW5LU1MtSHNvYlZzX0RsWlFQQ3hVcTNWb0F5Zm5Gem5wUHQ3dm9uU3VITTl4cDFCaW5HX1VldVBhd29DUU5uMkEyLUg3UkIzUGpnejg?oc=5",
         "desc": "딥엑스, AWS IoT와 피지컬 AI 배포 환경 구축…글로벌 적용 확대  인공지능신문",
         "pubDate": "Tue, 01 Sep 2026 05:11:49 GMT",
-        "time_ago": "10분 전",
-        "diff_sec": 657.754798,
+        "time_ago": "16분 전",
+        "diff_sec": 1000.03595,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -703,8 +742,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTFBpX1hPSkdxdW9tQWRnUXhNdVRmc2ZfZ0w4RzVTcjZzeEFuYlZNNWRocmE0d2txT19EUGJFRFFuTnpnQ25HcU5XQmVtYmY?oc=5",
         "desc": "급증하는 'AI 데이터센터' 건설 수요, 모듈러·표준화로 대응해야...건설연, 핵심 기술 R&D 추진  전자신문",
         "pubDate": "Tue, 01 Sep 2026 05:11:34 GMT",
-        "time_ago": "11분 전",
-        "diff_sec": 672.758517,
+        "time_ago": "16분 전",
+        "diff_sec": 1015.042559,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -716,8 +755,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9ZWHMtTmtReXZsekxmbWRTLXc1N2lvVzR6N2xSbUlKZVdwYjhHR3ZwZ282a09ndi15aEpvT3pIMTNKempzMTRITnM1SEpyUQ?oc=5",
         "desc": "IBM, '에이전틱 엔터프라이즈' 전략 강화…“AI 도입보다 운영이 경쟁력”  전자신문",
         "pubDate": "Tue, 01 Sep 2026 05:11:07 GMT",
-        "time_ago": "11분 전",
-        "diff_sec": 699.754798,
+        "time_ago": "17분 전",
+        "diff_sec": 1042.037958,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -729,8 +768,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9KNDZ3bVYtYklkVzZLS3drTzN5VTAySkQzd2duRl9lSTctX0ZST1kzYXdRbE1xRG1PUVVwZTROQ0ZjeVNhQzZMVG1ud0JPWm8?oc=5",
         "desc": "AI가 보여주는 아프리카 대표 이미지는 여전히 '야생·자연'  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 05:10:41 GMT",
-        "time_ago": "12분 전",
-        "diff_sec": 725.758517,
+        "time_ago": "17분 전",
+        "diff_sec": 1068.042559,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -742,8 +781,8 @@
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5XaGZsbzRmZjJyWi1LMF9hellUNFowd0RBVTQ5eWVaUVUxMXBQdV9ENnlYb05qeElBd0J5UTdqNzdMUFdWOGRmT0VKVmRQeURFa0RkNDFfaWo5bnR5SW93X3lyMGdaa0Vrd2c?oc=5",
         "desc": "AI 업계의 반격...AI 옹호 단체 통해 '데이터센터 홍보' 나서  AI타임스",
         "pubDate": "Tue, 01 Sep 2026 05:09:00 GMT",
-        "time_ago": "13분 전",
-        "diff_sec": 826.754798,
+        "time_ago": "19분 전",
+        "diff_sec": 1169.037958,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -755,8 +794,8 @@
         "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFAzU1VhTm01YVNSR2Mzcjl4cjllRXo3OTRyS096aVk1TFc4RlhqYUFidzNxSHFpcGExcWwzMk5TV2M2NmFsR1d5WkJMb0Z0Y21pNmpRN3FESQ?oc=5",
         "desc": "“소비자 선택 전에 AI 구매 추천 받을 경쟁력 갖춰야 ”  헤럴드경제",
         "pubDate": "Tue, 01 Sep 2026 05:08:40 GMT",
-        "time_ago": "14분 전",
-        "diff_sec": 846.758517,
+        "time_ago": "19분 전",
+        "diff_sec": 1189.042559,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -768,8 +807,8 @@
         "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1USzJ5ZGRjaXp3b1IzT3lVZzczdWRnZ3otMWxHVlZ1OXNJN3hyYm8teGdQTE1XdGZkNU5pMUZCb1ZXRlV2RERRMklCZk5UeXYzd2dxaTVYRExYNWZv?oc=5",
         "desc": "씨어스, 은성의료재단과 'AI 증강병원' 구축  뉴스핌",
         "pubDate": "Tue, 01 Sep 2026 05:08:00 GMT",
-        "time_ago": "14분 전",
-        "diff_sec": 886.758517,
+        "time_ago": "20분 전",
+        "diff_sec": 1229.042559,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -781,8 +820,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE0yWnRYbmxGR3FvSENkT1pHZEkzN0JHZFczakN3RWhfeS0xWjBlTUFBTzdCZW01Sml6bklpR1JBVkhrZ2VvV3VELUc4aFBFa2E1OWo40gFYQVVfeXFMUGExNUt1YXNaYmFyMmNnc19sYURzTGN3cVpPSjRUQ3lwY0VvUk9MTUdaWVZZLVA3eXRBU2I4UlA2OHlPV0xzVXhlSGNIT0VKQ2dlNG5qMnJVaQ?oc=5",
         "desc": "LGU+, AI 오답·오류 잡는 관리체계 만든다  SBS Biz",
         "pubDate": "Tue, 01 Sep 2026 05:07:00 GMT",
-        "time_ago": "15분 전",
-        "diff_sec": 946.749732,
+        "time_ago": "21분 전",
+        "diff_sec": 1289.03595,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -794,8 +833,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBzWnZDR3U0ZERRVmtQS3k4TGhyajRFeFc4YlFWYlRyTkQ0TVo5dnFGWWMxcjVuVFcwc3g3QXN5bGxWVEgzX2x5cllLQ3VBb1QzZ1pIYkxmcEtDeEw4RWlCcGR0Q3BpSWM0eWJQSg?oc=5",
         "desc": "日 오사카 메트로, KDDI·AVITA와 공동으로 휴머노이드 로봇 실증실험  로봇신문",
         "pubDate": "Tue, 01 Sep 2026 05:01:49 GMT",
-        "time_ago": "20분 전",
-        "diff_sec": 1257.754798,
+        "time_ago": "26분 전",
+        "diff_sec": 1600.037958,
         "category_badge": "종합 최신",
         "theme": "robotics"
       },
@@ -807,8 +846,21 @@
         "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE5kTm1uVThhUkR2blk0cVhhRVJRSUhIRng5OXhVZVJKVHA4M3BTb3dqeVpkZWVfWWhHcm9TdmhZZjRkX3lnRXdpTkdGb3Y?oc=5",
         "desc": "크리니티, 공공기관 대상 '웍스AI' 공급 확대…공공 AI 파트너 사업 본격화  전자신문",
         "pubDate": "Tue, 01 Sep 2026 05:01:02 GMT",
-        "time_ago": "21분 전",
-        "diff_sec": 1304.758517,
+        "time_ago": "27분 전",
+        "diff_sec": 1647.042559,
+        "category_badge": "종합 최신",
+        "theme": "ai"
+      },
+      {
+        "title": "과기정통부 내년 예산 29조6000억원 편성… AI 예산은 1년 새 84% 늘려",
+        "press": "조선일보",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOdUhTcTJTalNDeS12NVNIb2N3ekpCbnJuODNYcFlIa0Z1ZVhOUkpOOVZGQVNYVWZ6VHYtUjZNY1Q5cjVQT3NxbEJOT1FCUmxYcmFsZ3JZN1EtNUFRdTJaT2xMMm5SRlpNaUQ5OFgyNHIyTkVvQ3JiVFlyMldyQ18xZzJxZw?oc=5",
+        "desc": "과기정통부 내년 예산 29조6000억원 편성… AI 예산은 1년 새 84% 늘려  조선일보",
+        "pubDate": "Tue, 01 Sep 2026 05:01:00 GMT",
+        "time_ago": "27분 전",
+        "diff_sec": 1649.033155,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -820,8 +872,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFAyM2xHZDQzUzBZTXNBRHFiTDBtNTNQdzVPaEpMMmh2cE5LX25ucjMtempuSnNIdjZjckdBM2FFZWF5SzYwdmYwekdBR1FlYUUzMTJoSXZTRDVRX3JRR3B3ZFF1eXl3U2Z6cUJ6aw?oc=5",
         "desc": "앤트로픽, ‘AI가 로봇팔·실험장비 직접 조작하는’ 인터페이스 규격 공개  로봇신문",
         "pubDate": "Tue, 01 Sep 2026 04:56:39 GMT",
-        "time_ago": "26분 전",
-        "diff_sec": 1567.749732,
+        "time_ago": "31분 전",
+        "diff_sec": 1910.033943,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -833,8 +885,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1pdWZ4YWkzZEhoOENTZ0ZYa0NHYXV6RkcxcUNxNUVEZXNOSnF4YVMyOWI1encxMUdWaFItb3dkQU1NQmFfeUMxR1l4V2VTUQ?oc=5",
         "desc": "[2027년 예산]반도체·피지컬AI·AIDC 21.3조…3대 메가프로젝트 가속  전자신문",
         "pubDate": "Tue, 01 Sep 2026 04:56:13 GMT",
-        "time_ago": "26분 전",
-        "diff_sec": 1593.754798,
+        "time_ago": "32분 전",
+        "diff_sec": 1936.037958,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -846,8 +898,8 @@
         "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPdUp6YmFiTGN5NHpDYW04Vks1QWlsd3NoMlktc3NleEpScUJRcHcwUlFjV1NJclpUV3ZjN21nRi1GWTVnZXJTdkhxaHM0MU45QThLeXUwaWNIbmVMOEJzeW1VdjhYT0E1VjFOODNIai0wOHZtOWk0bS0taWJyRUxNN2dB0gGWAUFVX3lxTE0ycng2UnZUczNfMzRrTFlqaXc2Z2xMWjhJSlRPZG5yWkwyWWgzVDVYQmdTelVMaW9TOTNhU3NkLVBFOTk0a3dqNG12UlMxNGpGRkdWeUNQY1hYNXNtWTZQekswemt3QXRPOXR2bmhGRlRWRzFEenQ4Ung3cEotVTlyV0FzemRQQTN5OENaZ2c2ZnN3TUg0dw?oc=5",
         "desc": "“中 CXMT, 5세대 HBM3E 소량 생산… 중국산 AI칩에 탑재 검토” - 조선비즈  biz.chosun.com",
         "pubDate": "Tue, 01 Sep 2026 04:56:00 GMT",
-        "time_ago": "26분 전",
-        "diff_sec": 1606.754798,
+        "time_ago": "32분 전",
+        "diff_sec": 1949.037958,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -859,8 +911,8 @@
         "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9jOVptNjQza1dnOVY4XzhCUHlsbWV5QUNDemVRMU4xRVVCQWRXSzFRMWo5T2tSZ2IxTUxueGM1OXM0aHhvdURTaHpPM0VoamdJclNZb3NRbGFHcHE5NUdtdmJEMXhlZnNobmVv?oc=5",
         "desc": "과기정통부, 2027년 예산 29.6조원 편성... AI보안 1822억원 등 AI 예산 확대  보안뉴스",
         "pubDate": "Tue, 01 Sep 2026 04:55:12 GMT",
-        "time_ago": "27분 전",
-        "diff_sec": 1654.749732,
+        "time_ago": "33분 전",
+        "diff_sec": 1997.033943,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -872,8 +924,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5MMWJCSmFNMjBzSUMzM1ZxdTZaOVlIT1FXLXFEenRxckpEZGZ5Ujl4SldPRmdLN2VpWHRWWkdzUmJLUmZlX0NwMzJTaW9PZ0pqNFNnVHE5cTRoOFlOVmVyd2VrV1RWcXEzaXA5OQ?oc=5",
         "desc": "식약처 내년 예산 8829억 편성…AI 허가심사·바이오 규제지원 집중  약사공론",
         "pubDate": "Tue, 01 Sep 2026 04:55:02 GMT",
-        "time_ago": "27분 전",
-        "diff_sec": 1664.749732,
+        "time_ago": "33분 전",
+        "diff_sec": 2007.033155,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -885,8 +937,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE90MkQyUDBVN3FubnhUWVpXQjl2cEppWFJubE9kMHlXbl9NeXpmdUFhc3ppc0tjMFYxR1BNdWJSRWRRc3BCRkl6VkhUSlJybm8?oc=5",
         "desc": "방미통위 첫 예산 2977억원…AI·미디어 혁신 나선다 [2027 예산안]  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 04:54:18 GMT",
-        "time_ago": "28분 전",
-        "diff_sec": 1708.754798,
+        "time_ago": "34분 전",
+        "diff_sec": 2051.03595,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -898,8 +950,8 @@
         "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE10VS1weGE5MHk5VGVvNkZ4MmI3WV9kalJqeml2UTZtTlhla1VEazRMOTJfQkVZUVVxdGh2WEdIMDlpc29tcEJNa09kNS1EUHQxTUdqZ3Bxb3BCSGNQbzVRU0pVb3JTcENYOXZKWlRXa9IBc0FVX3lxTE40LVktSE1sYlJuQXpxWmI5bWtzamhPQjlXdGk1WmU5bFlYVTFMZWk4VHNUaThlbTg3X3pKSUE3T1oyZ2xTV0stdUlSdmFiU1pBZjRMMWEwZkpVd3JKYnJtcE9JSkxXZEZ1OXhKWmM3NXRPRkU?oc=5",
         "desc": "앤트로픽, 48조원 규모 AI 연산 인프라 추가 확보  safetimes.co.kr",
         "pubDate": "Tue, 01 Sep 2026 04:53:28 GMT",
-        "time_ago": "29분 전",
-        "diff_sec": 1758.757988,
+        "time_ago": "35분 전",
+        "diff_sec": 2101.041973,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -911,8 +963,8 @@
         "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1LeDhBTGNLN1F2NTVrMFVZOGFNb20xZlVLbVpreTl6TzRXejAtZE1pNUdmSnhyak9BWFUyckJUUGJBNGZiRFE5UmNPMkxJajBZY1hIaEVUc1AxWVZKQktYRHJJTGxXTWFkQi1N?oc=5",
         "desc": "정부, 3대 메가프로젝트 시동…물류·항만에 국산 AI·로봇 심는다  물류신문",
         "pubDate": "Tue, 01 Sep 2026 04:50:13 GMT",
-        "time_ago": "32분 전",
-        "diff_sec": 1953.749732,
+        "time_ago": "38분 전",
+        "diff_sec": 2296.033943,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -924,8 +976,8 @@
         "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPRWM1WXd1TEI3Y0FiZUxTUlN2ZjlMcHJkVUFIdXl3MlYyM2xBUG9fU0MzV09QRTR4STl4em1NNVZCcEdvU2kwbURockt6QVJOdmNKRGM4ZFdrWWFlQU5QUHduNDBmUVBZYjlWdXI0QmZEb2dwR3lDSF8xYXdHeXc2dU5QdFpENWVqMmNnOGpBSU3SAaQBQVVfeXFMT29TRG5BUTluOFVXNVIxMmNhN1pWdG80N0hYSlI5NkJtSGZQUjV0WEZqX0ExZ3M5VVVGS1FndTFJRXVpWGV1R3A3dmxPbEphbjNvam9paWg2RVJGN2hVNEZaQVp2dkJ2QzVPWmNwNE4wYm9wSGNYU0kxS1UtVmRjZHdsS2d4OEhRZ1hpdHBST1B1WEVOcXlnRkpJZzRCNVNqYWpYVmQ?oc=5",
         "desc": "경작지·장애물 스스로 인식…대동 AI 트랙터, 신기술 지정 - 조선비즈  biz.chosun.com",
         "pubDate": "Tue, 01 Sep 2026 04:46:00 GMT",
-        "time_ago": "36분 전",
-        "diff_sec": 2206.757351,
+        "time_ago": "42분 전",
+        "diff_sec": 2549.039966,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -937,8 +989,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5Oa09HY0g4OTJrSHdKaWJWRS1IUExfenU0Rzl2U3dxUElFUXVKVVlkM0NEWEs0OVNncGNRUEFweGprNHF0cnZGYUdsTm5CZXdjVEFUZFBrVmFxUWkxV1JKaVY1c2k?oc=5",
         "desc": "과기정통부 내년 예산 29.6조 ‘역대 최대’…AI에 9.4조 집중(종합)  디지털데일리",
         "pubDate": "Tue, 01 Sep 2026 04:37:08 GMT",
-        "time_ago": "45분 전",
-        "diff_sec": 2738.757988,
+        "time_ago": "51분 전",
+        "diff_sec": 3081.042559,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -950,8 +1002,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9falVkUkowdDhoazNXekh3dWd4V0xmRjVISnhYelpRNGVWQS1aMHZZZFpCbG5FVFBYal9yenZmMDd4Sks5UDdmdm1fcnhIMGc?oc=5",
         "desc": "방미통위 첫 예산 2천977억원…AI·미디어 혁신에 집중  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 04:36:00 GMT",
-        "time_ago": "46분 전",
-        "diff_sec": 2806.754798,
+        "time_ago": "52분 전",
+        "diff_sec": 3149.037958,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -963,8 +1015,8 @@
         "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE13RWdjOGNNaGxvSGo0ZnNYVzNyMy13MXNFSDFMTmota192SktXT2lCS19UdDFoVmRfa3dxc0N5U25NR1FnZk5rVEJETE9aaU9NZVVxWmJBWHpORHBzLUdaMlZnOA?oc=5",
         "desc": "“역대 최대 1조원”…삼성전기, AI서버용 MLCC로 글로벌 큰손 잡았다  에너지경제신문",
         "pubDate": "Tue, 01 Sep 2026 04:35:36 GMT",
-        "time_ago": "47분 전",
-        "diff_sec": 2830.754798,
+        "time_ago": "52분 전",
+        "diff_sec": 3173.03595,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -976,8 +1028,8 @@
         "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9sdl81NUhLejZZY0xnTmozS0NHRjc4VEFaVTVUamEtZTJYckZsNDIwTnlodEM2NTZlSEdESTNoRXVFbEp3SWdPWGJNdzNKSXdUSG4wQlg1NFN3RFHSAWBBVV95cUxPMlIxRlhLSWY4Zy1aVldQbmFxaHZZNjJvT2RGbFFSc3VEZWlXeW5LVWZ5N3VMR1JsamJsNFNfRGRHT2hHYVhORzdXLXBMaS04WmlxTG5CUDFIcjhxdUpTamY?oc=5",
         "desc": "방미통위 첫 예산 2천977억원…AI·미디어 혁신에 집중  연합뉴스",
         "pubDate": "Tue, 01 Sep 2026 04:34:33 GMT",
-        "time_ago": "48분 전",
-        "diff_sec": 2893.754798,
+        "time_ago": "53분 전",
+        "diff_sec": 3236.037958,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -989,8 +1041,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1Jb0EwbzQ3UmdKMkNKOVVIWkpVeU4wMTM5d1UzQS1sT1d6NUJQWTVBWG56dFhrbWxEZ2dOcXpiZXd3RFItcTRRV3ZSdHo4UQ?oc=5",
         "desc": "세븐일레븐, 경희대와 AI·빅데이터 산학협력…점포 DX 고도화  전자신문",
         "pubDate": "Tue, 01 Sep 2026 04:34:22 GMT",
-        "time_ago": "48분 전",
-        "diff_sec": 2904.758517,
+        "time_ago": "54분 전",
+        "diff_sec": 3247.042559,
         "category_badge": "종합 최신",
         "theme": "ai"
       },
@@ -1002,65 +1054,26 @@
         "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1tZFp4T3BTSjRxUUdKMEtzU3BHcl9zNFRDekZCT3c2T1JXOHlyYV9VZWZmd0VIUDFyWXhxcUdOMnpVckdCaWg0czRta2FSVTBBYjNhUXB1bW9YUjc4VEJTRlBn?oc=5",
         "desc": "AI 뒤처진 애플, 15년 만에 수장 바꿨다…‘하드웨어맨’ 터너스의 승부  에너지경제신문",
         "pubDate": "Tue, 01 Sep 2026 04:34:02 GMT",
-        "time_ago": "48분 전",
-        "diff_sec": 2924.758517,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "[월가 톡톡] AI 열풍에 불어난 실리콘밸리 부자들은 어디에 투자할까",
-        "press": "KB Think",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5kWDBVYWhnb2JaLTY2dkQ0X2RCRFE1SmtPeGNhYWJLVmhsaExjcXNFdkRWMzRuV2huWldGdDBlbWNsVWh1VWpWdjVJOTIxdHY1MkZnLUMtNVNLam4tWWdXLXliQ2FVcWNzX1JQQW5RM1Y5Zw?oc=5",
-        "desc": "[월가 톡톡] AI 열풍에 불어난 실리콘밸리 부자들은 어디에 투자할까  KB Think",
-        "pubDate": "Tue, 01 Sep 2026 04:33:01 GMT",
-        "time_ago": "49분 전",
-        "diff_sec": 2985.757351,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "질병청, 10만명에 국가 보건데이터 기반 'AI 건강리포트' 제공",
-        "press": "전자신문",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1sRzlmYzdfamd0NTF3c3phbGVsYTJfdlJvdy1qM2dsaUdPbExadms2Y3RuTlpVLUt0OUE1ZHhsTklGbzU4UTNlb05fekFVQQ?oc=5",
-        "desc": "질병청, 10만명에 국가 보건데이터 기반 'AI 건강리포트' 제공  전자신문",
-        "pubDate": "Tue, 01 Sep 2026 04:24:08 GMT",
-        "time_ago": "58분 전",
-        "diff_sec": 3518.757351,
-        "category_badge": "종합 최신",
-        "theme": "ai"
-      },
-      {
-        "title": "엔비디아, '칩 설계' 미디어텍에 4.7조 투자...GPU 독점 넘어 '생태계 표준' 노린다",
-        "press": "AI타임스",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9ITDJVdS1HdWEzQy1XTVdWSUM0S1pTRmZ6V2l3b09MbVBkck5ZZ3NaQU9LWW5WcV9KaVJHNzJua2c2UnFISHlWLTFvcXJ2NnhmcDJEUTYwQXBrOTA0TzR2ZzJ0aXFsZ0RTV1E?oc=5",
-        "desc": "엔비디아, '칩 설계' 미디어텍에 4.7조 투자...GPU 독점 넘어 '생태계 표준' 노린다  AI타임스",
-        "pubDate": "Tue, 01 Sep 2026 04:23:51 GMT",
-        "time_ago": "58분 전",
-        "diff_sec": 3535.749732,
-        "category_badge": "종합 최신",
-        "theme": "semiconductor"
-      },
-      {
-        "title": "정부, AI중심대학 18곳서 67곳으로 확대… AI 포용 예산 1.17조 편성",
-        "press": "지디넷코리아",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE90R2ZuQVFOdFhRT1BrVElaSzlTZTdZdFg5azA3OUlKdW9wbm00aERER2RfVDZLaDZ6X2V4QWFMV0czN29UM1kzcnQxUF9sR29qdHNmbXFn?oc=5",
-        "desc": "정부, AI중심대학 18곳서 67곳으로 확대… AI 포용 예산 1.17조 편성  지디넷코리아",
-        "pubDate": "Tue, 01 Sep 2026 04:20:21 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 3745.754798,
+        "time_ago": "54분 전",
+        "diff_sec": 3267.042559,
         "category_badge": "종합 최신",
         "theme": "ai"
       }
     ],
     "game": [
+      {
+        "title": "SOOP, e스포츠 중계부터 아마추어 대회까지 참여 영역 넓혀",
+        "press": "로이슈",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9IRzJRdWF0elBjbTlaNHRMQVEzczhxUFFtSEp2YXNtU09xU0tudVMxWFZlbU9rNXcyOGNQSEx2NE5wckx0eXIyY2JHc1FQcncxUTdjZGhlUl82V3VNRVlCek5OMFRMQ2J2WnFiTUtzdll0Qnh0QkJTRDBn?oc=5",
+        "desc": "SOOP, e스포츠 중계부터 아마추어 대회까지 참여 영역 넓혀  로이슈",
+        "pubDate": "Tue, 01 Sep 2026 05:22:59 GMT",
+        "time_ago": "5분 전",
+        "diff_sec": 331.378496,
+        "category_badge": "게임산업",
+        "theme": "game"
+      },
       {
         "title": "청강문화산업대학교·넷마블 엠엔비, '쿵야 레스토랑즈' 활용 산학협력 MOU 체결",
         "press": "네이트",
@@ -1069,8 +1082,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1QNF9xeld4cXJmUUx1N2FLbjdhb3d0UmR2ZG9ISWRma3ZabEdTbHFiRGRQMVdsSDRGanZEalpZb0t3ZHhmcUw5MHozNFVXR3VIZ3ZMdmVDUTBNbHZBRks1aw?oc=5",
         "desc": "청강문화산업대학교·넷마블 엠엔비, '쿵야 레스토랑즈' 활용 산학협력 MOU 체결  네이트",
         "pubDate": "Tue, 01 Sep 2026 05:09:00 GMT",
-        "time_ago": "13분 전",
-        "diff_sec": 827.536483,
+        "time_ago": "19분 전",
+        "diff_sec": 1170.382481,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1082,8 +1095,8 @@
         "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1ZSzVydVotZnF2V1l1eVZqeG5qVzF4R0JyUG1BZ05TaDNXcTB3M2lVS1hNX241eldsMlRvbEFfZy1BWmlRUDdzX3J4WHFldTluZHFTSnJENjB0eFJNTHRKcWM4RHFUUENJb2dnb2pR?oc=5",
         "desc": "[위클리오늘] 평창군, 2026 청소년 e스포츠 페스티벌 성황리 마무리  위클리오늘",
         "pubDate": "Tue, 01 Sep 2026 04:25:08 GMT",
-        "time_ago": "57분 전",
-        "diff_sec": 3459.533512,
+        "time_ago": "1시간 전",
+        "diff_sec": 3802.378496,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1096,7 +1109,7 @@
         "desc": "SOOP, e스포츠 페이지 개편…올해 승부예측 2000회 육박 전망  네이트",
         "pubDate": "Tue, 01 Sep 2026 04:16:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4007.533512,
+        "diff_sec": 4350.379492,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1109,7 +1122,7 @@
         "desc": "SOOP, e스포츠 플랫폼 개편…\"보는 재미 넘어 직접 참여까지\"  조선일보",
         "pubDate": "Tue, 01 Sep 2026 03:46:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 5807.530233,
+        "diff_sec": 6150.375948,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1122,7 +1135,7 @@
         "desc": "서울시·서울경제진흥원, ‘게임·e스포츠·서울 2026’ 9월18~20일 개최  시사타임즈",
         "pubDate": "Tue, 01 Sep 2026 03:41:53 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 6054.533512,
+        "diff_sec": 6397.379492,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1135,7 +1148,7 @@
         "desc": "9월 19일, 동대문 DDP에서 게임·e스포츠 행사 열린다  게임메카",
         "pubDate": "Tue, 01 Sep 2026 03:41:09 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 6098.533512,
+        "diff_sec": 6441.378496,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1148,7 +1161,7 @@
         "desc": "숲(SOOP), e스포츠 서비스 강화  한스경제",
         "pubDate": "Tue, 01 Sep 2026 03:35:47 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 6420.532491,
+        "diff_sec": 6763.377494,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1161,7 +1174,7 @@
         "desc": "라그나로크 온라인 글로벌 e스포츠 대회 ‘ROS 2026’ 한국 대표에 ‘BLACK ANGUS‘ 선발  웨이브진",
         "pubDate": "Tue, 01 Sep 2026 03:33:27 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 6560.538972,
+        "diff_sec": 6903.383477,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1173,8 +1186,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFA5QVN1SHpGNjg5WTFkZ1dpcWM1UkVxRXd3ZzYwRURKQ3Jyel9HRXpoZkhEU1pKT2hodzhEdmNScEZjVEFNd2hlWFJRd2czMmF3cW82azZPbVFqTkFpbFhHb1NScV8tS1pwMHltWg?oc=5",
         "desc": "[위클리 PC방] 넥슨 버프 받은 ‘오버워치’, 3년여만에 점유율 최고치  경향게임스",
         "pubDate": "Tue, 01 Sep 2026 03:24:12 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 7115.535275,
+        "time_ago": "2시간 전",
+        "diff_sec": 7458.380489,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1187,7 +1200,7 @@
         "desc": "엑셀릭스, 버추얼 유튜버 IP 게임 도전  더게임스",
         "pubDate": "Tue, 01 Sep 2026 03:17:33 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 7514.537905,
+        "diff_sec": 7857.382481,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1200,7 +1213,7 @@
         "desc": "SOOP e스포츠 콘텐츠 개편, 이용자 접근성 확대 등 팬심 잡는다  경향게임스",
         "pubDate": "Tue, 01 Sep 2026 03:08:03 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 8084.535275,
+        "diff_sec": 8427.380489,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1213,20 +1226,7 @@
         "desc": "2026 평창군 청소년 e스포츠 페스티벌 성황리 마무리  웹이코노미",
         "pubDate": "Tue, 01 Sep 2026 03:04:48 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 8279.536483,
-        "category_badge": "게임산업",
-        "theme": "game"
-      },
-      {
-        "title": "대학 수업서 ‘쿵야’로 로블록스 게임 만든다…넷마블 엠엔비, 실무인재 키운다",
-        "press": "잡포스트",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFBpaUJtc2EzY3pucTBuQ0hTbXRHQ2otZ3FKem5wMlZGTktCMkRGdEdZenM2eUlXWkxjTjBCZWNTZVA3YWRURHZ0ZGRxX1M5YjNKMXVnQm9FS0lUb25lODNyRjFwanZsOF9lVXdBN3FXeW5Td9IBckFVX3lxTFBpaUJtc2EzY3pucTBuQ0hTbXRHQ2otZ3FKem5wMlZGTktCMkRGdEdZenM2eUlXWkxjTjBCZWNTZVA3YWRURHZ0ZGRxX1M5YjNKMXVnQm9FS0lUb25lODNyRjFwanZsOF9lVXdBN3FXeW5Tdw?oc=5",
-        "desc": "대학 수업서 ‘쿵야’로 로블록스 게임 만든다…넷마블 엠엔비, 실무인재 키운다  잡포스트",
-        "pubDate": "Tue, 01 Sep 2026 02:56:57 GMT",
-        "time_ago": "2시간 전",
-        "diff_sec": 8750.537905,
+        "diff_sec": 8622.381485,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1239,7 +1239,7 @@
         "desc": "베이커리 경영 액션 RPG ‘아르타’, 12월 10일 콘솔 버전 정식 출시  경향게임스",
         "pubDate": "Tue, 01 Sep 2026 02:54:13 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 8914.537591,
+        "diff_sec": 9257.382481,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1252,7 +1252,7 @@
         "desc": "넥슨, 크리에이터와 함께하는 'FCL' 개최  더게임스",
         "pubDate": "Tue, 01 Sep 2026 02:50:22 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 9145.535275,
+        "diff_sec": 9488.381485,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1264,8 +1264,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5pWHJxUE1LckpScEp4ck5BWXlCLTRiVm1ma1d6RTNFbVM3QmpMTDdsd1YyRU9DM1BieWU3Sk9DajRHczNwY3VoeG1KazhIVGRoMy1KOGs0X0I5QW5zdGFGVDhvRUdZTXNkR3lLSA?oc=5",
         "desc": "그라비티 게임 어라이즈 '아르타’ 콘솔 발매일 공개  더게임스",
         "pubDate": "Tue, 01 Sep 2026 02:26:57 GMT",
-        "time_ago": "2시간 전",
-        "diff_sec": 10550.535275,
+        "time_ago": "3시간 전",
+        "diff_sec": 10893.380489,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1277,8 +1277,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1VZ1psRzQ2VDNKMFpOenZjR1NQZktlZ0pNZWJMYmZfaWNFeHhlckVSQjJycWtqc1RCckdxOG5pdDJhTGJKUFlJQlBSR2RIUkc4bHc0XzVZTGZqVS1NMEdLU2xyVFI3UUxiM1VjOA?oc=5",
         "desc": "'디아블로2 레저렉션' PC방 인기 상승세  더게임스",
         "pubDate": "Tue, 01 Sep 2026 02:23:19 GMT",
-        "time_ago": "2시간 전",
-        "diff_sec": 10768.537905,
+        "time_ago": "3시간 전",
+        "diff_sec": 11111.382481,
         "category_badge": "게임산업",
         "theme": "tech"
       },
@@ -1291,7 +1291,7 @@
         "desc": "그라비티, 베이커리 경영 RPG ‘아르타’ 콘솔 버전 12월 10일 발매  매일경제",
         "pubDate": "Tue, 01 Sep 2026 02:22:42 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 10805.530969,
+        "diff_sec": 11148.375948,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1304,7 +1304,7 @@
         "desc": "SOOP, e스포츠 페이지 전면 개편…콘텐츠·참여 기능 강화  서울경제TV",
         "pubDate": "Tue, 01 Sep 2026 02:21:48 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 10859.530233,
+        "diff_sec": 11202.375948,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1317,7 +1317,7 @@
         "desc": "서울 대표 게임·e스포츠 축제 'GES 2026', 9월 DDP서 개최  네이트",
         "pubDate": "Tue, 01 Sep 2026 02:19:00 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 11027.535275,
+        "diff_sec": 11370.381485,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1330,7 +1330,7 @@
         "desc": "그라비티 게임 어라이즈(GGA) 던전 탐험과 베이커리 경영이 결합한 'Aeruta' 12월 10일 콘솔 발매  게임포커스",
         "pubDate": "Tue, 01 Sep 2026 02:17:23 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 11124.538972,
+        "diff_sec": 11467.383477,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1343,7 +1343,7 @@
         "desc": "게임업계, 허리띠 졸라도 R&D는 지켰다…'다음 흥행작'에 베팅  서울이코노미뉴스",
         "pubDate": "Tue, 01 Sep 2026 02:15:54 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 11213.530969,
+        "diff_sec": 11556.375948,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1356,7 +1356,20 @@
         "desc": "네 번 미루고 다시 법정으로…넥슨 116억 판결 왜  SBS Biz",
         "pubDate": "Tue, 01 Sep 2026 02:14:00 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 11327.530969,
+        "diff_sec": 11670.377494,
+        "category_badge": "게임산업",
+        "theme": "game"
+      },
+      {
+        "title": "즐길 것 많은 SOOP에 e스포츠 팬 집결",
+        "press": "게임포커스",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9Jc3ZHN0lwQ0FlTTIzZ2hubWFhSzVrT0d0RXk1M2Jwak9YazNXOXJKc3pSMkNXMDhYLUNmb1V0a01rbVdTR2xJYlloN3FfOWZNWjNqeGdMejRGUVNHczY4bg?oc=5",
+        "desc": "즐길 것 많은 SOOP에 e스포츠 팬 집결  게임포커스",
+        "pubDate": "Tue, 01 Sep 2026 02:07:13 GMT",
+        "time_ago": "3시간 전",
+        "diff_sec": 12077.377494,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1369,7 +1382,7 @@
         "desc": "나혼렙·쿠키런·씰, 외자판호 획득...K게임, 중국 시장 공략 시동건다  테크M",
         "pubDate": "Tue, 01 Sep 2026 02:06:03 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 11804.537905,
+        "diff_sec": 12147.383477,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1382,7 +1395,7 @@
         "desc": "e스포츠 라이브-대회참가까지 클릭 한번에...SOOP 페이지 개편  파이낸셜뉴스",
         "pubDate": "Tue, 01 Sep 2026 02:04:40 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 11887.533512,
+        "diff_sec": 12230.378496,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1395,7 +1408,7 @@
         "desc": "넷마블 ‘나혼렙’·데브 ‘쿠키런’ 등 K게임 3종, 中 외자판호 획득  IT조선",
         "pubDate": "Tue, 01 Sep 2026 02:03:09 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 11978.530969,
+        "diff_sec": 12321.377494,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1408,7 +1421,7 @@
         "desc": "GGA ‘Aeruta’ 12월 10일 콘솔판 발매  nspna.com",
         "pubDate": "Tue, 01 Sep 2026 02:02:52 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 11995.533512,
+        "diff_sec": 12338.379492,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1421,7 +1434,7 @@
         "desc": "SOOP, e스포츠 페이지 개편…편의성 높이고 즐길거리 늘려  네이트",
         "pubDate": "Tue, 01 Sep 2026 02:00:00 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 12167.536483,
+        "diff_sec": 12510.381485,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -1434,25 +1447,25 @@
         "desc": "SOOP, e스포츠 페이지 개편…편의성 높이고 즐길거리 늘려  mkbn.mk.co.kr",
         "pubDate": "Tue, 01 Sep 2026 01:59:35 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 12192.536483,
-        "category_badge": "게임산업",
-        "theme": "game"
-      },
-      {
-        "title": "팰월드·좀보이드 등, 스팀 생존 제작게임 축제 열렸다",
-        "press": "게임메카",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE8xX3NOcXQ0VnRDUGRiclN1MHZxUWlQYTVHOVVEZTZRb1lacm0zSVU5eG9TX1d0Tmk4QWg5LW1JelZNZTlNaVNLejNxaGlnRkFfZy0za2dPeE_SAVtBVV95cUxPUUZKdzlzSUl5M1Mzc3pQOUxacWRtYzBfSlNFUkVKamZ4ZldPYVJVYzh4VV9BZlhaX2lWTVdhN1ZzQkxaSURlYTM1aDQ4QkJjdTF2WlpvZ2VlTTVJ?oc=5",
-        "desc": "팰월드·좀보이드 등, 스팀 생존 제작게임 축제 열렸다  게임메카",
-        "pubDate": "Tue, 01 Sep 2026 01:56:36 GMT",
-        "time_ago": "3시간 전",
-        "diff_sec": 12371.534508,
+        "diff_sec": 12535.381485,
         "category_badge": "게임산업",
         "theme": "game"
       }
     ],
     "ai": [
+      {
+        "title": "제논, AI 엔지니어 중심 전 직군 대규모 채용",
+        "press": "AI타임스",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9MWjhxNXd2MUUteXc0R3VpRTBkc1BscWg5YmFDQzRhaURDVEl3QktBeHBWZlFQVFAwWmJkWW9jaG1ZNkVOUlI1emZoVHdISDVaTmhJWWlxTURrN1I4V3JOQmpZN2dEc2k0clE?oc=5",
+        "desc": "제논, AI 엔지니어 중심 전 직군 대규모 채용  AI타임스",
+        "pubDate": "Tue, 01 Sep 2026 05:20:25 GMT",
+        "time_ago": "8분 전",
+        "diff_sec": 486.21517,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
       {
         "title": "“나도 의식 있을까?” 과학자에게 이메일 보낸 AI",
         "press": "v.daum.net",
@@ -1461,8 +1474,21 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5xSHE2TTJDazhLRmpBcDEyYUM3bmNjci1ZekJlX0tuZFo2QVJNelNYUEQyT1pfNW9zZ2NVYzZGdWVfY1JnWlJCSTVGTVpWR2M?oc=5",
         "desc": "“나도 의식 있을까?” 과학자에게 이메일 보낸 AI  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 05:18:36 GMT",
-        "time_ago": "4분 전",
-        "diff_sec": 252.445076,
+        "time_ago": "9분 전",
+        "diff_sec": 595.224423,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "LGU+, 어라이즈 AI와 '신뢰 가능한 AI 에이전트' 체계 구축한다",
+        "press": "AI타임스",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1ZUW9Ua0FDTlktdkN5YWtIbnZqRTJnenl5aHFZUW9CendEYlh5VGxxV2cxcEZYb2pkUHhoRFJCVkdRMkN1RDdvbGx5WFpQM0ZlOFliQ2Z5ekNsWi1tR2tZVlFVNEF5d0F0c1E?oc=5",
+        "desc": "LGU+, 어라이즈 AI와 '신뢰 가능한 AI 에이전트' 체계 구축한다  AI타임스",
+        "pubDate": "Tue, 01 Sep 2026 05:17:45 GMT",
+        "time_ago": "10분 전",
+        "diff_sec": 646.214167,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1474,8 +1500,21 @@
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1CNmxIcS1CMlhSWkl2MjFWSF9WRFZLNmZQbTdlM2VpRW1STTBsWU5tblVpMEdSTEM2NmJySzNHdW9ERklGeUlsVjhVWm56cDdtRGVUWVRQZHplRldCYnQxbDNyS3dDYlFFRlE?oc=5",
         "desc": "비드래프트, “AI 문명은 창발인가 암송인가”…라이브 실험세계 ‘ai-월드’ 공개  AI타임스",
         "pubDate": "Tue, 01 Sep 2026 05:16:33 GMT",
-        "time_ago": "6분 전",
-        "diff_sec": 375.441029,
+        "time_ago": "11분 전",
+        "diff_sec": 718.217231,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "[AI네이티브 교육 9월 일정] AI 구현부터 ROI·통제까지…실전 교육·세미나 개최",
+        "press": "전자신문",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5NMExkVlVRNmp6V1Uybk1VSU5iSHlwNzRpcHMyYkNmZWUteHZBdzhyZHRRRnpwSkdLOHllTXZ6OEFDaHllTnhJSktxdkU5QQ?oc=5",
+        "desc": "[AI네이티브 교육 9월 일정] AI 구현부터 ROI·통제까지…실전 교육·세미나 개최  전자신문",
+        "pubDate": "Tue, 01 Sep 2026 05:15:50 GMT",
+        "time_ago": "12분 전",
+        "diff_sec": 761.224928,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1487,8 +1526,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9IUmZVeEZ6UWljRld0WW04Nkt5LW5LU1MtSHNvYlZzX0RsWlFQQ3hVcTNWb0F5Zm5Gem5wUHQ3dm9uU3VITTl4cDFCaW5HX1VldVBhd29DUU5uMkEyLUg3UkIzUGpnejg?oc=5",
         "desc": "딥엑스, AWS IoT와 피지컬 AI 배포 환경 구축…글로벌 적용 확대  인공지능신문",
         "pubDate": "Tue, 01 Sep 2026 05:11:49 GMT",
-        "time_ago": "10분 전",
-        "diff_sec": 659.442971,
+        "time_ago": "16분 전",
+        "diff_sec": 1002.220821,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1500,8 +1539,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTFBpX1hPSkdxdW9tQWRnUXhNdVRmc2ZfZ0w4RzVTcjZzeEFuYlZNNWRocmE0d2txT19EUGJFRFFuTnpnQ25HcU5XQmVtYmY?oc=5",
         "desc": "급증하는 'AI 데이터센터' 건설 수요, 모듈러·표준화로 대응해야...건설연, 핵심 기술 R&D 추진  전자신문",
         "pubDate": "Tue, 01 Sep 2026 05:11:34 GMT",
-        "time_ago": "11분 전",
-        "diff_sec": 674.445076,
+        "time_ago": "16분 전",
+        "diff_sec": 1017.223916,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1513,8 +1552,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9ZWHMtTmtReXZsekxmbWRTLXc1N2lvVzR6N2xSbUlKZVdwYjhHR3ZwZ282a09ndi15aEpvT3pIMTNKempzMTRITnM1SEpyUQ?oc=5",
         "desc": "IBM, '에이전틱 엔터프라이즈' 전략 강화…“AI 도입보다 운영이 경쟁력”  전자신문",
         "pubDate": "Tue, 01 Sep 2026 05:11:07 GMT",
-        "time_ago": "11분 전",
-        "diff_sec": 701.442176,
+        "time_ago": "17분 전",
+        "diff_sec": 1044.219824,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1526,8 +1565,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9KNDZ3bVYtYklkVzZLS3drTzN5VTAySkQzd2duRl9lSTctX0ZST1kzYXdRbE1xRG1PUVVwZTROQ0ZjeVNhQzZMVG1ud0JPWm8?oc=5",
         "desc": "AI가 보여주는 아프리카 대표 이미지는 여전히 '야생·자연'  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 05:10:41 GMT",
-        "time_ago": "12분 전",
-        "diff_sec": 727.44404,
+        "time_ago": "17분 전",
+        "diff_sec": 1070.221818,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1539,8 +1578,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9feGhISHlfdDdiWlZpQ0E5X0Y2OW05RDRENzBjaFpsNjFfVVc2SUt6T0wtRGpfa1N4dUdna0QzZWRQRTNTY0lGbS16RDBJQQ?oc=5",
         "desc": "웨어비즈, 하이브리드 AI 챗봇 'ARGOS AI Chat Search' 조달청 나라장터 등록  전자신문",
         "pubDate": "Tue, 01 Sep 2026 05:09:15 GMT",
-        "time_ago": "13분 전",
-        "diff_sec": 813.447392,
+        "time_ago": "19분 전",
+        "diff_sec": 1156.225456,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1552,8 +1591,8 @@
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5XaGZsbzRmZjJyWi1LMF9hellUNFowd0RBVTQ5eWVaUVUxMXBQdV9ENnlYb05qeElBd0J5UTdqNzdMUFdWOGRmT0VKVmRQeURFa0RkNDFfaWo5bnR5SW93X3lyMGdaa0Vrd2c?oc=5",
         "desc": "AI 업계의 반격...AI 옹호 단체 통해 '데이터센터 홍보' 나서  AI타임스",
         "pubDate": "Tue, 01 Sep 2026 05:09:00 GMT",
-        "time_ago": "13분 전",
-        "diff_sec": 828.441561,
+        "time_ago": "19분 전",
+        "diff_sec": 1171.218813,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1565,8 +1604,8 @@
         "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFAzU1VhTm01YVNSR2Mzcjl4cjllRXo3OTRyS096aVk1TFc4RlhqYUFidzNxSHFpcGExcWwzMk5TV2M2NmFsR1d5WkJMb0Z0Y21pNmpRN3FESQ?oc=5",
         "desc": "“소비자 선택 전에 AI 구매 추천 받을 경쟁력 갖춰야 ”  헤럴드경제",
         "pubDate": "Tue, 01 Sep 2026 05:08:40 GMT",
-        "time_ago": "14분 전",
-        "diff_sec": 848.446379,
+        "time_ago": "19분 전",
+        "diff_sec": 1191.224928,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1578,8 +1617,8 @@
         "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1USzJ5ZGRjaXp3b1IzT3lVZzczdWRnZ3otMWxHVlZ1OXNJN3hyYm8teGdQTE1XdGZkNU5pMUZCb1ZXRlV2RERRMklCZk5UeXYzd2dxaTVYRExYNWZv?oc=5",
         "desc": "씨어스, 은성의료재단과 'AI 증강병원' 구축  뉴스핌",
         "pubDate": "Tue, 01 Sep 2026 05:08:00 GMT",
-        "time_ago": "14분 전",
-        "diff_sec": 888.44404,
+        "time_ago": "20분 전",
+        "diff_sec": 1231.221818,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1591,8 +1630,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE0yWnRYbmxGR3FvSENkT1pHZEkzN0JHZFczakN3RWhfeS0xWjBlTUFBTzdCZW01Sml6bklpR1JBVkhrZ2VvV3VELUc4aFBFa2E1OWo40gFYQVVfeXFMUGExNUt1YXNaYmFyMmNnc19sYURzTGN3cVpPSjRUQ3lwY0VvUk9MTUdaWVZZLVA3eXRBU2I4UlA2OHlPV0xzVXhlSGNIT0VKQ2dlNG5qMnJVaQ?oc=5",
         "desc": "LGU+, AI 오답·오류 잡는 관리체계 만든다  SBS Biz",
         "pubDate": "Tue, 01 Sep 2026 05:07:00 GMT",
-        "time_ago": "15분 전",
-        "diff_sec": 948.438282,
+        "time_ago": "21분 전",
+        "diff_sec": 1291.214167,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1604,8 +1643,21 @@
         "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE5kTm1uVThhUkR2blk0cVhhRVJRSUhIRng5OXhVZVJKVHA4M3BTb3dqeVpkZWVfWWhHcm9TdmhZZjRkX3lnRXdpTkdGb3Y?oc=5",
         "desc": "크리니티, 공공기관 대상 '웍스AI' 공급 확대…공공 AI 파트너 사업 본격화  전자신문",
         "pubDate": "Tue, 01 Sep 2026 05:01:02 GMT",
-        "time_ago": "21분 전",
-        "diff_sec": 1306.44404,
+        "time_ago": "27분 전",
+        "diff_sec": 1649.222919,
+        "category_badge": "AI 기술",
+        "theme": "ai"
+      },
+      {
+        "title": "과기정통부 내년 예산 29조6000억원 편성… AI 예산은 1년 새 84% 늘려",
+        "press": "조선일보",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOdUhTcTJTalNDeS12NVNIb2N3ekpCbnJuODNYcFlIa0Z1ZVhOUkpOOVZGQVNYVWZ6VHYtUjZNY1Q5cjVQT3NxbEJOT1FCUmxYcmFsZ3JZN1EtNUFRdTJaT2xMMm5SRlpNaUQ5OFgyNHIyTkVvQ3JiVFlyMldyQ18xZzJxZw?oc=5",
+        "desc": "과기정통부 내년 예산 29조6000억원 편성… AI 예산은 1년 새 84% 늘려  조선일보",
+        "pubDate": "Tue, 01 Sep 2026 05:01:00 GMT",
+        "time_ago": "27분 전",
+        "diff_sec": 1651.214167,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1617,8 +1669,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE94bzZSellsTnhuY1ZaQ3ZsZVNlaFJzbER4M3N1WE8yUFlBRWFHV2RrUTNSZGNsRXBaN2pvMWZfZUtBSVQwTVRzMXl2Nzhmdw?oc=5",
         "desc": "[2027 예산안]과기정통부 내년 예산 24.5%↑…“AI 대전환 가속화”  전자신문",
         "pubDate": "Tue, 01 Sep 2026 04:59:20 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1408.447392,
+        "time_ago": "29분 전",
+        "diff_sec": 1751.225456,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1630,8 +1682,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9SbnZXWE81ZV9hZHdkMjZ0RVNmZkxlcHViUnNzS0ZnLW0wT3J2Zl9oc3UwQzBwZEg4YlljUjhpcm5mZ3UxQUg3OXRNOHZtdw?oc=5",
         "desc": "헥토, 폐암 조기진단·재발예측 AI 의료기기 개발  전자신문",
         "pubDate": "Tue, 01 Sep 2026 04:58:24 GMT",
-        "time_ago": "24분 전",
-        "diff_sec": 1464.446379,
+        "time_ago": "30분 전",
+        "diff_sec": 1807.224423,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1643,8 +1695,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFAyM2xHZDQzUzBZTXNBRHFiTDBtNTNQdzVPaEpMMmh2cE5LX25ucjMtempuSnNIdjZjckdBM2FFZWF5SzYwdmYwekdBR1FlYUUzMTJoSXZTRDVRX3JRR3B3ZFF1eXl3U2Z6cUJ6aw?oc=5",
         "desc": "앤트로픽, ‘AI가 로봇팔·실험장비 직접 조작하는’ 인터페이스 규격 공개  로봇신문",
         "pubDate": "Tue, 01 Sep 2026 04:56:39 GMT",
-        "time_ago": "26분 전",
-        "diff_sec": 1569.446379,
+        "time_ago": "31분 전",
+        "diff_sec": 1912.225456,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1656,8 +1708,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1pdWZ4YWkzZEhoOENTZ0ZYa0NHYXV6RkcxcUNxNUVEZXNOSnF4YVMyOWI1encxMUdWaFItb3dkQU1NQmFfeUMxR1l4V2VTUQ?oc=5",
         "desc": "[2027년 예산]반도체·피지컬AI·AIDC 21.3조…3대 메가프로젝트 가속  전자신문",
         "pubDate": "Tue, 01 Sep 2026 04:56:13 GMT",
-        "time_ago": "26분 전",
-        "diff_sec": 1595.445076,
+        "time_ago": "32분 전",
+        "diff_sec": 1938.223916,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1669,8 +1721,8 @@
         "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9jOVptNjQza1dnOVY4XzhCUHlsbWV5QUNDemVRMU4xRVVCQWRXSzFRMWo5T2tSZ2IxTUxueGM1OXM0aHhvdURTaHpPM0VoamdJclNZb3NRbGFHcHE5NUdtdmJEMXhlZnNobmVv?oc=5",
         "desc": "과기정통부, 2027년 예산 29.6조원 편성... AI보안 1822억원 등 AI 예산 확대  보안뉴스",
         "pubDate": "Tue, 01 Sep 2026 04:55:12 GMT",
-        "time_ago": "27분 전",
-        "diff_sec": 1656.438282,
+        "time_ago": "33분 전",
+        "diff_sec": 1999.213267,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1682,8 +1734,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5MMWJCSmFNMjBzSUMzM1ZxdTZaOVlIT1FXLXFEenRxckpEZGZ5Ujl4SldPRmdLN2VpWHRWWkdzUmJLUmZlX0NwMzJTaW9PZ0pqNFNnVHE5cTRoOFlOVmVyd2VrV1RWcXEzaXA5OQ?oc=5",
         "desc": "식약처 내년 예산 8829억 편성…AI 허가심사·바이오 규제지원 집중  약사공론",
         "pubDate": "Tue, 01 Sep 2026 04:55:02 GMT",
-        "time_ago": "27분 전",
-        "diff_sec": 1666.438282,
+        "time_ago": "33분 전",
+        "diff_sec": 2009.213267,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1695,8 +1747,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE90MkQyUDBVN3FubnhUWVpXQjl2cEppWFJubE9kMHlXbl9NeXpmdUFhc3ppc0tjMFYxR1BNdWJSRWRRc3BCRkl6VkhUSlJybm8?oc=5",
         "desc": "방미통위 첫 예산 2977억원…AI·미디어 혁신 나선다 [2027 예산안]  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 04:54:18 GMT",
-        "time_ago": "28분 전",
-        "diff_sec": 1710.439884,
+        "time_ago": "34분 전",
+        "diff_sec": 2053.217231,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1708,8 +1760,8 @@
         "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1LeDhBTGNLN1F2NTVrMFVZOGFNb20xZlVLbVpreTl6TzRXejAtZE1pNUdmSnhyak9BWFUyckJUUGJBNGZiRFE5UmNPMkxJajBZY1hIaEVUc1AxWVZKQktYRHJJTGxXTWFkQi1N?oc=5",
         "desc": "정부, 3대 메가프로젝트 시동…물류·항만에 국산 AI·로봇 심는다  물류신문",
         "pubDate": "Tue, 01 Sep 2026 04:50:13 GMT",
-        "time_ago": "32분 전",
-        "diff_sec": 1955.441868,
+        "time_ago": "38분 전",
+        "diff_sec": 2298.218813,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1721,8 +1773,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5fUms1c0RMT3gtOWI3cVYzb0FaUXcxTnhLYkw5U1NQcl93b1hEVXFnRUJuZWZFd1VlaHZsbEZZdE5idzNweF9OUEZXcmJJNFc4ZjdTbGZOUVRpZG51THlKZHJmTzh2VTA?oc=5",
         "desc": "화학연구원 신석민 원장…“AI 시대, 화학으로 새로운 답과 길 찾는다”  인공지능신문",
         "pubDate": "Tue, 01 Sep 2026 04:47:27 GMT",
-        "time_ago": "35분 전",
-        "diff_sec": 2121.44404,
+        "time_ago": "41분 전",
+        "diff_sec": 2464.221818,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1734,21 +1786,8 @@
         "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPRWM1WXd1TEI3Y0FiZUxTUlN2ZjlMcHJkVUFIdXl3MlYyM2xBUG9fU0MzV09QRTR4STl4em1NNVZCcEdvU2kwbURockt6QVJOdmNKRGM4ZFdrWWFlQU5QUHduNDBmUVBZYjlWdXI0QmZEb2dwR3lDSF8xYXdHeXc2dU5QdFpENWVqMmNnOGpBSU3SAaQBQVVfeXFMT29TRG5BUTluOFVXNVIxMmNhN1pWdG80N0hYSlI5NkJtSGZQUjV0WEZqX0ExZ3M5VVVGS1FndTFJRXVpWGV1R3A3dmxPbEphbjNvam9paWg2RVJGN2hVNEZaQVp2dkJ2QzVPWmNwNE4wYm9wSGNYU0kxS1UtVmRjZHdsS2d4OEhRZ1hpdHBST1B1WEVOcXlnRkpJZzRCNVNqYWpYVmQ?oc=5",
         "desc": "경작지·장애물 스스로 인식…대동 AI 트랙터, 신기술 지정 - 조선비즈  biz.chosun.com",
         "pubDate": "Tue, 01 Sep 2026 04:46:00 GMT",
-        "time_ago": "36분 전",
-        "diff_sec": 2208.445076,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[보안] 자율형 AI 기반의 새로운 취약점 나타나, AI 보안 전문 솔루션 수요 커질 것",
-        "press": "elec4",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5YMm5COFRtUXNqWUhqQ1NjNVVQaDBYcGMzQTdYaEctZF9KX3pUbDh0ajhDVmxvWkViSnlXUHNDUDJFS2djcXYzb3EtSWVCVlZGd0tZT0xBWkZtWnE4Z2lIeGVfTnEtQVhDS1BqczJJSDVCMFZQbm1RZThHbw?oc=5",
-        "desc": "[보안] 자율형 AI 기반의 새로운 취약점 나타나, AI 보안 전문 솔루션 수요 커질 것  elec4",
-        "pubDate": "Tue, 01 Sep 2026 04:44:51 GMT",
-        "time_ago": "37분 전",
-        "diff_sec": 2277.446379,
+        "time_ago": "42분 전",
+        "diff_sec": 2551.222919,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1760,8 +1799,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9falVkUkowdDhoazNXekh3dWd4V0xmRjVISnhYelpRNGVWQS1aMHZZZFpCbG5FVFBYal9yenZmMDd4Sks5UDdmdm1fcnhIMGc?oc=5",
         "desc": "방미통위 첫 예산 2천977억원…AI·미디어 혁신에 집중  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 04:36:00 GMT",
-        "time_ago": "46분 전",
-        "diff_sec": 2808.441029,
+        "time_ago": "52분 전",
+        "diff_sec": 3151.218227,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1773,8 +1812,8 @@
         "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE13RWdjOGNNaGxvSGo0ZnNYVzNyMy13MXNFSDFMTmota192SktXT2lCS19UdDFoVmRfa3dxc0N5U25NR1FnZk5rVEJETE9aaU9NZVVxWmJBWHpORHBzLUdaMlZnOA?oc=5",
         "desc": "“역대 최대 1조원”…삼성전기, AI서버용 MLCC로 글로벌 큰손 잡았다  에너지경제신문",
         "pubDate": "Tue, 01 Sep 2026 04:35:36 GMT",
-        "time_ago": "47분 전",
-        "diff_sec": 2832.440425,
+        "time_ago": "52분 전",
+        "diff_sec": 3175.217231,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1786,8 +1825,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1Jb0EwbzQ3UmdKMkNKOVVIWkpVeU4wMTM5d1UzQS1sT1d6NUJQWTVBWG56dFhrbWxEZ2dOcXpiZXd3RFItcTRRV3ZSdHo4UQ?oc=5",
         "desc": "세븐일레븐, 경희대와 AI·빅데이터 산학협력…점포 DX 고도화  전자신문",
         "pubDate": "Tue, 01 Sep 2026 04:34:22 GMT",
-        "time_ago": "48분 전",
-        "diff_sec": 2906.445076,
+        "time_ago": "54분 전",
+        "diff_sec": 3249.222919,
         "category_badge": "AI 기술",
         "theme": "ai"
       },
@@ -1799,47 +1838,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1tZFp4T3BTSjRxUUdKMEtzU3BHcl9zNFRDekZCT3c2T1JXOHlyYV9VZWZmd0VIUDFyWXhxcUdOMnpVckdCaWg0czRta2FSVTBBYjNhUXB1bW9YUjc4VEJTRlBn?oc=5",
         "desc": "AI 뒤처진 애플, 15년 만에 수장 바꿨다…‘하드웨어맨’ 터너스의 승부  에너지경제신문",
         "pubDate": "Tue, 01 Sep 2026 04:34:02 GMT",
-        "time_ago": "48분 전",
-        "diff_sec": 2926.446379,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "[월가 톡톡] AI 열풍에 불어난 실리콘밸리 부자들은 어디에 투자할까",
-        "press": "KB Think",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5kWDBVYWhnb2JaLTY2dkQ0X2RCRFE1SmtPeGNhYWJLVmhsaExjcXNFdkRWMzRuV2huWldGdDBlbWNsVWh1VWpWdjVJOTIxdHY1MkZnLUMtNVNLam4tWWdXLXliQ2FVcWNzX1JQQW5RM1Y5Zw?oc=5",
-        "desc": "[월가 톡톡] AI 열풍에 불어난 실리콘밸리 부자들은 어디에 투자할까  KB Think",
-        "pubDate": "Tue, 01 Sep 2026 04:33:01 GMT",
-        "time_ago": "49분 전",
-        "diff_sec": 2987.442176,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "질병청, 10만명에 국가 보건데이터 기반 'AI 건강리포트' 제공",
-        "press": "전자신문",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1sRzlmYzdfamd0NTF3c3phbGVsYTJfdlJvdy1qM2dsaUdPbExadms2Y3RuTlpVLUt0OUE1ZHhsTklGbzU4UTNlb05fekFVQQ?oc=5",
-        "desc": "질병청, 10만명에 국가 보건데이터 기반 'AI 건강리포트' 제공  전자신문",
-        "pubDate": "Tue, 01 Sep 2026 04:24:08 GMT",
-        "time_ago": "58분 전",
-        "diff_sec": 3520.442971,
-        "category_badge": "AI 기술",
-        "theme": "ai"
-      },
-      {
-        "title": "정부, AI중심대학 18곳서 67곳으로 확대… AI 포용 예산 1.17조 편성",
-        "press": "지디넷코리아",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE90R2ZuQVFOdFhRT1BrVElaSzlTZTdZdFg5azA3OUlKdW9wbm00aERER2RfVDZLaDZ6X2V4QWFMV0czN29UM1kzcnQxUF9sR29qdHNmbXFn?oc=5",
-        "desc": "정부, AI중심대학 18곳서 67곳으로 확대… AI 포용 예산 1.17조 편성  지디넷코리아",
-        "pubDate": "Tue, 01 Sep 2026 04:20:21 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 3747.438282,
+        "time_ago": "54분 전",
+        "diff_sec": 3269.224928,
         "category_badge": "AI 기술",
         "theme": "ai"
       }
@@ -1853,8 +1853,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5HNXBiYy15RTF6WUplejdzd2M1TFVDYUpxX3RyUGxkLXBxSndUSmROblJERFFBUFJzUXhPR2RZdGw4LXRnMHc3REVkWndjYUU?oc=5",
         "desc": "엔비디아, 대만 미디어텍에 4조7000억원 투자…“파트너십 확대”  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 05:12:00 GMT",
-        "time_ago": "10분 전",
-        "diff_sec": 649.611785,
+        "time_ago": "16분 전",
+        "diff_sec": 992.510222,
         "category_badge": "반도체/컴퓨터",
         "theme": "tech"
       },
@@ -1866,8 +1866,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE8yc2VLSGg3MEN1LXQyZjUwTEtZWU55Rk5QNjc1QUc1dzRqRTNMSDNObTZMT3lBQ0ZybFRuVDlTMTlHdG4tQnRJVjA4U1ZSUWJqRC1V?oc=5",
         "desc": "8월 수출 전년 대비 68.7%↑…반도체 467억弗 신기록  경제타임스",
         "pubDate": "Tue, 01 Sep 2026 05:09:45 GMT",
-        "time_ago": "13분 전",
-        "diff_sec": 784.615682,
+        "time_ago": "18분 전",
+        "diff_sec": 1127.515021,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -1879,21 +1879,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1VaVFZNVNoaS04Um1xTWhqaTItRWM4Y2lMQS0tSkl5VHljZ01fdzF0azNNQ2dQdXhhTC1xZ1ZYeWF2WGJzTGVhRlhxQXFPaWJhTzlOWjhpTjBlYWdGdjloMw?oc=5",
         "desc": "8월 반도체 수출 467억달러 '역대 최대'…수출 3개월 연속 900억달러 ↑  뉴스토마토",
         "pubDate": "Tue, 01 Sep 2026 05:08:47 GMT",
-        "time_ago": "14분 전",
-        "diff_sec": 842.613791,
-        "category_badge": "반도체/컴퓨터",
-        "theme": "semiconductor"
-      },
-      {
-        "title": "수출 1조달러 눈앞인데… 8월 수출 절반은 반도체",
-        "press": "피플투데이",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9MaEl1Ukp1aWNDYlcydkJnQi1QcjhxRF8xalJzV1MyV3RXUjlVRHJJQmZtLTNwbUM3ZXJ3a1BxY0pFS05HRkdqbE9obGdCenAzT0hpRlZUZVlBVnBuU19NX1ZZb2ZQdXY1QUNzbmVDQQ?oc=5",
-        "desc": "수출 1조달러 눈앞인데… 8월 수출 절반은 반도체  피플투데이",
-        "pubDate": "Tue, 01 Sep 2026 05:01:56 GMT",
-        "time_ago": "20분 전",
-        "diff_sec": 1253.619556,
+        "time_ago": "19분 전",
+        "diff_sec": 1185.512762,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -1905,8 +1892,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTFBRZHUyOXQzM1pVRVNZUEdnWU93bk5OUkpTN1RMQzlqT0ZTOVo5andEU01LV2FzSUFaVWowcUtiUzJ2SUFKd0Q0WHVLX1JoQnc?oc=5",
         "desc": "엔비디아, 대만 미디어텍에 4조7천억원 투자…\"파트너십 확대\"  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 05:01:54 GMT",
-        "time_ago": "20분 전",
-        "diff_sec": 1255.608791,
+        "time_ago": "26분 전",
+        "diff_sec": 1598.505756,
         "category_badge": "반도체/컴퓨터",
         "theme": "tech"
       },
@@ -1918,8 +1905,8 @@
         "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1mdi1ralU1RFF2WnlKSDRTeXBlTFM0OEQ2OGYwWTRWcl96dFAwV2dtQXhBYjNnV3lndnpIa3ctTmlFVFlCQ0pPYnFKX29Bb28zSmxlU1pLT3I4Vlg4NW1N0gFkQVVfeXFMT2dHZVdrSTdROGthNm9DTzB5cXdxdy11SzhLd1llcGpFbVhFd0NYMk1Gd280U2xlSlJIb0pfZTliUkozTzFrTDhaUnc1ZEZHbzBaak51WTEyRHA1ckFPbF9JWXJJTw?oc=5",
         "desc": "전남광주 당정 \"호남권 반도체 '정부 직접 지정' 방식으로\"  뉴스1",
         "pubDate": "Tue, 01 Sep 2026 05:00:55 GMT",
-        "time_ago": "21분 전",
-        "diff_sec": 1314.618471,
+        "time_ago": "27분 전",
+        "diff_sec": 1657.519235,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -1931,8 +1918,8 @@
         "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE14LUlNLV9FbWpCejQ0Mk5xT3JGY2R2bXdTeUtUYUxESXlKc1JWYjNPWlkxdkNYT1BVU2JNX1RaVTRCcXRHR0owTEt0bFA5Q0NIWVE?oc=5",
         "desc": "광주은행, 'Wa 반도체 전담 TF' 출범  매일경제 마켓",
         "pubDate": "Tue, 01 Sep 2026 04:59:21 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1408.611785,
+        "time_ago": "29분 전",
+        "diff_sec": 1751.509713,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -1944,8 +1931,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5qVWxTODJfdlpVMFFyRnRKMl9rY0hKb2RybUJNeUVMaXJ3blVhcmU3TGNSYWg3R1J4RkNLVU5EV0lGMm1uczIyU0VQLWc3eVk?oc=5",
         "desc": "반도체 3.4조·호남 클러스터 1.5조 투입…원유 비축 2000만배럴 확충[2027 예산안]  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 04:59:08 GMT",
-        "time_ago": "23분 전",
-        "diff_sec": 1421.615165,
+        "time_ago": "29분 전",
+        "diff_sec": 1764.515021,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -1957,8 +1944,8 @@
         "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE9lN2pCMG9tOFFvWURzWTV1XzlKc0wwR1BvNHNtalk0NWRremtFX21JNGtzM3lrdEE2aWRIbGp0aXZRTXZvcFFhVm91VQ?oc=5",
         "desc": "정부, 5년짜리 'K-반도체 로드맵' 만든다…연말 확정  아이뉴스24",
         "pubDate": "Tue, 01 Sep 2026 04:56:06 GMT",
-        "time_ago": "26분 전",
-        "diff_sec": 1603.611785,
+        "time_ago": "32분 전",
+        "diff_sec": 1946.510222,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -1970,8 +1957,8 @@
         "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1QOHVWSlJoU2Y0OXpKT1RVWHRtWXVxazJjVUhwcGFwbXFPTFR3cnJiZWFrdFhBTnF5S3c2Mllyd1lpYUFjWTRqc2FyLVBwUUhrUmNMNDlWLVBDcW51S0JYRkVtYw?oc=5",
         "desc": "내년 예산 820.9조 ‘역대 최대’…AI·반도체·청년에 집중  쿠키뉴스",
         "pubDate": "Tue, 01 Sep 2026 04:55:28 GMT",
-        "time_ago": "27분 전",
-        "diff_sec": 1641.617893,
+        "time_ago": "33분 전",
+        "diff_sec": 1984.517856,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -1983,8 +1970,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE84YXFCeG1oYlJRMU1zVGQwNy1wc0N3Y3hLNEI5MVBrZXJ5U0w3WGs2dFZ0TU81N1U2eWVFZkhDblJNM0NES2xaR0FDN2ZsQ3BZT1BYSzZOTGFzN0pIQ2ltaw?oc=5",
         "desc": "\"용인 반도체 국가산단 조성시계 빨라진다\" 한국토지주택공사(LH), 오는 10월 부지 조성 착공  경기경제신문",
         "pubDate": "Tue, 01 Sep 2026 04:55:15 GMT",
-        "time_ago": "27분 전",
-        "diff_sec": 1654.619017,
+        "time_ago": "33분 전",
+        "diff_sec": 1997.519235,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -1996,8 +1983,8 @@
         "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9QbFFyMGIxblNSejU2Q21IV1p4NXdIb0FlZ2pENFgtUnh6N2VrcXU3ZDRiRWFLeUViRzZQNWVmRUZjOTZzZ2hWS2hqQzZ2eWc5UE05NDRB?oc=5",
         "desc": "수출 3개월 연속 900억 달러 상회…반도체 수출 467억 달러로 역대 최대  지디넷코리아",
         "pubDate": "Tue, 01 Sep 2026 04:55:11 GMT",
-        "time_ago": "27분 전",
-        "diff_sec": 1658.613791,
+        "time_ago": "33분 전",
+        "diff_sec": 2001.512762,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2009,8 +1996,8 @@
         "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE54OWhVSl9WV3VHUnVndW9sbVl5RkNUV01SSmpjU1NMamNRYzEtOEhybE9vaUxRSUdsbDZaVEY4R0RfMU9zUWxwajM4TF9DRHVtdmZxQmVVbnJMTXhabUZES3JvQzUwNHVMQXVZ?oc=5",
         "desc": "가덕도부터 전력반도체까지… 부산 미래 청사진, 정부 예산안에  BBS불교방송",
         "pubDate": "Tue, 01 Sep 2026 04:53:33 GMT",
-        "time_ago": "29분 전",
-        "diff_sec": 1756.616211,
+        "time_ago": "34분 전",
+        "diff_sec": 2099.516018,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2022,8 +2009,8 @@
         "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9XR3lCc0ZGYW9IT05OZGRzSkUzVzJpcVlZaDZObUhnb19jYk1qelZfdmViN1ZWMy1uV01yamdjUHJQbWNNMzNYRk1kN3BwSlJvZTlmMTBBV0V5VGNRaFMzeFJrU1h2QWFy?oc=5",
         "desc": "광주은행, 반도체 전담 TF 출범…특화 금융지원 체계 구축  fetv.co.kr",
         "pubDate": "Tue, 01 Sep 2026 04:53:31 GMT",
-        "time_ago": "29분 전",
-        "diff_sec": 1758.618471,
+        "time_ago": "35분 전",
+        "diff_sec": 2101.516018,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2035,8 +2022,8 @@
         "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5NY1oyQzRrVnZ6bTl2RmVNdUppTlhEOHFXbWQ2dU92d29XdXpoWjFNa3NQdENwVTBDYk84Qkw4REt4cEZkcUx1TDA2UDF4Qk9KS29rZ3I0NVg0aGFI?oc=5",
         "desc": "8월 주도주 이동, 반도체 '숨 고르기' 속 2차전지·전력·바이오 '상승세'  뉴스핌",
         "pubDate": "Tue, 01 Sep 2026 04:52:00 GMT",
-        "time_ago": "30분 전",
-        "diff_sec": 1849.611785,
+        "time_ago": "36분 전",
+        "diff_sec": 2192.510222,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2048,8 +2035,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE05azRRRjB2RGVGbGt1R1ZmQm5fdEVmOFp0Z0N0Y1lYaUt6c2Z4dXFDTTF0X3ZuUGRzWTYweDBRLWQzRXFmaGcwOXlWN1gzSFJyV0psY0N0ZUIyOUlqMnFiYdIBeEFVX3lxTE5GejdKZGpHTXM1Y0RPN0xvS3BCbGZZMDlIeXNrNE9lVUpQUWpFdWpNUmpQYW1ZZjJTbm9iYzh5aHVMTmQ2eTNvei1qUTJ3aVVobWpkdTBWN0dPc3RYazVCMXhEcDZDcHg5bTM1QjdDNWY1ZVFKT2FVYQ?oc=5",
         "desc": "\"AI 다음은 양자컴퓨팅\"…IBM \"韓 배터리·반도체 도약 새 기회\"  뉴시스",
         "pubDate": "Tue, 01 Sep 2026 04:47:29 GMT",
-        "time_ago": "35분 전",
-        "diff_sec": 2120.615165,
+        "time_ago": "41분 전",
+        "diff_sec": 2463.514024,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2061,8 +2048,8 @@
         "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE4yVUNOSVJlcU5wOWxpcDZPeF95TmtBdGVoUUhrdTZGYWFtcVA3ejRrdzFhR2hFcEJrQzVsMTVLbU1VWnV6M0k2VE10WHNLcmZqdXVpU1JjVU40QQ?oc=5",
         "desc": "[2027년도 예산안]반도체 호황에 나라살림 821조로…산업·지방·복지에 집중  kbmaeil.com",
         "pubDate": "Tue, 01 Sep 2026 04:46:00 GMT",
-        "time_ago": "36분 전",
-        "diff_sec": 2209.616211,
+        "time_ago": "42분 전",
+        "diff_sec": 2552.516018,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2074,8 +2061,8 @@
         "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE51cnVsU2s4Y2Q0cFEtdE9vcmF0WFp4SmYyN0Q5RGJRTjRGcGlxMFRHTUJOZlhEdEFhVEdlSEU4VUZ4djhRTGdSdmFoOUNudXkxbHc?oc=5",
         "desc": "특징주, 한울반도체-MLCC 테마 상승세에 29.94% ↑  매일경제 마켓",
         "pubDate": "Tue, 01 Sep 2026 04:43:30 GMT",
-        "time_ago": "39분 전",
-        "diff_sec": 2359.608791,
+        "time_ago": "45분 전",
+        "diff_sec": 2702.505756,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2087,8 +2074,8 @@
         "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5FU2lmLVRKazVvRTdvMUkzZHpyWFB4WThINENnVUoyZUhOMzVQYnJjOEhybzV5bUxUVWZSMTI0RDMyM0N2ZzBwT0w1cw?oc=5",
         "desc": "'삼전닉스' 빠져도 코스피 올랐다⋯'반도체 투톱 공식' 깨졌나  아이뉴스24",
         "pubDate": "Tue, 01 Sep 2026 04:41:46 GMT",
-        "time_ago": "41분 전",
-        "diff_sec": 2463.611785,
+        "time_ago": "46분 전",
+        "diff_sec": 2806.510222,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2100,8 +2087,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE16T2JnZkNuV3dmQkZ4M3VBb2dIWV9ZUERQVFU2TlRWOTlZbEJzVGdlcnpiZUo5VzZXcVVsT2l0YWc1QzhQdDRmLUY2UGhjV2l0THc3bWQtYXlySnBrQjFGcDlnZFk?oc=5",
         "desc": "한울반도체, AI MLCC 검사 ‘분당 1만3000개·정확도 98%’  서울경제TV",
         "pubDate": "Tue, 01 Sep 2026 04:30:43 GMT",
-        "time_ago": "52분 전",
-        "diff_sec": 3126.613791,
+        "time_ago": "57분 전",
+        "diff_sec": 3469.511743,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2113,8 +2100,8 @@
         "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1WakUyU1R2b0pxcXlYY25za01ZQXNxOU51TGtzUU0wU1VyOVFXSnc1cnlaaFhnQS1qaDJqVC0wT241NUY5LWxrdTlZS3otZw?oc=5",
         "desc": "[2027 예산안]'제2의 반도체' 키운다…핵융합·SMR·양자·우주·바이오 집중투자  전자신문",
         "pubDate": "Tue, 01 Sep 2026 04:30:27 GMT",
-        "time_ago": "52분 전",
-        "diff_sec": 3142.613791,
+        "time_ago": "58분 전",
+        "diff_sec": 3485.511743,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2126,8 +2113,8 @@
         "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBmMFhpZ2Z0UUM0SFJHTjJONW5VWU9NTFhtVjZkbnloclNhM29zNlVJQVNRcnB2bG83bTh0YzJ4eGJ4Qmh6MnJnUjgzb0d2My1MMGNQZUFVbmU5V2tVYThRTlFTcFJCTFJR?oc=5",
         "desc": "LH, 용인 반도체 국가산단 1공구 10월 조기 착공 돌입  팍스경제TV",
         "pubDate": "Tue, 01 Sep 2026 04:28:33 GMT",
-        "time_ago": "54분 전",
-        "diff_sec": 3256.611785,
+        "time_ago": "59분 전",
+        "diff_sec": 3599.510222,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2139,8 +2126,8 @@
         "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5WenoxZGUxZ2pVcTAtalFDTkRPdDlLUjNJejMzTkxqR3JUeUt5Szh5VG5NREFJTEloak9sVVJQbE5XMDhzY2xyRGFSVHRwc3MxaTVNYjhhRy1VMWM?oc=5",
         "desc": "내년 예산 821조 “기록썼다”…반도체발 세수 584조, 미래대응기금 162조  에너지경제신문",
         "pubDate": "Tue, 01 Sep 2026 04:26:18 GMT",
-        "time_ago": "56분 전",
-        "diff_sec": 3391.613791,
+        "time_ago": "1시간 전",
+        "diff_sec": 3734.511743,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2152,8 +2139,8 @@
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9ITDJVdS1HdWEzQy1XTVdWSUM0S1pTRmZ6V2l3b09MbVBkck5ZZ3NaQU9LWW5WcV9KaVJHNzJua2c2UnFISHlWLTFvcXJ2NnhmcDJEUTYwQXBrOTA0TzR2ZzJ0aXFsZ0RTV1E?oc=5",
         "desc": "엔비디아, '칩 설계' 미디어텍에 4.7조 투자...GPU 독점 넘어 '생태계 표준' 노린다  AI타임스",
         "pubDate": "Tue, 01 Sep 2026 04:23:51 GMT",
-        "time_ago": "58분 전",
-        "diff_sec": 3538.608791,
+        "time_ago": "1시간 전",
+        "diff_sec": 3881.504738,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2166,7 +2153,7 @@
         "desc": "'용인 반도체 국가산단에 1천MW 수소연료전지 발전단지' 제안  OhmyNews",
         "pubDate": "Tue, 01 Sep 2026 04:19:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 3829.615165,
+        "diff_sec": 4172.515021,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2179,7 +2166,7 @@
         "desc": "AI·반도체 전력수요 대비…기후부 예산 25.7조 역대 최대  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 04:10:06 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4363.615682,
+        "diff_sec": 4706.515021,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2192,7 +2179,7 @@
         "desc": "정부, 5년간 R&D에 200조 투입…AI 3강·반도체 자립화율 50% 목표  KBS 뉴스",
         "pubDate": "Tue, 01 Sep 2026 04:05:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4669.610304,
+        "diff_sec": 5012.506377,
         "category_badge": "반도체/컴퓨터",
         "theme": "ai"
       },
@@ -2205,7 +2192,7 @@
         "desc": "반도체 호황에 821조 '슈퍼예산'…162조 '재정 댐' 쌓는다  신아일보",
         "pubDate": "Tue, 01 Sep 2026 04:04:58 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4671.616716,
+        "diff_sec": 5014.517015,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2218,7 +2205,7 @@
         "desc": "테슬라, 기가텍사스에 '자체 반도체 인프라' 첫발…TDLR에 3개 제조 시설 신축 확인  더구루",
         "pubDate": "Tue, 01 Sep 2026 03:54:46 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 5283.608791,
+        "diff_sec": 5626.504738,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
       },
@@ -2231,9 +2218,22 @@
         "desc": "8월 수출 982.5억 달러 ’역대 3위’…반도체 최대 실적  연합뉴스TV",
         "pubDate": "Tue, 01 Sep 2026 03:47:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 5749.608791,
+        "diff_sec": 6092.506377,
         "category_badge": "반도체/컴퓨터",
         "theme": "semiconductor"
+      },
+      {
+        "title": "엔비디아, 미디어텍에 4.8조원 투자…AI 하드웨어 생태계 주도권 강화",
+        "press": "edaily.co.kr",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQMFZqWUNLdG5HbUJkZEh2TVo2LWpOQXQ4Wi1wRjJPRGlIeHRRLUNCN0tGaS1odURrNjRyaG1sc3lGMWFOV3o0VUhmbzFHb3ZWdXdMV282VGo5TmJVZDBSXzNyVVdodkstNVNMenJGT25jU1NiTFVxeGx2SE1pcGVuZQ?oc=5",
+        "desc": "엔비디아, 미디어텍에 4.8조원 투자…AI 하드웨어 생태계 주도권 강화  edaily.co.kr",
+        "pubDate": "Tue, 01 Sep 2026 03:46:34 GMT",
+        "time_ago": "1시간 전",
+        "diff_sec": 6118.519741,
+        "category_badge": "반도체/컴퓨터",
+        "theme": "ai"
       }
     ],
     "robotics": [
@@ -2245,8 +2245,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBzWnZDR3U0ZERRVmtQS3k4TGhyajRFeFc4YlFWYlRyTkQ0TVo5dnFGWWMxcjVuVFcwc3g3QXN5bGxWVEgzX2x5cllLQ3VBb1QzZ1pIYkxmcEtDeEw4RWlCcGR0Q3BpSWM0eWJQSg?oc=5",
         "desc": "日 오사카 메트로, KDDI·AVITA와 공동으로 휴머노이드 로봇 실증실험  로봇신문",
         "pubDate": "Tue, 01 Sep 2026 05:01:49 GMT",
-        "time_ago": "21분 전",
-        "diff_sec": 1261.696887,
+        "time_ago": "26분 전",
+        "diff_sec": 1604.567393,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2258,8 +2258,8 @@
         "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBWZU1QdHNfQ1ZZRkZjR0wtVTZNVDFyUEVUVGdENFJZMFdMVGwybWZBQmt3aVk1YWxVQTZQOWZyVnVxamNSOGxWZFdUV3RVUjdQZzFnWGc0dGpOQUJq?oc=5",
         "desc": "로보티즈 개방형 생태계, 中 유니트리 물량 공세 뚫을까  supple.kr",
         "pubDate": "Tue, 01 Sep 2026 04:52:24 GMT",
-        "time_ago": "30분 전",
-        "diff_sec": 1826.699006,
+        "time_ago": "36분 전",
+        "diff_sec": 2169.570499,
         "category_badge": "로보틱스",
         "theme": "tech"
       },
@@ -2272,7 +2272,7 @@
         "desc": "테슬라 따라간다…中 자동차업계, 차세대 먹거리로 '휴머노이드' 올인  디지털투데이",
         "pubDate": "Tue, 01 Sep 2026 04:10:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4370.696887,
+        "diff_sec": 4713.567393,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2284,8 +2284,8 @@
         "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPeWhXMUJrS2RyclNkcEVUVDR5Vjg2d2NDaWZIckljT2pIcUVyOGIwU3h4SnYxX3BySWFsZk1EWHA3QzdCbC1udHd3N2MzSWxta2N4SDBCcFVrRHhNRkNSM01DV05lWmE0b3dYVDhneUF0ZWxBbGgzVUJvaEZRcGZZNQ?oc=5",
         "desc": "\"자율주행 트럭에 휴머로이드 로봇까지\"...물류업계, AI로 체질 전환 속도  edaily.co.kr",
         "pubDate": "Tue, 01 Sep 2026 02:23:42 GMT",
-        "time_ago": "2시간 전",
-        "diff_sec": 10748.698488,
+        "time_ago": "3시간 전",
+        "diff_sec": 11091.569501,
         "category_badge": "로보틱스",
         "theme": "ai"
       },
@@ -2298,7 +2298,7 @@
         "desc": "“망가뜨려도 좋다” 대학생에 휴머노이드 푼 로보티즈… 中 추격 승부수 - 조선비즈  biz.chosun.com",
         "pubDate": "Tue, 01 Sep 2026 02:03:00 GMT",
         "time_ago": "3시간 전",
-        "diff_sec": 11990.696887,
+        "diff_sec": 12333.567393,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2311,7 +2311,7 @@
         "desc": "시즐(SIZL), 자율 이동·대화 가능한 제조 휴머노이드 시연 성공… ‘피지컬 AI’ 시대 연다  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 01:02:09 GMT",
         "time_ago": "4시간 전",
-        "diff_sec": 15641.696887,
+        "diff_sec": 15984.567393,
         "category_badge": "로보틱스",
         "theme": "ai"
       },
@@ -2324,7 +2324,7 @@
         "desc": "비에이치, 애플 폴더블폰 공개 앞두고 13%대↑…부품 수혜 기대[특징주]  edaily.co.kr",
         "pubDate": "Tue, 01 Sep 2026 00:42:58 GMT",
         "time_ago": "4시간 전",
-        "diff_sec": 16792.702207,
+        "diff_sec": 17135.573003,
         "category_badge": "로보틱스",
         "theme": "tech"
       },
@@ -2337,7 +2337,7 @@
         "desc": "하이젠알앤엠, 81억 휴머노이드 국책과제 주관기관 선정  뉴스핌",
         "pubDate": "Tue, 01 Sep 2026 00:36:00 GMT",
         "time_ago": "4시간 전",
-        "diff_sec": 17210.697421,
+        "diff_sec": 17553.567393,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2350,7 +2350,7 @@
         "desc": "중국 휴머노이드, 150개 기업의 속도전  얼리어답터뉴스",
         "pubDate": "Tue, 01 Sep 2026 00:29:08 GMT",
         "time_ago": "4시간 전",
-        "diff_sec": 17622.699657,
+        "diff_sec": 17965.570499,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2363,7 +2363,7 @@
         "desc": "[AM리더스클럽33] 에스비비테크 류재완 대표, “국산화 넘어 양산체계 고도화… 휴머노이드 관절 정조준”  FA저널",
         "pubDate": "Tue, 01 Sep 2026 00:12:53 GMT",
         "time_ago": "5시간 전",
-        "diff_sec": 18597.697421,
+        "diff_sec": 18940.568504,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2376,7 +2376,7 @@
         "desc": "[CMG 중국통신]드론 배송·자율주행·로봇 카페…선전, 첨단기술 체험 관광지로 급부상  네이트",
         "pubDate": "Tue, 01 Sep 2026 00:01:00 GMT",
         "time_ago": "5시간 전",
-        "diff_sec": 19310.701671,
+        "diff_sec": 19653.572001,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2389,20 +2389,20 @@
         "desc": "하이젠알앤엠, 산업부 휴머노이드 개발 과제 주관기관 선정…81억원 규모 프로젝트 총괄  프라임경제",
         "pubDate": "Mon, 31 Aug 2026 23:57:13 GMT",
         "time_ago": "5시간 전",
-        "diff_sec": 19537.697421,
+        "diff_sec": 19880.567393,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
       {
         "title": "하이젠알앤엠, '고중량 작업용 휴머노이드' 과제 주관기관 선정… 81억원 규모 사업",
-        "press": "파이낸스스코프",
+        "press": "finance-scope.com",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1STTdZYkVEQWxHdnI3RXhvcThaTE9UdGN5YkN3RV9nQlJNdlJkLTZCb0xxeTRFcXQ0MnVDQ05ZQTV3TWdDS3hrUjdtTUNGZE5rUDhIck9FZVlXX1pTTGMzamJraTRCdTMwUlE?oc=5",
-        "desc": "하이젠알앤엠, '고중량 작업용 휴머노이드' 과제 주관기관 선정… 81억원 규모 사업  파이낸스스코프",
+        "desc": "하이젠알앤엠, '고중량 작업용 휴머노이드' 과제 주관기관 선정… 81억원 규모 사업  finance-scope.com",
         "pubDate": "Mon, 31 Aug 2026 23:20:00 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 21770.697421,
+        "diff_sec": 22113.567393,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2415,7 +2415,7 @@
         "desc": "비에이치, 보스턴다이내믹스·삼성 이어 '북미 로봇 빅테크' 선점…휴머노이드 '관절 핵심' 주목  프라임경제",
         "pubDate": "Mon, 31 Aug 2026 23:10:01 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 22369.697956,
+        "diff_sec": 22712.568504,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2428,7 +2428,7 @@
         "desc": "[중국 비즈니스 트렌드&동향] 기록, 부품, 그리고 9억 달러  플래텀(Platum)",
         "pubDate": "Mon, 31 Aug 2026 23:01:00 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 22910.697956,
+        "diff_sec": 23253.569501,
         "category_badge": "로보틱스",
         "theme": "tech"
       },
@@ -2441,7 +2441,7 @@
         "desc": "[2026 현대차 CEO 인베] 피지컬 AI 기업으로 전환…아틀라스 승부수  네이트",
         "pubDate": "Mon, 31 Aug 2026 23:01:00 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 22910.701163,
+        "diff_sec": 23253.572001,
         "category_badge": "로보틱스",
         "theme": "ai"
       },
@@ -2454,7 +2454,7 @@
         "desc": "비에이치, 폴더블폰·로봇서 신성장 기대-대신  네이트",
         "pubDate": "Mon, 31 Aug 2026 22:49:00 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 23630.702207,
+        "diff_sec": 23973.573508,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2467,7 +2467,7 @@
         "desc": "비에이치, 폴더블폰·로봇서 신성장 기대-대신  edaily.co.kr",
         "pubDate": "Mon, 31 Aug 2026 22:47:36 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 23714.699657,
+        "diff_sec": 24057.570499,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2480,7 +2480,7 @@
         "desc": "화신정공(126640)밀릴때마다 물량 모아둘 기회로 보이며 이후 전망 및 대응전략.  씽크풀 AI",
         "pubDate": "Mon, 31 Aug 2026 22:37:00 GMT",
         "time_ago": "6시간 전",
-        "diff_sec": 24350.697956,
+        "diff_sec": 24693.569501,
         "category_badge": "로보틱스",
         "theme": "tech"
       },
@@ -2493,7 +2493,7 @@
         "desc": "[류재철의 로봇 전략] 청소로봇서 휴머노이드까지…40년 기술 축적, 수익화 시험대로  딜사이트",
         "pubDate": "Mon, 31 Aug 2026 22:05:00 GMT",
         "time_ago": "7시간 전",
-        "diff_sec": 26270.697421,
+        "diff_sec": 26613.567393,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2506,7 +2506,7 @@
         "desc": "한국공학대, 광운대와 베이징서 '글로벌 IC-PBL' 성료…\"휴머노이드·피지컬 AI 역량 강화\"  컨슈머타임스",
         "pubDate": "Mon, 31 Aug 2026 21:31:00 GMT",
         "time_ago": "7시간 전",
-        "diff_sec": 28310.699006,
+        "diff_sec": 28653.570499,
         "category_badge": "로보틱스",
         "theme": "ai"
       },
@@ -2519,7 +2519,7 @@
         "desc": "홍콩에 등장한 무인 로봇 편의점… 갈봇 휴머노이드 첫선  gukjenews.com",
         "pubDate": "Mon, 31 Aug 2026 21:20:38 GMT",
         "time_ago": "8시간 전",
-        "diff_sec": 28932.699006,
+        "diff_sec": 29275.570499,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2532,7 +2532,7 @@
         "desc": "테슬라, ‘옵티머스’ 생산 돌입-신차 이벤트 겹호재에 5.51% 급등  글로벌이코노믹",
         "pubDate": "Mon, 31 Aug 2026 21:11:26 GMT",
         "time_ago": "8시간 전",
-        "diff_sec": 29484.698488,
+        "diff_sec": 29827.569501,
         "category_badge": "로보틱스",
         "theme": "tech"
       },
@@ -2544,8 +2544,8 @@
         "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFA0QzJKWV95Vk5ueXlaNlVkRlo5b0l3LVhnQVB4dThlc05LTVF2dnZLSGVBb1p3NVZwbnZKcEhrX1czSE8xaENpcUZZZ2poLTdERGJBc2dKZk51NWZzdkNnWTVrZWxsaWpNTnlEMjFB?oc=5",
         "desc": "갈봇, 홍콩서 무인 로봇 편의점 개장…휴머노이드 시연 공개  gukjenews.com",
         "pubDate": "Mon, 31 Aug 2026 20:25:13 GMT",
-        "time_ago": "8시간 전",
-        "diff_sec": 32257.701163,
+        "time_ago": "9시간 전",
+        "diff_sec": 32600.572001,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2558,20 +2558,7 @@
         "desc": "\"미국이 장벽 쳐도 소용없다\"... 글로벌 로봇 시장 86% 삼킨 중국의 반격  글로벌이코노믹",
         "pubDate": "Mon, 31 Aug 2026 20:13:54 GMT",
         "time_ago": "9시간 전",
-        "diff_sec": 32936.697956,
-        "category_badge": "로보틱스",
-        "theme": "robotics"
-      },
-      {
-        "title": "[기고]中 휴머노이드, 美 제쳤나?",
-        "press": "v.daum.net",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9URWRqWmgwekh4UGp6TEp2OU9jX1FrY2M4S2xmTjZqeW51VHJVR1pVSFdtdFVxaVVkUW5MSzNqTjVyWFptcVJ3V3BqbzkyUC1LbzAtaA?oc=5",
-        "desc": "[기고]中 휴머노이드, 美 제쳤나?  v.daum.net",
-        "pubDate": "Mon, 31 Aug 2026 20:03:00 GMT",
-        "time_ago": "9시간 전",
-        "diff_sec": 33590.697956,
+        "diff_sec": 33279.568504,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2584,7 +2571,20 @@
         "desc": "[기고]中 휴머노이드, 美 제쳤나?  네이트",
         "pubDate": "Mon, 31 Aug 2026 20:02:00 GMT",
         "time_ago": "9시간 전",
-        "diff_sec": 33650.701671,
+        "diff_sec": 33993.573003,
+        "category_badge": "로보틱스",
+        "theme": "robotics"
+      },
+      {
+        "title": "[기고]中 휴머노이드, 美 제쳤나?",
+        "press": "노컷뉴스",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9MdGN0VF9kSEpGYjNBc2lWYzlMbDFjUlh3Q01aUFhpWE5iSlpFQzl6OGp2bkJyNlhJZks4NEVTUG8xNGNjMkVUMzF3RWZuc1pJaFE?oc=5",
+        "desc": "[기고]中 휴머노이드, 美 제쳤나?  노컷뉴스",
+        "pubDate": "Mon, 31 Aug 2026 20:00:00 GMT",
+        "time_ago": "9시간 전",
+        "diff_sec": 34113.570499,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2597,7 +2597,7 @@
         "desc": "내수 침체 넘은 BYD, 수출 드라이브와 로봇 승부수  글로벌이코노믹",
         "pubDate": "Mon, 31 Aug 2026 18:50:00 GMT",
         "time_ago": "10시간 전",
-        "diff_sec": 37970.698488,
+        "diff_sec": 38313.569501,
         "category_badge": "로보틱스",
         "theme": "robotics"
       },
@@ -2610,7 +2610,7 @@
         "desc": "[AI 산업] 현대모비스, 휴머노이드 ‘심장’ 양산 시동…로봇 부품 독립 성장축 노린다  AI라이프경제",
         "pubDate": "Mon, 31 Aug 2026 17:51:48 GMT",
         "time_ago": "11시간 전",
-        "diff_sec": 41462.697956,
+        "diff_sec": 41805.568504,
         "category_badge": "로보틱스",
         "theme": "ai"
       },
@@ -2623,12 +2623,38 @@
         "desc": "사람 손동작을 로봇 관절 명령으로 변환...휴머노이드 정교 조작 개발 단축  지티티코리아",
         "pubDate": "Mon, 31 Aug 2026 16:00:00 GMT",
         "time_ago": "13시간 전",
-        "diff_sec": 48170.698488,
+        "diff_sec": 48513.569501,
         "category_badge": "로보틱스",
         "theme": "robotics"
       }
     ],
     "industry": [
+      {
+        "title": "aT, ‘공공급식통합플랫폼’ 안정성 제고ㆍAI 활용 기반 구축",
+        "press": "식품저널 foodnews",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBhT2ctRHRoSnN3X2lrVEdfYjkzU29qSkNZYmxwYUpVanRiQ0RoY2VVMkJ0ZDI1ZzFKeFRpRGNDcF9tS2g2TlJlMHBjWTJZOXRXdFh0cXVpU3YzNFFWcXZCTlRyWURHaXBJU1JvRA?oc=5",
+        "desc": "aT, ‘공공급식통합플랫폼’ 안정성 제고ㆍAI 활용 기반 구축  식품저널 foodnews",
+        "pubDate": "Tue, 01 Sep 2026 05:23:48 GMT",
+        "time_ago": "4분 전",
+        "diff_sec": 286.447436,
+        "category_badge": "미래산업",
+        "theme": "ai"
+      },
+      {
+        "title": "IPO 속도 내는 메가존클라우드…네오위즈파트너스서 투자 유치",
+        "press": "지디넷코리아",
+        "is_verified": true,
+        "safety_badge": "공신력 언론사",
+        "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFA4dWs0YVdiRTN0eThtazJTd2JKaVdQd2JYVHM4bEdBSUtfWEJub0xfWkl5X1NUbVR3WUZwVWhnN1FBS3c4Vmc3N1p3SGJGV1N1TFl4T3dB?oc=5",
+        "desc": "IPO 속도 내는 메가존클라우드…네오위즈파트너스서 투자 유치  지디넷코리아",
+        "pubDate": "Tue, 01 Sep 2026 05:21:22 GMT",
+        "time_ago": "7분 전",
+        "diff_sec": 432.437923,
+        "category_badge": "미래산업",
+        "theme": "tech"
+      },
       {
         "title": "‘신뢰받는 디지털 트윈의 조건’ 디지털 트윈에도 ‘기억’이 필요하다",
         "press": "itworld.co.kr",
@@ -2637,8 +2663,8 @@
         "link": "https://news.google.com/rss/articles/CBMi0wJBVV95cUxPSEhVZ2ZkZjJpMXlsX3R3V2hiWVc4eS1zMTFEVVF3ZDd0NGUyM2JuSEYwck44WGt6aTY4NHZsQzVud3k5NGdEM01wako4VndiTmZ4S0ZTRm4xSEg0Ym9VUWhfYzBLdVBYT0E2dUVFSkFxbld3Mi12dnAydDdSMU9PRGpXTElYY044dHNYWEdWM0lEa0o1a283ZzgyUHVkWFk2RnlTOXJBOXpMcWVVTkRsd3JVMWVULUp4LWlZRXZjanlzbU5zSkNhS3VUN2toX2phYmlHOW9QNG1zb0huSFlxS2JncHp5MU9mNV9ra210cDRINkpoTHV0RjdsTS1xdnBkaG56YnpzNDl3UU9abFZINHRkWXF2dGxFOTR1R3lTS2NrZC16YUtaSHhibEJvMFZMQTVmOVVZeGlCSGtOYTVMVkh6aEdqZTFDSXBVVGkwVHBjSms?oc=5",
         "desc": "‘신뢰받는 디지털 트윈의 조건’ 디지털 트윈에도 ‘기억’이 필요하다  itworld.co.kr",
         "pubDate": "Tue, 01 Sep 2026 05:09:34 GMT",
-        "time_ago": "13분 전",
-        "diff_sec": 797.985262,
+        "time_ago": "19분 전",
+        "diff_sec": 1140.436735,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2650,8 +2676,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAyQnNSTWJ4bkNscllGTVZUUHRZcGFVNVQtMUl2eUlwSDZZNHluaDB1Q2RwdWRYM2FWZENhZ19QcU1id3JVZ0RYdGZZUVJ4ZmZ6TzJKVEM1Mm0yR2w1TGdFcw?oc=5",
         "desc": "외교부, 내년 예산안 3조 7000억…사이버보안 예산 대폭 확대  네이트",
         "pubDate": "Tue, 01 Sep 2026 05:03:00 GMT",
-        "time_ago": "19분 전",
-        "diff_sec": 1191.997635,
+        "time_ago": "25분 전",
+        "diff_sec": 1534.447436,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2663,8 +2689,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE56TnFQT0l2TXZrVUpGWGtXRXQ5NTdrS3N5WWdHclBkVkY5THpFUVFRRllJckR4N0ZoRmtNaFZmZndScTQ3TzdRWEdWSEdvaVk?oc=5",
         "desc": "투라인클라우드, 산업 특화 AX 박차…물리 AI·MSA 결합  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 04:56:50 GMT",
-        "time_ago": "26분 전",
-        "diff_sec": 1561.988344,
+        "time_ago": "31분 전",
+        "diff_sec": 1904.439923,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2676,8 +2702,8 @@
         "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBwTVBONnU0OVp6cURqNUNhanBmeldZcHhWendSV3hMZ1h3TDFLQzlFQWU1WXRrQldXSTRkeHB1Rmhma0R1cHVTVmctUXByeVF0MXBsdi1ZMnFLZkU5TDdFeVUtbGRFU21HLTRxVktYZmE4VXJqZEY2WF9ldE0?oc=5",
         "desc": "부산시, ‘AI기반 지능형 사이버 보안관제’ 전격 가동  부산일보",
         "pubDate": "Tue, 01 Sep 2026 04:54:04 GMT",
-        "time_ago": "28분 전",
-        "diff_sec": 1727.987268,
+        "time_ago": "34분 전",
+        "diff_sec": 2070.437923,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2689,8 +2715,8 @@
         "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9reGpvMk9McndsQVNNRFhIQzlDWDNfVE00V0lEVkhQbWhyYzdRX3BxaDM3WTM1UUZUR29VZDJBcjViR3o3YmFGM1VTdC1SVllmX1J4SVl1RVl4UjRoeklEWEs4UXJ2ajJMOEt0NXY1TQ?oc=5",
         "desc": "메리츠증권, 클라우드 기반 ‘MOUM’ 출시…AI·글로벌 커뮤니티 한 화면에  이코노미사이언스",
         "pubDate": "Tue, 01 Sep 2026 04:50:46 GMT",
-        "time_ago": "32분 전",
-        "diff_sec": 1925.993624,
+        "time_ago": "37분 전",
+        "diff_sec": 2268.442923,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2702,8 +2728,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9iUXZQY01HYzB2cVNxa095Sl8wbzZYRmw3QUVKcmduZmhDS2VfWlJQVThwNWZPZzFaUS1MZVBlaUw4Z0FhM1IzeUxhUEhzRDZWR2pCQ3ZLYVNNRGQwQWZpXw?oc=5",
         "desc": "외교부 ODA 예산 2년 연속 감소…사이버보안 예산은 4배로  네이트",
         "pubDate": "Tue, 01 Sep 2026 04:45:00 GMT",
-        "time_ago": "37분 전",
-        "diff_sec": 2271.999781,
+        "time_ago": "43분 전",
+        "diff_sec": 2614.447436,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2715,8 +2741,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9xMEpLY0VDUUUwYzRUOC1US3N1akVxaHdHamlBVEhRb3hidlhkMzZGMU9Qd0dlWU9tbDdocTNYZTNxSXNNWGlhdXJ0UjBiTHNBOHNXZ2lwYkh3MTB4aWhlalJPSk5ydw?oc=5",
         "desc": "aT, 공공급식통합플랫폼 클라우드 전환…AI 활용 기반 구축  푸드투데이",
         "pubDate": "Tue, 01 Sep 2026 04:43:34 GMT",
-        "time_ago": "39분 전",
-        "diff_sec": 2357.988344,
+        "time_ago": "45분 전",
+        "diff_sec": 2700.438927,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2728,8 +2754,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5PM1loM1ZZZW41VjIyWHhoQ0R6dER4ZkliUDVVbWtHaUI5ZFRKdl91dFR6S2Zab2lNUTZpMUpfSmxDaXQ4a1BDM3NTVkQ2Z1k?oc=5",
         "desc": "공공 정보시스템 클라우드 전환 속도…전 행정·기관 실태조사  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 04:42:36 GMT",
-        "time_ago": "40분 전",
-        "diff_sec": 2415.988344,
+        "time_ago": "45분 전",
+        "diff_sec": 2758.439923,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2741,8 +2767,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE0xNWdkMHRHVUpHdjl0aEU3WnMxZUFpcWZrQmlOYmp4RWp2UXBGd2cxTkw5bUprc0hUckRlbnM3Z0NyUHJSRE5ORnctZzIwQy03dDI2NXFVVk5xWGFHVDFZakwzTndjdw?oc=5",
         "desc": "모두솔루션, 클라우드 기반 도면 협업 플랫폼 ‘GstarCAD 365’ 국내 공식 출시 - 기업용 2D·3D 뷰어부터 권한 관리·실시간 협업까지…  mfgkr.com",
         "pubDate": "Tue, 01 Sep 2026 04:42:26 GMT",
-        "time_ago": "40분 전",
-        "diff_sec": 2425.988344,
+        "time_ago": "46분 전",
+        "diff_sec": 2768.438927,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2754,8 +2780,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE9RNzZhQmtWS3E0OWpZV01SMTRhX0h6ZXpvWW9iTFZpVEJ0cFNFMVBDTVI1Y210dDd1RGhoVS16YU9sRldBcnNrbVVTMmoySTQ?oc=5",
         "desc": "'해킹 사고' 외교부 사이버보안 예산 4배 확대...ODA는 2년 연속 삭감  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 04:35:29 GMT",
-        "time_ago": "47분 전",
-        "diff_sec": 2842.987268,
+        "time_ago": "53분 전",
+        "diff_sec": 3185.438927,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2767,8 +2793,8 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE1PZVZwMml4dVl6c3UzMGlpWVh0dm1CbEFrM01oT2hGTmVBZzJHUmVQLU0xZlFmMDNzNHFSXzVxbGI0TUFrN1BDYmozUE5QLTlfWFZR?oc=5",
         "desc": "외교부, 해킹 여파에 사이버보안 예산 4배 늘려…내년 예산안 3.7조  네이트",
         "pubDate": "Tue, 01 Sep 2026 04:29:00 GMT",
-        "time_ago": "53분 전",
-        "diff_sec": 3231.999781,
+        "time_ago": "59분 전",
+        "diff_sec": 3574.447436,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2780,8 +2806,8 @@
         "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9pY0FDZjhRdGx0UEFNUmtWZnozMDk1VkVxd0V1Nk9rcGdfa01NUHp2Nm9YYlB1OTRya3RzTkF0Xy1wWExMalVuN0szb0p2dnRCMGlMZEZrOUgwenZHcjUwMGtWNWZpb3Y1U3ZLNA?oc=5",
         "desc": "KISTI, AI 연구 위한 클라우드 전용 네트워크 서비스 본격화  대학지성 In&Out",
         "pubDate": "Tue, 01 Sep 2026 04:23:19 GMT",
-        "time_ago": "59분 전",
-        "diff_sec": 3572.985262,
+        "time_ago": "1시간 전",
+        "diff_sec": 3915.437923,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2794,7 +2820,7 @@
         "desc": "브로드컴, 기업용 인공지능 인프라 'VMware Private AI Cloud' 공개  데일리시큐",
         "pubDate": "Tue, 01 Sep 2026 04:19:33 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 3798.996584,
+        "diff_sec": 4141.444815,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2807,7 +2833,7 @@
         "desc": "투라인클라우드-PIKAI, AI 에지 박스·MSA 결합해 산업 AX 공동 추진  지티티코리아",
         "pubDate": "Tue, 01 Sep 2026 04:10:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4371.990861,
+        "diff_sec": 4714.441389,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2820,7 +2846,7 @@
         "desc": "일레븐랩스, 매트릭스클라우드와 AI 컨택센터 구축 “음성 AI 지연 단축”  더에이아이",
         "pubDate": "Tue, 01 Sep 2026 04:05:07 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4664.988344,
+        "diff_sec": 5007.439923,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2833,7 +2859,7 @@
         "desc": "삼성SDS ‘리얼 서밋 2026’ 9월 8일 개최…AI 에이전트 직접 체험  더글로벌기빙뉴스",
         "pubDate": "Tue, 01 Sep 2026 04:02:00 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 4851.999781,
+        "diff_sec": 5194.449457,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2846,7 +2872,7 @@
         "desc": "가비아, 대학생 해커톤에 클라우드·도메인 지원  로이슈",
         "pubDate": "Tue, 01 Sep 2026 03:59:06 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 5025.996584,
+        "diff_sec": 5368.444815,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2859,7 +2885,7 @@
         "desc": "앤트로픽, 엔비디아 지원 ‘람다’와 350억 달러 규모 클라우드 계약 체결: 보도  Benzinga",
         "pubDate": "Tue, 01 Sep 2026 03:38:39 GMT",
         "time_ago": "1시간 전",
-        "diff_sec": 6252.992869,
+        "diff_sec": 6595.444308,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2871,8 +2897,8 @@
         "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9lYkRMVUR2eXVoN28wNkpWNlFFc1AzbmM4bF9manh2NTZWWFFiQlBReUZMUkZxaFAyRS0tTklhLUZydTZNWTVhQVAwbXBMRURlZ2FGdDZtV0xNZ0dCTUtNZWNzaEZoZWtuYUh3d0p30gFyQVVfeXFMTmlkU2RVbHdNZ3lEV1E0c0tYOE9pRGRmVGNsb2tOeG9uSjR0SHMySVVWYTVueU0taTBGUE1FcHZSWERaZWQ3RTU2M0FocERMZ1F6YW1VcUF3Q3JkMUg4Rnh1UUwydE80TDRkSGh3X0NVSnp3?oc=5",
         "desc": "투라인클라우드-PIKAI, 물리 기반 AI·MSA로 산업 AX 공동 추진  AI포스트",
         "pubDate": "Tue, 01 Sep 2026 03:26:59 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 6952.990861,
+        "time_ago": "2시간 전",
+        "diff_sec": 7295.441389,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2884,8 +2910,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE8wcEZWM1J6SllLRmpDSFpRQ3Z5dkt6bktTdG1wWGRySmY3d2RjTHJjQzFmR1NrRkpjaHJoeWlfOTJuSVA5Yjh6bF9NV1lQVXRSYm5Jdi0yWEtfTV9kd1FkZ9IBeEFVX3lxTE1PekEzRHNXZ25kdnhEX2dzX3dPeDRTYjBHdHcxX216VlFuMnFQUGhGS3BNNHVOMEtNYVBoZFd0RWtXQjl5dUJoSHJCaUdmUUh6dUNLU3NpS29Wa2EyQzZyRnMwYkpydmhzQTI3MjVFV21kQUlVdGM0cw?oc=5",
         "desc": "내년 외교부 예산안 3.7조원…'해킹' 여파 사이버보안 예산 4배↑  뉴시스",
         "pubDate": "Tue, 01 Sep 2026 03:25:03 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 7068.993624,
+        "time_ago": "2시간 전",
+        "diff_sec": 7411.444308,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2898,7 +2924,7 @@
         "desc": "행안부, 모든 행정·공공기관 대상 '클라우드컴퓨팅 총조사' 실시  한국시사경제",
         "pubDate": "Tue, 01 Sep 2026 03:11:14 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 7897.990861,
+        "diff_sec": 8240.441389,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2911,7 +2937,7 @@
         "desc": "브로드컴, ‘VM웨어 프라이빗 AI 클라우드’ 공개…AI 비용·보안·에이전트 권한 통합 관리  지티티코리아",
         "pubDate": "Tue, 01 Sep 2026 03:05:17 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 8254.993624,
+        "diff_sec": 8597.442923,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2924,7 +2950,7 @@
         "desc": "행안부, 전 행정·공공기관 '클라우드 총조사'…2030년 전환 로드맵 만든다  네이트",
         "pubDate": "Tue, 01 Sep 2026 03:05:00 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 8271.997088,
+        "diff_sec": 8614.447436,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2937,7 +2963,7 @@
         "desc": "AI로 사이버공격 막는다…부산시, 'AI 기반 지능형 사이버 보안관제' 전격 가동  LG헬로비전",
         "pubDate": "Tue, 01 Sep 2026 03:04:54 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 8277.985262,
+        "diff_sec": 8620.436735,
         "category_badge": "미래산업",
         "theme": "ai"
       },
@@ -2950,20 +2976,7 @@
         "desc": "행안부, 전 행정·공공기관 '클라우드 총조사'…2030년 전환 로드맵 만든다  뉴스핌",
         "pubDate": "Tue, 01 Sep 2026 03:03:00 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 8391.987268,
-        "category_badge": "미래산업",
-        "theme": "tech"
-      },
-      {
-        "title": "쓰기 편한 설치형 에이전트 지향…이스트소프트, ‘알비서’ 공개",
-        "press": "IT비즈뉴스",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1xb0JiLTdRNmJUQ3hSbkxaZVJ3dXVtdlAyMk9WeUUyY20zTWpVaTd5WjNza1c2U0lOT2s0dE1nTDF5X2xQNDVZcDVfSXJYTVBBSUN2ai1DT2N3VURSdV9mQ0FWOEkwd3JnUlRKcw?oc=5",
-        "desc": "쓰기 편한 설치형 에이전트 지향…이스트소프트, ‘알비서’ 공개  IT비즈뉴스",
-        "pubDate": "Tue, 01 Sep 2026 03:00:00 GMT",
-        "time_ago": "2시간 전",
-        "diff_sec": 8571.999781,
+        "diff_sec": 8734.437923,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2976,7 +2989,7 @@
         "desc": "[2027 예산안]외교부, 3.7兆 편성…'국립외교원 해킹 여파' 사이버보안 예산 4배 증액  아시아경제",
         "pubDate": "Tue, 01 Sep 2026 02:52:34 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 9017.987268,
+        "diff_sec": 9360.438927,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -2989,7 +3002,7 @@
         "desc": "메가존클라우드, 네오위즈파트너스 투자 유치…상장 준비 속도  뉴시스",
         "pubDate": "Tue, 01 Sep 2026 02:44:59 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 9472.993624,
+        "diff_sec": 9815.444815,
         "category_badge": "미래산업",
         "theme": "tech"
       },
@@ -3002,20 +3015,7 @@
         "desc": "외교부, 사이버보안 예산 4배 증액…재외공관 '국민 보호 거점' 기능 강화  v.daum.net",
         "pubDate": "Tue, 01 Sep 2026 02:44:10 GMT",
         "time_ago": "2시간 전",
-        "diff_sec": 9521.988344,
-        "category_badge": "미래산업",
-        "theme": "tech"
-      },
-      {
-        "title": "동국제약, 추석 맞이 다채로운 얼리버드 행사 전개",
-        "press": "financialpost.co.kr",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1LMHNBalVSSjltWTA0a2pQWnVDNWtlbndhYnR3TWg5bzRCRG9TV3JmUFhOLTBoVDRYcDNKR3lFRHFkWkNiMTFZei1fM0tNRzdNMzJoWVJpcGhPeWJHQXh0Mno1VUppY3FrR0czbDlBUmx1WWh4?oc=5",
-        "desc": "동국제약, 추석 맞이 다채로운 얼리버드 행사 전개  financialpost.co.kr",
-        "pubDate": "Tue, 01 Sep 2026 02:43:45 GMT",
-        "time_ago": "2시간 전",
-        "diff_sec": 9546.999781,
+        "diff_sec": 9864.439923,
         "category_badge": "미래산업",
         "theme": "tech"
       }
