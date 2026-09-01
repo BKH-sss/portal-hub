@@ -11,6 +11,7 @@ import xml.etree.ElementTree as ET
 import html
 import re
 import time
+import json
 from datetime import datetime, timezone, timedelta
 import email.utils
 
@@ -258,3 +259,51 @@ def get_all_global_news(limit_per_category=25):
             
     category_data["all"] = final_all[:50]
     return category_data
+
+def get_market_tickers():
+    """실시간 글로벌 주요 지수, 빅테크 주가, 환율, 비트코인 시세 수집"""
+    targets = [
+        {"name": "NASDAQ", "symbol": "^IXIC", "format": "{:,.2f}"},
+        {"name": "S&P 500", "symbol": "^GSPC", "format": "{:,.2f}"},
+        {"name": "NVDA", "symbol": "NVDA", "format": "${:,.2f}"},
+        {"name": "AAPL", "symbol": "AAPL", "format": "${:,.2f}"},
+        {"name": "MSFT", "symbol": "MSFT", "format": "${:,.2f}"},
+        {"name": "TSLA", "symbol": "TSLA", "format": "${:,.2f}"},
+        {"name": "USD/KRW", "symbol": "KRW=X", "format": "{:,.2f}원"},
+        {"name": "BITCOIN", "symbol": "BTC-USD", "format": "${:,.0f}"}
+    ]
+    
+    results = []
+    print(" -> 글로벌 실시간 시장 지표 수집 중...")
+    for item in targets:
+        symbol = item["symbol"]
+        name = item["name"]
+        fmt = item["format"]
+        try:
+            url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?interval=1d&range=2d"
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=4) as r:
+                d = json.loads(r.read())
+                meta = d["chart"]["result"][0]["meta"]
+                price = meta.get("regularMarketPrice") or meta.get("chartPreviousClose")
+                prev = meta.get("chartPreviousClose") or meta.get("previousClose") or price
+                change = ((price - prev) / prev) * 100 if prev else 0.0
+                
+                results.append({
+                    "name": name,
+                    "price_str": fmt.format(price),
+                    "price": price,
+                    "change": round(change, 2),
+                    "change_str": f"{'+' if change >= 0 else ''}{round(change, 2)}%"
+                })
+        except Exception as e:
+            # 기본 안전 폴백
+            results.append({
+                "name": name,
+                "price_str": "-",
+                "price": 0,
+                "change": 0.0,
+                "change_str": "0.00%"
+            })
+            
+    return results

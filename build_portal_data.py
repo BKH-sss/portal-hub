@@ -49,20 +49,22 @@ def build_data():
     print(f"[SUCCESS] data/portal_data.json saved! (크기: {os.path.getsize(target_path)} bytes)")
 
     print("\n==================================================")
-    print("  [2] ORBIS GLOBAL (해외 주요 외신 인텔리전스 수집)")
+    print("  [2] ORBIS GLOBAL (해외 주요 외신 및 시장 지표 수집)")
     print("==================================================")
     global_news = global_news_service.get_all_global_news(limit_per_category=30)
+    market_tickers = global_news_service.get_market_tickers()
     
     global_output = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "total_count": sum(len(v) for k, v in global_news.items() if k != "all"),
+        "market_tickers": market_tickers,
         "news": global_news
     }
 
     global_target_path = os.path.join(data_dir, "global_data.json")
     with open(global_target_path, "w", encoding="utf-8") as f:
         json.dump(global_output, f, ensure_ascii=False, indent=2)
-    print(f"[SUCCESS] data/global_data.json saved! (총 {global_output['total_count']}개 외신 기사, 크기: {os.path.getsize(global_target_path)} bytes)")
+    print(f"[SUCCESS] data/global_data.json saved! (총 {global_output['total_count']}개 외신 기사, 시장 지표 {len(market_tickers)}개, 크기: {os.path.getsize(global_target_path)} bytes)")
 
 if __name__ == "__main__":
     build_data()

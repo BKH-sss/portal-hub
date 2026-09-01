@@ -109,26 +109,14 @@
                 <span class="tracking-wider uppercase text-[10px]">GLOBAL MARKET & TECH TICKER</span>
             </div>
             <div class="flex-1 overflow-hidden relative">
-                <div class="ticker-animate flex items-center gap-8 text-slate-300 font-mono text-[11px]">
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">NASDAQ</span> <span class="text-emerald-400 font-semibold">+1.14% ▲</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">S&P 500</span> <span class="text-emerald-400 font-semibold">+0.82% ▲</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">NVDA</span> <span class="text-emerald-400 font-semibold">+2.65% ▲</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">AAPL</span> <span class="text-emerald-400 font-semibold">+0.48% ▲</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">MSFT</span> <span class="text-emerald-400 font-semibold">+1.05% ▲</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">TSLA</span> <span class="text-rose-400 font-semibold">-0.72% ▼</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">USD/KRW</span> <span class="text-amber-300 font-semibold">1,342.50</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">BITCOIN</span> <span class="text-emerald-400 font-semibold">+3.12% ▲</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">BRENT CRUDE</span> <span class="text-rose-400 font-semibold">-0.45% ▼</span></span>
-                    <!-- Loop duplication for seamless scroll -->
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">NASDAQ</span> <span class="text-emerald-400 font-semibold">+1.14% ▲</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">S&P 500</span> <span class="text-emerald-400 font-semibold">+0.82% ▲</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">NVDA</span> <span class="text-emerald-400 font-semibold">+2.65% ▲</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">AAPL</span> <span class="text-emerald-400 font-semibold">+0.48% ▲</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">MSFT</span> <span class="text-emerald-400 font-semibold">+1.05% ▲</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">TSLA</span> <span class="text-rose-400 font-semibold">-0.72% ▼</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">USD/KRW</span> <span class="text-amber-300 font-semibold">1,342.50</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">BITCOIN</span> <span class="text-emerald-400 font-semibold">+3.12% ▲</span></span>
-                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">BRENT CRUDE</span> <span class="text-rose-400 font-semibold">-0.45% ▼</span></span>
+                <div id="liveTickerContainer" class="ticker-animate flex items-center gap-8 text-slate-300 font-mono text-[11px]">
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">NASDAQ</span> <span class="text-slate-400">Loading...</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">S&P 500</span> <span class="text-slate-400">Loading...</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">NVDA</span> <span class="text-slate-400">Loading...</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">AAPL</span> <span class="text-slate-400">Loading...</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">TSLA</span> <span class="text-slate-400">Loading...</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">USD/KRW</span> <span class="text-slate-400">Loading...</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">BITCOIN</span> <span class="text-slate-400">Loading...</span></span>
                 </div>
             </div>
             <div class="hidden lg:flex items-center gap-3 text-[10px] text-slate-400 shrink-0 font-medium">
@@ -1193,8 +1181,75 @@
         }
 
         // ==========================================
-        // 9. 실시간 대량 외신 데이터(global_data.json) 페칭 & Fallback
+        // 9. 실시간 대량 외신 및 시장 지표(global_data.json) 페칭 & Fallback
         // ==========================================
+        let currentMarketTickers = [
+            { name: "NASDAQ", price_str: "26,370.89", change: -0.64, change_str: "-0.64%" },
+            { name: "S&P 500", price_str: "7,686.14", change: -0.58, change_str: "-0.58%" },
+            { name: "NVDA", price_str: "$220.78", change: -3.16, change_str: "-3.16%" },
+            { name: "AAPL", price_str: "$316.85", change: 0.72, change_str: "+0.72%" },
+            { name: "MSFT", price_str: "$448.20", change: 1.05, change_str: "+1.05%" },
+            { name: "TSLA", price_str: "$367.95", change: 3.70, change_str: "+3.70%" },
+            { name: "USD/KRW", price_str: "1,371.08원", change: -0.44, change_str: "-0.44%" },
+            { name: "BITCOIN", price_str: "$78,807", change: 0.32, change_str: "+0.32%" }
+        ];
+
+        function renderMarketTickers(tickers) {
+            if (!tickers || tickers.length === 0) return;
+            const container = document.getElementById('liveTickerContainer');
+            if (!container) return;
+
+            const htmlContent = tickers.map(t => {
+                const isUp = t.change >= 0;
+                const colorClass = isUp ? 'text-emerald-400 font-semibold' : 'text-rose-400 font-semibold';
+                const arrow = isUp ? '▲' : '▼';
+                return `
+                    <span class="inline-flex items-center gap-1.5 whitespace-nowrap">
+                        <span class="font-bold text-white">${t.name}</span>
+                        <span class="text-slate-300 font-mono">${t.price_str}</span>
+                        <span class="${colorClass}">${t.change_str} ${arrow}</span>
+                    </span>
+                `;
+            }).join('');
+
+            // 무한 루프 스크롤을 위해 2회 반복 결합
+            container.innerHTML = htmlContent + htmlContent;
+        }
+
+        // 브라우저에서 비트코인 및 환율 실시간 시세 초 단위 갱신
+        async function updateLiveCryptoAndFx() {
+            try {
+                // 1. 실시간 비트코인 (바이낸스 공개 API)
+                const btcRes = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT');
+                if (btcRes.ok) {
+                    const btcData = await btcRes.json();
+                    const btcPrice = parseFloat(btcData.lastPrice);
+                    const btcChange = parseFloat(btcData.priceChangePercent);
+                    const btcItem = currentMarketTickers.find(x => x.name === 'BITCOIN');
+                    if (btcItem) {
+                        btcItem.price_str = '$' + btcPrice.toLocaleString('en-US', { maximumFractionDigits: 0 });
+                        btcItem.change = btcChange;
+                        btcItem.change_str = (btcChange >= 0 ? '+' : '') + btcChange.toFixed(2) + '%';
+                    }
+                }
+
+                // 2. 실시간 원/달러 환율 (오픈 환율 API)
+                const fxRes = await fetch('https://open.er-api.com/v6/latest/USD');
+                if (fxRes.ok) {
+                    const fxData = await fxRes.json();
+                    const krwRate = fxData.rates && fxData.rates.KRW;
+                    const krwItem = currentMarketTickers.find(x => x.name === 'USD/KRW');
+                    if (krwItem && krwRate) {
+                        krwItem.price_str = krwRate.toLocaleString('ko-KR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '원';
+                    }
+                }
+
+                renderMarketTickers(currentMarketTickers);
+            } catch (e) {
+                // 실패 시 기본 데이터셋 유지
+            }
+        }
+
         async function fetchLiveFeeds() {
             // 1. data/global_data.json (GitHub Actions 2시간 주기 자동 수집본) 로드
             const pathsToTry = ['data/global_data.json', '../data/global_data.json', '/portal-hub/data/global_data.json'];
@@ -1207,6 +1262,10 @@
                         const json = await res.json();
                         if (json && json.news) {
                             staticGlobalDataMap = json;
+                            if (json.market_tickers && json.market_tickers.length > 0) {
+                                currentMarketTickers = json.market_tickers;
+                                renderMarketTickers(currentMarketTickers);
+                            }
                             loaded = true;
                             break;
                         }
@@ -1218,9 +1277,11 @@
 
             if (!loaded) {
                 globalNewsData = [...GLOBAL_NEWS_DATASET];
+                renderMarketTickers(currentMarketTickers);
             }
 
             applyFilters();
+            updateLiveCryptoAndFx();
         }
 
         function refreshData(isManual = false) {
@@ -1234,7 +1295,8 @@
             });
         }
 
-        // 5분마다 자동 새로고침
+        // 30초마다 암호화폐 & 환율 실시간 갱신, 5분마다 전체 뉴스 새로고침
+        setInterval(updateLiveCryptoAndFx, 30000);
         setInterval(() => {
             refreshData(false);
         }, 300000);
@@ -1245,6 +1307,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             initTheme();
             initHeroWallpaper();
+            renderMarketTickers(currentMarketTickers);
             refreshData(false);
         });
     </script>
