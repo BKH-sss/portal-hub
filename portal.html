@@ -166,6 +166,14 @@
                         <svg id="sunIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                         <svg id="moonIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
                     </button>
+
+                    <!-- 해외 외신 포털 이동 버튼 -->
+                    <a href="global/" 
+                       title="로이터, 블룸버그, BBC 등 실시간 외신 전문 포털로 이동"
+                       class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600/10 to-cyan-600/10 hover:from-indigo-600/20 hover:to-cyan-600/20 border border-indigo-500/30 text-indigo-600 dark:text-indigo-300 text-xs font-bold transition shadow-sm">
+                        <span>🌍 해외 외신</span>
+                        <svg class="w-3 h-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </a>
                 </div>
             </div>
         </div>
@@ -463,8 +471,19 @@
 
     <!-- 하단 푸터 -->
     <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 py-6 text-center text-xs text-slate-400 transition-colors">
-        <div class="max-w-7xl mx-auto px-4 space-y-1.5">
+        <div class="max-w-7xl mx-auto px-4 space-y-2.5">
             <p class="font-bold tracking-wide text-slate-700 dark:text-slate-200">🏛️ ERECHTHEION (에레크테이온 인텔리전스)</p>
+            
+            <!-- 🌍 해외 외신 전문 포털 바로가기 링크 버튼 -->
+            <div class="flex items-center justify-center gap-2 pt-1 pb-1">
+                <a href="global/" 
+                   title="로이터, 블룸버그, BBC 등 실시간 외신 전문 포털로 이동"
+                   class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-indigo-600/10 via-cyan-600/10 to-indigo-600/10 hover:from-indigo-600/20 hover:to-cyan-600/20 border border-indigo-500/40 text-indigo-600 dark:text-indigo-300 font-bold text-xs transition shadow-sm hover:scale-105 duration-200">
+                    <span>🌍 ERECHTHEION GLOBAL (실시간 해외 외신 뉴스 포털 바로가기)</span>
+                    <svg class="w-3.5 h-3.5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+            </div>
+
             <p>신뢰할 수 있는 공신력 있는 언론사의 AI, 반도체, 컴퓨터, 게임 산업 뉴스와 스포츠 기상을 실시간 제공합니다.</p>
             <div class="flex justify-center items-center gap-4 pt-1 text-[11px]">
                 <span>실시간 기상 및 스포츠 정보 서비스</span>
