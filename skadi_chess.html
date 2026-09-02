@@ -2,13 +2,26 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>스카디 코치 (Skadi Coach) - 체스닷컴 스타일</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>스카디 체스 코치 (Skadi Chess) - 24시간 실시간 AI 대전</title>
     
     <!-- CSS -->
-    <link rel="stylesheet" href="skadi_chess.css?v=3.0">
+    <link rel="stylesheet" href="skadi_chess.css?v=6.0">
 </head>
 <body>
+
+    <!-- 상단 포털 바로가기 네비게이션 바 (모바일/PC 공용) -->
+    <nav class="top-nav">
+        <a href="./" class="nav-back-link" title="메인 포털로 돌아가기">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            <span>포털 홈</span>
+        </a>
+        <div class="nav-title">♟️ 스카디 체스 코치</div>
+        <div class="nav-status">
+            <span class="status-dot"></span>
+            <span>24H 가동</span>
+        </div>
+    </nav>
 
     <main class="coach-layout">
 
@@ -207,6 +220,6 @@
     </div>
 
     <!-- 스크립트 연결 -->
-    <script src="skadi_chess.js?v=5.0"></script>
+    <script src="skadi_chess.js?v=6.0"></script>
 </body>
 </html>
