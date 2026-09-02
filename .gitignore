@@ -56,3 +56,16 @@ korean_briar_voice/
 targets/
 tuned_outputs/
 test_scripts_archive/
+
+# Unrelated Web Portal Files
+portal/
+data/
+images/
+index.html
+global.html
+global/
+portal.html
+build_portal_data.py
+news_service.py
+global_news_service.py
+포털_실행.bat
