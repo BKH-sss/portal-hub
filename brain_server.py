@@ -44,13 +44,16 @@ from routers import (
     websocket_router
 )
 
+# 🚀 3. 차세대 JARVIS 확장 모듈 스위트 (OS 제어, 메이플 스킬 트래커, 캘린더, MCP 등)
+from modules import all_extension_routers
+
 # ==============================================================================
-# 🚀 3. FastAPI 메인 애플리케이션 생성 및 미들웨어 설정
+# 🚀 4. FastAPI 메인 애플리케이션 생성 및 미들웨어 설정
 # ==============================================================================
 app = FastAPI(
     title="JARVIS / NEXT PULSE Brain Server",
-    description="지능형 멀티 에이전트 & 실시간 포털 허브 통합 백엔드",
-    version="3.0.0"
+    description="지능형 멀티 에이전트 & 실시간 포털 허브 & OS/게임 확장 스위트 통합 백엔드",
+    version="3.5.0"
 )
 
 # CORS (Cross-Origin Resource Sharing) 허용
@@ -63,7 +66,7 @@ app.add_middleware(
 )
 
 # ==============================================================================
-# 🧩 4. 기능별 APIRouter 등록 (Include Routers)
+# 🧩 5. 기능별 APIRouter 등록 (Include Routers)
 # ==============================================================================
 app.include_router(portal_router)     # 🏛️ 포털, 날씨, 축구, 뉴스, 주식
 app.include_router(chat_router)       # 💬 멀티 에이전트 대화, LLM, 도구 실행
@@ -75,6 +78,17 @@ app.include_router(vision_router)     # 👁️ PC 화면 공유 & 비전 감시
 app.include_router(chess_router)      # ♟️ 체스 AI 자율 대전 & 기보
 app.include_router(websocket_router)  # ⚡ 실시간 웹소켓 통신
 app.include_router(asr_router)        # 🎙️ 로컬 음성 인식 (Whisper ASR)
+
+# 🚀 차세대 JARVIS 확장 모듈 스위트 8대 라우터 일괄 마운트
+for ext_router in all_extension_routers:
+    app.include_router(ext_router)
+
+@app.get("/admin", summary="JARVIS 관리자 HUD 관측 대시보드")
+def serve_admin():
+    for cand in ["modules/admin.html", "admin.html"]:
+        if os.path.exists(cand):
+            return FileResponse(cand)
+    return FileResponse("chatbot.html")
 
 # ==============================================================================
 # 📁 5. 정적 리소스 디렉터리 마운트
@@ -134,11 +148,12 @@ def read_static_file(filename: str):
 @app.on_event("startup")
 async def on_server_startup():
     print("=" * 60)
-    print("🚀 [JARVIS Brain Server 3.0] 모듈형 아키텍처 가동 완료!")
-    print("   • 포털 메인:  http://127.0.0.1:8000/portal")
-    print("   • AI 챗봇:    http://127.0.0.1:8000/chatbot.html")
-    print("   • 외신(ORBIS): http://127.0.0.1:8000/global/")
-    print("   • API 문서:   http://127.0.0.1:8000/docs (Swagger UI)")
+    print("🚀 [JARVIS Brain Server 3.5] 차세대 모듈 확장 스위트 가동 완료!")
+    print("   • 포털 메인:    http://127.0.0.1:8000/portal")
+    print("   • AI 챗봇:      http://127.0.0.1:8000/chatbot.html")
+    print("   • 외신(ORBIS):   http://127.0.0.1:8000/global/")
+    print("   • 관리자 HUD:   http://127.0.0.1:8000/admin")
+    print("   • API 문서:     http://127.0.0.1:8000/docs (Swagger UI)")
     print("=" * 60)
 
 if __name__ == "__main__":
