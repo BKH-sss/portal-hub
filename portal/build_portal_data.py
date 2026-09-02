@@ -1,11 +1,29 @@
+"""
+build_portal_data.py / portal/build_portal_data.py
+==============================================================================
+🤖 GitHub Actions 1시간 주기 자동 데이터 빌드 스크립트
+==============================================================================
+이 스크립트는 GitHub Actions CI/CD 파이프라인에서 매시 정각마다 실행되어
+1) 국내 포털용: 맨체스터 유나이티드 경기 일정, 도시별 날씨/대기질, 4차 산업 뉴스 수집 ➔ portal_data.json
+2) 해외 외신용: 로이터/블룸버그/BBC 등 150개+ 글로벌 RSS 뉴스 & 나스닥/엔비디아 시세 ➔ global_data.json
+을 일괄 생성하여 GitHub Pages로 자동 배포합니다.
+==============================================================================
+"""
+
 import os
 import json
 import time
 from datetime import datetime
-import news_service
-import global_news_service
+
+# news_service 및 global_news_service 임포트
+try:
+    from portal import news_service, global_news_service
+except Exception:
+    import news_service
+    import global_news_service
 
 def build_data():
+    """국내 포털 및 글로벌 외신 데이터를 수집하여 data/ 폴더에 JSON 파일로 저장합니다."""
     base_dir = os.path.dirname(os.path.abspath(__file__))
     data_dir = os.path.join(base_dir, "data")
     os.makedirs(data_dir, exist_ok=True)
@@ -46,7 +64,7 @@ def build_data():
     target_path = os.path.join(data_dir, "portal_data.json")
     with open(target_path, "w", encoding="utf-8") as f:
         json.dump(portal_output, f, ensure_ascii=False, indent=2)
-    print(f"[SUCCESS] data/portal_data.json saved! (크기: {os.path.getsize(target_path)} bytes)")
+    print(f"[SUCCESS] data/portal_data.json 저장 완료! (크기: {os.path.getsize(target_path)} bytes)")
 
     print("\n==================================================")
     print("  [2] ORBIS GLOBAL (해외 주요 외신 및 시장 지표 수집)")
@@ -64,7 +82,7 @@ def build_data():
     global_target_path = os.path.join(data_dir, "global_data.json")
     with open(global_target_path, "w", encoding="utf-8") as f:
         json.dump(global_output, f, ensure_ascii=False, indent=2)
-    print(f"[SUCCESS] data/global_data.json saved! (총 {global_output['total_count']}개 외신 기사, 시장 지표 {len(market_tickers)}개, 크기: {os.path.getsize(global_target_path)} bytes)")
+    print(f"[SUCCESS] data/global_data.json 저장 완료! (총 {global_output['total_count']}개 외신 기사, 시장 지표 {len(market_tickers)}개, 크기: {os.path.getsize(global_target_path)} bytes)")
 
 if __name__ == "__main__":
     build_data()
