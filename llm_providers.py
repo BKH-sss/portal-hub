@@ -22,7 +22,26 @@ from abc import ABC, abstractmethod
 from typing import AsyncGenerator, Dict, Any, List, Optional
 import httpx
 
-from config import API_KEYS, OLLAMA_HOST, DEFAULT_GENERATION_PARAMS
+try:
+    from config import API_KEYS, OLLAMA_HOST, DEFAULT_GENERATION_PARAMS
+except ImportError:
+    API_KEYS = {
+        "GEMINI": os.environ.get("GEMINI_API_KEY", ""),
+        "OPENAI": os.environ.get("OPENAI_API_KEY", ""),
+        "ANTHROPIC": os.environ.get("ANTHROPIC_API_KEY", ""),
+        "GROQ": os.environ.get("GROQ_API_KEY", ""),
+        "DEEPSEEK": os.environ.get("DEEPSEEK_API_KEY", ""),
+        "DISCORD": os.environ.get("DISCORD_BOT_TOKEN", "")
+    }
+    OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434")
+    DEFAULT_GENERATION_PARAMS = {
+        "temperature": 0.5,
+        "top_p": 0.9,
+        "max_tokens": 4096,
+        "timeout_sec": 30.0,
+        "connect_timeout_sec": 8.0,
+        "system_instruction": "너는 마스터를 지키는 스카디야. 100% 한국어로 대답해."
+    }
 
 
 # 공용 비동기 HTTP 클라이언트 관리자 (싱글톤)
@@ -122,9 +141,28 @@ class GeminiProvider(BaseLLMProvider):
         if not client:
             raise RuntimeError("Gemini Client 초기화 실패")
 
-        from google.genai import types
-        
-        candidate_models = [model_name] if model_name else ['gemini-flash-latest', 'gemini-3.5-flash', 'gemini-2.5-flash']
+        try:
+            from google.genai import types
+        except Exception:
+            types = None
+
+        if model_name and model_name not in ["gemini", "default", "auto"]:
+            candidate_models = [
+                model_name,
+                "gemini-3.6-flash",
+                "gemini-3.5-flash",
+                "gemini-flash-latest",
+                "gemini-3.1-pro-preview",
+                "gemini-2.5-flash",
+            ]
+        else:
+            candidate_models = [
+                "gemini-3.6-flash",
+                "gemini-3.5-flash",
+                "gemini-flash-latest",
+                "gemini-3.1-pro-preview",
+                "gemini-2.5-flash",
+            ]
         
         # 마지막 유저 메시지 추출
         last_msg = ""

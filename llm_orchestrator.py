@@ -25,7 +25,27 @@ import time
 import asyncio
 from typing import AsyncGenerator, Dict, Any, List, Optional
 
-from config import DEFAULT_GENERATION_PARAMS, API_KEYS, OLLAMA_HOST
+try:
+    from config import DEFAULT_GENERATION_PARAMS, API_KEYS, OLLAMA_HOST
+except ImportError:
+    API_KEYS = {
+        "GEMINI": os.environ.get("GEMINI_API_KEY", ""),
+        "OPENAI": os.environ.get("OPENAI_API_KEY", ""),
+        "ANTHROPIC": os.environ.get("ANTHROPIC_API_KEY", ""),
+        "GROQ": os.environ.get("GROQ_API_KEY", ""),
+        "DEEPSEEK": os.environ.get("DEEPSEEK_API_KEY", ""),
+        "DISCORD": os.environ.get("DISCORD_BOT_TOKEN", "")
+    }
+    OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434")
+    DEFAULT_GENERATION_PARAMS = {
+        "temperature": 0.5,
+        "top_p": 0.9,
+        "max_tokens": 4096,
+        "timeout_sec": 30.0,
+        "connect_timeout_sec": 8.0,
+        "system_instruction": "너는 마스터를 지키는 스카디야. 100% 한국어로 대답해."
+    }
+
 from llm_providers import provider_registry, BaseLLMProvider
 from smart_search import smart_web_grounding
 

@@ -33,9 +33,9 @@ from discord.ext import commands, tasks
 # 1. 환경 및 경로 설정 (루트 디렉토리 및 모듈 참조)
 # ------------------------------------------------------------
 CURRENT_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = CURRENT_DIR.parent if (CURRENT_DIR.parent / "config.py").exists() else CURRENT_DIR
+PROJECT_ROOT = CURRENT_DIR.parent
 
-for p in [str(CURRENT_DIR), str(PROJECT_ROOT)]:
+for p in [str(CURRENT_DIR), str(PROJECT_ROOT), os.getcwd()]:
     if p not in sys.path:
         sys.path.insert(0, p)
 
