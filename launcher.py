@@ -4,8 +4,35 @@ import sys
 import time
 import threading
 import urllib.request
+import ctypes
 import psutil
 import webview
+
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin() != 0
+    except Exception:
+        return False
+
+def ensure_admin():
+    """J.A.R.V.I.S Assistant 실행 시 관리자 권한으로 자동 승격 실행"""
+    if not is_admin():
+        try:
+            if getattr(sys, 'frozen', False):
+                exe = sys.executable
+                params = " ".join([f'"{arg}"' for arg in sys.argv[1:]])
+                ret = ctypes.windll.shell32.ShellExecuteW(None, "runas", exe, params, None, 1)
+            else:
+                exe = sys.executable
+                script = f'"{os.path.abspath(sys.argv[0])}"'
+                params = f'{script} ' + " ".join([f'"{arg}"' for arg in sys.argv[1:]])
+                ret = ctypes.windll.shell32.ShellExecuteW(None, "runas", exe, params, None, 1)
+            if ret > 32:
+                sys.exit(0)
+        except Exception as e:
+            print(f"[Admin Elevation Error]: {e}")
+
+ensure_admin()
 
 def get_project_root():
     # 1. 현재 작업 폴더 확인

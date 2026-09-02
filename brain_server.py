@@ -145,8 +145,22 @@ def read_static_file(filename: str):
 # ==============================================================================
 # ⚡ 7. 서버 라이프사이클 이벤트 (Startup & Shutdown)
 # ==============================================================================
+import gc
+
+async def memory_cleanup_daemon():
+    """30분마다 가비지 컬렉션(GC) 및 미사용 메모리 정리 데몬 (8+ 시간 장기 실행 최적화)"""
+    while True:
+        try:
+            await asyncio.sleep(1800)  # 30분
+            collected = gc.collect()
+            print(f"🧹 [Auto GC] 정기 메모리 최적화 실행 완료 (수거된 객체: {collected}개)")
+        except Exception:
+            pass
+
+
 @app.on_event("startup")
 async def on_server_startup():
+    asyncio.create_task(memory_cleanup_daemon())
     print("=" * 60)
     print("🚀 [JARVIS Brain Server 3.5] 차세대 모듈 확장 스위트 가동 완료!")
     print("   • 포털 메인:    http://127.0.0.1:8000/portal")
@@ -154,6 +168,7 @@ async def on_server_startup():
     print("   • 외신(ORBIS):   http://127.0.0.1:8000/global/")
     print("   • 관리자 HUD:   http://127.0.0.1:8000/admin")
     print("   • API 문서:     http://127.0.0.1:8000/docs (Swagger UI)")
+    print("   • 메모리 가드:  Auto GC Daemon 30분 주기 가동")
     print("=" * 60)
 
 if __name__ == "__main__":

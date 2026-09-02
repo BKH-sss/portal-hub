@@ -391,8 +391,9 @@
         <!-- 5. 🍁 메이플스토리 스킬 쿨타임 & 음성 브리핑 빠른 설정 패널 (NEW) -->
         <div class="card" style="grid-column: span 12; border-color: rgba(255, 153, 0, 0.4);">
             <div class="card-header">
-                <span class="card-title" style="color: var(--orange-glow);">
-                    <i class="fa-solid fa-maple-leaf"></i> 메이플스토리 스킬 쿨타임 & 스카디 음성 브리핑 설정
+                <span class="card-title" style="color: var(--orange-glow); display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <span><i class="fa-solid fa-maple-leaf"></i> 메이플스토리 스킬 쿨타임 & 스카디 음성 브리핑 설정</span>
+                    <span id="admin-badge"></span>
                 </span>
                 <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                     <!-- 직업 프리셋 셀렉터 -->
@@ -403,7 +404,16 @@
                     <button class="btn-action" style="color: var(--green-glow); border-color: rgba(0, 255, 135, 0.4);" onclick="saveCurrentAsPreset()" title="현재 스킬 구성을 프리셋으로 저장합니다"><i class="fa-solid fa-floppy-disk"></i> 저장</button>
                     <button class="btn-action" style="color: var(--red-glow); border-color: rgba(255, 0, 85, 0.4);" onclick="deleteCurrentPreset()" title="선택된 프리셋을 삭제합니다"><i class="fa-solid fa-trash-can"></i> 삭제</button>
                     <button class="btn-action" onclick="addNewPresetPrompt()" title="새로운 직업/보스 프리셋을 추가합니다"><i class="fa-solid fa-plus"></i> 새 프리셋</button>
-                    <button id="btn-tracker-toggle" class="btn-action active" onclick="toggleTracker()"><i class="fa-solid fa-play"></i> 감시 시작</button>
+                    <button class="btn-action" style="color: var(--cyan-glow); border-color: rgba(0, 242, 254, 0.4);" onclick="precacheAllVoices()" title="현재 스킬 목록의 모든 스카디 AI 음성을 사전에 다운로드 및 캐싱합니다"><i class="fa-solid fa-microphone-lines"></i> 음성 다운로드</button>
+                    
+                    <!-- 🔊 스카디 음성 브리핑 볼륨 조절 -->
+                    <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);" title="스카디 음성 브리핑 볼륨 조절 (0~100%)">
+                        <i id="voice-vol-icon" class="fa-solid fa-volume-high" style="color: var(--cyan-glow); font-size: 13px; cursor: pointer;" onclick="toggleVoiceMute()" title="음소거 토글"></i>
+                        <input type="range" id="voice-vol-slider" min="0" max="100" value="100" style="width: 75px; accent-color: var(--cyan-glow); cursor: pointer;" oninput="onVoiceVolumeChange(this.value)">
+                        <span id="voice-vol-text" style="font-size: 11px; font-weight: 700; color: var(--cyan-glow); min-width: 32px; font-family: monospace;">100%</span>
+                    </div>
+
+                    <button id="btn-tracker-toggle" class="btn-action" onclick="toggleTracker()"><i class="fa-solid fa-play"></i> 감시 시작</button>
                 </div>
             </div>
 
@@ -538,27 +548,45 @@
                 if (!res.ok) return;
                 const data = await res.json();
 
-                // CPU
-                document.getElementById('cpu-val').innerText = `${data.cpu.usage_pct}%`;
-                document.getElementById('cpu-bar').style.width = `${data.cpu.usage_pct}%`;
-                document.getElementById('cpu-sub').innerText = `${data.cpu.cores_physical}C / ${data.cpu.cores_logical}T`;
+                // 1. CPU
+                if (data.cpu) {
+                    const cpuEl = document.getElementById('cpu-val');
+                    const cpuBar = document.getElementById('cpu-bar');
+                    const cpuCores = document.getElementById('cpu-cores');
+                    if (cpuEl) cpuEl.innerText = `${data.cpu.usage_pct}%`;
+                    if (cpuBar) cpuBar.style.width = `${Math.min(100, Math.max(0, data.cpu.usage_pct))}%`;
+                    if (cpuCores) cpuCores.innerText = `${data.cpu.cores_physical}C / ${data.cpu.cores_logical}T`;
+                }
 
-                // RAM
-                document.getElementById('ram-val').innerText = `${data.ram.used_gb} GB`;
-                document.getElementById('ram-bar').style.width = `${data.ram.usage_pct}%`;
-                document.getElementById('ram-sub').innerText = `${data.ram.usage_pct}% (${data.ram.available_gb} GB 가용)`;
-
-                // GPU (4080 Super)
-                if (data.gpu && data.gpu.available && data.gpu.gpus.length > 0) {
+                // 2. NVIDIA GPU (RTX 4080 SUPER 등)
+                if (data.gpu && data.gpu.available && data.gpu.gpus && data.gpu.gpus.length > 0) {
                     const gpu = data.gpu.gpus[0];
-                    document.getElementById('gpu-val').innerText = `${gpu.temperature_c}°C`;
-                    document.getElementById('gpu-bar').style.width = `${gpu.gpu_utilization_pct}%`;
-                    document.getElementById('gpu-sub').innerText = `로드율: ${gpu.gpu_utilization_pct}%`;
+                    const gpuTemp = document.getElementById('gpu-temp');
+                    const gpuUtil = document.getElementById('gpu-util');
+                    const gpuBar = document.getElementById('gpu-bar');
+                    const vramSub = document.getElementById('vram-sub');
 
-                    // VRAM
-                    document.getElementById('vram-val').innerText = `${(gpu.vram_used_mb / 1024).toFixed(1)} GB`;
-                    document.getElementById('vram-bar').style.width = `${gpu.vram_usage_pct}%`;
-                    document.getElementById('vram-sub').innerText = `${gpu.vram_usage_pct}% (${(gpu.vram_total_mb / 1024).toFixed(1)} GB 총합)`;
+                    if (gpuTemp) gpuTemp.innerText = `${gpu.temperature_c}°C`;
+                    if (gpuUtil) gpuUtil.innerText = `${gpu.gpu_utilization_pct}%`;
+                    if (gpuBar) gpuBar.style.width = `${Math.min(100, Math.max(0, gpu.gpu_utilization_pct))}%`;
+                    if (vramSub) {
+                        const usedGb = (gpu.vram_used_mb / 1024).toFixed(1);
+                        const totalGb = (gpu.vram_total_mb / 1024).toFixed(1);
+                        vramSub.innerText = `VRAM: ${usedGb} / ${totalGb} GB (${gpu.vram_usage_pct}%)`;
+                    }
+                } else {
+                    const gpuUtil = document.getElementById('gpu-util');
+                    if (gpuUtil) gpuUtil.innerText = '0%';
+                }
+
+                // 3. RAM
+                if (data.ram) {
+                    const ramEl = document.getElementById('ram-val');
+                    const ramBar = document.getElementById('ram-bar');
+                    const ramUsed = document.getElementById('ram-used');
+                    if (ramEl) ramEl.innerText = `${data.ram.usage_pct}%`;
+                    if (ramBar) ramBar.style.width = `${Math.min(100, Math.max(0, data.ram.usage_pct))}%`;
+                    if (ramUsed) ramUsed.innerText = `${data.ram.used_gb} / ${data.ram.total_gb} GB`;
                 }
             } catch (e) {
                 console.warn('Metrics polling error:', e);
@@ -576,18 +604,33 @@
                 const btn = document.getElementById('btn-tracker-toggle');
                 if (isTrackerRunning) {
                     btn.className = "btn-action active";
-                    btn.innerHTML = `<i class="fa-solid fa-stop"></i> 감시 정지`;
+                    btn.style.borderColor = "var(--green-glow)";
+                    btn.style.color = "var(--green-glow)";
+                    btn.style.background = "rgba(0, 255, 135, 0.15)";
+                    btn.innerHTML = `<i class="fa-solid fa-circle-dot"></i> 감시 중 (클릭 시 정지)`;
                 } else {
                     btn.className = "btn-action";
-                    btn.innerHTML = `<i class="fa-solid fa-play"></i> 감시 시작`;
+                    btn.style.borderColor = "rgba(255, 0, 85, 0.4)";
+                    btn.style.color = "var(--red-glow)";
+                    btn.style.background = "rgba(255, 0, 85, 0.08)";
+                    btn.innerHTML = `<i class="fa-solid fa-play"></i> 감시 정지됨 (클릭 시 시작)`;
+                }
+
+                const adminBadge = document.getElementById('admin-badge');
+                if (adminBadge) {
+                    if (data.is_admin) {
+                        adminBadge.innerHTML = `<span style="background: rgba(0, 255, 135, 0.15); border: 1px solid rgba(0, 255, 135, 0.4); color: var(--green-glow); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;"><i class="fa-solid fa-shield-halved"></i> 관리자 권한 (인게임 100% 감지)</span>`;
+                    } else {
+                        adminBadge.innerHTML = `<span style="background: rgba(255, 153, 0, 0.15); border: 1px solid rgba(255, 153, 0, 0.4); color: var(--orange-glow); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;" title="메이플스토리 인게임 창이 활성화되어 있을 때 키를 감지하려면 관리자 권한으로 실행해야 합니다."><i class="fa-solid fa-triangle-exclamation"></i> 인게임 감지용: [JARVIS_관리자_실행.bat] 권장</span>`;
+                    }
                 }
 
                 const tbody = document.getElementById('skill-tbody');
                 tbody.innerHTML = '';
 
                 data.skills.forEach(sk => {
-                    const remSec = sk.remaining_sec;
-                    const isCooling = sk.state === "ON_COOLDOWN" || sk.state === "WARNED";
+                    const remSec = Math.ceil(sk.remaining_sec || 0);
+                    const isCooling = (sk.state === "ON_COOLDOWN" || sk.state === "WARNED") && remSec > 0;
                     const statusColor = isCooling ? "var(--orange-glow)" : "var(--green-glow)";
                     const statusText = isCooling ? `${remSec}초 남음` : "READY (사용 가능)";
                     const keyBadge = sk.key_bind ? `<span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; font-weight: 700; color: var(--cyan-glow); font-family: monospace;">${sk.key_bind.toUpperCase()}</span>` : "-";
@@ -802,6 +845,44 @@
             loadSkills();
         }
 
+        async function precacheAllVoices() {
+            appendLog('SYS', '스카디 맞춤 AI 음성 모델(GPT-SoVITS)로 현재 스킬 대사 일괄 사전 생성을 시작합니다...');
+            try {
+                const res = await fetch(`${API_BASE}/api/maple/tracker/precache-all`, { method: 'POST' });
+                if (res.ok) {
+                    const data = await res.json();
+                    appendLog('SYS', `✅ ${data.message}`);
+                    alert(data.message);
+                    return;
+                }
+            } catch (e) {}
+
+            // 서버 재시작 전 인메모리 인스턴스를 위한 스마트 폴백 (각 스킬 음성 자동 생성)
+            try {
+                const skillsRes = await fetch(`${API_BASE}/api/maple/tracker/skills`);
+                if (skillsRes.ok) {
+                    const sData = await skillsRes.json();
+                    let cnt = 0;
+                    for (const sk of sData.skills) {
+                        if (sk.voice_text) {
+                            await fetch(`${API_BASE}/api/maple/tracker/test-voice?message=${encodeURIComponent(sk.voice_text)}`, { method: 'POST' });
+                            cnt++;
+                        }
+                        if (sk.name) {
+                            await fetch(`${API_BASE}/api/maple/tracker/test-voice?message=${encodeURIComponent(sk.name + ' 준비 완료!')}`, { method: 'POST' });
+                            cnt++;
+                        }
+                    }
+                    appendLog('SYS', `✅ 스카디 AI 음성 ${cnt}개 사전 다운로드 및 캐싱 완료 (0ms 즉시 발화 준비 완료)`);
+                    alert(`스카디 AI 음성 ${cnt}개 사전 다운로드 및 캐싱 완료 (0ms 발화 준비 완료)`);
+                    return;
+                }
+            } catch (err) {
+                appendLog('ERR', `음성 캐싱 실패: ${err}`);
+            }
+            appendLog('ERR', '음성 사전 캐싱 요청 실패');
+        }
+
         async function testVoice(text) {
             await fetch(`${API_BASE}/api/maple/tracker/test-voice?message=${encodeURIComponent(text)}`, { method: 'POST' });
             appendLog('SYS', `스카디 음성 테스트: "${text}"`);
@@ -835,8 +916,77 @@
             terminal.scrollTop = terminal.scrollHeight;
         }
 
+        // 🔊 스카디 음성 브리핑 볼륨 조절
+        let prevVolume = 100;
+        let volDebounceTimer = null;
+
+        async function loadVoiceVolume() {
+            try {
+                const saved = localStorage.getItem('maple_voice_vol');
+                let vol = saved !== null ? parseInt(saved) : 100;
+                const res = await fetch(`${API_BASE}/api/maple/tracker/volume`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.volume !== undefined) vol = data.volume;
+                }
+                updateVolumeUI(vol);
+            } catch (e) {
+                updateVolumeUI(100);
+            }
+        }
+
+        function updateVolumeUI(val) {
+            val = Math.max(0, Math.min(100, parseInt(val) || 0));
+            const slider = document.getElementById('voice-vol-slider');
+            const text = document.getElementById('voice-vol-text');
+            const icon = document.getElementById('voice-vol-icon');
+            if (slider) slider.value = val;
+            if (text) text.textContent = `${val}%`;
+            if (icon) {
+                if (val === 0) {
+                    icon.className = 'fa-solid fa-volume-xmark';
+                    icon.style.color = 'var(--red-glow)';
+                } else if (val < 50) {
+                    icon.className = 'fa-solid fa-volume-low';
+                    icon.style.color = 'var(--cyan-glow)';
+                } else {
+                    icon.className = 'fa-solid fa-volume-high';
+                    icon.style.color = 'var(--cyan-glow)';
+                }
+            }
+        }
+
+        async function onVoiceVolumeChange(val) {
+            const v = parseInt(val) || 0;
+            updateVolumeUI(v);
+            localStorage.setItem('maple_voice_vol', v);
+            if (v > 0) prevVolume = v;
+
+            clearTimeout(volDebounceTimer);
+            volDebounceTimer = setTimeout(async () => {
+                try {
+                    await fetch(`${API_BASE}/api/maple/tracker/volume/${v}`, { method: 'POST' });
+                } catch (e) {}
+            }, 80);
+        }
+
+        async function toggleVoiceMute() {
+            const slider = document.getElementById('voice-vol-slider');
+            const current = slider ? parseInt(slider.value) : 100;
+            if (current > 0) {
+                prevVolume = current;
+                await onVoiceVolumeChange(0);
+                appendLog('MAPLE', '스카디 음성 브리핑이 음소거되었습니다.');
+            } else {
+                const restore = prevVolume > 0 ? prevVolume : 100;
+                await onVoiceVolumeChange(restore);
+                appendLog('MAPLE', `스카디 음성 브리핑 볼륨이 ${restore}%로 복원되었습니다.`);
+            }
+        }
+
         // 6. 초기 로드 및 주기적 실행 (메트릭 2초, 스킬 1초)
         loadPresetsList();
+        loadVoiceVolume();
         setInterval(updateMetrics, 2000);
         setInterval(loadSkills, 1000);
         updateMetrics();

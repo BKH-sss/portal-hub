@@ -19,12 +19,21 @@ import io
 import contextlib
 from typing import Dict, Any, Optional
 
+import collections
+import itertools
+import random
+import statistics
+
 ALLOWED_MODULES = {
     "math": math,
     "json": json,
     "time": time,
     "re": re,
-    "datetime": datetime
+    "datetime": datetime,
+    "collections": collections,
+    "itertools": itertools,
+    "random": random,
+    "statistics": statistics
 }
 
 def _safe_import(name, globals=None, locals=None, fromlist=(), level=0):
@@ -48,7 +57,11 @@ SAFE_GLOBALS = {
     "json": json,
     "time": time,
     "re": re,
-    "datetime": datetime
+    "datetime": datetime,
+    "collections": collections,
+    "itertools": itertools,
+    "random": random,
+    "statistics": statistics
 }
 
 

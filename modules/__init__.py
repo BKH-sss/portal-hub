@@ -16,6 +16,7 @@ from modules.realtime_audio_streamer import router as audio_stream_router
 from modules.daily_journal_writer import router as journal_router
 from modules.game_auto_coach import router as game_coach_router
 from modules.maple_skill_tracker import router as maple_tracker_router
+from modules.lol_ai_coach import router as lol_coach_router
 from modules.jarvis_extension_router import extension_router
 
 all_extension_routers = [
@@ -26,7 +27,8 @@ all_extension_routers = [
     audio_stream_router,
     journal_router,
     game_coach_router,
-    maple_tracker_router
+    maple_tracker_router,
+    lol_coach_router
 ]
 
 __all__ = [
@@ -38,6 +40,7 @@ __all__ = [
     "journal_router",
     "game_coach_router",
     "maple_tracker_router",
+    "lol_coach_router",
     "extension_router",
     "all_extension_routers"
 ]

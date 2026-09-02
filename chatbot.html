@@ -969,6 +969,192 @@
         .collapsible-content.collapsed {
             display: none !important;
         }
+
+        /* 🎮 에이전트 전용 상단 헤더 스마트 툴바 */
+        .agent-header-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 18px;
+            flex-wrap: wrap;
+        }
+        .hdr-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(8px);
+            user-select: none;
+        }
+        .hdr-btn:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: var(--accent);
+            color: white;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+        .hdr-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+        .hdr-badge {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .badge-live {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+        .badge-mode {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        /* 🎴 199종 증강체 도감 및 3지선다 시뮬레이터 모달 */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .custom-modal-content {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            width: 95%;
+            max-width: 1100px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            color: var(--text-main);
+        }
+        .modal-header {
+            padding: 16px 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .modal-title {
+            font-size: 17px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-main);
+        }
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .modal-close-btn:hover {
+            color: #f87171;
+            background: rgba(239, 68, 68, 0.15);
+        }
+        .modal-body {
+            padding: 18px 22px;
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .augment-simulator-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 14px 18px;
+        }
+        .synergy-slots-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .synergy-slot-card {
+            background: var(--bg-input);
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            min-height: 85px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .synergy-slot-card.filled {
+            border-style: solid;
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .augment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .augment-card {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .augment-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .rarity-pill {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .rarity-prismatic { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.5); }
+        .rarity-gold { background: rgba(234, 179, 8, 0.25); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.5); }
+        .rarity-silver { background: rgba(148, 163, 184, 0.25); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.5); }
     </style>
     <link rel="icon" type="image/png" href="/favicon.png">
 </head>
@@ -1186,6 +1372,74 @@
                         <rect x="6" y="6" width="12" height="12" rx="2"></rect>
                     </svg>
                 </button>
+            </div>
+    <!-- 🎴 199종 칼바람 증강체 도감 및 3지선다 AI 시뮬레이터 모달 -->
+    <div id="augmentModal" class="custom-modal-overlay">
+        <div class="custom-modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span>❄️ 칼바람 나락: 아수라장 199종 증강체 도감 & AI 시뮬레이터</span>
+                    <span class="hdr-badge badge-mode" id="augModalChampBadge">챔피언: 자동</span>
+                </div>
+                <button class="modal-close-btn" onclick="closeAugmentModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <!-- 3지선다 실시간 시뮬레이터 상단 박스 -->
+                <div class="augment-simulator-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                        <div style="font-weight: 700; font-size: 14px; color: var(--accent); display: flex; align-items: center; gap: 6px;">
+                            <span>🎲 인게임 3지선다 AI 1순위 추천기</span>
+                            <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">(아래 카드를 클릭해 채우거나 무작위 버튼 클릭)</span>
+                        </div>
+                        <div style="display: flex; gap: 6px;">
+                            <button class="hdr-btn" onclick="randomizeAugmentSlots()">🎲 무작위 3개</button>
+                            <button class="hdr-btn active" onclick="runAugmentSimulation()">🧠 AI 1순위 추천받기</button>
+                            <button class="hdr-btn" onclick="resetAugmentSlots()">초기화</button>
+                        </div>
+                    </div>
+                    <div class="synergy-slots-row">
+                        <div class="synergy-slot-card" id="slotCard0" onclick="clearSlot(0)">
+                            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 2px;">선택지 1</div>
+                            <div id="slotName0" style="font-weight: 600; font-size: 13px; color: var(--text-muted);">클릭하여 선택</div>
+                        </div>
+                        <div class="synergy-slot-card" id="slotCard1" onclick="clearSlot(1)">
+                            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 2px;">선택지 2</div>
+                            <div id="slotName1" style="font-weight: 600; font-size: 13px; color: var(--text-muted);">클릭하여 선택</div>
+                        </div>
+                        <div class="synergy-slot-card" id="slotCard2" onclick="clearSlot(2)">
+                            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 2px;">선택지 3</div>
+                            <div id="slotName2" style="font-weight: 600; font-size: 13px; color: var(--text-muted);">클릭하여 선택</div>
+                        </div>
+                    </div>
+                    <!-- 추천 결과 영역 -->
+                    <div id="simResultBox" style="display: none; margin-top: 12px; padding: 12px 14px; background: rgba(225, 29, 72, 0.15); border: 1px solid var(--accent); border-radius: 8px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                            <div style="font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 15px;">👑 AI 압도적 1순위 추천:</span>
+                                <span id="simRecTitle" style="color: #facc15; font-size: 15px;">-</span>
+                                <span id="simRecRarity" class="rarity-pill">-</span>
+                            </div>
+                            <button class="hdr-btn" id="simTtsPlayBtn" style="font-size: 11px;">🔊 음성 듣기</button>
+                        </div>
+                        <div id="simRecReason" style="margin-top: 6px; font-size: 13px; color: var(--text-main); line-height: 1.4;"></div>
+                    </div>
+                </div>
+
+                <!-- 검색 및 등급 필터 -->
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="augSearchInput" placeholder="🔍 증강체 이름 또는 효과 검색 (예: 스킬 가속, 치명타, 거인...)" style="flex: 1; min-width: 240px; padding: 8px 12px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); font-size: 13px;">
+                    <div style="display: flex; gap: 6px;">
+                        <button class="hdr-btn active" id="filterAllBtn" onclick="filterAugments('all')">전체 (199)</button>
+                        <button class="hdr-btn" id="filterPrismBtn" onclick="filterAugments('프리즘')">🔮 프리즘</button>
+                        <button class="hdr-btn" id="filterGoldBtn" onclick="filterAugments('골드')">👑 골드</button>
+                        <button class="hdr-btn" id="filterSilverBtn" onclick="filterAugments('실버')">🥈 실버</button>
+                    </div>
+                </div>
+
+                <!-- 199종 증강체 카드 그리드 -->
+                <div class="augment-grid" id="augmentGrid">
+                    <div style="color: var(--text-muted); font-size: 13px; padding: 20px;">증강체 데이터를 불러오는 중...</div>
+                </div>
             </div>
         </div>
     </div>
@@ -1964,12 +2218,78 @@
             const apiBadge = document.getElementById('apiQuotaBadge');
             if (apiBadge) apiBadge.style.display = (activeAgentId === 'skadi_r6s') ? 'inline-block' : 'none';
 
+            // 에이전트별 전용 스마트 툴바 HTML 생성
+            let toolbarHtml = '';
+            if (agentId === 'briar') {
+                const currentLolMode = localStorage.getItem('lolCoachMode') || 'aram';
+                const isAlertOn = localStorage.getItem('lolAlertsOn') !== 'false';
+                toolbarHtml = `
+                    <div class="agent-header-toolbar" id="agentToolbar">
+                        <button class="hdr-btn" id="openAugmentBtn" onclick="openAugmentModal()" title="칼바람 199종 증강체 도감 및 3지선다 AI 추천기">
+                            🎴 칼바람 증강 199
+                        </button>
+                        <button class="hdr-btn" id="lolModeBtn" onclick="toggleLolMode()" title="게임 모드 전환 (칼바람 아수라장 / 소환사의 협곡)">
+                            <span id="lolModeLabel">${currentLolMode === 'aram' ? '❄️ 칼바람' : '🏛️ 협곡'}</span>
+                        </button>
+                        <button class="hdr-btn ${isAlertOn ? 'active' : ''}" id="lolAlertBtn" onclick="toggleLolAlerts()" title="3000G 골드 & 힐팩 리젠 실시간 알림 토글">
+                            <span id="lolAlertLabel">${isAlertOn ? '🍓 알림 ON' : '🍓 알림 OFF'}</span>
+                        </button>
+                        <span class="hdr-badge badge-live" id="lcuLiveBadge" title="LoL 실시간 LCU 연동 상태">🔴 LIVE</span>
+                    </div>
+                `;
+            } else if (agentId === 'angelic') {
+                toolbarHtml = `
+                    <div class="agent-header-toolbar" id="agentToolbar">
+                        <button class="hdr-btn" onclick="window.open('/admin', '_blank')" title="메이플 스킬 쿨타임 트래커 & 프리셋 편집기">
+                            🍁 스킬 쿨타임 & 프리셋
+                        </button>
+                        <button class="hdr-btn" onclick="quickMapleCheck()" title="메이플 캐릭터 스펙 빠른 조회">
+                            🔍 캐릭터 스펙
+                        </button>
+                    </div>
+                `;
+            } else if (agentId.startsWith('skadi')) {
+                toolbarHtml = `
+                    <div class="agent-header-toolbar" id="agentToolbar">
+                        <button class="hdr-btn" onclick="quickMorningBriefing()" title="오늘의 일정, 날씨, 뉴스 종합 모닝 브리핑">
+                            🌅 오늘 브리핑
+                        </button>
+                        <button class="hdr-btn" onclick="window.open('/portal', '_blank')" title="스마트 포털 열기">
+                            🌐 포털 허브
+                        </button>
+                    </div>
+                `;
+            } else if (agentId === 'coder') {
+                toolbarHtml = `
+                    <div class="agent-header-toolbar" id="agentToolbar">
+                        <button class="hdr-btn" onclick="quickCodeRun()" title="Python 코드 샌드박스 빠른 실행">
+                            💻 Python 샌드박스
+                        </button>
+                        <button class="hdr-btn" onclick="quickSystemDiag()" title="RTX 4080 Super & 시스템 상태 진단">
+                            ⚡ GPU / 시스템 진단
+                        </button>
+                    </div>
+                `;
+            } else if (agentId === 'lucy') {
+                toolbarHtml = `
+                    <div class="agent-header-toolbar" id="agentToolbar">
+                        <button class="hdr-btn" onclick="window.open('/portal', '_blank')" title="4차 산업 포털">
+                            🌐 사이버 포털
+                        </button>
+                        <button class="hdr-btn" onclick="quickWebFactCheck()" title="실시간 웹 팩트체크">
+                            🔍 넷러닝 검색
+                        </button>
+                    </div>
+                `;
+            }
+
             chatHeaderEl.innerHTML = `
                 <div class="avatar">${avatarContent}</div>
                 <div>
                     <div class="character-name" style="font-size: 18px; margin-bottom: 2px;">${agent.name}</div>
                     <div style="font-size: 13px; color: var(--accent); font-weight: 500;">${agent.status}</div>
                 </div>
+                ${toolbarHtml}
                 <div style="margin-left: auto; display: flex; align-items: center; gap: 12px;">
                     <label style="cursor:pointer; display:flex; align-items:center; font-size:12px; color:var(--text-muted);" title="목소리 켜기/끄기">
                         <input type="checkbox" id="ttsToggle" ${isTtsEnabled ? 'checked' : ''} style="margin-right: 4px;"> 🔊
@@ -3137,60 +3457,111 @@
         let lastPickedChampion = "";
 
         // 숨겨진 시스템 메시지를 보내는 함수 (유저 채팅창엔 안 보임)
-        async function triggerHiddenSystemPrompt(promptText) {
-            const agent = agents[activeAgentId];
-            showTyping();
+        function showBriarToastNotification(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'briar-toast';
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: rgba(220, 38, 38, 0.95);
+                color: #fff;
+                padding: 12px 18px;
+                border-radius: 8px;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+                font-size: 13px;
+                font-weight: 600;
+                z-index: 99999;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            `;
+            toast.innerHTML = `🩸 ${msg} <span style="font-size:11px; opacity:0.8; margin-left:6px;">(클릭 시 브라이어 방으로 이동)</span>`;
+            toast.onclick = () => {
+                if (typeof switchAgent === 'function') switchAgent('briar');
+                toast.remove();
+            };
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                if (toast.parentElement) toast.remove();
+            }, 6000);
+        }
+
+        // 롤 관련 시스템 이벤트 및 선톡을 항상 브라이어(briar) 전용 채팅방으로 전송
+        async function triggerHiddenSystemPrompt(promptText, targetAgentId = "briar") {
+            const targetAgent = (typeof agents !== 'undefined' && agents[targetAgentId]) ? agents[targetAgentId] : (agents['briar'] || agents[activeAgentId]);
+            const agentId = targetAgentId || "briar";
+
+            // 브라이어 대화 세션 확보
+            if (!chatSessions[agentId]) {
+                chatSessions[agentId] = [{
+                    id: Date.now(),
+                    title: '새로운 대화',
+                    messages: [{ role: "system", content: targetAgent.prompt }]
+                }];
+            }
+            const sessionIdx = 0;
+            const isCurrentlyActive = (activeAgentId === agentId);
+
+            if (isCurrentlyActive) {
+                showTyping();
+            }
+
             try {
-                // 백엔드 /chat 으로 바로 전송
                 const response = await fetch(`${SERVER_URL}/chat`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         model: "gemini-2.5-flash",
-                        agent: activeAgentId,
-                        game_mode: document.getElementById("gameModeToggle") && document.getElementById("gameModeToggle").checked,
-                        messages: chatSessions[activeAgentId][activeSessionIndex].messages.concat([
+                        agent: agentId,
+                        game_mode: true,
+                        messages: chatSessions[agentId][sessionIdx].messages.concat([
                             { role: "user", content: promptText }
                         ])
                     })
                 });
-                
-                hideTyping();
-                
-                // 스트리밍을 위한 빈 버블 생성
-                const wrapper = document.createElement('div');
-                wrapper.className = `message-wrapper bot`;
-                const avatarContent = agent.img ? `<img src="${agent.img}" alt="${agent.name}">` : agent.name.charAt(0);
-                wrapper.innerHTML = `
-                    <div class="avatar">${avatarContent}</div>
-                    <div class="message-content">
-                        <div class="message-sender">${agent.name}</div>
-                        <div class="message-bubble markdown-body"></div>
-                    </div>
-                `;
-                document.getElementById('chatMessages').insertBefore(wrapper, document.getElementById('typingIndicator'));
-                const botBubble = wrapper.querySelector('.message-bubble');
-                scrollToBottom();
+
+                if (isCurrentlyActive) {
+                    hideTyping();
+                }
+
+                let botBubble = null;
+                if (isCurrentlyActive) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = `message-wrapper bot`;
+                    const avatarContent = targetAgent.img ? `<img src="${targetAgent.img}" alt="${targetAgent.name}">` : targetAgent.name.charAt(0);
+                    wrapper.innerHTML = `
+                        <div class="avatar">${avatarContent}</div>
+                        <div class="message-content">
+                            <div class="message-sender">${targetAgent.name}</div>
+                            <div class="message-bubble markdown-body"></div>
+                        </div>
+                    `;
+                    document.getElementById('chatMessages').insertBefore(wrapper, document.getElementById('typingIndicator'));
+                    botBubble = wrapper.querySelector('.message-bubble');
+                    scrollToBottom();
+                }
 
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder("utf-8");
                 let botResponse = "";
                 let unparsedSentenceBuffer = "";
                 let textBuffer = "";
-                
+
                 const ttsToggle = document.getElementById('ttsToggle');
                 const useTTS = ttsToggle && ttsToggle.checked;
-                if (useTTS) stopCurrentAudio();
+                if (useTTS && isCurrentlyActive) stopCurrentAudio();
 
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
-                    
+
                     textBuffer += decoder.decode(value, { stream: true });
-                    // RAW 스트림 데이터를 바로 렌더링하면 JSON 텍스트가 화면에 노출되므로 삭제
                     const parts = textBuffer.split('\n\n');
                     textBuffer = parts.pop();
-                    
+
                     for (let part of parts) {
                         const lines = part.split('\n');
                         for (let line of lines) {
@@ -3198,64 +3569,65 @@
                                 const dataStr = line.replace('data: ', '').trim();
                                 if (dataStr === '[DONE]') break;
                                 if (dataStr) {
-                                try {
-                                    const parsed = JSON.parse(dataStr);
-                                    if (parsed.content) {
-                                        // 첫 데이터가 도착하면 타이핑 인디케이터 숨기고 버블 표시
-                                        if (wrapper.style.display === 'none') {
-                                            hideTyping();
-                                            wrapper.style.display = 'flex';
-                                        }
-                                        botResponse += parsed.content;
-                                        renderRichContent(botBubble, botResponse);
-                                        scrollToBottom();
-                                        
-                                        if (useTTS) {
-                                            let cleanText = parsed.content.replace(/<[^>]*>?/gm, ' ');
-                                            cleanText = cleanText.replace(/[#*_~]/g, '');
-                                            cleanText = cleanText.replace(/\b(http|https):\/\/\S+/g, '링크');
-                                            unparsedSentenceBuffer += cleanText;
-                                            
-                                            const parts = unparsedSentenceBuffer.split(/([.!?\n]+)/);
-                                            if (parts.length > 1) {
-                                                let currentSentence = "";
-                                                let remainingBuffer = "";
-                                                for (let i = 0; i < parts.length; i++) {
-                                                    currentSentence += parts[i];
-                                                    if (i % 2 === 1 || i === parts.length - 1 && parts[i].match(/[.!?\n]+/)) {
-                                                        if (currentSentence.trim().length > 0) {
-                                                            ttsFetchQueue.push({ text: currentSentence.trim(), agent: agent });
+                                    try {
+                                        const parsed = JSON.parse(dataStr);
+                                        if (parsed.content) {
+                                            botResponse += parsed.content;
+                                            if (isCurrentlyActive && botBubble) {
+                                                renderRichContent(botBubble, botResponse);
+                                                scrollToBottom();
+                                            }
+
+                                            if (useTTS) {
+                                                let cleanText = parsed.content.replace(/<[^>]*>?/gm, ' ');
+                                                cleanText = cleanText.replace(/[#*_~]/g, '');
+                                                cleanText = cleanText.replace(/\b(http|https):\/\/\S+/g, '링크');
+                                                unparsedSentenceBuffer += cleanText;
+
+                                                const sParts = unparsedSentenceBuffer.split(/([.!?\n]+)/);
+                                                if (sParts.length > 1) {
+                                                    let currentSentence = "";
+                                                    let remainingBuffer = "";
+                                                    for (let i = 0; i < sParts.length; i++) {
+                                                        currentSentence += sParts[i];
+                                                        if (i % 2 === 1 || i === sParts.length - 1 && sParts[i].match(/[.!?\n]+/)) {
+                                                            if (currentSentence.trim().length > 0) {
+                                                                ttsFetchQueue.push({ text: currentSentence.trim(), agent: targetAgent });
+                                                            }
+                                                            currentSentence = "";
+                                                        } else if (i === sParts.length - 1) {
+                                                            remainingBuffer = sParts[i];
                                                         }
-                                                        currentSentence = "";
-                                                    } else if (i === parts.length - 1) {
-                                                        remainingBuffer = parts[i];
                                                     }
+                                                    unparsedSentenceBuffer = remainingBuffer;
+                                                    processTTSFetchQueue();
                                                 }
-                                                unparsedSentenceBuffer = remainingBuffer;
-                                                processTTSFetchQueue();
                                             }
                                         }
-                                    }
-                                } catch(e) {}
+                                    } catch(e) {}
+                                }
                             }
                         }
                     }
                 }
-                }
-                
+
                 if (useTTS && unparsedSentenceBuffer.trim().length > 0) {
-                    ttsFetchQueue.push({ text: unparsedSentenceBuffer.trim(), agent: agent });
+                    ttsFetchQueue.push({ text: unparsedSentenceBuffer.trim(), agent: targetAgent });
                     processTTSFetchQueue();
                 }
 
                 const botMsgObj = { role: "assistant", content: botResponse };
-                chatSessions[activeAgentId][activeSessionIndex].messages.push({ role: "user", content: promptText });
-                chatSessions[activeAgentId][activeSessionIndex].messages.push(botMsgObj);
+                chatSessions[agentId][sessionIdx].messages.push({ role: "user", content: promptText });
+                chatSessions[agentId][sessionIdx].messages.push(botMsgObj);
                 localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
 
+                if (!isCurrentlyActive) {
+                    showBriarToastNotification(`브라이어: 롤 인게임 전략 브리핑이 브라이어 채팅방에 도착했어!`);
+                }
+
             } catch (err) {
-                hideTyping();
-                console.error("선톡 트리거 실패:", err);
+                if (isCurrentlyActive) hideTyping();
+                console.error("롤 브라이어 선톡 트리거 실패:", err);
             }
         }
 
@@ -3267,28 +3639,28 @@
                     if (data.status === "online") {
                         riotStatusEl.innerHTML = `<span style="color:#22c55e">접속 중: ${data.summoner_name} (Lv.${data.level} / ${data.tier})</span><br>상태: ${data.phase}`;
                         
-                        // [선톡 로직] Phase(게임 상태) 변경 감지
+                        // [선톡 로직] Phase(게임 상태) 변경 감지 ➔ 브라이어(briar) 방으로 전송
                         const currentPhase = data.phase;
                         if (lastGamePhase !== currentPhase) {
                             if (currentPhase === "ChampSelect") {
-                                triggerHiddenSystemPrompt("[시스템 이벤트] 유저가 방금 픽창에 진입했습니다! 반갑게 인사하며 어떤 챔피언을 할지 물어보세요.");
+                                triggerHiddenSystemPrompt("[시스템 이벤트] 유저가 방금 픽창에 진입했습니다! 반갑게 인사하며 어떤 챔피언을 할지 물어보세요.", "briar");
                                 lastPickedChampion = ""; // 픽창 진입 시 챔피언 초기화
                             } else if (currentPhase === "InProgress" && (lastGamePhase === "ChampSelect" || lastGamePhase === "ReadyCheck")) {
                                 if (data.enemy_laner && data.picked_champion) {
-                                    triggerHiddenSystemPrompt(`[시스템 이벤트] 방금 로딩창에 진입했습니다! 유저는 [${data.picked_champion}]을(를) 플레이하며, 적 라인 상대는 [${data.enemy_laner}]입니다 (포지션: ${data.my_position}). 구글 검색을 통해 '${data.picked_champion} vs ${data.enemy_laner} 라인전 시작 아이템'을 검색하여, 1렙에 사야 할 최적의 시작 아이템과 초반 라인전 핵심 팁 1~2가지를 브리핑해주세요. (🚨주의🚨: 아이템은 반드시 도란의 검, 도란의 방패 등 롤 공식 명칭만 사용하세요!)`);
+                                    triggerHiddenSystemPrompt(`[시스템 이벤트] 방금 로딩창에 진입했습니다! 유저는 [${data.picked_champion}]을(를) 플레이하며, 적 라인 상대는 [${data.enemy_laner}]입니다 (포지션: ${data.my_position}). 구글 검색을 통해 '${data.picked_champion} vs ${data.enemy_laner} 라인전 시작 아이템'을 검색하여, 1렙에 사야 할 최적의 시작 아이템과 초반 라인전 핵심 팁 1~2가지를 브리핑해주세요. (🚨주의🚨: 아이템은 반드시 도란의 검, 도란의 방패 등 롤 공식 명칭만 사용하세요!)`, "briar");
                                 } else {
-                                    triggerHiddenSystemPrompt("[시스템 이벤트] 방금 게임(협곡/아레나 등)이 시작되었습니다! 유저에게 화이팅을 외치고 초반 주의점을 짧게 알려주세요.");
+                                    triggerHiddenSystemPrompt("[시스템 이벤트] 방금 게임(협곡/아레나 등)이 시작되었습니다! 유저에게 화이팅을 외치고 초반 주의점을 짧게 알려주세요.", "briar");
                                 }
                             }
                             lastGamePhase = currentPhase;
                         }
 
-                        // [선톡 로직] 픽창에서 챔피언 픽 감지
+                        // [선톡 로직] 픽창에서 챔피언 픽 감지 ➔ 브라이어(briar) 방으로 전송
                         if (currentPhase === "ChampSelect" && data.picked_champion) {
                             const currentChamp = data.picked_champion;
                             if (currentChamp !== "Unknown" && currentChamp !== lastPickedChampion) {
                                 lastPickedChampion = currentChamp;
-                                triggerHiddenSystemPrompt(`[시스템 이벤트] 유저가 픽창에서 [${currentChamp}] 챔피언을 선택(픽)했습니다! 구글 웹 검색을 통해 '리그오브레전드 ${currentChamp} 카운터 템트리'를 검색하여 최신 카운터 3명, 추천 핵심 아이템, 스킬 마스터 순서를 브리핑해주세요. (🚨매우 중요🚨: 1. 아이템 이름은 반드시 롤 공식 명칭(예: 무한의 대검, 존야의 모래시계, 몰락한 왕의 검 등)만 말하세요. 절대 이상한 아이템을 지어내거나 직역하지 마세요! 2. 스킬 순서는 대화 맨 마지막에 '스킬 순서는 Q -> W -> E 순이야!' 형식으로 말하세요.)`);
+                                triggerHiddenSystemPrompt(`[시스템 이벤트] 유저가 픽창에서 [${currentChamp}] 챔피언을 선택(픽)했습니다! 구글 웹 검색을 통해 '리그오브레전드 ${currentChamp} 카운터 템트리'를 검색하여 최신 카운터 3명, 추천 핵심 아이템, 스킬 마스터 순서를 브리핑해주세요. (🚨매우 중요🚨: 1. 아이템 이름은 반드시 롤 공식 명칭(예: 무한의 대검, 존야의 모래시계, 몰락한 왕의 검 등)만 말하세요. 절대 이상한 아이템을 지어내거나 직역하지 마세요! 2. 스킬 순서는 대화 맨 마지막에 '스킬 순서는 Q -> W -> E 순이야!' 형식으로 말하세요.)`, "briar");
                             }
                         }
 
@@ -3766,6 +4138,267 @@
             });
         })();
 
+        // =========================================================================
+        // 🎴 칼바람 199종 증강체 도감 & 3지선다 AI 추천기 JavaScript 로직
+        // =========================================================================
+        let allAugmentsData = [];
+        let selectedAugmentSlots = [null, null, null];
+        let currentAugmentFilter = 'all';
+
+        async function loadAugmentsData() {
+            if (allAugmentsData.length > 0) return;
+            try {
+                const res = await fetch(`${SERVER_URL}/api/lol/coach/augments/search?limit=200`);
+                if (res.ok) {
+                    const data = await res.json();
+                    allAugmentsData = data.results || [];
+                    renderAugmentGrid(allAugmentsData);
+                }
+            } catch (err) {
+                console.error("증강체 데이터 로드 오류:", err);
+                const grid = document.getElementById('augmentGrid');
+                if (grid) grid.innerHTML = `<div style="color:#ef4444; padding:20px;">증강체 데이터를 불러오지 못했습니다 (${err.message})</div>`;
+            }
+        }
+
+        function openAugmentModal() {
+            const modal = document.getElementById('augmentModal');
+            if (!modal) return;
+            modal.style.display = 'flex';
+            loadAugmentsData();
+            
+            const searchInput = document.getElementById('augSearchInput');
+            if (searchInput) {
+                searchInput.value = '';
+                searchInput.oninput = (e) => {
+                    const q = e.target.value.toLowerCase().trim();
+                    filterAndSearchAugments(q, currentAugmentFilter);
+                };
+            }
+        }
+
+        function closeAugmentModal() {
+            const modal = document.getElementById('augmentModal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function filterAugments(rarity) {
+            currentAugmentFilter = rarity;
+            ['filterAllBtn', 'filterPrismBtn', 'filterGoldBtn', 'filterSilverBtn'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.classList.remove('active');
+            });
+
+            if (rarity === 'all') document.getElementById('filterAllBtn')?.classList.add('active');
+            else if (rarity === '프리즘') document.getElementById('filterPrismBtn')?.classList.add('active');
+            else if (rarity === '골드') document.getElementById('filterGoldBtn')?.classList.add('active');
+            else if (rarity === '실버') document.getElementById('filterSilverBtn')?.classList.add('active');
+
+            const searchInput = document.getElementById('augSearchInput');
+            const q = searchInput ? searchInput.value.toLowerCase().trim() : '';
+            filterAndSearchAugments(q, rarity);
+        }
+
+        function filterAndSearchAugments(query, rarity) {
+            let filtered = allAugmentsData;
+            if (rarity !== 'all') {
+                filtered = filtered.filter(a => (a.rarity || '').includes(rarity));
+            }
+            if (query) {
+                filtered = filtered.filter(a => 
+                    (a.name_ko || '').toLowerCase().includes(query) ||
+                    (a.name_en || '').toLowerCase().includes(query) ||
+                    (a.description || '').toLowerCase().includes(query)
+                );
+            }
+            renderAugmentGrid(filtered);
+        }
+
+        function renderAugmentGrid(items) {
+            const grid = document.getElementById('augmentGrid');
+            if (!grid) return;
+            if (items.length === 0) {
+                grid.innerHTML = `<div style="color:var(--text-muted); padding:30px; grid-column: 1 / -1; text-align:center;">일치하는 증강체가 없습니다.</div>`;
+                return;
+            }
+
+            grid.innerHTML = items.map((aug, idx) => {
+                const rarityClass = (aug.rarity || '').includes('프리즘') ? 'rarity-prismatic' : ((aug.rarity || '').includes('골드') ? 'rarity-gold' : 'rarity-silver');
+                return `
+                    <div class="augment-card" onclick='selectAugmentForSlot(${JSON.stringify(aug).replace(/'/g, "&#39;")})'>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-weight: 700; font-size: 14px; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
+                                <span style="color: var(--text-muted); font-size: 12px;">#${aug.rank || idx + 1}</span>
+                                <span>${aug.name_ko}</span>
+                            </div>
+                            <span class="rarity-pill ${rarityClass}">${aug.rarity || '골드'}</span>
+                        </div>
+                        <div style="font-size: 11px; color: var(--text-muted);">${aug.name_en || ''}</div>
+                        <div style="font-size: 12px; color: var(--text-main); opacity: 0.9; margin-top: 4px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                            ${(aug.description || '').replace(/\[br\/\]/g, ' ')}
+                        </div>
+                        <div style="margin-top: auto; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted);">
+                            <span>승률: <b style="color: #34d399;">${aug.win_rate || '-'}</b></span>
+                            <span>픽률: <b>${aug.pick_rate || '-'}</b></span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectAugmentForSlot(aug) {
+            const emptyIdx = selectedAugmentSlots.findIndex(s => s === null);
+            if (emptyIdx !== -1) {
+                selectedAugmentSlots[emptyIdx] = aug;
+            } else {
+                selectedAugmentSlots[0] = aug;
+            }
+            updateSlotUI();
+        }
+
+        function clearSlot(idx) {
+            selectedAugmentSlots[idx] = null;
+            updateSlotUI();
+            const resBox = document.getElementById('simResultBox');
+            if (resBox) resBox.style.display = 'none';
+        }
+
+        function resetAugmentSlots() {
+            selectedAugmentSlots = [null, null, null];
+            updateSlotUI();
+            const resBox = document.getElementById('simResultBox');
+            if (resBox) resBox.style.display = 'none';
+        }
+
+        function randomizeAugmentSlots() {
+            if (allAugmentsData.length < 3) return;
+            const shuffled = [...allAugmentsData].sort(() => 0.5 - Math.random());
+            selectedAugmentSlots = [shuffled[0], shuffled[1], shuffled[2]];
+            updateSlotUI();
+            runAugmentSimulation();
+        }
+
+        function updateSlotUI() {
+            for (let i = 0; i < 3; i++) {
+                const card = document.getElementById(`slotCard${i}`);
+                const nameEl = document.getElementById(`slotName${i}`);
+                const item = selectedAugmentSlots[i];
+                if (card && nameEl) {
+                    if (item) {
+                        card.classList.add('filled');
+                        const rarityClass = (item.rarity || '').includes('프리즘') ? 'rarity-prismatic' : ((item.rarity || '').includes('골드') ? 'rarity-gold' : 'rarity-silver');
+                        nameEl.innerHTML = `
+                            <div style="display:flex; align-items:center; justify-content:center; gap:6px;">
+                                <span class="rarity-pill ${rarityClass}">${item.rarity}</span>
+                                <span>${item.name_ko}</span>
+                            </div>
+                        `;
+                    } else {
+                        card.classList.remove('filled');
+                        nameEl.innerHTML = `클릭하여 선택`;
+                        nameEl.style.color = 'var(--text-muted)';
+                    }
+                }
+            }
+        }
+
+        let lastSimVoiceText = "";
+        async function runAugmentSimulation() {
+            const filled = selectedAugmentSlots.filter(s => s !== null);
+            if (filled.length < 2) {
+                alert("비교할 증강체를 최소 2개 이상 선택해 주세요 (카드 클릭 또는 무작위 3개 버튼).");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${SERVER_URL}/api/lol/coach/augments/recommend`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        choices: filled.map(f => f.name_ko),
+                        champion_name: '브라이어',
+                        role: 'auto'
+                    })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    const rec = data.recommended;
+                    const resBox = document.getElementById('simResultBox');
+                    const titleEl = document.getElementById('simRecTitle');
+                    const rarityEl = document.getElementById('simRecRarity');
+                    const reasonEl = document.getElementById('simRecReason');
+                    const ttsBtn = document.getElementById('simTtsPlayBtn');
+
+                    if (resBox && rec) {
+                        resBox.style.display = 'block';
+                        titleEl.innerText = rec.name_ko;
+                        rarityEl.innerText = rec.rarity;
+                        rarityEl.className = 'rarity-pill ' + ((rec.rarity || '').includes('프리즘') ? 'rarity-prismatic' : ((rec.rarity || '').includes('골드') ? 'rarity-gold' : 'rarity-silver'));
+                        reasonEl.innerText = data.voice_text || `${rec.name_ko} - 승률 ${rec.win_rate}, 픽률 ${rec.pick_rate}`;
+                        lastSimVoiceText = data.voice_text;
+
+                        if (ttsBtn) {
+                            ttsBtn.onclick = () => {
+                                speakText(lastSimVoiceText, agents['briar'] || agents['skadi']);
+                            };
+                        }
+
+                        const isTts = localStorage.getItem('ttsEnabled_' + activeAgentId) !== 'false';
+                        if (isTts && data.voice_text) {
+                            speakText(data.voice_text, agents['briar'] || agents['skadi']);
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error("시뮬레이션 추천 호출 에러:", err);
+            }
+        }
+
+        function toggleLolMode() {
+            const current = localStorage.getItem('lolCoachMode') || 'aram';
+            const next = current === 'aram' ? 'rift' : 'aram';
+            localStorage.setItem('lolCoachMode', next);
+            const label = document.getElementById('lolModeLabel');
+            if (label) label.innerText = next === 'aram' ? '❄️ 칼바람' : '🏛️ 협곡';
+            addSystemMessage(`게임 코칭 모드가 [${next === 'aram' ? '❄️ 칼바람 나락: 아수라장' : '🏛️ 소환사의 협곡 챌린저'}] 모드로 전환되었습니다.`);
+        }
+
+        function toggleLolAlerts() {
+            const isAlertOn = localStorage.getItem('lolAlertsOn') !== 'false';
+            const next = !isAlertOn;
+            localStorage.setItem('lolAlertsOn', next);
+            const btn = document.getElementById('lolAlertBtn');
+            const label = document.getElementById('lolAlertLabel');
+            if (btn) btn.classList.toggle('active', next);
+            if (label) label.innerText = next ? '🍓 알림 ON' : '🍓 알림 OFF';
+            addSystemMessage(`인게임 골드 3000G & 힐팩 리젠 실시간 보이스 오더가 [${next ? '켜짐' : '꺼짐'}] 상태로 변경되었습니다.`);
+        }
+
+        function quickMorningBriefing() {
+            messageInput.value = "오늘 일정, 날씨, 주요 뉴스 모닝 브리핑해줘";
+            sendMessage();
+        }
+
+        function quickMapleCheck() {
+            messageInput.value = "/maple ";
+            messageInput.focus();
+        }
+
+        function quickCodeRun() {
+            messageInput.value = "/code 파이썬으로 시스템 상태를 점검하는 최적화 스크립트를 작성해줘";
+            sendMessage();
+        }
+
+        function quickSystemDiag() {
+            messageInput.value = "현재 PC 하드웨어(CPU/GPU RTX 4080S)와 백엔드 상태를 진단해줘";
+            sendMessage();
+        }
+
+        function quickWebFactCheck() {
+            messageInput.value = "/search 최신 롤 패치노트와 칼바람 아수라장 변경점";
+            sendMessage();
+        }
     </script>
 </body>
 

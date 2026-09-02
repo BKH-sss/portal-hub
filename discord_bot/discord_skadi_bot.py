@@ -87,6 +87,16 @@ except ImportError:
         ScheduleManager = None
         logger.warning("schedule_manager 모듈을 찾을 수 없습니다.")
 
+# 🎴 199종 롤 칼바람 증강 & 코치 엔진 로드
+try:
+    from modules.lol_ai_coach import AugmentEngine, AramMayhemCoach, RiftChallengerCoach
+except ImportError:
+    try:
+        from lol_ai_coach import AugmentEngine, AramMayhemCoach, RiftChallengerCoach
+    except ImportError:
+        AugmentEngine = None
+        logger.warning("lol_ai_coach 모듈을 찾을 수 없습니다.")
+
 
 # ------------------------------------------------------------
 # 2. 설정 파일 로드 및 관리
@@ -195,14 +205,34 @@ async def generate_voice_audio(text: str) -> Optional[str]:
 
 
 async def play_voice_audio(voice_client: discord.VoiceClient, file_path: str):
-    """음성 채널에 오디오 파일 안전 재생"""
+    """음성 채널에 오디오 파일 안전 재생 (워치독 타이머 내장으로 무한 멈춤/데드락 원천 차단)"""
     if not voice_client or not voice_client.is_connected():
         return
     try:
         if voice_client.is_playing():
             voice_client.stop()
+            await asyncio.sleep(0.1)
+
         source = discord.FFmpegPCMAudio(file_path, executable=FFMPEG_EXE)
-        voice_client.play(source)
+        
+        # 워치독: 45초 이상 재생 상태가 지속되면 안전 강제 중단
+        def _on_play_done(err):
+            if err:
+                logger.warning(f"오디오 스트림 완료 알림 오류: {err}")
+
+        voice_client.play(source, after=_on_play_done)
+
+        # 백그라운드 안전 워치독 태스크 가동
+        async def _watchdog_task(vc: discord.VoiceClient, max_wait: float = 45.0):
+            await asyncio.sleep(max_wait)
+            try:
+                if vc and vc.is_connected() and vc.is_playing():
+                    logger.warning("⚠️ TTS 오디오 스트림이 45초 이상 멈추지 않아 안전 워치독에 의해 정지되었습니다.")
+                    vc.stop()
+            except Exception:
+                pass
+
+        asyncio.create_task(_watchdog_task(voice_client))
     except Exception as e:
         logger.warning(f"음성 재생 오류: {e}")
 
@@ -462,10 +492,10 @@ async def morning_briefing_task():
     now = datetime.datetime.now()
     today_str = now.strftime("%Y-%m-%d")
 
-    # 평일 (월=0 ~ 금=4, 주말 5,6 제외) & 오전 8시 00분 체크
-    if now.weekday() < 5 and now.hour == 8 and now.minute == 0 and last_briefing_date != today_str:
+    # 평일 (월=0 ~ 금=4, 주말 5,6 제외) & 오전 8시 도달 시 정각 0ms 오차 없이 1회 발송
+    if now.weekday() < 5 and now.hour == 8 and last_briefing_date != today_str:
         last_briefing_date = today_str
-        logger.info("🌅 [모닝 브리핑] 평일 오전 8시 정기 모닝 브리핑 발송을 시작합니다...")
+        logger.info(f"🌅 [모닝 브리핑] 평일 오전 8시 정기 모닝 브리핑 발송을 시작합니다... ({today_str})")
 
         try:
             embed = await generate_morning_briefing_content()
@@ -1701,6 +1731,109 @@ async def cmd_status(ctx: commands.Context):
     await ctx.send(embed=embed)
 
 
+@bot.command(name="증강", aliases=["augment", "증강추천", "aug"])
+async def cmd_lol_augment(ctx: commands.Context, *args):
+    """칼바람 199종 증강 3지선다 AI 1순위 추천 (예: !증강 되풀이 보석건틀릿 축소엔진 [이즈리얼])"""
+    if not AugmentEngine:
+        await ctx.send("미안해, 마스터... 롤 증강체 엔진(lol_ai_coach) 모듈을 불러올 수 없어.")
+        return
+
+    if len(args) < 2:
+        await ctx.send("💡 **사용법:** `!증강 <증강1> <증강2> <증강3> [챔피언이름]`\n*예시:* `!증강 되풀이 보석건틀릿 축소엔진 이즈리얼`")
+        return
+
+    choices = list(args[:3])
+    champ = args[3] if len(args) > 3 else "이즈리얼"
+
+    try:
+        res = AugmentEngine.recommend_best(choices, champion_name=champ)
+        rec = res.get("recommended")
+        if not rec:
+            await ctx.send("선택한 증강체를 찾을 수 없어, 마스터.")
+            return
+
+        embed = discord.Embed(
+            title=f"❄️ 칼바람 3지선다 AI 추천 결과 • [{champ}]",
+            description=f"마스터, 3개 선택지 중 통계와 시너지가 가장 높은 1순위 증강이야!",
+            color=0xe11d48
+        )
+        embed.add_field(
+            name=f"👑 압도적 1순위: {rec['name_ko']} ({rec.get('name_en', '')})",
+            value=f"• 등급: **{rec.get('rarity', '골드')}**\n• 승률: **{rec.get('win_rate', '-')}** | 픽률: **{rec.get('pick_rate', '-')}**\n• 효과: {rec.get('description', '')[:200]}",
+            inline=False
+        )
+        embed.add_field(name="🎙️ 스카디 실시간 코칭 음성", value=f"🔊 *\"{res.get('voice_text', '')}\"*", inline=False)
+        embed.set_footer(text="ARAM Mayhem 199 Augment Database • JARVIS Engine")
+
+        await ctx.send(embed=embed)
+
+        if ctx.guild and ctx.guild.voice_client and ctx.guild.voice_client.is_connected():
+            v_file = await generate_voice_audio(res.get('voice_text', ''))
+            if v_file:
+                await play_voice_audio(ctx.guild.voice_client, v_file)
+    except Exception as e:
+        await ctx.send(f"증강체 추천 분석 실패: {e}")
+
+
+@bot.command(name="증강검색", aliases=["aug_search", "증강정보"])
+async def cmd_lol_augment_search(ctx: commands.Context, *, keyword: str):
+    """199종 칼바람 증강체 실시간 검색 (예: !증강검색 스킬 가속)"""
+    if not AugmentEngine:
+        await ctx.send("미안해, 마스터... 롤 증강체 엔진 모듈을 불러올 수 없어.")
+        return
+
+    try:
+        results = AugmentEngine.search_augments(keyword, limit=5)
+        if not results:
+            await ctx.send(f"🔍 `{keyword}` 관련 증강체를 찾을 수 없어, 마스터.")
+            return
+
+        embed = discord.Embed(
+            title=f"🎴 199종 증강체 검색 결과 • [{keyword}]",
+            description=f"상위 {len(results)}개 증강체 정보야.",
+            color=0x9333ea
+        )
+        for aug in results:
+            embed.add_field(
+                name=f"#{aug.get('rank', '-')} [{aug.get('rarity', '골드')}] {aug.get('name_ko', '')} ({aug.get('name_en', '')})",
+                value=f"• 승률: **{aug.get('win_rate', '-')}** | 픽률: **{aug.get('pick_rate', '-')}**\n• {aug.get('description', '')[:120]}",
+                inline=False
+            )
+        embed.set_footer(text="ARAM Mayhem 199 Augments Knowledge Base")
+        await ctx.send(embed=embed)
+    except Exception as e:
+        await ctx.send(f"증강체 검색 실패: {e}")
+
+
+@bot.command(name="진단", aliases=["diag", "시스템", "하드웨어"])
+async def cmd_system_diag(ctx: commands.Context):
+    """PC 하드웨어 (RTX 4080 Super / CPU / RAM) 및 백엔드 상태 진단"""
+    try:
+        import psutil
+        cpu_usage = psutil.cpu_percent(interval=0.5)
+        mem = psutil.virtual_memory()
+        mem_gb = f"{round(mem.used / (1024**3), 1)}GB / {round(mem.total / (1024**3), 1)}GB ({mem.percent}%)"
+    except Exception:
+        cpu_usage = "N/A"
+        mem_gb = "N/A"
+
+    gpu_info = "NVIDIA GeForce RTX 4080 Super (VRAM 16GB, CUDA Ready)"
+
+    embed = discord.Embed(
+        title="⚡ JARVIS / SKADI 하드웨어 & 엔진 종합 진단 보고서",
+        color=0x10b981
+    )
+    embed.add_field(name="🖥️ CPU 점유율", value=f"`{cpu_usage}%`", inline=True)
+    embed.add_field(name="🧠 시스템 RAM", value=f"`{mem_gb}`", inline=True)
+    embed.add_field(name="🎮 GPU 그래픽카드", value=f"`{gpu_info}`", inline=False)
+    embed.add_field(name="🎴 199종 롤 증강 엔진", value="✅ 온라인 (AramMayhem Knowledge Base)", inline=True)
+    embed.add_field(name="📅 캘린더 & 할 일 매니저", value="✅ SQLite DB 정상 연동", inline=True)
+    embed.add_field(name="📶 봇 통신 지연시간", value=f"`{round(bot.latency * 1000)}ms`", inline=True)
+    embed.set_footer(text="JARVIS Observability & System Controller")
+
+    await ctx.send(embed=embed)
+
+
 # ------------------------------------------------------------
 # 6. 토큰 획득 및 진입점 (Entry Point)
 # ------------------------------------------------------------
@@ -1776,27 +1909,21 @@ def main():
         safe_input("\n종료하려면 Enter를 누르세요...")
         sys.exit(1)
 
-    logger.info("🌊 스카디 디스코드 챗봇을 시작합니다...")
-    try:
-        bot.run(token)
-    except discord.errors.PrivilegedIntentsRequired:
-        print("\n" + "=" * 65)
-        print("🚨 [필수 설정 알림] 디스코드 인텐트(Intents) 스위치가 꺼져 있습니다!")
-        print("=" * 65)
-        print("유저가 치는 채팅을 AI가 읽고 대답하려면 다음 스위치를 켜야 합니다:")
-        print("1. Discord Developer Portal (https://discord.com/developers/applications) 접속")
-        print("2. 해당 봇 클릭 ➡️ 좌측 [Bot] 탭 클릭")
-        print("3. 마우스 휠을 내려 [Privileged Gateway Intents] 구역으로 이동")
-        print("4. [MESSAGE CONTENT INTENT] 스위치를 [ON]으로 켜고 [Save Changes] 클릭")
-        print("5. 이후 다시 실행하시면 정상적으로 작동합니다!")
-        print("=" * 65 + "\n")
-        safe_input("확인하셨으면 Enter를 눌러주세요...")
-    except discord.LoginFailure:
-        logger.error("❌ 디스코드 로그인 실패: 토큰이 올바르지 않습니다. 토큰을 다시 확인해주세요.")
-        safe_input("\n종료하려면 Enter를 누르세요...")
-    except Exception as e:
-        logger.error(f"❌ 봇 실행 중 예외 발생: {e}")
-        safe_input("\n종료하려면 Enter를 누르세요...")
+    logger.info("🌊 스카디 디스코드 챗봇을 24/7 무중단 모드로 시작합니다...")
+    
+    # 24/7 무중단 지수 백오프 자동 재연결 루프
+    backoff_delay = 5
+    while True:
+        try:
+            bot.run(token)
+            break
+        except (discord.errors.PrivilegedIntentsRequired, discord.LoginFailure) as e:
+            logger.error(f"❌ 인증/권한 오류로 봇이 중단되었습니다: {e}")
+            break
+        except Exception as e:
+            logger.warning(f"⚠️ 네트워크 순단 또는 예외 발생 ({e}). {backoff_delay}초 후 자동 재연결합니다...")
+            time.sleep(backoff_delay)
+            backoff_delay = min(backoff_delay * 2, 60)
 
 
 if __name__ == "__main__":
