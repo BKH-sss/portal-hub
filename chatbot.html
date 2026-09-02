@@ -8,6 +8,11 @@
     <title>멀티 에이전트 게임 비서</title>
     
     <script>
+        // 🌐 글로벌 백엔드 서버 URL 설정 (파일로 열든 웹으로 접속하든 100% 자동 연결)
+        const SERVER_URL = (window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null')
+            ? 'http://127.0.0.1:8000'
+            : window.location.origin;
+
         // 🖥️ 백엔드 실시간 PC 화면 캡처 (15초 주기) 엔진 활성화 및 설정 전달
         function updateBackendScreenShareConfig(intervalVal, isEnabled = true) {
             fetch(`${SERVER_URL}/api/screen_share/config`, {
@@ -1190,8 +1195,6 @@
             console.error('JS Error:', msg, 'Line:', lineNo, error);
             return false;
         };
-        // 서버 동적 URL (모바일, 외부 터널링 완벽 지원)
-        const SERVER_URL = window.location.origin;
 
         // 에이전트 설정 정보
         const agents = {
