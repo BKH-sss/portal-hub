@@ -1432,13 +1432,14 @@ async def cmd_status(ctx: commands.Context):
 # ------------------------------------------------------------
 def get_discord_token() -> str:
     """우선순위에 따라 디스코드 봇 토큰 획득"""
-    # 1. 환경 변수
-    env_token = os.environ.get("DISCORD_BOT_TOKEN")
-    if env_token and env_token.strip():
-        return env_token.strip()
+    # 1. 환경 변수 (다양한 표기 지원)
+    for env_k in ["DISCORD_BOT_TOKEN", "DISCORD_TOKEN", "BOT_TOKEN", "TOKEN"]:
+        t = os.environ.get(env_k)
+        if t and t.strip():
+            return t.strip()
 
-    # 2. config.py
-    cfg_token = API_KEYS.get("DISCORD")
+    # 2. config.py / API_KEYS
+    cfg_token = API_KEYS.get("DISCORD") or API_KEYS.get("DISCORD_BOT_TOKEN")
     if cfg_token and cfg_token.strip():
         return cfg_token.strip()
 
