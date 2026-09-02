@@ -1,4 +1,8 @@
-# Python Cache & Environment
+# ============================================================
+# portal-hub (공개 포털 전용 .gitignore)
+# ============================================================
+
+# Python Cache & Virtual Environments
 __pycache__/
 *.pyc
 env/
@@ -6,15 +10,16 @@ venv/
 .env
 .env.*
 
-# Secrets & API Keys (CRITICAL SECURITY)
+# Secrets & API Keys
 config.py
+config.example.py
 nexon_config.json
 discord_config.json
-discord_bot/discord_config.json
+discord_bot/
 *.key
 *.pem
 
-# Logs & Temporary Data
+# Logs & Temporary Files
 *.log
 *.vtt
 .chroma/
@@ -24,9 +29,8 @@ chroma_db/
 session_log.json
 summary.txt
 voice_cache/
-discord_bot/voice_cache/
 
-# Binaries, Executables & Large Models
+# Executables, Binaries & Media
 *.exe
 *.msi
 *.zip
@@ -38,11 +42,11 @@ discord_bot/voice_cache/
 *.mp4
 cloudflared.exe
 
-# Build & Packaging Artifacts
+# Build Artifacts
 build/
 dist/
 
-# Local AI Memory, Voice Clones & Private Data
+# Local AI Brain, Memory, Voice Models
 AI_Brain/
 memory/
 models/
@@ -53,3 +57,56 @@ targets/
 tuned_outputs/
 test_scripts_archive/
 tools_data_builder/
+
+# AI Assistant & Chatbot Specific Files (포털 외 로컬 비서 모듈)
+brain_server.py
+routers/
+core/
+chatbot.html
+loading.html
+launcher.py
+create_shortcut.py
+JARVIS_Assistant.spec
+riot_lcu.py
+briar_feedback_engine.py
+nexon_api.py
+vision_agent.py
+vision_agent_real.py
+yolo_agent.py
+auto_scraper.py
+agent_registry.py
+app_icon.ico
+auto_proactive_vision_monitor.py
+autonomous_learner.py
+data_absorber.py
+dataset_builder.py
+grounded_writer.py
+skadi_memory_engine.py
+local_asr.py
+local_fact_checker.py
+local_video_analyzer.py
+dream_engine*.py
+purge_memory.py
+python_sandbox.py
+smart_search.py
+stock_engine.py
+skadi_chess.*
+vad_barge_in.js
+web_crawler.py
+mcp_servers.json
+observability.py
+obsidian_writer.py
+ollama_utils.py
+persona_dataset.jsonl
+tunnel.py
+tunnel.ps1
+admin.html
+INTEGRATION_GUIDE.md
+PATCH_NOTES.md
+bat_files.md
+Modelfile_Abliterated
+디스코드_스카디_실행.bat
+바탕화면_바로가기_만들기.bat
+서버_켜기.bat
+서버_끄기.bat
+외부접속기_실행.bat
