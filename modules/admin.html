@@ -20,6 +20,7 @@
             --purple-glow: #7928ca;
             --green-glow: #00ff87;
             --red-glow: #ff0055;
+            --orange-glow: #ff9900;
             --text-main: #f0f6fc;
             --text-muted: #8b949e;
         }
@@ -173,6 +174,7 @@
         .fill-cyan { background: linear-gradient(90deg, #4facfe, var(--cyan-glow)); }
         .fill-purple { background: linear-gradient(90deg, #7928ca, #ff0080); }
         .fill-green { background: linear-gradient(90deg, #00b09b, var(--green-glow)); }
+        .fill-orange { background: linear-gradient(90deg, #ff9900, #ff5500); }
 
         /* 볼륨 슬라이더 및 컨트롤 버튼 */
         .control-group {
@@ -210,6 +212,48 @@
             color: var(--cyan-glow);
         }
 
+        .btn-action.active {
+            background: rgba(0, 255, 135, 0.2);
+            border-color: var(--green-glow);
+            color: var(--green-glow);
+        }
+
+        /* 폼 인풋 스타일 */
+        .form-input {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--cyan-glow);
+        }
+
+        /* 테이블 스타일 */
+        .skill-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        .skill-table th {
+            text-align: left;
+            padding: 8px;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .skill-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
         /* 실시간 이벤트 로그 터미널 */
         .log-terminal {
             background: #05070a;
@@ -218,7 +262,7 @@
             padding: 12px;
             font-family: 'Consolas', monospace;
             font-size: 12px;
-            height: 220px;
+            height: 200px;
             overflow-y: auto;
             color: #a9b7c6;
             line-height: 1.6;
@@ -231,8 +275,7 @@
         }
 
         .log-time { color: #6272a4; }
-        .log-tag-rag { color: var(--cyan-glow); }
-        .log-tag-llm { color: #f1fa8c; }
+        .log-tag-maple { color: var(--orange-glow); }
         .log-tag-sys { color: var(--green-glow); }
     </style>
 </head>
@@ -244,7 +287,7 @@
             <i class="fa-solid fa-brain brand-icon"></i>
             <div>
                 <h1 class="brand-title">JARVIS CORE OBSERVABILITY</h1>
-                <p style="font-size: 12px; color: var(--text-muted);">통합 에이전트 & 시스템 관측 대시보드</p>
+                <p style="font-size: 12px; color: var(--text-muted);">통합 에이전트 & 실시간 게임 쿨타임 코치</p>
             </div>
         </div>
         <div class="status-badge">
@@ -305,29 +348,75 @@
             </div>
             <div class="control-group" style="margin-top: 12px; gap: 8px; flex-wrap: wrap;">
                 <button class="btn-action" onclick="mediaAction('play-pause')"><i class="fa-solid fa-play"></i> 재생/정지</button>
-                <button class="btn-action" onclick="mediaAction('next')"><i class="fa-solid fa-forward"></i> 다음</button>
                 <button class="btn-action" onclick="lockScreen()"><i class="fa-solid fa-lock"></i> 잠금</button>
             </div>
         </div>
 
-        <!-- 5. LLM 모델 라우팅 통계 차트 -->
+        <!-- 5. 🍁 메이플스토리 스킬 쿨타임 & 음성 브리핑 빠른 설정 패널 (NEW) -->
+        <div class="card" style="grid-column: span 12; border-color: rgba(255, 153, 0, 0.4);">
+            <div class="card-header">
+                <span class="card-title" style="color: var(--orange-glow);">
+                    <i class="fa-solid fa-maple-leaf"></i> 메이플스토리 스킬 쿨타임 & 스카디 음성 브리핑 설정
+                </span>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <!-- 직업 프리셋 로더 -->
+                    <select id="preset-select" class="form-input" style="width: 140px;">
+                        <option value="공통 (기본)">공통 (기본)</option>
+                        <option value="비숍">비숍</option>
+                        <option value="나이트로드">나이트로드</option>
+                        <option value="히어로">히어로</option>
+                        <option value="아델">아델</option>
+                    </select>
+                    <button class="btn-action" onclick="loadJobPreset()"><i class="fa-solid fa-bolt"></i> 프리셋 로드</button>
+                    <button id="btn-tracker-toggle" class="btn-action active" onclick="toggleTracker()"><i class="fa-solid fa-play"></i> 감시 시작</button>
+                </div>
+            </div>
+
+            <!-- 스킬 등록 폼 -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 3fr auto; gap: 10px; align-items: center; background: rgba(0,0,0,0.25); padding: 14px; border-radius: 8px; margin-bottom: 14px;">
+                <input type="text" id="skill-name" class="form-input" placeholder="스킬명 (예: 제네시스 무적기)">
+                <input type="number" id="skill-cd" class="form-input" placeholder="쿨타임 초 (예: 180)">
+                <input type="number" id="skill-warn" class="form-input" placeholder="몇 초 전 예고 (예: 5)" value="5">
+                <input type="text" id="skill-voice" class="form-input" placeholder="스카디 음성 대사 (예: 방어 스킬 쿨 5초 남았어)">
+                <button class="btn-action" style="background: rgba(255, 153, 0, 0.2); border-color: var(--orange-glow); color: var(--orange-glow);" onclick="addSkill()">
+                    <i class="fa-solid fa-plus"></i> 스킬 등록
+                </button>
+            </div>
+
+            <!-- 스킬 목록 및 실시간 쿨타임 게이지 테이블 -->
+            <table class="skill-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">스킬명</th>
+                        <th style="width: 15%;">총 쿨타임</th>
+                        <th style="width: 15%;">예고 타이밍</th>
+                        <th style="width: 25%;">스카디 발화 대사</th>
+                        <th style="width: 20%;">남은 시간 / 조작</th>
+                    </tr>
+                </thead>
+                <tbody id="skill-tbody">
+                    <!-- JS로 동적 렌더링 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 6. LLM 모델 라우팅 통계 차트 -->
         <div class="card" style="grid-column: span 6;">
             <div class="card-header">
                 <span class="card-title"><i class="fa-solid fa-chart-pie"></i> LLM Orchestration Distribution</span>
             </div>
-            <div style="height: 220px; position: relative;">
+            <div style="height: 200px; position: relative;">
                 <canvas id="llmChart"></canvas>
             </div>
         </div>
 
-        <!-- 6. 실시간 RAG & 에이전트 이벤트 스트림 로그 -->
+        <!-- 7. 실시간 이벤트 스트림 로그 -->
         <div class="card" style="grid-column: span 6;">
             <div class="card-header">
                 <span class="card-title"><i class="fa-solid fa-terminal"></i> Live Observability Stream</span>
-                <span class="metric-sub">Auto-refresh (2s)</span>
             </div>
             <div id="event-log" class="log-terminal">
-                <div class="log-line"><span class="log-time">[SYSTEM]</span> <span class="log-tag-sys">관측성 파이프라인이 정상 시작되었습니다.</span></div>
+                <div class="log-line"><span class="log-time">[SYSTEM]</span> <span class="log-tag-sys">관측성 및 스킬 트래커가 준비되었습니다.</span></div>
             </div>
         </div>
 
@@ -338,6 +427,7 @@
     ===================================================================== -->
     <script>
         const API_BASE = window.location.origin;
+        let isTrackerRunning = false;
 
         // 1. Chart.js 차트 초기화
         const ctx = document.getElementById('llmChart').getContext('2d');
@@ -354,9 +444,7 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'right', labels: { color: '#8b949e', font: { size: 12 } } }
-                }
+                plugins: { legend: { position: 'right', labels: { color: '#8b949e', font: { size: 12 } } } }
             }
         });
 
@@ -367,17 +455,14 @@
                 if (!res.ok) return;
                 const data = await res.json();
 
-                // CPU
                 document.getElementById('cpu-val').innerText = `${data.cpu.usage_pct}%`;
                 document.getElementById('cpu-bar').style.width = `${data.cpu.usage_pct}%`;
                 document.getElementById('cpu-cores').innerText = `${data.cpu.cores_logical} Cores`;
 
-                // RAM
                 document.getElementById('ram-val').innerText = `${data.ram.usage_pct}%`;
                 document.getElementById('ram-bar').style.width = `${data.ram.usage_pct}%`;
                 document.getElementById('ram-used').innerText = `${data.ram.used_gb} / ${data.ram.total_gb} GB`;
 
-                // GPU
                 if (data.gpu.available && data.gpu.gpus.length > 0) {
                     const gpu = data.gpu.gpus[0];
                     document.getElementById('gpu-util').innerText = `${gpu.gpu_utilization_pct}%`;
@@ -390,7 +475,119 @@
             }
         }
 
-        // 3. OS 컨트롤 함수들
+        // 3. 🍁 메이플 스킬 트래커 함수들
+        async function loadSkills() {
+            try {
+                const res = await fetch(`${API_BASE}/api/maple/tracker/skills`);
+                if (!res.ok) return;
+                const data = await res.json();
+                isTrackerRunning = data.is_running;
+
+                const btn = document.getElementById('btn-tracker-toggle');
+                if (isTrackerRunning) {
+                    btn.className = "btn-action active";
+                    btn.innerHTML = `<i class="fa-solid fa-stop"></i> 감시 정지`;
+                } else {
+                    btn.className = "btn-action";
+                    btn.innerHTML = `<i class="fa-solid fa-play"></i> 감시 시작`;
+                }
+
+                const tbody = document.getElementById('skill-tbody');
+                tbody.innerHTML = '';
+
+                data.skills.forEach(sk => {
+                    const remSec = sk.remaining_sec;
+                    const isCooling = sk.state === "ON_COOLDOWN" || sk.state === "WARNED";
+                    const statusColor = isCooling ? "var(--orange-glow)" : "var(--green-glow)";
+                    const statusText = isCooling ? `${remSec}초 남음` : "READY (사용 가능)";
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="font-weight: 600;">${sk.name}</td>
+                        <td>${sk.cooldown_sec}초</td>
+                        <td>${sk.warn_before}초 전</td>
+                        <td style="color: var(--text-muted); font-size: 12px;">"${sk.voice_text}"</td>
+                        <td>
+                            <span style="color: ${statusColor}; font-weight: 700; margin-right: 8px;">${statusText}</span>
+                            <button class="btn-action" style="padding: 4px 8px; font-size: 11px;" onclick="triggerSkill('${sk.name}')"><i class="fa-solid fa-stopwatch"></i> 쿨타임 시작</button>
+                            <button class="btn-action" style="padding: 4px 8px; font-size: 11px;" onclick="testVoice('${sk.voice_text}')"><i class="fa-solid fa-volume-high"></i></button>
+                            <button class="btn-action" style="padding: 4px 8px; font-size: 11px; color: var(--red-glow);" onclick="deleteSkill('${sk.name}')"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                console.warn('Skills load error:', e);
+            }
+        }
+
+        async function addSkill() {
+            const name = document.getElementById('skill-name').value.trim();
+            const cd = parseFloat(document.getElementById('skill-cd').value);
+            const warn = parseFloat(document.getElementById('skill-warn').value) || 5.0;
+            const voice = document.getElementById('skill-voice').value.trim();
+
+            if (!name || isNaN(cd)) {
+                alert('스킬명과 쿨타임(초)을 정확히 입력해 주세요.');
+                return;
+            }
+
+            await fetch(`${API_BASE}/api/maple/tracker/skills/quick-add`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name,
+                    category: 'defense',
+                    cooldown_sec: cd,
+                    warn_before: warn,
+                    voice_text: voice || `${name} 쿨 ${parseInt(warn)}초 남았어.`
+                })
+            });
+
+            document.getElementById('skill-name').value = '';
+            document.getElementById('skill-cd').value = '';
+            document.getElementById('skill-voice').value = '';
+            appendLog('MAPLE', `'${name}' (${cd}초) 스킬이 등록되었습니다.`);
+            loadSkills();
+        }
+
+        async function deleteSkill(name) {
+            if (!confirm(`'${name}' 스킬을 삭제하시겠습니까?`)) return;
+            await fetch(`${API_BASE}/api/maple/tracker/skills/${encodeURIComponent(name)}`, { method: 'DELETE' });
+            appendLog('MAPLE', `'${name}' 스킬이 삭제되었습니다.`);
+            loadSkills();
+        }
+
+        async function loadJobPreset() {
+            const job = document.getElementById('preset-select').value;
+            await fetch(`${API_BASE}/api/maple/tracker/presets/load/${encodeURIComponent(job)}`, { method: 'POST' });
+            appendLog('MAPLE', `'${job}' 직업 프리셋이 적용되었습니다.`);
+            loadSkills();
+        }
+
+        async function toggleTracker() {
+            if (isTrackerRunning) {
+                await fetch(`${API_BASE}/api/maple/tracker/stop`, { method: 'POST' });
+                appendLog('MAPLE', '스킬 감시가 정지되었습니다.');
+            } else {
+                await fetch(`${API_BASE}/api/maple/tracker/start`, { method: 'POST' });
+                appendLog('MAPLE', '스킬 감시가 시작되었습니다. (우측 하단 퀵슬롯 모니터링 중)');
+            }
+            loadSkills();
+        }
+
+        async function triggerSkill(name) {
+            await fetch(`${API_BASE}/api/maple/tracker/trigger/${encodeURIComponent(name)}`, { method: 'POST' });
+            appendLog('MAPLE', `'${name}' 쿨타임이 시작되었습니다.`);
+            loadSkills();
+        }
+
+        async function testVoice(text) {
+            await fetch(`${API_BASE}/api/maple/tracker/test-voice?message=${encodeURIComponent(text)}`, { method: 'POST' });
+            appendLog('SYS', `스카디 음성 테스트: "${text}"`);
+        }
+
+        // 4. OS 컨트롤
         async function setVolume(val) {
             document.getElementById('vol-text').innerText = `${val}%`;
             await fetch(`${API_BASE}/api/system/volume/set`, {
@@ -398,20 +595,16 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ level: parseInt(val) })
             });
-            appendLog('SYS', `마스터 볼륨이 ${val}%로 변경되었습니다.`);
         }
 
         async function mediaAction(action) {
             await fetch(`${API_BASE}/api/system/media/${action}`, { method: 'POST' });
-            appendLog('SYS', `미디어 액션 실행: ${action}`);
         }
 
         async function lockScreen() {
             await fetch(`${API_BASE}/api/system/action/lock`, { method: 'POST' });
-            appendLog('SYS', '화면 잠금을 요청했습니다.');
         }
 
-        // 4. 로그 터미널 추가 함수
         function appendLog(type, message) {
             const terminal = document.getElementById('event-log');
             const now = new Date().toTimeString().split(' ')[0];
@@ -422,9 +615,11 @@
             terminal.scrollTop = terminal.scrollHeight;
         }
 
-        // 초기 실행 및 타이머 등록
+        // 5. 주기적 실행 (메트릭 2초, 스킬 1초)
         setInterval(updateMetrics, 2000);
+        setInterval(loadSkills, 1000);
         updateMetrics();
+        loadSkills();
     </script>
 </body>
 </html>
