@@ -59,7 +59,13 @@ class ChatRequest(BaseModel):
     messages: List[Message]         # 이전 대화 기록을 포함한 전체 메시지 배열
     agent: str = "skadi"            # 대화할 캐릭터 ID (skadi, briar, coder, lucy, angelic 등)
     model: str = "gemini"           # 사용할 LLM 엔진 (gemini, openai, claude, ollama 등)
+    session_id: Optional[str] = None # 해당 채팅방(세션)의 고유 식별자 (독립 기억 보장)
     game_mode: bool = False         # 저사양 게임 모드 플래그 (True 시 초경량 로컬 모델 사용)
+
+class ImageSearchRequest(BaseModel):
+    """고화질 실시간 이미지 검색 요청 모델"""
+    query: str                      # 검색 질의어 (예: 스카디 사진, 브라이어 일러스트)
+    count: int = 4                  # 검색할 이미지 개수
 
 class ToolExecuteRequest(BaseModel):
     """확장 도구 동적 실행 요청 모델"""
@@ -87,6 +93,33 @@ class StorageSaveRequest(BaseModel):
 
 # 앱 상태 및 유저 설정 영구 저장 파일 경로
 STORAGE_FILE = os.path.join(str(MEMORY_DIR), "app_storage_data.json")
+
+# ==============================================================================
+# 🏢 세션별 완전 독립 격리 기억 저장소 (Session-Isolated Memory Store)
+# ==============================================================================
+_SESSION_MEMORY_STORE: Dict[str, Dict[str, Any]] = {}
+
+def get_session_context(session_id: Optional[str]) -> str:
+    """해당 채팅방(세션)만의 격리된 대화 기억 및 맥락 조회 (다른 방과 절대 섞이지 않음)"""
+    if not session_id or session_id not in _SESSION_MEMORY_STORE:
+        return ""
+    store = _SESSION_MEMORY_STORE[session_id]
+    notes = store.get("notes", [])
+    if not notes:
+        return ""
+    return f"\n[현재 채팅방 전용 독립 기억 (다른 방과 격리됨)]\n" + "\n".join(f"• {n}" for n in notes[-6:])
+
+def append_session_memory(session_id: Optional[str], text: str):
+    """해당 채팅방(세션)에만 국한된 단기/중기 기억 추가"""
+    if not session_id:
+        return
+    if session_id not in _SESSION_MEMORY_STORE:
+        _SESSION_MEMORY_STORE[session_id] = {"notes": [], "updated_at": time.time()}
+    store = _SESSION_MEMORY_STORE[session_id]
+    store["notes"].append(text)
+    if len(store["notes"]) > 15:
+        store["notes"] = store["notes"][-15:]
+    store["updated_at"] = time.time()
 
 def load_user_profile(agent: str = "general") -> str:
     """
@@ -117,17 +150,10 @@ def load_user_profile(agent: str = "general") -> str:
 async def chat(req: ChatRequest):
     """
     🎯 [대화 처리 메커니즘]
-    1) 질문 분석 및 ChromaDB 컬렉션 자동 선택:
-       - 롤 관련 키워드 ➔ collection_lol
-       - 메이플 관련 키워드 ➔ collection_maple
-       - 코딩/해킹 ➔ collection_coding / collection_hacking
-    2) RAG 지식 검색:
-       - 단순 인사가 아닐 때 ChromaDB에서 유사도가 가장 높은 상위 문서 3개를 추출하여 프롬프트에 주입.
-    3) 유저 프로필 및 장기 기억 주입:
-       - 유저의 취향, 생일, 성향 팩트 시트와 자기성장 일지를 컨텍스트에 포함.
-    4) LLM 스트리밍 생성:
-       - 선택된 모델(Gemini, OpenAI, Claude, Ollama)로 SSE(Server-Sent Events) 스트림을 가동하여
-         0.1초 단위로 실시간 답변 토큰을 프론트엔드로 전송.
+    1) 세션 격리 기억 및 질문 분석
+    2) 사진/일러스트 요구 감지 시 초고속 실시간 이미지 검색 & 마크다운 주입
+    3) 질문 분석 및 ChromaDB 컬렉션 자동 선택 & RAG 검색
+    4) 유저 프로필 주입 & LLM 스트리밍 가동
     """
     try:
         last_msg = req.messages[-1].content or "" if req.messages else ""
@@ -135,7 +161,38 @@ async def chat(req: ChatRequest):
         context_str = ""
 
         # ----------------------------------------------------
-        # 1단계: 유저 질문 키워드 기반 ChromaDB 컬렉션 라우팅
+        # 0단계: 세션 격리 메모리 주입 (해당 채팅방에서만 유효)
+        # ----------------------------------------------------
+        sess_ctx = get_session_context(req.session_id)
+        if sess_ctx:
+            context_str += f"\n{sess_ctx}"
+
+        if req.session_id and any(k in clean_last_msg for k in ["기억해", "메모해", "내 이름은", "내가 좋아하는"]):
+            append_session_memory(req.session_id, clean_last_msg)
+
+        # ----------------------------------------------------
+        # 1단계: 사진/일러스트/이미지 실시간 검색 & 프롬프트 주입
+        # ----------------------------------------------------
+        is_image_request = any(k in clean_last_msg for k in [
+            "사진", "이미지", "일러스트", "그림", "짤", "포토", "보여줘", "찾아와", "찾아줘"
+        ])
+        if is_image_request:
+            try:
+                from smart_search import search_live_images
+                found_imgs = await search_live_images(clean_last_msg, max_images=3)
+                if found_imgs:
+                    img_lines = ["\n[실시간 검색된 실제 고화질 이미지 링크 목록 (반드시 마크다운으로 출력해라)]"]
+                    for fi in found_imgs:
+                        t = fi.get("title", "이미지")
+                        u = fi.get("url", "")
+                        img_lines.append(f"- [![{t}]({u})]({u})")
+                    img_lines.append("⚠️ 규칙: 위 실제 이미지 링크([![제목](URL)](URL))를 답변 본문에 반드시 포함시켜라.")
+                    context_str += "\n" + "\n".join(img_lines)
+            except Exception as ie:
+                print(f"[Chat] 이미지 검색 주입 오류: {ie}")
+
+        # ----------------------------------------------------
+        # 2단계: 유저 질문 키워드 기반 ChromaDB 컬렉션 라우팅
         # ----------------------------------------------------
         is_lol = any(k in clean_last_msg for k in ["롤", "리그오브", "도란", "아이템", "챔피언", "템트리", "브라이어", "정글"])
         is_maple = any(k in clean_last_msg for k in ["메이플", "엔버", "엔젤릭", "보스", "메소", "스타포스", "심볼", "유니온"])
@@ -154,7 +211,7 @@ async def chat(req: ChatRequest):
             target_collection = collection_general
 
         # ----------------------------------------------------
-        # 2단계: RAG 벡터 검색 (불필요한 인사말 I/O 필터링)
+        # 3단계: RAG 벡터 검색 (불필요한 인사말 I/O 필터링)
         # ----------------------------------------------------
         is_greeting = len(clean_last_msg) < 3 or clean_last_msg in ["안녕", "ㅎㅇ", "응", "어", "아니", "그래", "ㅋㅋ", "ㅎㅎ"]
         if clean_last_msg and not is_greeting:
@@ -164,7 +221,6 @@ async def chat(req: ChatRequest):
                     if res and res.get("documents") and len(res["documents"][0]) > 0:
                         return res["documents"][0]
                     return []
-                # 0.8초 타임아웃으로 UI 멈춤 방지
                 docs = await asyncio.wait_for(asyncio.to_thread(_rag_search), timeout=0.8)
                 if docs:
                     context_str += f"\n\n[데이터베이스 연동 지식]\n" + "\n---\n".join(docs)
@@ -172,7 +228,7 @@ async def chat(req: ChatRequest):
                 pass
 
         # ----------------------------------------------------
-        # 3단계: 유저 맞춤 프로필 및 장기 기억 주입
+        # 4단계: 유저 맞춤 프로필 및 장기 기억 주입
         # ----------------------------------------------------
         u_profile = load_user_profile(req.agent)
         if u_profile != "현재 분석된 유저 프로필이 없습니다.":
@@ -183,14 +239,11 @@ async def chat(req: ChatRequest):
                 fact_sheet = get_fact_sheet_prompt()
                 if fact_sheet:
                     context_str += f"\n\n{fact_sheet}"
-                # 명시적 기억 키워드 감지 시 영구 저장
-                if any(k in clean_last_msg for k in ["기억해", "내 이름은", "내가 좋아하는", "내 취향은"]):
-                    add_explicit_memory(clean_last_msg)
             except Exception:
                 pass
 
         # ----------------------------------------------------
-        # 4단계: 에이전트 시스템 프롬프트 조립 & LLM 스트리밍 가동
+        # 5단계: 에이전트 시스템 프롬프트 조립 & LLM 스트리밍 가동
         # ----------------------------------------------------
         agent_profile = agent_registry.get(req.agent)
         system_content = agent_profile.assemble_system_prompt(context_str=context_str)
@@ -210,10 +263,17 @@ async def chat(req: ChatRequest):
         return StreamingResponse(stream_gen, media_type="text/event-stream")
 
     except Exception as e:
-        # 에러 발생 시 부드러운 Fallback 메시지 스트리밍
         async def fallback():
             yield "data: " + json.dumps({'content': f'잠시 연결 동기화 중 오류가 발생했어: {str(e)}'}) + "\n\n"
         return StreamingResponse(fallback(), media_type="text/event-stream")
+
+
+@router.post("/api/search/image", summary="고화질 실시간 이미지 검색")
+async def api_search_image(req: ImageSearchRequest):
+    """지정된 질의어로 웹/백과사전/Bing에서 고화질 이미지 URL을 검색합니다."""
+    from smart_search import search_live_images
+    imgs = await search_live_images(req.query, max_images=req.count)
+    return {"status": "success", "query": req.query, "images": imgs}
 
 # ==============================================================================
 # 3. 확장 도구 & Python 샌드박스 & 메타데이터 엔드포인트

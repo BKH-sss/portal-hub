@@ -339,6 +339,57 @@ class YoloVisionDetector:
             return []
 
 
+class ChampionGuideEngine:
+    """전 챔피언 5대 역할군별(탑, 정글, 미드, 원딜, 서폿) 룬/아이템/증강/전술 피드백 지식베이스"""
+    _champions_db: Dict[str, Any] = {}
+    _is_loaded = False
+
+    @classmethod
+    def load_data(cls):
+        if cls._is_loaded and cls._champions_db:
+            return
+        guide_file = DATA_DIR / "lol_all_champions_guide.json"
+        if guide_file.exists():
+            try:
+                with open(guide_file, "r", encoding="utf-8") as f:
+                    cls._champions_db = json.load(f)
+            except Exception as e:
+                logger.warning(f"챔피언 가이드 로드 실패: {e}")
+        cls._is_loaded = True
+
+    @classmethod
+    def get_champion(cls, name: str) -> Optional[Dict[str, Any]]:
+        cls.load_data()
+        clean = name.strip()
+        if clean in cls._champions_db:
+            return cls._champions_db[clean]
+        for k, v in cls._champions_db.items():
+            if clean in k or k in clean:
+                return v
+        return None
+
+    @classmethod
+    def get_champions_by_role(cls, role: str) -> Dict[str, Any]:
+        cls.load_data()
+        r = role.strip().lower()
+        if r in ["all", "전체", "모두"]:
+            return cls._champions_db
+        return {k: v for k, v in cls._champions_db.items() if v.get("role", "").lower() == r}
+
+    @classmethod
+    def get_all_roles_summary(cls) -> Dict[str, Any]:
+        cls.load_data()
+        roles = {"top": [], "jungle": [], "mid": [], "adc": [], "support": []}
+        for name, info in cls._champions_db.items():
+            r = info.get("role", "top").lower()
+            if r in roles:
+                roles[r].append({"name": name, "type": info.get("type", "")})
+        return {
+            "total_count": len(cls._champions_db),
+            "roles": roles
+        }
+
+
 @router.post("/augments/recommend", summary="칼바람 3지선다 최고 효율 증강체 추천")
 async def api_recommend_augment(req: AugmentRecommendRequest):
     return AugmentEngine.recommend_best(req.choices, req.champion_name, req.role)
@@ -347,6 +398,21 @@ async def api_recommend_augment(req: AugmentRecommendRequest):
 @router.get("/augments/search", summary="199종 증강체 실시간 검색")
 async def api_search_augments(q: Optional[str] = "", limit: int = 10):
     return {"status": "success", "results": AugmentEngine.search_augments(q, limit)}
+
+
+@router.get("/champions", summary="5대 역할군별 지원 챔피언 목록 조회")
+async def api_get_champions_summary(role: Optional[str] = None):
+    if role:
+        return {"status": "success", "role": role, "champions": ChampionGuideEngine.get_champions_by_role(role)}
+    return {"status": "success", "data": ChampionGuideEngine.get_all_roles_summary()}
+
+
+@router.get("/champion/{name}", summary="특정 챔피언의 룬, 템트리, 증강, 공략 조회")
+async def api_get_champion_guide(name: str):
+    guide = ChampionGuideEngine.get_champion(name)
+    if not guide:
+        raise HTTPException(status_code=404, detail=f"'{name}' 챔피언 가이드 정보를 찾을 수 없습니다.")
+    return {"status": "success", "champion": name, "guide": guide}
 
 
 @router.post("/live/event", summary="인게임 실시간 이벤트 트리거 및 음성 브리핑 생성")
@@ -370,9 +436,11 @@ async def api_trigger_live_event(req: LiveGameEventRequest):
 @router.get("/status", summary="LoL AI 코치 모듈 상태")
 async def api_coach_status():
     AugmentEngine.load_data()
+    ChampionGuideEngine.load_data()
     return {
         "status": "online",
         "total_augments": len(AugmentEngine._augments_list),
+        "total_champions": len(ChampionGuideEngine._champions_db),
         "yolo_vision_ready": YoloVisionDetector.is_yolo_available(),
         "database_file": str(AUGMENT_DATA_FILE)
     }

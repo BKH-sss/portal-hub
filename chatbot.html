@@ -2400,8 +2400,13 @@
                 container.innerHTML = "";
                 return;
             }
+            // 0. 순수 이미지 URL(http...jpg, png, webp, gif, svg) 자동 마크다운 이미지 렌더링 변환
+            let processedText = markdownText.replace(
+                /(?<![\(\[\"'])(https?:\/\/[^\s\<\>]+\.(?:png|jpg|jpeg|webp|gif|svg)(?:\?[^\s\<\>]*)?)(?![\)\]\"'])/gi,
+                '\n![]($1)\n'
+            );
             // 1. Marked.js 마크다운 변환
-            let parsed = marked.parse(markdownText);
+            let parsed = marked.parse(processedText);
             container.innerHTML = parsed;
 
             // 2. 코드 블록 장식 (언어 뱃지 + 복사 버튼 + Highlight.js 구문 강조)
@@ -2865,6 +2870,9 @@
                     if (thoughtTimer) thoughtTimer.textContent = `⏱️ ${elapsed}s`;
                 }, 100);
 
+                const sessionObj = chatSessions[activeAgentId][activeSessionIndex];
+                const currentSessionId = `${activeAgentId}_${sessionObj ? (sessionObj.id || activeSessionIndex) : 'default'}`;
+
                 const response = await fetch(`${SERVER_URL}/chat`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -2873,6 +2881,7 @@
                         model: targetModel,
                         messages: apiHistory,
                         agent: activeAgentId,
+                        session_id: currentSessionId,
                         game_mode: document.getElementById("gameModeToggle") ? document.getElementById("gameModeToggle").checked : false
                     })
                 });

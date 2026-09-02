@@ -173,37 +173,73 @@ async def search_youtube(query: str, max_results: int = 3) -> List[Dict[str, str
     return results
 
 
+def _clean_image_query(raw_query: str) -> str:
+    """이미지 검색용 정밀 키워드 정제 (캐릭터/일러스트 특화)"""
+    q = raw_query.strip()
+    q = re.sub(r'(사진|이미지|일러스트|그림|모습|생김새|짤|포토|찾아줘|찾아와|보여줘|검색해줘|가져와|출력해줘|보여\s*줘|찾아\s*줘)', ' ', q)
+    q = re.sub(r'\s+', ' ', q).strip()
+
+    # 캐릭터 특화 검색어 보정
+    if any(k in q for k in ["스카디", "보카디"]) and "명일방주" not in q and "arknights" not in q.lower():
+        q = f"명일방주 {q}"
+    elif any(k in q for k in ["브라이어", "briar"]) and "롤" not in q and "리그오브레전드" not in q and "lol" not in q.lower():
+        q = f"롤 {q}"
+    elif any(k in q for k in ["루시", "lucy"]) and "사이버펑크" not in q and "cyberpunk" not in q.lower():
+        q = f"사이버펑크 엣지러너 {q}"
+    elif any(k in q for k in ["엔버", "엔젤릭버스터"]) and "메이플" not in q:
+        q = f"메이플스토리 {q}"
+
+    return q.strip() if len(q.strip()) >= 2 else raw_query.strip()
+
+
 async def search_live_images(query: str, max_images: int = 5, extra_sub_terms: Optional[List[str]] = None) -> List[Dict[str, str]]:
     """
-    고화질 실시간 이미지 검색 (Bing Async API + 위키백과 미디어)
-    - 디스코드에서 바로 렌더링되는 직관적인 이미지 링크(.jpg, .png) 획득
+    고화질 실시간 이미지 검색 (DuckDuckGo + Bing Async API + 위키백과 미디어)
+    - 채팅 및 디스코드에서 바로 렌더링되는 직관적인 이미지 링크(.jpg, .png) 획득
     """
     clean_q = _clean_image_query(query)
     images = []
     seen_urls = set()
 
-    # 1. Bing 고화질 이미지 검색
-    try:
-        encoded = urllib.parse.quote(clean_q)
-        url = f"https://www.bing.com/images/async?q={encoded}&first=1&count=15"
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-        }
-        async with httpx.AsyncClient(timeout=4.0) as client:
-            r = await client.get(url, headers=headers)
-            if r.status_code == 200:
-                murls = re.findall(r'murl&quot;:&quot;(https?://[^&]+)&quot;', r.text)
-                for img_url in murls:
-                    if img_url not in seen_urls:
-                        # 유효한 이미지 확장자 확인
-                        seen_urls.add(img_url)
-                        images.append({"title": clean_q, "url": img_url})
-                        if len(images) >= max_images:
-                            break
-    except Exception as e:
-        print(f"[SmartSearch] Bing Image 검색 에러: {e}")
+    # 1. DuckDuckGo Image Search (Primary High-Res)
+    if DDGS:
+        try:
+            def _run_ddgs_img():
+                with DDGS() as ddgs:
+                    return list(ddgs.images(clean_q, max_results=max_images * 2))
+            ddg_imgs = await asyncio.to_thread(_run_ddgs_img)
+            for di in ddg_imgs:
+                iurl = di.get("image")
+                if iurl and iurl not in seen_urls:
+                    seen_urls.add(iurl)
+                    images.append({"title": di.get("title", clean_q), "url": iurl})
+                    if len(images) >= max_images:
+                        break
+        except Exception as e:
+            print(f"[SmartSearch] DDGS Image 검색 에러: {e}")
 
-    # 2. 위키백과 미디어 보완 (인물/지명/명화/동물 등)
+    # 2. Bing 고화질 이미지 검색 (Fallback)
+    if len(images) < max_images:
+        try:
+            encoded = urllib.parse.quote(clean_q)
+            url = f"https://www.bing.com/images/async?q={encoded}&first=1&count=15"
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+            }
+            async with httpx.AsyncClient(timeout=4.0) as client:
+                r = await client.get(url, headers=headers)
+                if r.status_code == 200:
+                    murls = re.findall(r'murl&quot;:&quot;(https?://[^&]+)&quot;', r.text)
+                    for img_url in murls:
+                        if img_url not in seen_urls:
+                            seen_urls.add(img_url)
+                            images.append({"title": clean_q, "url": img_url})
+                            if len(images) >= max_images:
+                                break
+        except Exception as e:
+            print(f"[SmartSearch] Bing Image 검색 에러: {e}")
+
+    # 3. 위키백과 미디어 보완 (인물/지명/명화/동물 등)
     if len(images) < 2:
         async def _fetch_wiki_images(term: str, lang: str):
             if not term or len(term.strip()) < 2:
