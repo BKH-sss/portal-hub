@@ -77,6 +77,16 @@ except ImportError:
     memory_engine = None
     logger.warning("skadi_memory_engine 모듈을 찾을 수 없어 기본 대화 모드로 동작합니다.")
 
+# 📅 캘린더 & 할 일 매니저 엔진 로드
+try:
+    from modules.schedule_manager import ScheduleManager, ScheduleCreateRequest
+except ImportError:
+    try:
+        from schedule_manager import ScheduleManager, ScheduleCreateRequest
+    except ImportError:
+        ScheduleManager = None
+        logger.warning("schedule_manager 모듈을 찾을 수 없습니다.")
+
 
 # ------------------------------------------------------------
 # 2. 설정 파일 로드 및 관리
@@ -410,6 +420,36 @@ async def generate_morning_briefing_content() -> discord.Embed:
         value="\n".join(news_lines),
         inline=False
     )
+
+    # 📅 오늘의 스케줄 & 할 일(Todo) 연동
+    if ScheduleManager:
+        try:
+            today_date = datetime.datetime.now().strftime("%Y-%m-%d")
+            today_items = ScheduleManager.get_items(target_date=today_date, include_completed=False)
+            pending_todos = ScheduleManager.get_items(only_todos=True, include_completed=False)
+
+            sched_lines = []
+            events = [it for it in today_items if not it.get("is_todo")]
+            if events:
+                for ev in events:
+                    t_str = ev['start_time'].split(' ')[1] if ' ' in ev['start_time'] else '종일'
+                    sched_lines.append(f"• `[{t_str}]` **{ev['title']}**")
+            else:
+                sched_lines.append("• 예정된 일정이 없습니다. (자유 시간)")
+
+            if pending_todos:
+                sched_lines.append("\n**진행 중인 주요 태스크:**")
+                for td in pending_todos[:3]:
+                    p_mark = "🔥" if td.get("priority", 2) == 3 else "⚡"
+                    sched_lines.append(f"• {p_mark} {td['title']}")
+
+            embed.add_field(
+                name="📅 오늘 마스터의 스케줄 & 할 일",
+                value="\n".join(sched_lines),
+                inline=False
+            )
+        except Exception as se:
+            logger.warning(f"스케줄 브리핑 조회 오류: {se}")
 
     embed.set_footer(text="스카디 자율 모닝 브리핑 • 평일(월~금) 오전 8:00 자동 전송")
     return embed
@@ -1051,6 +1091,19 @@ async def cmd_help(ctx: commands.Context):
         inline=False
     )
     embed.add_field(
+        name="📅 스마트 캘린더 & 할 일(Todo) 관리",
+        value=(
+            f"• **일정 확인**: `{prefix}일정` (또는 `{prefix}일정 YYYY-MM-DD`)\n"
+            f"• **일정 등록**: `{prefix}일정추가 YYYY-MM-DD HH:MM 일정제목`\n"
+            f"• **일정 삭제**: `{prefix}일정삭제 <ID>`\n"
+            f"• **할일 확인**: `{prefix}할일` (진행 중인 할 일 체크리스트)\n"
+            f"• **할일 등록**: `{prefix}할일추가 <내용>` (긴급 시 `[긴급]` 포함)\n"
+            f"• **할일 완료**: `{prefix}할일완료 <ID>` (완료 토글)\n"
+            f"• **모닝 브리핑**: `{prefix}브리핑` (날씨 + 뉴스 + 오늘 스케줄)"
+        ),
+        inline=False
+    )
+    embed.add_field(
         name="🛠️ 시스템 설정 명령어",
         value=(
             f"• `{prefix}페르소나 [보카디/비서/주식/화가/레식]` : 스카디 성격/역할 변경\n"
@@ -1404,6 +1457,180 @@ async def cmd_memories(ctx: commands.Context):
         embed.add_field(name="주요 기억", value="아직 특별히 각인된 기억이 없어. `!기억 <내용>`으로 알려줘.", inline=False)
 
     await ctx.send(embed=embed)
+
+
+# ------------------------------------------------------------
+# 📅 5-1. 스마트 캘린더 & 할 일(Todo) 관리 명령어
+# ------------------------------------------------------------
+@bot.command(name="일정", aliases=["일정목록", "스케줄", "schedule"])
+async def cmd_schedule_list(ctx: commands.Context, target_date: Optional[str] = None):
+    """오늘 또는 지정일(YYYY-MM-DD)의 일정 목록 조회"""
+    if not ScheduleManager:
+        await ctx.send("미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
+        return
+
+    query_date = target_date or datetime.datetime.now().strftime("%Y-%m-%d")
+    items = ScheduleManager.get_items(target_date=query_date, include_completed=True)
+    
+    events = [it for it in items if not it.get("is_todo")]
+    todos = [it for it in items if it.get("is_todo")]
+
+    embed = discord.Embed(
+        title=f"📅 스카디 스케줄러 • [{query_date}]",
+        description="마스터의 소중한 일정과 할 일들을 정리해뒀어.",
+        color=0x3498db
+    )
+
+    if events:
+        lines = []
+        for ev in events:
+            time_part = ev['start_time'].split(' ')[1] if ' ' in ev['start_time'] else '종일'
+            memo = f" ({ev['description']})" if ev.get('description') else ""
+            lines.append(f"• `[ID:{ev['id']}]` `[{time_part}]` **{ev['title']}**{memo}")
+        embed.add_field(name="📌 등록된 일정", value="\n".join(lines), inline=False)
+    else:
+        embed.add_field(name="📌 등록된 일정", value="예정된 일정이 없어. 자유로운 시간이야, 마스터.", inline=False)
+
+    if todos:
+        t_lines = []
+        for td in todos:
+            status_icon = "✅" if td.get("is_completed") else "⬜"
+            p_icon = "🔥" if td.get("priority") == 3 else ("⚡" if td.get("priority") == 2 else "🌱")
+            t_lines.append(f"{status_icon} `[ID:{td['id']}]` {p_icon} **{td['title']}**")
+        embed.add_field(name="📝 오늘 등록된 할 일", value="\n".join(t_lines), inline=False)
+
+    embed.set_footer(text="추가: !일정추가 YYYY-MM-DD HH:MM 제목 | 삭제: !일정삭제 ID")
+    await ctx.send(embed=embed)
+
+
+@bot.command(name="일정추가", aliases=["add_schedule", "스케줄추가"])
+async def cmd_add_schedule(ctx: commands.Context, time_str: str, *, title: str):
+    """일정 등록 (예: !일정추가 2026-09-03 15:00 팀 회의 or !일정추가 2026-09-03 생일파티)"""
+    if not ScheduleManager:
+        await ctx.send("미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
+        return
+
+    try:
+        req = ScheduleCreateRequest(
+            title=title.strip(),
+            start_time=time_str.strip(),
+            is_todo=False,
+            priority=2
+        )
+        res = ScheduleManager.add_item(req)
+        await ctx.send(f"✨ 마스터, 새로운 일정을 캘린더에 기록했어!\n> 📅 **{time_str}** | **{title}** `(ID: {res['id']})`")
+    except Exception as e:
+        await ctx.send(f"앗... 일정을 등록하는 도중 오류가 발생했어: {e}\n형식: `!일정추가 YYYY-MM-DD [HH:MM] 일정제목`")
+
+
+@bot.command(name="일정삭제", aliases=["del_schedule"])
+async def cmd_del_schedule(ctx: commands.Context, item_id: int):
+    """일정 삭제 (예: !일정삭제 1)"""
+    if not ScheduleManager:
+        await ctx.send("스케줄 매니저가 비활성화되어 있어.")
+        return
+    try:
+        ScheduleManager.delete_item(item_id)
+        await ctx.send(f"🗑️ `ID: {item_id}` 일정을 캘린더에서 깨끗이 지웠어, 마스터.")
+    except Exception as e:
+        await ctx.send(f"일정 삭제 실패: {e}")
+
+
+@bot.command(name="할일", aliases=["할일목록", "todo", "todos"])
+async def cmd_todo_list(ctx: commands.Context):
+    """진행 중인 모든 할 일(Todo) 목록 조회"""
+    if not ScheduleManager:
+        await ctx.send("스케줄 매니저 모듈을 찾을 수 없어.")
+        return
+
+    todos = ScheduleManager.get_items(only_todos=True, include_completed=True)
+    if not todos:
+        await ctx.send("마스터, 지금 밀려있는 할 일이 하나도 없어! 편안하게 쉬어도 돼.")
+        return
+
+    pending = [t for t in todos if not t.get("is_completed")]
+    completed = [t for t in todos if t.get("is_completed")]
+
+    embed = discord.Embed(
+        title="📝 마스터의 할 일 (Todo Checklist)",
+        color=0x2ecc71
+    )
+
+    if pending:
+        lines = []
+        for t in pending:
+            p_mark = "🔥" if t.get("priority") == 3 else ("⚡" if t.get("priority") == 2 else "🌱")
+            lines.append(f"⬜ `[ID:{t['id']}]` {p_mark} **{t['title']}** (기한: {t['start_time']})")
+        embed.add_field(name=f"진행 중인 태스크 ({len(pending)}개)", value="\n".join(lines), inline=False)
+    else:
+        embed.add_field(name="진행 중인 태스크", value="🎉 모든 할 일을 완수했어! 대단해, 마스터.", inline=False)
+
+    if completed:
+        c_lines = [f"~~`[ID:{t['id']}]` {t['title']}~~" for t in completed[-5:]]
+        embed.add_field(name="최근 완료된 항목", value="\n".join(c_lines), inline=False)
+
+    embed.set_footer(text="추가: !할일추가 내용 | 완료: !할일완료 ID | 삭제: !할일삭제 ID")
+    await ctx.send(embed=embed)
+
+
+@bot.command(name="할일추가", aliases=["add_todo", "투두추가"])
+async def cmd_add_todo(ctx: commands.Context, *, content: str):
+    """할 일 등록 (예: !할일추가 메이플 주간보스 돌기 or !할일추가 [긴급] 보고서 제출)"""
+    if not ScheduleManager:
+        await ctx.send("스케줄 매니저 모듈이 준비되지 않았어.")
+        return
+
+    priority = 3 if "[긴급]" in content or "[중요]" in content else 2
+    clean_title = content.replace("[긴급]", "").replace("[중요]", "").strip()
+    today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    try:
+        req = ScheduleCreateRequest(
+            title=clean_title,
+            start_time=today_str,
+            is_todo=True,
+            priority=priority
+        )
+        res = ScheduleManager.add_item(req)
+        p_str = "🔥 긴급" if priority == 3 else "⚡ 보통"
+        await ctx.send(f"✅ 할 일 목록에 추가했어, 마스터!\n> 📝 `[ID:{res['id']}]` **{clean_title}** ({p_str})")
+    except Exception as e:
+        await ctx.send(f"할 일 등록 실패: {e}")
+
+
+@bot.command(name="할일완료", aliases=["complete_todo", "체크", "done"])
+async def cmd_complete_todo(ctx: commands.Context, item_id: int):
+    """할 일 완료/미완료 토글 (예: !할일완료 1)"""
+    if not ScheduleManager:
+        return
+    try:
+        res = ScheduleManager.toggle_complete(item_id)
+        if res.get("is_completed"):
+            await ctx.send(f"🎉 `ID: {item_id}` 태스크를 완료 처리했어! 수고 많았어, 마스터.")
+        else:
+            await ctx.send(f"🔄 `ID: {item_id}` 태스크를 다시 진행 중으로 변경했어.")
+    except Exception as e:
+        await ctx.send(f"할 일 완료 처리 실패: {e}")
+
+
+@bot.command(name="할일삭제", aliases=["del_todo"])
+async def cmd_del_todo(ctx: commands.Context, item_id: int):
+    """할 일 삭제 (예: !할일삭제 1)"""
+    if not ScheduleManager:
+        return
+    try:
+        ScheduleManager.delete_item(item_id)
+        await ctx.send(f"🗑️ `ID: {item_id}` 할 일을 삭제했어, 마스터.")
+    except Exception as e:
+        await ctx.send(f"할 일 삭제 실패: {e}")
+
+
+@bot.command(name="브리핑", aliases=["모닝브리핑", "briefing"])
+async def cmd_manual_briefing(ctx: commands.Context):
+    """수동 모닝 브리핑 즉각 호출 (날씨 + 뉴스 + 오늘 스케줄 & 할 일)"""
+    async with ctx.typing():
+        embed = await generate_morning_briefing_content()
+        await ctx.send(embed=embed)
 
 
 @bot.command(name="상태", aliases=["status", "정보"])
