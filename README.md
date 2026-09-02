@@ -27,6 +27,8 @@
    - 일일 대화/일정/개발 기록 자동 요약 및 옵시디언 호환 Markdown 저널 자동 생성
 8. **🎮 게임 프로세스 자동 감지 & 코칭 브리퍼 (`modules/game_auto_coach.py`)**:
    - LoL, 발로란트, 메이플스토리 등 게임 실행 자동 감지 및 실시간 전술 코칭 가이드
+   - 📖 [차세대 롤(LoL) 실시간 AI 코치 기획서 & 아키텍처 상세 문서 보기](docs/LOL_AI_COACH_SPEC.md)
+
 9. **🔌 표준 MCP (Model Context Protocol) 지원 (`modules/mcp_server.py`)**:
    - Claude Desktop, VS Code, Cursor, Antigravity 등 외부 AI 도구와 JARVIS 기능 실시간 연동
 10. **📊 JARVIS 사이버틱 관측성 대시보드 (`/admin`)**:
