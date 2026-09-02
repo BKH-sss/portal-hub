@@ -12,9 +12,12 @@ venv/
 
 # Secrets & API Keys (CRITICAL SECURITY)
 config.py
+.env
+.env.*
 discord_config.json
 discord_bot/discord_config.json
 nexon_config.json
+mcp_servers.json
 *.key
 *.pem
 
@@ -56,16 +59,3 @@ korean_briar_voice/
 targets/
 tuned_outputs/
 test_scripts_archive/
-
-# Unrelated Web Portal Files
-portal/
-data/
-images/
-index.html
-global.html
-global/
-portal.html
-build_portal_data.py
-news_service.py
-global_news_service.py
-포털_실행.bat
