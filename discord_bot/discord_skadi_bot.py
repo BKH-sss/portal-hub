@@ -1128,7 +1128,7 @@ async def cmd_help(ctx: commands.Context):
     await ctx.send(embed=embed)
 
 
-@bot.command(name="모닝브리핑", aliases=["아침브리핑", "briefing", "선톡테스트"])
+@bot.command(name="모닝브리핑", aliases=["아침브리핑", "briefing", "선톡테스트", "브리핑"])
 async def cmd_morning_briefing(ctx: commands.Context):
     """오늘의 날씨, 미세먼지, 맞춤 관심 뉴스 3개 모닝 브리핑 즉시 출력"""
     async with ctx.typing():
@@ -1678,14 +1678,6 @@ async def cmd_del_todo(ctx: commands.Context, item_id: int):
         await ctx.send(f"🗑️ `ID: {item_id}` 할 일을 삭제했어, 마스터.")
     except Exception as e:
         await ctx.send(f"할 일 삭제 실패: {e}")
-
-
-@bot.command(name="브리핑", aliases=["모닝브리핑", "briefing"])
-async def cmd_manual_briefing(ctx: commands.Context):
-    """수동 모닝 브리핑 즉각 호출 (날씨 + 뉴스 + 오늘 스케줄 & 할 일)"""
-    async with ctx.typing():
-        embed = await generate_morning_briefing_content()
-        await ctx.send(embed=embed)
 
 
 @bot.command(name="상태", aliases=["status", "정보"])
