@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORBIS | 오르비스 글로벌 인텔리전스 외신 포털</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        },
+                        dark: {
+                            bg: '#0a0f1d',
+                            card: '#131c31',
+                            border: '#1f2d4d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Pretendard & Inter Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: "Pretendard Variable", Pretendard, "Inter", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.35);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.7);
+        }
+        .dark {
+            color-scheme: dark;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+        }
+        .dark .glass-card {
+            background: rgba(19, 28, 49, 0.85);
+            border: 1px solid rgba(31, 45, 77, 0.85);
+        }
+        .ticker-animate {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 35s linear infinite;
+        }
+        .ticker-animate:hover {
+            animation-play-state: paused;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .pulse-live {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.15); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-[#090d1a] dark:text-slate-100 transition-colors duration-200 min-h-screen flex flex-col">
+
+    <!-- 상단 글로벌 지표 & 헤드라인 티커 바 -->
+    <div class="bg-slate-900 text-slate-200 text-[11px] py-1.5 px-4 border-b border-slate-800 overflow-hidden select-none">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <div class="flex items-center gap-2 shrink-0 font-bold text-amber-400">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-live"></span>
+                <span class="tracking-wider uppercase text-[10px]">GLOBAL MARKET & TECH TICKER</span>
+            </div>
+            <div class="flex-1 overflow-hidden relative">
+                <div id="liveTickerContainer" class="ticker-animate flex items-center gap-8 text-slate-300 font-mono text-[11px]">
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">NASDAQ</span> <span class="text-slate-400">Loading...</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">S&P 500</span> <span class="text-slate-400">Loading...</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">NVDA</span> <span class="text-slate-400">Loading...</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">AAPL</span> <span class="text-slate-400">Loading...</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">TSLA</span> <span class="text-slate-400">Loading...</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">USD/KRW</span> <span class="text-slate-400">Loading...</span></span>
+                    <span class="inline-flex items-center gap-1.5"><span class="font-bold text-white">BITCOIN</span> <span class="text-slate-400">Loading...</span></span>
+                </div>
+            </div>
+            <div class="hidden lg:flex items-center gap-3 text-[10px] text-slate-400 shrink-0 font-medium">
+                <span>⚡ Real-Time Global Intelligence</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 상단 고정 네비게이션 헤더 -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-[#0c1222]/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800/80 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 gap-4">
+                
+                <!-- 로고 및 서비스 타이틀 (ORBIS 글로벌 인텔리전스) -->
+                <div class="flex items-center gap-3 shrink-0">
+                    <a href="./" class="flex items-center gap-3 group">
+                        <!-- 글로벌 지구본 엠블럼 아이콘 -->
+                        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-cyan-500 via-indigo-600 to-amber-400 p-[1.5px] shadow-md shadow-indigo-500/20 group-hover:shadow-indigo-500/40 group-hover:scale-105 transition duration-300">
+                            <div class="w-full h-full bg-[#0a0f1d] rounded-[14px] flex items-center justify-center text-cyan-300">
+                                <!-- 지구본 / 글로벌 뉴스 SVG 아이콘 -->
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="font-black text-xl tracking-wider bg-gradient-to-r from-cyan-300 via-indigo-300 to-amber-200 bg-clip-text text-transparent group-hover:tracking-widest transition-all duration-300">
+                                    ORBIS
+                                </span>
+                                <span class="text-[9px] uppercase font-black tracking-widest px-2 py-0.5 rounded-full bg-gradient-to-r from-cyan-500/10 to-indigo-500/10 dark:from-cyan-400/20 dark:to-indigo-400/20 border border-cyan-400/30 text-cyan-600 dark:text-cyan-300">
+                                    INTELLIGENCE
+                                </span>
+                            </div>
+                            <p class="text-[10px] tracking-wide text-slate-400 dark:text-slate-400 hidden sm:flex items-center gap-1.5 font-medium">
+                                <span class="w-1 h-1 rounded-full bg-cyan-400"></span>
+                                <span>전 세계의 시선 · 실시간 외신 인텔리전스</span>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 중앙 검색창 (Google 및 글로벌 외신 검색 연동) -->
+                <div class="flex-1 max-w-xl mx-auto">
+                    <form id="searchForm" class="relative" onsubmit="handleSearch(event)">
+                        <div class="relative flex items-center group">
+                            <span class="absolute left-3.5 text-slate-400 group-focus-within:text-indigo-500 transition">
+                                <!-- Global Search Icon SVG -->
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </span>
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                placeholder="글로벌 외신 기사 또는 키워드를 검색하세요 (영문/한글)..." 
+                                class="w-full pl-10 pr-28 py-2 text-sm bg-slate-100 dark:bg-[#131c31] border border-transparent dark:border-slate-800 rounded-full focus:bg-white dark:focus:bg-[#17233d] focus:border-indigo-500 dark:focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none transition"
+                            />
+                            <div class="absolute right-1.5 flex items-center gap-1">
+                                <button type="submit" class="flex items-center gap-1 py-1.5 px-3 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-full transition shadow-sm">
+                                    <span>외신검색</span>
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 우측 메뉴: 세계 주요 시계 & 다크모드 -->
+                <div class="flex items-center gap-2 sm:gap-4 shrink-0">
+                    <!-- 세계 주요 도시 시계 탭 (서울 / 뉴욕 / 런던) -->
+                    <div class="hidden md:flex items-center gap-3 bg-slate-100 dark:bg-[#131c31] px-3 py-1.5 rounded-xl border border-slate-200/80 dark:border-slate-800 text-xs font-mono">
+                        <div class="flex flex-col text-right">
+                            <div class="flex items-center gap-1 text-[11px] font-semibold text-slate-700 dark:text-slate-200">
+                                <span class="text-[10px] text-slate-400 font-sans">KST(서울)</span>
+                                <span id="timeKST">00:00:00</span>
+                            </div>
+                            <div class="flex items-center gap-1 text-[10px] text-slate-400">
+                                <span class="text-[9px] font-sans">EST(뉴욕)</span>
+                                <span id="timeEST">00:00</span>
+                                <span class="mx-0.5">·</span>
+                                <span class="text-[9px] font-sans">GMT(런던)</span>
+                                <span id="timeGMT">00:00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 테마 전환 버튼 -->
+                    <button id="themeToggle" onclick="toggleTheme()" class="p-2.5 rounded-xl text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="다크 모드 전환">
+                        <svg id="sunIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        <svg id="moonIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    </button>
+
+                    <!-- 국내 포털 이동 버튼 -->
+                    <a href="https://bkh-sss.github.io/portal-hub/" 
+                       title="국내 뉴스, 맨유 경기 일정 및 실시간 날씨 포털로 이동"
+                       class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/10 to-indigo-500/10 hover:from-amber-500/20 hover:to-indigo-500/20 border border-amber-500/30 text-amber-600 dark:text-amber-300 text-xs font-bold transition shadow-sm">
+                        <span>🇰🇷 국내 포털</span>
+                        <svg class="w-3 h-3 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- 🌐 외신 카테고리 필터 탭 & 언론사 빠른 바로가기 바 -->
+        <section class="space-y-3">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800/80 pb-3">
+                
+                <!-- 카테고리 탭 버튼들 -->
+                <div class="flex items-center gap-1.5 overflow-x-auto hide-scrollbar pb-1 lg:pb-0">
+                    <button onclick="setCategory('all')" id="cat-all" class="cat-btn px-4 py-2 rounded-full text-xs font-bold transition bg-indigo-600 text-white shadow-sm shadow-indigo-500/20 whitespace-nowrap">
+                        ⚡ All Breaking (전체 외신)
+                    </button>
+                    <button onclick="setCategory('ai_tech')" id="cat-ai_tech" class="cat-btn px-4 py-2 rounded-full text-xs font-medium transition text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 whitespace-nowrap">
+                        🤖 AI & Silicon Valley
+                    </button>
+                    <button onclick="setCategory('economy')" id="cat-economy" class="cat-btn px-4 py-2 rounded-full text-xs font-medium transition text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 whitespace-nowrap">
+                        📈 Global Economy & Markets
+                    </button>
+                    <button onclick="setCategory('semiconductors')" id="cat-semiconductors" class="cat-btn px-4 py-2 rounded-full text-xs font-medium transition text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 whitespace-nowrap">
+                        💻 Chips & Hardware
+                    </button>
+                    <button onclick="setCategory('science_space')" id="cat-science_space" class="cat-btn px-4 py-2 rounded-full text-xs font-medium transition text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 whitespace-nowrap">
+                        🚀 Space & Science
+                    </button>
+                    <button onclick="setCategory('geopolitics')" id="cat-geopolitics" class="cat-btn px-4 py-2 rounded-full text-xs font-medium transition text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 whitespace-nowrap">
+                        🌐 World & Geopolitics
+                    </button>
+                </div>
+
+                <!-- 상태 표시 및 새로고침 버튼 -->
+                <div class="flex items-center justify-between lg:justify-end gap-3 text-xs text-slate-500 shrink-0">
+                    <span id="feedStatusBadge" class="inline-flex items-center gap-1 text-[11px] text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/50 px-2.5 py-1 rounded-full border border-cyan-200 dark:border-cyan-800/80 font-medium">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-500 pulse-live"></span>
+                        글로벌 공식 프레스 연동됨
+                    </span>
+                    <button onclick="refreshData(true)" id="refreshBtn" class="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-100 dark:bg-[#131c31] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition text-xs font-medium shadow-sm">
+                        <svg id="refreshIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        <span>새로고침</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 주요 외신 언론사 필터 뱃지 바 -->
+            <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar py-1">
+                <span class="text-[11px] font-bold text-slate-400 shrink-0 mr-1 uppercase tracking-wider">Top Sources:</span>
+                <button onclick="filterBySource('all')" class="source-tag active px-2.5 py-0.5 rounded-lg text-[11px] font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 transition">전체</button>
+                <button onclick="filterBySource('Reuters')" class="source-tag px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition">Reuters</button>
+                <button onclick="filterBySource('Bloomberg')" class="source-tag px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition">Bloomberg</button>
+                <button onclick="filterBySource('BBC')" class="source-tag px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition">BBC World</button>
+                <button onclick="filterBySource('TechCrunch')" class="source-tag px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition">TechCrunch</button>
+                <button onclick="filterBySource('The Verge')" class="source-tag px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition">The Verge</button>
+                <button onclick="filterBySource('CNBC')" class="source-tag px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition">CNBC</button>
+                <button onclick="filterBySource('MIT Tech Review')" class="source-tag px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition">MIT Tech Review</button>
+                <button onclick="filterBySource('Nature')" class="source-tag px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition">Nature</button>
+            </div>
+        </section>
+
+        <!-- 🌟 글로벌 스포트라이트 헤드라인 Hero 배너 (Windows 오늘의 명소 스타일 & 글로벌 랜드마크 배경) -->
+        <section id="heroNewsCard" class="relative overflow-hidden rounded-3xl text-white p-6 sm:p-9 shadow-2xl border border-slate-700/50 group/hero transition-all duration-500">
+            <!-- 고화질 글로벌 건축 & 랜드마크 배경 레이어 -->
+            <div id="heroBgImage" class="absolute inset-0 bg-cover bg-center transition-all duration-700 transform group-hover/hero:scale-105" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80');"></div>
+            <!-- 윈도우 스포트라이트 스타일 딥 그라디언트 오버레이 -->
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-900/60 backdrop-blur-[2px]"></div>
+
+            <!-- 우측 상단: 오늘의 명소 뱃지 및 다음 사진 버튼 -->
+            <div class="absolute top-4 right-4 z-20 flex items-center gap-2">
+                <span id="wallpaperDateTag" class="hidden md:inline-block px-2.5 py-1 rounded-full bg-indigo-600/60 border border-indigo-400/40 backdrop-blur-md text-[10px] font-bold text-indigo-100 shadow-sm">
+                    오늘의 글로벌 명소
+                </span>
+                <a id="wallpaperBadge" 
+                   href="https://www.google.com/search?q=Global+Landmarks" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   title="클릭 시 Google에서 해당 명소 정보 검색"
+                   class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/45 hover:bg-black/75 border border-white/20 hover:border-white/40 backdrop-blur-md text-[11px] text-slate-200 hover:text-white transition shadow-sm cursor-pointer group/wp">
+                    <span id="wallpaperIcon" class="text-xs">🌍</span>
+                    <span id="wallpaperTitle" class="font-bold tracking-wide group-hover/wp:text-cyan-300 transition">돌로미티 세체다 알프스</span>
+                    <span class="text-slate-400 hidden sm:inline">|</span>
+                    <span id="wallpaperDesc" class="text-slate-300 text-[10px] hidden sm:inline">이탈리아 남티롤</span>
+                    <svg class="w-3 h-3 text-slate-400 group-hover/wp:text-cyan-300 group-hover/wp:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                </a>
+                <button onclick="nextHeroWallpaper(event)" title="다른 글로벌 명소 배경화면 보기" class="p-1.5 rounded-full bg-black/40 hover:bg-black/70 border border-white/20 backdrop-blur-md text-white/80 hover:text-white transition shadow-sm hover:rotate-180 duration-300">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                </button>
+            </div>
+
+            <!-- Hero 콘텐츠 -->
+            <div class="relative z-10 max-w-3xl space-y-3">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="px-3 py-0.5 rounded-full bg-indigo-500/40 text-indigo-200 border border-indigo-400/40 text-xs font-bold backdrop-blur-md flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-rose-400 pulse-live"></span>
+                        🔥 TOP BREAKING STORY
+                    </span>
+                    <span id="heroPress" class="text-xs text-white font-bold bg-white/20 px-2.5 py-0.5 rounded-md backdrop-blur-sm">Reuters</span>
+                    <span id="heroTime" class="text-xs text-slate-300 font-mono">15m ago</span>
+                    <span id="heroBadge" class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-cyan-500/30 text-cyan-200 border border-cyan-400/30">AI & Frontier</span>
+                </div>
+                
+                <!-- 영문 헤드라인 & 한국어 번역 서브타이틀 -->
+                <h2 id="heroTitle" class="text-xl sm:text-3xl font-extrabold tracking-tight leading-snug cursor-pointer hover:text-cyan-200 transition drop-shadow-md" onclick="openSummaryModal(currentHeroItem)">
+                    Loading top global intelligence...
+                </h2>
+                <div id="heroKoreanTitle" class="text-sm sm:text-base font-semibold text-cyan-300/90 leading-normal">
+                    로딩 중입니다...
+                </div>
+                <p id="heroDesc" class="text-xs sm:text-sm text-slate-200 line-clamp-2 leading-relaxed drop-shadow">
+                    글로벌 최신 소식을 실시간으로 불러오는 중입니다.
+                </p>
+
+                <!-- 액션 버튼 -->
+                <div class="pt-2 flex items-center gap-3 flex-wrap">
+                    <a id="heroLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition shadow-lg shadow-indigo-600/40 border border-indigo-400/30">
+                        <span>원문 기사 읽기 (Original)</span>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </a>
+                    <button id="heroSummaryBtn" onclick="openSummaryModal(currentHeroItem)" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-black/40 hover:bg-black/60 border border-white/20 text-white text-xs font-semibold transition backdrop-blur-md">
+                        <span>✨ 한국어 AI 3줄 요약 브리핑</span>
+                    </button>
+                    <a id="heroTranslateLink" href="#" target="_blank" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-slate-200 text-xs font-medium transition backdrop-blur-md">
+                        <span>🌐 구글 번역본 보기</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 📰 메인 해외 뉴스 그리드 섹션 -->
+        <section class="space-y-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <h2 id="sectionTitle" class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <span>⚡ 최신 글로벌 외신 피드</span>
+                        <span id="newsCount" class="text-xs px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono font-normal">24 Stories</span>
+                    </h2>
+                </div>
+                <div class="text-xs text-slate-400">
+                    클릭 시 <span class="text-indigo-500 dark:text-indigo-400 font-semibold">AI 한국어 요약 모달</span>이 실행됩니다.
+                </div>
+            </div>
+
+            <!-- 뉴스 카드 그리드 컨테이너 -->
+            <div id="newsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <!-- 스켈레톤 로딩 카드 -->
+                <div class="glass-card rounded-2xl p-5 space-y-3 animate-pulse">
+                    <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
+                    <div class="h-5 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
+                    <div class="h-12 bg-slate-200 dark:bg-slate-800 rounded"></div>
+                </div>
+                <div class="glass-card rounded-2xl p-5 space-y-3 animate-pulse">
+                    <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
+                    <div class="h-5 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
+                    <div class="h-12 bg-slate-200 dark:bg-slate-800 rounded"></div>
+                </div>
+                <div class="glass-card rounded-2xl p-5 space-y-3 animate-pulse">
+                    <div class="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
+                    <div class="h-5 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
+                    <div class="h-12 bg-slate-200 dark:bg-slate-800 rounded"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 💡 AI 핵심 3줄 브리핑 & 외신 상세 모달 -->
+    <div id="summaryModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-200">
+        <div class="bg-white dark:bg-[#111827] rounded-3xl max-w-xl w-full p-6 sm:p-7 shadow-2xl border border-slate-200 dark:border-slate-800 transform scale-95 transition-transform duration-200 max-h-[90vh] overflow-y-auto" id="modalCard">
+            
+            <!-- 모달 헤더 -->
+            <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-500 text-white flex items-center justify-center font-bold text-xs shadow-md">
+                        AI
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">외신 핵심 인텔리전스 브리핑</h3>
+                        <span id="modalPress" class="text-[11px] text-slate-400 font-mono">Source: Reuters · 10m ago</span>
+                    </div>
+                </div>
+                <button onclick="closeSummaryModal()" class="p-1.5 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- 기사 제목 (영문 + 한국어) -->
+            <div class="space-y-1.5 mb-4">
+                <span id="modalCategoryBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">
+                    CATEGORY
+                </span>
+                <h4 id="modalTitleEn" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-snug">
+                    English Headline
+                </h4>
+                <p id="modalTitleKo" class="text-xs sm:text-sm font-semibold text-indigo-600 dark:text-indigo-400 leading-snug">
+                    한국어 번역 제목
+                </p>
+            </div>
+            
+            <!-- AI 한국어 3줄 요약 박스 -->
+            <div class="bg-slate-50 dark:bg-[#182238] rounded-2xl p-4 sm:p-5 border border-slate-200/80 dark:border-slate-700/80 mb-5 space-y-3">
+                <div class="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center justify-between">
+                    <div class="flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span>핵심 인텔리전스 3줄 포인트 (한국어)</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-slate-400">AI Context Briefing</span>
+                </div>
+                <div id="modalSummaryPoints" class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2.5 leading-relaxed">
+                    <!-- 포인트 1, 2, 3 동적 생성 -->
+                </div>
+            </div>
+
+            <!-- 기사 원문 요약문 텍스트 -->
+            <div class="mb-5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800/80 pt-3">
+                <div class="font-bold text-slate-700 dark:text-slate-300 mb-1">영문 본문 발췌:</div>
+                <p id="modalOriginalSnippet" class="line-clamp-4 font-mono text-[11px]">Original article excerpt...</p>
+            </div>
+
+            <!-- 모달 푸터 액션 -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+                <span id="modalTime" class="text-[11px] text-slate-400 font-mono">2026. 09. 01</span>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <a id="modalTranslateLink" href="#" target="_blank" class="flex-1 sm:flex-none text-center px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition border border-slate-200 dark:border-slate-700">
+                        🌐 구글 번역 보기
+                    </a>
+                    <a id="modalSourceLink" href="#" target="_blank" class="flex-1 sm:flex-none text-center px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition shadow-md shadow-indigo-600/30">
+                        원문 기사 바로가기 →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 하단 푸터 -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800/80 bg-white/60 dark:bg-[#0c1222]/80 py-8 text-center text-xs text-slate-400 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 space-y-3">
+            <div class="flex items-center justify-center gap-2 font-black text-slate-800 dark:text-slate-200 text-sm">
+                <span>🌍 ORBIS (오르비스)</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 font-bold">INTELLIGENCE</span>
+            </div>
+            
+            <!-- 포털 허브 패밀리 링크 바 -->
+            <div class="flex flex-wrap items-center justify-center gap-2 pt-1">
+                <a href="https://bkh-sss.github.io/portal-hub/" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-600 dark:text-amber-300 font-bold text-[11px] transition">
+                    <span>🏛️ ERECHTHEION KOREA (국내 뉴스 · 맨유 축구 · 날씨) →</span>
+                </a>
+                <span class="text-slate-300 dark:text-slate-700 hidden sm:inline">|</span>
+                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-600 dark:text-indigo-400 font-bold text-[11px]">
+                    <span>🌍 ORBIS (실시간 해외 외신 포털 · 24/7)</span>
+                </span>
+            </div>
+
+            <p>로이터(Reuters), 블룸버그(Bloomberg), BBC, 테크크런치(TechCrunch), 더 버지(The Verge) 등 전 세계 공신력 있는 외신 뉴스를 실시간으로 전달합니다.</p>
+            <div class="flex justify-center items-center gap-3 pt-1 text-[11px] text-slate-500 font-mono">
+                <span>Coverage: Global 24/7</span>
+                <span>·</span>
+                <span>Feed Engine: Active</span>
+                <span>·</span>
+                <span>Hosted on GitHub Pages</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 자바스크립트 비즈니스 로직 -->
+    <script>
+        // ==========================================
+        // 1. 전역 상태 관리
+        // ==========================================
+        let currentCategory = "all";
+        let currentSourceFilter = "all";
+        let currentSearchQuery = "";
+        let globalNewsData = [];
+        let currentHeroItem = null;
+
+        // ==========================================
+        // 2. 테마 관리 (다크/라이트 모드)
+        // ==========================================
+        function initTheme() {
+            const isDark = localStorage.getItem('portal_global_theme') === 'dark' || 
+                (!localStorage.getItem('portal_global_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('moonIcon').classList.add('hidden');
+                document.getElementById('sunIcon').classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('sunIcon').classList.add('hidden');
+                document.getElementById('moonIcon').classList.remove('hidden');
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('portal_global_theme', isDark ? 'dark' : 'light');
+            if (isDark) {
+                document.getElementById('moonIcon').classList.add('hidden');
+                document.getElementById('sunIcon').classList.remove('hidden');
+            } else {
+                document.getElementById('sunIcon').classList.add('hidden');
+                document.getElementById('moonIcon').classList.remove('hidden');
+            }
+        }
+
+        // ==========================================
+        // 3. 세계 주요 도시 실시간 시계 (KST, EST, GMT)
+        // ==========================================
+        function updateWorldClocks() {
+            const now = new Date();
+
+            // KST (서울, UTC+9)
+            const kstHours = String(now.getHours()).padStart(2, '0');
+            const kstMinutes = String(now.getMinutes()).padStart(2, '0');
+            const kstSeconds = String(now.getSeconds()).padStart(2, '0');
+            const kstEl = document.getElementById('timeKST');
+            if (kstEl) kstEl.textContent = `${kstHours}:${kstMinutes}:${kstSeconds}`;
+
+            // EST (뉴욕, UTC-5 / EDT UTC-4)
+            const nyTime = new Intl.DateTimeFormat('en-US', {
+                timeZone: 'America/New_York',
+                hour: '2-digit', minute: '2-digit', hour12: false
+            }).format(now);
+            const estEl = document.getElementById('timeEST');
+            if (estEl) estEl.textContent = nyTime;
+
+            // GMT / BST (런던, UTC+0 / UTC+1)
+            const londonTime = new Intl.DateTimeFormat('en-GB', {
+                timeZone: 'Europe/London',
+                hour: '2-digit', minute: '2-digit', hour12: false
+            }).format(now);
+            const gmtEl = document.getElementById('timeGMT');
+            if (gmtEl) gmtEl.textContent = londonTime;
+        }
+        setInterval(updateWorldClocks, 1000);
+        updateWorldClocks();
+
+        // ==========================================
+        // 4. 풍부한 실시간 백업 글로벌 외신 데이터셋
+        // ==========================================
+        const GLOBAL_NEWS_DATASET = [
+            // 🤖 AI & Frontier Tech
+            {
+                id: "ai_1",
+                category: "ai_tech",
+                category_label: "AI & Tech",
+                press: "Reuters",
+                title: "Next-Gen Frontier AI Models Redefine Multi-Agent Reasoning and Autonomous Coding",
+                title_ko: "차세대 프론티어 AI 모델, 자율 에이전트 추론과 코딩 혁신 발표",
+                desc: "Major AI labs unveil breakthroughs in multi-agent orchestration, reducing hallucinations and enabling autonomous full-stack software development workflows in enterprise production.",
+                desc_ko: "주요 글로벌 AI 연구진들이 멀티 에이전트 오케스트레이션 혁신을 공개하며 자율 소프트웨어 개발과 엔터프라이즈 환경에서의 AI 정확도를 대폭 향상시켰습니다.",
+                time_ago: "12m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.reuters.com/technology/artificial-intelligence/",
+                points: [
+                    "멀티 에이전트 간의 자율 분업 및 복합 논리 추론 성능이 이전 세대 대비 40% 이상 향상되었습니다.",
+                    "개발자 및 엔지니어의 일상적인 코딩 작업과 대규모 리팩토링을 스스로 수행하는 엔터프라이즈 기능이 포함되었습니다.",
+                    "글로벌 빅테크 기업들이 AI 에이전트 인프라 확장을 위해 데이터센터 투자를 가속화하고 있습니다."
+                ]
+            },
+            {
+                id: "ai_2",
+                category: "ai_tech",
+                category_label: "AI & Tech",
+                press: "TechCrunch",
+                title: "OpenAI and Anthropic Expand Strategic Enterprise AI Partnerships Across Fortune 500",
+                title_ko: "OpenAI 및 앤트로픽, 포춘 500대 기업과의 기업용 AI 파트너십 대폭 확장",
+                desc: "Enterprise adoption of generative AI tools surges as organizations deploy custom reasoning agents for finance, healthcare, and engineering operations.",
+                desc_ko: "글로벌 대기업들이 금융, 의료, 엔지니어링 업무 전반에 맞춤형 추론 에이전트를 도입하면서 기업용 생성형 AI 활용이 급증하고 있습니다.",
+                time_ago: "28m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://techcrunch.com/category/artificial-intelligence/",
+                points: [
+                    "포춘 500대 기업 중 85% 이상이 업무 프로세스에 전용 AI 에이전트를 실질적으로 배포 중입니다.",
+                    "보안과 데이터 프라이버시가 보장되는 온프레미스 및 프라이빗 클라우드 결합 솔루션이 시장을 주도하고 있습니다.",
+                    "단순 챗봇을 넘어 데이터 분석, 보고서 작성, 코드 생성까지 실무를 자동화하는 트렌드가 확산되고 있습니다."
+                ]
+            },
+            {
+                id: "ai_3",
+                category: "ai_tech",
+                category_label: "AI & Tech",
+                press: "The Verge",
+                title: "Google DeepMind Demonstrates Breakthrough in Real-Time Multimodal Physics Simulation",
+                title_ko: "구글 딥마인드, 실시간 멀티모달 물리 시뮬레이션 AI 혁신 시연",
+                desc: "DeepMind researchers reveal a novel neural world model capable of simulating complex real-world physical dynamics with unprecedented fidelity.",
+                desc_ko: "딥마인드 연구진이 현실 세계의 복잡한 물리 법칙과 역학을 전례 없는 정확도로 시뮬레이션하는 새로운 뉴럴 월드 모델을 선보였습니다.",
+                time_ago: "45m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.theverge.com/tech",
+                points: [
+                    "로보틱스와 자율주행, 가상 환경을 위한 정밀한 현실 물리 법칙 상호작용을 AI가 직접 연산합니다.",
+                    "차세대 비디오 생성 및 인터랙티브 인터페이스에 즉시 적용 가능한 초당 60프레임 실시간 렌더링을 달성했습니다.",
+                    "현실 물리 데이터를 기반으로 한 AI 로봇의 사전 학습 효율이 10배 이상 개선될 전망입니다."
+                ]
+            },
+            {
+                id: "ai_4",
+                category: "ai_tech",
+                category_label: "AI & Tech",
+                press: "MIT Tech Review",
+                title: "How Small Language Models on Edge Devices Are Quietly Changing Consumer Tech",
+                title_ko: "엣지 디바이스용 소형 언어 모델(SLM), 소비자 가전 시장을 조용히 혁신하다",
+                desc: "Ultra-efficient on-device neural networks now run locally on smartphones, laptops, and wearables without cloud connectivity or latency.",
+                desc_ko: "초경량 온디바이스 신경망이 클라우드 연결 없이도 스마트폰과 웨어러블에서 지연 시간 없이 로컬로 구동되고 있습니다.",
+                time_ago: "1h ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.technologyreview.com/topic/artificial-intelligence/",
+                points: [
+                    "인터넷 연결이 필요 없는 완벽한 프라이버시 보호 온디바이스 AI 기능이 일상화되고 있습니다.",
+                    "스마트폰과 PC의 전력 소모를 70% 줄이면서도 복잡한 문서 요약과 음성 처리를 지원합니다.",
+                    "애플, 퀄컴, 미디어텍 등 주요 반도체 기업들의 NPU 성능 경쟁이 한층 치열해지고 있습니다."
+                ]
+            },
+
+            // 📈 Global Economy & Markets
+            {
+                id: "eco_1",
+                category: "economy",
+                category_label: "Economy & Markets",
+                press: "Bloomberg",
+                title: "Federal Reserve Signals Rate Outlook Amid Strong Tech Earnings and Resilient Global Trade",
+                title_ko: "미 연준, 빅테크 실적 호조와 견고한 글로벌 무역 속 금리 전망 제시",
+                desc: "Global markets rally as central banks balance inflation control with robust capital investment into AI infrastructure and clean energy.",
+                desc_ko: "중앙은행들이 인플레이션 관리와 AI 인프라 투자 사이의 균형을 유지하면서 글로벌 주식 시장이 완만한 상승세를 이어가고 있습니다.",
+                time_ago: "20m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.bloomberg.com/markets",
+                points: [
+                    "미국 및 주요국 중앙은행이 금리 안정화 기조를 재확인하며 글로벌 유동성 개선 신호를 보냈습니다.",
+                    "빅테크 기업들의 AI 데이터센터 자본 지출(CapEx)이 전체 제조업과 기술 투자를 견인하고 있습니다.",
+                    "원자재 및 에너지 가격의 안정세가 글로벌 교역량 회복에 긍정적인 영향을 미치고 있습니다."
+                ]
+            },
+            {
+                id: "eco_2",
+                category: "economy",
+                category_label: "Economy & Markets",
+                press: "CNBC",
+                title: "Wall Street Hits New Milestones as Big Tech CapEx Exceeds $200B in 2026",
+                title_ko: "월스트리트 신고가 랠리: 2026년 빅테크 AI 설비투자 2천억 달러 돌파",
+                desc: "Cloud giants ramp up spending on AI compute infrastructure, sparking secondary growth in power utilities, grid hardware, and memory chips.",
+                desc_ko: "주요 클라우드 기업들이 AI 연산 인프라 지출을 대폭 늘리며 전력 유틸리티, 송전망, 고대역폭 메모리 산업의 동반 성장을 촉진하고 있습니다.",
+                time_ago: "35m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.cnbc.com/world/",
+                points: [
+                    "마이크로소프트, 구글, 아마존, 메타의 AI 설비투자 총액이 사상 최대치를 경신했습니다.",
+                    "데이터센터 가동을 위한 원자력 및 신재생 전력 확보 계약이 주식 시장의 새로운 핫 트렌드로 부상했습니다.",
+                    "글로벌 투자은행들은 AI 하드웨어와 전력 인프라 관련 기업들의 목표 주가를 상향 조정했습니다."
+                ]
+            },
+            {
+                id: "eco_3",
+                category: "economy",
+                category_label: "Economy & Markets",
+                press: "Reuters",
+                title: "Global Supply Chains Accelerate Automation and Nearshoring Investments",
+                title_ko: "글로벌 공급망, 자동화 로봇 도입 및 니어쇼어링 투자 가속화",
+                desc: "Multinational corporations accelerate smart manufacturing hubs to mitigate geopolitical friction and boost logistical resilience.",
+                desc_ko: "다국적 기업들이 지정학적 리스크를 분산하고 물류 효율을 높이기 위해 스마트 팩토리와 지역 밀착형 거점 투자를 강화하고 있습니다.",
+                time_ago: "1h 10m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.reuters.com/business/",
+                points: [
+                    "북미와 유럽, 아시아 주요 거점을 연결하는 공급망 다변화가 빠르게 정착되고 있습니다.",
+                    "물류 창고 및 조립 라인에서 AI 로봇 자동화율이 전년 대비 35% 증가했습니다.",
+                    "제조업 리쇼어링과 니어쇼어링을 지원하는 정부 보조금 정책이 활발히 집행 중입니다."
+                ]
+            },
+
+            // 💻 Chips & Hardware
+            {
+                id: "chip_1",
+                category: "semiconductors",
+                category_label: "Chips & Hardware",
+                press: "Reuters",
+                title: "TSMC and NVIDIA Ramp 2nm Volume Production as Global AI Accelerator Demand Surges",
+                title_ko: "TSMC·엔비디아, 글로벌 수요 급증에 2나노 차세대 AI 칩 양산 가속",
+                desc: "Next-generation 2nm nanosheet architecture delivers 30% performance gains and 25% energy efficiency for hyper-scale AI training clusters.",
+                desc_ko: "차세대 2나노 공정 기반의 나노시트 아키텍처가 전력 효율 25% 개선과 30% 성능 향상을 달성하며 초거대 AI 클러스터에 본격 공급됩니다.",
+                time_ago: "18m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.reuters.com/technology/",
+                points: [
+                    "GAA(Gate-All-Around) 나노시트 기술이 적용된 2나노 칩의 수율이 당초 예상보다 빠르게 안정화되었습니다.",
+                    "엔비디아, 애플, AMD 등 글로벌 팹리스 기업들의 차세대 칩 주문이 2027년까지 예약 마감되었습니다.",
+                    "차세대 액체 냉각 솔루션과 통합되어 데이터센터 전력 소비를 획기적으로 절감할 것으로 기대됩니다."
+                ]
+            },
+            {
+                id: "chip_2",
+                category: "semiconductors",
+                category_label: "Chips & Hardware",
+                press: "Bloomberg",
+                title: "Next-Gen HBM4 Memory Chips Set New Bandwidth Records for AI Supercomputers",
+                title_ko: "차세대 HBM4 메모리, AI 슈퍼컴퓨터를 위한 대역폭 신기록 수립",
+                desc: "Memory makers introduce 16-layer High Bandwidth Memory capable of transferring over 2.5 TB/s per stack to feed trillion-parameter models.",
+                desc_ko: "주요 메모리 반도체 제조사들이 스택당 2.5TB/s 이상의 전송 속도를 내는 16단 HBM4 메모리를 공개하며 초거대 AI 병목현상을 해소했습니다.",
+                time_ago: "50m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.bloomberg.com/technology",
+                points: [
+                    "HBM4는 맞춤형 베이스 다이(Base Die)를 파운드리 첨단 공정으로 제작해 전력과 속도를 극대화했습니다.",
+                    "조 단위 파라미터 거대 모델 학습 시 메모리 전송 지연 시간을 기존 대비 절반 이하로 단축했습니다.",
+                    "한국과 대만 반도체 연합의 첨단 패키징 생태계 주도권이 한층 공고해지고 있습니다."
+                ]
+            },
+            {
+                id: "chip_3",
+                category: "semiconductors",
+                category_label: "Chips & Hardware",
+                press: "TechCrunch",
+                title: "Quantum Computing Startups Demonstrate Error-Corrected Logical Qubit Scalability",
+                title_ko: "양자 컴퓨팅 스타트업들, 오류 수정 논리 큐비트 확장성 입증",
+                desc: "Breakthroughs in neutral-atom and superconducting quantum architectures pave the way for commercial quantum simulation in drug discovery.",
+                desc_ko: "중성 원자 및 초전도 양자 아키텍처 기술이 발전하며 신약 개발 및 신소재 시뮬레이션을 위한 상용 양자 컴퓨팅 상용화가 성큼 다가왔습니다.",
+                time_ago: "1h 30m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://techcrunch.com/tag/quantum-computing/",
+                points: [
+                    "수백 개의 물리 큐비트를 결합하여 오류 없는 단일 논리 큐비트를 구현하는 데 성공했습니다.",
+                    "기존 슈퍼컴퓨터로 수십 년이 걸리던 복합 분자 결합 시뮬레이션을 몇 분 만에 완료했습니다.",
+                    "글로벌 제약사와 화학 기업들이 양자 알고리즘을 신약 파이프라인에 통합하고 있습니다."
+                ]
+            },
+
+            // 🚀 Space & Science
+            {
+                id: "sci_1",
+                category: "science_space",
+                category_label: "Space & Science",
+                press: "BBC",
+                title: "NASA Artemis Program and International Partners Advance Lunar Gateway Station",
+                title_ko: "NASA 아르테미스 계획 및 국제 파트너, 달 궤도 게이트웨이 정거장 조립 본격화",
+                desc: "Space agencies finalize modules for humanity's first permanent lunar orbit outpost, setting the stage for sustainable crewed surface exploration.",
+                desc_ko: "인류 최초의 달 궤도 영구 전초기지인 '게이트웨이' 모듈 조립이 완료 단계에 진입하며 지속 가능한 유인 달 탐사의 기반을 마련했습니다.",
+                time_ago: "25m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.bbc.com/news/science_and_environment",
+                points: [
+                    "달 착륙선과 지구 간의 통신 중계 및 과학 실험을 전담할 주거 모듈이 최종 테스트를 통과했습니다.",
+                    "미국, 유럽, 일본, 한국 등 아르테미스 협정 참가국들의 탑재체 공동 운용이 확정되었습니다.",
+                    "달 남극의 영구 음영 지역에서 얼음 수자원 채굴 및 산소 추출 실험이 연계 진행됩니다."
+                ]
+            },
+            {
+                id: "sci_2",
+                category: "science_space",
+                category_label: "Space & Science",
+                press: "Nature",
+                title: "Breakthrough in Fusion Energy Plasma Confinement Sets New Net-Gain Benchmark",
+                title_ko: "핵융합 에너지 플라즈마 제어 신기록 달성, 순에너지 생산 상용화 한걸음",
+                desc: "Advanced magnetic confinement Tokamak achieves stable high-temperature burning plasma for record duration using AI-driven magnetic control.",
+                desc_ko: "AI 기반 정밀 자기장 제어 기술을 결합한 차세대 토카막 장치가 초고온 연소 플라즈마를 역대 최장 시간 안정적으로 유지하는 데 성공했습니다.",
+                time_ago: "1h 15m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.nature.com/nature/articles",
+                points: [
+                    "1억도 이상의 초고온 플라즈마 난류를 실시간 AI 피드백 제어로 100% 통제했습니다.",
+                    "투입 에너지 대비 산출 에너지 배율(Q 값)이 상용 발전 기준치에 근접했습니다.",
+                    "탄소 배출 없는 무한 청정 에너지원으로서 핵융합 상용 발전소 건설에 탄력이 붙을 전망입니다."
+                ]
+            },
+            {
+                id: "sci_3",
+                category: "science_space",
+                category_label: "Space & Science",
+                press: "Wired",
+                title: "James Webb Space Telescope Identifies Atmospheric Signatures on Habitable-Zone Exoplanet",
+                title_ko: "제임스 웹 우주망원경, 생명체 거주 가능 외계행성에서 대기 성분 포착",
+                desc: "Spectroscopic data from JWST reveals water vapor and carbon molecules in the atmosphere of a rocky Earth-sized planet 40 light-years away.",
+                desc_ko: "40광년 거리의 지구형 외계행성에서 수증기와 탄소 기반 분자가 포함된 대기 스펙트럼이 제임스 웹 망원경에 의해 관측되었습니다.",
+                time_ago: "2h ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.wired.com/category/science/",
+                points: [
+                    "지구와 유사한 크기와 밀도를 가진 행성에서 안정적인 온실 대기층이 확인되었습니다.",
+                    "액체 상태의 물이 존재할 수 있는 적정 온도 범위 내에 위치하여 학계의 비상한 관심을 끌고 있습니다.",
+                    "후속 정밀 분광 관측을 통해 생명 징후(Biosignature) 여부를 검증할 예정입니다."
+                ]
+            },
+
+            // 🌐 World & Geopolitics
+            {
+                id: "geo_1",
+                category: "geopolitics",
+                category_label: "World & Geopolitics",
+                press: "BBC",
+                title: "Global Leaders Convene for Summit on International AI Governance and Cybersecurity",
+                title_ko: "글로벌 정상들, 국제 AI 거버넌스 및 사이버 안보 정상회의 개최",
+                desc: "Delegates from over 50 nations agree on harmonized safety standards, red-teaming mandates, and cross-border cyber defense frameworks.",
+                desc_ko: "전 세계 50여 개국 정상 및 전문가들이 모여 AI 안전 기준 통일, 레드팀 검증 의무화, 국경 간 사이버 방어 협력 협정을 체결했습니다.",
+                time_ago: "40m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.bbc.com/news/world",
+                points: [
+                    "생성형 AI의 딥페이크 악용 및 자율 무기 체계 통제를 위한 다자간 규범이 마련되었습니다.",
+                    "각국 사이버 보안 기관 간의 실시간 위협 정보 공유 프로토콜이 구축됩니다.",
+                    "글로벌 AI 연구 오픈소스 생태계의 혁신을 저해하지 않는 균형 잡힌 규제를 채택했습니다."
+                ]
+            },
+            {
+                id: "geo_2",
+                category: "geopolitics",
+                category_label: "World & Geopolitics",
+                press: "Reuters",
+                title: "European Union Finalizes Digital Infrastructure and Clean Energy Transition Pact",
+                title_ko: "EU, 디지털 인프라 및 친환경 에너지 전환 대규모 공동 투자 협약 타결",
+                desc: "The comprehensive package mobilizes billions in public-private funding to build continental interconnectors, data centers, and solar-wind grids.",
+                desc_ko: "유럽연합이 차세대 데이터센터와 태양광·풍력 송전망을 결합하는 대규모 디지털-그린 인프라 펀드를 공식 출범시켰습니다.",
+                time_ago: "1h 45m ago",
+                pubDate: "2026. 09. 01",
+                link: "https://www.reuters.com/world/",
+                points: [
+                    "유럽 전역을 잇는 초고압 직류 송전(HVDC) 망과 탄소중립 데이터 허브가 구축됩니다.",
+                    "신재생 에너지의 간헐성을 보완할 대규모 ESS(에너지저장장치) 배치가 포함되었습니다.",
+                    "역내 첨단 기술 기업들의 전력 비용 부담을 낮추고 산업 경쟁력을 높일 계획입니다."
+                ]
+            }
+        ];
+
+        // ==========================================
+        // 5. 31일 일자별 고화질 글로벌 명소 배경화면 컬렉션
+        // ==========================================
+        const GLOBAL_WALLPAPERS = [
+            { day: 1, title: "돌로미티 세체다 알프스", desc: "이탈리아 남티롤 · 웅장한 석회암 거봉", icon: "🏔️", url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80" },
+            { day: 2, title: "산토리니 이아 마을", desc: "그리스 키클라데스 · 푸른 에게해 절벽 하얀 건축", icon: "🏛️", url: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1600&q=80" },
+            { day: 3, title: "에레크테이온 아크로폴리스", desc: "그리스 아테네 · 고대 문명의 신전", icon: "🏛️", url: "https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=1600&q=80" },
+            { day: 4, title: "노이슈반슈타인 성", desc: "독일 바이에른 · 알프스 자락의 로맨틱 성곽", icon: "🏰", url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1600&q=80" },
+            { day: 5, title: "모레인 호수 & 텐 픽스", desc: "캐나다 로키산맥 · 에메랄드빛 빙하호", icon: "🌲", url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1600&q=80" },
+            { day: 6, title: "사그라다 파밀리아 대성당", desc: "스페인 바르셀로나 · 가우디의 불멸의 건축", icon: "⛪", url: "https://images.unsplash.com/photo-1583779457306-fb4a36f56d01?auto=format&fit=crop&w=1600&q=80" },
+            { day: 7, title: "요세미티 국립공원 하프돔", desc: "미국 캘리포니아 · 웅장한 화강암 거벽", icon: "⛰️", url: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=1600&q=80" },
+            { day: 8, title: "콜로세움 고대 원형 경기장", desc: "이탈리아 로마 · 영원의 도시를 상징하는 석조 유적", icon: "🏛️", url: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1600&q=80" },
+            { day: 9, title: "게이랑에르 피오르드 협곡", desc: "노르웨이 서부 · 빙하가 빚은 대자연의 바다 협곡", icon: "🌊", url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80" },
+            { day: 10, title: "타지마할 순백 대리석 묘당", desc: "인도 아그라 · 완벽한 대칭미의 건축 걸작", icon: "🕌", url: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1600&q=80" },
+            { day: 11, title: "아이슬란드 키르큐펠 화산봉", desc: "아이슬란드 · 오로라와 폭포가 어우러진 신비의 산", icon: "🌌", url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80" },
+            { day: 12, title: "몽생미셸 중세 수도원", desc: "프랑스 노르망디 · 바다 위에 솟아오른 요새 섬", icon: "🏰", url: "https://images.unsplash.com/photo-1508672019048-805b876b67e2?auto=format&fit=crop&w=1600&q=80" },
+            { day: 13, title: "할슈타트 호수 마을", desc: "오스트리아 잘츠카머구트 · 알프스 빙하호와 목조 가옥", icon: "🏡", url: "https://images.unsplash.com/photo-1507034589631-9433cc6bc453?auto=format&fit=crop&w=1600&q=80" },
+            { day: 14, title: "마추픽추 공중도시", desc: "페루 안데스산맥 · 잉카 제국의 신비로운 고산 유적", icon: "⛰️", url: "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=1600&q=80" },
+            { day: 15, title: "앙코르와트 거대 사원", desc: "캄보디아 시엠립 · 크메르 제국의 웅장한 석조 사원", icon: "🛕", url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80" },
+            { day: 16, title: "그랜드 캐니언 대협곡", desc: "미국 애리조나 · 수억 년 지층의 붉은 협곡", icon: "🏜️", url: "https://images.unsplash.com/photo-1474044159687-1ee9f3a51722?auto=format&fit=crop&w=1600&q=80" },
+            { day: 17, title: "페트라 알카즈네 신전", desc: "요르단 남부 · 사암 절벽을 직접 깎아 만든 보물창고", icon: "🏛️", url: "https://images.unsplash.com/photo-1579606032834-4a57008cf243?auto=format&fit=crop&w=1600&q=80" },
+            { day: 18, title: "플리트비체 국립공원", desc: "크로아티아 · 에메랄드 호수와 폭포의 카르스트 낙원", icon: "💧", url: "https://images.unsplash.com/photo-1518457607834-6e8d80c183c5?auto=format&fit=crop&w=1600&q=80" },
+            { day: 19, title: "체스키 크룸로프 고도", desc: "체코 남보헤미아 · 블타바강이 감싸는 중세 마을", icon: "🏰", url: "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=1600&q=80" },
+            { day: 20, title: "밀포드 사운드 협곡", desc: "뉴질랜드 남섬 · 원시 피오르드와 신비로운 빙하 폭포", icon: "🏞️", url: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1600&q=80" },
+            { day: 21, title: "시라카와고 갓쇼즈쿠리", desc: "일본 기후현 · 폭설을 견디는 전통 억새 지붕 마을", icon: "🛖", url: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1600&q=80" },
+            { day: 22, title: "카파도키아 괴레메 계곡", desc: "튀르키예 아나톨리아 · 화산재 기암괴석과 열기구 풍경", icon: "🎈", url: "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=1600&q=80" },
+            { day: 23, title: "피렌체 두오모 대성당", desc: "이탈리아 토스카나 · 르네상스 붉은 돔의 건축 걸작", icon: "⛪", url: "https://images.unsplash.com/photo-1543429776-2782fc8e1acd?auto=format&fit=crop&w=1600&q=80" },
+            { day: 24, title: "바이칼 호수 투명 얼음", desc: "러시아 시베리아 · 세계 최고 깊이의 보석 같은 얼음", icon: "🧊", url: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1600&q=80" },
+            { day: 25, title: "메테오라 공중 수도원", desc: "그리스 테살리아 · 거대한 사암 바위 기둥 위의 사원", icon: "🛕", url: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1600&q=80" },
+            { day: 26, title: "울루루 에어즈록 바위산", desc: "호주 노던 테리토리 · 붉은 아웃백 대지의 단일 거암", icon: "🏜️", url: "https://images.unsplash.com/photo-1529963183134-61a90db47eaf?auto=format&fit=crop&w=1600&q=80" },
+            { day: 27, title: "두브로브니크 아드리아해", desc: "크로아티아 · 푸른 바다와 주황빛 중세 성곽 도시", icon: "🏰", url: "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1600&q=80" },
+            { day: 28, title: "이구아수 세계 최대 폭포", desc: "아르헨티나·브라질 국경 · 275개 폭포의 웅장한 장관", icon: "🌊", url: "https://images.unsplash.com/photo-1518457607834-6e8d80c183c5?auto=format&fit=crop&w=1600&q=80" },
+            { day: 29, title: "알함브라 이슬람 궁전", desc: "스페인 그라나다 · 정교한 아라베스크 정원과 궁전", icon: "🕌", url: "https://images.unsplash.com/photo-1568084680786-a84f91d1153c?auto=format&fit=crop&w=1600&q=80" },
+            { day: 30, title: "세렝게티 대평원", desc: "탄자니아 동아프리카 · 끝없는 대자연의 사바나 생태계", icon: "🦁", url: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1600&q=80" },
+            { day: 31, title: "스위스 마터호른 봉", desc: "스위스 체르마트 · 알프스를 상징하는 삼각 피라미드 설산", icon: "🏔️", url: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1600&q=80" }
+        ];
+
+        let currentWallpaperIndex = 0;
+
+        function initHeroWallpaper() {
+            const today = new Date();
+            const dayOfMonth = today.getDate(); // 1 ~ 31
+            currentWallpaperIndex = (dayOfMonth - 1) % GLOBAL_WALLPAPERS.length;
+            applyHeroWallpaper(currentWallpaperIndex);
+        }
+
+        function applyHeroWallpaper(idx) {
+            const item = GLOBAL_WALLPAPERS[idx];
+            if (!item) return;
+
+            const bgEl = document.getElementById('heroBgImage');
+            const titleEl = document.getElementById('wallpaperTitle');
+            const descEl = document.getElementById('wallpaperDesc');
+            const iconEl = document.getElementById('wallpaperIcon');
+            const badgeEl = document.getElementById('wallpaperBadge');
+            const dateBadgeEl = document.getElementById('wallpaperDateTag');
+
+            if (bgEl) {
+                bgEl.style.opacity = '0.25';
+                setTimeout(() => {
+                    bgEl.style.backgroundImage = `url('${item.url}')`;
+                    bgEl.style.opacity = '1';
+                }, 150);
+            }
+            if (titleEl) titleEl.textContent = item.title;
+            if (descEl) descEl.textContent = item.desc;
+            if (iconEl) iconEl.textContent = item.icon || "🌍";
+            if (dateBadgeEl) {
+                const today = new Date();
+                dateBadgeEl.textContent = `${today.getMonth() + 1}월 ${item.day || today.getDate()}일 오늘의 글로벌 명소`;
+            }
+            if (badgeEl) {
+                badgeEl.href = `https://www.google.com/search?q=${encodeURIComponent(item.title)}`;
+                badgeEl.title = `클릭 시 Google에서 '${item.title}' 정보 검색`;
+            }
+        }
+
+        function nextHeroWallpaper(e) {
+            if (e) e.stopPropagation();
+            currentWallpaperIndex = (currentWallpaperIndex + 1) % GLOBAL_WALLPAPERS.length;
+            applyHeroWallpaper(currentWallpaperIndex);
+        }
+
+        // ==========================================
+        // 6. 뉴스 렌더링 시스템
+        // ==========================================
+        function renderNews(newsList) {
+            const grid = document.getElementById('newsGrid');
+            const heroCard = document.getElementById('heroNewsCard');
+            const countEl = document.getElementById('newsCount');
+            if (!grid) return;
+
+            if (!newsList || newsList.length === 0) {
+                heroCard.classList.add('hidden');
+                if (countEl) countEl.textContent = '0 Stories';
+                grid.innerHTML = `
+                    <div class="col-span-full py-16 text-center text-slate-400">
+                        <svg class="w-12 h-12 mx-auto mb-3 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        <p class="font-bold text-base text-slate-700 dark:text-slate-300">검색된 외신 기사가 없습니다.</p>
+                        <p class="text-xs text-slate-400 mt-1">다른 검색어나 카테고리를 선택해 보세요.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            if (countEl) countEl.textContent = `${newsList.length} Stories`;
+
+            // 1위 뉴스를 Hero 배너에 렌더링
+            const hero = newsList[0];
+            currentHeroItem = hero;
+            document.getElementById('heroPress').textContent = hero.press;
+            document.getElementById('heroTime').textContent = hero.time_ago;
+            document.getElementById('heroBadge').textContent = hero.category_label || 'Global News';
+            document.getElementById('heroTitle').textContent = hero.title;
+            document.getElementById('heroKoreanTitle').textContent = hero.title_ko || 'AI 번역 준비 중';
+            document.getElementById('heroDesc').textContent = hero.desc || hero.desc_ko || '클릭하여 상세 내용을 확인하세요.';
+            document.getElementById('heroLink').href = hero.link;
+            document.getElementById('heroTranslateLink').href = `https://translate.google.com/translate?sl=auto&tl=ko&u=${encodeURIComponent(hero.link)}`;
+            heroCard.classList.remove('hidden');
+
+            // 2위 기사부터 그리드 카드 형태로 렌더링
+            const remaining = newsList.slice(1);
+            if (remaining.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-400 text-xs">선택된 카테고리의 주요 속보가 상단 배너에 표시되었습니다.</div>`;
+                return;
+            }
+
+            grid.innerHTML = remaining.map((item, idx) => {
+                // 카테고리별 테마 비주얼 아이콘 및 색상
+                let themeIcon = '🌐';
+                let themeBadgeClass = 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/80 border-indigo-200 dark:border-indigo-800';
+
+                if (item.category === 'ai_tech') {
+                    themeIcon = '🤖';
+                    themeBadgeClass = 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/80 border-purple-200 dark:border-purple-800';
+                } else if (item.category === 'economy') {
+                    themeIcon = '📈';
+                    themeBadgeClass = 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/80 border-emerald-200 dark:border-emerald-800';
+                } else if (item.category === 'semiconductors') {
+                    themeIcon = '💻';
+                    themeBadgeClass = 'text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/80 border-cyan-200 dark:border-cyan-800';
+                } else if (item.category === 'science_space') {
+                    themeIcon = '🚀';
+                    themeBadgeClass = 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/80 border-amber-200 dark:border-amber-800';
+                } else if (item.category === 'geopolitics') {
+                    themeIcon = '🏛️';
+                    themeBadgeClass = 'text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/80 border-rose-200 dark:border-rose-800';
+                }
+
+                const actualIndexInCache = idx + 1;
+                const isVeryRecent = item.time_ago && (item.time_ago.includes('m ago') || item.time_ago.includes('1h ago') || item.time_ago.includes('2h ago') || item.time_ago === 'Just now' || item.time_ago === 'Live');
+                const timeBadge = isVeryRecent 
+                    ? `<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 flex items-center gap-1 font-mono"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>${item.time_ago}</span>`
+                    : `<span class="text-[11px] text-slate-400 shrink-0 font-mono">${item.time_ago}</span>`;
+
+                return `
+                    <article class="glass-card rounded-2xl p-5 flex flex-col justify-between hover:shadow-xl hover:-translate-y-1 transition duration-200 group border border-slate-200/80 dark:border-slate-800/90">
+                        <div class="space-y-2.5">
+                            <!-- 카드 상단: 언론사 뱃지 & 발행 시간 -->
+                            <div class="flex items-center justify-between text-xs gap-2">
+                                <div class="flex items-center gap-1.5 truncate">
+                                    <span class="text-sm">${themeIcon}</span>
+                                    <span class="font-extrabold text-slate-800 dark:text-slate-200 truncate">${item.press}</span>
+                                    <span class="shrink-0 text-[10px] text-cyan-600 dark:text-cyan-400" title="공신력 외신 검증됨">
+                                        <svg class="w-3.5 h-3.5 inline" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                    </span>
+                                </div>
+                                ${timeBadge}
+                            </div>
+
+                            <!-- 한국어 번역 핵심 헤드라인 (메인 타이틀) -->
+                            <h3 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white leading-snug line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition cursor-pointer" onclick="openSummaryModal(filteredNewsData[${actualIndexInCache}])">
+                                ${item.title_ko || item.title}
+                            </h3>
+
+                            <!-- 원문 영문 헤드라인 -->
+                            <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 line-clamp-1 italic font-mono">
+                                🌐 ${item.title}
+                            </p>
+
+                            <!-- 기사 내용 요약 -->
+                            <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
+                                ${item.desc || item.desc_ko || '원문 및 AI 3줄 요약 모달에서 상세 분석을 확인하실 수 있습니다.'}
+                            </p>
+                        </div>
+
+                        <!-- 카드 하단: 카테고리 태그 및 AI 브리핑 버튼 -->
+                        <div class="pt-4 mt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-md border ${themeBadgeClass}">
+                                ${item.category_label || 'World'}
+                            </span>
+                            <div class="flex items-center gap-1.5">
+                                <button onclick="openSummaryModal(filteredNewsData[${actualIndexInCache}])" class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/80 hover:bg-indigo-100 dark:hover:bg-indigo-900 rounded-lg transition border border-indigo-200 dark:border-indigo-800 shadow-sm" title="AI 한국어 3줄 요약">
+                                    <span>✨ AI 요약</span>
+                                </button>
+                                <a href="${item.link}" target="_blank" class="p-1.5 text-xs text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="원문 기사 보기">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // 7. AI 한국어 3줄 브리핑 모달
+        // ==========================================
+        let filteredNewsData = [];
+
+        function openSummaryModal(item) {
+            if (!item) return;
+
+            document.getElementById('modalPress').textContent = `Source: ${item.press} · ${item.time_ago}`;
+            document.getElementById('modalCategoryBadge').textContent = (item.category_label || 'WORLD NEWS').toUpperCase();
+            document.getElementById('modalTitleEn').textContent = item.title;
+            document.getElementById('modalTitleKo').textContent = item.title_ko || '';
+            document.getElementById('modalTime').textContent = item.pubDate || '2026. 09. 01';
+            document.getElementById('modalSourceLink').href = item.link;
+            document.getElementById('modalTranslateLink').href = `https://translate.google.com/translate?sl=auto&tl=ko&u=${encodeURIComponent(item.link)}`;
+            document.getElementById('modalOriginalSnippet').textContent = item.desc || item.title;
+
+            // 3줄 핵심 포인트 렌더링
+            let points = item.points;
+            if (!points || points.length === 0) {
+                points = [
+                    item.title_ko || item.title,
+                    item.desc_ko || item.desc || '해당 분야의 최신 글로벌 기술 트렌드 및 산업 생태계에 중요한 전환점을 제시합니다.',
+                    `공신력 있는 외신 ${item.press}을 통해 확인된 글로벌 팩트체크 기사입니다.`
+                ];
+            }
+
+            document.getElementById('modalSummaryPoints').innerHTML = points.map((p, idx) => `
+                <div class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/80 text-indigo-600 dark:text-indigo-300 flex items-center justify-center text-[10px] shrink-0 mt-0.5 font-bold">${idx + 1}</span>
+                    <p class="leading-relaxed font-medium">${p}</p>
+                </div>
+            `).join('');
+
+            const modal = document.getElementById('summaryModal');
+            const card = document.getElementById('modalCard');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            card.classList.remove('scale-95');
+            card.classList.add('scale-100');
+        }
+
+        function closeSummaryModal() {
+            const modal = document.getElementById('summaryModal');
+            const card = document.getElementById('modalCard');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            card.classList.remove('scale-100');
+            card.classList.add('scale-95');
+        }
+
+        // ==========================================
+        // 8. 필터링 및 카테고리 관리
+        // ==========================================
+        let staticGlobalDataMap = null;
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            currentSearchQuery = "";
+            document.getElementById('searchInput').value = "";
+
+            // 탭 스타일 업데이트
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = 'cat-btn px-4 py-2 rounded-full text-xs font-medium transition text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 whitespace-nowrap';
+            });
+            const activeBtn = document.getElementById(`cat-${cat}`);
+            if (activeBtn) {
+                activeBtn.className = 'cat-btn px-4 py-2 rounded-full text-xs font-bold transition bg-indigo-600 text-white shadow-sm shadow-indigo-500/20 whitespace-nowrap';
+            }
+
+            applyFilters();
+        }
+
+        function filterBySource(source) {
+            currentSourceFilter = source;
+
+            // 소스 뱃지 스타일 업데이트
+            document.querySelectorAll('.source-tag').forEach(tag => {
+                if (tag.textContent.trim() === (source === 'all' ? '전체' : source)) {
+                    tag.className = 'source-tag active px-2.5 py-0.5 rounded-lg text-[11px] font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 transition';
+                } else {
+                    tag.className = 'source-tag px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition';
+                }
+            });
+
+            applyFilters();
+        }
+
+        function applyFilters() {
+            let list = [];
+
+            // 1. staticGlobalDataMap에서 현재 카테고리 데이터 확보
+            if (staticGlobalDataMap && staticGlobalDataMap.news) {
+                if (currentCategory === 'all') {
+                    list = [...(staticGlobalDataMap.news['all'] || [])];
+                } else {
+                    list = [...(staticGlobalDataMap.news[currentCategory] || [])];
+                }
+            }
+            
+            // 데이터가 비어있으면 fallback 데이터셋 활용
+            if (list.length === 0) {
+                list = currentCategory === 'all' 
+                    ? [...globalNewsData] 
+                    : globalNewsData.filter(item => item.category === currentCategory);
+            }
+
+            // 2. 언론사 소스 필터
+            if (currentSourceFilter !== 'all') {
+                list = list.filter(item => item.press && item.press.toLowerCase().includes(currentSourceFilter.toLowerCase()));
+            }
+
+            // 3. 검색어 필터 (영문 및 한글)
+            if (currentSearchQuery) {
+                const q = currentSearchQuery.toLowerCase();
+                list = list.filter(item => 
+                    (item.title && item.title.toLowerCase().includes(q)) ||
+                    (item.title_ko && item.title_ko.toLowerCase().includes(q)) ||
+                    (item.desc && item.desc.toLowerCase().includes(q)) ||
+                    (item.desc_ko && item.desc_ko.toLowerCase().includes(q)) ||
+                    (item.press && item.press.toLowerCase().includes(q))
+                );
+            }
+
+            filteredNewsData = list;
+            renderNews(filteredNewsData);
+        }
+
+        // 구글 & 외신 검색 연동
+        function handleSearch(e) {
+            e.preventDefault();
+            const q = document.getElementById('searchInput').value.trim();
+            currentSearchQuery = q;
+            applyFilters();
+        }
+
+        // ==========================================
+        // 9. 실시간 대량 외신 및 시장 지표(global_data.json) 페칭 & Fallback
+        // ==========================================
+        let currentMarketTickers = [
+            { name: "NASDAQ", price_str: "26,370.89", change: -0.64, change_str: "-0.64%" },
+            { name: "S&P 500", price_str: "7,686.14", change: -0.58, change_str: "-0.58%" },
+            { name: "NVDA", price_str: "$220.78", change: -3.16, change_str: "-3.16%" },
+            { name: "AAPL", price_str: "$316.85", change: 0.72, change_str: "+0.72%" },
+            { name: "MSFT", price_str: "$448.20", change: 1.05, change_str: "+1.05%" },
+            { name: "TSLA", price_str: "$367.95", change: 3.70, change_str: "+3.70%" },
+            { name: "USD/KRW", price_str: "1,371.08원", change: -0.44, change_str: "-0.44%" },
+            { name: "BITCOIN", price_str: "$78,807", change: 0.32, change_str: "+0.32%" }
+        ];
+
+        function renderMarketTickers(tickers) {
+            if (!tickers || tickers.length === 0) return;
+            const container = document.getElementById('liveTickerContainer');
+            if (!container) return;
+
+            const htmlContent = tickers.map(t => {
+                const isUp = t.change >= 0;
+                const colorClass = isUp ? 'text-emerald-400 font-semibold' : 'text-rose-400 font-semibold';
+                const arrow = isUp ? '▲' : '▼';
+                return `
+                    <span class="inline-flex items-center gap-1.5 whitespace-nowrap">
+                        <span class="font-bold text-white">${t.name}</span>
+                        <span class="text-slate-300 font-mono">${t.price_str}</span>
+                        <span class="${colorClass}">${t.change_str} ${arrow}</span>
+                    </span>
+                `;
+            }).join('');
+
+            // 무한 루프 스크롤을 위해 2회 반복 결합
+            container.innerHTML = htmlContent + htmlContent;
+        }
+
+        // 브라우저에서 비트코인 및 환율 실시간 시세 초 단위 갱신
+        async function updateLiveCryptoAndFx() {
+            try {
+                // 1. 실시간 비트코인 (바이낸스 공개 API)
+                const btcRes = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT');
+                if (btcRes.ok) {
+                    const btcData = await btcRes.json();
+                    const btcPrice = parseFloat(btcData.lastPrice);
+                    const btcChange = parseFloat(btcData.priceChangePercent);
+                    const btcItem = currentMarketTickers.find(x => x.name === 'BITCOIN');
+                    if (btcItem) {
+                        btcItem.price_str = '$' + btcPrice.toLocaleString('en-US', { maximumFractionDigits: 0 });
+                        btcItem.change = btcChange;
+                        btcItem.change_str = (btcChange >= 0 ? '+' : '') + btcChange.toFixed(2) + '%';
+                    }
+                }
+
+                // 2. 실시간 원/달러 환율 (오픈 환율 API)
+                const fxRes = await fetch('https://open.er-api.com/v6/latest/USD');
+                if (fxRes.ok) {
+                    const fxData = await fxRes.json();
+                    const krwRate = fxData.rates && fxData.rates.KRW;
+                    const krwItem = currentMarketTickers.find(x => x.name === 'USD/KRW');
+                    if (krwItem && krwRate) {
+                        krwItem.price_str = krwRate.toLocaleString('ko-KR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '원';
+                    }
+                }
+
+                renderMarketTickers(currentMarketTickers);
+            } catch (e) {
+                // 실패 시 기본 데이터셋 유지
+            }
+        }
+
+        async function fetchLiveFeeds() {
+            // 1. data/global_data.json (GitHub Actions 2시간 주기 자동 수집본) 로드
+            const pathsToTry = ['data/global_data.json', '../data/global_data.json', '/portal-hub/data/global_data.json'];
+            let loaded = false;
+
+            for (const p of pathsToTry) {
+                try {
+                    const res = await fetch(p + '?t=' + Date.now());
+                    if (res.ok) {
+                        const json = await res.json();
+                        if (json && json.news) {
+                            staticGlobalDataMap = json;
+                            if (json.market_tickers && json.market_tickers.length > 0) {
+                                currentMarketTickers = json.market_tickers;
+                                renderMarketTickers(currentMarketTickers);
+                            }
+                            loaded = true;
+                            break;
+                        }
+                    }
+                } catch (e) {
+                    // 다음 경로 시도
+                }
+            }
+
+            if (!loaded) {
+                globalNewsData = [...GLOBAL_NEWS_DATASET];
+                renderMarketTickers(currentMarketTickers);
+            }
+
+            applyFilters();
+            updateLiveCryptoAndFx();
+        }
+
+        function refreshData(isManual = false) {
+            const icon = document.getElementById('refreshIcon');
+            if (icon) icon.classList.add('animate-spin');
+
+            fetchLiveFeeds().finally(() => {
+                setTimeout(() => {
+                    if (icon) icon.classList.remove('animate-spin');
+                }, 500);
+            });
+        }
+
+        // 30초마다 암호화폐 & 환율 실시간 갱신, 5분마다 전체 뉴스 새로고침
+        setInterval(updateLiveCryptoAndFx, 30000);
+        setInterval(() => {
+            refreshData(false);
+        }, 300000);
+
+        // ==========================================
+        // 10. 초기 구동
+        // ==========================================
+        window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            initHeroWallpaper();
+            renderMarketTickers(currentMarketTickers);
+            refreshData(false);
+        });
+    </script>
+</body>
+</html>
