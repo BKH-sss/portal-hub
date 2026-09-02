@@ -59,3 +59,6 @@ korean_briar_voice/
 targets/
 tuned_outputs/
 test_scripts_archive/
+tools_data_builder/
+app_storage_data.json
+skadi_profile_facts.json

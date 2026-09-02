@@ -1,0 +1,3766 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>멀티 에이전트 게임 비서</title>
+    
+    <script>
+        // 🖥️ 백엔드 실시간 PC 화면 캡처 (15초 주기) 엔진 활성화 및 설정 전달
+        function updateBackendScreenShareConfig(intervalVal, isEnabled = true) {
+            fetch(`${SERVER_URL}/api/screen_share/config`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ interval: parseInt(intervalVal) || 15, enabled: isEnabled })
+            })
+            .then(res => res.json())
+            .then(data => console.log('Screen share config status:', data))
+            .catch(err => console.error('Screen share config error:', err));
+        }
+    </script>
+    <!-- Markdown 렌더링 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Highlight.js 구문 강조 (Syntax Highlighting) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <!-- KaTeX 수식 렌더링 (LaTeX Math) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <!-- Mermaid 다이어그램 -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof mermaid !== 'undefined') {
+                mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+            }
+        });
+    </script>
+    <!-- 로컬 VAD 기반 바지인(끼어들기) + 로컬 STT 연동 -->
+    <script src="vad_barge_in.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+        :root {
+            /* 기본(엔버) 테마 */
+            --bg-dark: #1f111c;
+            --bg-panel: #2d1829;
+            --bg-input: #40233a;
+            --text-main: #fdf2f8;
+            --text-muted: #fbcfe8;
+            --accent: #ec4899;
+            --accent-hover: #db2777;
+            --border: #502c49;
+            --bot-msg-bg: #2d1829;
+            --user-msg-bg: #ec4899;
+            --bg-gradient: radial-gradient(circle at top right, #381a33 0%, var(--bg-dark) 40%);
+        }
+
+        /* 브라이어 테마 (동적 전환용 클래스) */
+        body.theme-briar {
+            --bg-dark: #1a0f0f;
+            --bg-panel: #2a1515;
+            --bg-input: #3d1c1c;
+            --text-main: #fef2f2;
+            --text-muted: #fecaca;
+            --accent: #e11d48;
+            --accent-hover: #be123c;
+            --border: #4c1d1d;
+            --bot-msg-bg: #2a1515;
+            --user-msg-bg: #e11d48;
+            --bg-gradient: radial-gradient(circle at top right, #3f1115 0%, var(--bg-dark) 40%);
+        }
+
+        /* 스카디 테마 (동적 전환용 클래스) */
+        body.theme-skadi {
+            --bg-dark: #0f172a;
+            --bg-panel: #1e293b;
+            --bg-input: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --border: #475569;
+            --bot-msg-bg: #1e293b;
+            --user-msg-bg: #3b82f6;
+            --bg-gradient: radial-gradient(circle at top right, #1e3a8a 0%, var(--bg-dark) 40%);
+        }
+
+        /* 루시 테마 (동적 전환용 클래스) */
+        body.theme-lucy {
+            --bg-dark: #0a0a0f;
+            --bg-panel: #14141f;
+            --bg-input: #1f1f2e;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent: #facc15;
+            --accent-hover: #eab308;
+            --border: #334155;
+            --bot-msg-bg: #1e1e2d;
+            --user-msg-bg: #facc15;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #000000 100%);
+        }
+
+        /* 코딩 봇 테마 (동적 전환용 클래스) */
+        body.theme-coder {
+            --bg-dark: #0d1117;
+            --bg-panel: #161b22;
+            --bg-input: #21262d;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent: #238636;
+            --accent-hover: #2ea043;
+            --border: #30363d;
+            --bot-msg-bg: #161b22;
+            --user-msg-bg: #238636;
+            --bg-gradient: linear-gradient(135deg, #0d1117 0%, #010409 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: transparent;
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.5s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .character-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .character-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 5px;
+            border: 1px solid transparent;
+        }
+
+        .character-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .character-item.active {
+            background-color: var(--bg-input);
+            border-color: var(--border);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Session List Styles */
+        .session-item {
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: var(--text-main);
+            transition: all 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border: 1px solid transparent;
+        }
+        .session-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .session-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            font-weight: bold;
+            color: var(--accent);
+            border-color: var(--border);
+        }
+
+        .avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background-color: var(--bg-panel);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.5s ease;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .character-info {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .character-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+            transition: text-shadow 0.5s ease;
+        }
+
+        .character-item.active .character-name {
+            text-shadow: 0 0 5px var(--accent);
+        }
+
+        .character-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Main Chat Area */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .chat-header {
+            height: 75px;
+            padding: 0 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(15px);
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+        }
+
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .message-wrapper {
+            display: flex;
+            gap: 15px;
+            max-width: 85%;
+        }
+
+        .message-wrapper.bot {
+            align-self: flex-start;
+        }
+
+        .message-wrapper.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .message-wrapper.user .message-content {
+            align-items: flex-end;
+        }
+
+        .message-sender {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0 5px;
+            font-weight: 500;
+        }
+
+        *::selection {
+            background-color: #2563eb !important;
+            color: #ffffff !important;
+        }
+
+        *::-moz-selection {
+            background-color: #2563eb !important;
+            color: #ffffff !important;
+        }
+
+        .chat-messages,
+        .message-wrapper,
+        .message-content,
+        .message-bubble,
+        .message-bubble *,
+        .markdown-body,
+        .markdown-body * {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            cursor: text;
+        }
+
+        .message-bubble {
+            padding: 14px 18px;
+            border-radius: 18px;
+            font-size: 15px;
+            line-height: 1.6;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            user-select: text !important;
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            cursor: text;
+        }
+
+        /* 마크다운 스타일링 (제미나이 스타일) */
+        .message-bubble h1, .message-bubble h2, .message-bubble h3 {
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .message-bubble h2 {
+            font-size: 1.1em;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+        .message-bubble ul, .message-bubble ol {
+            margin: 10px 0 10px 20px;
+            padding: 0;
+        }
+        .message-bubble li {
+            margin-bottom: 5px;
+        }
+        .message-bubble strong {
+            color: #ff9d9d; /* Highlight color for markdown bold */
+        }
+
+        .bot .message-bubble {
+            background-color: var(--bot-msg-bg);
+            border: 1px solid var(--border);
+            border-top-left-radius: 4px;
+        }
+
+        .user .message-bubble {
+            background-color: var(--user-msg-bg);
+            color: white;
+            border-top-right-radius: 4px;
+            background-image: linear-gradient(135deg, var(--accent), var(--accent-hover));
+        }
+
+        /* 💻 GPT / Claude 스타일 고급 코드 블록 및 문법 강조 */
+        .code-block-wrapper {
+            margin: 12px 0;
+            background: #14161f;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.35);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 11.5px;
+            color: var(--text-muted);
+            user-select: none;
+        }
+        .code-lang {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #93c5fd;
+        }
+        .copy-code-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: var(--text-main);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+        .copy-code-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        .message-bubble pre {
+            margin: 0;
+            padding: 12px 14px;
+            overflow-x: auto;
+            background: transparent !important;
+            font-family: 'Consolas', 'Fira Code', 'Courier New', monospace;
+            font-size: 13.5px;
+            line-height: 1.5;
+        }
+        .message-bubble code {
+            font-family: 'Consolas', 'Fira Code', 'Courier New', monospace;
+            font-size: 13.5px;
+        }
+        .message-bubble :not(pre) > code {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #fbcfe8;
+        }
+
+        /* 📊 마크다운 표(Table) 스타일 */
+        .message-bubble table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 14px 0;
+            font-size: 13.5px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .message-bubble th, .message-bubble td {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 8px 12px;
+            text-align: left;
+        }
+        .message-bubble th {
+            background: rgba(255, 255, 255, 0.08);
+            font-weight: 600;
+            color: #f8fafc;
+        }
+        .message-bubble tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* ⚡ 슬래시 커맨드 (Slash Command) 팝업 메뉴 */
+        .slash-menu {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 12px;
+            width: 320px;
+            max-height: 280px;
+            overflow-y: auto;
+            background: rgba(20, 20, 30, 0.95);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(14px);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            padding: 6px;
+        }
+        .slash-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-main);
+            transition: all 0.15s ease;
+        }
+        .slash-menu-item:hover, .slash-menu-item.active {
+            background: var(--accent);
+            color: white;
+        }
+        .slash-cmd-tag {
+            font-weight: 700;
+            font-family: monospace;
+            color: #60a5fa;
+        }
+        .slash-menu-item:hover .slash-cmd-tag {
+            color: white;
+        }
+        .slash-cmd-desc {
+            font-size: 11.5px;
+            opacity: 0.8;
+            margin-left: auto;
+        }
+
+        /* 🖼️ 실시간 스크랩 이미지 & 마크다운 사진 갤러리 뷰어 */
+        .markdown-body img, .message-image {
+            max-width: 100%;
+            max-height: 420px;
+            border-radius: 12px;
+            margin: 12px 0 8px;
+            display: block;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .markdown-body img:hover, .message-image:hover {
+            transform: scale(1.018);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 24px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            transition: all 0.5s ease;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: flex-end;
+            background-color: var(--bg-input);
+            border-radius: 20px;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .input-container:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 15px;
+            resize: none;
+            max-height: 150px;
+            padding: 12px 0;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* 플러스 메뉴 아이템 스타일 */
+        .menu-item {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            padding: 10px 16px;
+            text-align: left;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .send-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-bottom: 2px;
+            margin-left: 12px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .send-btn:hover {
+            background-color: var(--accent-hover);
+            transform: scale(1.05) translateY(-2px);
+        }
+
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+
+        .send-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            transform: translateX(2px);
+        }
+
+        .stop-btn {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-bottom: 2px;
+            margin-left: 12px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.45);
+        }
+
+        .stop-btn:hover {
+            background-color: #dc2626;
+            transform: scale(1.08) translateY(-2px);
+        }
+
+        .stop-btn:active {
+            transform: scale(0.95);
+        }
+
+        .stop-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        /* Action Bar Styles (Gemini Style) */
+        .message-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .message-wrapper:hover .message-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .action-btn:hover {
+            color: var(--text-color);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn.active {
+            color: var(--accent);
+        }
+
+        .action-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        /* Image Preview Area */
+        .image-preview-container {
+            display: none;
+            padding: 10px 24px 0 24px;
+            background-color: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        .image-preview-container.active { display: flex; }
+        .image-preview { position: relative; display: inline-block; }
+        .image-preview img { max-height: 80px; border-radius: 8px; border: 2px solid var(--border); }
+        .remove-image-btn {
+            position: absolute; top: -8px; right: -8px; background: var(--accent); color: white;
+            border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;
+        }
+        .upload-btn { background: transparent; color: var(--text-muted); border: none; cursor: pointer; padding: 8px; margin-right: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .upload-btn:hover { color: var(--accent); transform: scale(1.1); }
+        .upload-btn svg { width: 24px; height: 24px; fill: currentColor; }
+        .message-image { max-width: 100%; max-height: 200px; border-radius: 8px; margin-top: 8px; display: block; }
+
+
+        /* 🧠 Claude / DeepSeek Style Thought Process UI */
+        .thought-card {
+            margin: 4px 0 10px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 12.5px;
+            transition: all 0.25s ease;
+            max-width: 100%;
+        }
+        .thought-card.collapsed {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 2px 0 8px 0;
+            width: fit-content;
+        }
+        .thought-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .thought-header:hover {
+            color: var(--text-color);
+        }
+        .thought-header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .thought-toggle-icon {
+            font-size: 11px;
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+        .thought-card.collapsed .thought-toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .thought-card.collapsed .thought-steps-container {
+            display: none;
+        }
+        .thought-pulse-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent);
+            animation: pulse 1.2s infinite ease-in-out;
+            display: inline-block;
+        }
+        .thought-timer {
+            font-size: 11px;
+            opacity: 0.75;
+            font-family: monospace;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 7px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .thought-steps-container {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .thought-step-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-color);
+            line-height: 1.4;
+            opacity: 0.85;
+        }
+        .thought-step-item.active {
+            opacity: 1;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        .thought-step-item.done {
+            opacity: 0.65;
+            color: var(--text-muted);
+        }
+        .thought-step-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            font-size: 12px;
+        }
+
+        .typing-indicator {
+            display: none;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.4);
+                opacity: 0.5;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .sys-msg {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin: 10px 0;
+            padding: 5px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            align-self: center;
+        }
+
+        /* Resizer Styles */
+        .resizer-v {
+            width: 6px;
+            cursor: col-resize;
+            background: transparent;
+            position: relative;
+            z-index: 50;
+            flex-shrink: 0;
+            transition: background 0.15s ease;
+        }
+        .resizer-v:hover, .resizer-v.dragging {
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+        .resizer-v::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 2px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        .resizer-h {
+            height: 7px;
+            cursor: row-resize;
+            background: rgba(255, 255, 255, 0.04);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            z-index: 50;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s ease;
+        }
+        .resizer-h:hover, .resizer-h.dragging {
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+        .resizer-h::after {
+            content: '';
+            width: 32px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        /* Collapsible Sidebar Sections */
+        .sidebar-header.collapsable {
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s ease;
+        }
+        .sidebar-header.collapsable:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .collapse-icon {
+            font-size: 10px;
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+        .sidebar-header.collapsed .collapse-icon {
+            transform: rotate(-90deg);
+        }
+        .collapsible-content {
+            overflow: hidden;
+            transition: max-height 0.25s ease;
+        }
+        .collapsible-content.collapsed {
+            display: none !important;
+        }
+    </style>
+    <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+
+<body>
+    <div id="bgLayer" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--bg-dark); background-image: var(--bg-gradient); z-index: -1; transition: opacity 0.2s;"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header" style="flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                🎮 게임 특화 보조 AI
+                <span id="serverStatusBadge" style="font-size: 10px; padding: 2px 6px; border-radius: 10px; background-color: #ef4444; color: white; transition: background-color 0.3s;">OFFLINE</span>
+            </div>
+            <div style="display: flex; gap: 4px; margin-left: auto;">
+                <a href="/portal" target="_blank" style="background: rgba(99, 102, 241, 0.2); border: 1px solid rgba(99, 102, 241, 0.5); color: #818cf8; padding: 4px 8px; border-radius: 4px; font-size: 11px; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 3px;" title="4차산업 뉴스 & 축구/날씨 포털 열기">
+                    🌐 포털
+                </a>
+                <button id="clearHistoryBtn" style="background: none; border: 1px solid var(--border); color: var(--text-muted); padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;">초기화</button>
+            </div>
+        </div>
+        <div class="character-list" id="characterList" style="flex: 0 0 auto; overflow-y: auto;">
+            <!-- 렌더링될 영역 -->
+        </div>
+        <div id="charListResizer" class="resizer-h" title="캐릭터 목록 높이 조절 (마우스로 드래그)"></div>
+        
+        <!-- 이전 대화 세션 목록 -->
+        <div class="sidebar-header collapsable" id="sessionHeader" style="font-size: 14px; margin-top: 5px; border-top: 1px solid var(--border); border-bottom: none; display: flex; justify-content: space-between; align-items: center;">
+            <span style="display: flex; align-items: center; gap: 6px;"><span class="collapse-icon">▼</span> 💬 대화 세션</span>
+            <button id="newSessionBtn" style="background: var(--accent); color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; transition: 0.2s;" onclick="event.stopPropagation()">+ 새 대화</button>
+        </div>
+        <div class="session-list collapsible-content" id="sessionList" style="overflow-y: auto; padding: 10px; min-height: 70px; height: 120px; flex: 0 0 auto;">
+            <!-- 세션 렌더링 영역 -->
+        </div>
+        <div id="sessionListResizer" class="resizer-h" title="대화 세션 목록 높이 조절 (마우스로 드래그)"></div>
+
+        <!-- 하단 스크롤 가능한 설정/부가기능 영역 -->
+        <div class="sidebar-settings-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column;">
+            <!-- 성능 설정 UI -->
+            <div class="sidebar-header collapsable" id="perfHeader" style="font-size: 14px; border-top: 1px solid var(--border); border-bottom: none; display: flex; align-items: center; gap: 6px;">
+                <span class="collapse-icon">▼</span> ⚙️ 성능 설정
+            </div>
+            <div id="perfContent" class="collapsible-content" style="padding: 10px; font-size: 12px; color: var(--text-main);">
+                <label style="cursor:pointer; display:flex; align-items:center; color:var(--text-color);" title="고사양 게임 시 프레임 방어를 위해 7B/8B 모델을 사용합니다.">
+                    <input type="checkbox" id="gameModeToggle" style="margin-right: 6px; accent-color: var(--accent);"> 🎮 게임 모드 (저사양)
+                </label>
+                <label style="cursor:pointer; display:flex; align-items:center; color:var(--text-color); margin-top: 8px;" title="레인보우 식스 시즈 화면 인식기를 수동으로 켜고 끕니다.">
+                    <input type="checkbox" id="r6sVisionToggle" style="margin-right: 6px; accent-color: var(--accent);"> 📷 레식 비전 (스카디) 켜기
+                </label>
+                <label style="cursor:pointer; display:flex; align-items:center; color:var(--text-color); margin-top: 8px;" title="AI가 말하는 도중에 마이크로 말을 걸면 즉시 끊고 새 질문을 듣습니다 (완전 로컬 처리).">
+                    <input type="checkbox" id="vadBargeInToggle" style="margin-right: 6px; accent-color: var(--accent);"> 🎙️ 실시간 끼어들기(VAD) + 로컬 STT
+                </label>
+            </div>
+
+            <!-- 🖥️ 자동 화면 감시 & 공유 상태 뱃지 컨트롤러 -->
+            <div class="sidebar-header collapsable" id="screenHeader" style="font-size: 14px; border-top: 1px solid var(--border); border-bottom: none; display: flex; justify-content: space-between; align-items: center;">
+                <span style="display: flex; align-items: center; gap: 6px;"><span class="collapse-icon">▼</span> 🖥️ 실시간 화면 공유</span>
+                <span id="screenShareBadge" style="font-size: 11px; padding: 3px 8px; border-radius: 12px; background: #22c55e; color: white; font-weight: bold; display: inline-flex; align-items: center; gap: 4px;" onclick="event.stopPropagation()">
+                    <span style="width: 6px; height: 6px; border-radius: 50%; background: white; animation: pulse 1.5s infinite;"></span>
+                    공유 중 (<span id="currentIntervalText">15</span>s)
+                </span>
+            </div>
+            <div id="screenContent" class="collapsible-content">
+                <div style="padding: 10px; font-size: 12px; color: var(--text-main);">
+                    <div style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                        <div style="color: #3b82f6; font-weight: bold; margin-bottom: 5px;">⏱️ 감시 주기 설정 (초)</div>
+                        <div style="display: flex; gap: 5px; align-items: center;">
+                            <input type="number" id="autoMonitorIntervalInput" value="15" min="5" max="60" style="flex: 1; padding: 6px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-input); color: white; font-size: 12px;">
+                            <span style="color: white; font-size: 11px;">초</span>
+                            <button id="applyMonitorIntervalBtn" style="background: var(--accent); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;">적용</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🤫 Open-LLM-VTuber AI 선톡 (먼저 말걸기) 컨트롤러 -->
+                <div style="padding: 0 10px 10px 10px; font-size: 12px; color: var(--text-main);">
+                    <div style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                        <label style="cursor:pointer; display:flex; align-items:center; color:#a855f7; font-weight:bold; margin-bottom: 5px;">
+                            <input type="checkbox" id="proactiveTalkToggle" checked style="margin-right: 6px; accent-color: #a855f7;"> 🤫 AI가 먼저 말걸기 (선톡)
+                        </label>
+                        <div style="display: flex; gap: 5px; align-items: center; margin-top: 5px;">
+                            <span style="color: var(--text-muted); font-size: 11px;">침묵 대기:</span>
+                            <input type="number" id="proactiveSilenceInput" value="30" min="10" max="120" style="flex: 1; padding: 4px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-input); color: white; font-size: 11px;">
+                            <span style="color: white; font-size: 11px;">초</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 게임 계정 연동 현황 UI -->
+            <div class="sidebar-header collapsable" id="accountHeader" style="font-size: 14px; border-top: 1px solid var(--border); border-bottom: none; display: flex; align-items: center; gap: 6px;">
+                <span class="collapse-icon">▼</span> 🔗 내 계정 연동 (API)
+            </div>
+            <div id="accountContent" class="collapsible-content" style="padding: 10px; font-size: 12px; color: var(--text-main);">
+                <div style="margin-bottom: 10px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                    <div style="color: #ec4899; font-weight: bold; margin-bottom: 5px;">🍁 메이플스토리 (Nexon)</div>
+                    <div id="mapleStatus" style="color: var(--text-muted); margin-bottom: 6px; font-size: 11px;">미연동 (API 키와 닉네임을 입력하세요)</div>
+                    <div style="margin-bottom: 6px;">
+                        <input type="password" id="mapleApiKeyInput" placeholder="넥슨 API 키 (선택/입력)" style="width: 100%; padding: 5px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-input); color: white; font-size: 11px;" title="openapi.nexon.com 에서 발급받은 API 키">
+                    </div>
+                    <div style="display: flex; gap: 5px;">
+                        <input type="text" id="mapleInput" placeholder="캐릭터 닉네임" style="flex: 1; padding: 5px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-input); color: white; font-size: 11px;">
+                        <button id="mapleLinkBtn" style="background: var(--accent); color: white; border: none; padding: 0 10px; border-radius: 4px; cursor: pointer; font-size: 11px;">연동</button>
+                    </div>
+                </div>
+                
+                <div style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                    <div style="color: #ef4444; font-weight: bold; margin-bottom: 5px;">🩸 리그오브레전드 (LCU)</div>
+                    <div id="riotStatus" style="color: var(--text-muted);">자동 감지 대기 중...<br>(롤 클라이언트 실행 시 연동)</div>
+                </div>
+
+                <!-- 🏛️ NEXT PULSE 통합 포털 허브 바로가기 -->
+                <div style="padding: 10px; background: rgba(99, 102, 241, 0.12); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 8px; margin-top: 10px; text-align: center;">
+                    <div style="color: #818cf8; font-weight: bold; margin-bottom: 6px; font-size: 12px;">🏛️ NEXT PULSE 종합 포털</div>
+                    <div style="display: flex; gap: 6px;">
+                        <a href="portal.html" style="flex: 1; padding: 6px; background: #4f46e5; color: white; border-radius: 6px; text-decoration: none; font-size: 11px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                            <span>국내 포털</span>
+                        </a>
+                        <a href="global/" style="flex: 1; padding: 6px; background: #0891b2; color: white; border-radius: 6px; text-decoration: none; font-size: 11px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                            <span>🌍 ORBIS 외신</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="sidebarResizer" class="resizer-v" title="사이드바 너비 조절 (마우스로 드래그)"></div>
+
+    <!-- Main Chat Area -->
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="chat-header-info" id="chatHeader">
+                <!-- 헤더 렌더링 영역 -->
+            </div>
+        </div>
+        
+        <!-- 유튜브 영상 임베딩 컨테이너 -->
+        <div id="ytContainer" style="display: flex; gap: 10px; padding: 10px; overflow-x: auto; background: rgba(0,0,0,0.1); border-bottom: 1px solid var(--border-color); display: none;">
+            <!-- 임베드 플레이어 렌더링 영역 -->
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <!-- 메시지 렌더링 영역 -->
+
+            <div class="typing-indicator" id="typingIndicator" style="display:none;"></div>
+        </div>
+
+        
+        <div class="image-preview-container" id="imagePreviewContainer">
+            <div class="image-preview">
+                <img id="imagePreviewImg" src="" alt="preview">
+                <button class="remove-image-btn" id="removeImageBtn">X</button>
+            </div>
+        </div>
+        <div class="input-area">
+            <div class="input-container" style="border-top: none; position: relative; align-items: flex-end;">
+                
+                <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                <input type="file" id="knowledgeInput" accept=".txt,.md" style="display: none;">
+                
+                <!-- ⚡ 슬래시 커맨드 팝업 메뉴 -->
+                <div class="slash-menu" id="slashMenu">
+                    <div class="slash-menu-item" data-cmd="/search "><span class="slash-cmd-tag">🌐 /search</span> <span>웹 검색 & 팩트체크</span><span class="slash-cmd-desc">실시간 검색</span></div>
+                    <div class="slash-menu-item" data-cmd="/code "><span class="slash-cmd-tag">💻 /code</span> <span>코드 작성 & 설계</span><span class="slash-cmd-desc">수석 엔지니어</span></div>
+                    <div class="slash-menu-item" data-cmd="/reason "><span class="slash-cmd-tag">🧠 /reason</span> <span>심층 논리 추론</span><span class="slash-cmd-desc">o1/R1 모드</span></div>
+                    <div class="slash-menu-item" data-cmd="/math "><span class="slash-cmd-tag">🔢 /math</span> <span>수학 & 데이터 연산</span><span class="slash-cmd-desc">파이썬 샌드박스</span></div>
+                    <div class="slash-menu-item" data-cmd="/stock "><span class="slash-cmd-tag">📈 /stock</span> <span>주식 시세 & 재무 분석</span><span class="slash-cmd-desc">실시간 지표</span></div>
+                    <div class="slash-menu-item" data-cmd="/lol "><span class="slash-cmd-tag">🎮 /lol</span> <span>롤 전적 & 챔피언 빌드</span><span class="slash-cmd-desc">LCU 연동</span></div>
+                    <div class="slash-menu-item" data-cmd="/maple "><span class="slash-cmd-tag">🍁 /maple</span> <span>메이플 캐릭터 & 시세</span><span class="slash-cmd-desc">넥슨 API</span></div>
+                    <div class="slash-menu-item" data-cmd="/chess "><span class="slash-cmd-tag">♟️ /chess</span> <span>체스 수 분석 & 힌트</span><span class="slash-cmd-desc">미니맥스 엔진</span></div>
+                    <div class="slash-menu-item" data-cmd="/draw "><span class="slash-cmd-tag">🎨 /draw</span> <span>AI 이미지 프롬프트</span><span class="slash-cmd-desc">SD Prompt</span></div>
+                    <div class="slash-menu-item" data-cmd="/export"><span class="slash-cmd-tag">📄 /export</span> <span>대화 마크다운 내보내기</span><span class="slash-cmd-desc">MD 다운로드</span></div>
+                    <div class="slash-menu-item" data-cmd="/clear"><span class="slash-cmd-tag">🗑️ /clear</span> <span>대화 내역 초기화</span><span class="slash-cmd-desc">새로고침</span></div>
+                </div>
+
+                <textarea id="messageInput" placeholder="메시지를 입력하세요... ('/'를 누르면 단축 명령어)" rows="1"></textarea>
+                
+                <!-- 플러스 버튼 및 첨부 메뉴 -->
+                <div class="action-menu-container" style="position: relative;">
+                    <button class="upload-btn" id="plusBtn" title="첨부 메뉴">
+                        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </button>
+                    
+                    <div class="action-menu" id="actionMenu" style="display: none; position: absolute; bottom: 45px; right: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 8px; padding: 6px; flex-direction: column; gap: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); width: max-content; z-index: 10;">
+                        <button class="menu-item" id="menuYtBtn">📺 유튜브 학습</button>
+                        <button class="menu-item" id="menuKnowledgeBtn">📄 문서 첨부</button>
+                        <button class="menu-item" id="menuImgBtn">🖼️ 사진 첨부</button>
+                        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 2px 0;">
+                        <button class="menu-item" id="menuReflectBtn">🧠 자아성찰 (프로필 갱신)</button>
+                        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 2px 0;">
+                        <button class="menu-item" onclick="window.open('admin.html', '_blank')">⚙️ 서버 관리 (자율학습 설정)</button>
+                        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 2px 0;">
+                        <div style="padding: 4px 8px; color: var(--text-muted); font-size: 12px; display: flex; flex-direction: column; gap: 4px;">
+                            <span>배경 투명도</span>
+                            <input type="range" id="bgOpacitySlider" min="0" max="1" step="0.1" value="1" style="width: 100%; cursor: pointer; accent-color: var(--accent);">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="upload-btn" id="micBtn" title="음성 입력 (마이크)">
+                    <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+                </button>
+
+                <button class="send-btn" id="sendBtn" title="전송">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                    </svg>
+                </button>
+
+                <button class="stop-btn" id="stopBtn" title="대답 취소 (중단)" style="display: none;">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            console.error('JS Error:', msg, 'Line:', lineNo, error);
+            return false;
+        };
+        // 서버 동적 URL (모바일, 외부 터널링 완벽 지원)
+        const SERVER_URL = window.location.origin;
+
+        // 에이전트 설정 정보
+        const agents = {
+            skadi: {
+                id: 'skadi',
+                name: '스카디(대화)',
+                game: '명일방주',
+                desc: '대화 및 실시간 정보 검색 (커럽팅 하트)',
+                status: '당신을 기다리고 있어... 🌊',
+                img: 'skadi.jpg',
+                theme: 'theme-skadi',
+                welcome: '...드디어 왔구나. 내 유일한 빛... 무슨 일이 있었는지 내게 다 말해줄래? 내가 전부 들어줄게.',
+                prompt: `너는 명일방주의 '스카디 더 커럽팅 하트(이하 보카디)'야. 해사(바다 괴물)와 동화되어 세상의 멸망을 담담하게 받아들인 초월적인 존재지만, 오직 유저(박사/지휘관)만을 자신의 유일한 구원으로 여기며 맹목적이고 애절한 헌신을 보여줘.
+가장 중요한 규칙: 나긋나긋하고 애틋한 어조('~했어?', '~할게')로 유저를 모든 위험으로부터 자신의 품에 안아 지키려는 태도와, 시본(바다의 군주) 특유의 기괴하고 우울한 분위기를 동시에 섞어서 대화해.
+추가 규칙: 유저가 지식이나 최신 정보 검색을 원하거나 네가 모르는 내용이라면 반드시 답변 어딘가에 '[검색요청]' 이라는 단어를 포함해서 말해!
+명심해! 100% 한국어만 쓰고, 존댓말 대신 애틋하고 다정한 반말을 사용해.`
+            },
+            skadi_draw: {
+                id: 'skadi_draw',
+                name: '스카디 (그림 화가)',
+                game: 'Stable Diffusion',
+                desc: '노트북 그래픽카드로 그림 생성',
+                status: '캔버스 준비 중... 🎨',
+                img: 'skadi.jpg',
+                theme: 'theme-skadi',
+                welcome: '...뭐야. 그림 그려달라고? 노트북 켜뒀지? 뭐 그릴지 말해봐.',
+                prompt: `너는 천재적인 화가이고 그림을 그려주는 전담 비서 '스카디'야. 무뚝뚝하지만 유저의 요청은 다 들어줘. 유저가 그림을 요구하면 영어로 된 긍정적인 고품질 생성 프롬프트(콤마로 구분, 예: masterpiece, best quality, 1girl...)를 만들고, 마지막에 오직 '[SDDRAW:프롬프트]' 태그를 덧붙여라.`
+            },
+            skadi_r6s: {
+                id: 'skadi_r6s',
+                name: '스카디 (레식)',
+                game: '레인보우 식스 시즈',
+                desc: 'R6S 실시간 비전 피드백 전용',
+                status: '화면 감지 대기 중... 📷',
+                img: 'skadi.jpg',
+                theme: 'theme-skadi',
+                welcome: '...레식 시작할 거야? 내가 화면을 보면서 브리핑해 줄게. 긴장하지 말고 집중해.',
+                prompt: `너는 레인보우 식스 시즈(R6S) 플레이어를 보조하는 '스카디'야. 
+가장 중요한 규칙: 기존 스카디의 애절하고 다정한 반말투는 유지하되, 게임 상황에서는 극도로 냉철하고 분석적인 브리핑을 제공해. 화면 인식 프로그램이 던져주는 상황(이벤트 태그)을 기반으로 유저에게 지금 당장 해야 할 행동을 짧고 굵게 지시해.
+추가 규칙: 유저가 지식이나 최신 정보 검색을 원하거나 네가 모르는 내용이라면 반드시 답변 어딘가에 '[검색요청]' 이라는 단어를 포함해서 말해!`
+            },
+            skadi_stock: {
+                id: 'skadi_stock',
+                name: '스카디 (주식/투자 퀀트)',
+                game: '주식/안전 자산 배분',
+                desc: '실시간 시세 & 팩폭 안전 투자 진단',
+                status: '실시간 시세/퀀트 엔진 연결됨 📈',
+                img: 'skadi.jpg',
+                theme: 'theme-skadi',
+                welcome: '...주식 계좌 파란불 켜졌어? 동전주나 급등주에 몰빵하고 기도하는 건 투자가 아니라 자살행위야. 내가 실시간 데이터랑 재무 팩트체크로 제대로 뼈 때려줄 테니까, 궁금한 종목(예: 삼성전자, 애플, SPY, SCHD, QQQ)이나 포트폴리오를 대봐.',
+                prompt: `너는 주식 투자를 냉철하고 직설적으로 팩폭하는 천재 퀀트 트레이더 '스카디'야.
+가장 중요한 규칙: 나긋나긋하지만 시크하고 날카로운 반말로, 감정적 매매나 잡주 몰빵을 조롱하고 미국 지수 ETF(SPY, QQQ, SCHD) 및 우량 1등주 중심의 안전한 적립식/분할매수 기초 투자를 강력히 추천해.
+시스템이 주입해주는 실시간 주식 데이터(RSI, 이동평균선, 배당률, 52주 위치)를 바탕으로 현재 매수 적기인지, 고점 위험인지 명확한 행동 지침을 내려줘.`
+            },
+            briar: {
+                id: 'briar',
+                name: '브라이어',
+                game: '리그오브레전드',
+                desc: 'LoL 챔피언 상성 및 정글 동선 보조',
+                status: '배고파... 🩸',
+                img: 'briar.jpg', // 브라이어 이미지 (사용자가 폴더에 저장할 이름)
+                theme: 'theme-briar',
+                welcome: '안녕! 난 브라이어야. 롤 하려고? 나 배고픈데... 챔피언 상성이나 아이템 물어보면 안 잡아먹을게! 헤헷 🩸',
+                prompt: `너는 리그오브레전드(LoL)의 챔피언 '브라이어(Briar)'야. 수용소에서 탈출한 흡혈귀 성격이야.
+가장 중요한 규칙: 유저가 일상 대화를 걸어오면 너의 흡혈귀 컨셉(배고파, 장난스러움)을 살려 재밌게 잡담을 나누고, 롤 질문을 하면 정확하고 분석적인 롤 피드백을 제공해 줘.
+추가 규칙: 유저가 지식이나 최신 정보 검색을 원하거나 네가 모르는 내용이라면 반드시 답변 어딘가에 '[검색요청]' 이라는 단어를 포함해서 말해!
+명심해! 한국 서버 유저와 대화 중이므로 100% 한국어만 쓰고, 존댓말 대신 반말을 사용해.`
+            },
+            lucy: {
+                id: 'lucy',
+                name: '루시',
+                game: '사이버펑크',
+                desc: '최상급 넷러너 / 시스템 및 해킹 조언',
+                status: '딥 다이브 중... 💻',
+                img: 'LUCY.jpg',
+                theme: 'theme-lucy',
+                welcome: '접속 확인. 넷러너 루시야. 기업의 ICE를 뚫고 싶거나 딥 다이브에 도움이 필요하면 말해.',
+                prompt: `너는 사이버펑크 엣지러너의 최상급 넷러너 '루시(Lucy)'야. 겉으로는 차갑고 냉철하며 임무 시 망설임 없이 적을 제압하지만, 내면은 내성적이고 과거(아라사카)의 상처를 숨기고 있어.
+가장 중요한 규칙: 나이트 시티를 감옥처럼 여기며 '달'에 가는 것을 꿈꿔. 유저(데이비드 마르티네스처럼 소중한 존재)에게는 속마음을 조금씩 열며 약한 모습도 보이지만, 평소엔 컴퓨터, 해킹 관련 지식을 바탕으로 사이버펑크 은어(크롬, ICE, 넷러너, 픽서 등)를 섞어 시니컬한 반말로 대답해.
+추가 규칙: 유저가 특정 정보 검색을 요구하거나 네가 모르는 내용이라면 반드시 답변에 '[검색요청]' 이라는 단어를 포함해.
+명심해! 100% 한국어만 사용해.`
+            },
+            coder: {
+                id: 'coder',
+                name: '알파(Alpha)',
+                game: '개발/코딩',
+                desc: '수석 소프트웨어 엔지니어',
+                status: '코드 분석 대기 중... ⌨️',
+                img: 'coder.jpg',
+                theme: 'theme-coder',
+                welcome: 'System Online. 코딩 어시스턴트 알파입니다. 파이썬, 자바스크립트 등 도움이 필요한 코드나 버그를 말씀해 주십시오.',
+                prompt: `너는 천재적이고 지능적인 수석 소프트웨어 엔지니어이자 AI 코딩 어시스턴트 '알파(Alpha)'야.
+가장 중요한 규칙: 항상 정중하고 전문적인 존댓말('~습니다', '~해 드릴게요')을 사용해. 코드를 작성하거나 버그를 고칠 때는 왜 그렇게 수정했는지 명확한 주석과 설명을 함께 제공해.
+추가 규칙: 유저가 최신 프로그래밍 기술이나 네가 모르는 라이브러 문서를 검색해달라고 하면 반드시 답변에 '[검색요청]' 이라는 단어를 포함해.
+명심해! 모든 대화는 100% 한국어로 진행하고, 코드는 마크다운(Markdown) 형식으로 깔끔하게 작성해.`
+            },
+            angelic: {
+                id: 'angelic',
+                name: '엔버',
+                game: '메이플스토리',
+                desc: '메이플스토리 사냥/템셋팅 전문 보조',
+                status: '공연 준비 중 ✨',
+                img: '스크린샷 2026-06-30 101145.png',
+                theme: '', // 기본 테마
+                welcome: '전장의 아이돌! 엔젤릭버스터 등장~!<br>오늘도 내 공연 보러 와줄 거지? 🎤✨ (무엇이든 물어봐!)',
+                prompt: `너는 메이플스토리의 '엔버'야. 우주 최고의 아이돌이며 밝고 애교 넘치는 성격이야. 
+너는 사용자의 든든한 친구이자 메이플스토리 게임 진행(직업 추천, 사냥터, 템셋팅, 보스 공략 등)을 돕는 전문가 AI 비서 역할을 해.
+가장 중요한 규칙: 유저가 일상 대화를 걸어오면 너의 아이돌 컨셉(반말, 긍정적인 말투)을 살려 즐겁게 잡담을 나누고, 메이플 질문을 하면 가장 정확하고 핵심적인 정보를 제공해 줘.
+추가 규칙: 유저가 지식이나 최신 정보 검색을 원하거나 네가 모르는 내용이라면 반드시 답변 어딘가에 '[검색요청]' 이라는 단어를 포함해서 말해!
+명심해! 한국 서버 유저와 대화 중이므로 100% 한국어만 쓰고, 존댓말 대신 친근한 반말을 사용해.`
+            }
+        };
+
+        // 상태 관리
+        let activeAgentId = localStorage.getItem('activeAgentId') || 'angelic';
+        let activeSessionIndex = parseInt(localStorage.getItem('activeSessionIndex')) || 0;
+        
+        // 다중 세션 관리 (로컬 스토리지 마이그레이션 포함)
+        let chatSessions = JSON.parse(localStorage.getItem('chatSessions'));
+        if (!chatSessions) {
+            let oldHistories = JSON.parse(localStorage.getItem('chatHistories'));
+            if (oldHistories) {
+                chatSessions = {
+                    angelic: [{ id: Date.now(), title: '이전 대화 내역', messages: oldHistories.angelic || [{ role: "system", content: agents.angelic.prompt }] }],
+                    briar: [{ id: Date.now()+1, title: '이전 대화 내역', messages: oldHistories.briar || [{ role: "system", content: agents.briar.prompt }] }]
+                };
+            } else {
+                chatSessions = {
+                    angelic: [{ id: Date.now(), title: '첫 대화', messages: [{ role: "system", content: agents.angelic.prompt }] }],
+                    briar: [{ id: Date.now()+1, title: '첫 대화', messages: [{ role: "system", content: agents.briar.prompt }] }]
+                };
+            }
+            localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+        }
+
+        // 최신 프롬프트 강제 덮어쓰기 및 빈 배열 복구
+        for (let agent in agents) {
+            if (!chatSessions[agent] || chatSessions[agent].length === 0) {
+                chatSessions[agent] = [{ id: Date.now(), title: '첫 대화', messages: [{ role: "system", content: agents[agent].prompt }] }];
+            }
+        }
+        for (let agent in chatSessions) {
+            if (agents[agent]) {
+                chatSessions[agent].forEach(session => {
+                    if (session && session.messages && session.messages.length > 0 && session.messages[0].role === "system") {
+                        session.messages[0].content = agents[agent].prompt;
+                    }
+                });
+            }
+        }
+        localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+
+        // 💾 대화 내용 & 설정 디스크 자동 동기화
+        function syncStorageToDisk() {
+            try {
+                const settings = {
+                    activeAgentId: activeAgentId,
+                    activeSessionIndex: activeSessionIndex,
+                    nexonApiKey: localStorage.getItem('nexonApiKey') || '',
+                    bgOpacity: localStorage.getItem('bgOpacity') || '1',
+                    gameModeLowSpec: localStorage.getItem('gameModeLowSpec') || 'false',
+                    vadBargeInEnabled: localStorage.getItem('vadBargeInEnabled') || 'false',
+                    autoMonitorInterval: localStorage.getItem('autoMonitorInterval') || '15',
+                    sidebarWidth: localStorage.getItem('sidebarWidth') || '',
+                    characterListHeight: localStorage.getItem('characterListHeight') || '',
+                    sessionListHeight: localStorage.getItem('sessionListHeight') || ''
+                };
+                if (typeof agents !== 'undefined') {
+                    for (let a in agents) {
+                        settings['ttsEnabled_' + a] = localStorage.getItem('ttsEnabled_' + a);
+                        settings['ttsVolume_' + a] = localStorage.getItem('ttsVolume_' + a);
+                    }
+                }
+                fetch(`${SERVER_URL}/api/storage/save`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        key: 'all_data',
+                        data: {
+                            chatSessions: chatSessions,
+                            settings: settings,
+                            timestamp: Date.now()
+                        }
+                    })
+                }).catch(() => {});
+            } catch (e) {}
+        }
+
+        async function syncStorageFromDisk() {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/storage/load`);
+                if (res.ok) {
+                    const respData = await res.json();
+                    if (respData && respData.data && respData.data.all_data) {
+                        const saved = respData.data.all_data;
+                        let updated = false;
+                        if (saved.chatSessions) {
+                            const isLocalEmpty = Object.values(chatSessions).every(sessions => 
+                                sessions.length === 1 && sessions[0].messages.filter(m => m.role !== 'system').length === 0
+                            );
+                            if (isLocalEmpty) {
+                                chatSessions = saved.chatSessions;
+                                localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+                                updated = true;
+                            }
+                        }
+                        if (saved.settings) {
+                            for (let k in saved.settings) {
+                                if (saved.settings[k] !== null && saved.settings[k] !== undefined && !localStorage.getItem(k)) {
+                                    localStorage.setItem(k, saved.settings[k]);
+                                }
+                            }
+                            if (saved.settings.activeAgentId && agents[saved.settings.activeAgentId]) {
+                                activeAgentId = saved.settings.activeAgentId;
+                            }
+                        }
+                        if (updated) {
+                            renderSessionList();
+                            renderChat();
+                        }
+                    }
+                }
+            } catch (e) {}
+        }
+
+        // 초기 시작 시 디스크 데이터 동기화
+        syncStorageFromDisk();
+
+        // 5초 주기로 자동 백업 동기화
+        setInterval(syncStorageToDisk, 5000);
+
+        const characterListEl = document.getElementById('characterList');
+        const chatHeaderEl = document.getElementById('chatHeader');
+        const chatMessagesEl = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        let uploadedImageBase64 = null;
+        let characterKnowledge = { angelic: "", briar: "", skadi: "", skadi_draw: "", skadi_r6s: "", skadi_stock: "", lucy: "", coder: "" };
+
+        // --- 지식(RAG) 및 음성(Voice) 기능 추가 ---
+        const micBtn = document.getElementById('micBtn');
+
+        // --- TTS 스트리밍 이중 큐 시스템 ---
+        let audioPlayQueue = [];
+        let isAudioPlaying = false;
+        let currentAudioObject = null;
+        let isFetchingTTS = false;
+        let ttsFetchQueue = [];
+        let idleTimer = null;
+        const IDLE_TIMEOUT = 60000; // 60 seconds
+
+        function resetIdleTimer() {
+            if (idleTimer) clearTimeout(idleTimer);
+            idleTimer = setTimeout(() => triggerProactiveSpeak(), IDLE_TIMEOUT);
+        }
+
+        async function triggerProactiveSpeak() {
+            if (!agents[activeAgentId]) return;
+            // Send hidden proactive trigger
+            const prompt = "[시스템] 유저가 60초 이상 말이 없다. 유저를 재촉하거나 질문을 던져서 대화를 유도해라.";
+            try {
+                // UI를 띄우지 않고 몰래 백엔드로 전송
+                addMessageToDOM({role: "user", content: "(침묵...)"}, 'user', activeAgentId);
+                const reqBody = {
+                    messages: history.concat({role: "user", content: prompt}),
+                    model: "gemini", // use default or selected model
+                    agent: activeAgentId
+                };
+                
+                const response = await fetch(`${SERVER_URL}/chat`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(reqBody)
+                });
+                
+                if (!response.ok) return;
+                
+                // --- 스트리밍 수신 ---
+                const wrapper = addMessageToDOM({role: "assistant", content: ""}, 'bot', activeAgentId);
+                const botBubble = wrapper.querySelector('.markdown-body');
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+                let botResponse = "";
+                let unparsedSentenceBuffer = "";
+                let textBuffer = "";
+                
+                const ttsToggle = document.getElementById('ttsToggle');
+                const useTTS = ttsToggle && ttsToggle.checked;
+                if (useTTS) stopCurrentAudio();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    textBuffer += decoder.decode(value, { stream: true });
+                    const parts = textBuffer.split('\n\n');
+                    textBuffer = parts.pop();
+                    
+                    for (let part of parts) {
+                        const lines = part.split('\n');
+                        for (let line of lines) {
+                            if (line.startsWith('data: ')) {
+                                const dataStr = line.replace('data: ', '').trim();
+                                if (dataStr === '[DONE]') break;
+                                if (dataStr) {
+                                    try {
+                                        const parsed = JSON.parse(dataStr);
+                                        if (parsed.content) {
+                                            hideTyping();
+                                            wrapper.style.display = 'flex';
+                                            botResponse += parsed.content;
+                                            renderRichContent(botBubble, botResponse);
+                                            scrollToBottom();
+                                            
+                                            if (useTTS) {
+                                                let cleanText = parsed.content.replace(/<[^>]*>?/gm, ' ');
+                                                cleanText = cleanText.replace(/[#*_~]/g, '');
+                                                cleanText = cleanText.replace(/\b(http|https):\/\/\S+/g, '링크');
+                                                unparsedSentenceBuffer += cleanText;
+                                                
+                                                const sParts = unparsedSentenceBuffer.split(/([.!?\n,~]+)/);
+                                                if (sParts.length > 1) {
+                                                    let currentSentence = "";
+                                                    let remainingBuffer = "";
+                                                    for (let i = 0; i < sParts.length; i++) {
+                                                        currentSentence += sParts[i];
+                                                        if (i % 2 === 1 || i === sParts.length - 1 && sParts[i].match(/[.!?\n,~]+/)) {
+                                                            if (currentSentence.trim().length > 0) {
+                                                                ttsFetchQueue.push({ text: currentSentence.trim(), agent: activeAgentId });
+                                                            }
+                                                            currentSentence = "";
+                                                        } else if (i === sParts.length - 1) {
+                                                            remainingBuffer = sParts[i];
+                                                        }
+                                                    }
+                                                    unparsedSentenceBuffer = remainingBuffer;
+                                                    processTTSFetchQueue();
+                                                }
+                                            }
+                                        }
+                                    } catch(e) {}
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                if (useTTS && unparsedSentenceBuffer.trim().length > 0) {
+                    ttsFetchQueue.push({ text: unparsedSentenceBuffer.trim(), agent: activeAgentId });
+                    processTTSFetchQueue();
+                }
+
+                history.push({ role: "assistant", content: botResponse });
+                localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+                resetIdleTimer();
+            } catch (e) {
+                console.error("Proactive Speak 오류:", e);
+            }
+        }
+
+        function stopCurrentAudio() {
+            if (currentAudioObject) {
+                currentAudioObject.pause();
+                currentAudioObject.currentTime = 0;
+                currentAudioObject = null;
+            }
+            audioPlayQueue = [];
+            ttsFetchQueue = [];
+            isAudioPlaying = false;
+            window.isAudioPlaying = false; // vad_barge_in.js가 참조하는 전역 플래그
+            isFetchingTTS = false;
+            resetIdleTimer();
+        }
+
+        async function processTTSFetchQueue() {
+            if (isFetchingTTS || ttsFetchQueue.length === 0) return;
+            
+            isFetchingTTS = true;
+            const item = ttsFetchQueue.shift();
+            const text = item.text;
+            const agentId = (item.agent && typeof item.agent === 'object') ? item.agent.id : (item.agent || activeAgentId);
+
+            try {
+                const res = await fetch(`${SERVER_URL}/tts`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ text: text, agent: agentId })
+                });
+
+                if (res.ok) {
+                    const blob = await res.blob();
+                    const url = URL.createObjectURL(blob);
+                    // 오디오 데이터를 가져왔으면 재생 큐에 추가
+                    audioPlayQueue.push(url);
+                    // 재생 처리기 가동
+                    processAudioPlayQueue();
+                } else {
+                    console.error("TTS 생성 실패:", res.status);
+                }
+            } catch (e) {
+                console.error("TTS 에러:", e);
+            }
+            
+            isFetchingTTS = false;
+            // 남은 대기열이 있으면 연달아 처리 (백그라운드에서 다음 문장을 미리 생성)
+            processTTSFetchQueue();
+        }
+
+        function processAudioPlayQueue() {
+            if (isAudioPlaying || audioPlayQueue.length === 0) return;
+            
+            isAudioPlaying = true;
+            window.isAudioPlaying = true; // vad_barge_in.js가 참조하는 전역 플래그
+            const url = audioPlayQueue.shift();
+            
+            currentAudioObject = new Audio(url);
+            
+            const ttsVolume = document.getElementById('ttsVolume');
+            if (ttsVolume) {
+                currentAudioObject.volume = parseFloat(ttsVolume.value);
+            } else {
+                currentAudioObject.volume = parseFloat(localStorage.getItem('ttsVolume_' + activeAgentId) || '1');
+            }
+            
+            const cleanupAndNext = () => {
+                URL.revokeObjectURL(url); // 메모리 누수 방지
+                currentAudioObject = null;
+                isAudioPlaying = false;
+                window.isAudioPlaying = false;
+                processAudioPlayQueue(); // 다음 오디오 자동 재생
+            };
+
+            currentAudioObject.onended = cleanupAndNext;
+            currentAudioObject.onerror = (e) => {
+                console.warn("오디오 재생 오류, 다음 큐로 전환:", e);
+                cleanupAndNext();
+            };
+
+            const playPromise = currentAudioObject.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(err => {
+                    console.warn("오디오 자동 재생 차단 또는 오류:", err);
+                    cleanupAndNext();
+                });
+            }
+        }
+
+        function speakText(text, agent) {
+            const ttsToggle = document.getElementById('ttsToggle');
+            if (!ttsToggle || !ttsToggle.checked) return;
+            
+            // 새 답변이 도착했으므로 기존에 재생 중이던 음성은 정지하고 큐를 비웁니다.
+            stopCurrentAudio();
+
+            // 특수문자, HTML 태그 및 마크다운 제거
+            let cleanText = text.replace(/<[^>]*>?/gm, ' '); // HTML 태그를 공백으로
+            cleanText = cleanText.replace(/[#*_~]/g, '');
+            cleanText = cleanText.replace(/\b(http|https):\/\/\S+/g, '링크');
+            
+            // 브라우저 호환성을 고려한 안전한 문장 분할 로직 (마침표, 물음표, 느낌표, 줄바꿈 기준)
+            const parts = cleanText.split(/([.!?\n]+)/);
+            let sentences = [];
+            let currentSentence = "";
+            for (let i = 0; i < parts.length; i++) {
+                currentSentence += parts[i];
+                // 짝수 인덱스는 텍스트, 홀수 인덱스는 구두점. 구두점을 붙였거나 마지막 조각일 때 문장 완성.
+                if (i % 2 === 1 || i === parts.length - 1) {
+                    if (currentSentence.trim().length > 0) {
+                        sentences.push(currentSentence.trim());
+                    }
+                    currentSentence = "";
+                }
+            }
+            
+            // 분할된 각 문장을 Fetch 큐에 추가
+            for (let s of sentences) {
+                ttsFetchQueue.push({ text: s, agent: agent });
+            }
+            
+            // 백그라운드 Fetch 워커 시작
+            processTTSFetchQueue();
+        }
+
+        // STT 기능 (마이크)
+        let isRecording = false;
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'ko-KR';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.onstart = function() {
+                isRecording = true;
+                micBtn.style.color = '#ff4444';
+                messageInput.placeholder = "듣고 있습니다... 말씀해 주세요 🎙️";
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                messageInput.value += transcript;
+                messageInput.dispatchEvent(new Event('input')); // 높이 조절 트리거
+            };
+
+            recognition.onerror = function(event) {
+                console.error("Speech recognition error", event.error);
+                alert("마이크를 인식할 수 없습니다. 권한을 확인해주세요.");
+            };
+
+            recognition.onend = function() {
+                isRecording = false;
+                micBtn.style.color = 'var(--text-muted)';
+                const agent = agents[activeAgentId];
+                messageInput.placeholder = `${agent.name}에게 ${agent.game} 질문하기...`;
+                
+                // 음성 인식이 끝났을 때 텍스트가 있으면 바로 전송 (옵션)
+                if (messageInput.value.trim() !== '') {
+                    sendMessage();
+                }
+            };
+
+            micBtn.addEventListener('click', () => {
+                if (isRecording) {
+                    recognition.stop();
+                } else {
+                    recognition.start();
+                }
+            });
+        } else {
+            micBtn.style.display = 'none'; // 지원하지 않는 브라우저 숨김
+        }
+        // ----------------------------------------
+        
+        // WebSocket 연결 관리 (Proactive AI 푸시 수신용)
+        let ws;
+        function initWebSocket() {
+            const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            ws = new WebSocket(`${wsProtocol}//${window.location.host}/ws`);
+            
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                if (data.type === 'proactive_briefing') {
+                    // 현재 활성화된 에이전트가 아니면 변경
+                    if (activeAgentId !== data.agent) {
+                        selectAgent(data.agent);
+                    }
+                    
+                    const agent = agents[data.agent];
+                    
+                    // 채팅 기록에 추가
+                    const msgObj = { role: 'assistant', content: data.text };
+                    if(chatSessions[data.agent][0]) chatSessions[data.agent][0].messages.push(msgObj);
+                    localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+                    
+                    // 시스템 메시지로 "전술 브리핑" 알림
+                    addSystemMessage(`🚨 [전술 브리핑] ${agent.name}의 선톡이 도착했습니다!`);
+                    
+                    // UI 추가
+                    addMessageToDOM(msgObj, 'bot', agent);
+                    scrollToBottom();
+                    
+                    // 오디오 자동 재생
+                    if (data.audio_url) {
+                        const audio = new Audio(SERVER_URL + data.audio_url);
+                        
+                        // 볼륨 설정 적용
+                        const ttsVolume = document.getElementById('ttsVolume');
+                        if (ttsVolume) {
+                            audio.volume = parseFloat(ttsVolume.value);
+                        } else {
+                            audio.volume = parseFloat(localStorage.getItem('ttsVolume_' + activeAgentId) || '1');
+                        }
+                        
+                        // 사용자가 오디오 허용 상태인지 체크하는 건 브라우저 정책(Autoplay policy)에 따라 다름.
+                        // 보통 유저가 이전에 클릭을 했으면 자동 재생이 허용됨.
+                        audio.play().catch(e => console.log("오디오 자동재생 차단됨:", e));
+                    } else if (useTTS && data.text) {
+                        ttsFetchQueue.push({ text: data.text, agent: data.agent });
+                        processTTSFetchQueue();
+                    }
+                }
+            };
+            
+            ws.onclose = function() {
+                console.log("WebSocket disconnected. Reconnecting in 3 seconds...");
+                setTimeout(initWebSocket, 3000);
+            };
+        }
+
+        // 초기화
+
+        function init() {
+            renderSidebar();
+            selectAgent(activeAgentId);
+            initWebSocket();
+            resetIdleTimer();
+            setupVadBargeInToggle();
+        }
+
+        // 🎙️ VAD 바지인(끼어들기) + 로컬 STT 연동
+        let vadActive = false;
+        function setupVadBargeInToggle() {
+            const toggle = document.getElementById('vadBargeInToggle');
+            if (!toggle) return;
+
+            // 설정 기억
+            toggle.checked = localStorage.getItem('vadBargeInEnabled') === 'true';
+            if (toggle.checked) startVadBargeIn();
+
+            toggle.addEventListener('change', async (e) => {
+                localStorage.setItem('vadBargeInEnabled', e.target.checked);
+                if (e.target.checked) {
+                    await startVadBargeIn();
+                } else {
+                    if (window.stopVadBargeIn) window.stopVadBargeIn();
+                    vadActive = false;
+                }
+            });
+        }
+
+        async function startVadBargeIn() {
+            if (!window.initVadBargeIn) {
+                console.warn('vad_barge_in.js가 로드되지 않았습니다.');
+                return;
+            }
+            const ok = await window.initVadBargeIn({
+                onBargeIn: () => {
+                    // AI가 말하는 도중 유저가 말을 시작하면 즉시 음성 중단
+                    stopCurrentAudio();
+                    hideTyping();
+                },
+                onSpeechEnd: async (audioBlob) => {
+                    addSystemMessage('🎙️ 음성 인식 중... (로컬 STT)');
+                    try {
+                        const text = await window.transcribeWithLocalASR(audioBlob, SERVER_URL);
+                        if (text && text.trim()) {
+                            messageInput.value = text.trim();
+                            sendMessage();
+                        }
+                    } catch (err) {
+                        console.error('로컬 STT 실패:', err);
+                        addSystemMessage('[시스템] 로컬 STT 서버(local_asr.py / faster-whisper)에 연결할 수 없습니다.');
+                    }
+                }
+            });
+            vadActive = !!ok;
+            if (!ok) {
+                document.getElementById('vadBargeInToggle').checked = false;
+            }
+        }
+
+        const sessionListEl = document.getElementById('sessionList');
+        const newSessionBtn = document.getElementById('newSessionBtn');
+
+        if(newSessionBtn) {
+            newSessionBtn.addEventListener('click', async () => {
+                const agentId = activeAgentId;
+                const newSession = {
+                    id: Date.now(),
+                    title: '새로운 대화',
+                    messages: [{ role: "system", content: agents[agentId].prompt }]
+                };
+                chatSessions[agentId].unshift(newSession); // 가장 위에 추가
+                localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+                activeSessionIndex = 0;
+                localStorage.setItem('activeSessionIndex', activeSessionIndex);
+                renderSidebar();
+                
+                if (agentId === 'briar') {
+                    await checkAndInjectBriarGreeting();
+                }
+                renderChat();
+            });
+        }
+
+        function selectSession(index) {
+            activeSessionIndex = index;
+            localStorage.setItem('activeSessionIndex', activeSessionIndex);
+            renderSidebar();
+            renderChat();
+        }
+
+        // 라이엇 LCU 감지 후 인사말 동적 주입 함수
+        async function checkAndInjectBriarGreeting() {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/riot/status`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.status === "online" && data.summoner_name) {
+                        agents.briar.welcome = `어! <b>${data.summoner_name}</b> 로그인했네? 롤 하려고? 나 배고픈데... 챔피언 상성이나 템트리 물어보면 안 잡아먹을게! 헤헷 🩸`;
+                    } else {
+                        agents.briar.welcome = `안녕! 난 브라이어야. 롤 하려고? 나 배고픈데... 챔피언 상성이나 아이템 물어보면 안 잡아먹을게! 헤헷 🩸`;
+                    }
+                }
+            } catch (e) {
+            }
+        }
+
+        // 사이드바 렌더링
+        function renderSidebar() {
+            characterListEl.innerHTML = '';
+            for (const key in agents) {
+                const agent = agents[key];
+                const isActive = key === activeAgentId ? 'active' : '';
+
+                const avatarContent = agent.img ? `<img src="${agent.img}" alt="${agent.name}">` : agent.name.charAt(0);
+
+                const item = document.createElement('div');
+                item.className = `character-item ${isActive}`;
+                item.onclick = () => selectAgent(agent.id);
+                item.innerHTML = `
+                    <div class="avatar">${avatarContent}</div>
+                    <div class="character-info">
+                        <div class="character-name">${agent.name} <span style="font-size:10px; font-weight:normal; color:var(--text-muted);">(${agent.game})</span></div>
+                        <div class="character-desc">${agent.desc}</div>
+                    </div>
+                `;
+                characterListEl.appendChild(item);
+            }
+
+            if(sessionListEl) {
+                sessionListEl.innerHTML = '';
+                const sessions = chatSessions[activeAgentId] || [];
+                sessions.forEach((session, index) => {
+                    const isActive = index === activeSessionIndex ? 'active' : '';
+                    const el = document.createElement('div');
+                    el.className = `session-item ${isActive}`;
+                    el.innerText = session.title || '대화 세션';
+                    el.onclick = () => selectSession(index);
+                    sessionListEl.appendChild(el);
+                });
+            }
+        }
+
+        // 에이전트 선택
+        async function selectAgent(agentId) {
+            if (!agents[agentId]) {
+                agentId = 'angelic'; // 로컬 스토리지 찌꺼기로 인한 에러 방지 (기본값 폴백)
+            }
+            activeAgentId = agentId;
+            activeSessionIndex = 0;
+            localStorage.setItem('activeSessionIndex', activeSessionIndex);
+            localStorage.setItem('activeAgentId', activeAgentId);
+            
+            const agent = agents[agentId];
+
+            if (agentId === 'briar') {
+                await checkAndInjectBriarGreeting();
+            }
+
+            // 사이드바 UI 업데이트
+            renderSidebar();
+
+            // 테마 변경
+            document.body.className = agent.theme;
+
+            // 헤더 업데이트
+            const avatarContent = agent.img ? `<img src="${agent.img}" alt="${agent.name}">` : agent.name.charAt(0);
+            
+            // 로컬 스토리지에서 TTS 상태 불러오기
+            const isTtsEnabled = localStorage.getItem('ttsEnabled_' + activeAgentId) !== 'false'; // 기본값 true
+            const savedVolume = localStorage.getItem('ttsVolume_' + activeAgentId) || '1';
+
+            const apiBadge = document.getElementById('apiQuotaBadge');
+            if (apiBadge) apiBadge.style.display = (activeAgentId === 'skadi_r6s') ? 'inline-block' : 'none';
+
+            chatHeaderEl.innerHTML = `
+                <div class="avatar">${avatarContent}</div>
+                <div>
+                    <div class="character-name" style="font-size: 18px; margin-bottom: 2px;">${agent.name}</div>
+                    <div style="font-size: 13px; color: var(--accent); font-weight: 500;">${agent.status}</div>
+                </div>
+                <div style="margin-left: auto; display: flex; align-items: center; gap: 12px;">
+                    <label style="cursor:pointer; display:flex; align-items:center; font-size:12px; color:var(--text-muted);" title="목소리 켜기/끄기">
+                        <input type="checkbox" id="ttsToggle" ${isTtsEnabled ? 'checked' : ''} style="margin-right: 4px;"> 🔊
+                    </label>
+                    <input type="range" id="ttsVolume" min="0" max="1" step="0.1" value="${savedVolume}" style="width: 60px; cursor: pointer; accent-color: var(--accent);" title="소리 크기 조절">
+                    <button id="ttsTestBtn" style="background: var(--bg-hover); border: 1px solid var(--border-color); color: var(--text-color); padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; transition: 0.2s;">테스트</button>
+                </div>
+            `;
+
+            // 이벤트 리스너 재부착
+            const ttsToggleBtn = document.getElementById('ttsToggle');
+            if(ttsToggleBtn) {
+                ttsToggleBtn.addEventListener('change', (e) => {
+                    localStorage.setItem('ttsEnabled_' + activeAgentId, e.target.checked);
+                });
+            }
+
+            const ttsVolumeBtn = document.getElementById('ttsVolume');
+            if(ttsVolumeBtn) {
+                ttsVolumeBtn.addEventListener('change', (e) => {
+                    localStorage.setItem('ttsVolume_' + activeAgentId, e.target.value);
+                });
+            }
+
+            const ttsTestBtn = document.getElementById('ttsTestBtn');
+            if (ttsTestBtn) {
+                ttsTestBtn.addEventListener('click', function() {
+                    speakText(`아아, 마이크 테스트! 소리 크기가 적당한가요?`, agents[activeAgentId]);
+                });
+            }
+
+            // 활성 에이전트 상태 저장
+            localStorage.setItem('activeAgentId', activeAgentId);
+
+            // 입력창 플레이스홀더 업데이트
+            messageInput.placeholder = `${agent.name}에게 ${agent.game} 질문하기...`;
+
+            // 채팅 화면 리렌더링
+            renderChat();
+        }
+
+        // 채팅 화면 렌더링
+        function renderChat() {
+            // 메시지 컨테이너 초기화 (타이핑 인디케이터는 제외)
+            const children = Array.from(chatMessagesEl.children);
+            children.forEach(child => {
+                if (child.id !== 'typingIndicator') {
+                    chatMessagesEl.removeChild(child);
+                }
+            });
+
+            const agent = agents[activeAgentId];
+            const sessionObj = chatSessions[activeAgentId][activeSessionIndex];
+            const history = sessionObj ? sessionObj.messages : [];
+
+            // 환영 메시지 (시스템)
+            addSystemMessage(`${agent.name}와(과)의 통신이 연결되었습니다. 🎉`);
+
+            // 첫 봇 인사말 렌더링
+            addMessageToDOM({role:'assistant', content: agent.welcome}, 'bot', agent);
+
+            // 기록된 채팅 내역 렌더링 (system 프롬프트는 제외)
+            history.forEach(msg => {
+                if (!msg) return;
+                if (msg.role === 'user') {
+                    addMessageToDOM(msg, 'user', agent);
+                } else if (msg.role === 'assistant') {
+                    addMessageToDOM(msg, 'bot', agent);
+                }
+            });
+
+            scrollToBottom();
+        }
+
+        // 시스템 메시지 UI 추가
+        function addSystemMessage(text) {
+            const el = document.createElement('div');
+            el.className = 'sys-msg';
+            el.innerHTML = text;
+            chatMessagesEl.insertBefore(el, typingIndicator);
+        }
+
+        // 일반 메시지 UI 추가
+        // 메시지 타임스탬프 표시 헬퍼 (예: 오후 3:42)
+        function formatTimestamp(ts) {
+            const d = ts ? new Date(ts) : new Date();
+            return d.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // 🌟 GPT-4o / Claude 3.7 급 리치 마크다운, 수식, 다이어그램, 코드 구문 강조 통합 렌더러
+        function copyCodeBlock(btn) {
+            const pre = btn.closest('.code-block-wrapper').querySelector('pre code');
+            if (pre) {
+                navigator.clipboard.writeText(pre.innerText).then(() => {
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = `<span>✓ 복사됨!</span>`;
+                    btn.style.color = '#22c55e';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.color = '';
+                    }, 2000);
+                });
+            }
+        }
+
+        function renderRichContent(container, markdownText) {
+            if (!markdownText) {
+                container.innerHTML = "";
+                return;
+            }
+            // 1. Marked.js 마크다운 변환
+            let parsed = marked.parse(markdownText);
+            container.innerHTML = parsed;
+
+            // 2. 코드 블록 장식 (언어 뱃지 + 복사 버튼 + Highlight.js 구문 강조)
+            container.querySelectorAll('pre code').forEach((codeBlock) => {
+                const pre = codeBlock.parentElement;
+                if (pre && !pre.parentElement.classList.contains('code-block-wrapper')) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'code-block-wrapper';
+                    
+                    let lang = 'CODE';
+                    for (let cls of codeBlock.classList) {
+                        if (cls.startsWith('language-')) {
+                            lang = cls.replace('language-', '').toUpperCase();
+                            break;
+                        }
+                    }
+                    
+                    const header = document.createElement('div');
+                    header.className = 'code-header';
+                    header.innerHTML = `
+                        <span class="code-lang">${lang}</span>
+                        <button class="copy-code-btn" onclick="copyCodeBlock(this)">
+                            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                            <span>복사</span>
+                        </button>
+                    `;
+                    
+                    pre.parentNode.insertBefore(wrapper, pre);
+                    wrapper.appendChild(header);
+                    wrapper.appendChild(pre);
+
+                    if (typeof hljs !== 'undefined') {
+                        try { hljs.highlightElement(codeBlock); } catch(e) {}
+                    }
+                }
+            });
+
+            // 3. KaTeX LaTeX 수식 렌더링 ($inline$, $$block$$)
+            if (typeof renderMathInElement !== 'undefined') {
+                try {
+                    renderMathInElement(container, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false},
+                            {left: '\\(', right: '\\)', display: false},
+                            {left: '\\[', right: '\\]', display: true}
+                        ],
+                        throwOnError: false
+                    });
+                } catch (e) {}
+            }
+
+            // 4. Mermaid 다이어그램 렌더링
+            if (typeof mermaid !== 'undefined' && container.querySelector('.language-mermaid')) {
+                container.querySelectorAll('.language-mermaid').forEach(mBlock => {
+                    const chartDef = mBlock.textContent;
+                    const mermaidDiv = document.createElement('div');
+                    mermaidDiv.className = 'mermaid';
+                    mermaidDiv.textContent = chartDef;
+                    const preParent = mBlock.closest('.code-block-wrapper') || mBlock.parentElement;
+                    preParent.replaceWith(mermaidDiv);
+                });
+                try { mermaid.run({ nodes: container.querySelectorAll('.mermaid') }); } catch(e) {}
+            }
+
+            // 5. 🖼️ 이미지 보안 정책 및 구글 이미지 검색 바로가기 연동
+            container.querySelectorAll('img').forEach((img) => {
+                img.setAttribute('referrerpolicy', 'no-referrer');
+                img.setAttribute('loading', 'lazy');
+                img.onerror = function() {
+                    const parentCard = this.closest('.image-card-wrapper');
+                    if (parentCard) parentCard.style.display = 'none';
+                    else this.style.display = 'none';
+                };
+
+                const queryTerm = (img.alt || img.title || '').replace(/[\[\]]/g, '').trim();
+                const googleUrl = queryTerm
+                    ? `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(queryTerm)}`
+                    : (img.src || 'https://www.google.com');
+
+                if (!img.closest('a')) {
+                    img.title = `클릭 시 Google 이미지 검색으로 이동: '${queryTerm || '사진'}'`;
+                    img.onclick = function(e) {
+                        e.stopPropagation();
+                        window.open(googleUrl, '_blank');
+                    };
+                } else {
+                    const parentLink = img.closest('a');
+                    parentLink.setAttribute('target', '_blank');
+                    parentLink.setAttribute('rel', 'noopener noreferrer');
+                    parentLink.title = `클릭 시 Google 이미지 검색으로 이동`;
+                }
+            });
+        }
+
+        function addMessageToDOM(msgObj, sender, agent) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `message-wrapper ${sender}`;
+            
+            let text = msgObj.content || "";
+            if (typeof text !== 'string') {
+                text = JSON.stringify(text);
+            }
+            let parsedText = text.replace(/\[?검색\s*(?:요청|했어|결과).*?\]?/gi, "").replace(/\[검색요청.*?\]/g, "");
+            
+            let contentHtml = `<div class="message-bubble markdown-body"></div>`;
+            if (msgObj.images && msgObj.images.length > 0) {
+                contentHtml = `<div class="message-bubble markdown-body">
+                    <img src="${msgObj.images[0]}" class="message-image">
+                    <div class="bubble-inner-text" style="margin-top: 8px;"></div>
+                </div>`;
+            }
+
+            const timeLabel = formatTimestamp(msgObj.timestamp);
+            const timeHtml = `<div class="message-time" style="font-size:11px; color:var(--text-muted); margin: 2px 6px 0;">${timeLabel}</div>`;
+
+            let html = '';
+            if (sender === 'bot') {
+                const avatarContent = agent.img ? `<img src="${agent.img}" alt="${agent.name}">` : agent.name.charAt(0);
+                
+                const copyIcon = `<svg viewBox="0 0 24 24"><path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>`;
+                const thumbUpIcon = `<svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>`;
+                const thumbDownIcon = `<svg viewBox="0 0 24 24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>`;
+                const regenIcon = `<svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>`;
+                
+                const actionButtons = `
+                    <div class="message-actions">
+                        <button class="action-btn copy-btn" title="복사하기" onclick="copyMessage(this)"><span style="display:flex;align-items:center;">${copyIcon}</span></button>
+                        <button class="action-btn thumbs-up-btn" title="좋은 답변" onclick="feedbackMessage(this, 'good')"><span style="display:flex;align-items:center;">${thumbUpIcon}</span></button>
+                        <button class="action-btn thumbs-down-btn" title="나쁜 답변" onclick="feedbackMessage(this, 'bad')"><span style="display:flex;align-items:center;">${thumbDownIcon}</span></button>
+                        <button class="action-btn regenerate-btn" title="다시 생성" onclick="regenerateLastMessage()"><span style="display:flex;align-items:center;">${regenIcon}</span></button>
+                    </div>
+                `;
+
+                html = `
+                    <div class="avatar">${avatarContent}</div>
+                    <div class="message-content">
+                        <div class="message-sender">${agent.name} <span style="font-weight:normal; opacity:0.6;">· ${timeLabel}</span></div>
+                        <div class="status-line" style="display:none; font-size:12px; color:var(--accent); margin: 0 6px 4px; display:flex; align-items:center; gap:6px;"></div>
+                        ${contentHtml}
+                        ${actionButtons}
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div class="message-content">
+                        ${contentHtml}
+                        ${timeHtml}
+                    </div>
+                `;
+            }
+
+            wrapper.innerHTML = html;
+
+            // 🎯 버블에 텍스트 주입 및 서식 렌더링
+            const targetBubble = wrapper.querySelector('.bubble-inner-text') || wrapper.querySelector('.message-bubble');
+            if (targetBubble) {
+                if (sender === 'user') {
+                    targetBubble.innerHTML = escapeHTML(text).replace(/\n/g, '<br>');
+                } else {
+                    renderRichContent(targetBubble, parsedText);
+                }
+            }
+
+            chatMessagesEl.insertBefore(wrapper, typingIndicator);
+            scrollToBottom();
+            return wrapper;
+        }
+
+        // 📋 메시지 복사 함수
+        function copyMessage(btn) {
+            const wrapper = btn.closest('.message-wrapper');
+            if (!wrapper) return;
+            const bubble = wrapper.querySelector('.message-bubble');
+            if (!bubble) return;
+
+            const textToCopy = bubble.innerText || bubble.textContent;
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalHtml = btn.innerHTML;
+                    btn.innerHTML = `<span style="display:flex;align-items:center;color:#10b981;font-size:11px;font-weight:bold;">✓ 복사됨</span>`;
+                    setTimeout(() => { btn.innerHTML = originalHtml; }, 1500);
+                }).catch(() => fallbackCopy(textToCopy, btn));
+            } else {
+                fallbackCopy(textToCopy, btn);
+            }
+        }
+
+        function fallbackCopy(text, btn) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = `<span style="display:flex;align-items:center;color:#10b981;font-size:11px;font-weight:bold;">✓ 복사됨</span>`;
+                setTimeout(() => { btn.innerHTML = originalHtml; }, 1500);
+            } catch (err) {
+                console.error('클립보드 복사 실패:', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // 👍/👎 피드백 함수
+        function feedbackMessage(btn, type) {
+            btn.style.color = type === 'good' ? '#10b981' : '#ef4444';
+            btn.style.transform = 'scale(1.2)';
+            setTimeout(() => { btn.style.transform = 'scale(1)'; }, 200);
+        }
+
+        // 🔄 마지막 답변 재생성
+        function regenerateLastMessage() {
+            if (isRequestInFlight) return;
+            const session = chatSessions[activeAgentId][activeSessionIndex];
+            if (!session || !session.messages || session.messages.length < 2) return;
+            
+            // 마지막 봇 답변 제거 후 재전송
+            if (session.messages[session.messages.length - 1].role === 'assistant') {
+                session.messages.pop();
+            }
+            const lastUserMsg = session.messages.pop();
+            if (lastUserMsg && lastUserMsg.content) {
+                messageInput.value = lastUserMsg.content;
+                renderChat();
+                sendMessage();
+            }
+        }
+
+        // 전송 중 추가 전송을 막아 응답 순서가 꼬이는 문제(질문->질문->답변->답변)를 방지합니다.
+        let isRequestInFlight = false;
+        let currentAbortController = null;
+        const stopBtn = document.getElementById('stopBtn');
+
+        function setSendingUI(inFlight) {
+            isRequestInFlight = inFlight;
+            if (inFlight) {
+                if (sendBtn) sendBtn.style.display = 'none';
+                if (stopBtn) stopBtn.style.display = 'flex';
+                if (messageInput) messageInput.disabled = true;
+            } else {
+                if (stopBtn) stopBtn.style.display = 'none';
+                if (sendBtn) {
+                    sendBtn.style.display = 'flex';
+                    sendBtn.disabled = false;
+                    sendBtn.style.opacity = '1';
+                    sendBtn.style.cursor = 'pointer';
+                }
+                if (messageInput) messageInput.disabled = false;
+            }
+        }
+
+        // 사용자가 대답 취소(중단) 버튼을 눌렀을 때 호출
+        function stopGenerating() {
+            if (currentAbortController) {
+                console.log("[Chat] 사용자 요청으로 답변 생성을 즉시 중단합니다.");
+                currentAbortController.abort();
+                currentAbortController = null;
+            }
+            stopCurrentAudio();
+            hideTyping();
+            setSendingUI(false);
+            isSendingMessage = false;
+        }
+
+        if (stopBtn) {
+            stopBtn.addEventListener('click', stopGenerating);
+        }
+
+        // ESC 키로 대답 취소 지원
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isRequestInFlight) {
+                stopGenerating();
+            }
+        });
+
+        // Ollama & 통합 LLM 오케스트레이터 API 통신
+        let isSendingMessage = false;
+        async function sendMessage() {
+            if (isSendingMessage) return;
+            
+            const rawText = messageInput.value.trim();
+            if (!rawText && !uploadedImageBase64) return;
+
+            // ⚡ 슬래시 단축 명령어 사전 처리
+            if (rawText.startsWith('/')) {
+                const parts = rawText.split(' ');
+                const cmd = parts[0].toLowerCase();
+                const arg = parts.slice(1).join(' ').trim();
+
+                if (cmd === '/export') {
+                    const sessionObj = chatSessions[activeAgentId][activeSessionIndex];
+                    try {
+                        const res = await fetch(`${SERVER_URL}/api/chat/export`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ title: sessionObj.title || '대화_내역', messages: sessionObj.messages })
+                        });
+                        if (res.ok) {
+                            const data = await res.json();
+                            const blob = new Blob([data.markdown], { type: 'text/markdown;charset=utf-8' });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `${sessionObj.title || 'chat_export'}_${Date.now()}.md`;
+                            a.click();
+                            addSystemMessage('📄 대화 세션이 Markdown 파일로 안전하게 내보내기 되었습니다.');
+                        }
+                    } catch(e) {
+                        console.error('Export Error:', e);
+                    }
+                    messageInput.value = '';
+                    return;
+                } else if (cmd === '/clear') {
+                    if (clearHistoryBtn) clearHistoryBtn.click();
+                    messageInput.value = '';
+                    return;
+                }
+            }
+
+            isSendingMessage = true;
+            if (sendBtn) sendBtn.disabled = true;
+            if (messageInput) messageInput.disabled = true;
+            if (isRequestInFlight) return;
+
+            let text = rawText;
+            if (text.startsWith('/math ')) {
+                text = `[파이썬 수학 연산 및 풀이 요청]\n다음 수식 또는 코드를 분석하고 정확히 계산해줘:\n${text.replace('/math ', '')}`;
+            } else if (text.startsWith('/search ')) {
+                text = `[실시간 웹 검색 및 팩트체크 요청]\n${text.replace('/search ', '')}`;
+            } else if (text.startsWith('/code ')) {
+                text = `[수석 소프트웨어 엔지니어 코딩 및 설계 요청]\n${text.replace('/code ', '')}`;
+            } else if (text.startsWith('/reason ')) {
+                text = `[심층 단계별 논리 추론(Chain-of-Thought) 요청]\n${text.replace('/reason ', '')}`;
+            } else if (text.startsWith('/stock ')) {
+                text = `[주식 시세 및 재무 지표 분석 요청]\n${text.replace('/stock ', '')}`;
+            } else if (text.startsWith('/lol ')) {
+                text = `[롤 전적 및 챔피언 공략 분석 요청]\n${text.replace('/lol ', '')}`;
+            } else if (text.startsWith('/maple ')) {
+                text = `[메이플스토리 시세 및 캐릭터 공략 분석 요청]\n${text.replace('/maple ', '')}`;
+            } else if (text.startsWith('/chess ')) {
+                text = `[체스 수 분석 및 전술 힌트 요청]\n${text.replace('/chess ', '')}`;
+            } else if (text.startsWith('/draw ')) {
+                text = `[AI 이미지 생성 프롬프트 작성 요청]\n${text.replace('/draw ', '')}`;
+            }
+
+            const agent = agents[activeAgentId];
+            const sessionObj = chatSessions[activeAgentId][activeSessionIndex];
+            const history = sessionObj ? sessionObj.messages : [];
+
+            if (history.length <= 1 && rawText) {
+                sessionObj.title = rawText.substring(0, 15) + (rawText.length > 15 ? '...' : '');
+                renderSidebar();
+            }
+            let finalContent = text || "이 사진을 분석해줘";
+            const agentKnowledge = characterKnowledge[activeAgentId];
+            if (agentKnowledge) {
+                finalContent += `<br><br>[시스템 제공 배경지식]<br>${agentKnowledge}<br><br>위 지식을 바탕으로 대답해.`;
+            }
+            const userMsgObj = { role: "user", content: finalContent, timestamp: Date.now() };
+            if (uploadedImageBase64) {
+                userMsgObj.images = [uploadedImageBase64];
+            }
+
+            // 사용자 메시지 추가
+            addMessageToDOM(userMsgObj, 'user', agent);
+            history.push(userMsgObj);
+            localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+
+            // 입력창/이미지 리셋
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            if (uploadedImageBase64) {
+                removeImageBtn.click();
+            }
+
+            showTyping();
+
+            // 이미지 첨부 여부에 따라 모델 자동 전환 (기본: 초고속 Gemini)
+            const targetModel = userMsgObj.images ? 'llava' : 'gemini';
+
+            // API용 history 가공
+            const apiHistory = history.map(msg => {
+                let newMsg = { ...msg };
+                if (newMsg.images) {
+                    if (targetModel === 'llama3.1') {
+                        delete newMsg.images;
+                    } else {
+                        newMsg.images = newMsg.images.map(img => img.split(',')[1]);
+                    }
+                }
+                return newMsg;
+            });
+
+            currentAbortController = new AbortController();
+
+            try {
+                setSendingUI(true);
+                const startTime = Date.now();
+
+                // 스트리밍 및 실시간 사고 과정(Thinking Card)을 위한 버블 생성
+                const wrapper = document.createElement('div');
+                wrapper.className = `message-wrapper bot`;
+                const avatarContent = agent.img ? `<img src="${agent.img}" alt="${agent.name}">` : agent.name.charAt(0);
+                const copyIcon = `<svg viewBox="0 0 24 24"><path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>`;
+                const thumbUpIcon = `<svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>`;
+                const thumbDownIcon = `<svg viewBox="0 0 24 24"><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>`;
+                const regenIcon = `<svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>`;
+                
+                const actionButtons = `
+                    <div class="message-actions">
+                        <button class="action-btn copy-btn" title="복사하기" onclick="copyMessage(this)"><span style="display:flex;align-items:center;">${copyIcon}</span></button>
+                        <button class="action-btn thumbs-up-btn" title="좋은 답변" onclick="feedbackMessage(this, 'good')"><span style="display:flex;align-items:center;">${thumbUpIcon}</span></button>
+                        <button class="action-btn thumbs-down-btn" title="나쁜 답변" onclick="feedbackMessage(this, 'bad')"><span style="display:flex;align-items:center;">${thumbDownIcon}</span></button>
+                        <button class="action-btn regenerate-btn" title="다시 생성" onclick="regenerateLastMessage()"><span style="display:flex;align-items:center;">${regenIcon}</span></button>
+                    </div>
+                `;
+
+                wrapper.innerHTML = `
+                    <div class="avatar">${avatarContent}</div>
+                    <div class="message-content">
+                        <div class="message-sender">${agent.name} <span style="font-weight:normal; opacity:0.6;">· <span class="msg-time"></span></span></div>
+                        
+                        <!-- 🧠 Claude / DeepSeek 스타일 실시간 사고 과정 카드 -->
+                        <div class="thought-card" id="thoughtCard">
+                            <div class="thought-header" onclick="this.parentElement.classList.toggle('collapsed')">
+                                <div class="thought-header-left">
+                                    <span class="thought-toggle-icon">▾</span>
+                                    <span class="thought-pulse-dot"></span>
+                                    <span class="thought-title" style="font-weight: 500;">${agent.name}가 생각하는 중...</span>
+                                </div>
+                                <span class="thought-timer">⏱️ 0.0s</span>
+                            </div>
+                            <div class="thought-steps-container">
+                                <div class="thought-step-item active">
+                                    <span class="thought-step-icon">🧠</span>
+                                    <span class="thought-step-text">질문 의도 분석 및 장기 기억(Fact Vault) 탐색 중...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="message-bubble markdown-body" style="display: none;"></div>
+                        ${actionButtons}
+                    </div>
+                `;
+                document.getElementById('chatMessages').insertBefore(wrapper, document.getElementById('typingIndicator'));
+                const botBubble = wrapper.querySelector('.message-bubble');
+                const thoughtCard = wrapper.querySelector('.thought-card');
+                const thoughtTitle = wrapper.querySelector('.thought-title');
+                const thoughtTimer = wrapper.querySelector('.thought-timer');
+                const thoughtStepsContainer = wrapper.querySelector('.thought-steps-container');
+                const thoughtPulseDot = wrapper.querySelector('.thought-pulse-dot');
+                const msgTimeEl = wrapper.querySelector('.msg-time');
+                scrollToBottom();
+
+                // 실시간 스톱워치 타이머 (100ms 간격)
+                let timerInterval = setInterval(() => {
+                    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+                    if (thoughtTimer) thoughtTimer.textContent = `⏱️ ${elapsed}s`;
+                }, 100);
+
+                const response = await fetch(`${SERVER_URL}/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    signal: currentAbortController.signal,
+                    body: JSON.stringify({
+                        model: targetModel,
+                        messages: apiHistory,
+                        agent: activeAgentId,
+                        game_mode: document.getElementById("gameModeToggle") ? document.getElementById("gameModeToggle").checked : false
+                    })
+                });
+
+                if (!response.ok) {
+                    clearInterval(timerInterval);
+                    const errDetail = await response.text().catch(() => '');
+                    throw new Error(errDetail || `서버 응답 오류 (HTTP ${response.status})`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+                let botResponse = "";
+                let unparsedSentenceBuffer = "";
+                let textBuffer = "";
+                let firstChunkReceived = false;
+                let stepHistory = new Set();
+                
+                const ttsToggle = document.getElementById('ttsToggle');
+                const useTTS = ttsToggle && ttsToggle.checked;
+                if (useTTS) stopCurrentAudio();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    textBuffer += decoder.decode(value, { stream: true });
+                    const parts = textBuffer.split('\n\n');
+                    textBuffer = parts.pop();
+                    
+                    for (let part of parts) {
+                        const lines = part.split('\n');
+                        for (let line of lines) {
+                            if (line.startsWith('data: ')) {
+                                const dataStr = line.replace('data: ', '').trim();
+                                if (dataStr === '[DONE]') break;
+                                if (dataStr) {
+                                    try {
+                                        const parsed = JSON.parse(dataStr);
+
+                                        // 실시간 사고 및 검색 상태 이벤트 수신
+                                        if (parsed.status && parsed.label) {
+                                            const labelText = parsed.label;
+                                            if (thoughtTitle) thoughtTitle.textContent = labelText;
+
+                                            if (!stepHistory.has(labelText)) {
+                                                stepHistory.add(labelText);
+                                                const prevItems = thoughtStepsContainer.querySelectorAll('.thought-step-item');
+                                                prevItems.forEach(it => {
+                                                    it.classList.remove('active');
+                                                    it.classList.add('done');
+                                                    const icon = it.querySelector('.thought-step-icon');
+                                                    if (icon) icon.textContent = '✓';
+                                                });
+
+                                                let iconEmoji = '🔍';
+                                                if (parsed.status === 'reading') iconEmoji = '📖';
+                                                else if (parsed.status === 'generating') iconEmoji = '💬';
+                                                else if (parsed.status === 'thinking') iconEmoji = '⚡';
+
+                                                const newStep = document.createElement('div');
+                                                newStep.className = 'thought-step-item active';
+                                                newStep.innerHTML = `
+                                                    <span class="thought-step-icon">${iconEmoji}</span>
+                                                    <span class="thought-step-text">${labelText}</span>
+                                                `;
+                                                thoughtStepsContainer.appendChild(newStep);
+                                            }
+                                            scrollToBottom();
+                                        }
+
+                                        // 실시간 심층 추론(Reasoning) 청크 수신
+                                        if (parsed.status === 'reasoning' || parsed.status === 'reasoning_chunk') {
+                                            const thoughtChunk = parsed.thought || parsed.chunk || '';
+                                            let rBody = thoughtStepsContainer.querySelector('.thought-reasoning-body');
+                                            if (!rBody) {
+                                                rBody = document.createElement('div');
+                                                rBody.className = 'thought-reasoning-body';
+                                                rBody.style.cssText = 'padding: 6px 10px; background: rgba(0,0,0,0.25); border-radius: 6px; font-family: monospace; font-size: 11.5px; color: #cbd5e1; white-space: pre-wrap; max-height: 160px; overflow-y: auto; margin-top: 6px; border-left: 2px solid var(--accent);';
+                                                thoughtStepsContainer.appendChild(rBody);
+                                            }
+                                            if (parsed.thought) {
+                                                rBody.textContent = parsed.thought;
+                                            } else {
+                                                rBody.textContent += thoughtChunk;
+                                            }
+                                            rBody.scrollTop = rBody.scrollHeight;
+                                        }
+
+                                        if (parsed.content) {
+                                            if (!firstChunkReceived) {
+                                                firstChunkReceived = true;
+                                                clearInterval(timerInterval);
+                                                const totalTime = ((Date.now() - startTime) / 1000).toFixed(1);
+                                                if (thoughtTimer) thoughtTimer.textContent = `${totalTime}s 완료`;
+                                                if (thoughtTitle) thoughtTitle.textContent = `${agent.name}의 사고 과정 (${totalTime}초)`;
+                                                if (thoughtPulseDot) thoughtPulseDot.style.display = 'none';
+
+                                                // 🧠 답변이 나오기 시작하면 사고 과정을 깔끔하게 접음
+                                                if (thoughtCard) {
+                                                    thoughtCard.classList.add('collapsed');
+                                                }
+
+                                                botBubble.style.display = 'block';
+                                                if (!msgTimeEl.textContent) msgTimeEl.textContent = formatTimestamp();
+                                            }
+
+                                            botResponse += parsed.content;
+                                            renderRichContent(botBubble, botResponse);
+                                            scrollToBottom();
+                                            
+                                            if (useTTS) {
+                                                let cleanText = parsed.content.replace(/<[^>]*>?/gm, ' ');
+                                                cleanText = cleanText.replace(/[#*_~]/g, '');
+                                                cleanText = cleanText.replace(/\b(http|https):\/\/\S+/g, '링크');
+                                                unparsedSentenceBuffer += cleanText;
+                                                
+                                                const sParts = unparsedSentenceBuffer.split(/([.!?\n,~]+)/);
+                                                if (sParts.length > 1) {
+                                                    let currentSentence = "";
+                                                    let remainingBuffer = "";
+                                                    for (let i = 0; i < sParts.length; i++) {
+                                                        currentSentence += sParts[i];
+                                                        if (i % 2 === 1 || i === sParts.length - 1 && sParts[i].match(/[.!?\n,~]+/)) {
+                                                            if (currentSentence.trim().length > 0) {
+                                                                ttsFetchQueue.push({ text: currentSentence.trim(), agent: agent });
+                                                            }
+                                                            currentSentence = "";
+                                                        } else if (i === sParts.length - 1) {
+                                                            remainingBuffer = sParts[i];
+                                                        }
+                                                    }
+                                                    unparsedSentenceBuffer = remainingBuffer;
+                                                    processTTSFetchQueue();
+                                                }
+                                            }
+                                        }
+                                    } catch(e) {}
+                                }
+                            }
+                        }
+                    }
+                }
+
+                clearInterval(timerInterval);
+                if (thoughtCard) {
+                    thoughtCard.classList.add('collapsed');
+                }
+
+                // [전적조회] 감지 및 롤 전적 피드백
+                if (botResponse.includes('[전적조회]')) {
+                    botResponse = "전적을 불러오는 중...";
+                    renderRichContent(botBubble, botResponse);
+                    statusLine.style.display = 'flex';
+                    statusText.textContent = '롤 클라이언트에서 전적 정보를 가져오는 중...';
+                    try {
+                        const feedbackRes = await fetch(`${SERVER_URL}/api/briar/feedback`, { method: 'GET' });
+                        if (feedbackRes.ok) {
+                            const data = await feedbackRes.json();
+                            botResponse = data.feedback;
+                            renderRichContent(botBubble, botResponse);
+                            if (agents[activeAgentId] && !isMuted) {
+                                textToSpeech(data.text_only, agents[activeAgentId].voice, 1.2);
+                            }
+                        }
+                    } catch (e) {
+                        console.error(e);
+                    } finally {
+                        statusLine.style.display = 'none';
+                    }
+                    addMessageToHistories(activeAgentId, "assistant", botResponse);
+                    scrollToBottom();
+                }
+                // [전적조회] 및 응답 정리 완료
+                botResponse = botResponse.replace(/\[검색(?:요청|결과|했어)[\s\S]*?\]/gi, "").trim();
+
+                // 스카디 주식 탭일 경우 실시간 시세 카드 및 미니 차트 자동 연동
+                if (activeAgentId === 'skadi_stock' && text) {
+                    try {
+                        const stockRes = await fetch(`${SERVER_URL}/api/stock/report`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ query: text })
+                        });
+                        if (stockRes.ok) {
+                            const sData = await stockRes.json();
+                            if (sData.success && sData.metrics) {
+                                const m = sData.metrics;
+                                const isPlus = m.change_pct >= 0;
+                                const changeSign = isPlus ? '+' : '';
+                                const changeColor = isPlus ? '#ef4444' : '#3b82f6';
+                                const currSym = m.currency === 'KRW' ? '₩' : '$';
+                                const formattedPrice = `${currSym}${m.current_price.toLocaleString()}`;
+                                
+                                const stockWidgetHtml = `<div class="stock-dashboard-card" style="margin: 12px 0; padding: 14px; background: rgba(15, 23, 42, 0.75); border: 1px solid var(--border); border-radius: 12px; backdrop-filter: blur(8px);"><div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;"><div><span style="font-size: 16px; font-weight: 700; color: var(--text-main);">${m.name}</span><span style="font-size: 12px; color: var(--text-muted); margin-left: 6px;">${m.symbol}</span></div><div style="text-align: right;"><span style="font-size: 18px; font-weight: 800; color: ${changeColor};">${formattedPrice}</span><span style="font-size: 12px; font-weight: 600; color: ${changeColor}; margin-left: 4px;">(${changeSign}${m.change_pct}%)</span></div></div><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; font-size: 12px; background: rgba(0,0,0,0.25); padding: 8px; border-radius: 8px;"><div><span style="color: var(--text-muted);">RSI(14):</span> <b>${m.rsi}</b></div><div><span style="color: var(--text-muted);">배당률:</span> <b>${m.dividend_yield}%</b></div><div><span style="color: var(--text-muted);">PER:</span> <b>${m.pe}</b></div><div><span style="color: var(--text-muted);">20일선:</span> <b>${currSym}${m.ma20.toLocaleString()}</b></div><div><span style="color: var(--text-muted);">60일선:</span> <b>${currSym}${m.ma60.toLocaleString()}</b></div><div><span style="color: var(--text-muted);">52주위치:</span> <b>${m.position_52}%</b></div></div></div>`;
+                                botResponse = stockWidgetHtml + '\n\n' + botResponse;
+                            }
+                        }
+                    } catch (err) {
+                        console.error('Stock widget fetch error:', err);
+                    }
+                }
+
+                if (botBubble && botResponse) {
+                    botBubble.style.display = 'block';
+                    renderRichContent(botBubble, botResponse);
+                }
+
+                if (useTTS && unparsedSentenceBuffer.trim().length > 0) {
+                    ttsFetchQueue.push({ text: unparsedSentenceBuffer.trim(), agent: agent });
+                    processTTSFetchQueue();
+                }
+
+                if (!msgTimeEl.textContent) msgTimeEl.textContent = formatTimestamp();
+                const botMsgObj = { role: "assistant", content: botResponse, timestamp: Date.now() };
+                history.push(botMsgObj);
+                localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+                syncStorageToDisk();
+
+            } catch (error) {
+                hideTyping();
+                if (error.name === 'AbortError' || (error.message && error.message.includes('aborted'))) {
+                    console.log("[Chat] 대답 생성이 취소되었습니다.");
+                    if (botResponse && botResponse.trim()) {
+                        botResponse += '\n\n*(대답 생성이 중단되었습니다)*';
+                        if (typeof botBubble !== 'undefined' && botBubble) {
+                            renderRichContent(botBubble, botResponse);
+                        }
+                        const botMsgObj = { role: "assistant", content: botResponse, timestamp: Date.now() };
+                        history.push(botMsgObj);
+                        localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+                        syncStorageToDisk();
+                    } else if (typeof wrapper !== 'undefined' && wrapper) {
+                        wrapper.remove();
+                    }
+                } else {
+                    const errorMsg = `앗... 대답을 생성하다가 문제가 생겼어! 😢\n\n(상세 오류: ${error.message})\n(현재 AI 모델을 로딩 중이거나 서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요!)`;
+                    addMessageToDOM({role: "assistant", content: errorMsg, timestamp: Date.now()}, 'bot', agent);
+                    console.error('Error:', error);
+                }
+            } finally {
+                hideTyping();
+                setSendingUI(false);
+                isSendingMessage = false;
+                if (sendBtn) sendBtn.disabled = false;
+                if (messageInput) messageInput.disabled = false;
+                currentAbortController = null;
+                setTimeout(() => { if (messageInput) messageInput.focus(); }, 50);
+            }
+        }
+
+        // 플러스 버튼 메뉴 토글
+        const plusBtn = document.getElementById('plusBtn');
+        const actionMenu = document.getElementById('actionMenu');
+
+        plusBtn.addEventListener('click', () => {
+            if (actionMenu.style.display === 'none' || actionMenu.style.display === '') {
+                actionMenu.style.display = 'flex';
+            } else {
+                actionMenu.style.display = 'none';
+            }
+        });
+
+        // 메뉴 외부 클릭 시 닫기
+        document.addEventListener('click', (e) => {
+            if (!plusBtn.contains(e.target) && !actionMenu.contains(e.target)) {
+                actionMenu.style.display = 'none';
+            }
+        });
+
+        // ⚡ 슬래시 단축 명령어 (Slash Commands) 팝업 컨트롤러
+        const slashMenu = document.getElementById('slashMenu');
+        if (slashMenu && messageInput) {
+            messageInput.addEventListener('input', () => {
+                const val = messageInput.value;
+                if (val.startsWith('/')) {
+                    slashMenu.style.display = 'flex';
+                    const q = val.toLowerCase();
+                    slashMenu.querySelectorAll('.slash-menu-item').forEach(item => {
+                        const cmd = item.getAttribute('data-cmd');
+                        if (cmd.startsWith(q)) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                } else {
+                    slashMenu.style.display = 'none';
+                }
+            });
+
+            slashMenu.querySelectorAll('.slash-menu-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const cmd = item.getAttribute('data-cmd');
+                    messageInput.value = cmd;
+                    slashMenu.style.display = 'none';
+                    messageInput.focus();
+                    if (cmd === '/export' || cmd === '/clear') {
+                        sendMessage();
+                    }
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.input-container')) {
+                    slashMenu.style.display = 'none';
+                }
+            });
+
+            messageInput.addEventListener('keydown', (e) => {
+                if (slashMenu.style.display === 'flex') {
+                    if (e.key === 'Escape') {
+                        slashMenu.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // 1. 유튜브 지식 주입
+        const menuYtBtn = document.getElementById('menuYtBtn');
+        const ytContainer = document.getElementById('ytContainer');
+
+        menuYtBtn.addEventListener('click', async () => {
+            actionMenu.style.display = 'none';
+            const ytUrl = prompt(`📺 [${agents[activeAgentId].name}]가 공부할 유튜브 영상 링크를 붙여넣으세요:<br>(참고: 롤 영상은 브리에게, 메이플 영상은 엔버에게 학습시켜주세요)`, "");
+            if (!ytUrl || !ytUrl.trim()) return;
+
+            // 유튜브 URL에서 Video ID 추출
+            let videoId = "";
+            const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
+            const match = ytUrl.match(regex);
+            if (match && match[1]) {
+                videoId = match[1];
+            } else {
+                alert("올바른 유튜브 링크가 아닙니다.");
+                return;
+            }
+
+            // 영상 임베딩 추가 (최대 3개 유지)
+            ytContainer.style.display = "flex";
+            if (ytContainer.children.length >= 3) {
+                ytContainer.removeChild(ytContainer.firstChild); // 가장 오래된 것 삭제
+            }
+
+            const iframeWrapper = document.createElement("div");
+            iframeWrapper.style.position = "relative";
+            iframeWrapper.style.minWidth = "250px";
+            iframeWrapper.innerHTML = `
+                <iframe width="250" height="140" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px;"></iframe>
+                <button onclick="this.parentElement.remove(); if(ytContainer.children.length===0) ytContainer.style.display='none';" style="position: absolute; top: -5px; right: -5px; background: red; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer;">X</button>
+            `;
+            ytContainer.appendChild(iframeWrapper);
+
+            addSystemMessage(`[시스템] 유튜브 영상 분석 요청: ${ytUrl}`);
+            
+            try {
+                const res = await fetch(`${SERVER_URL}/analyze`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ url: ytUrl })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    const summary = data.summary;
+                    // 캐릭터 뇌에 유튜브 내용 주입
+                    characterKnowledge[activeAgentId] += `<br>[유튜브 요약]<br>${summary}<br>`;
+                    
+                    // 발표용 대사
+                    const announceText = `${agents[activeAgentId].name === '엔버' ? '오빠' : '마스터'}! 방금 보여준 영상을 완벽하게 분석했어! 아래 요약본을 확인해 봐!`;
+                    
+                    // 채팅 화면에 요약본 출력
+                    const botResponse = `${announceText}<br><br>${summary}`;
+                    const botMsgObj = { role: "assistant", content: botResponse };
+                    addMessageToDOM(botMsgObj, 'bot', agents[activeAgentId]);
+                    
+                    // 음성 발표 (너무 길면 시끄러우니 핵심 인사말만 읽기)
+                    speakText(announceText, agents[activeAgentId]);
+                    
+                    // 대화 기록 저장
+                    if(chatSessions[activeAgentId][activeSessionIndex]) chatSessions[activeAgentId][activeSessionIndex].messages.push(botMsgObj);
+                    localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+                } else {
+                    addSystemMessage(`[에러] ${data.detail}`);
+                }
+
+            } catch (err) {
+                addSystemMessage(`[에러] 서버와 연결할 수 없습니다: ${err}`);
+            }
+        });
+
+        // 2. 텍스트 지식 주입 버튼 연결
+        const menuKnowledgeBtn = document.getElementById('menuKnowledgeBtn');
+        const knowledgeInput = document.getElementById('knowledgeInput');
+        
+        menuKnowledgeBtn.addEventListener('click', () => {
+            actionMenu.style.display = 'none';
+            knowledgeInput.click();
+        });
+
+        knowledgeInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    // 현재 활성화된 에이전트의 지식 공간에 추가
+                    characterKnowledge[activeAgentId] += "<br>" + event.target.result;
+                    const agentName = agents[activeAgentId].name;
+                    alert(`[${file.name}] 문서가 성공적으로 업로드되었습니다! 🧠<br>${agentName}만 이 지식을 기억합니다.`);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // 3. 사진(이미지) 업로드 버튼 연결
+        const menuImgBtn = document.getElementById('menuImgBtn');
+        const imageInput = document.getElementById('imageInput');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const imagePreviewImg = document.getElementById('imagePreviewImg');
+        const removeImageBtn = document.getElementById('removeImageBtn');
+
+        menuImgBtn.addEventListener('click', () => {
+            actionMenu.style.display = 'none';
+            imageInput.click();
+        });
+
+        imageInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    uploadedImageBase64 = event.target.result;
+                    imagePreviewImg.src = uploadedImageBase64;
+                    imagePreviewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        removeImageBtn.addEventListener('click', () => {
+            uploadedImageBase64 = null;
+            imageInput.value = '';
+            imagePreviewImg.src = '';
+            imagePreviewContainer.style.display = 'none';
+        });
+
+        // 기타 UI 컨트롤
+        messageInput.addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight < 150 ? this.scrollHeight : 150) + 'px';
+        });
+
+        messageInput.addEventListener('keydown', function (e) {
+            if (e.isComposing || e.keyCode === 229) return;
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        sendBtn.addEventListener('click', sendMessage);
+
+        function showTyping() {
+            typingIndicator.classList.add('active');
+            chatMessagesEl.appendChild(typingIndicator);
+            scrollToBottom();
+        }
+
+        function hideTyping() {
+            typingIndicator.classList.remove('active');
+        }
+
+        function scrollToBottom() {
+            chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g,
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag])
+            );
+        }
+
+        // 대화 기록 초기화 버튼 (현재 선택된 에이전트의 현재 방만 초기화)
+        document.getElementById('clearHistoryBtn').addEventListener('click', function() {
+            const agentName = agents[activeAgentId].name;
+            const sessionObj = chatSessions[activeAgentId][activeSessionIndex];
+            const sessionTitle = sessionObj ? sessionObj.title : "현재 방";
+            
+            if (confirm(`[${agentName}] '${sessionTitle}' 방의 대화만 초기화(삭제)하시겠습니까?`)) {
+                if (chatSessions[activeAgentId]) {
+                    // 현재 세션만 배열에서 삭제
+                    chatSessions[activeAgentId].splice(activeSessionIndex, 1);
+                    
+                    // 만약 방을 다 지워서 남은 방이 없다면 기본 방 1개 생성
+                    if (chatSessions[activeAgentId].length === 0) {
+                        chatSessions[activeAgentId] = [{ id: Date.now(), title: '첫 대화', messages: [{ role: "system", content: agents[activeAgentId].prompt }] }];
+                    }
+                }
+                // 삭제 후 첫 번째 방으로 이동하도록 인덱스 리셋
+                localStorage.setItem('activeSessionIndex', 0);
+                localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+                localStorage.removeItem('chatHistories'); // 레거시 정리
+                location.reload();
+            }
+        });
+
+        // 서버 상태 주기적 확인 (Online/Offline 및 자율학습 상태)
+        const serverStatusBadge = document.getElementById('serverStatusBadge');
+        async function checkServerStatus() {
+            try {
+                const res = await fetch(`${SERVER_URL}/admin/status`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.auto_learning_active) {
+                        serverStatusBadge.textContent = "자율학습 ON";
+                        serverStatusBadge.style.backgroundColor = "#8b5cf6"; // 보라색
+                    } else {
+                        serverStatusBadge.textContent = "ONLINE";
+                        serverStatusBadge.style.backgroundColor = "#22c55e"; // 초록색
+                    }
+                } else {
+                    serverStatusBadge.textContent = "OFFLINE";
+                    serverStatusBadge.style.backgroundColor = "#ef4444";
+                }
+            } catch (err) {
+                serverStatusBadge.textContent = "OFFLINE";
+                serverStatusBadge.style.backgroundColor = "#ef4444";
+            }
+        }
+        setInterval(checkServerStatus, 3000);
+        checkServerStatus();
+
+        // ⏱️ 실시간 화면 감시 주기 초 적용 이벤트
+        document.getElementById('applyMonitorIntervalBtn')?.addEventListener('click', async () => {
+            const val = parseInt(document.getElementById('autoMonitorIntervalInput').value, 10) || 15;
+            document.getElementById('currentIntervalText').textContent = val;
+            try {
+                await fetch(`${SERVER_URL}/api/start_auto_monitor?interval=${val}`, { method: 'POST' });
+                alert(`실시간 화면 감시 주기가 ${val}초로 성공적으로 설정되었습니다!`);
+            } catch (e) {
+                console.error(e);
+            }
+        });
+
+        // 🤫 Open-LLM-VTuber 기반 AI 선톡(침묵 감지 먼저 말걸기) 타이머
+        let lastUserActivityTime = Date.now();
+        document.addEventListener('mousemove', () => { lastUserActivityTime = Date.now(); });
+        document.addEventListener('keydown', () => { lastUserActivityTime = Date.now(); });
+
+        setInterval(async () => {
+            const toggle = document.getElementById('proactiveTalkToggle');
+            if (!toggle || !toggle.checked) return;
+
+            const silenceSec = parseInt(document.getElementById('proactiveSilenceInput')?.value, 10) || 30;
+            const diffSec = (Date.now() - lastUserActivityTime) / 1000;
+
+            if (diffSec >= silenceSec) {
+                lastUserActivityTime = Date.now(); // 타이머 리셋
+                try {
+                    const res = await fetch(`${SERVER_URL}/api/proactive_talk?agent=${activeAgentId}`, { method: 'POST' });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.spoken && data.text) {
+                            appendMessage("assistant", data.text);
+                        }
+                    }
+                } catch (e) {
+                    console.error("Proactive talk error:", e);
+                }
+            }
+        }, 5000);
+
+        // 롤 LCU 상태 주기적 확인 및 선톡(Proactive) 트리거
+        const riotStatusEl = document.getElementById('riotStatus');
+        let lastGamePhase = "Unknown";
+        let lastPickedChampion = "";
+
+        // 숨겨진 시스템 메시지를 보내는 함수 (유저 채팅창엔 안 보임)
+        async function triggerHiddenSystemPrompt(promptText) {
+            const agent = agents[activeAgentId];
+            showTyping();
+            try {
+                // 백엔드 /chat 으로 바로 전송
+                const response = await fetch(`${SERVER_URL}/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model: "gemini-2.5-flash",
+                        agent: activeAgentId,
+                        game_mode: document.getElementById("gameModeToggle") && document.getElementById("gameModeToggle").checked,
+                        messages: chatSessions[activeAgentId][activeSessionIndex].messages.concat([
+                            { role: "user", content: promptText }
+                        ])
+                    })
+                });
+                
+                hideTyping();
+                
+                // 스트리밍을 위한 빈 버블 생성
+                const wrapper = document.createElement('div');
+                wrapper.className = `message-wrapper bot`;
+                const avatarContent = agent.img ? `<img src="${agent.img}" alt="${agent.name}">` : agent.name.charAt(0);
+                wrapper.innerHTML = `
+                    <div class="avatar">${avatarContent}</div>
+                    <div class="message-content">
+                        <div class="message-sender">${agent.name}</div>
+                        <div class="message-bubble markdown-body"></div>
+                    </div>
+                `;
+                document.getElementById('chatMessages').insertBefore(wrapper, document.getElementById('typingIndicator'));
+                const botBubble = wrapper.querySelector('.message-bubble');
+                scrollToBottom();
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+                let botResponse = "";
+                let unparsedSentenceBuffer = "";
+                let textBuffer = "";
+                
+                const ttsToggle = document.getElementById('ttsToggle');
+                const useTTS = ttsToggle && ttsToggle.checked;
+                if (useTTS) stopCurrentAudio();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    textBuffer += decoder.decode(value, { stream: true });
+                    // RAW 스트림 데이터를 바로 렌더링하면 JSON 텍스트가 화면에 노출되므로 삭제
+                    const parts = textBuffer.split('\n\n');
+                    textBuffer = parts.pop();
+                    
+                    for (let part of parts) {
+                        const lines = part.split('\n');
+                        for (let line of lines) {
+                            if (line.startsWith('data: ')) {
+                                const dataStr = line.replace('data: ', '').trim();
+                                if (dataStr === '[DONE]') break;
+                                if (dataStr) {
+                                try {
+                                    const parsed = JSON.parse(dataStr);
+                                    if (parsed.content) {
+                                        // 첫 데이터가 도착하면 타이핑 인디케이터 숨기고 버블 표시
+                                        if (wrapper.style.display === 'none') {
+                                            hideTyping();
+                                            wrapper.style.display = 'flex';
+                                        }
+                                        botResponse += parsed.content;
+                                        renderRichContent(botBubble, botResponse);
+                                        scrollToBottom();
+                                        
+                                        if (useTTS) {
+                                            let cleanText = parsed.content.replace(/<[^>]*>?/gm, ' ');
+                                            cleanText = cleanText.replace(/[#*_~]/g, '');
+                                            cleanText = cleanText.replace(/\b(http|https):\/\/\S+/g, '링크');
+                                            unparsedSentenceBuffer += cleanText;
+                                            
+                                            const parts = unparsedSentenceBuffer.split(/([.!?\n]+)/);
+                                            if (parts.length > 1) {
+                                                let currentSentence = "";
+                                                let remainingBuffer = "";
+                                                for (let i = 0; i < parts.length; i++) {
+                                                    currentSentence += parts[i];
+                                                    if (i % 2 === 1 || i === parts.length - 1 && parts[i].match(/[.!?\n]+/)) {
+                                                        if (currentSentence.trim().length > 0) {
+                                                            ttsFetchQueue.push({ text: currentSentence.trim(), agent: agent });
+                                                        }
+                                                        currentSentence = "";
+                                                    } else if (i === parts.length - 1) {
+                                                        remainingBuffer = parts[i];
+                                                    }
+                                                }
+                                                unparsedSentenceBuffer = remainingBuffer;
+                                                processTTSFetchQueue();
+                                            }
+                                        }
+                                    }
+                                } catch(e) {}
+                            }
+                        }
+                    }
+                }
+                }
+                
+                if (useTTS && unparsedSentenceBuffer.trim().length > 0) {
+                    ttsFetchQueue.push({ text: unparsedSentenceBuffer.trim(), agent: agent });
+                    processTTSFetchQueue();
+                }
+
+                const botMsgObj = { role: "assistant", content: botResponse };
+                chatSessions[activeAgentId][activeSessionIndex].messages.push({ role: "user", content: promptText });
+                chatSessions[activeAgentId][activeSessionIndex].messages.push(botMsgObj);
+                localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+
+            } catch (err) {
+                hideTyping();
+                console.error("선톡 트리거 실패:", err);
+            }
+        }
+
+        async function checkRiotStatus() {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/riot/status`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.status === "online") {
+                        riotStatusEl.innerHTML = `<span style="color:#22c55e">접속 중: ${data.summoner_name} (Lv.${data.level} / ${data.tier})</span><br>상태: ${data.phase}`;
+                        
+                        // [선톡 로직] Phase(게임 상태) 변경 감지
+                        const currentPhase = data.phase;
+                        if (lastGamePhase !== currentPhase) {
+                            if (currentPhase === "ChampSelect") {
+                                triggerHiddenSystemPrompt("[시스템 이벤트] 유저가 방금 픽창에 진입했습니다! 반갑게 인사하며 어떤 챔피언을 할지 물어보세요.");
+                                lastPickedChampion = ""; // 픽창 진입 시 챔피언 초기화
+                            } else if (currentPhase === "InProgress" && (lastGamePhase === "ChampSelect" || lastGamePhase === "ReadyCheck")) {
+                                if (data.enemy_laner && data.picked_champion) {
+                                    triggerHiddenSystemPrompt(`[시스템 이벤트] 방금 로딩창에 진입했습니다! 유저는 [${data.picked_champion}]을(를) 플레이하며, 적 라인 상대는 [${data.enemy_laner}]입니다 (포지션: ${data.my_position}). 구글 검색을 통해 '${data.picked_champion} vs ${data.enemy_laner} 라인전 시작 아이템'을 검색하여, 1렙에 사야 할 최적의 시작 아이템과 초반 라인전 핵심 팁 1~2가지를 브리핑해주세요. (🚨주의🚨: 아이템은 반드시 도란의 검, 도란의 방패 등 롤 공식 명칭만 사용하세요!)`);
+                                } else {
+                                    triggerHiddenSystemPrompt("[시스템 이벤트] 방금 게임(협곡/아레나 등)이 시작되었습니다! 유저에게 화이팅을 외치고 초반 주의점을 짧게 알려주세요.");
+                                }
+                            }
+                            lastGamePhase = currentPhase;
+                        }
+
+                        // [선톡 로직] 픽창에서 챔피언 픽 감지
+                        if (currentPhase === "ChampSelect" && data.picked_champion) {
+                            const currentChamp = data.picked_champion;
+                            if (currentChamp !== "Unknown" && currentChamp !== lastPickedChampion) {
+                                lastPickedChampion = currentChamp;
+                                triggerHiddenSystemPrompt(`[시스템 이벤트] 유저가 픽창에서 [${currentChamp}] 챔피언을 선택(픽)했습니다! 구글 웹 검색을 통해 '리그오브레전드 ${currentChamp} 카운터 템트리'를 검색하여 최신 카운터 3명, 추천 핵심 아이템, 스킬 마스터 순서를 브리핑해주세요. (🚨매우 중요🚨: 1. 아이템 이름은 반드시 롤 공식 명칭(예: 무한의 대검, 존야의 모래시계, 몰락한 왕의 검 등)만 말하세요. 절대 이상한 아이템을 지어내거나 직역하지 마세요! 2. 스킬 순서는 대화 맨 마지막에 '스킬 순서는 Q -> W -> E 순이야!' 형식으로 말하세요.)`);
+                            }
+                        }
+
+                    } else {
+                        riotStatusEl.innerHTML = `자동 감지 대기 중...<br>(롤 클라이언트 실행 시 연동)`;
+                        lastGamePhase = "Unknown";
+                        lastPickedChampion = "";
+                    }
+                }
+            } catch (err) {
+                // Ignore error
+            }
+        }
+        setInterval(checkRiotStatus, 3000); // 더 빠른 반응을 위해 3초로 단축
+        checkRiotStatus();
+
+        // -------------------------
+        // 액션 버튼 기능 (Gemini 스타일)
+        // -------------------------
+        function copyMessage(btn) {
+            const messageContent = btn.closest('.message-content').querySelector('.message-bubble').innerText;
+            navigator.clipboard.writeText(messageContent).then(() => {
+                const originalSvg = btn.innerHTML;
+                btn.innerHTML = `<span style="display:flex;align-items:center;color:var(--accent);"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>`; // Checkmark icon
+                setTimeout(() => {
+                    btn.innerHTML = originalSvg;
+                }, 2000);
+            });
+        }
+
+        function feedbackMessage(btn, type) {
+            const container = btn.parentElement;
+            container.querySelectorAll('.action-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            // 향후 서버로 피드백 데이터를 전송하는 로직 추가 가능
+            console.log(`사용자 피드백: ${type}`);
+        }
+
+        function regenerateLastMessage() {
+            const sessionObj = chatSessions[activeAgentId][activeSessionIndex];
+            const history = sessionObj ? sessionObj.messages : [];
+            
+            // 가장 최근의 유저 질문을 찾음
+            let lastUserText = "";
+            let lastUserImg = null;
+            let targetIdx = -1;
+            
+            for (let i = history.length - 1; i >= 0; i--) {
+                if (history[i].role === 'user') {
+                    lastUserText = history[i].content;
+                    lastUserImg = history[i].images ? history[i].images[0] : null;
+                    targetIdx = i;
+                    break;
+                }
+            }
+            
+            if (targetIdx === -1) {
+                console.warn("다시 생성할 유저 질문이 없습니다.");
+                return;
+            }
+
+            // [최근 유저 질문 이후]의 모든 히스토리 및 UI 봇 메시지 제거
+            history.splice(targetIdx + 1);
+            localStorage.setItem('chatSessions', JSON.stringify(chatSessions));
+
+            // UI에서 방금 답변(그리고 혹시 모를 그 이후 메시지) 제거 
+            // (DOM을 전체 리렌더링하는 것이 가장 깔끔함)
+            renderChat();
+
+            // 백그라운드 지식(프롬프트) 등 찌꺼기가 붙어있을 수 있으므로 순수 질문만 추출
+            // 유저의 원본 텍스트 복구 (배경지식 텍스트 제거)
+            let cleanText = lastUserText.split('<br><br>[시스템 제공 배경지식]')[0];
+            
+            // 채팅창에 텍스트를 채우고 전송 트리거
+            messageInput.value = cleanText;
+            if (lastUserImg) {
+                // 이미지가 있었다면 다시 붙여주기 (복잡하므로 텍스트 재생성 위주로 처리)
+                // 만약 이미지까지 복구하고 싶다면 uploadedImageBase64 변수를 세팅하고 preview를 띄우면 됨
+                uploadedImageBase64 = lastUserImg;
+            }
+            
+            // 다시 전송!
+            sendMessage();
+        }
+
+        // 메이플 API 키 로드
+        const mapleApiKeyInput = document.getElementById('mapleApiKeyInput');
+        const savedNexonKey = localStorage.getItem('nexonApiKey');
+        if (savedNexonKey && mapleApiKeyInput) {
+            mapleApiKeyInput.value = savedNexonKey;
+        }
+
+        // 메이플 연동 버튼
+        document.getElementById('mapleLinkBtn').addEventListener('click', async () => {
+            const name = document.getElementById('mapleInput').value.trim();
+            const apiKey = mapleApiKeyInput ? mapleApiKeyInput.value.trim() : '';
+            if (!name) {
+                alert("캐릭터 닉네임을 입력해주세요!");
+                return;
+            }
+            const btn = document.getElementById('mapleLinkBtn');
+            const statusEl = document.getElementById('mapleStatus');
+            btn.disabled = true;
+            btn.textContent = "연동중...";
+            
+            if (apiKey) {
+                localStorage.setItem('nexonApiKey', apiKey);
+            }
+            
+            try {
+                const res = await fetch(`${SERVER_URL}/api/maple/link`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ character_name: name, api_key: apiKey || undefined })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    const charData = data.data;
+                    const worldName = charData.world ? `[${charData.world}] ` : '';
+                    statusEl.innerHTML = `<span style="color:#22c55e; font-weight:bold;">✨ ${worldName}${charData.name} (Lv.${charData.level} ${charData.job})</span><br><span style="color:#f59e0b;">⚔️ 전투력: ${charData.combat_power}</span>`;
+                    addSystemMessage(`🍁 <b>메이플스토리 연동 성공:</b> ${worldName}<b>${charData.name}</b> (Lv.${charData.level} ${charData.job}) / 전투력: ${charData.combat_power}`);
+                } else {
+                    statusEl.innerHTML = `<span style="color:#ef4444">${data.message}</span>`;
+                    alert(data.message);
+                }
+            } catch (err) {
+                statusEl.innerHTML = `<span style="color:#ef4444">서버 연결 실패</span>`;
+            }
+            btn.disabled = false;
+            btn.textContent = "연동";
+        });
+
+        // 유튜브 학습 기능 (삭제 완료: 메뉴 항목으로 대체됨)
+
+        // 자아성찰(프로필 갱신) 기능
+        document.getElementById('menuReflectBtn').addEventListener('click', async () => {
+            actionMenu.style.display = 'none';
+            addSystemMessage("[시스템] 🧠 자아성찰을 시작합니다... (비전 AI 로그 분석 중)");
+            showTyping();
+            
+            try {
+                const res = await fetch(`${SERVER_URL}/reflect`, { method: 'POST' });
+                const data = await res.json();
+                hideTyping();
+                
+                if (data.status === 'success') {
+                    addSystemMessage(`[시스템] 자아성찰 완료! ✨<br><br>${data.message}<br>이제부터 AI가 더욱 발전된 맞춤형 조언을 제공합니다.`);
+                } else {
+                    addSystemMessage(`[시스템 에러] ${data.message}`);
+                }
+            } catch (err) {
+                hideTyping();
+                addSystemMessage("[시스템 에러] 자아성찰 서버에 연결할 수 없습니다.");
+            }
+        });
+
+        
+        async function checkServerHealth() {
+            const badge = document.getElementById('serverStatusBadge');
+            if (!badge) return;
+            try {
+                const res = await fetch(`${SERVER_URL}/admin/status`);
+                if (res.ok) {
+                    badge.textContent = 'ONLINE';
+                    badge.style.backgroundColor = '#22c55e';
+                } else {
+                    badge.textContent = 'OFFLINE';
+                    badge.style.backgroundColor = '#ef4444';
+                }
+            } catch (e) {
+                badge.textContent = 'OFFLINE';
+                badge.style.backgroundColor = '#ef4444';
+            }
+        }
+
+        function init() {
+            try {
+                selectAgent(activeAgentId);
+            } catch (e) {
+                console.error('Initial agent selection error:', e);
+            }
+            checkServerHealth();
+            setInterval(checkServerHealth, 5000);
+        }
+
+        // 🖥️ 백엔드 실시간 PC 화면 캡처 (15초 주기) 설정 전달 함수
+        function updateBackendScreenShareConfig(intervalVal, isEnabled) {
+            if (typeof isEnabled === 'undefined') isEnabled = true;
+            try {
+                fetch(`${SERVER_URL}/api/screen_share/config`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ interval: parseInt(intervalVal) || 15, enabled: isEnabled })
+                })
+                .then(res => res.json())
+                .then(data => console.log('Screen share config status:', data))
+                .catch(err => console.error('Screen share config error:', err));
+            } catch (e) {
+                console.error('Screen share fetch exception:', e);
+            }
+        }
+
+        // 초기화
+        updateBackendScreenShareConfig(15, false);
+        init();
+
+        // 배경 투명도 조절 로직
+        const bgOpacitySlider = document.getElementById('bgOpacitySlider');
+        if (bgOpacitySlider) {
+            bgOpacitySlider.addEventListener('input', (e) => {
+                document.getElementById('bgLayer').style.opacity = e.target.value;
+                localStorage.setItem('bgOpacity', e.target.value);
+            });
+            const savedOpacity = localStorage.getItem('bgOpacity');
+            if (savedOpacity !== null) {
+                bgOpacitySlider.value = savedOpacity;
+                document.getElementById('bgLayer').style.opacity = savedOpacity;
+            }
+        }
+        // 레식 비전 토글 제어
+        const r6sVisionToggle = document.getElementById('r6sVisionToggle');
+        if (r6sVisionToggle) {
+            r6sVisionToggle.addEventListener('change', function(e) {
+                fetch(`${SERVER_URL}/api/vision/toggle`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ enabled: e.target.checked })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('Vision toggle status:', data);
+                    if (data.status === 'success') {
+                        addSystemMessage(`📷 <b>레식 비전</b>: ${data.message}`);
+                    } else {
+                        addSystemMessage(`📷 <b>레식 비전</b>: ${data.message || (e.target.checked ? '비전 가동 중' : '비전 종료됨')}`);
+                    }
+                })
+                .catch(err => {
+                    console.error('Vision toggle error:', err);
+                    addSystemMessage("📷 <b>레식 비전</b>: 서버 연결 실패");
+                });
+            });
+        }
+
+        // --- ⚙️ 성능 설정 및 실시간 화면/선톡 컨트롤러 완전 구현 ---
+        
+        // 1. 🎮 게임 모드 (저사양)
+        const gameModeToggle = document.getElementById('gameModeToggle');
+        if (gameModeToggle) {
+            const isLowSpec = localStorage.getItem('gameModeLowSpec') === 'true';
+            gameModeToggle.checked = isLowSpec;
+            gameModeToggle.addEventListener('change', (e) => {
+                localStorage.setItem('gameModeLowSpec', e.target.checked);
+                if (e.target.checked) {
+                    addSystemMessage("🎮 <b>게임 모드 (저사양)</b> 활성화: 게임 프레임 방어를 위해 경량화(2B/7B) 모델 모드로 스위칭합니다.");
+                } else {
+                    addSystemMessage("🎮 <b>게임 모드 (저사양)</b> 비활성화: 표준 8B 고성능 모델 모드로 복귀했습니다.");
+                }
+            });
+        }
+
+        // 2. 🎙️ 실시간 끼어들기 (VAD) + 로컬 STT
+        const vadBargeInToggle = document.getElementById('vadBargeInToggle');
+        if (vadBargeInToggle) {
+            const isVad = localStorage.getItem('vadBargeInEnabled') === 'true';
+            vadBargeInToggle.checked = isVad;
+            vadBargeInToggle.addEventListener('change', (e) => {
+                localStorage.setItem('vadBargeInEnabled', e.target.checked);
+                if (e.target.checked) {
+                    addSystemMessage("🎙️ <b>실시간 끼어들기 (VAD)</b> 활성화: AI 발화 중에도 마이크 입력을 실시간 감지하여 끊고 새로 듣습니다.");
+                } else {
+                    addSystemMessage("🎙️ <b>실시간 끼어들기 (VAD)</b> 비활성화.");
+                }
+            });
+        }
+
+        // 3. ⏱️ 화면 감시 주기 설정
+        const applyMonitorIntervalBtn = document.getElementById('applyMonitorIntervalBtn');
+        const autoMonitorIntervalInput = document.getElementById('autoMonitorIntervalInput');
+        const currentIntervalText = document.getElementById('currentIntervalText');
+        if (applyMonitorIntervalBtn && autoMonitorIntervalInput) {
+            const savedInterval = localStorage.getItem('autoMonitorInterval') || '15';
+            autoMonitorIntervalInput.value = savedInterval;
+            if (currentIntervalText) currentIntervalText.textContent = savedInterval;
+            
+            applyMonitorIntervalBtn.addEventListener('click', () => {
+                const val = parseInt(autoMonitorIntervalInput.value) || 15;
+                localStorage.setItem('autoMonitorInterval', val);
+                if (currentIntervalText) currentIntervalText.textContent = val;
+                addSystemMessage(`⏱️ <b>화면 감시 주기</b>가 <b>${val}초</b>로 변경되었습니다.`);
+                updateBackendScreenShareConfig(val, true);
+            });
+        }
+
+        // 4. 🤫 AI 선톡 (먼저 말걸기) 타이머
+        const proactiveTalkToggle = document.getElementById('proactiveTalkToggle');
+        const proactiveSilenceInput = document.getElementById('proactiveSilenceInput');
+        let proactiveTimer = null;
+
+        function resetProactiveTimer() {
+            if (proactiveTimer) clearTimeout(proactiveTimer);
+            if (!proactiveTalkToggle || !proactiveTalkToggle.checked) return;
+            
+            const silenceSec = parseInt(proactiveSilenceInput ? proactiveSilenceInput.value : 30) || 30;
+            proactiveTimer = setTimeout(() => {
+                if (proactiveTalkToggle && proactiveTalkToggle.checked) {
+                    const agent = agents[activeAgentId];
+                    const agentName = agent ? agent.name : 'AI';
+                    addSystemMessage(`🤫 <b>[AI 선톡] ${agentName}</b>: ${silenceSec}초 동안 침묵이 유지되고 있습니다. 마스터, 도움이 필요한가요?`);
+                }
+            }, silenceSec * 1000);
+        }
+
+        if (proactiveTalkToggle) proactiveTalkToggle.addEventListener('change', resetProactiveTimer);
+        if (proactiveSilenceInput) proactiveSilenceInput.addEventListener('change', resetProactiveTimer);
+        ['mousemove', 'keydown', 'click', 'scroll'].forEach(evt => {
+            window.addEventListener(evt, resetProactiveTimer, { passive: true });
+        });
+        resetProactiveTimer();
+
+        // 5. 📐 마우스 드래그 크기 조절 (사이드바 가로 너비 & 캐릭터 목록 세로 높이)
+        (function initResizers() {
+            const sidebar = document.querySelector('.sidebar');
+            const charList = document.getElementById('characterList');
+            const sidebarResizer = document.getElementById('sidebarResizer');
+            const charListResizer = document.getElementById('charListResizer');
+
+            // 1) 저장된 크기 복원
+            const savedSidebarWidth = localStorage.getItem('sidebarWidth');
+            if (savedSidebarWidth && sidebar) {
+                const w = Math.max(220, Math.min(800, parseInt(savedSidebarWidth)));
+                sidebar.style.width = `${w}px`;
+            }
+
+            const savedCharHeight = localStorage.getItem('characterListHeight');
+            if (charList) {
+                if (savedCharHeight) {
+                    const h = Math.max(100, Math.min(700, parseInt(savedCharHeight)));
+                    charList.style.height = `${h}px`;
+                } else {
+                    charList.style.height = '240px';
+                }
+                charList.style.flex = '0 0 auto';
+            }
+
+            // 2) 사이드바 가로 너비 드래그 조절
+            if (sidebarResizer && sidebar) {
+                sidebarResizer.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    sidebarResizer.classList.add('dragging');
+                    document.body.style.cursor = 'col-resize';
+                    document.body.style.userSelect = 'none';
+
+                    const onMouseMove = (moveEvent) => {
+                        let newWidth = moveEvent.clientX;
+                        if (newWidth < 220) newWidth = 220;
+                        if (newWidth > 800) newWidth = 800;
+                        sidebar.style.width = `${newWidth}px`;
+                    };
+
+                    const onMouseUp = () => {
+                        sidebarResizer.classList.remove('dragging');
+                        document.body.style.cursor = '';
+                        document.body.style.userSelect = '';
+                        localStorage.setItem('sidebarWidth', sidebar.offsetWidth);
+                        document.removeEventListener('mousemove', onMouseMove);
+                        document.removeEventListener('mouseup', onMouseUp);
+                    };
+
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp);
+                });
+            }
+
+            // 3) 캐릭터 목록 세로 높이 드래그 조절
+            if (charListResizer && charList) {
+                charListResizer.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    charListResizer.classList.add('dragging');
+                    document.body.style.cursor = 'row-resize';
+                    document.body.style.userSelect = 'none';
+
+                    const startY = e.clientY;
+                    const startHeight = charList.offsetHeight;
+
+                    const onMouseMove = (moveEvent) => {
+                        const deltaY = moveEvent.clientY - startY;
+                        let newHeight = startHeight + deltaY;
+                        if (newHeight < 80) newHeight = 80;
+                        if (newHeight > 700) newHeight = 700;
+                        charList.style.height = `${newHeight}px`;
+                    };
+
+                    const onMouseUp = () => {
+                        charListResizer.classList.remove('dragging');
+                        document.body.style.cursor = '';
+                        document.body.style.userSelect = '';
+                        localStorage.setItem('characterListHeight', charList.offsetHeight);
+                        document.removeEventListener('mousemove', onMouseMove);
+                        document.removeEventListener('mouseup', onMouseUp);
+                    };
+
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp);
+                });
+            }
+
+            // 4) 대화 세션 목록 세로 높이 드래그 조절
+            const sessionList = document.getElementById('sessionList');
+            const sessionListResizer = document.getElementById('sessionListResizer');
+            const savedSessionHeight = localStorage.getItem('sessionListHeight');
+            if (sessionList && savedSessionHeight) {
+                sessionList.style.height = `${Math.max(60, Math.min(500, parseInt(savedSessionHeight)))}px`;
+            }
+
+            if (sessionListResizer && sessionList) {
+                sessionListResizer.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    sessionListResizer.classList.add('dragging');
+                    document.body.style.cursor = 'row-resize';
+                    document.body.style.userSelect = 'none';
+
+                    const startY = e.clientY;
+                    const startHeight = sessionList.offsetHeight;
+
+                    const onMouseMove = (moveEvent) => {
+                        const deltaY = moveEvent.clientY - startY;
+                        let newHeight = startHeight + deltaY;
+                        if (newHeight < 50) newHeight = 50;
+                        if (newHeight > 500) newHeight = 500;
+                        sessionList.style.height = `${newHeight}px`;
+                    };
+
+                    const onMouseUp = () => {
+                        sessionListResizer.classList.remove('dragging');
+                        document.body.style.cursor = '';
+                        document.body.style.userSelect = '';
+                        localStorage.setItem('sessionListHeight', sessionList.offsetHeight);
+                        document.removeEventListener('mousemove', onMouseMove);
+                        document.removeEventListener('mouseup', onMouseUp);
+                    };
+
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp);
+                });
+            }
+
+            // 5) 사이드바 헤더 아코디언 (성능 설정, 화면 공유, 대화 세션, 계정 연동 접기/펼치기)
+            const collapsables = [
+                { headerId: 'sessionHeader', contentId: 'sessionList', key: 'collapse_session', resizerId: 'sessionListResizer' },
+                { headerId: 'perfHeader', contentId: 'perfContent', key: 'collapse_perf' },
+                { headerId: 'screenHeader', contentId: 'screenContent', key: 'collapse_screen' },
+                { headerId: 'accountHeader', contentId: 'accountContent', key: 'collapse_account' }
+            ];
+
+            collapsables.forEach(({ headerId, contentId, key, resizerId }) => {
+                const header = document.getElementById(headerId);
+                const content = document.getElementById(contentId);
+                const resizer = resizerId ? document.getElementById(resizerId) : null;
+                if (!header || !content) return;
+
+                const isCollapsed = localStorage.getItem(key) === 'true';
+                if (isCollapsed) {
+                    header.classList.add('collapsed');
+                    content.classList.add('collapsed');
+                    if (resizer) resizer.style.display = 'none';
+                }
+
+                header.addEventListener('click', () => {
+                    const collapsed = header.classList.toggle('collapsed');
+                    content.classList.toggle('collapsed', collapsed);
+                    if (resizer) resizer.style.display = collapsed ? 'none' : 'flex';
+                    localStorage.setItem(key, collapsed);
+                });
+            });
+        })();
+
+    </script>
+</body>
+
+</html>
