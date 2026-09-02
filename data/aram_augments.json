@@ -1,0 +1,2572 @@
+[
+  {
+    "id": "adamant",
+    "name_ko": "단호함",
+    "name_en": "Adamant",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "적 챔피언을 행동 불가 또는 지면 속박 상태로 만들면 10초간 추가 방어력 2~10과 추가 마법 저항력 2~10을 얻으며, 최대 10회까지 누적되어 총 20~100의 추가 방어력이 되고 후속 발동 시 갱신됩니다.",
+    "description_en": "Immobilizing or grounding an enemy champion grants 2 to 10 bonus armor and bonus magic resistance for 10 seconds, stacking up to 10 times for a total of 20 to 100 bonus resistances, and refreshing on subsequent triggers.",
+    "icon": "/augments/Adamant_mayhem_augment.webp"
+  },
+  {
+    "id": "adapt",
+    "name_ko": "적응형 능력치",
+    "name_en": "ADAPt",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "모든 추가 공격력을 추가 공격력 0.6당 주문력 1의 비율로 주문력으로 변환합니다. 또한 주문력이 15% 증가합니다.",
+    "description_en": "Convert all of your bonus attack damage into ability power at a rate of 1 ability power per 0.6 bonus attack damage. Additionally, increase your ability power by 15%.",
+    "icon": "/augments/ADAPt_mayhem_augment.webp"
+  },
+  {
+    "id": "adaptive_ward",
+    "name_ko": "적응형 와드",
+    "name_en": "Adaptive Ward",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "선택한 스킬 스킬로 적 챔피언을 타격하면 대상의 피해 유형에 따라 일정 수의초 동안 <scaleArmor>방어력</scaleArmor> 또는 <scaleMR>마법 저항력</scaleMR>을 <attention>일정 수의</attention> 얻습니다. 이 효과는 중첩될 수 있습니다.",
+    "description_en": "Striking an enemy champion with your chosen ability grants you <attention>the required number of</attention> <scaleArmor>Armor</scaleArmor> or <scaleMR>Magic Resist</scaleMR> based on their damage type for the required number of seconds. This effect can stack.",
+    "icon": "/augments/Adaptive_Ward_mayhem_augment.webp"
+  },
+  {
+    "id": "all_for_you",
+    "name_ko": "너만을 위해",
+    "name_en": "All For You",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "당신의 아군 챔피언에 대한 치유와 보호막 효과가 30% 증가합니다.",
+    "description_en": "Your heals and shields on allied champions are increased in effectiveness by 30%.",
+    "icon": "/augments/All_For_You_mayhem_augment.webp"
+  },
+  {
+    "id": "apex_inventor",
+    "name_ko": "최첨단 발명가",
+    "name_en": "Apex Inventor",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "아이템 가속 100을 얻으며, 이는 아이템 재사용 대기시간 50% 감소에 해당합니다.",
+    "description_en": "Grants 100 item haste, which is equivalent to 50% cooldown reduction for items.",
+    "icon": "/augments/Apex_Inventor_mayhem_augment.webp"
+  },
+  {
+    "id": "archmage",
+    "name_ko": "대마법사",
+    "name_en": "Archmage",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "스킬을 사용하면 사용한 스킬 재사용 대기시간의 일정 수의%만큼 다른 무작위 스킬의 재사용 대기시간을 반환합니다.",
+    "description_en": "Casting a spell refunds another random spell's cost by the required number of% of the original spell's Cooldown.",
+    "icon": "/augments/Archmage_mayhem_augment.webp"
+  },
+  {
+    "id": "back_to_basics",
+    "name_ko": "기본으로 돌아가기",
+    "name_en": "Back To Basics",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "당신 챔피언의 스킬이 35% 증가한 피해를 가하며 스킬 가속 70과 모든 출처의 치유 및 보호막 효과 35% 증가를 얻지만, 궁극기가 영구적으로 봉인됩니다.",
+    "description_en": "Your champion abilities deal 35% increased damage and you gain 70 ability haste and 35% increased healing and shielding from all sources, but your ultimate ability is permanently sealed.",
+    "icon": "/augments/Back_To_Basics_mayhem_augment.webp"
+  },
+  {
+    "id": "big_brain",
+    "name_ko": "전술적 대비",
+    "name_en": "Big Brain",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "주문력의 300%에 해당하는 피해를 흡수하는 보호막을 얻으며, 파괴될 때까지 지속됩니다. 보호막은 부활 시 또는 70초마다 갱신됩니다.",
+    "description_en": "Gain a shield that absorbs damage equal to 300% AP and lasts until destroyed. Shield refreshes on respawn or every 70 seconds.",
+    "icon": "/augments/Big_Brain_mayhem_augment.webp"
+  },
+  {
+    "id": "biggest_snowball_ever",
+    "name_ko": "데굴데굴 눈덩이!",
+    "name_en": "Biggest Snowball Ever",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "당신의 표식이 거대한 눈덩이로 강화되며, 크기 반경이 증가하고 비챔피언을 통과할 수 있게 됩니다. 또한 눈덩이는 명중한 대상에 충돌 시 추가로 폭발하여 주변 모든 적에게 200~350 (+ 추가 공격력의 100%) (+ 주문력의 60%) 마법 피해를 입히고, 0.75초간 공중에 띄우며, 2초간 20% 둔화시킵니다. 또한 표식의 재사용 대기시간이 스킬 가속 100 상당 감소합니다.[br/][br/]표식이 장비되지 않은 경우, 점멸이 차지하지 않은 소환사 주문 슬롯이 표식으로 대체됩니다. 명중한 비챔피언은 1.25초간 기절합니다.",
+    "description_en": "Upgrades your Mark into a massive snowball, empowering it with an increased size radius and the ability to pass through non-champions. The snowball additionally explodes upon impact of the target hit to deal 200 to 350 (+ 100% bonus AD) (+ 60% AP) magic damage to all nearby enemies, knock them up for 0.75 seconds, and slow them by 20% for 2 seconds. Additionally, your Mark cooldown is reduced equivalent to 100 ability haste.[br/][br/]If Mark is not equipped, the summoner spell in the slot not occupied by Flash is replaced with Mark. Non-champions hit are stunned for 1.25 seconds.",
+    "icon": "/augments/Biggest_Snowball_Ever_mayhem_augment.webp"
+  },
+  {
+    "id": "blade_waltz",
+    "name_ko": "검무",
+    "name_en": "Blade Waltz",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "칼날 왈츠 소환사 주문을 얻습니다.[br/][br/]<rules>칼날 왈츠는 적에게 반복적으로 돌진하며 피해를 주는 동안 대상 지정 불가 상태가 됩니다.</rules>",
+    "description_en": "Gain the Blade Waltz Summoner Spell.[br/][br/]<rules>Blade Waltz makes you untargetable while you dash at and damage enemies repeatedly.</rules>",
+    "icon": "/augments/Blade_Waltz_mayhem_augment.webp"
+  },
+  {
+    "id": "blunt_force",
+    "name_ko": "육중한 힘",
+    "name_en": "Blunt Force",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "공격력을 20% 증가시킵니다.",
+    "description_en": "Increases attack damage by 20%.",
+    "icon": "/augments/Blunt_Force_mayhem_augment.webp"
+  },
+  {
+    "id": "bonk",
+    "name_ko": "꽁!",
+    "name_en": "BONK!",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "선택한 스킬 효과로 강화된 기본 공격과 스킬이 대상 및 주변 적에게 추가로 피해를 입힙니다.",
+    "description_en": "Attacks and Abilities empowered by your chosen ability deal additional damage to the target and nearby enemies.",
+    "icon": "/augments/BONK_mayhem_augment.webp"
+  },
+  {
+    "id": "bounce_of_the_poro_king",
+    "name_ko": "포로 왕의 바운스",
+    "name_en": "Bounce of the Poro King",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "소환사 주문 하나를 바운스 오브 더 포로킹으로 대체합니다.[br/][br/]바운스 오브 더 포로킹:",
+    "description_en": "Replace a summoner spell with Bounce of the Poro King.[br/][br/]Bounce of the Poro King:",
+    "icon": "/augments/Bounce_of_the_Poro_King_mayhem_augment.webp"
+  },
+  {
+    "id": "bread_and_butter",
+    "name_ko": "빵과 버터",
+    "name_en": "Bread And Butter",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "당신 챔피언의 첫 번째 기본 스킬(Q)이 스킬 가속 100을 얻습니다.",
+    "description_en": "Your champion's first basic ability (Q) gains 100 ability haste.",
+    "icon": "/augments/Bread_And_Butter_mayhem_augment.webp"
+  },
+  {
+    "id": "bread_and_cheese",
+    "name_ko": "빵과 치즈",
+    "name_en": "Bread and Cheese",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "당신 챔피언의 세 번째 기본 스킬(E)이 스킬 가속 100을 얻습니다.",
+    "description_en": "Your champion's third basic ability (E) gains 100 ability haste.",
+    "icon": "/augments/Bread_and_Cheese_mayhem_augment.webp"
+  },
+  {
+    "id": "bread_and_jam",
+    "name_ko": "빵과 잼",
+    "name_en": "Bread And Jam",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "당신 챔피언의 두 번째 기본 스킬(W)이 스킬 가속 100을 얻습니다.",
+    "description_en": "Your champion's second basic ability (W) gains 100 ability haste.",
+    "icon": "/augments/Bread_And_Jam_mayhem_augment.webp"
+  },
+  {
+    "id": "buff_buddies",
+    "name_ko": "쌍버프",
+    "name_en": "Buff Buddies",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "잿불이 문장과 통찰의 문장을 영구적으로 얻습니다.",
+    "description_en": "Grants Crest of Cinders and Crest of Insight permanently.",
+    "icon": "/augments/Buff_Buddies_mayhem_augment.webp"
+  },
+  {
+    "id": "cant_touch_this",
+    "name_ko": "난공불락",
+    "name_en": "Cant Touch This",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "궁극기 시전 시 2초간 무적이 됩니다(8초 재사용 대기시간).",
+    "description_en": "Casting your ultimate grants you invulnerability for 2 seconds (8 second cooldown).",
+    "icon": "/augments/Cant_Touch_This_mayhem_augment.webp"
+  },
+  {
+    "id": "celestial_body",
+    "name_ko": "천상의 신체",
+    "name_en": "Celestial Body",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "추가 체력 1250을 얻지만 가하는 피해량이 10% 감소합니다.",
+    "description_en": "Gain 1250 bonus health, but reduce your damage output by 10%.",
+    "icon": "/augments/Celestial_Body_mayhem_augment.webp"
+  },
+  {
+    "id": "cerberus",
+    "name_ko": "케르베로스",
+    "name_en": "Cerberus",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "칼날비와 집중 공격 핵심 룬을 얻습니다.",
+    "description_en": "Gain the Hail of Blades and Press the Attack keystone runes.",
+    "icon": "/augments/Cerberus_mayhem_augment.webp"
+  },
+  {
+    "id": "chain_reaction",
+    "name_ko": "연쇄 반응",
+    "name_en": "Chain Reaction",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "선택한 스킬 스킬로 <status>뒤로 밀어낸</status> 대상이 다른 챔피언과 부딪히면 둘 다 <status>공중에 뜨고</status> <magicDamage>피해</magicDamage>를 입습니다. 지형에 충돌하면 <status>공중에 뜨는</status> 시간이 길어지고 <magicDamage>추가 피해</magicDamage>를 입습니다.",
+    "description_en": "If a target <status>Knocked Back</status> by your chosen ability hits another champion, they are <status>Knocked Up</status> and dealt <magicDamage>damage</magicDamage>. When colliding with terrain, the <status>Knock Up</status> duration is extended and they are dealt <magicDamage>bonus damage</magicDamage>.",
+    "icon": "/augments/Chain_Reaction_mayhem_augment.webp"
+  },
+  {
+    "id": "cheating",
+    "name_ko": "부정 행위",
+    "name_en": "Cheating",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "귀환이 다시 작동하며 강화된 귀환으로 업그레이드됩니다. 또한 상점 구역을 벗어난 후에도 상점에서 아이템을 구매할 수 있는 능력을 잃지 않으며, 분수가 당신에게 회복과 자원 보충을 제공합니다.",
+    "description_en": "Your Recall is now functional and is upgraded to Empowered Recall. Additionally, you no longer lose the ability to purchase items from the shop after exiting the shop area, and the fountain will now provide healing and resource restoration for you.",
+    "icon": "/augments/Cheating_mayhem_augment.webp"
+  },
+  {
+    "id": "circle_of_death",
+    "name_ko": "죽음의 순환",
+    "name_en": "Circle of Death",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "당신이 가하는 치유와 체력 재생이 1000 유닛 이내에서 가장 가까운 적 챔피언에게 그 수치의 70%만큼 마법 피해를 입힙니다.",
+    "description_en": "Healing and health regeneration you do causes you to deal 70% of that value in magic damage to the nearest enemy champion within 1000 units.",
+    "icon": "/augments/Circle_of_Death_mayhem_augment.webp"
+  },
+  {
+    "id": "clown_college",
+    "name_ko": "광대 대학",
+    "name_en": "Clown College",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "샤코의 등 뒤 일격, 환영 분신, 환영의 죽음 폭발을 얻습니다. 소환사 주문 하나가 환영 분신으로 대체됩니다.[br/][br/]지속 효과 - 등 뒤 일격: 기본 공격으로 적의 뒤를 공격할 때 적중 시 20~35 (+ 추가 공격력의 50%) (+ 주문력의 35%) 추가 물리 피해를 줍니다.[br/][br/]사용 효과 - 환영 분신: 최대 3초간 투명 상태가 되며 0.125초 후 400 유닛 이내의 대상 지점으로 점멸합니다. 은신 중의 다음 기본 공격은 100 (+ 추가 공격력의 150%) (+ 주문력의 55%) 추가 물리 피해를 입히며, 등 뒤 일격이 적용된 경우 155 (+ 추가 공격력의 232.5%) (+ 주문력의 85.25%) 추가 물리 피해로 증가합니다(45초 재사용 대기시간).[br/][br/]지속 효과 - 환영의 죽음: 사망 시 사망 지점 반경 350 내에 폭발을 일으켜 범위 내 적에게 대상의 최대 체력의 25%에 해당하는 고정 피해를 줍니다. 또한 사망 지점에 깜짝 상자를 배치하여 주변 적을 1초간 즉시 공포에 빠뜨립니다. 이 상자는 공격하지 않지만 3초간 지속됩니다.",
+    "description_en": "Gain Shaco Backstab, Deceive and Hallucinate explosion. Replace a summoner spell with Deceive.[br/][br/]Passive - Backstab: Your basic attacks deal 20 to 35 (+ 50% bonus AD) (+ 35% AP) bonus physical damage on-hit when hitting an enemy from behind.[br/][br/]Active - Deceive: Become invisible for up to 3 seconds and blink to the target location within 400 units after a 0.125-second delay. Your next basic attack while in stealth deals 100 (+ 150% bonus AD) (+ 55% AP) bonus physical damage, increased to155 (+ 232.5% bonus AD) (+ 85.25% AP) bonus physical damageif Backstab was applied (45 second cooldown).[br/][br/]Passive - Hallucinate Death: Upon your death, release an explosion in a cr 350 radius of your death location, dealing 25% of target's maximum health true damage to enemies within. Additionally, you deploy a Jack in the Box at the location of your death that instantly fears nearby enemies for 1 second. This box does not attack but lasts for 3 seconds.",
+    "icon": "/augments/Clown_College_mayhem_augment.webp"
+  },
+  {
+    "id": "combusting_interest",
+    "name_ko": "타오르는 이자",
+    "name_en": "Combusting Interest",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "챔피언에게 적용된 화상 및 지속 피해 효과가 <gold>골드</gold>를 생성합니다.",
+    "description_en": "Burns and damage over time applied to champions generates <gold>gold</gold>.",
+    "icon": "/augments/Combusting_Interest_mayhem_augment.webp"
+  },
+  {
+    "id": "courage_of_the_colossus",
+    "name_ko": "거석상의 용기",
+    "name_en": "Courage of the Colossus",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "적 챔피언을 행동 불가 또는 지면 속박 상태로 만들면 3초간 100~300 (+ 최대 체력의 5%)의 피해를 흡수하는 보호막을 얻습니다(같은 시전 인스턴스당 5초 재사용 대기시간). 이 효과가 여러 번 발동되면 보호막이 누적되지만 기존 보호막의 지속시간은 갱신되지 않습니다.",
+    "description_en": "Immobilizing or grounding an enemy champion grants a shield for 3 seconds that absorbs 100 to 300 (+ 5% maximum health) damage (5 second cooldown per cast instance). Shields can stack between multiple triggers of this effect, though not refreshing the duration of previous shields.",
+    "icon": "/augments/Courage_of_the_Colossus_mayhem_augment.webp"
+  },
+  {
+    "id": "crack_open_that_egg",
+    "name_ko": "알 깨기",
+    "name_en": "Crack Open That Egg",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "당신의 보호막이 만료될 때 폭발하여 보호막 강도의 100%에 해당하는 마법 피해를 주변 적에게 입힙니다.",
+    "description_en": "Your shields detonate upon expiration, creating an explosion that deals magic damage equal to 100% of the shield's strength to nearby enemies.",
+    "icon": "/augments/Crack_Open_That_Egg_mayhem_augment.webp"
+  },
+  {
+    "id": "crit_n_cast",
+    "name_ko": "치명적 가속",
+    "name_en": "Crit 'n Cast",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "치명타 확률의 40%에 해당하는 스킬 가속을 얻습니다.",
+    "description_en": "Gain ability haste equal to 40% of your critical strike chance.",
+    "icon": "/augments/Crit_'n_Cast_mayhem_augment.webp"
+  },
+  {
+    "id": "critical_healing",
+    "name_ko": "치명적 치유",
+    "name_en": "Critical Healing",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "당신의 회복과 보호막이 치명타 확률에 해당하는 확률로 효과가 40% 증가합니다. 또한 치명타 확률 25%를 얻습니다.",
+    "description_en": "Your heals and shields now have a chance equal to your critical strike chance to increase in effectiveness by 40%. Additionally, gain 25% critical strike chance.",
+    "icon": "/augments/Critical_Healing_mayhem_augment.webp"
+  },
+  {
+    "id": "critical_missile",
+    "name_ko": "치명적 미사일",
+    "name_en": "Critical Missile",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "치명타 적중 시 대상에게 1 (+ 치명타 확률 33.33%당 1)발의 폭죽 미사일을 발사하여 각각 11~40 (+ 추가 공격력의 7%) (+ 주문력의 10%) 마법 피해를 입힙니다(4초 재사용 대기시간). 또한 치명타 확률 25%를 얻습니다.",
+    "description_en": "Critical strikes launch 1 (+ 1 per 33.33% critical strike chance) firecracker missiles at the target that each deal 11 to 40 (+ 7% bonus AD) (+ 10% AP) magic damage (4 second cooldown). Additionally, gain 25% critical strike chance.",
+    "icon": "/augments/Critical_Missile_mayhem_augment.webp"
+  },
+  {
+    "id": "critical_rhythm",
+    "name_ko": "치명적 리듬",
+    "name_en": "Critical Rhythm",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "치명타로 추가 공격 속도 6%를 6초간 얻으며 최대 10회까지 누적되어 총 60%가 됩니다. 또한 치명타 확률 25%를 얻습니다.",
+    "description_en": "Your critical strikes grant you 6% bonus attack speed for 6 seconds, stacking up to 10 times for a total of 60%. Additionally, gain 25% critical strike chance.",
+    "icon": "/augments/Critical_Rhythm_mayhem_augment.webp"
+  },
+  {
+    "id": "cruelty",
+    "name_ko": "잔혹 행위",
+    "name_en": "Cruelty",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "적 챔피언을 행동 불가 또는 지면 속박 상태로 만들면 그 위에 혜성을 소환하여 1초 후 현재 위치에 떨어지며 범위 내 적에게 50~150 (+ 주문력의 40%) (+ 최대 체력의 4%) 마법 피해를 입힙니다(같은 시전 인스턴스당 대상당 6초 재사용 대기시간).",
+    "description_en": "Immobilizing or grounding an enemy champion summons a comet above them that lands at their current location after 1 second, dealing 50 to 150 (+ 40% AP) (+ 4% of your maximum health) magic damage to enemies within the area (6 second cooldown per target per cast instance).",
+    "icon": "/augments/Cruelty_mayhem_augment.webp"
+  },
+  {
+    "id": "dashing",
+    "name_ko": "돌진",
+    "name_en": "Dashing",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "돌진 또는 점멸이 있는 스킬이 스킬 가속 175를 얻습니다.[br/][br/]칼리스타는 대신 추가 공격 속도 125%를 얻습니다.",
+    "description_en": "Abilities with dashes or blinks gain 175 ability haste.[br/][br/]Kalista is granted 125% bonus attack speed instead.",
+    "icon": "/augments/Dashing_mayhem_augment.webp"
+  },
+  {
+    "id": "dawnbringers_resolve",
+    "name_ko": "빛의 인도자 결의",
+    "name_en": "Dawnbringer's Resolve",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "최대 체력의 50% 미만으로 떨어지면 3초에 걸쳐 최대 체력의 30%만큼 회복합니다(45초 재사용 대기시간, 사망 시 초기화).",
+    "description_en": "Upon dropping below 50% maximum health, you are healed for 30% maximum health over 3 seconds (45 second cooldown, reset upon death).",
+    "icon": "/augments/Dawnbringer's_Resolve_mayhem_augment.webp"
+  },
+  {
+    "id": "deft",
+    "name_ko": "능수능란",
+    "name_en": "Deft",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "추가 공격 속도 60%를 얻습니다.",
+    "description_en": "Grants 60% bonus attack speed.",
+    "icon": "/augments/Deft_mayhem_augment.webp"
+  },
+  {
+    "id": "demons_dance",
+    "name_ko": "악마의 춤",
+    "name_en": "Demon's Dance",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "기민한 발놀림과 착취의 손아귀 핵심 룬을 얻습니다.",
+    "description_en": "Gain the Fleet Footwork and Grasp of the Undying keystone runes.",
+    "icon": "/augments/Demon's_Dance_mayhem_augment.webp"
+  },
+  {
+    "id": "devil_on_your_shoulder",
+    "name_ko": "어깨 위의 악마",
+    "name_en": "Devil on Your Shoulder",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "티모와 협약을 맺어, 그가 매초 현재 체력의 0.5%를 흡수하며, 1000 유닛 이내에 적 챔피언이 있을 때는 5%로 증가합니다. 대신 추가 고정 피해 15%를 입히며, 기본 공격과 스킬이 근처에 5초간 생명 잔존물을 소환합니다(생성 0.75초 재사용 대기시간). 생명 잔존물 위로 이동하면 흡수할 수 있으며, 50~150 (+ 추가 공격력의 50%) (+ 주문력의 25%)만큼 회복되고 추가 이동 속도 15%를 얻습니다.[br/][br/]챔피언 처치 관여 시 이 증강이 8초간 증폭되어 추가 고정 피해가 두 배인 30%로, 회복량이 100~300 (+ 추가 공격력의 100%) (+ 주문력의 50%)로, 추가 이동 속도가 30%로 증가합니다.",
+    "description_en": "Forge a pact with Teemo, who drains 0.5% of your current health every second, increased to 5% if there are enemy champions within 1000 units. In return, you deal 15% bonus true damage and your basic attacks and abilities summon a Life Remnant nearby for 5 seconds (0.75-second spawn cooldown). You can absorb a Life Remnant by moving over it, healing you for 50 to 150 (+ 50% bonus AD) (+ 25% AP) and granting you 15% bonus movement speed.[br/][br/]Scoring a champion takedown amplifies this augment for 8 seconds, doubling the bonus true damage to 30%, the healing to 100 to 300 (+ 100% bonus AD) (+ 50% AP), and the bonus movement speed to 30%.",
+    "icon": "/augments/Devil_on_Your_Shoulder_mayhem_augment.webp"
+  },
+  {
+    "id": "dimension_shift",
+    "name_ko": "차원 이동",
+    "name_en": "Dimension Shift",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "<spellName>어둠이 드리우면</spellName> 소환사 주문을 얻습니다. 내부의 모든 대상을 다른 차원으로 이동시키는 영역을 생성합니다.",
+    "description_en": "Gain the <spellName>When the Darkness Comes</spellName> Summoner Spell. Create a zone that transports everyone inside of it to another dimension.",
+    "icon": "/augments/Dimension_Shift_mayhem_augment.webp"
+  },
+  {
+    "id": "dive_bomber",
+    "name_ko": "폭격기",
+    "name_en": "Dive Bomber",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "사망 시 폭발하여 500 유닛 이내의 적에게 대상의 최대 체력의 20%에 해당하는 고정 피해를 입힙니다.",
+    "description_en": "Upon death, you explode to deal true damage equal to 20% of the target's maximum health to enemies within 500 units.",
+    "icon": "/augments/Dive_Bomber_mayhem_augment.webp"
+  },
+  {
+    "id": "divine_intervention",
+    "name_ko": "신성한 중재",
+    "name_en": "Divine Intervention",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "코즈믹 광휘를 자동 시전하여 보호의 별을 불러내어 2.5초에 걸쳐 내려오게 합니다. 그 후 당신과 cr 400 유닛 이내의 모든 아군 챔피언이 2.5초간 무적이 됩니다(35초 재사용 대기시간).",
+    "description_en": "Automatically cast Cosmic Radiance, calling down a protective star upon you that descends over 2.5 seconds. Afterwards, you and all allied champions within cr 400 units become invulnerable for 2.5 seconds (35 second cooldown).",
+    "icon": "/augments/Divine_Intervention_mayhem_augment.webp"
+  },
+  {
+    "id": "donation",
+    "name_ko": "후원",
+    "name_en": "Donation",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "이 증강을 획득하면 2500 골드를 얻습니다.",
+    "description_en": "Gain 2500 gold upon acquiring this augment.",
+    "icon": "/augments/Donation_mayhem_augment.webp"
+  },
+  {
+    "id": "dont_blink",
+    "name_ko": "속전속결",
+    "name_en": "Don't Blink",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "대상보다 이동 속도 10 더 빠를 때마다 가하는 피해가 1% 증가합니다.",
+    "description_en": "Deal 1% increased damage per 10 movement speed you have more than the target.",
+    "icon": "/augments/Don't_Blink_mayhem_augment.webp"
+  },
+  {
+    "id": "dont_change_the_channel",
+    "name_ko": "채널 고정",
+    "name_en": "Don't Change the Channel",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "<attention>정신 집중</attention> 시 매초 <shield>보호막</shield>을 얻습니다.",
+    "description_en": "Gain a <shield>Shield</shield> for every second you spend <attention>Channeling</attention>.",
+    "icon": "/augments/Dont_Change_the_Channel_mayhem_augment.webp"
+  },
+  {
+    "id": "double_defense",
+    "name_ko": "2연속 방어",
+    "name_en": "Double Defense",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "선택한 스킬 스킬로 부여되는 보호막이 더 강력해지며, 효과가 대상 잃은 체력에 비례합니다.",
+    "description_en": "Shields granted from your chosen ability are stronger and scaling with target's missing Health.",
+    "icon": "/augments/Double_Defense_mayhem_augment.webp"
+  },
+  {
+    "id": "double_tap",
+    "name_ko": "한 발에 두 놈",
+    "name_en": "Double Tap",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "치명타로 적중하는 기본 공격이 적중 시 효과를 한 번 더 적용합니다. 또한 치명타 확률 25%를 얻습니다.",
+    "description_en": "Basic attacks that critically strike apply on-hit effects an additional time. Additionally, gain 25% critical strike chance.",
+    "icon": "/augments/Double_Tap_mayhem_augment.webp"
+  },
+  {
+    "id": "draw_your_sword",
+    "name_ko": "검을 뽑아라",
+    "name_en": "Draw Your Sword",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "근접 챔피언이 되어 공격 사거리가 200 유닛으로 변경됩니다. 또한 추가 공격력 30%, 추가 공격 속도 25%, 추가 체력 30%, 추가 이동 속도 25%, 생명력 흡수 20%를 얻습니다. 이 보너스는 0~30만큼 추가로 증가합니다.[br/][br/]이 증강은 원거리 챔피언만 선택할 수 있습니다.",
+    "description_en": "Become melee, modifying your attack range to 200 units. Additionally, gain 30% bonus attack damage, 25% bonus attack speed, 30% bonus health, 25% bonus movement speed, and 20% life steal. These bonuses are increased by 0 to 30.[br/][br/]This augment is only available for ranged champions.",
+    "icon": "/augments/Draw_Your_Sword_mayhem_augment.webp"
+  },
+  {
+    "id": "dropbear",
+    "name_ko": "곰 투하",
+    "name_en": "DropBear",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "사망 시, 플레이어의 증강을 모두 지닌 거대 티버가 하늘에서 떨어져 주변 적에게 피해를 입힙니다.",
+    "description_en": "On death, a giant Tibbers with all your augments falls from the sky and damages nearby enemies.",
+    "icon": "/augments/DropBear_mayhem_augment.webp"
+  },
+  {
+    "id": "dropkick",
+    "name_ko": "드롭킥",
+    "name_en": "Dropkick",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "기본 공격 및 스킬이 체력이 <scaleHealth>최대 체력의 @Calc_Execute_Threshold@</scaleHealth> 아래인 적 챔피언을 처형하고, <healing>체력을 @Calc_Heal@ 회복</healing>하며 대상을 <status>뒤로 밀어냅니다</status>.<br><br>대상이 적 또는 지형과 충돌하거나 한계에 도달하면 <status>밀려난</status> 적이 폭발해 주변 적에게 <magicDamage>@Calc_Damage@의 마법 피해</magicDamage>를 입힙니다.<br><br><rules>이 폭발은 연쇄적으로 일어날 수 있습니다.<br><br>드롭킥에 맞은 적: @f3.0@<br>체력 획득량: 총 @f2.0@<br>입힌 피해량: @f1.0@</rules>",
+    "description_en": "Your Attacks and Abilities execute enemy champions below <scaleHealth>@Calc_Execute_Threshold@ max Health</scaleHealth>, <healing>restoring @Calc_Heal@ Health</healing> and <status>Knocking Back</status> the target.<br><br>Upon colliding with an enemy or terrain or reaching their terminus, <status>Knocked Back</status> enemies will explode dealing <magicDamage>@Calc_Damage@ magic damage</magicDamage> to nearby enemies.<br><br><rules>These explosions can chain.<br><br>Enemies Dropkicked: @f3.0@<br>Total Health Gained: @f2.0@<br>Damage Dealt: @f1.0@</rules>",
+    "icon": "/augments/Dropkick_mayhem_augment.webp"
+  },
+  {
+    "id": "droppybara",
+    "name_ko": "카피바라 폭격",
+    "name_en": "Droppybara",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "소환사 주문 하나를 드로피바라로 대체합니다.[br/][br/]드로피바라:",
+    "description_en": "Replace a summoner spell with Droppybara.[br/][br/]Droppybara:",
+    "icon": "/augments/Droppybara_mayhem_augment.webp"
+  },
+  {
+    "id": "dual_wield",
+    "name_ko": "양손잡이",
+    "name_en": "Dual Wield",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "기본 공격 시 대상에게 0.225초 후 발사되는 화살을 쏘아 발동한 공격의 감소 전 피해의 40%만큼 피해를 주며 적중 시 효과를 40% 효율로 적용합니다. 또한 총 공격 속도가 20% 증가합니다.",
+    "description_en": "Your basic attacks launch a bolt at the target that fires after a 0.225-second delay on-attack, deals 40% of the triggering attack's pre-mitigation damage, and applies on-hit effects at 40% effectiveness. Additionally, increase your total attack speed by 20%.",
+    "icon": "/augments/Dual_Wield_mayhem_augment.webp"
+  },
+  {
+    "id": "echo_cast",
+    "name_ko": "메아리 시전",
+    "name_en": "Echo Cast",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "선택한 스킬 스킬을 사용하면 마우스 커서 위치로 분신을 보내고 스킬을 재사용합니다.",
+    "description_en": "Casting your chosen ability sends a clone toward your mouse position and recasts it.",
+    "icon": "/augments/Echo_Cast_mayhem_augment.webp"
+  },
+  {
+    "id": "empowered_by_the_faithful",
+    "name_ko": "신념을 통한 강화",
+    "name_en": "Empowered By The Faithful",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "아군 챔피언에게 치유나 보호막을 부여하면 그 대상을 8초간 축복합니다. 축복받은 아군이 적 챔피언에게 피해를 줄 때마다 헌신 스택을 생성하며 최대 50회까지 누적됩니다. 최대 스택에 도달하면 충격파를 방출하여 주변 적에게 50~350의 마법 피해를 입힙니다. 최대 체력의 25% 미만으로 피해를 입은 적 챔피언은 처형됩니다.",
+    "description_en": "Granting a heal or shield to an allied champion blesses them for 8 seconds. Whenever a blessed ally damages an enemy champion, you generate a stack of Devotion, stacking up to 50 times. Upon reaching maximum stacks, you unleash a shockwave that deals 50 to 350 magic damage to nearby enemies. Enemy champions damaged below 25% of their maximum health are executed.",
+    "icon": "/augments/Empowered_By_The_Faithful_mayhem_augment.webp"
+  },
+  {
+    "id": "empyrean_promise",
+    "name_ko": "창공의 서약",
+    "name_en": "Empyrean Promise",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "소환사 주문 하나를 엠피리언 프라미스 비질런스 활성으로 대체합니다. 또한 치유 및 보호막 효과 15%를 얻습니다.[br/][br/]사용 효과 - 비질런스: 0.25초 후 대상 아군 챔피언의 현재 위치로 돌진하여 100~250 (+ 주문력의 100%) (+ 추가 체력의 10%)에 해당하는 보호막을 3초간 얻습니다. 도착 시 그 아군에게도 같은 보호막을 부여합니다(20초 재사용 대기시간; 사거리 2000).",
+    "description_en": "Replace a summoner spell with Empyrean Promise Vigilance active. Additionally, gain 15% heal and shield power.[br/][br/]Active - Vigilance: After a 0.25-second delay, dash to the current location of the target allied champion and gain a 100 to 250 (+ 100% AP) (+ 10% bonus health) shield for 3 seconds. Upon arrival, grant the ally the same shield (20 second cooldown; 2000 range).",
+    "icon": "/augments/Empyrean_Promise_mayhem_augment.webp"
+  },
+  {
+    "id": "en_passant",
+    "name_ko": "앙파상",
+    "name_en": "En Passant",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "주기적으로 적 챔피언의 <keywordMajor>급소</keywordMajor>를 파악합니다. 급소를 기본 공격 또는 스킬로 타격하면 <trueDamage>최대 체력 비례 고정 피해</trueDamage>를 입히고, <healing>체력을 회복</healing>하며, <speed>이동 속도</speed>가 증가합니다. 이 효과는 중첩될 수 있습니다.",
+    "description_en": "Periodically identify <keywordMajor>Vitals</keywordMajor> on enemy champions. Hitting them with Attacks or Abilities deals <trueDamage>max Health true damage</trueDamage>, <healing>restores Health</healing>, and grants <speed>Movement Speed</speed>. These effects can stack.",
+    "icon": "/augments/En_Passant_mayhem_augment.webp"
+  },
+  {
+    "id": "endless_decimation",
+    "name_ko": "끝없는 학살",
+    "name_en": "Endless Decimation",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "전투 중 <keywordMajor>자동 사용</keywordMajor>으로 도끼를 원형으로 휘둘러 <physicalDamage>물리 피해</physicalDamage>를 입힙니다. 바깥쪽 칼날에 적 적중 시 추가 피해를 입히고 <healing>체력을 회복</healing>합니다.",
+    "description_en": "While in combat, <keywordMajor>Autocast</keywordMajor> a circular axe that deals <physicalDamage>physical damage</physicalDamage>. Enemies on the outer edge take additional damage and <healing>heal</healing> you.",
+    "icon": "/augments/Endless_Decimation_mayhem_augment.webp"
+  },
+  {
+    "id": "erosion",
+    "name_ko": "부식",
+    "name_en": "Erosion",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "적에게 가하는 각 피해가 대상의 방어력과 마법 저항력을 4초간 1.5% 감소시키며, 최대 20회까지 누적되어 총 30%의 방어 감소가 됩니다.",
+    "description_en": "Each instance of damage dealt to an enemy reduces their armor and magic resistance by 1.5% for 4 seconds, stacking up to 20 times for a total of 30% resistances reduction.",
+    "icon": "/augments/Erosion_mayhem_augment.webp"
+  },
+  {
+    "id": "escapade",
+    "name_ko": "마법사 (물리)",
+    "name_en": "escAPADe",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "모든 주문력을 주문력 1.66당 추가 공격력 1의 비율로 추가 공격력으로 변환합니다. 또한 총 공격력을 15% 증가시킵니다.",
+    "description_en": "Convert all of your ability power into bonus attack damage at a rate of 1 bonus attack damage per 1.66 ability power. Additionally, increase your total attack damage by 15%.",
+    "icon": "/augments/escAPADe_mayhem_augment.webp"
+  },
+  {
+    "id": "escape_plan",
+    "name_ko": "도주 계획",
+    "name_en": "Escape Plan",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "최대 체력의 35% 미만으로 떨어지면 최대 체력의 65%에 해당하는 보호막, 추가 이동 속도 150%, 크기 감소를 얻습니다(75초 재사용 대기시간). 이 효과들은 모두 5.5초에 걸쳐 감소합니다.",
+    "description_en": "Upon dropping below 35% of your maximum health, gain a shield for 65% of your maximum health, 150% bonus movement speed, and reduced size (75 second cooldown). These effects all decay over 5.5 seconds.",
+    "icon": "/augments/Escape_Plan_mayhem_augment.webp"
+  },
+  {
+    "id": "ethereal_weapon",
+    "name_ko": "환영 무기",
+    "name_en": "Ethereal Weapon",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "당신의 스킬이 적중 시 효과를 적용합니다(대상당 1초 재사용 대기시간).",
+    "description_en": "Your abilities apply on-hit effects (1 second cooldown per target).",
+    "icon": "/augments/Ethereal_Weapon_mayhem_augment.webp"
+  },
+  {
+    "id": "eureka",
+    "name_ko": "유레카",
+    "name_en": "Eureka",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "주문력의 30%에 해당하는 스킬 가속을 얻습니다.",
+    "description_en": "Gain ability haste equal to 30% AP.",
+    "icon": "/augments/Eureka_mayhem_augment.webp"
+  },
+  {
+    "id": "executioner",
+    "name_ko": "처형자",
+    "name_en": "Executioner",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "최대 체력의 30% 미만인 적에게 10% 증가한 피해를 줍니다. 챔피언 처치 관여 시 모든 기본 스킬의 재사용 대기시간이 초기화됩니다.",
+    "description_en": "Deal 10% increased damage to enemies below 30% of their maximum health. Scoring a champion takedown resets the cooldown of all your basic abilities.",
+    "icon": "/augments/Executioner_mayhem_augment.webp"
+  },
+  {
+    "id": "fan_the_hammer",
+    "name_ko": "탄환 세례",
+    "name_en": "Fan The Hammer",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "750 거리 이내 각 기본 방향(동서남북)에서의 다음 기본 공격이 공격 시 대상에게 5발의 화살을 추가로 발사하여 각각 10~52.5 (+ 추가 공격력의 15%) 물리 피해를 입히며, 총 50~262.5 (+ 추가 공격력의 75%) 물리 피해를 가합니다(방향당 5초 재사용 대기시간). 화살의 피해는 0~50 증가합니다. 각 화살은 200 피해로 치명타가 발생할 수 있으며 적중 시 효과를 20% 효율로 적용합니다. 미니언에게는 발동하지 않습니다.",
+    "description_en": "Your next basic attack in each cardinal direction within 750 range additionally on-attack fires 5 bolts at the target that each deal 10 to 52.5 (+ 15% bonus AD) physical damage, for a total of 50 to 262.5 (+ 75% bonus AD) physical damage (5 second cooldown per direction). Bolts' damage is increased by 0 to 50. Each bolt can critically strike for 200 damage and applies on-hit effects at 20% effectiveness. Does not trigger on minions.",
+    "icon": "/augments/Fan_The_Hammer_mayhem_augment.webp"
+  },
+  {
+    "id": "feel_the_burn",
+    "name_ko": "저주의 화염",
+    "name_en": "Feel the Burn",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "소환사 주문 하나를 필 더 번으로 대체합니다. 또한 점화가 화상 출처로 간주됩니다.[br/][br/]필 더 번: 800 유닛 이내의 모든 적 챔피언에게 탈진과 점화를 동시에 시전합니다. 탈진의 둔화 강도는 50%로 증가하며, 점화는 지속시간 동안 70~410의 고정 피해를 입히도록 변경됩니다.",
+    "description_en": "Replace a summoner spell with Feel the Burn. Additionally, Ignite counts as a Burn source.[br/][br/]Feel the Burn: Casts both Exhaust and Ignite on all enemy champions within 800 units, with the former having its slow strength increased to 50% and the latter modified to deal 70 to 410 true damage over the duration.",
+    "icon": "/augments/Feel_the_Burn_mayhem_augment.webp"
+  },
+  {
+    "id": "fey_magic",
+    "name_ko": "요정 마법",
+    "name_en": "Fey Magic",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "궁극기로 적에게 피해를 주면 그 적을 2초간 무해한 작은 동물로 변이시키며, 그동안 기본 이동 속도가 60 감소하고 같은 시간 동안 무장 해제됩니다(대상당 15초 재사용 대기시간).",
+    "description_en": "Damaging enemies with your ultimate ability polymorphs them into harmless critters for 2 seconds, during which their base movement speed is reduced by 60, and disarms them for the same duration (15 second cooldown per target).",
+    "icon": "/augments/Fey_Magic_mayhem_augment.webp"
+  },
+  {
+    "id": "final_city_transit",
+    "name_ko": "최후의 도시 대중교통",
+    "name_en": "Final City Transit",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "사망 시 사망 지점에서 당신을 처치한 적을 향해 열차를 발사합니다. 열차는 그 방향으로 전 맵 거리를 이동하며 통과한 적에게 150~750 (+ 추가 공격력의 65%) (+ 주문력의 50%) (+ 최대 체력의 15%) 물리 피해를 입힙니다.",
+    "description_en": "Upon death, you launch a train towards your killer from the location of your death, which travels in their direction at a global distance and deals 150 to 750 (+ 65% bonus AD) (+ 50% AP) (+ 15% maximum health) physical damage to enemies it passes through.",
+    "icon": "/augments/Final_City_Transit_mayhem_augment.webp"
+  },
+  {
+    "id": "final_form",
+    "name_ko": "최종 형태",
+    "name_en": "Final Form",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "궁극기 시전 시 10초간 강화되어 지속시간 동안 최대 체력의 50%에 해당하는 보호막, 전능 흡혈 20%, 추가 이동 속도 30%를 얻습니다(20초 재사용 대기시간).",
+    "description_en": "Casting your ultimate ability empowers you for 10 seconds, causing you to gain a shield for 50% of your maximum health, 20% omnivamp, and 30% bonus movement speed for the duration (20 second cooldown).",
+    "icon": "/augments/Final_Form_mayhem_augment.webp"
+  },
+  {
+    "id": "firebrand",
+    "name_ko": "화염 낙인",
+    "name_en": "Firebrand",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "기본 공격이 5초간 화상을 적용하여 매초 대상의 최대 체력의 0.4%에 해당하는 추가 마법 피해를 입힙니다. 이 화상은 무한히 누적되며 적용 시마다 갱신됩니다.",
+    "description_en": "Basic attacks apply a Burn for 5 seconds that deals bonus magic damage equal to0.4% of the target's maximum health per second.This Burn stacks infinitely and refreshes with each application.",
+    "icon": "/augments/Firebrand_mayhem_augment.webp"
+  },
+  {
+    "id": "firefox",
+    "name_ko": "불여우",
+    "name_en": "FireFox",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "여우불을 자동 시전하여 2초에 걸쳐 감소하는 추가 이동 속도 40%를 얻고, 반경 cr 150 유닛에서 시계 방향으로 자신을 따라 도는 화염 3개를 최대 2.5초간 소환합니다. 화염은 cr 550 유닛 이내 시야 내 가장 가까운 적 챔피언에게 날아가 35~160 (+ 추가 공격력의 25% (+ 주문력의 25%)의 적응형 피해를 입히며, 같은 시전 인스턴스에서 후속 화염에 맞은 적은 10.5~48 (+ 추가 공격력의 7.5% (+ 주문력의 7.5%)로 감소합니다(7초 재사용 대기시간).",
+    "description_en": "Automatically cast Fox-Fire, gaining 40% bonus movement speed that decays over 2 seconds and conjuring 3 flames that orbit you clockwise for up to 2.5 seconds at a radius of cr 150 units. The flames will fly toward the nearest visible enemy champion within cr 550 units, dealing 35 to 160 (+ 25% bonus AD (+ 25% AP) adaptive damage, reduced to10.5 to 48 (+ 7.5% bonus AD (+ 7.5% AP)for enemies hit by subsequent flames from the same cast (7 second cooldown).",
+    "icon": "/augments/FireFox_mayhem_augment.webp"
+  },
+  {
+    "id": "first_aid_kit",
+    "name_ko": "응급처치 키트",
+    "name_en": "First-Aid Kit",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "회복 및 보호막 효과를 20% 증가시킵니다.",
+    "description_en": "Grants 20% heal and shield power.",
+    "icon": "/augments/First-Aid_Kit_mayhem_augment.webp"
+  },
+  {
+    "id": "flash_2",
+    "name_ko": "점멸 2",
+    "name_en": "Flash 2",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "소환사 주문 하나를 점멸로 대체합니다. 또한 소환사 주문 가속 70을 얻습니다.[br/][br/]이 증강을 장비하고 있는 동안 두 소환사 주문 슬롯 모두 점멸이 되며, 어느 하나를 사용해도 다른 하나와 재사용 대기시간을 공유하지 않습니다.",
+    "description_en": "Replace a summoner spell with Flash. Additionally, gain 70 summoner spell haste.[br/][br/]You have Flash in both of your summoner spell slots while equipped with this augment, and they do not share cooldowns when either of them are used.",
+    "icon": "/augments/Flash_2_mayhem_augment.webp"
+  },
+  {
+    "id": "flashbang",
+    "name_ko": "점멸탄",
+    "name_en": "Flashbang",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "점멸을 사용하면 점멸 위치 주변에 폭발이 생성되어 주변 적에게 70~240 (+ AD의 70%) (+ 주문력의 60%) 마법 피해를 입히고 1.25초간 35% 둔화시킵니다. 또한 사망 시 점멸의 재사용 대기시간이 초기화됩니다.",
+    "description_en": "Using Flash creates an explosion around the blink location that deals 70 to 240 (+ 70% AD) (+ 60% AP) magic damage to nearby enemies and slows them by 35% for 1.25 seconds. Additionally, the cooldown of your Flash resets upon your death.",
+    "icon": "/augments/Flashbang_mayhem_augment.webp"
+  },
+  {
+    "id": "forged_by_the_master",
+    "name_ko": "장인의 솜씨",
+    "name_en": "Forged By The Master",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "아이템 및 증강으로 입히는 피해량이 <attention>일정 수의</attention> 증가합니다.",
+    "description_en": "Increase your Item and Augment damage by <attention>the required number of</attention>.",
+    "icon": "/augments/Forged_By_The_Master_mayhem_augment.webp"
+  },
+  {
+    "id": "from_beginning_to_end",
+    "name_ko": "시작부터 끝까지",
+    "name_en": "From Beginning To End",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "어둠의 수확과 선제 공격 핵심 룬을 얻습니다.",
+    "description_en": "Gain the Dark Harvest and First Strike keystone runes.",
+    "icon": "/augments/From_Beginning_To_End_mayhem_augment.webp"
+  },
+  {
+    "id": "from_downtown",
+    "name_ko": "로켓 배송",
+    "name_en": "From Downtown",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "<font color='#F0C200'>퀘스트:</font> 스킬로 적 챔피언 일정 수의명을 <keywordMajor>저격</keywordMajor>해야 합니다.<br><br><font color='#F0C200'>보상:</font> <keywordMajor>저격</keywordMajor>한 적 챔피언에게 유성을 날려 주변 지역에 <magicDamage>마법 피해</magicDamage>를 입힙니다.",
+    "description_en": "<font color='#F0C200'>QUEST:</font> <keywordMajor>Snipe</keywordMajor> the required number of enemy champions with abilities<br><br><font color='#F0C200'>REWARD:</font> Send a meteor at <keywordMajor>Sniped</keywordMajor> enemy champions, dealing <magicDamage>Magic damage</magicDamage> in an area around them",
+    "icon": "/augments/From_Downtown_mayhem_augment.webp"
+  },
+  {
+    "id": "frost_wraith",
+    "name_ko": "서리 망령",
+    "name_en": "Frost Wraith",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "서리 고리를 자동 시전하여 반경 450의 차가운 파동을 발산해 주변 적을 1.25초간 속박합니다(6.5초 재사용 대기시간).",
+    "description_en": "Automatically cast Ring of Frost, creating a cold pulse around you in 450 radius that roots nearby enemies for 1.25 seconds (6.5 second cooldown).",
+    "icon": "/augments/Frost_Wraith_mayhem_augment.webp"
+  },
+  {
+    "id": "gash",
+    "name_ko": "깊은 상처",
+    "name_en": "Gash",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "기본 공격 적중 시 20~40/10~20 (+ 추가 방어력의 25%/20%) 추가 고정 피해를 입힙니다. 또한 추가 공격 속도 50%를 얻습니다.",
+    "description_en": "Basic attacks on-hit deal 20 to 40/10 to 20 (+ 25%/20% bonus armor) bonus true damage. Additionally, gain 50% bonus attack speed.",
+    "icon": "/augments/Gash_mayhem_augment.webp"
+  },
+  {
+    "id": "get_excited!",
+    "name_ko": "신난다!",
+    "name_en": "Get Excited!",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "챔피언 처치 관여 시 4초간 추가 이동 속도 100%와 총 공격 속도 15%를 얻습니다.",
+    "description_en": "Scoring a champion takedown grants you 100% bonus movement speed and 15% total attack speed for 4 seconds.",
+    "icon": "/augments/Get_Excited!_mayhem_augment.webp"
+  },
+  {
+    "id": "giant_slayer",
+    "name_ko": "거인 학살자",
+    "name_en": "Giant Slayer",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "몸이 작아져 크기가 75% 감소하고 추가 이동 속도 30%를 얻습니다. 또한 자신보다 크기가 큰 적 챔피언에게 10;15;25;30의 추가 피해를 줍니다.",
+    "description_en": "Become tiny, reducing your size by 75% and gaining 30% bonus movement speed. Additionally, deal 10;15;25;30 bonus damage against enemy champions with greater size than you.",
+    "icon": "/augments/Giant_Slayer_mayhem_augment.webp"
+  },
+  {
+    "id": "glass_cannon",
+    "name_ko": "유리 대포",
+    "name_en": "Glass Cannon",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "최대 체력의 70%에 해당하는 체력 한계를 얻으며, 어떤 수단으로도 변경하거나 초과할 수 없습니다. 대신 감소 전 피해의 25%(근접) / 15%(원거리)에 해당하는 추가 고정 피해를 입힙니다.",
+    "description_en": "You gain a health threshold equal to 70% maximum health which cannot be modified nor exceeded by any means. In return, you deal bonus true damage equal to 25% of your pre-mitigation damage as melee, or 15% as ranged.",
+    "icon": "/augments/Glass_Cannon_mayhem_augment.webp"
+  },
+  {
+    "id": "goldrend",
+    "name_ko": "골드 강탈",
+    "name_en": "Goldrend",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "적 챔피언에게 기본 공격 또는 피해 스킬이 적중하면 50~150 (+ 추가 공격력의 40%) (+ 주문력의 20%) 추가 마법 피해를 입히고 30 골드와 1.5초간 추가 이동 속도 25%를 얻습니다(챔피언당 30초 재사용 대기시간).",
+    "description_en": "Damaging basic attacks or abilities against enemy champions deal 50 to 150 (+ 40% bonus AD) (+ 20% AP) bonus magic damage, and grant you 30 gold and 25% bonus movement speed for 1.5 seconds (30 second cooldown per champion).",
+    "icon": "/augments/Goldrend_mayhem_augment.webp"
+  },
+  {
+    "id": "goliath",
+    "name_ko": "거인",
+    "name_en": "Goliath",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "추가 체력 35%, 적응형 능력치 15%, 크기 50% 증가를 얻습니다.",
+    "description_en": "Grants 35% bonus health, 15% adaptive force, and 50% increased size.",
+    "icon": "/augments/Goliath_mayhem_augment.webp"
+  },
+  {
+    "id": "goredrink",
+    "name_ko": "선혈포식",
+    "name_en": "Goredrink",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "전능 흡혈 15%를 얻습니다.",
+    "description_en": "Gain 15% omnivamp.",
+    "icon": "/augments/Goredrink_mayhem_augment.webp"
+  },
+  {
+    "id": "grandmas_chili_oil",
+    "name_ko": "할머니의 고추기름",
+    "name_en": "Grandma's Chili Oil",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "적 챔피언에게 화상 효과를 적용하면 대상으로부터 고추 구체가 발사되어 0.5초 후 그 근처에 떨어집니다(대상당 3초 재사용 대기시간). 착지 시 반경 175 유닛의 고추기름 웅덩이가 생성되어 5초간 지속됩니다. 웅덩이 안에 있는 동안, 진입 시와 그 후 매초 60~150만큼 회복됩니다. 적이 웅덩이 안에 있는 동안 매초 마법 피해 100을 입습니다.[br/][br/]보유한 고유 화상 효과 원천마다(최대 10개), 웅덩이의 크기가 40 유닛, 틱당 회복량이 50, 틱당 피해가 마법 피해 60만큼 증가합니다.",
+    "description_en": "Inflicting an enemy champion with a Burn effect releases a chili sphere from the target, landing to a location near them after 0.5 seconds (3 second cooldown per target). Upon landing, a pool of Chili Oil is created at the impact area with a radius of 175 units, lasting for 5 seconds. While you are within the pool, heal for 60 to 150 upon entering and each second of the pool's lifetime thereafter. While enemies are within the pool, they are dealt 100 magic damage every second.[br/][br/]For each unique Burn effect source that you have, up to 10, increase the pool's size by 40 units, its healing per tick by 50, and its damage per tick by 60 magic damage.",
+    "icon": "/augments/Grandma's_Chili_Oil_mayhem_augment.webp"
+  },
+  {
+    "id": "growth_spurt",
+    "name_ko": "급속 성장",
+    "name_en": "Growth Spurt",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "소환사 주문 하나를 성장 폭발로 대체합니다.[br/][br/]성장 폭발:",
+    "description_en": "Replace a summoner spell with Growth Spurt.[br/][br/]Growth Spurt:",
+    "icon": "/augments/Growth_Spurt_mayhem_augment.webp"
+  },
+  {
+    "id": "guilty_pleasure",
+    "name_ko": "죄책감의 쾌락",
+    "name_en": "Guilty Pleasure",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "적 챔피언을 행동 불가 또는 지면 속박 상태로 만들면 10~150 (+ 최대 체력의 1.5%)만큼 회복합니다(같은 시전 인스턴스당 5초 재사용 대기시간).",
+    "description_en": "Immobilizing or grounding an enemy champion heals you for 10 to 150 (+ 1.5% maximum health) (5 second cooldown per cast instance).",
+    "icon": "/augments/Guilty_Pleasure_mayhem_augment.webp"
+  },
+  {
+    "id": "hand_of_baron",
+    "name_ko": "남작의 도움",
+    "name_en": "Hand of Baron",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "적응형 능력치 33%를 얻습니다. 주변 아군 미니언이 크게 강화됩니다.",
+    "description_en": "Gain 33% Adaptive Force. Nearby allied minions are greatly empowered.",
+    "icon": "/augments/Hand_of_Baron_mayhem_augment.webp"
+  },
+  {
+    "id": "hat_on_a_hat",
+    "name_ko": "모자 겹쳐쓰기",
+    "name_en": "Hat on a Hat",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "인벤토리에 보유한 머리 장비 또는 모자 아이템 하나당 주문력 15와 추가 마법 저항력 8을 얻습니다. 캐파 주스와 능력치 보너스로 얻은 모자에서는 주문력 8와 추가 마법 저항력 4로 감소됩니다.[br/][br/]해당 아이템: 심연의 가면, 핏빛 저주, 우주의 추진력, 밤의 끝자락, 실험용 마법육각 흉갑, 핌불의 겨울, 어둠의 인도자, 공허한 광휘, 오만, 잭쇼-변모하는 자, 기사의 맹세, 리안드리의 고뇌, 라바돈의 죽음모자, 균열 생성기, 슈렐리아의 군가, 유령의 두건, 우글렛의 마녀모자<!--interaction with Quest and Upgraded Items?-->",
+    "description_en": "Gain 15 ability power and 8 bonus magic resistance for each headwear item or hat you have in your inventory, reduced to 8 ability power and 4 bonus magic resistance for hats obtained from Cappa Juice and Stat Bonus.[br/][br/]Eligible Items: Abyssal Mask, Bloodletter's Curse, Cosmic Drive, Edge of Night, Experimental Hexplate, Fimbulwinter, Haunting Guise, Hollow Radiance, Hubris, Jak'Sho, The Protean, Knight's Vow, Liandry's Torment, Rabadon's Deathcap, Riftmaker, Shurelya's Battlesong, Spectre's Cowl, Wooglet's Witchcap<!--interaction with Quest and Upgraded Items?-->",
+    "icon": "/augments/Hat_on_a_Hat_mayhem_augment.webp"
+  },
+  {
+    "id": "heads_up_cupcake!",
+    "name_ko": "컵케이크 조심해!",
+    "name_en": "Heads Up Cupcake!",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "주기적으로 컵케이크가 맵을 가로질러 날아옵니다. 챔피언은 반경 300 유닛 이내로 이동하여 컵케이크를 섭취할 수 있으며, 0.5초간 25% 둔화됩니다. 컵케이크가 소모될 때마다 아군 또는 적군에 관계없이 15 골드를 얻고, 자신과 주변 아군 챔피언이 50~250 (+ 5~15 잃은 체력)만큼 회복합니다. 또한 컵케이크로 가한 치유 1000마다 150 골드를 얻습니다.",
+    "description_en": "Periodically, a Cupcake will fly across the map. Champions can consume the Cupcake by moving within its radius of 300 units, slowing them by 25% for 0.5 seconds. Whenever a Cupcake is consumed, regardless of ally or enemy, you gain 15 gold and you and nearby allied champions heal for 50 to 250 (+ 5 to 15 missing health). Additionally, for every 1000 healing done by Cupcakes, you gain 150 gold.",
+    "icon": "/augments/Heads_Up_Cupcake!_mayhem_augment.webp"
+  },
+  {
+    "id": "heavy_hitter",
+    "name_ko": "강타자",
+    "name_en": "Heavy Hitter",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "기본 공격이 최대 체력의 3.5%에 해당하는 추가 물리 피해를 줍니다.",
+    "description_en": "Basic attacks deal bonus physical damage equal to 3.5% of your maximum health.",
+    "icon": "/augments/Heavy_Hitter_mayhem_augment.webp"
+  },
+  {
+    "id": "hellbent",
+    "name_ko": "열의",
+    "name_en": "Hellbent",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "적 챔피언에게 기본 공격 또는 스킬로 피해를 입히면 중첩을 얻습니다. 중첩이 최대치에 도달하면 사망 시 <attention>강화된 상태로 부활</attention>합니다.",
+    "description_en": "Damaging enemy champions with Attacks or Abilities grants stacks. At max stacks, you <attention>revive empowered</attention> upon death.",
+    "icon": "/augments/Hellbent_mayhem_augment.webp"
+  },
+  {
+    "id": "hextech_soul",
+    "name_ko": "마법공학의 영혼",
+    "name_en": "Hextech Soul",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "마법공학 용의 영혼을 얻습니다. 이미 가지고 있다면 다른 용의 영혼을 얻습니다.",
+    "description_en": "Grants the Hextech Dragon Soul, or a different Dragon Soul if you aleady have it.",
+    "icon": "/augments/Hextech_Soul_mayhem_augment.webp"
+  },
+  {
+    "id": "hide_on_bush",
+    "name_ko": "Hide on bush",
+    "name_en": "Hide on Bush",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "<keyword>수풀</keyword>에 들어간 후 <attention>일정 수의</attention>초 동안 피해량이 <attention>일정 수의%</attention> 증가합니다. <keyword>수풀</keyword>에 머무르면 효과가 초기화됩니다.",
+    "description_en": "After entering <keyword>Brush</keyword>, deal <attention>the required number of%</attention> more damage for <attention>the required number of</attention> seconds. Remain in the <keyword>Brush</keyword> to refresh the effect.",
+    "icon": "/augments/Hide_on_Bush_mayhem_augment.webp"
+  },
+  {
+    "id": "high_roller",
+    "name_ko": "도박꾼",
+    "name_en": "High Roller",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "주변 적이 죽을 때 일정 확률로 능력치 모루를 떨어뜨립니다.",
+    "description_en": "Nearby enemies have a chance to drop Stat Anvils on death.",
+    "icon": "/augments/High_Roller_mayhem_augment.webp"
+  },
+  {
+    "id": "holy_fire",
+    "name_ko": "신성한 불길",
+    "name_en": "Holy Fire",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "당신의 치유와 보호막이 650 유닛 이내 가장 가까운 적 유닛을 향해 0.32초에 걸쳐 미사일을 발사하여 도달 시 화상을 적용하고, 5초간 매초 대상의 최대 체력의 0.2%에 해당하는 마법 피해를 입혀 총 1%가 됩니다(1.5초 재사용 대기시간).[br/][br/]화상의 틱당 피해는 발동된 치유 또는 보호막의 값이 아군 수령자의 최대 체력 대비 차지하는 비율에 따라 최대 대상의 최대 체력의 0.8%까지 증가하며, 총 대상의 최대 체력의 4%의 최대 피해가 됩니다.",
+    "description_en": "Your heals and shields cause you to fire a missile to the nearest enemy unit within 650 units over 0.32 seconds, applying a Burn upon arrival that deals magic damage equal to 0.2% of the target's maximum health every second over 5 seconds, for a total of 1% (1.5-second cooldown).[br/][br/]The Burn's per-tick damage increases to up to 0.8% of the target's maximum health based on the relative value of the triggering heal or shield against the maximum health of the ally recipient, for a total maximum damage of 4% of the target's maximum health.",
+    "icon": "/augments/Holy_Fire_mayhem_augment.webp"
+  },
+  {
+    "id": "holy_snowball",
+    "name_ko": "신성한 눈덩이",
+    "name_en": "Holy Snowball",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "표식의 돌진 주문 사용 후 도착 시 1초간 무적이 됩니다. 또한 표식의 재사용 대기시간이 스킬 가속 100 상당 감소합니다.[br/][br/]표식이 장비되지 않은 경우, 점멸이 차지하지 않은 소환사 주문 슬롯이 표식으로 대체됩니다.",
+    "description_en": "After using the Dash spell from Mark, you become invulnerable for 1 second upon arrival. Additionally, your Mark cooldown is reduced equivalent to 100 ability haste.[br/][br/]If Mark is not equipped, the summoner spell in the slot not occupied by Flash is replaced with Mark.",
+    "icon": "/augments/Holy_Snowball_mayhem_augment.webp"
+  },
+  {
+    "id": "homeguard",
+    "name_ko": "민병대",
+    "name_en": "Homeguard",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "추가 이동 속도 100%를 얻습니다. 챔피언에게 피해를 입은 후 3초간 이 보너스가 사라집니다.",
+    "description_en": "Gain 100% bonus movement speed. This bonus is lost for 3 seconds after taking damage from champions.",
+    "icon": "/augments/Homeguard_mayhem_augment.webp"
+  },
+  {
+    "id": "ice_cold",
+    "name_ko": "차가운 냉기",
+    "name_en": "Ice Cold",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "당신의 둔화 효과가 대상의 이동 속도를 추가로 100만큼 감소시킵니다.",
+    "description_en": "Your slowing effects reduce the movement speed of targets by an additional 100.",
+    "icon": "/augments/Ice_Cold_mayhem_augment.webp"
+  },
+  {
+    "id": "im_a_baby_kitty_where_is_mama",
+    "name_ko": "엄마 찾는 아기 고양이",
+    "name_en": "I'm a Baby Kitty Where is Mama",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "2초 후 가장 가까운 아군 챔피언과 결속되어 그들과의 사이에 연결 끈을 형성합니다(반경 400). 연결 끈이 유지되는 동안 추가 이동 속도 75%와 치유 및 보호막 효과 50%를 얻습니다. 또한 1500 유닛 이내에서 결속된 아군을 향하고 있는 동안 추가 이동 속도 37.5%를 얻습니다.[br/][br/]당신 또는 결속된 아군이 사망하면 연결 끈이 끊어지며, 새로운 결속을 형성할 수 있습니다.",
+    "description_en": "Bind with the nearest allied champion to you after 2 seconds, forming a tether between you and them (400 radius). While the tether persists, you gain 75% bonus movement speed and 50% heal and shield power. Additionally, gain 37.5% bonus movement speed while facing your bound ally within 1500 units.[br/][br/]The tether will break when you or your bound ally dies, allowing you to form a new tether.",
+    "icon": "/augments/I'm_a_Baby_Kitty_Where_is_Mama_mayhem_augment.webp"
+  },
+  {
+    "id": "impassable",
+    "name_ko": "넘을 수 없는 벽",
+    "name_en": "Impassable",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "여진과 빙결 강화 핵심 룬을 얻습니다.",
+    "description_en": "Gain the Aftershock and Glacial Augment keystone runes.",
+    "icon": "/augments/Impassable_mayhem_augment.webp"
+  },
+  {
+    "id": "infernal_conduit",
+    "name_ko": "지옥의 전도체",
+    "name_en": "Infernal Conduit",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "스킬 사용 시 무한히 중첩되는 <keywordMajor>화상</keywordMajor> 효과를 적용해 @BleedDuration@초 동안 매초 <magicDamage>@BleedDamageTooltip@의 마법 피해</magicDamage>를 입힙니다.<br><br>모든 <keywordMajor>화상</keywordMajor> 효과가 적 챔피언에게 피해를 입힐 때마다 기본 스킬의 재사용 대기시간을 @FlatCooldownRefundPerTick@초 감소시킵니다.<br><br>입힌 피해량: @f2@",
+    "description_en": "Your Abilities apply an infinitely stacking <keywordMajor>Burn</keywordMajor>, dealing <magicDamage>@BleedDamageTooltip@ magic damage</magicDamage> per second for @BleedDuration@ seconds.<br><br>All your <keywordMajor>Burn</keywordMajor> effects lower your basic Ability Cooldowns by @FlatCooldownRefundPerTick@ seconds when they damage enemy champions.<br><br>Damage Dealt: @f2@",
+    "icon": "/augments/Infernal_Conduit_mayhem_augment.webp"
+  },
+  {
+    "id": "infernal_soul",
+    "name_ko": "지옥불 영혼",
+    "name_en": "Infernal Soul",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "지옥불 용의 영혼을 얻습니다. 이미 가지고 있다면 다른 용의 영혼을 얻습니다.",
+    "description_en": "Grants the Infernal Dragon Soul, or a different Dragon Soul if you aleady have it.",
+    "icon": "/augments/Infernal_Soul_mayhem_augment.webp"
+  },
+  {
+    "id": "infinite_recursion",
+    "name_ko": "무한 반복",
+    "name_en": "Infinite Recursion",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "스킬 가속 60을 얻으며, 챔피언 처치 관여 시마다 3씩 증가합니다.",
+    "description_en": "Gain 60 ability haste, increased by 3 each time you score a champion takedown.",
+    "icon": "/augments/Infinite_Recursion_mayhem_augment.webp"
+  },
+  {
+    "id": "its_critical",
+    "name_ko": "치명적인 공격",
+    "name_en": "It's Critical",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "치명타 확률 50%를 얻습니다.",
+    "description_en": "Grants 50% critical strike chance.",
+    "icon": "/augments/It's_Critical_mayhem_augment.webp"
+  },
+  {
+    "id": "its_go_time",
+    "name_ko": "출발할 시간",
+    "name_en": "It's Go Time",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "선택한 스킬 사용 시 지속시간 동안 <speed>이동 속도</speed>가 증가합니다.",
+    "description_en": "Activating your chosen ability grants you <speed>Movement Speed</speed> for its duration.",
+    "icon": "/augments/It_s_Go_Time_mayhem_augment.webp"
+  },
+  {
+    "id": "its_killing_time",
+    "name_ko": "처형 시간",
+    "name_en": "It's Killing Time",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "궁극기 시전 시 모든 적 챔피언에게 죽음의 표식을 부여합니다(8초 재사용 대기시간). 표식은 대상에게 가한 감소 후 피해의 40%를 저장하며, 5초 후 폭발하여 저장된 피해와 동일한 고정 피해를 입힙니다.",
+    "description_en": "Upon casting your ultimate ability, you apply Death Mark to all enemy champions (8 second cooldown). The mark stores 40% of all post-mitigation damage you deal to the affected target, detonating after 5 seconds to deal true damage equal to the damage stored against them.",
+    "icon": "/augments/Its_Killing_Time_mayhem_augment.webp"
+  },
+  {
+    "id": "jeweled_gauntlet",
+    "name_ko": "보석 건틀릿",
+    "name_en": "Jeweled Gauntlet",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "스킬이 (145% + 추가 치명타 피해)의 피해로 치명타를 입힐 수 있게 됩니다. 또한 25% (+ 주문력 100당 4.5%) 치명타 확률을 얻습니다.[br/][br/]보석 장갑과 취약점이 모두 장착된 경우, 치명타 피해가 더 높은 증강의 치명타 확률만 적용됩니다(같을 경우 둘 중 하나).",
+    "description_en": "Your abilities can now critically strike for (145% + bonus critical damage) damage. Additionally, gain 25% (+ 4.5% per 100 AP) critical strike chance.[br/][br/]If both Jeweled Gauntlet and Vulnerability are equipped, only rolls the critical strike chance of the augment that has the higher critical damage (or either if equal).",
+    "icon": "/augments/Jeweled_Gauntlet_mayhem_augment.webp"
+  },
+  {
+    "id": "juiced",
+    "name_ko": "도취",
+    "name_en": "Juiced",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "기본 공격 적중 시 최대 마나의 2.5%를 소모하여 최대 마나의 3.5%에 해당하는 추가 마법 피해를 입힙니다. 이 피해는 치명타로 100의 추가 피해를 줄 수 있습니다.",
+    "description_en": "Basic attacks on-hit consume 2.5% of your maximum mana to deal bonus magic damage equal to 3.5% of your maximum mana. This damage can critically strike for 100 bonus damage.",
+    "icon": "/augments/Juiced_mayhem_augment.webp"
+  },
+  {
+    "id": "keystone_conjurer",
+    "name_ko": "핵심 룬 요술사",
+    "name_en": "Keystone Conjurer",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "신비로운 유성과 콩콩이 소환 핵심 룬을 얻습니다.",
+    "description_en": "Gain the Arcane Comet and Summon Aery keystone runes.",
+    "icon": "/augments/Keystone_Conjurer_mayhem_augment.webp"
+  },
+  {
+    "id": "kill_secured",
+    "name_ko": "확보된 킬",
+    "name_en": "Kill Secured",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "최대 체력의 40% 미만인 적 챔피언을 향해 이동할 때 추가 이동 속도 60%를 얻습니다.",
+    "description_en": "Gain 60% bonus movement speed towards enemy champions below 40% of their maximum health.",
+    "icon": "/augments/Kill_Secured_mayhem_augment.webp"
+  },
+  {
+    "id": "king_me",
+    "name_ko": "나는 왕이다",
+    "name_en": "King Me",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "적팀의 관문 또는 캐터펄트(둘 다 적의 스폰 지점 근처에 있음)에 처음 진입하면, [br/]킹화되어 무작위 프리즘 등급 증강 하나를 얻고 인벤토리에서 첫 번째 유효한 전설 아이템이 향상된 능력치로 업그레이드됩니다. 아이템에서 업그레이드 가능한 모든 능력치의 골드 가치가 정확히 1000 골드만큼 증가합니다.[br/][br/]킹 미는 인벤토리 내 위치에 따라 업그레이드 가능한 첫 번째 전설 아이템을 우선 업그레이드하며, 유효한 아이템을 찾을 때까지 각 슬롯을 감지합니다.",
+    "description_en": "Upon entering the enemy team's gate or Catapult for the first time, either of which are located near their spawn, you become[br/]Kinged, causing you to gain one random Prismatic-tier augment and the first eligible Legendary item in your inventory to be upgraded with improved stats. The gold value of all upgradeable stats on the item is increased by exactly 1000 gold.[br/][br/]King Me prioritize upgrading the first Legendary item eligible for a upgrade based on its position in the inventory, detecting each slot until an eligible item is found.",
+    "icon": "/augments/King_Me_mayhem_augment.webp"
+  },
+  {
+    "id": "laser_heal",
+    "name_ko": "체력 회복 광선",
+    "name_en": "Laser Heal",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "소환사 주문 하나를 레이저 힐로 대체합니다.[br/][br/]레이저 힐:",
+    "description_en": "Replace a summoner spell with Laser Heal.[br/][br/]Laser Heal:",
+    "icon": "/augments/Laser_Heal_mayhem_augment.webp"
+  },
+  {
+    "id": "leg_day",
+    "name_ko": "하체 운동의 날",
+    "name_en": "Leg Day",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "추가 이동 속도 50과 둔화 저항 40%를 얻습니다.",
+    "description_en": "Gain 50 bonus movement speed and 40% slow resist.",
+    "icon": "/augments/Leg_Day_mayhem_augment.webp"
+  },
+  {
+    "id": "light_em_up!",
+    "name_ko": "불을 밝혀",
+    "name_en": "Light 'em Up!",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "기본 공격이 스택을 생성하며 최대 4회까지 누적됩니다. 4스택에서 모든 스택을 소모하여 대상에게 4개의 폭죽을 빠르게 발사하며, 각각 적중 시 11~80 (+ 추가 공격력의 35%) (+ 주문력의 19%) 추가 마법 피해를 입혀 총 44~320 (+ 추가 공격력의 140%) (+ 주문력의 76%)의 피해를 줍니다.",
+    "description_en": "Basic attacks generate a stack, up to 4. The fourth stack consumes them all to quickly launch 4 fireworks at the target that each deal 11 to 80 (+ 35% bonus AD) (+ 19% AP) bonus magic damage on-hit, for a total of 44 to 320 (+ 140% bonus AD) (+ 76% AP).",
+    "icon": "/augments/Light_'em_Up!_mayhem_augment.webp"
+  },
+  {
+    "id": "lightning_strikes",
+    "name_ko": "벼락",
+    "name_en": "Lightning Strikes",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "모든 출처에서 얻는 추가 공격 속도를 20% 증가시킵니다. 공격 속도가 1.75 이상일 때 기본 공격이 적중 시 추가 마법 피해 40을 입힙니다.",
+    "description_en": "Increase your bonus attack speed gained from all sources by 20%. While at 1.75 attack speed or higher, your basic attacks deal 40 bonus magic damage on-hit.",
+    "icon": "/augments/Lightning_Strikes_mayhem_augment.webp"
+  },
+  {
+    "id": "lil_extra_help",
+    "name_ko": "작은 도움",
+    "name_en": "Lil' Extra Help",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "선택한 스킬 지속시간 동안 공격 사거리가 일정 수의, <attackSpeed>공격 속도</attackSpeed>가 일정 수의 증가합니다.",
+    "description_en": "Gain the required number of Attack Range and the required number of <attackSpeed>Attack Speed</attackSpeed> during your chosen ability duration.",
+    "icon": "/augments/Lil_Extra_Help_mayhem_augment.webp"
+  },
+  {
+    "id": "mad_scientist",
+    "name_ko": "미친 과학자",
+    "name_en": "Mad Scientist",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "이 증강을 획득할 때와 부활할 때마다 적응형 능력치 30%, 추가 체력 20%, 크기 40% 증가를 얻거나, 스킬 가속 70, 추가 이동 속도 40%, 크기 40% 감소 중 하나를 얻습니다.",
+    "description_en": "Upon acquiring this augment and each time you respawn, gain either 30% adaptive force, 20% bonus health, and 40% increased size or 70 ability haste, 40% bonus movement speed, and 40% reduced size.",
+    "icon": "/augments/Mad_Scientist_mayhem_augment.webp"
+  },
+  {
+    "id": "magic_missile",
+    "name_ko": "마법 미사일",
+    "name_en": "Magic Missile",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "1000 유닛 이내에서 스킬로 적 챔피언에게 피해를 주면 대상에게 3개의 미사일을 발사하여 각각 대상의 최대 체력의 0.33...%에 해당하는 고정 피해를 주며, 이동 거리에 따라 최대 1%까지 증가합니다. 이 효과는 같은 시전 인스턴스에서 6초에 한 번만 발동할 수 있습니다.",
+    "description_en": "Dealing damage to an enemy champion with an ability within 1000 units fires 3 missiles at them that each deal true damage equal to 0.33...% of the target's maximum health, increased to up to 1% based on distance travelled. This effect can only trigger once every 6 seconds from the same cast.",
+    "icon": "/augments/Magic_Missile_mayhem_augment.webp"
+  },
+  {
+    "id": "marksmage",
+    "name_ko": "마법 명사수",
+    "name_en": "Marksmage",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "기본 공격이 주문력의 75%에 해당하는 추가 물리 피해를 줍니다.",
+    "description_en": "Basic attacks deal bonus physical damage equal to 75% AP.",
+    "icon": "/augments/Marksmage_mayhem_augment.webp"
+  },
+  {
+    "id": "master_of_duality",
+    "name_ko": "결투의 대가",
+    "name_en": "Master of Duality",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "기본 공격 적중 시 주문력 6~18을 얻고, 피해를 주는 스킬은 시전 인스턴스당 한 번 추가 공격력 3~9를 얻으며 각각 5초간 지속됩니다. 두 효과 모두 후속 명중 시 갱신되며 무한히 누적됩니다.",
+    "description_en": "Basic attacks on-hit grant 6 to 18 ability power and damaging abilities once per cast instance grant 3 to 9 bonus attack damage, lasting for 5 seconds, with the duration of both refreshing on subsequent hits, and stacking infinitely.",
+    "icon": "/augments/Master_of_Duality_mayhem_augment.webp"
+  },
+  {
+    "id": "mercys_strike",
+    "name_ko": "자비의 일격",
+    "name_en": "Mercy's Strike",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "선택한 스킬 사용 후 다음 기본 공격 시 <attention>공격 사거리</attention>와 <speed>공격 속도</speed>가 증가하고 추가로 <magicDamage>최대 체력 비례 마법 피해</magicDamage>를 입힙니다.",
+    "description_en": "After using your chosen ability, your next basic attack gains <attention>attack range</attention>, <speed>attack speed</speed> and deals bonus <magicDamage>max Health magic damage</magicDamage>.",
+    "icon": "/augments/Mercy_s_Strike_mayhem_augment.webp"
+  },
+  {
+    "id": "mighty_shield",
+    "name_ko": "강력한 방패",
+    "name_en": "Mighty Shield",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "보호막을 얻을 때 3초간 40~100의 적응형 능력치를 얻습니다(5초 재사용 대기시간).",
+    "description_en": "Gain 40 to 100 adaptive force for 3 seconds upon gaining a shield (5 second cooldown).",
+    "icon": "/augments/Mighty_Shield_mayhem_augment.webp"
+  },
+  {
+    "id": "mind_to_matter",
+    "name_ko": "정신 변환",
+    "name_en": "Mind to Matter",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "최대 마나의 50%에 해당하는 추가 체력을 얻습니다.",
+    "description_en": "Grants bonus health equal to 50% maximum mana.",
+    "icon": "/augments/Mind_to_Matter_mayhem_augment.webp"
+  },
+  {
+    "id": "minionmancer",
+    "name_ko": "소환술사",
+    "name_en": "Minionmancer",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "당신의 펫이 가하는 피해가 40% 증가하고 추가 체력 40%와 크기 40%를 얻습니다.",
+    "description_en": "Your pets deal 40% increased damage as well as gain 40% bonus health and size.",
+    "icon": "/augments/Minionmancer_mayhem_augment.webp"
+  },
+  {
+    "id": "mountainsoul",
+    "name_ko": "대지의 영혼",
+    "name_en": "MountainSoul",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "산악 용의 영혼을 얻습니다. 이미 가지고 있다면 다른 용의 영혼을 얻습니다.",
+    "description_en": "Grants the Mountain Dragon Soul, or a different Dragon Soul if one is already obtained.",
+    "icon": "/augments/MountainSoul_mayhem_augment.webp"
+  },
+  {
+    "id": "multishot",
+    "name_ko": "다중 공격",
+    "name_en": "Multishot",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "<font color='#F0C200'>퀘스트:</font> 선택한 스킬 스킬로 적 챔피언을 일정 수의회 맞혀야 합니다.<br><br><font color='#F0C200'>보상:</font> 퀘스트 레벨당 추가 미사일을 발사합니다.",
+    "description_en": "<font color='#F0C200'>QUEST:</font> Hit enemy Champions with your chosen ability the required number of times.<br><br><font color='#F0C200'>REWARD:</font> Fire additional missiles per Quest Level.",
+    "icon": "/augments/Multishot_mayhem_augment.webp"
+  },
+  {
+    "id": "mystery_augment",
+    "name_ko": "???",
+    "name_en": "???",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "26.12 패치에서 라이브 ARAM Mayhem에서 제거되었습니다. Riot 공식 패치 노트에는 포함되어 있지만 현재 로컬 시드에는 클라이언트 툴팁이 없습니다.",
+    "description_en": "Removed from live ARAM Mayhem in Patch 26.12. Riot lists this augment in the official patch notes, but the current local seed did not include a client tooltip.",
+    "icon": "/augments/placeholder.webp"
+  },
+  {
+    "id": "mystic_punch",
+    "name_ko": "신비한 주먹",
+    "name_en": "Mystic Punch",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "기본 공격 적중 시 스킬의 재사용 대기시간이 1.25초 감소합니다.",
+    "description_en": "Basic attacks on-hit reduce the cooldowns of your abilities by 1.25 seconds.",
+    "icon": "/augments/Mystic_Punch_mayhem_augment.webp"
+  },
+  {
+    "id": "nature_is_healing",
+    "name_ko": "자연의 회복",
+    "name_en": "Nature is Healing",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "<keyword>수풀</keyword>에 서 있으면 매초 <healing>최대 체력의 일정 수의</healing>만큼 체력을 재생합니다.",
+    "description_en": "Standing in <keyword>Brush</keyword> regenerates <healing>the required number of max Health</healing> per second.",
+    "icon": "/augments/Nature_is_Healing_mayhem_augment.webp"
+  },
+  {
+    "id": "nightstalking",
+    "name_ko": "밤의 추적",
+    "name_en": "Nightstalking",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "적 챔피언에게 피해를 준 후 3초 이내에 처치 관여하면 1.5초간 투명 상태가 됩니다. 공격하거나 스킬을 시전하면 즉시 은신이 해제됩니다.",
+    "description_en": "Scoring a takedown against an enemy champion within 3 seconds of damaging them renders you invisible for 1.5 seconds. Attacking or casting abilites ends the stealth immediately.",
+    "icon": "/augments/Nightstalking_mayhem_augment.webp"
+  },
+  {
+    "id": "ocean_soul",
+    "name_ko": "바다의 영혼",
+    "name_en": "Ocean Soul",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "바다 용의 영혼을 얻으며, 기본 회복 수치가 100으로 변경됩니다. 이미 다른 용의 영혼을 가지고 있다면 다른 용의 영혼을 얻습니다.",
+    "description_en": "Grants the Ocean Dragon Soul, which has a modified base heal value of 100, or a different Dragon Soul if you aleady have it.",
+    "icon": "/augments/Ocean_Soul_mayhem_augment.webp"
+  },
+  {
+    "id": "ok_boomerang",
+    "name_ko": "부메랑 투척",
+    "name_en": "Ok Boomerang",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "1250 유닛 이내 가장 가까운 적 챔피언에게 자동으로 부메랑 검을 시전하여 명중한 적에게 40~200 (+ 추가 공격력의 30%) (+ 주문력의 20%)의 적응형 피해를 입힙니다(10초 재사용 대기시간).",
+    "description_en": "Automatically cast Boomerang Blade at the closest nearby enemy champion within 1250 units, dealing 40 to 200 (+ 30% bonus AD) (+ 20% AP) adaptive damage to enemies hit (10 second cooldown).",
+    "icon": "/augments/Ok_Boomerang_mayhem_augment.webp"
+  },
+  {
+    "id": "ominous_pact",
+    "name_ko": "불길한 서약",
+    "name_en": "Ominous Pact",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "스킬 시전에 현재 체력의 5%의 체력 비용이 필요합니다. 대신 잃은 체력에 따라 주문력을 얻으며, 잃은 체력 70%에서 최대 75~150, 추가 이동 속도 0~50, 전능 흡혈 0~20까지 증가합니다.",
+    "description_en": "Your abilities now have a health cost of 5% current health to cast them. In return, you gain ability power based on your missing health, up to 75 to 150 at 70% missing health, 0 to 50 bonus movement speed, and 0 to 20 omnivamp.",
+    "icon": "/augments/Ominous_Pact_mayhem_augment.webp"
+  },
+  {
+    "id": "omni_soul",
+    "name_ko": "전능의 영혼",
+    "name_en": "Omni Soul",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "무작위 용의 영혼 3개를 얻습니다.",
+    "description_en": "Grants 3 random Dragon Soul.",
+    "icon": "/augments/Omni_Soul_mayhem_augment.webp"
+  },
+  {
+    "id": "one_trick_pony",
+    "name_ko": "특기 빼면 시체",
+    "name_en": "One Trick Pony",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "이 증강은 26.12 패치에서 ARAM Mayhem에 추가되었습니다. Riot 공식 패치 노트에는 포함되어 있지만, 현재 16.12 클라이언트 증강 파일에는 전체 툴팁이 아직 공개되어 있지 않습니다.",
+    "description_en": "Added to ARAM Mayhem in Patch 26.12. Riot lists this augment in the official patch notes; its full client tooltip is not exposed in the current 16.12 augment file yet.",
+    "icon": "/augments/One_Trick_Pony_mayhem_augment.webp"
+  },
+  {
+    "id": "orbitallaser",
+    "name_ko": "궤도형 레이저",
+    "name_en": "OrbitalLaser",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "점멸이 차지하지 않은 소환사 주문 슬롯을 궤도 레이저로 대체합니다.[br/][br/]궤도 레이저: 2.5초 후에 대상 위치로 발사되는 궤도 레이저를 호출하며, 즉시 대상의 최대 체력의 25%에 해당하는 고정 피해를 입히고, 그 후 3초간 매 0.5초마다 반경 550 내 적에게 마법 피해를 가하며, 총합 최대까지 누적됩니다. 미니언에게는 70%의 피해를 줍니다.[br/][br/]이 증강은 한 게임당 팀별로 최대 1명에게만 제공됩니다.",
+    "description_en": "Replaces the summoner spell in the slot not occupied by Flash with Orbital Laser.[br/][br/]Orbital Laser: Call upon an orbital laser to fire down on the target location after 2.5 seconds, immediately dealing true damage equal to the 25% of the target's maximum health then every 0.5 seconds over 3 seconds to enemies within a 550 radius, up to a total of magic damage. Deals 70% damage to Minions.[br/][br/]This augment is only offered to up to 1 player on each team for a given game.",
+    "icon": "/augments/OrbitalLaser_mayhem_augment.webp"
+  },
+  {
+    "id": "our_healing",
+    "name_ko": "우리의 치유",
+    "name_en": "Our Healing",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "주변의 누군가가 체력을 회복할 때마다 그 회복량의 <healing>일정 수의%만큼 자신의 체력을 회복</healing>합니다. 적의 체력 회복 효과는 두 배로 적용됩니다.",
+    "description_en": "Whenever someone heals around you, you <healing>heal the required number of%</healing> of their own healing. Doubled from Enemy healing.",
+    "icon": "/augments/Our_Healing_mayhem_augment.webp"
+  },
+  {
+    "id": "outlaws_grit",
+    "name_ko": "무법자의 투지",
+    "name_en": "Outlaw's Grit",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "돌진 또는 점멸 시 15초간 추가 방어력 12와 추가 마법 저항력 12를 얻으며, 최대 5회까지 누적되어 총 60의 추가 방어력이 됩니다. 스택 수는 버프 바에 표시됩니다.",
+    "description_en": "Dashing or blinking grants 12 bonus armor and bonus magic resistance for 15 seconds, stacking up to 5 times for a total of 60 bonus resistances. Stack count is displayed on the buff bar.",
+    "icon": "/augments/Outlaw's_Grit_mayhem_augment.webp"
+  },
+  {
+    "id": "overextender",
+    "name_ko": "무리한 진입",
+    "name_en": "Overextender",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "귀환하여 대포 발사기에 탑승하세요. 발사기의 사거리, 이동 속도, 피해량이 대폭 증가했습니다.",
+    "description_en": "Recall to enter your Cannon Launcher. It has significantly increased range, travel speed, and damage.",
+    "icon": "/augments/Overextender_mayhem_augment.webp"
+  },
+  {
+    "id": "overflow",
+    "name_ko": "범람",
+    "name_en": "Overflow",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "당신의 스킬 마나 비용이 두 배가 되지만, 가하는 피해와 자신 및 외부 대상에 대한 치유와 보호막 효과가 10% (+ 최대 마나 100당 0.5%) 증가합니다.",
+    "description_en": "Your abilities' mana costs are doubled, but you also gain 10% (+ 0.5% per 100 maximum mana) increased damage as well as self and outgoing healing and shielding.",
+    "icon": "/augments/Overflow_mayhem_augment.webp"
+  },
+  {
+    "id": "overloaded",
+    "name_ko": "과충전",
+    "name_en": "Overloaded",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "다른 스킬 사용 시 선택한 스킬 재사용 대기시간이 초기화됩니다.",
+    "description_en": "Using another Ability resets the cooldown of your chosen ability.",
+    "icon": "/augments/Overloaded_mayhem_augment.webp"
+  },
+  {
+    "id": "pandorasbox",
+    "name_ko": "판도라의 상자",
+    "name_en": "PandorasBox",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "당신의 현재 증강이 같은 개수의 완전 무작위 프리즘 증강으로 변환됩니다.",
+    "description_en": "Your current augments transform into an equal number of completely random Prismatic ones.",
+    "icon": "/augments/PandorasBox_mayhem_augment.webp"
+  },
+  {
+    "id": "pat_on_the_back",
+    "name_ko": "격려하기",
+    "name_en": "Pat On The Back",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "근처를 지나가는 아군이 격려하며 <shield>보호막</shield>과 <speed>이동 속도</speed>를 부여합니다.",
+    "description_en": "Allies encourage you when you walk past, granting you a <shield>Shield</shield> and <speed>Movement Speed</speed>.",
+    "icon": "/augments/Pat_On_The_Back_mayhem_augment.webp"
+  },
+  {
+    "id": "perseverance",
+    "name_ko": "인내심",
+    "name_en": "Perseverance",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "기본 체력 재생 800%를 얻으며, 최대 체력의 25% 미만일 때 1600%로 증가합니다.",
+    "description_en": "Grants 800% base health regeneration, increased to 1600% while below 25% maximum health.",
+    "icon": "/augments/Perseverance_mayhem_augment.webp"
+  },
+  {
+    "id": "phenomenal_evil",
+    "name_ko": "극악무도",
+    "name_en": "Phenomenal Evil",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "극악무도 힘을 얻습니다.[br/][br/]극악무도 힘: 스킬 피해로 적 챔피언에게 피해를 줄 때마다 극악무도의 영구 스택을 얻습니다. 이 효과는 전체적으로 1초에 한 번, 같은 시전 인스턴스에서는 3초에 한 번만 발동합니다. 스택당 주문력 1을 얻습니다.[br/][br/]이것이 두 번째 증강이라면 극악무도 스택 40개로 시작하여 주문력 40을 얻습니다.",
+    "description_en": "Gain Phenomenal Evil Power.[br/][br/]Phenomenal Evil Power: Generate a permanent stack of Phenomenal Evil each time you damage an enemy champion with ability damage. This effect cannot trigger more than once every second globally and once every 3 seconds from the same cast instance. For each stack, gain 1 ability power.[br/][br/]If this is your second augment, start with 40 Phenomenal Evil stacks, granting you 40 ability power.",
+    "icon": "/augments/Phenomenal_Evil_mayhem_augment.webp"
+  },
+  {
+    "id": "pin_cushion",
+    "name_ko": "바늘꽂이",
+    "name_en": "Pin Cushion",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "{{SpellName}} 지속시간 동안 기본 공격 시 대상에게 <keywordMajor>대못</keywordMajor>을 박습니다. 대못은 피해량을 축적하고 처형하며 만료 시 <MS>이동 속도</MS>를 부여합니다.",
+    "description_en": "Attacks during {{SpellName}} gouge your target with <keywordMajor>Nails</keywordMajor>. Nails accumulate damage, execute, and grant <MS>Movement Speed</MS> upon expiration.",
+    "icon": "/augments/Pin_Cushion_mayhem_augment.webp"
+  },
+  {
+    "id": "pinball",
+    "name_ko": "핀볼",
+    "name_en": "Pinball",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "당신의 표식이 강화되어 대신 핀볼을 던집니다. 이는 100~500의 추가 고정 피해를 입히며 충돌한 지형에서 튕깁니다. 핀볼이 튕길 때마다 남은 이동 거리가 초기화되고 반경이 25%, 피해가 20%, 사거리가 10% 증가하며 표식의 남은 재사용 대기시간이 30% 감소합니다. 또한 표식의 재사용 대기시간이 스킬 가속 50 상당 감소합니다.[br/][br/]표식이 장비되지 않은 경우, 점멸이 차지하지 않은 소환사 주문 슬롯이 표식으로 대체됩니다.",
+    "description_en": "Your Mark is empowered to instead throw a pinball, which deals 100 to 500 bonus true damage and ricochets off of terrain that it collides with. Each time the pinball ricochets, its remaining travel distance is reset and it increases its radius by 25%, its damage by 20%, and its range by 10%, as well as reduces Mark remaining cooldown by 30%. Additionally, your Mark cooldown is reduced equivalent to 50 ability haste.[br/][br/]If Mark is not equipped, the summoner spell in the slot not occupied by Flash is replaced with Mark.",
+    "icon": "/augments/Pinball_mayhem_augment.webp"
+  },
+  {
+    "id": "poltergeist",
+    "name_ko": "폴터가이스트",
+    "name_en": "Poltergeist",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "소환사 주문 하나를 폴터가이스트로 대체합니다.[br/][br/]폴터가이스트:",
+    "description_en": "Replace a summoner spell with Poltergeist.[br/][br/]Poltergeist:",
+    "icon": "/augments/Poltergeist_mayhem_augment.webp"
+  },
+  {
+    "id": "porcupine",
+    "name_ko": "고슴도치",
+    "name_en": "Porcupine",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "챔피언에게 피해를 입으면 바늘 폭발이 축적되며, 이후 바늘이 튀어 나가 주변 적에게 피해를 입히고 둔화시킵니다.",
+    "description_en": "Taking damage from champions builds up a burst of needles that fly out of you, dealing damage and slowing nearby enemies.",
+    "icon": "/augments/Porcupine_mayhem_augment.webp"
+  },
+  {
+    "id": "poro_blaster",
+    "name_ko": "포로 발사기",
+    "name_en": "Poro Blaster",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "5초마다 자신의 옆에 포로를 소환하며 최대 4마리까지 동시에 유지됩니다. 스킬로 적 챔피언에게 피해를 주면 모든 포로가 대상에게 달려들어 각각 대상의 최대 체력의 3%에 해당하는 고정 피해를 주고 살짝 밀쳐냅니다.[br/][br/]이 증강은 한 게임당 팀별로 최대 1명에게만 제공됩니다.",
+    "description_en": "You summon a Poro alongside yourself every 5 seconds, up to 4 at a time. Damaging an enemy champion with an ability commands all of your Poros to launch themselves at the target, each dealing true damage equal to 3% of the target's maximum health and knocking them back a short distance.[br/][br/]This augment is only offered to up to 1 player on each team for a given game.",
+    "icon": "/augments/Poro_Blaster_mayhem_augment.webp"
+  },
+  {
+    "id": "poro_stampede",
+    "name_ko": "포로 쇄도",
+    "name_en": "Poro Stampede",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "<font color='#F0C200'>퀘스트:</font> 포로 간식을 모아 포로 일정 수의마리에게 줘야 합니다.<br><br><font color='#F0C200'>보상:</font> 적 팀에게 포로 무리를 날리는 포로 돌격 소환사 주문을 얻습니다. 퀘스트 레벨당 추가 무리를 얻습니다.<br><br><flavorText>\"아! 어찌나 사랑스러운지!\" - 포로치기</flavorText>",
+    "description_en": "<font color='#F0C200'>QUEST:</font> Gather Poro Snax and feed the required number of Poros.<br><br><font color='#F0C200'>REWARD:</font> Gain the Poro Charge Summoner Spell, which launches waves of Poros at the enemy team. Additional waves unlock per Quest Level.<br><br><flavorText>\"Oho! Look how charming they are!\" — Poro Herder</flavorText>",
+    "icon": "/augments/Poro_Stampede_mayhem_augment.webp"
+  },
+  {
+    "id": "pressure_cooker",
+    "name_ko": "압력솥",
+    "name_en": "Pressure Cooker",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "매초 <scaleHealth>최대 체력</scaleHealth>에 비례해 주변 적 챔피언에게 중첩되는 <keywordMajor>화상</keywordMajor> 효과를 적용합니다.<br><br><font color='#F0C200'>퀘스트:</font> 적 챔피언에게 <keywordMajor>화상</keywordMajor> 피해를 입혀야 합니다.<br><br><font color='#F0C200'>보상</font>: 퀘스트 레벨당 크기와 피해량이 증가합니다.",
+    "description_en": "Every second, apply a stacking <keywordMajor>Burn</keywordMajor> to nearby enemy champions, scaling with your <scaleHealth>max Health</scaleHealth>.<br><br><font color='#F0C200'>QUEST:</font> Deal <keywordMajor>Burn</keywordMajor> damage to enemy Champions.<br><br><font color='#F0C200'>REWARD</font>: Size and damage increase per Quest Level.",
+    "icon": "/augments/Pressure_Cooker_mayhem_augment.webp"
+  },
+  {
+    "id": "prom_queen",
+    "name_ko": "퀸카",
+    "name_en": "Prom Queen",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "신속함을 자동 시전하여 4초간 매혹적인 질주를 시작합니다. 강화 중에는 유체화 상태가 되며 추가 이동 속도 50%를 얻습니다. 또한 충돌한 적은 2초간 매혹 상태가 됩니다(25초 재사용 대기시간).[br/][br/]효과 발동 2.5초 전에 반짝이는 티아라가 당신의 머리 위로 내려옵니다.",
+    "description_en": "Automatically cast The Quickness, empowering you to break into a captivating sprint for 4 seconds. While empowered, you gain ghosting and 50% bonus movement speed, and enemies you collide with become charmed for 2 seconds (25 second cooldown).[br/][br/]A sparkly tiara will descend upon you 2.5 seconds before the effect activates.",
+    "icon": "/augments/Prom_Queen_mayhem_augment.webp"
+  },
+  {
+    "id": "protein_shake",
+    "name_ko": "프로틴 음료",
+    "name_en": "Protein Shake",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "25% (+ 추가 방어력 100당 35%) (+ 추가 마법 저항력 100당 35%) 치유 및 보호막 효과를 얻습니다.",
+    "description_en": "Gain 25% (+ 35% per 100 bonus armor) (+ 35% per 100 bonus magic resistance) heal and shield power.",
+    "icon": "/augments/Protein_Shake_mayhem_augment.webp"
+  },
+  {
+    "id": "purist___caster",
+    "name_ko": "순수주의자 - 마법사",
+    "name_en": "Purist - Caster",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "모든 추가 공격 속도를 추가 공격 속도 1%당 스킬 가속 0.65의 비율로 스킬 가속으로 변환합니다. 또한 스킬의 총 재사용 대기시간이 10% 감소합니다.",
+    "description_en": "Convert all of your bonus attack speed into ability haste at a rate of 0.65 ability haste per 1% bonus attack speed. Additionally, your abilities' total cooldowns are reduced by 10%.",
+    "icon": "/augments/Purist_-_Caster_mayhem_augment.webp"
+  },
+  {
+    "id": "pursuit_of_haste",
+    "name_ko": "가속 추구",
+    "name_en": "Pursuit of Haste",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "<font color='#F0C200'>퀘스트:</font> 선택한 스킬 스킬로 적 챔피언을 일정 수의회 맞혀야 합니다.<br><br><font color='#F0C200'>보상:</font> 퀘스트 레벨당 선택한 스킬 스킬 가속이 증가합니다. (최대 일정 수의)",
+    "description_en": "<font color='#F0C200'>QUEST:</font> Hit enemy champions with your chosen ability the required number of times.<br><br><font color='#F0C200'>REWARD:</font> Gain Ability Haste on your chosen ability per Quest Level up to the required number of.",
+    "icon": "/augments/Pursuit_of_Haste_mayhem_augment.webp"
+  },
+  {
+    "id": "pursuit_of_power",
+    "name_ko": "위력 추구",
+    "name_en": "Pursuit of Power",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "<font color='#F0C200'>퀘스트:</font> 선택한 스킬 스킬로 적 챔피언을 일정 수의회 맞혀야 합니다.<br><br><font color='#F0C200'>보상:</font> 선택한 스킬 피해량이 영구적으로 증가합니다.",
+    "description_en": "<font color='#F0C200'>QUEST:</font> Hit enemy champions with your chosen ability the required number of times.<br><br><font color='#F0C200'>REWARD:</font> Permanently increase your chosen ability damage.",
+    "icon": "/augments/Pursuit_of_Power_mayhem_augment.webp"
+  },
+  {
+    "id": "quantum_computing",
+    "name_ko": "양자 연산",
+    "name_en": "Quantum Computing",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "650 유닛 이내에 적 챔피언이 있을 때 자동으로 강화된 전술적 일격을 시전합니다. 0.75초간 시전 후 자신을 중심으로 반경 650 범위에서 베어내며, 범위 내 적에게 200~350 (+ 추가 공격력의 65%) (+ 주문력의 40%) 물리 피해를 입힙니다(30초 재사용 대기시간). 원의 바깥쪽 가장자리에 맞은 적은 최대 체력의 10% (+ 추가 공격력 100당 2.5%) (+ 주문력 100당 1.6%) (+ 추가 체력 100당 0.1%)에 해당하는 추가 물리 피해를 입고 2초에 걸쳐 감소하는 80% 둔화에 걸립니다. 또한 바깥쪽 가장자리에 맞은 적 챔피언에게 가한 추가 감소 후 피해의 80%만큼 회복합니다.",
+    "description_en": "Automatically cast an improved version of Tactical Sweep when an enemy champion is within 650 units of you, winding up over 0.75 seconds to slash in a 650 radius around you. The slash deals 200 to 350 (+ 65% bonus AD) (+ 40% AP) physical damage to enemies within the area (30 second cooldown). Enemies hit by the outer edge of the circle take bonus physical damage equal to 10% (+ 2.5% per 100 bonus AD) (+ 1.6% per 100 AP) (+ 0.1% per 100 bonus health) of their maximum health and are slowed by 80% decaying over 2 seconds. Additionally, you are healed for 80% of the bonus post-mitigation damage against enemy champions hit by the outer edge.",
+    "icon": "/augments/Quantum_Computing_mayhem_augment.webp"
+  },
+  {
+    "id": "quest_steel_your_heart",
+    "name_ko": "퀘스트: 강철 같은 심장",
+    "name_en": "Quest: Steel Your Heart",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "퀘스트: 강철의 심장을 획득하고 거대 흡수에서 추가 체력을 300 이상 누적하세요.[br/][br/]보상: 퀘스트 완료 시, 강철의 심장 거대 흡수에서 얻는 추가 체력이 200% 증가합니다.",
+    "description_en": "Quest: Obtain Heartsteel and accumulate over 300 bonus health from Colossal Consumption.[br/][br/]Reward: Upon completing your Quest, increase the bonus health gained from Heartsteel Colossal Consumption by 200%.",
+    "icon": "/augments/Quest_Steel_Your_Heart_mayhem_augment.webp"
+  },
+  {
+    "id": "quest_urfs_champion",
+    "name_ko": "퀘스트: 우르프의 챔피언",
+    "name_en": "Quest: Urf's Champion",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "퀘스트: 챔피언 처치 관여 18회를 달성하세요.[br/][br/]보상: 퀘스트 완료 시 황금 주걱을 획득합니다.",
+    "description_en": "Quest: Score 18 champion takedowns.[br/][br/]Reward: Upon completing your Quest, you receive The Golden Spatula.",
+    "icon": "/augments/Quest_Urf's_Champion_mayhem_augment.webp"
+  },
+  {
+    "id": "quest_wooglets_witchcap",
+    "name_ko": "퀘스트: 우글렛의 마녀 모자",
+    "name_en": "Quest: Wooglet's Witchcap",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "쓸데없이 큰 지팡이를 얻습니다.[br/][br/]퀘스트: 라바돈의 죽음모자와 존야의 모래시계를 획득하세요.[br/][br/]보상: 퀘스트 완료 시 퀘스트를 위해 획득한 아이템들을 우글렛의 마녀모자로 변환합니다.",
+    "description_en": "Gain a Needlessly Large Rod.[br/][br/]Quest: Obtain Rabadon's Deathcap and Zhonya's Hourglass.[br/][br/]Reward: Upon completing your Quest, convert the items you obtained for the quest into Wooglet's Witchcap.",
+    "icon": "/augments/Quest_Wooglets_Witchcap_mayhem_augment.webp"
+  },
+  {
+    "id": "quickstep",
+    "name_ko": "날쌘걸음",
+    "name_en": "Quickstep",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "선택한 스킬 사용 시 커서 방향으로 돌진합니다.",
+    "description_en": "When you use your chosen ability, dash towards your cursor.",
+    "icon": "/augments/Quickstep_mayhem_augment.webp"
+  },
+  {
+    "id": "rabble_rousing",
+    "name_ko": "선동",
+    "name_en": "Rabble Rousing",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "스킬 시전 시 5~60 (+ 최대 체력의 1%)만큼 회복합니다.",
+    "description_en": "Casting an ability heals you for 5 to 60 (+ 1% maximum health).",
+    "icon": "/augments/Rabble_Rousing_mayhem_augment.webp"
+  },
+  {
+    "id": "ravenous_bind",
+    "name_ko": "굶주린 속박",
+    "name_en": "Ravenous Bind",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "선택한 스킬 스킬로 적 챔피언을 <status>이동 불가</status> 상태로 만들거나 <status>이동 스킬을 사용할 수 없게</status> 하면 추가 <magicDamage>피해</magicDamage>를 입히고 <healing>체력을 회복</healing>합니다.",
+    "description_en": "<status>Immobilizing</status> or <status>Grounding</status> enemy champions with your chosen ability deals extra <magicDamage>damage</magicDamage> and <healing>heals you</healing>.",
+    "icon": "/augments/Ravenous_Bind_mayhem_augment.webp"
+  },
+  {
+    "id": "recursion",
+    "name_ko": "되풀이",
+    "name_en": "Recursion",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "스킬 가속 60을 얻습니다.",
+    "description_en": "Grants 60 ability haste.",
+    "icon": "/augments/Recursion_mayhem_augment.webp"
+  },
+  {
+    "id": "red_envelopes",
+    "name_ko": "붉은 봉투",
+    "name_en": "Red Envelopes",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "25~15초마다 무작위로 빨간 봉투가 주변에 나타납니다. 그 위로 이동하면 봉투를 주울 수 있으며, 10~18 골드와 28~58 골드, 그리고 4초간 추가 이동 속도 150을 얻습니다.[br/][br/]또한 봉투를 주울 때마다 다음 능력치 중 하나를 무작위로 얻습니다:[br/][br/]- 추가 공격력 5[br/]- 주문력 5[br/]- 스킬 가속 5[br/]- 추가 방어력 5[br/]- 추가 마법 저항력 5[br/]- 추가 체력 50[br/]- 추가 공격 속도 10%[br/]- 추가 이동 속도 5[br/]- 치명 5[br/]- 마법 관통력 5",
+    "description_en": "Red envelopes will now randomly appear around you every 25 to 15 seconds. You can pick up these envelopes by moving over them, granting you between 10 to 18 gold and 28 to 58 gold, and 150 bonus movement speed for 4 seconds.[br/][br/]Additionally, whenever you pick an envelope, you gain one of the following stats by random:[br/][br/]- 5 bonus attack damage[br/]- 5 ability power[br/]- 5 ability haste[br/]- 5 bonus armor[br/]- 5 bonus magic resistance[br/]- 50 bonus health[br/]- 10% bonus attack speed[br/]- 5 bonus movement speed[br/]- 5 Lethality[br/]- 5 magic penetration",
+    "icon": "/augments/Red_Envelopes_mayhem_augment.webp"
+  },
+  {
+    "id": "rejuvenation",
+    "name_ko": "원기 회복",
+    "name_en": "Rejuvenation",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "선택한 스킬 사용 시 <healing>체력</healing>을 회복합니다.",
+    "description_en": "Using your chosen ability restores <healing>Health</healing>.",
+    "icon": "/augments/Rejuvenation_mayhem_augment.webp"
+  },
+  {
+    "id": "repulsor",
+    "name_ko": "반발",
+    "name_en": "Repulsor",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "최대 체력의 35% 미만으로 떨어지면 반경 500 내의 모든 적을 750 유닛 밀어내고 1.5초간 90% 둔화시킵니다(25초 재사용 대기시간, 사망 시 초기화).",
+    "description_en": "Upon dropping below 35% of your maximum health, you knock back all enemies within a 500 radius by 750 units and slow them by 90% for 1.5 seconds (25 second cooldown, resets upon death).",
+    "icon": "/augments/Repulsor_mayhem_augment.webp"
+  },
+  {
+    "id": "restless_restoration",
+    "name_ko": "끊임없는 회복",
+    "name_en": "Restless Restoration",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "10 유닛 이동할 때마다 0.2~1.2 (+ 최대 체력의 0.01%)만큼 회복합니다.",
+    "description_en": "Heal for 0.2 to 1.2 (+ 0.01% maximum health) per 10 units travelled.",
+    "icon": "/augments/Restless_Restoration_mayhem_augment.webp"
+  },
+  {
+    "id": "rite_of_ascension",
+    "name_ko": "초월 의식",
+    "name_en": "Rite of Ascension",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "처치 관여 시 적 챔피언이 정수를 남깁니다. 정수를 공격하면 <speed>이동 속도</speed>가 증가하고 기본 스킬 재사용 대기시간이 초기화됩니다.",
+    "description_en": "On takedown, enemy champions leave behind their Essence. Attacking the Essence grants <speed>movement speed</speed> and resets basic ability cooldowns.",
+    "icon": "/augments/Rite_of_Ascension_mayhem_augment.webp"
+  },
+  {
+    "id": "scoped_weapons",
+    "name_ko": "조준경 부착",
+    "name_en": "Scoped Weapons",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "75/50의 추가 공격 사거리를 얻습니다.",
+    "description_en": "Gain 75/50 bonus attack range.",
+    "icon": "/augments/Scoped_Weapons_mayhem_augment.webp"
+  },
+  {
+    "id": "scopier_weapons",
+    "name_ko": "상급 조준경 부착",
+    "name_en": "Scopier Weapons",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "200/100의 추가 공격 사거리를 얻습니다.",
+    "description_en": "Gain 200/100 bonus attack range.",
+    "icon": "/augments/Scopier_Weapons_mayhem_augment.webp"
+  },
+  {
+    "id": "scopiest_weapons",
+    "name_ko": "최상급 조준경 부착",
+    "name_en": "Scopiest Weapons",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "250/150의 추가 공격 사거리를 얻습니다.",
+    "description_en": "Gain 250/150 bonus attack range.",
+    "icon": "/augments/Scopiest_Weapons_mayhem_augment.webp"
+  },
+  {
+    "id": "searing_dawn",
+    "name_ko": "타오르는 새벽",
+    "name_en": "Searing Dawn",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "햇살을 얻습니다.[br/][br/]햇살: 피해를 주는 스킬이 적에게 표식을 남기며, 아군의 다음 기본 공격이나 스킬 적중 시 40~200 추가 마법 피해를 입히게 합니다(대상당 0.75초 재사용 대기시간).",
+    "description_en": "Gain Sunlight.[br/][br/]Sunlight: Your damaging abilities mark enemies, causing them to take 40 to 200 bonus magic damage from your ally's next basic attack or ability hit against them (0.75-second cooldown per target).",
+    "icon": "/augments/Searing_Dawn_mayhem_augment.webp"
+  },
+  {
+    "id": "self_destruct",
+    "name_ko": "자폭",
+    "name_en": "Self Destruct",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "자동으로 자신에게 폭탄을 부착하여 5초 후 폭발합니다. 폭발은 350 유닛 이내의 적에게 대상의 최대 체력의 20%에 해당하는 고정 피해를 입히고 0.75초간 공중에 띄웁니다(25초 재사용 대기시간).",
+    "description_en": "Automatically attach a bomb to yourself that detonates after 5 seconds, creating an explosion that deals true damage equal to 20% of the target's maximum health to enemies within 350 units and knocks them up for 0.75 seconds (25 second cooldown).",
+    "icon": "/augments/Self_Destruct_mayhem_augment.webp"
+  },
+  {
+    "id": "shadow_runner",
+    "name_ko": "그림자 질주",
+    "name_en": "Shadow Runner",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "돌진, 점멸, 은신 해제 후 2초간 추가 이동 속도 300을 얻습니다.",
+    "description_en": "After dashing, blinking, or exiting stealth, gain 300 bonus movement speed for 2 seconds.",
+    "icon": "/augments/Shadow_Runner_mayhem_augment.webp"
+  },
+  {
+    "id": "shark_bait",
+    "name_ko": "상어 미끼",
+    "name_en": "Shark Bait",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "사망 몇 초 후 상어가 주변 모든 적을 물어뜯습니다. 사망 후에도 이동하여 상어 공격의 대상을 정할 수 있습니다.",
+    "description_en": "A few seconds after death, a shark chomps all nearby enemies. You can move after death to aim the shark attack.",
+    "icon": "/augments/Shark_Bait_mayhem_augment.webp"
+  },
+  {
+    "id": "shark_tempest",
+    "name_ko": "상어 폭풍",
+    "name_en": "Shark Tempest",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "상어가 눈덩이 주위를 돌며 주변 적을 <status>둔화</status>시키고 피해를 입힙니다. 눈덩이가 챔피언에게 적중하면 해당 챔피언이 상어 폭풍에 갇힙니다!",
+    "description_en": "Sharks circle your Snowball, <status>slowing</status> and damaging nearby enemies. When your Snowball hits a Champion, they become trapped in a shark storm!",
+    "icon": "/augments/Shark_Tempest_mayhem_augment.webp"
+  },
+  {
+    "id": "shrink_engine",
+    "name_ko": "축소 엔진",
+    "name_en": "Shrink Engine",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "챔피언 처치 관여 시 스택을 얻으며 무한히 누적됩니다. 스택당 스킬 가속 10과 추가 이동 속도 2%를 얻고 크기가 4% 감소합니다. 사망 시 스택의 65%를 잃습니다.[br/][br/]크기 감소는 최대 80%(20 스택)까지입니다.",
+    "description_en": "Scoring a champion takedown generates a stack, stacking infinitely. For each stack, gain 10 ability haste and 2% bonus movement speed, and reduce your size by 4%. Lose 65% of stacks on death.[br/][br/]Size reduction is capped at 80% (20 stacks).",
+    "icon": "/augments/Shrink_Engine_mayhem_augment.webp"
+  },
+  {
+    "id": "shrink_ray",
+    "name_ko": "감쇠 광선",
+    "name_en": "Shrink Ray",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "기본 공격이 대상이 주는 피해량을 3초간 15% 감소시키며, 명중할 때마다 갱신됩니다. 또한 지속시간 동안 대상의 크기가 크게 감소합니다.",
+    "description_en": "Basic attacks reduce the target's damage dealt by 15% for 3 seconds, refreshing with each hit. Their size is also reduced significantly for the duration.",
+    "icon": "/augments/Shrink_Ray_mayhem_augment.webp"
+  },
+  {
+    "id": "siphon",
+    "name_ko": "흡수",
+    "name_en": "Siphon",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "적 챔피언에게 선택한 스킬 스킬로 피해를 입히면 <healing>체력을 회복</healing>합니다.",
+    "description_en": "Damaging enemy champions with your chosen ability <healing>heals</healing> you.",
+    "icon": "/augments/Siphon_mayhem_augment.webp"
+  },
+  {
+    "id": "skilled_sniper",
+    "name_ko": "노련한 저격수",
+    "name_en": "Skilled Sniper",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "적중 시점에 er 700 유닛 이상 떨어진 적 챔피언에게 기본 스킬을 적중시키면, 해당 스킬의 현재 재사용 대기시간이 총 재사용 대기시간의 80%만큼 감소합니다. 지속 피해 스킬의 경우 65%로 수정됩니다.",
+    "description_en": "Hitting an enemy champion with a basic ability while located at least er 700 units away from them at the time of the hit reduces its current cooldown by 80% of its total cooldown, modified to 65% for damage over time abilities.",
+    "icon": "/augments/Skilled_Sniper_mayhem_augment.webp"
+  },
+  {
+    "id": "slap_around",
+    "name_ko": "우당탕탕",
+    "name_en": "Slap Around",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "적 챔피언을 행동 불가 또는 지면 속박 상태로 만들 때마다 적응형 능력치 10을 얻으며, 무한히 누적됩니다(같은 시전 인스턴스당 5초의 재사용 대기시간). 사망 시 스택의 50%를 잃습니다.",
+    "description_en": "Immobilizing or grounding an enemy champion grants you 10 adaptive force, stacking infinitely (5 second cooldown per cast instance). Lose 50% of stacks on death.",
+    "icon": "/augments/Slap_Around_mayhem_augment.webp"
+  },
+  {
+    "id": "slow_and_steady",
+    "name_ko": "천천히, 꾸준히",
+    "name_en": "Slow And Steady",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "기본 공격 속도가 0.625의 고정값으로 설정되며 더 이상 어떤 공격 속도 보너스의 영향도 받지 않습니다. 대신 추가 공격력 25를 얻고 추가 공격 속도 1%를 추가 공격력 1로 변환합니다.",
+    "description_en": "Your base attack speed is set to a static amount of 0.625 and your attack rate no longer benefits from any source of attack speed bonuses. In return, you gain 25 bonus attack damage and convert every 1% bonus attack speed into 1 bonus attack damage.",
+    "icon": "/augments/Slow_And_Steady_mayhem_augment.webp"
+  },
+  {
+    "id": "slow_cooker",
+    "name_ko": "찜솥",
+    "name_en": "Slow Cooker",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "화염에 휩싸여 500 유닛 이내의 적 챔피언에게 매초 화상을 5초간 적용하며, 매초 최대 체력의 0.3%에 해당하는 마법 피해를 입힙니다. 이 화상은 무한히 누적되며 적용 시마다 갱신됩니다.",
+    "description_en": "Surrounds you in flames, causing you to apply a Burn every second to enemy champions within 500 units for 5 seconds that deals magic damage equal to0.3% of your maximum health per second.This Burn stacks infinitely and refreshes with each application.",
+    "icon": "/augments/Slow_Cooker_mayhem_augment.webp"
+  },
+  {
+    "id": "snowball_roulette",
+    "name_ko": "눈덩이 룰렛",
+    "name_en": "Snowball Roulette",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "적 챔피언에게 표식을 적중시키면 그 대상에게 무작위 해로운 소환사 주문을, 자신에게도 무작위 이로운 소환사 주문을 시전합니다. 점멸을 사용하면 도착 시 자신에게 다시 이로운 소환사 주문이 시전됩니다. 또한 표식의 재사용 대기시간이 스킬 가속 100 상당 감소합니다.[br/][br/]해로운 소환사 주문에는 탈진과 점화가 있으며, 이로운 주문에는 방어막, 총명, 정화, 유체화, 회복이 포함됩니다. 표식이 장비되지 않은 경우, 점멸이 차지하지 않은 소환사 주문 슬롯이 표식으로 대체됩니다.",
+    "description_en": "Hitting an enemy champion with Mark casts a random harmful summoner spell on them, and also casts a random beneficial summoner spell on yourself. Using Dash casts the beneficial summoner spell on yourself again upon arrival. Additionally, your Mark cooldown is reduced equivalent to 100 ability haste.[br/][br/]Harmful summoner spells include Exhaust and Ignite, while beneficial ones consist of Barrier, Clarity, Cleanse, Ghost, and Heal. If Mark is not equipped, the summoner spell in the slot not occupied by Flash is replaced with Mark.",
+    "icon": "/augments/Snowball_Roulette_mayhem_augment.webp"
+  },
+  {
+    "id": "snowball_upgrade",
+    "name_ko": "눈덩이 업그레이드",
+    "name_en": "Snowball Upgrade",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "당신의 「표식」이 강화되어, 대상이 명중한 지점에 2초간 눈보라를 떨어뜨려 해당 지역의 시야를 확보하고, 범위 내 적에게 지속시간 동안 200 (+ 추가 공격력의 200%) (+ 주문력의 120%) 마법 피해를 입히며 50% (+ 주문력 100당 6%)만큼 둔화시킵니다. 또한 표식의 재사용 대기시간이 스킬 가속 100 상당 감소합니다.[br/][br/]표식이 장비되지 않은 경우, 점멸이 차지하지 않은 소환사 주문 슬롯이 표식으로 대체됩니다.",
+    "description_en": "Your Mark is empowered to hail a snowstorm at the location where the target was hit for 2 seconds, granting sight of the area and dealing 200 (+ 200% bonus AD) (+ 120% AP) magic damage to enemies within over the duration, as well as slowing them by 50% (+ 6% per 100 AP). Additionally, your Mark cooldown is reduced equivalent to 100 ability haste.[br/][br/]If Mark is not equipped, the summoner spell in the slot not occupied by Flash is replaced with Mark.",
+    "icon": "/augments/Snowball_Upgrade_mayhem_augment.webp"
+  },
+  {
+    "id": "snowblast",
+    "name_ko": "눈 폭발",
+    "name_en": "Snowblast",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "<spellName>눈덩이</spellName>를 다시 사용하면 증가한 피해를 입히고 대상을 <status>공중에 띄우며</status>, 주변 적들을 <status>뒤로 밀어냅니다</status>.",
+    "description_en": "Recasting <spellName>Snowball</spellName> deals increased damage, <status>Knocks Up</status> the target, and <status>Knocks Back</status> nearby enemies.",
+    "icon": "/augments/Snowblast_mayhem_augment.webp"
+  },
+  {
+    "id": "snowday",
+    "name_ko": "눈 오는 날",
+    "name_en": "Snowday",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "눈덩이 스킬 가속이 100 증가합니다. 적 적중 시 추가 마법 피해를 입힙니다. 눈덩이를 보유하지 않은 경우 눈덩이를 얻습니다.",
+    "description_en": "Gain 100 Ability Haste on your Snowball. It deals additional magic damage when hitting an enemy. If you don't have one, gain a Snowball.",
+    "icon": "/augments/Snowday_mayhem_augment.webp"
+  },
+  {
+    "id": "sonata",
+    "name_ko": "소나타",
+    "name_en": "Sonata",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "인내의 아리아와 신속의 노래를 번갈아 자동 시전합니다(처음은 인내의 아리아, 10초 재사용 대기시간).[br/][br/]인내의 아리아: 자신을 회복시키고 1000 유닛 이내에서 가장 상처 입은 아군 챔피언에게 동일한 양의 회복을 주는 음색을 보냅니다. 또한 자신과 표시된 아군 챔피언에게 1.5초간 보호막을 부여하는 오라를 생성합니다.[br/][br/]신속의 노래: 7초간 추가 이동 속도를 얻습니다. 이 시간 동안 피해를 입으면 지속시간이 조기 종료됩니다(한 번만 또는 3초가 지나면). 또한 표시된 아군 챔피언에게 3초간 추가 이동 속도를 부여하는 오라를 생성합니다.",
+    "description_en": "Alternate between automatically casting Aria of Perseverance and Song of Celerity, with the former being cast first (10 second cooldown).[br/][br/]Aria of Perseverance: Heal yourself and send out a tone to the most wounded allied champion within 1000 units that heals them for the same amount. Additionally, generate an aura that grants you and tagged allied champions a shield for 1.5 seconds.[br/][br/]Song of Celerity: Gains bonus movement speed for 7 seconds. If you take damage during this time, the duration ends prematurely once or if 3 seconds have elapsed. Additionally, generate an aura that grants tagged allied champions bonus movement speed for 3 seconds.",
+    "icon": "/augments/Sonata_mayhem_augment.webp"
+  },
+  {
+    "id": "sonic_boom",
+    "name_ko": "음속 폭발",
+    "name_en": "Sonic Boom",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "아군에게 버프, 치유, 보호막을 부여하면 그 아군 주변 450 유닛 이내의 적에게 30~150의 고정 피해를 입히고 2초간 30% 둔화시킵니다(2초 재사용 대기시간).",
+    "description_en": "Granting a buff, heal, or shield to your ally deals 30 to 150 true damage to enemies within 450 units of them and slows targets by 30% for 2 seconds (2 second cooldown).",
+    "icon": "/augments/Sonic_Boom_mayhem_augment.webp"
+  },
+  {
+    "id": "soul_eater",
+    "name_ko": "영혼의 포식자",
+    "name_en": "Soul Eater",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "적 챔피언을 행동 불가 또는 지면 속박 상태로 만들 때마다 추가 체력 20을 얻으며, 무한히 누적됩니다(같은 시전 인스턴스당 5초의 재사용 대기시간).",
+    "description_en": "Immobilizing or grounding an enemy champion grants you 20 bonus health, stacking infinitely (5 second cooldown per cast instance).",
+    "icon": "/augments/Soul_Eater_mayhem_augment.webp"
+  },
+  {
+    "id": "soul_siphon",
+    "name_ko": "영혼 흡수",
+    "name_en": "Soul Siphon",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "치명타로 가한 피해의 12%만큼 회복합니다. 또한 치명타 확률 25%를 얻습니다.",
+    "description_en": "Your critical strikes heal you for 12% of damage dealt. Additionally, gain 25% critical strike chance.",
+    "icon": "/augments/Soul_Siphon_mayhem_augment.webp"
+  },
+  {
+    "id": "speed_demon",
+    "name_ko": "질주하는 악마",
+    "name_en": "Speed Demon",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "스킬로 적 챔피언에게 피해를 줄 때마다 1초에 걸쳐 감소하는 추가 이동 속도 200을 얻습니다.",
+    "description_en": "Whenever you damage an enemy champion with an ability, gain 200 bonus movement speed decaying over 1 second.",
+    "icon": "/augments/Speed_Demon_mayhem_augment.webp"
+  },
+  {
+    "id": "spell_split",
+    "name_ko": "주문 분산",
+    "name_en": "Spellsplit",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "선택한 스킬 투사체가 적중하거나 최대 사거리에 도달하거나 <recast>재사용</recast> 시 두 개로 나뉩니다.",
+    "description_en": "Your chosen ability missile splits into two on hit, at max Range, or when <recast>Recast</recast>.",
+    "icon": "/augments/Spellsplit_mayhem_augment.webp"
+  },
+  {
+    "id": "spin_me_right_round",
+    "name_ko": "빙글빙글",
+    "name_en": "Spin Me Right Round",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "소환사 주문 하나를 영웅의 도약으로 대체합니다.[br/][br/]영웅의 도약 - 사용: 영웅의 도약은 재사용 대기시간에 진입하기 전 3번까지 활성화할 수 있으며, 세 번째 시전은 두 번째 시전 후 0.5초 후에만 사용할 수 있습니다. 두 번째와 세 번째 시전은 공격 또는 이동 명령으로 사용할 수 있습니다.[br/][br/]첫 번째 시전: 대상 방향으로 갈고리를 발사하여 처음 명중한 지형에 2초간 박힙니다. 영웅의 도약 두 번째 시전은 갈고리가 박혀 있는 동안 사용할 수 있습니다. 갈고리가 박히지 못하거나 지속시간 동안 행동 불가, 지면 속박, 변이 상태가 되면 영웅의 도약은 취소되고 전체 재사용 대기시간이 적용됩니다.[br/][br/]두 번째 시전: 커서 위치와 자신이 향한 방향에 따라 시계 또는 반시계 방향으로 지형 주위를 회전하며, 적 챔피언이나 지형과 충돌 시 정지합니다. 회전 중 0.2초마다 가장 가까운 보이는 적에게 15~90 (+ AD의 15%) × (1 + 추가 공격 속도 100%당 0.3) 물리 피해를 입히고 각 사격마다 적중 시 효과를 적용합니다(적중 시 피해는 25% 효율로 감소). 회전 중 행동 불가 또는 변이 군중 제어 효과의 영향을 받으면 돌진이 중단됩니다.[br/][br/]세 번째 시전: 회전을 마치고 대상 위치로 점프하여 근처의 보이는 적에게 마지막 사격을 발사합니다.[br/][br/]적 챔피언 처치 관여 시 영웅의 도약의 현재 재사용 대기시간이 0.5초로 감소합니다.",
+    "description_en": "Replace a summoner spell with Heroic Swing.[br/][br/]Heroic Swing - Active: You can activate Heroic Swing three times before the ability goes on cooldown, and you can use the third cast only after 0.5 seconds of the second cast. An attack or movement command may be inputted to use the second and third casts.[br/][br/]First Cast: Fire a hook in the target direction that embeds in the first terrain hit for 2 seconds. Heroic Swing's second cast can be used while the hook is attached. If the hook fails to attach or you become immobilized, grounded, or polymorphed within the duration, Heroic Swing is cancelled and placed on full cooldown.[br/][br/]Second Cast: Swing around the terrain in either a clockwise or counterclockwise direction based on the position of the cursor relative to your facing direction, stopping upon colliding with an enemy champion or terrain. While swinging, fire at the nearest visible enemy every 0.2 to deal them 15 to 90 (+ 15% AD) x (1 + 0.3 per 100% bonus attack speed) physical damage and apply on-hit effects for each shot, with on-hit damage reduced to 25% effectiveness. The dash will be interrupted if you are affected by any immobilizing or polymorphing crowd control during the dash.[br/][br/]Third Cast: End the swing by jumping to the target location and fire one last shot at a nearby visible enemy.[br/][br/]Scoring an enemy champion takedown reduces Heroic Swing's current cooldown to 0.5 seconds.",
+    "icon": "/augments/Spin_Me_Right_Round_mayhem_augment.webp"
+  },
+  {
+    "id": "spin_to_win",
+    "name_ko": "승리를 위한 회전",
+    "name_en": "Spin To Win",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "당신의 회전 계열 스킬이 30% 증가한 피해를 가하며 스킬 가속 30의 혜택을 받습니다.",
+    "description_en": "Your spinning abilities deal 30% increased damage and benefit from 30 ability haste.",
+    "icon": "/augments/Spin_To_Win_mayhem_augment.webp"
+  },
+  {
+    "id": "spirit_bomb",
+    "name_ko": "영혼 폭탄",
+    "name_en": "Spirit Bomb",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "아군 챔피언의 <healing>체력을 회복</healing>시키거나 <shield>보호막을 씌우면</shield> 영혼 폭탄이 중첩됩니다. 최대 중첩 시 <scaleHealth>체력이 가장 낮은 아군</scaleHealth>에게 폭탄을 던져, 해당 아군 및 주변 아군의 <healing>체력을 회복</healing>시키고 <shield>보호막</shield>을 부여합니다.",
+    "description_en": "<healing>Healing</healing> and <shield>Shielding</shield> allied champions builds up a Spirit Bomb. At max stacks, toss the bomb onto <scaleHealth>lowest Health ally</scaleHealth> to <healing>heal</healing> and <shield>shield</shield> them and nearby allies.",
+    "icon": "/augments/Spirit_Bomb_mayhem_augment.webp"
+  },
+  {
+    "id": "spiritual_purification",
+    "name_ko": "영혼의 정화",
+    "name_en": "Spiritual Purification",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "챔피언 처치 관여 시 처치된 챔피언 주변 500 유닛 반경에서 폭발이 일어나 범위 내 적에게 대상의 현재 체력의 15%에 해당하는 적응형 피해를 주고, 1.5초간 범위 내 적을 60% 둔화시키는 지역을 남깁니다.",
+    "description_en": "Scoring a champion takedown causes the area around the slain champion to explode in a 500 unit radius, dealing adaptive damage to enemies within equal to 15% of their current health and leaving behind a zone for 1.5 seconds that slows enemies within by 60%.",
+    "icon": "/augments/Spiritual_Purification_mayhem_augment.webp"
+  },
+  {
+    "id": "squishy_slappy_grab",
+    "name_ko": "말랑 찰싹 손",
+    "name_en": "Squishy Slappy Grab",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "때때로 주변 모든 적 챔피언에게 말랑 찰싹 손을 내보내 연결합니다. 다음 기본 공격 시 연결된 모든 적을 끌어당깁니다.",
+    "description_en": "Occasionally send out squishy, slappy hands towards all nearby enemy champions, tethering them. Your next attack will pull in all tethered enemies.",
+    "icon": "/augments/Squishy_Slappy_Grab_mayhem_augment.webp"
+  },
+  {
+    "id": "stackosaurusrex",
+    "name_ko": "다단 중첩",
+    "name_en": "Stackosaurus Rex",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "스킬 <keywordMajor>중첩</keywordMajor>을 영구적으로 획득할 때마다 @StackModifier*100@% 더 획득합니다!",
+    "description_en": "When you gain permanent <keywordMajor>Stacks</keywordMajor> of an Ability, gain @StackModifier*100@% more!",
+    "icon": "/augments/Stackosaurus_Rex_mayhem_augment.webp"
+  },
+  {
+    "id": "stats_on_stats_on_stats!",
+    "name_ko": "능력치 더하기 능력치 더하기 능력치!",
+    "name_en": "Stats on Stats on Stats!",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "능력치 모루 5개를 얻으며, 골드 및 프리즘 등급 모루가 나올 확률이 높습니다. 또한 다음 증강 선택 라운드에서 각 증강 슬롯당 추가 다시 굴리기 1회를 얻습니다.",
+    "description_en": "Gain 5 Stat Anvils, with a higher chance of obtaining Gold and Prismatic tier anvils. Additionally, on the next round of augment selection, you gain an additional reroll per augment slot.",
+    "icon": "/augments/Stats_on_Stats_on_Stats!_mayhem_augment.webp"
+  },
+  {
+    "id": "stats_on_stats!",
+    "name_ko": "능력치 더하기 능력치!",
+    "name_en": "Stats on Stats!",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "능력치 모루 4개를 얻으며, 골드 및 프리즘 등급 모루가 나올 확률이 높습니다.",
+    "description_en": "Gain 4 Stat Anvils, with a higher chance of obtaining Gold and Prismatic tier anvils.",
+    "icon": "/augments/Stats_on_Stats!_mayhem_augment.webp"
+  },
+  {
+    "id": "stats!",
+    "name_ko": "능력치!",
+    "name_en": "Stats!",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "능력치 모루 3개를 얻습니다!",
+    "description_en": "Gain 3 Stat Anvils!",
+    "icon": "/augments/Stats!_mayhem_augment.webp"
+  },
+  {
+    "id": "stay_resolute",
+    "name_ko": "확고한 의지로",
+    "name_en": "Stay Resolute",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "선택한 스킬 스킬로 적 챔피언에게 피해를 입히면 <scaleArmor>방어력</scaleArmor> 및 <scaleMR>마법 저항력</scaleMR>이 일정 수의 증가합니다.",
+    "description_en": "When your chosen ability damages enemy champions, gain the required number of <scaleArmor>Armor</scaleArmor> and <scaleMR>Magic Resistance</scaleMR>.",
+    "icon": "/augments/Stay_Resolute_mayhem_augment.webp"
+  },
+  {
+    "id": "stuck_in_here_with_me",
+    "name_ko": "도망갈 수 없어",
+    "name_en": "Stuck In Here With Me",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "궁극기 시전 시 자신을 중심으로 반경 500 유닛의 오라를 2초간 생성하며, 그동안 40%의 피해 감소도 얻습니다. 지속시간 후 오라 내의 모든 적을 2초간 도발합니다(30초 재사용 대기시간). 또한 궁극기 가속 30을 얻습니다.",
+    "description_en": "Casting your ultimate ability creates an aura with a radius of 500 units around you for 2 seconds, during which you also gain 40% damage reduction. After the duration, you taunt all enemies within the aura for 2 seconds (30 second cooldown). Additionally, gain 30 ultimate haste.",
+    "icon": "/augments/Stuck_In_Here_With_Me_mayhem_augment.webp"
+  },
+  {
+    "id": "support_main",
+    "name_ko": "서포터 주력",
+    "name_en": "Quest: Support Main",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "<font color='#F0C200'>퀘스트:</font> 아군 챔피언의 체력을 일정 수의 <healing>회복</healing>시켜야 합니다.<br><br><font color='#F0C200'>보상:</font> 이제 내 모든 체력 회복 효과가 최초 체력 회복 후 추가로 지속 체력 회복 효과를 부여합니다.",
+    "description_en": "<font color='#F0C200'>QUEST:</font> <healing>Heal</healing> allied champions for the required number of Health. <br><br><font color='#F0C200'>REWARD:</font> Any healing you provide now also Heals Over Time after the initial heal.",
+    "icon": "/augments/Quest_Support_Main_mayhem_augment.webp"
+  },
+  {
+    "id": "surge_field",
+    "name_ko": "방출 역장",
+    "name_en": "Surge Field",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "궁극기 사용 시 <scaleAbilityHaste>스킬 가속</scaleAbilityHaste>과 <speed>이동 속도</speed>를 부여하는 <keywordMajor>구역</keywordMajor>을 생성합니다. 구역 내부에 있는 동안 투사체를 발사해 <magicDamage>피해량의 일정 수의%</magicDamage>만큼 피해를 입힙니다.",
+    "description_en": "On Ultimate cast, spawn a <keywordMajor>Zone</keywordMajor> that grants <scaleAbilityHaste>Ability Haste</scaleAbilityHaste> and <speed>Movement Speed</speed>. While inside, it fires missiles that deal <magicDamage>the required number of% of your damage</magicDamage>.",
+    "icon": "/augments/Surge_Field_mayhem_augment.webp"
+  },
+  {
+    "id": "swift_and_safe",
+    "name_ko": "빠르고 안전하게",
+    "name_en": "Swift and Safe",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "돌진 또는 점멸 후 2초간 지속되는 보호막을 얻어 65~290 (+ 65% AD) (+ 26% AP)의 피해를 흡수합니다(5초 재사용 대기시간).",
+    "description_en": "After dashing or blinking, gain a shield that lasts for 2 seconds and absorbs 65 to 290 (+ 65% AD) (+ 26% AP) damage (5 second cooldown).",
+    "icon": "/augments/Swift_and_Safe_mayhem_augment.webp"
+  },
+  {
+    "id": "symphony_of_war",
+    "name_ko": "전장의 교향곡",
+    "name_en": "Symphony of War",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "정복자와 치명적 속도 핵심 룬을 얻습니다.",
+    "description_en": "Gain the Conqueror and Lethal Tempo keystone runes.",
+    "icon": "/augments/Symphony_of_War_mayhem_augment.webp"
+  },
+  {
+    "id": "tank_engine",
+    "name_ko": "탱크 엔진",
+    "name_en": "Tank Engine",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "챔피언 처치 관여 시 스택을 얻으며 무한히 누적됩니다. 스택당 최대 체력과 크기가 5% 증가합니다. 사망 시 스택의 65%를 잃습니다.",
+    "description_en": "Scoring a champion takedown generates a stack, stacking infinitely. For each stack, increase your maximum health and size by 5%. Lose 65% of stacks on death.",
+    "icon": "/augments/Tank_Engine_mayhem_augment.webp"
+  },
+  {
+    "id": "tank_it_or_leave_it",
+    "name_ko": "확률적 방어",
+    "name_en": "Tank It Or Leave It",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "치명타 확률의 100%에 해당하는 치명적 방어 확률을 얻으며, 최대 50%입니다. 또한 치명타 확률 25%를 얻습니다.[br/][br/]치명적 방어 확률: 받는 피해 한 번을 20% 감소시킬 확률을 얻습니다.",
+    "description_en": "Gain Critical Defend Chance equal to 100% critical strike chance, up to 50%. Additionally, gain 25% critical strike chance.[br/][br/]Critical Defend Chance: Grants you a chance to reduce an instance of damage taken by 20%.",
+    "icon": "/augments/Tank_It_Or_Leave_It_mayhem_augment.webp"
+  },
+  {
+    "id": "tap_dancer",
+    "name_ko": "탭 댄서",
+    "name_en": "Tap Dancer",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "적 챔피언과 미니언에 대한 기본 공격 적중 시 추가 이동 속도 10을 얻고 5초간 지속되며, 이후 발동 시 갱신되고 무한히 누적됩니다. 또한 총 이동 속도의 10%에 해당하는 추가 공격 속도를 얻습니다.",
+    "description_en": "Basic attacks on-hit against enemy champions and minions grant 10 bonus movement speed, lasting for 5 seconds, refreshing on subsequent triggers, and stacking infinitely. Additionally, gain bonus attack speed equal to 10% total movement speed.",
+    "icon": "/augments/Tap_Dancer_mayhem_augment.webp"
+  },
+  {
+    "id": "terraind",
+    "name_ko": "지형 생성됨",
+    "name_en": "Terrain'd",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "선택한 스킬 스킬이 주변 지역에 피해를 입힙니다.",
+    "description_en": "Your chosen ability deals damage in an area around it.",
+    "icon": "/augments/Terrain_d_mayhem_augment.webp"
+  },
+  {
+    "id": "terror",
+    "name_ko": "공포",
+    "name_en": "Terror",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "선택한 스킬 스킬을 사용할 때마다 주변 적을 <status>공포</status>에 빠뜨립니다.",
+    "description_en": "Whenever you cast your chosen ability, <status>Fear</status> enemies around you.",
+    "icon": "/augments/Terror_mayhem_augment.webp"
+  },
+  {
+    "id": "the_brutalizer",
+    "name_ko": "야수화",
+    "name_en": "The Brutalizer",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "추가 공격력 25, 스킬 가속 10, 치명 5를 얻습니다.",
+    "description_en": "Grants 25 bonus attack damage, 10 ability haste, and 5 lethality.",
+    "icon": "/augments/The_Brutalizer_mayhem_augment.webp"
+  },
+  {
+    "id": "thread_the_needle",
+    "name_ko": "바늘에 실 끼우기",
+    "name_en": "Thread the Needle",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "18%의 방어구 관통력과 마법 관통력을 얻습니다.",
+    "description_en": "Grants 18% armor penetration and magic penetration.",
+    "icon": "/augments/Thread_the_Needle_mayhem_augment.webp"
+  },
+  {
+    "id": "titans_resolve",
+    "name_ko": "거인의 결의",
+    "name_en": "Titan's Resolve",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "피해를 받거나 입히면 중첩을 얻습니다. 일정 수의중첩마다 <scaleAF>적응형 능력치</scaleAF>, <scaleArmor>방어력</scaleArmor>, <scaleMR>마법 저항력</scaleMR>, <attention>크기</attention>, <status>강인함</status>을 얻습니다.",
+    "description_en": "Gain stacks when taking or dealing damage. For every the required number of stacks, gain <scaleAF>Adaptive Force</scaleAF>, <scaleArmor>Armor</scaleArmor>, <scaleMR>Magic Resist</scaleMR>, <attention>Size</attention>, and <status>Tenacity</status>.",
+    "icon": "/augments/Titan_s_Resolve_mayhem_augment.webp"
+  },
+  {
+    "id": "tooth_fairy",
+    "name_ko": "이빨 요정",
+    "name_en": "Tooth Fairy",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "적에게 폭발적 피해를 입히면 <keyword>이빨</keyword>을 떨어뜨립니다. <keyword>이빨</keyword>을 주우면 영구적으로 <scaleLethality>물리 관통력</scaleLethality>과 <magicPen>마법 관통력</magicPen>을 얻습니다.",
+    "description_en": "Bursting enemies drops <keyword>Teeth</keyword>. Picking up <keyword>Teeth</keyword> grants you permanent <scaleLethality>Lethality</scaleLethality> and <magicPen>Magic Penetration</magicPen>.",
+    "icon": "/augments/Tooth_Fairy_mayhem_augment.webp"
+  },
+  {
+    "id": "tormentor",
+    "name_ko": "고문자",
+    "name_en": "Tormentor",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "적 챔피언을 행동 불가 또는 지면 속박 상태로 만들면 5초간 화상을 적용하여 매초 대상의 최대 체력의 0.8%에 해당하는 마법 피해를 입힙니다(같은 시전 인스턴스당 5초 재사용 대기시간). 이 화상은 무한히 누적되며 적용 시마다 갱신됩니다.",
+    "description_en": "Immobilizing or grounding an enemy champion inflicts them with a Burn for 5 seconds, dealing magic damage equal to0.8% of the target's maximum health per second(5 second cooldown per cast instance). This Burn stacks infinitely and refreshes with each application.",
+    "icon": "/augments/Tormentor_mayhem_augment.webp"
+  },
+  {
+    "id": "trailblazer",
+    "name_ko": "개척자",
+    "name_en": "Trailblazer",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "26.12 패치에서 라이브 ARAM Mayhem에서 제거되었습니다. Riot 공식 패치 노트에는 포함되어 있지만 현재 로컬 시드에는 클라이언트 툴팁이 없습니다.",
+    "description_en": "Removed from live ARAM Mayhem in Patch 26.12. Riot lists this augment in the official patch notes, but the current local seed did not include a client tooltip.",
+    "icon": "/augments/placeholder.webp"
+  },
+  {
+    "id": "transmute_chaos",
+    "name_ko": "전환: 혼돈",
+    "name_en": "Transmute: Chaos",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "현재 제공된 다른 두 가지 선택지를 제외한 완전 무작위 증강을 두 개 얻습니다.",
+    "description_en": "Gain two completely random augments, excluding the other two offerings in your current assortment.",
+    "icon": "/augments/Transmute_Chaos_mayhem_augment.webp"
+  },
+  {
+    "id": "transmute_prismatic",
+    "name_ko": "전환: 프리즘",
+    "name_en": "Transmute: Prismatic",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "현재 제공된 다른 두 가지 선택지를 제외한 무작위 프리즘 증강을 하나 얻습니다.",
+    "description_en": "Gain one random Prismatic augment, excluding the other two offerings in your current assortment.",
+    "icon": "/augments/Transmute_Prismatic_mayhem_augment.webp"
+  },
+  {
+    "id": "triggered_inferno",
+    "name_ko": "지옥불 난사 발동",
+    "name_en": "Triggered Inferno",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "이전 챔피언에게 가한 피해 명중과 다른 적 챔피언에게 피해를 주는 기본 공격 또는 스킬이 최소 한 명에게 피해를 입히면 6초간 스타일 스택을 생성하며, 이후 다른/동일 명중 시 갱신되고 최대 6회까지 누적됩니다. 스택당 추가 이동 속도 2.75~3.5를 얻으며 최대 16.5~21까지 누적됩니다.[br/][br/]최대 스타일 스택에 도달하면 2.25초 동안 사격의 격류를 방출하며, 그동안 주변 적에게 2초 동안 0.2초 간격으로 산발적으로 빠르게 사격합니다(적당 최대 10회). 각 사격은 10~40 (+ AD의 35%) (+ 주문력의 20%) 물리 피해를 입히며, 미니언에게는 75% 감소합니다. 최대 체력의 30% 미만인 적은 두 배의 피해로 치명타를 입습니다(15초 재사용 대기시간).[br/][br/]사격 피해는 생명력 흡수가 적용됩니다. 스타일 스택은 사격 효과 종료 시 소모됩니다.",
+    "description_en": "Your damaging basic attacks and abilities against at least one enemy champion unique from the previous damaging hit made against champions generate a stack of Style for 6 seconds, refreshing on subsequent unique or non-unique hits and stacking up to 6 times. For each stack, gain 2.75 to 3.5 bonus movement speed, up to a maximum of 16.5 to 21.[br/][br/]Upon reaching maximum Style stacks, you unleash a torrent of shots for 2.25, during which you rapidly shoot at nearby enemies over 2 at sporadic times in 0.2-second intervals each (up to 10 times per enemy), dealing 10 to 40 (+ 35% AD) (+ 20% AP) physical damage with each shot, reduced by 75% against minions. Enemies below 30% of their maximum health are critically struck fordouble damage(15 second cooldown).[br/][br/]Shot damage applies life steal. Style stacks are consumed at the end of the shooting effect.",
+    "icon": "/augments/Triggered_Inferno_mayhem_augment.webp"
+  },
+  {
+    "id": "tripleshot",
+    "name_ko": "3연발",
+    "name_en": "Tripleshot",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "선택한 스킬 스킬이 전방에 있는 적 2명을 추가로 대상 지정합니다.",
+    "description_en": "Your chosen ability targets 2 additional enemies in front of you.",
+    "icon": "/augments/Tripleshot_mayhem_augment.webp"
+  },
+  {
+    "id": "trueshotprodigy",
+    "name_ko": "정조준 일격 신동",
+    "name_en": "TrueshotProdigy",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "적중 시점에 700 유닛 이상 떨어진 적에게 피해를 주면 그 방향으로 정조준 사격을 시전합니다. 사격은 통과한 적에게 100~350 (+ 추가 공격력의 80%) (+ 주문력의 60%) 마법 피해를 입힙니다(15초 재사용 대기시간).[br/][br/]이 증강은 한 게임당 팀별로 최대 1명에게만 제공됩니다.",
+    "description_en": "Upon damaging an enemy while located at over 700 units away at the time of the hit, cast Trueshot Barrage in their direction. The barrage deals 100 to 350 (+ 80% bonus AD) (+ 60% AP) magic damage to enemies it passes through (15 second cooldown).[br/][br/]This augment is only offered to up to 1 player on each team for a given game.",
+    "icon": "/augments/TrueshotProdigy_mayhem_augment.webp"
+  },
+  {
+    "id": "trusty_weapon",
+    "name_ko": "믿음직한 무기",
+    "name_en": "Trusty Weapon",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "선택한 스킬 스킬로 적 챔피언을 타격하면 <keyword>우정</keyword>의 결속이 형성됩니다.<br><br><keyword>우정</keyword> 레벨에 따라 선택한 스킬 피해량이 일시적으로 증가합니다.",
+    "description_en": "Striking enemy champions with your chosen ability forges a bond of <keyword>Friendship</keyword>.<br><br>your chosen ability gains temporarily increased damage based on your level of <keyword>Friendship</keyword>.",
+    "icon": "/augments/Trusty_Weapon_mayhem_augment.webp"
+  },
+  {
+    "id": "twice_thrice",
+    "name_ko": "두 배 세 배",
+    "name_en": "Twice Thrice",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "기본 공격이 스택을 생성하며 최대 2회까지 누적됩니다. 2스택일 때 다음 기본 공격이 모든 스택을 소모하여 적중 시 효과를 150% 효율로 다시 적용합니다.",
+    "description_en": "Basic attacks generate a stack, up to 2 times. At 2 stacks, your next basic attack consumes all stacks to apply on-hit effects again at 150% effectiveness.",
+    "icon": "/augments/Twice_Thrice_mayhem_augment.webp"
+  },
+  {
+    "id": "twin_fire",
+    "name_ko": "쌍둥이 불꽃",
+    "name_en": "Twin Fire",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "피해를 주는 스킬이 대상에게 1 (+ 치명타 확률 33.33%당 1)발의 폭죽 미사일을 발사하여 각각 10~30 (+ 추가 공격력의 7%) (+ 주문력의 7%) 마법 피해를 입힙니다(5초 재사용 대기시간). 또한 치명타 확률 25%를 얻습니다.",
+    "description_en": "Damaging abilities launch 1 (+ 1 per 33.33% critical strike chance) firecracker missiles at the target that each deal 10 to 30 (+ 7% bonus AD) (+ 7% AP) magic damage (5 second cooldown). Additionally, gain 25% critical strike chance.",
+    "icon": "/augments/Twin_Fire_mayhem_augment.webp"
+  },
+  {
+    "id": "typhoon",
+    "name_ko": "태풍",
+    "name_en": "Typhoon",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "기본 공격이 추가 대상에게 화살을 발사하여 공격력의 30%에 해당하는 물리 피해를 입히고 적중 시 효과를 적용합니다.",
+    "description_en": "Basic attacks fire a bolt at an additional target that deals 30% AD physical damage and applies on-hit effects.",
+    "icon": "/augments/Typhoon_mayhem_augment.webp"
+  },
+  {
+    "id": "ultimate_awakening",
+    "name_ko": "궁극의 각성",
+    "name_en": "Ultimate Awakening",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "궁극기 시전 시 모든 기본 스킬의 재사용 대기시간이 초기화되며 15초간 기본 스킬 가속 300을 얻습니다(20초 재사용 대기시간). 또한 궁극기 가속 30을 얻습니다.",
+    "description_en": "Casting your ultimate ability resets the cooldowns of all your basic abilities and grants you 300 basic ability haste for 15 seconds (20 second cooldown). Additionally, gain 30 ultimate haste.",
+    "icon": "/augments/Ultimate_Awakening_mayhem_augment.webp"
+  },
+  {
+    "id": "ultimate_revolution",
+    "name_ko": "궁극기 대변혁",
+    "name_en": "Ultimate Revolution",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "궁극기 시전 시 효과가 발동한 직후나 효과가 종료된 직후에 재사용 대기시간이 즉시 초기화됩니다(75초 재사용 대기시간, 사망 시 초기화).",
+    "description_en": "Casting your ultimate ability resets its cooldown immediately after its effect starts or has elapsed (75 second cooldown, reset upon death).",
+    "icon": "/augments/Ultimate_Revolution_mayhem_augment.webp"
+  },
+  {
+    "id": "ultimate_unstoppable",
+    "name_ko": "궁극의 저지 불가",
+    "name_en": "Ultimate Unstoppable",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "궁극기 시전 시 3초간 군중 제어 효과에 면역이 됩니다(8초 재사용 대기시간).",
+    "description_en": "Casting your ultimate ability grants you crowd control immunity for 3 seconds (8 second cooldown).",
+    "icon": "/augments/Ultimate_Unstoppable_mayhem_augment.webp"
+  },
+  {
+    "id": "ultra_hydra",
+    "name_ko": "궁극의 히드라",
+    "name_en": "Ultra Hydra",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "퀘스트: 궁극의 히드라 - 즉시: 히드라 아이템을 완성하면 티아맷을 획득합니다. 조건: 굶주린 히드라, 불경한 히드라, 거대한 히드라를 보유해야 합니다. 보상: 궁극의 히드라를 획득합니다.",
+    "description_en": "Quest: Ultra Hydra - Immediately: Gain a Tiamat when completing a Hydra Item. Requirement: Possess Ravenous Hydra, Profane Hydra, and Titanic Hydra. Reward: Gain Ultra Hydra.",
+    "icon": "/augments/Ultra_Hydra_mayhem_augment.webp"
+  },
+  {
+    "id": "upgrade_collector",
+    "name_ko": "징수의 총 업그레이드",
+    "name_en": "Upgrade Collector",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "수집가를 업그레이드합니다. 죽음의 처형 임계값이 적 챔피언을 처치할 때마다 0.5%씩 증가하여 최대 대상의 최대 체력의 12.5%까지 올라가며, 세금은 처치당 추가로 25골드(총 50골드)를 생성합니다. 또한 250골드를 얻습니다.",
+    "description_en": "Upgrades The Collector, empowering Death to have its execution threshold increased by 0.5% each time you kill an enemy champion, capped at a threshold of 12.5% of the target's maximum health, and Taxes to generate a further 25 gold (total 50 gold) from kills. Additionally, gain 250 gold.",
+    "icon": "/augments/Upgrade_Collector_mayhem_augment.webp"
+  },
+  {
+    "id": "upgrade_cutlass",
+    "name_ko": "해적검 업그레이드",
+    "name_en": "Upgrade Cutlass",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "구명선과 유령 단검을 모두 업그레이드하여 영혼의 닻 재사용 대기시간을 30초로 감소시키고, 활성 효과가 유지되는 동안 25% 피해 증가를 부여합니다. 또한 250 골드를 얻습니다.",
+    "description_en": "Upgrades both Lifeline and Spectral Cutlass, reducing the cooldown of Soul Anchor to 30 seconds and empowering its active to grant you 25% increased damage while it is in effect. Additionally, gain 250 gold.",
+    "icon": "/augments/Upgrade_Cutlass_mayhem_augment.webp"
+  },
+  {
+    "id": "upgrade_deaths_dance",
+    "name_ko": "죽음의 무도 업그레이드",
+    "name_en": "Upgrade Death's Dance",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "죽음의 무도를 업그레이드합니다. 250골드를 얻습니다. 자신이 받은 피해의 40%/15%만큼을 3초에 걸쳐서 입습니다. 처치 관여 시 즉시 추가 공격력의 125%만큼 체력을 회복합니다.",
+    "description_en": "Upgrades Death's Dance. Gain 250 gold. 40%/15% of damage taken is dealt to you over 3 seconds. Heal 125% bonus AD instantly when scoring a takedown.",
+    "icon": "/augments/Upgrade_Death's_Dance_mayhem_augment.webp"
+  },
+  {
+    "id": "upgrade_hubris",
+    "name_ko": "오만 업그레이드",
+    "name_en": "Upgrade Hubris",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "오만을 업그레이드하여 발동 시 우월함이 최대 체력의 2.5%(+ 스택당 0.5%)만큼 회복시키고 지속시간 동안 추가 이동 속도 10(+ 스택당 5)을 부여합니다. 또한 250골드를 얻습니다.",
+    "description_en": "Upgrades Hubris, empowering Eminence to heal you for 2.5% (+ 0.5% per stack) maximum health upon being triggered and grant you 10 (+ 5 per stack) bonus movement speed for its duration. Additionally, gain 250 gold.",
+    "icon": "/augments/Upgrade_Hubris_mayhem_augment.webp"
+  },
+  {
+    "id": "upgrade_immolate",
+    "name_ko": "불사르기 업그레이드",
+    "name_en": "Upgrade Immolate",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "바미의 잔불, 공허한 광휘, 태양불꽃 방패를 업그레이드하여 화염 효과의 영향을 받는 적 챔피언 한 명당 틱마다 추가로 10 골드를 부여하도록 합니다. 또한 250 골드를 얻습니다.[br/][br/]분신체는 유효한 대상으로 간주되지 않습니다.",
+    "description_en": "Upgrades Bami's Cinder, Hollow Radiance, and Sunfire Aegis, empowering Immolate to additionally grant you 10 gold per tick for each enemy champion afflicted by its effect. Additionally, gain 250 gold.[br/][br/]Clones do not count as valid targets for the effect.",
+    "icon": "/augments/Upgrade_Immolate_mayhem_augment.webp"
+  },
+  {
+    "id": "upgrade_infinity_edge",
+    "name_ko": "무한의 대검 업그레이드",
+    "name_en": "Upgrade Infinity Edge",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "무한의 검을 업그레이드하여 신성의 검 추방을 얻습니다. 또한 500 골드와 치명타 확률 25%를 얻습니다.[br/][br/]추방: 무작위 추가 치명타 피해를 얻으며 치명타 확률의 50%까지 증가하고, 이 값은 0.25초마다 변경됩니다.",
+    "description_en": "Upgrades Infinity Edge, empowering it to gain Sword of the Divine Excoriate. Additionally, gain 500 gold and 25% critical strike chance.[br/][br/]Excoriate: Gain a random amount of bonus critical strike damage that scales up to 50% of your critical strike chance, with the value of this amount changing every 0.25 seconds.",
+    "icon": "/augments/Upgrade_Infinity_Edge_mayhem_augment.webp"
+  },
+  {
+    "id": "upgrade_mikaels_blessing",
+    "name_ko": "미카엘의 축복 업그레이드",
+    "name_en": "Upgrade Mikael's Blessing",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "미카엘의 축복을 업그레이드하여 정화의 재사용 대기시간을 45초로 감소시키고, 활성 효과를 당신과 주변의 모든 아군 챔피언에게 영향을 미치도록 변경합니다. 모든 대상에게서 군중 제어(공중 이동 제외)를 해제하고, 150~450 (+ 주문력의 50%)만큼 회복시키며, 3초간 65%의 강인함을 부여합니다. 또한 미카엘의 축복을 무료로 얻습니다.[br/][br/]''이미 미카엘의 축복을 보유한 경우 대신 2300 골드를 얻습니다. 인벤토리가 가득 차 있으면 공간이 생기는 즉시 아이템이 부여됩니다.",
+    "description_en": "Upgrades Mikael's Blessing, reducing the cooldown of Purify to 45 seconds and empowering its active to instead affect you and all nearby allied champions, cleansing all targets of crowd control (excluding Airborne), healing them for 150 to 450 (+ 50% AP), and granting them 65% tenacity for 3 seconds. Additionally, you are granted Mikael's Blessing for free.[br/][br/]''If you already have Mikael's Blessing, gain 2300 gold instead. If your inventory is full, the item will be granted as soon as a slot in the inventory is available.",
+    "icon": "/augments/Upgrade_Mikael's_Blessing_mayhem_augment.webp"
+  },
+  {
+    "id": "upgrade_sheen",
+    "name_ko": "광휘의 검 업그레이드",
+    "name_en": "Upgrade Sheen",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "모든 마법공학 검 계열 아이템을 업그레이드하여 지속 효과가 추가로 대상의 최대 체력의 4%에 해당하는 추가 물리 피해를 입히고 최대 체력의 3.5%만큼 회복시키도록 합니다. 또한 250 골드를 얻습니다.",
+    "description_en": "Upgrades all Spellblade items, empowering the passive effect to deal additional bonus physical damage equal to 4% of the target's maximum health and heal you for 3.5% of your maximum health. Additionally, gain 250 gold.",
+    "icon": "/augments/Upgrade_Sheen_mayhem_augment.webp"
+  },
+  {
+    "id": "upgrade_thornmail",
+    "name_ko": "가시 갑옷 업그레이드",
+    "name_en": "Upgrade Thornmail",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "가시 갑옷과 가시 돋친 조끼를 업그레이드하여 두 아이템의 방어력 능력치를 25 증가시키고, 가시가 25% 피해 감소를 제공하는 보호 껍질을 당신 주위에 생성하도록 합니다. 껍질은 다음에 기본 공격으로 적중 시 효과를 발동한 적 챔피언에 의해 파괴되며, 그 적에게 50~250 (+ 방어력의 30%) (+ 마법 저항력의 30%) (+ 최대 체력의 12%) 마법 피해를 입힙니다. 껍질은 전투에서 벗어난 후 20~5초 후에 재생성됩니다.",
+    "description_en": "Upgrades Bramble Vest and Thornmail, increasing the armor stat of both items by 25 and empowering Thorns to generate a protective shell around you that grants 25% damage reduction. The shell is broken by the next enemy champion to use a basic attack on-hit against you, which causes them to take 50 to 250 (+ 30% armor) (+ 30% magic resistance) (+ 12% maximum health) magic damage. Shell regenerates after 20 to 5 seconds of being out-of-combat.",
+    "icon": "/augments/Upgrade_Thornmail_mayhem_augment.webp"
+  },
+  {
+    "id": "upgrade_zhonyas",
+    "name_ko": "존야 업그레이드",
+    "name_en": "Upgrade Zhonya's",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "추적자의 팔보호대, 우글렛의 마녀모자, 존야의 모래시계를 업그레이드하여 정지 상태 동안에도 이동할 수 있게 하며 정지 중 추가 이동 속도 50%를 부여합니다. 또한 존야의 모래시계 정지 재사용 대기시간이 45초로 감소합니다.",
+    "description_en": "Upgrades Seeker's Armguard, Wooglet's Witchcap, and Zhonya's Hourglass, empowering Stasis to allow you to move during its active effect and granting 50% bonus movement speed during Stasis. Additionally, the cooldown of Zhonya's Hourglass Stasis is reduced to 45 seconds.",
+    "icon": "/augments/Upgrade_Zhonyas_mayhem_augment.webp"
+  },
+  {
+    "id": "vampirism",
+    "name_ko": "흡혈병",
+    "name_en": "Vampirism",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "더 이상 아군에게 치유받을 수 없으며 체력 재생이 0으로 설정됩니다. 전능 흡혈 30%를 얻습니다.",
+    "description_en": "You can no longer be healed by allies and your health regeneration is set to 0. Gain 30% omnivamp.",
+    "icon": "/augments/Vampirism_mayhem_augment.webp"
+  },
+  {
+    "id": "void_dash",
+    "name_ko": "공허 돌진",
+    "name_en": "Void Dash",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "선택한 스킬 스킬로 돌진 시 적 챔피언을 <status>둔화</status>시키고 마법 피해를 입히는 공허 지대를 생성합니다.",
+    "description_en": "Dashing with your chosen ability spawns a Void Zone that <status>Slows</status> enemy champions and deals magic damage.",
+    "icon": "/augments/Void_Dash_mayhem_augment.webp"
+  },
+  {
+    "id": "void_immolation",
+    "name_ko": "이케시아의 몰락",
+    "name_en": "Void Immolation",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "퀘스트: 이카시아의 몰락 - 즉시: 바미의 잔불을 얻고 화염 아이템을 2개 구매할 수 있습니다. 조건: 태양불꽃 방패와 공허한 광휘를 보유해야 합니다. 보상: 이 아이템들이 결합되어 공허 화염이 됩니다. 기본 지속 효과 - 황폐: 적을 처치하면 주변에 마법 피해를 입힙니다.",
+    "description_en": "Quest: Icathia's Fall - Immediately: Gain a Bami's Cinder and you can purchase 2 Immolate Items. Requirement: Possess Sunfire Aegis and Hollow Radiance. Reward: These Items combine into Void Immolation. Passive - Desolate: Killing an enemy deals magic damage around them.",
+    "icon": "/augments/Void_Immolation_mayhem_augment.webp"
+  },
+  {
+    "id": "void_rift",
+    "name_ko": "공허 균열",
+    "name_en": "Void Rift",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "스킬로 적 챔피언에게 피해를 주면 피해를 입은 지점에 공허의 흔적을 6초간 소환합니다. 1250 유닛 이내에서 같은 조건으로 또 다른 공허의 흔적이 소환되면 두 공허의 흔적이 모두 소모되어 그 사이에 0.6초에 걸쳐 공허로 향하는 균열이 생성됩니다. 균열 내의 적은 75~350 (+ 치명 1당 4.5) (+ 고정 마법 관통력 1당 4.5) 마법 피해를 입고 1초에 걸쳐 감소하는 99% 둔화에 걸립니다.",
+    "description_en": "Damaging an enemy champion with an ability summons a Void Scar at the location they were damaged for 6 seconds. If another Void Scar is summoned within 1250 units, through the same condition, both Void Scars are consumed to create a rift to the void between them over 0.6 seconds. Enemies within the rift are dealt 75 to 350 (+ 4.5 per 1 Lethality) (+ 4.5 per 1 flat magic penetration) magic damage and slowed by 99% decaying over 1 second.",
+    "icon": "/augments/Void_Rift_mayhem_augment.webp"
+  },
+  {
+    "id": "vulnerability",
+    "name_ko": "취약",
+    "name_en": "Vulnerability",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "아이템 및 지속 피해 효과로 가하는 피해가 (145% + 추가 치명타 피해)의 피해로 치명타를 입힐 수 있게 됩니다. 또한 치명타 확률 25%를 얻습니다.",
+    "description_en": "Damage dealt by items and damage over time effects can now critically strike for (145% + bonus critical damage) damage. Additionally, gain 25% critical strike chance.",
+    "icon": "/augments/Vulnerability_mayhem_augment.webp"
+  },
+  {
+    "id": "warlock_juicebox",
+    "name_ko": "마도사의 주스 상자",
+    "name_en": "Warlock Juicebox",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "<lifeSteal>모든 피해 흡혈을 일정 수의</lifeSteal> 얻습니다.",
+    "description_en": "Gain <lifeSteal>the required number of Omnivamp</lifeSteal>.",
+    "icon": "/augments/Warlock_Juicebox_mayhem_augment.webp"
+  },
+  {
+    "id": "wee_woo_wee_woo",
+    "name_ko": "삐뽀삐뽀",
+    "name_en": "Wee Woo Wee Woo",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "<scaleHealing>체력이 낮은</scaleHealing> 아군을 향해 이동할 때 <speed>이동 속도</speed>가 증가합니다. 대상의 체력이 낮을수록 <healing>체력 회복량</healing> 및 <shield>보호막 흡수량</shield>이 증가합니다.",
+    "description_en": "When moving towards allies with <scaleHealing>low Health</scaleHealing>, gain <speed>Movement Speed</speed>. Your <healing>Healing</healing> and <shield>Shielding</shield> are greater based on how low your target's Health is.",
+    "icon": "/augments/Wee_Woo_Wee_Woo_mayhem_augment.webp"
+  },
+  {
+    "id": "weighted_popoffs",
+    "name_ko": "중량 폭주",
+    "name_en": "Weighted Popoffs",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "적 챔피언에게 스킬을 적중시키면 Popoff 스택이 6초간 생성되며 최대 6회까지 누적됩니다. 스택당 기본 스킬의 재사용 대기시간 진행 속도가 2.5% 빨라집니다. Popoff 스택이 최대일 때 이 값이 두 배가 되어 총 30% 더 빠른 진행 속도가 됩니다.",
+    "description_en": "Hitting an enemy champion with an ability generates a stack of Popoff for 6 seconds, stacking up to 6 times. For each stack, your basic abilities' cooldowns progress 2.5% faster. At maximum Popoff stacks, this value is doubled, for a total of a 30% faster progression time.",
+    "icon": "/augments/Weighted_Popoffs_mayhem_augment.webp"
+  },
+  {
+    "id": "wind_beneath_blade",
+    "name_ko": "칼날 아래 바람",
+    "name_en": "Wind Beneath Blade",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "치명 또는 고정 마법 관통력 1당 추가 이동 속도 1.5를, 방어구 관통력 또는 마법 관통력 10%당 추가 이동 속도 5를 얻습니다.",
+    "description_en": "Gain 1.5 bonus movement speed per 1 Lethality or flat magic penetration, and 5 bonus movement speed per 10% armor penetration or magic penetration.",
+    "icon": "/augments/Wind_Beneath_Blade_mayhem_augment.webp"
+  },
+  {
+    "id": "windspeakers_blessing",
+    "name_ko": "바람전달자의 축복",
+    "name_en": "Windspeaker's Blessing",
+    "rarity": "🔮 프리즘 (Prismatic)",
+    "rarity_key": "prismatic",
+    "description_ko": "당신 또는 아군의 당신에 대한 치유와 보호막, 또는 당신의 아군에 대한 치유와 보호막이 대상에게 3초간 30~60의 추가 방어력과 추가 마법 저항력을 부여합니다.",
+    "description_en": "Your or allies' heals and shields on yourself, or your heals and shields on allies, grant the target 30 to 60 bonus armor and bonus magic resistance for 3 seconds.",
+    "icon": "/augments/Windspeaker's_Blessing_mayhem_augment.webp"
+  },
+  {
+    "id": "witchful_thinking",
+    "name_ko": "사악한 정신",
+    "name_en": "Witchful Thinking",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "주문력 20~80을 얻습니다.",
+    "description_en": "Grants 20 to 80 ability power.",
+    "icon": "/augments/Witchful_Thinking_mayhem_augment.webp"
+  },
+  {
+    "id": "with_haste",
+    "name_ko": "속행",
+    "name_en": "With Haste",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "스킬 가속의 100%에 해당하는 추가 이동 속도를 얻습니다.",
+    "description_en": "Grants bonus movement speed equal to 100% ability haste.",
+    "icon": "/augments/With_Haste_mayhem_augment.webp"
+  },
+  {
+    "id": "yowch_my_coins",
+    "name_ko": "으악, 내 동전!",
+    "name_en": "Yowch, My Coins!",
+    "rarity": "👑 골드 (Gold)",
+    "rarity_key": "gold",
+    "description_ko": "처치 관여 시 적 챔피언이 주변에 자신과 아군이 주울 수 있는 동전을 떨어뜨립니다. 각 동전은 <gold>일정 수의골드</gold>의 가치를 지닙니다.",
+    "description_en": "On takedown, enemy champions drop coins nearby, which you and your allies can collect. Each is worth <gold>the required number of gold</gold>.",
+    "icon": "/augments/Yowch_My_Coins_mayhem_augment.webp"
+  },
+  {
+    "id": "zealot",
+    "name_ko": "광신자",
+    "name_en": "Zealot",
+    "rarity": "🥈 실버 (Silver)",
+    "rarity_key": "silver",
+    "description_ko": "35% (+ 주문력 100당 5%) 추가 공격 속도와 25% (+ 주문력 100당 5%) 치명타 확률을 얻습니다.",
+    "description_en": "Gain 35% (+ 5% per 100 AP) bonus attack speed and 25% (+ 5% per 100 AP) critical strike chance.",
+    "icon": "/augments/Zealot_mayhem_augment.webp"
+  }
+]
