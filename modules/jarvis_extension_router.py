@@ -27,6 +27,7 @@ from modules.screen_vision_agent import router as vision_router
 from modules.realtime_audio_streamer import router as audio_stream_router
 from modules.daily_journal_writer import router as journal_router
 from modules.game_auto_coach import router as game_coach_router
+from modules.maple_skill_tracker import router as maple_tracker_router
 
 # 2. 통합 확장 라우터 생성
 extension_router = APIRouter()
@@ -39,6 +40,8 @@ extension_router.include_router(vision_router)
 extension_router.include_router(audio_stream_router)
 extension_router.include_router(journal_router)
 extension_router.include_router(game_coach_router)
+extension_router.include_router(maple_tracker_router)
+
 
 
 # 4. 관리자 대시보드 UI (`/admin`) 서빙 엔드포인트

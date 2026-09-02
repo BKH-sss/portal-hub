@@ -8,6 +8,7 @@
 
 | 모듈 파일명 | 주요 역할 | 제공 API 엔드포인트 |
 |---|---|---|
+| `modules/maple_skill_tracker.py` | 🍁 **메이플스토리 스킬 쿨타임 감시:** 우측 하단 퀵슬롯 실시간 감시 & 방어/극딜기 5초 전 스카디 음성 알림 | `/api/maple/tracker/*` |
 | `modules/system_os_controller.py` | 💻 CPU, RAM, GPU(4080 Super), VRAM 실시간 진단 및 윈도우 마스터 볼륨/미디어/프로세스 제어 | `/api/system/*` |
 | `modules/schedule_manager.py` | 📅 로컬 SQLite 기반 일정/할 일(Todo) 관리 및 24/7 모닝 브리핑 요약기 | `/api/schedule/*` |
 | `modules/native_tool_engine.py` | 🛠️ 문자열 태그를 대체하는 OpenAI/Gemini/Claude/Ollama 표준 Function Calling 엔진 | 통합 Tool Dispatcher |
@@ -44,20 +45,3 @@ python modules/jarvis_extension_router.py
 ```
 * **관리자 대시보드:** [http://localhost:8000/admin](http://localhost:8000/admin)
 * **Swagger API 문서:** [http://localhost:8000/docs](http://localhost:8000/docs)
-
----
-
-## 🤖 MCP (Model Context Protocol) 외부 연동 방법 (Claude Desktop / Cursor)
-
-`claude_desktop_config.json`에 아래 설정을 추가하면 Claude Desktop에서 JARVIS의 PC 제어 및 일정 기능을 직접 호출할 수 있습니다:
-
-```json
-{
-  "mcpServers": {
-    "jarvis-assistant": {
-      "command": "python",
-      "args": ["C:/Users/Su-Bla/orca/workspaces/NEO/char/modules/mcp_server.py"]
-    }
-  }
-}
-```
