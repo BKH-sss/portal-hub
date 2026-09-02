@@ -23,6 +23,10 @@ sys.path.append(str(CURRENT_DIR.parent))
 from modules.system_os_controller import router as system_router
 from modules.schedule_manager import router as schedule_router
 from modules.mcp_server import router as mcp_router
+from modules.screen_vision_agent import router as vision_router
+from modules.realtime_audio_streamer import router as audio_stream_router
+from modules.daily_journal_writer import router as journal_router
+from modules.game_auto_coach import router as game_coach_router
 
 # 2. 통합 확장 라우터 생성
 extension_router = APIRouter()
@@ -31,6 +35,11 @@ extension_router = APIRouter()
 extension_router.include_router(system_router)
 extension_router.include_router(schedule_router)
 extension_router.include_router(mcp_router)
+extension_router.include_router(vision_router)
+extension_router.include_router(audio_stream_router)
+extension_router.include_router(journal_router)
+extension_router.include_router(game_coach_router)
+
 
 # 4. 관리자 대시보드 UI (`/admin`) 서빙 엔드포인트
 @extension_router.get("/admin", summary="JARVIS 통합 관측 대시보드 UI", tags=["Admin Dashboard"])

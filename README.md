@@ -13,18 +13,20 @@
    - 실시간 날씨 & 기온, 미세먼지(PM10) 및 초미세먼지(PM2.5) 농도 및 등급
    - 오늘의 캘린더 일정 및 마감 임박 태스크(Todo) 브리핑
    - 마스터의 최근 관심사 테마 3대 최신 뉴스 2줄 요약 및 링크 제공
-3. **💻 시스템 OS & 하드웨어 제어 (modules/)**:
+3. **💻 시스템 OS & 하드웨어 제어 (`modules/system_os_controller.py`)**:
    - CPU, RAM, NVIDIA GPU(4080 Super), VRAM 실시간 진단
    - 윈도우 마스터 볼륨(0~100) 조절, 음소거, 미디어 재생/일시정지, 프로세스 강제 종료(Kill Switch)
-4. **🔌 표준 MCP (Model Context Protocol) 지원**:
+4. **👁️ 스마트 화면 비전 코파일럿 (`modules/screen_vision_agent.py`)**:
+   - 화면 초고속 캡처 & Gemini 2.5 Flash Vision 기반 실시간 코드 에러 디버깅 및 게임 화면 분석
+5. **⚡ 초저지연 오디오 스트리머 (`modules/realtime_audio_streamer.py`)**:
+   - WebSocket 기반 문장 단위 실시간 청킹으로 500ms 미만 즉각 음성 합성 및 스트리밍 재생
+6. **📝 데일리 저널 & 옵시디언 자동화 (`modules/daily_journal_writer.py`)**:
+   - 일일 대화/일정/개발 기록 자동 요약 및 옵시디언 호환 Markdown 저널 자동 생성
+7. **🎮 게임 프로세스 자동 감지 & 코칭 브리퍼 (`modules/game_auto_coach.py`)**:
+   - LoL, 발로란트, 메이플스토리 등 게임 실행 자동 감지 및 실시간 전술 코칭 가이드
+8. **🔌 표준 MCP (Model Context Protocol) 지원 (`modules/mcp_server.py`)**:
    - Claude Desktop, VS Code, Cursor, Antigravity 등 외부 AI 도구와 JARVIS 기능 실시간 연동
-5. **🎬 실시간 YouTube 공식 영상 & MV 검색**:
-   - 노래, 음악, 영상 요청 시 실제 작동하는 YouTube 링크 자동 첨부 및 디스코드 임베드 재생
-6. **🖼️ 실시간 고화질 사진 & 이미지 검색**:
-   - 실시간 이미지 검색 연동으로 디스코드 채팅창 및 웹 UI에 사진 바로 렌더링
-7. **🎙️ Faster-Whisper 로컬 음성 인식(STT) & VAD Barge-in**:
-   - GPU 가속 STT 및 AI 발화 도중 끼어들기(Barge-in) 지원
-8. **📊 JARVIS 사이버틱 관측성 대시보드 (`/admin`)**:
+9. **📊 JARVIS 사이버틱 관측성 대시보드 (`/admin`)**:
    - 실시간 하드웨어 게이지, LLM 모델별 호출 분배율 차트(Chart.js), 실시간 이벤트 터미널 로그
 
 ---
@@ -38,6 +40,10 @@ JARVIS-Assistant/
 │   ├── modules/schedule_manager.py       # 📅 SQLite 기반 일정/할일(Todo) 관리 & 모닝 브리핑 엔진
 │   ├── modules/native_tool_engine.py     # 🛠️ Gemini/Claude/GPT/Ollama 표준 Function Calling 엔진
 │   ├── modules/mcp_server.py             # 🔌 Anthropic MCP 표준 JSON-RPC 서버 (Claude Desktop/Cursor 연동)
+│   ├── modules/screen_vision_agent.py    # 👁️ 초고속 화면 캡처 및 실시간 비전(Vision) 코파일럿
+│   ├── modules/realtime_audio_streamer.py# ⚡ WebSocket 문장 단위 초저지연 실시간 오디오 스트리머
+│   ├── modules/daily_journal_writer.py   # 📝 일일 대화/업무 요약 및 옵시디언 마크다운 저널 생성기
+│   ├── modules/game_auto_coach.py        # 🎮 게임 프로세스 자동 감지 및 실시간 인게임 코칭
 │   ├── modules/admin.html                # 📊 다크 HUD 테마 실시간 시스템 & 관측성 대시보드 UI
 │   ├── modules/jarvis_extension_router.py# 🌟 위 모든 모듈을 메인 서버에 원클릭 마운트하는 통합 라우터
 │   └── modules/README.md                 # 📖 모듈 상세 가이드 문서
