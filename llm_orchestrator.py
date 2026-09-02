@@ -93,9 +93,14 @@ class CognitiveIntentRouter:
         coding_keywords = ["파이썬", "코드", "코딩", "함수", "버그", "에러", "알고리즘", "디버깅", "javascript", "python", "sql", "html", "css", "api", "git"]
         is_coding = any(k in q_lower for k in coding_keywords) or bool(re.search(r'(def |class |import |function|const |let |\{|\}|<\/?)', query))
 
-        # 2. 시각 이미지 및 사진 요청 의도
-        visual_keywords = ["사진", "이미지", "짤", "포토", "모습", "생김새", "외형", "얼굴", "전경", "풍경", "일러스트", "그림", "보여줘", "구경", "룩", "도안"]
-        is_visual = any(k in q_lower for k in visual_keywords)
+        # 2. 시각 이미지 / 유튜브 / 미디어 / 링크 요청 의도
+        media_keywords = [
+            "유튜브", "유투브", "youtube", "영상", "동영상", "노래", "음악", "ost", "뮤비", "mv",
+            "링크", "주소", "url", "사이트", "사진", "이미지", "짤", "포토", "모습", "생김새",
+            "외형", "얼굴", "전경", "풍경", "일러스트", "그림", "보여줘", "구경", "룩", "도안"
+        ]
+        is_media = any(k in q_lower for k in media_keywords)
+        is_visual = any(k in q_lower for k in ["사진", "이미지", "짤", "포토", "모습", "생김새", "외형", "얼굴", "전경", "풍경", "일러스트", "그림", "보여줘"])
 
         # 3. 실시간 정보 및 최신 팩트체크 의도
         realtime_keywords = [
@@ -103,7 +108,7 @@ class CognitiveIntentRouter:
             "뭐야", "추천", "몇년", "몇월", "몇일", "며칠", "날짜", "시간", "요일", "지금",
             "f1", "선수", "주식", "패치", "이벤트", "출시", "가격", "정보", "근황", "메이플", "롤", "레식", "카론", "바이브코딩", "지구라트", "건축물"
         ]
-        is_realtime = any(k in q_lower for k in realtime_keywords) or is_visual
+        is_realtime = any(k in q_lower for k in realtime_keywords) or is_media
 
         # 4. 주식 및 금융 퀀트 의도
         finance_keywords = ["주가", "주식", "매수", "매도", "etf", "배당", "rsi", "환율", "코인", "비트코인", "나스닥", "s&p"]
@@ -113,16 +118,17 @@ class CognitiveIntentRouter:
         recommended_model = "gemini"
         if is_coding and (API_KEYS.get("ANTHROPIC") or API_KEYS.get("OPENAI")):
             recommended_model = "claude" if API_KEYS.get("ANTHROPIC") else "openai"
-        elif is_realtime or is_finance or is_visual:
+        elif is_realtime or is_finance or is_media:
             recommended_model = "gemini"
 
         return {
             "is_coding": is_coding,
             "is_visual": is_visual,
+            "is_media": is_media,
             "is_realtime": is_realtime,
             "is_finance": is_finance,
             "recommended_model": recommended_model,
-            "needs_grounding": is_realtime or is_finance or is_visual or ("검색" in q_lower)
+            "needs_grounding": is_realtime or is_finance or is_media or ("검색" in q_lower)
         }
 
 
