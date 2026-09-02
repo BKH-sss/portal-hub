@@ -78,6 +78,10 @@ class SkillConfigItem(BaseModel):
     voice_text: Optional[str] = Field(None, description="스카디가 말할 맞춤 대사 (미입력 시 기본 대사 자동 적용)")
     slot_id: int = Field(1, ge=1, le=12, description="퀵슬롯 번호 (1~12)")
 
+class SkillEditRequest(BaseModel):
+    original_name: str = Field(..., description="수정 전 기존 스킬명")
+    item: SkillConfigItem = Field(..., description="수정할 새 스킬 설정")
+
 
 # =============================================================================
 # 🎮 4. 직업별 인기 스킬 프리셋 정의
@@ -297,6 +301,76 @@ class MapleSkillWatcher:
             self.save_skills_to_json()
             return True
         return False
+        
+    def edit_skill(self, original_name: str, item: SkillConfigItem) -> bool:
+        """기존 스킬 정보 수정 (스킬명 변경 포함)"""
+        target_idx = None
+        for i, sk in enumerate(self.skills):
+            if sk.name == original_name:
+                target_idx = i
+                break
+
+        if target_idx is not None:
+            self.skills[target_idx] = TrackedSkill(
+                name=item.name,
+                category=item.category,
+                cooldown_sec=item.cooldown_sec,
+                warn_before=item.warn_before,
+                key_bind=item.key_bind,
+                voice_text=item.voice_text,
+                slot_id=item.slot_id
+            )
+            self.save_skills_to_json()
+            return True
+        return False
+
+    def save_preset(self, preset_name: str) -> bool:
+        """현재 스킬 구성을 새로운 직업/커스텀 프리셋으로 저장"""
+        clean_name = preset_name.strip()
+        if not clean_name:
+            return False
+        preset_data = [
+            {
+                "name": s.name,
+                "category": s.category,
+                "cooldown_sec": s.cooldown_sec,
+                "warn_before": s.warn_before,
+                "key_bind": s.key_bind,
+                "voice_text": s.voice_text,
+                "slot_id": s.slot_id
+            } for s in self.skills
+        ]
+        JOB_PRESETS[clean_name] = preset_data
+        self._save_custom_presets_to_file()
+        return True
+
+    def delete_preset(self, preset_name: str) -> bool:
+        """지정한 프리셋 삭제"""
+        if preset_name in JOB_PRESETS:
+            del JOB_PRESETS[preset_name]
+            self._save_custom_presets_to_file()
+            return True
+        return False
+
+    def _save_custom_presets_to_file(self):
+        """커스텀 프리셋 영구 저장"""
+        preset_file = DATA_DIR / "maple_custom_presets.json"
+        try:
+            with open(preset_file, "w", encoding="utf-8") as f:
+                json.dump(JOB_PRESETS, f, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
+
+    def load_custom_presets_from_file(self):
+        """저장된 커스텀 프리셋 복원"""
+        preset_file = DATA_DIR / "maple_custom_presets.json"
+        if preset_file.exists():
+            try:
+                with open(preset_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    JOB_PRESETS.update(data)
+            except Exception:
+                pass
 
     def trigger_skill_used(self, skill_name: str):
         """스킬 쿨타임 시작"""
@@ -409,6 +483,14 @@ async def quick_add_skill(item: SkillConfigItem):
     return {"status": "success", "message": f"'{item.name}' 스킬 설정 저장 완료", "skill": item.dict()}
 
 
+@router.put("/skills/edit", summary="스킬 설정 수정")
+async def edit_skill_item(req: SkillEditRequest):
+    success = maple_watcher.edit_skill(req.original_name, req.item)
+    if not success:
+        raise HTTPException(status_code=404, detail=f"수정할 스킬 '{req.original_name}'을 찾을 수 없습니다.")
+    return {"status": "success", "message": f"'{req.item.name}' 스킬 수정 완료", "skill": req.item.dict()}
+
+
 @router.delete("/skills/{skill_name}", summary="스킬 삭제")
 async def delete_skill_item(skill_name: str):
     success = maple_watcher.delete_skill(skill_name)
@@ -428,6 +510,22 @@ async def load_job_preset(job_name: str):
     if not success:
         raise HTTPException(status_code=400, detail=f"'{job_name}' 프리셋이 존재하지 않습니다.")
     return {"status": "success", "message": f"'{job_name}' 프리셋 로드 완료", "skills": [sk.to_dict() for sk in maple_watcher.skills]}
+
+
+@router.post("/presets/save/{preset_name}", summary="현재 스킬 구성을 프리셋으로 저장")
+async def save_custom_preset(preset_name: str):
+    success = maple_watcher.save_preset(preset_name)
+    if not success:
+        raise HTTPException(status_code=400, detail="프리셋 이름이 올바르지 않습니다.")
+    return {"status": "success", "message": f"'{preset_name}' 프리셋 저장 완료", "presets": list(JOB_PRESETS.keys())}
+
+
+@router.delete("/presets/{preset_name}", summary="프리셋 삭제")
+async def delete_custom_preset(preset_name: str):
+    success = maple_watcher.delete_preset(preset_name)
+    if not success:
+        raise HTTPException(status_code=404, detail=f"삭제할 프리셋 '{preset_name}'이 존재하지 않습니다.")
+    return {"status": "success", "message": f"'{preset_name}' 프리셋 삭제 완료", "presets": list(JOB_PRESETS.keys())}
 
 
 @router.post("/start", summary="실시간 감시 시작")

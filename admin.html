@@ -3,442 +3,844 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>서버 관리 대시보드</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>JARVIS / SKADI - System Observability Dashboard</title>
+    <!-- FontAwesome 아이콘 & Chart.js CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            background-color: #0f0f13;
-            color: #f3f4f6;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        }
-        
-        .glass-panel {
-            background: rgba(30, 30, 35, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        /* =====================================================================
+           🎨 1. 테마 & 글로벌 스타일링 (Cyberpunk / JARVIS HUD Dark Theme)
+        ===================================================================== */
+        :root {
+            --bg-primary: #0a0d14;
+            --bg-card: rgba(18, 24, 38, 0.85);
+            --bg-card-hover: rgba(26, 35, 54, 0.95);
+            --border-glow: rgba(0, 242, 254, 0.25);
+            --cyan-glow: #00f2fe;
+            --purple-glow: #7928ca;
+            --green-glow: #00ff87;
+            --red-glow: #ff0055;
+            --orange-glow: #ff9900;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
         }
 
-        /* 스위치 토글 디자인 */
-        .toggle-checkbox:checked {
-            right: 0;
-            left: auto;
-            border-color: #10b981; /* emerald-500 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
         }
-        .toggle-checkbox:checked + .toggle-label {
-            background-color: #10b981;
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 24px;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.05) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(121, 40, 202, 0.05) 0%, transparent 40%);
         }
+
+        /* 헤더 스타일 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            font-size: 28px;
+            color: var(--cyan-glow);
+            filter: drop-shadow(0 0 8px var(--cyan-glow));
+        }
+
+        .brand-title {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, var(--cyan-glow), #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 255, 135, 0.1);
+            border: 1px solid var(--green-glow);
+            color: var(--green-glow);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green-glow);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--green-glow);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+
+        /* 그리드 레이아웃 */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+
+        /* 카드 기본 스타일 */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: 14px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover {
+            border-color: var(--cyan-glow);
+            box-shadow: 0 8px 32px rgba(0, 242, 254, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 메트릭 카드 수치 */
+        .metric-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .metric-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* 프로그레스 바 */
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+
+        .fill-cyan { background: linear-gradient(90deg, #4facfe, var(--cyan-glow)); }
+        .fill-purple { background: linear-gradient(90deg, #7928ca, #ff0080); }
+        .fill-green { background: linear-gradient(90deg, #00b09b, var(--green-glow)); }
+        .fill-orange { background: linear-gradient(90deg, #ff9900, #ff5500); }
+
+        /* 볼륨 슬라이더 및 컨트롤 버튼 */
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .slider {
+            flex: 1;
+            accent-color: var(--cyan-glow);
+            height: 6px;
+            cursor: pointer;
+        }
+
+        .btn-action {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action:hover {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: var(--cyan-glow);
+            color: var(--cyan-glow);
+        }
+
+        .btn-action.active {
+            background: rgba(0, 255, 135, 0.2);
+            border-color: var(--green-glow);
+            color: var(--green-glow);
+        }
+
+        /* 폼 인풋 스타일 */
+        .form-input {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--cyan-glow);
+        }
+
+        /* 테이블 스타일 */
+        .skill-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        .skill-table th {
+            text-align: left;
+            padding: 8px;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .skill-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* 🍁 스킬 편집 팝업 모달 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: #0d1117;
+            border: 1px solid var(--orange-glow);
+            box-shadow: 0 12px 48px rgba(255, 153, 0, 0.25);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 520px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* 실시간 이벤트 로그 터미널 */
+        .log-terminal {
+            background: #05070a;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            height: 200px;
+            overflow-y: auto;
+            color: #a9b7c6;
+            line-height: 1.6;
+        }
+
+        .log-line {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .log-time { color: #6272a4; }
+        .log-tag-maple { color: var(--orange-glow); }
+        .log-tag-sys { color: var(--green-glow); }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body>
 
-    <div class="glass-panel w-full max-w-md rounded-2xl p-8 shadow-2xl relative overflow-hidden">
-        <!-- 배경 장식 -->
-        <div class="absolute -top-20 -right-20 w-48 h-48 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
-        <div class="absolute -bottom-20 -left-20 w-48 h-48 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+    <!-- 🌟 상단 헤더 -->
+    <header>
+        <div class="brand">
+            <i class="fa-solid fa-brain brand-icon"></i>
+            <div>
+                <h1 class="brand-title">JARVIS CORE OBSERVABILITY</h1>
+                <p style="font-size: 12px; color: var(--text-muted);">통합 에이전트 & 실시간 게임 쿨타임 코치</p>
+            </div>
+        </div>
+        <div class="status-badge">
+            <div class="pulse-dot"></div>
+            <span id="server-status">ONLINE (Port 8000)</span>
+        </div>
+    </header>
 
-        <div class="relative z-10">
-            <div class="flex items-center justify-between mb-8">
-                <h1 class="text-2xl font-bold tracking-tight">서버 관리 대시보드</h1>
-                <span id="serverStatus" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-900 text-green-300 border border-green-700">
-                    Online
+    <!-- 📊 메인 그리드 대시보드 -->
+    <div class="dashboard-grid">
+
+        <!-- 1. CPU 메트릭 -->
+        <div class="card" style="grid-column: span 3;">
+            <div class="card-header">
+                <span class="card-title"><i class="fa-solid fa-microchip"></i> CPU Usage</span>
+                <span id="cpu-cores" class="metric-sub">0 Cores</span>
+            </div>
+            <div id="cpu-val" class="metric-value">--%</div>
+            <div class="progress-bar-bg">
+                <div id="cpu-bar" class="progress-bar-fill fill-cyan" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- 2. GPU 메트릭 (4080 Super) -->
+        <div class="card" style="grid-column: span 3;">
+            <div class="card-header">
+                <span class="card-title"><i class="fa-solid fa-bolt"></i> NVIDIA GPU</span>
+                <span id="gpu-temp" class="metric-sub">--°C</span>
+            </div>
+            <div id="gpu-util" class="metric-value">--%</div>
+            <div class="progress-bar-bg">
+                <div id="gpu-bar" class="progress-bar-fill fill-green" style="width: 0%;"></div>
+            </div>
+            <div id="vram-sub" class="metric-sub" style="margin-top: 8px;">VRAM: -- / -- MB</div>
+        </div>
+
+        <!-- 3. RAM 메트릭 -->
+        <div class="card" style="grid-column: span 3;">
+            <div class="card-header">
+                <span class="card-title"><i class="fa-solid fa-memory"></i> RAM Usage</span>
+                <span id="ram-used" class="metric-sub">-- / -- GB</span>
+            </div>
+            <div id="ram-val" class="metric-value">--%</div>
+            <div class="progress-bar-bg">
+                <div id="ram-bar" class="progress-bar-fill fill-purple" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- 4. OS 빠른 제어 패널 -->
+        <div class="card" style="grid-column: span 3;">
+            <div class="card-header">
+                <span class="card-title"><i class="fa-solid fa-sliders"></i> OS Control</span>
+            </div>
+            <div class="control-group">
+                <i class="fa-solid fa-volume-high" style="color: var(--cyan-glow);"></i>
+                <input type="range" id="vol-slider" min="0" max="100" value="50" class="slider" onchange="setVolume(this.value)">
+                <span id="vol-text" style="font-size: 13px; width: 35px;">50%</span>
+            </div>
+            <div class="control-group" style="margin-top: 12px; gap: 8px; flex-wrap: wrap;">
+                <button class="btn-action" onclick="mediaAction('play-pause')"><i class="fa-solid fa-play"></i> 재생/정지</button>
+                <button class="btn-action" onclick="lockScreen()"><i class="fa-solid fa-lock"></i> 잠금</button>
+            </div>
+        </div>
+
+        <!-- 5. 🍁 메이플스토리 스킬 쿨타임 & 음성 브리핑 빠른 설정 패널 (NEW) -->
+        <div class="card" style="grid-column: span 12; border-color: rgba(255, 153, 0, 0.4);">
+            <div class="card-header">
+                <span class="card-title" style="color: var(--orange-glow);">
+                    <i class="fa-solid fa-maple-leaf"></i> 메이플스토리 스킬 쿨타임 & 스카디 음성 브리핑 설정
                 </span>
-            </div>
-
-            <div class="space-y-6">
-                <!-- 제어 카드 1 -->
-                <div class="bg-gray-800 bg-opacity-50 rounded-xl p-5 border border-gray-700 hover:border-gray-600 transition">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h2 class="text-lg font-semibold text-gray-100">자율 학습 (Auto Learning)</h2>
-                            <p class="text-sm text-gray-400 mt-1">AI가 유튜브와 웹을 스스로 탐색하며 뇌(DB)에 지식을 추가합니다.</p>
-                        </div>
-                        
-                        <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in mt-2">
-                            <input type="checkbox" name="toggle" id="learningToggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 top-0 left-0" checked/>
-                            <label for="learningToggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer transition-all duration-300"></label>
-                        </div>
-                    </div>
-                    <div id="learningStatusText" class="mt-4 text-xs font-medium text-gray-400 bg-gray-700 bg-opacity-50 inline-block px-2 py-1 rounded">
-                        비활성화됨 (대기 상태)
-                    </div>
-                </div>
-
-                <!-- 시스템 정보 요약 -->
-                <div class="bg-gray-800 bg-opacity-50 rounded-xl p-5 border border-gray-700">
-                    <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">시스템 정보</h3>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li class="flex justify-between">
-                            <span>LLM 엔진</span>
-                            <span class="text-gray-200">Ollama (Llama3.1)</span>
-                        </li>
-                        <li class="flex justify-between">
-                            <span>데이터 소화 (Obsidian)</span>
-                            <span class="text-emerald-400 font-semibold animate-pulse">가동 중</span>
-                        </li>
-                        <li class="flex justify-between">
-                            <span>메모리 DB</span>
-                            <span class="text-gray-200">ChromaDB</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- 지식 보관소 -->
-                <div class="bg-gray-800 bg-opacity-50 rounded-xl p-5 border border-gray-700">
-                    <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">🧠 지식 보관소 (Knowledge Base)</h3>
-                    
-                    <!-- 수동 주입 -->
-                    <div class="mb-5">
-                        <input type="text" id="kbTitle" placeholder="제목 (예: 롤 정글 동선 꿀팁)" class="w-full bg-gray-900 text-sm text-gray-200 border border-gray-600 rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-500">
-                        <textarea id="kbContent" rows="3" placeholder="여기에 학습할 텍스트를 붙여넣으세요..." class="w-full bg-gray-900 text-sm text-gray-200 border border-gray-600 rounded px-3 py-2 mb-2 focus:outline-none focus:border-blue-500"></textarea>
-                        <button id="kbSubmitBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 rounded transition text-sm">
-                            뇌에 직접 주입하기
-                        </button>
-                    </div>
-
-                    <!-- 리스트 보기 -->
-                    <div>
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs text-gray-400">저장된 학습 데이터 (B:\AI_Brain)</span>
-                            <button onclick="fetchKnowledgeList()" class="text-xs text-blue-400 hover:underline">새로고침</button>
-                        </div>
-                        <ul id="kbList" class="space-y-2 max-h-40 overflow-y-auto pr-1">
-                            <li class="text-xs text-gray-500 text-center py-2">불러오는 중...</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- 수면 학습 엔진 (Dream Engine) - 레식 -->
-                <div class="bg-gray-800 bg-opacity-50 rounded-xl p-5 border border-gray-700">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider">🧠 레식 엔진 (스카디)</h3>
-                        <span id="dreamStatusBadge_r6s" class="px-2 py-1 text-xs font-bold rounded bg-gray-600 text-gray-300">상태 확인 중...</span>
-                    </div>
-                    
-                    <div class="flex space-x-2 mb-4">
-                        <button onclick="controlDreamEngine('start', 'r6s')" class="flex-1 bg-green-600 hover:bg-green-500 text-white font-semibold py-2 rounded transition text-xs px-1">연속 학습 (끄기 누를 때까지)</button>
-                        <button onclick="controlDreamEngine('stop', 'r6s')" class="flex-1 bg-yellow-600 hover:bg-yellow-500 text-white font-semibold py-2 rounded transition text-xs">천천히 종료</button>
-                        <button onclick="controlDreamEngine('kill', 'r6s')" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-semibold py-2 rounded transition text-xs">강제 종료</button>
-                    </div>
-                    
-                    <div class="bg-gray-900 rounded p-2 border border-gray-600">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs text-gray-400">라이브 로그 (dream_engine_r6s.log)</span>
-                            <button onclick="fetchDreamLogs('r6s')" class="text-xs text-blue-400 hover:underline">새로고침</button>
-                        </div>
-                        <textarea id="dreamLogArea_r6s" rows="5" readonly class="w-full bg-black text-xs text-green-400 font-mono rounded p-2 focus:outline-none resize-none overflow-y-auto">로그를 불러오는 중...</textarea>
-                    </div>
-                </div>
-
-                <!-- 수면 학습 엔진 (Dream Engine) - 롤 -->
-                <div class="bg-gray-800 bg-opacity-50 rounded-xl p-5 border border-gray-700">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider">🧠 롤 엔진 (브라이어)</h3>
-                        <span id="dreamStatusBadge_lol" class="px-2 py-1 text-xs font-bold rounded bg-gray-600 text-gray-300">상태 확인 중...</span>
-                    </div>
-                    
-                    <div class="flex space-x-2 mb-4">
-                        <button onclick="controlDreamEngine('start', 'lol')" class="flex-1 bg-green-600 hover:bg-green-500 text-white font-semibold py-2 rounded transition text-xs px-1">연속 학습 (끄기 누를 때까지)</button>
-                        <button onclick="controlDreamEngine('stop', 'lol')" class="flex-1 bg-yellow-600 hover:bg-yellow-500 text-white font-semibold py-2 rounded transition text-xs">천천히 종료</button>
-                        <button onclick="controlDreamEngine('kill', 'lol')" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-semibold py-2 rounded transition text-xs">강제 종료</button>
-                    </div>
-                    
-                    <div class="bg-gray-900 rounded p-2 border border-gray-600">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs text-gray-400">라이브 로그 (dream_engine_lol.log)</span>
-                            <button onclick="fetchDreamLogs('lol')" class="text-xs text-blue-400 hover:underline">새로고침</button>
-                        </div>
-                        <textarea id="dreamLogArea_lol" rows="5" readonly class="w-full bg-black text-xs text-green-400 font-mono rounded p-2 focus:outline-none resize-none overflow-y-auto">로그를 불러오는 중...</textarea>
-                    </div>
-                </div>
-                
-                <!-- 수면 학습 엔진 (Dream Engine) - 코딩 -->
-                <div class="bg-gray-800 bg-opacity-50 rounded-xl p-5 border border-gray-700">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider">🧠 코딩 엔진 (스카디 코더)</h3>
-                        <span id="dreamStatusBadge_coding" class="px-2 py-1 text-xs font-bold rounded bg-gray-600 text-gray-300">상태 확인 중...</span>
-                    </div>
-                    
-                    <div class="flex space-x-2 mb-4">
-                        <button onclick="controlDreamEngine('start', 'coding')" class="flex-1 bg-green-600 hover:bg-green-500 text-white font-semibold py-2 rounded transition text-xs px-1">연속 학습 (끄기 누를 때까지)</button>
-                        <button onclick="controlDreamEngine('stop', 'coding')" class="flex-1 bg-yellow-600 hover:bg-yellow-500 text-white font-semibold py-2 rounded transition text-xs">천천히 종료</button>
-                        <button onclick="controlDreamEngine('kill', 'coding')" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-semibold py-2 rounded transition text-xs">강제 종료</button>
-                    </div>
-                    
-                    <div class="bg-gray-900 rounded p-2 border border-gray-600">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs text-gray-400">라이브 로그 (dream_engine_coding.log)</span>
-                            <button onclick="fetchDreamLogs('coding')" class="text-xs text-blue-400 hover:underline">새로고침</button>
-                        </div>
-                        <textarea id="dreamLogArea_coding" rows="5" readonly class="w-full bg-black text-xs text-green-400 font-mono rounded p-2 focus:outline-none resize-none overflow-y-auto">로그를 불러오는 중...</textarea>
-                    </div>
-                </div>
-
-                <!-- 수면 학습 엔진 (Dream Engine) - 해킹 -->
-                <div class="bg-gray-800 bg-opacity-50 rounded-xl p-5 border border-gray-700">
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider">🧠 해킹 엔진 (루시)</h3>
-                        <span id="dreamStatusBadge_hacking" class="px-2 py-1 text-xs font-bold rounded bg-gray-600 text-gray-300">상태 확인 중...</span>
-                    </div>
-                    
-                    <div class="flex space-x-2 mb-4">
-                        <button onclick="controlDreamEngine('start', 'hacking')" class="flex-1 bg-green-600 hover:bg-green-500 text-white font-semibold py-2 rounded transition text-xs px-1">연속 학습 (끄기 누를 때까지)</button>
-                        <button onclick="controlDreamEngine('stop', 'hacking')" class="flex-1 bg-yellow-600 hover:bg-yellow-500 text-white font-semibold py-2 rounded transition text-xs">천천히 종료</button>
-                        <button onclick="controlDreamEngine('kill', 'hacking')" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-semibold py-2 rounded transition text-xs">강제 종료</button>
-                    </div>
-                    
-                    <div class="bg-gray-900 rounded p-2 border border-gray-600">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs text-gray-400">라이브 로그 (dream_engine_hacking.log)</span>
-                            <button onclick="fetchDreamLogs('hacking')" class="text-xs text-blue-400 hover:underline">새로고침</button>
-                        </div>
-                        <textarea id="dreamLogArea_hacking" rows="5" readonly class="w-full bg-black text-xs text-green-400 font-mono rounded p-2 focus:outline-none resize-none overflow-y-auto">로그를 불러오는 중...</textarea>
-                    </div>
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <!-- 직업 프리셋 셀렉터 -->
+                    <select id="preset-select" class="form-input" style="width: 130px; font-weight: 600;">
+                        <!-- JS로 동적 렌더링 -->
+                    </select>
+                    <button class="btn-action" onclick="loadJobPreset()" title="선택한 프리셋 스킬 목록을 불러옵니다"><i class="fa-solid fa-bolt"></i> 로드</button>
+                    <button class="btn-action" style="color: var(--green-glow); border-color: rgba(0, 255, 135, 0.4);" onclick="saveCurrentAsPreset()" title="현재 스킬 구성을 프리셋으로 저장합니다"><i class="fa-solid fa-floppy-disk"></i> 저장</button>
+                    <button class="btn-action" style="color: var(--red-glow); border-color: rgba(255, 0, 85, 0.4);" onclick="deleteCurrentPreset()" title="선택된 프리셋을 삭제합니다"><i class="fa-solid fa-trash-can"></i> 삭제</button>
+                    <button class="btn-action" onclick="addNewPresetPrompt()" title="새로운 직업/보스 프리셋을 추가합니다"><i class="fa-solid fa-plus"></i> 새 프리셋</button>
+                    <button id="btn-tracker-toggle" class="btn-action active" onclick="toggleTracker()"><i class="fa-solid fa-play"></i> 감시 시작</button>
                 </div>
             </div>
 
-            <div class="mt-8 text-center">
-                <a href="chatbot.html" class="text-sm text-blue-400 hover:text-blue-300 underline transition">
-                    ← 챗봇 화면으로 돌아가기
-                </a>
+            <!-- 스킬 등록 폼 -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 3fr auto; gap: 10px; align-items: center; background: rgba(0,0,0,0.25); padding: 14px; border-radius: 8px; margin-bottom: 14px;">
+                <input type="text" id="skill-name" class="form-input" placeholder="스킬명 (예: 제네시스 무적기)">
+                <input type="number" id="skill-cd" class="form-input" placeholder="쿨타임 초 (예: 180)">
+                <input type="number" id="skill-warn" class="form-input" placeholder="몇 초 전 예고" value="5">
+                <input type="text" id="skill-key" class="form-input" placeholder="단축키 (예: shift, ctrl, s)" value="shift">
+                <input type="text" id="skill-voice" class="form-input" placeholder="스카디 음성 대사 (예: 방어 스킬 쿨 5초 남았어)">
+                <button class="btn-action" style="background: rgba(255, 153, 0, 0.2); border-color: var(--orange-glow); color: var(--orange-glow);" onclick="addSkill()">
+                    <i class="fa-solid fa-plus"></i> 스킬 등록
+                </button>
+            </div>
+
+            <!-- 스킬 목록 및 실시간 쿨타임 게이지 테이블 -->
+            <table class="skill-table">
+                <thead>
+                    <tr>
+                        <th style="width: 22%;">스킬명</th>
+                        <th style="width: 10%;">단축키</th>
+                        <th style="width: 12%;">총 쿨타임</th>
+                        <th style="width: 12%;">예고 타이밍</th>
+                        <th style="width: 24%;">스카디 발화 대사</th>
+                        <th style="width: 20%;">남은 시간 / 조작</th>
+                    </tr>
+                </thead>
+                <tbody id="skill-tbody">
+                    <!-- JS로 동적 렌더링 -->
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- 6. LLM 모델 라우팅 통계 차트 -->
+        <div class="card" style="grid-column: span 6;">
+            <div class="card-header">
+                <span class="card-title"><i class="fa-solid fa-chart-pie"></i> LLM Orchestration Distribution</span>
+            </div>
+            <div style="height: 200px; position: relative;">
+                <canvas id="llmChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 7. 실시간 이벤트 스트림 로그 -->
+        <div class="card" style="grid-column: span 6;">
+            <div class="card-header">
+                <span class="card-title"><i class="fa-solid fa-terminal"></i> Live Observability Stream</span>
+            </div>
+            <div id="event-log" class="log-terminal">
+                <div class="log-line"><span class="log-time">[SYSTEM]</span> <span class="log-tag-sys">관측성 및 스킬 트래커가 준비되었습니다.</span></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 🍁 3. 스킬 편집 팝업 모달 (Edit Modal) -->
+    <div id="editSkillModal" class="modal-overlay">
+        <div class="modal-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,153,0,0.3); padding-bottom: 10px;">
+                <span style="font-size: 16px; font-weight: 700; color: var(--orange-glow); display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-pen-to-square"></i> 메이플 스킬 정보 편집
+                </span>
+                <button class="btn-action" onclick="closeEditModal()" style="padding: 2px 8px; border: none; font-size: 16px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <input type="hidden" id="edit-original-name">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label style="font-size: 12px; color: var(--text-muted);">스킬명</label>
+                <input type="text" id="edit-skill-name" class="form-input" placeholder="스킬명 (예: 제네시스 무적기)">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 12px; color: var(--text-muted);">단축키</label>
+                    <input type="text" id="edit-skill-key" class="form-input" placeholder="shift, ctrl, s">
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 12px; color: var(--text-muted);">총 쿨타임 (초)</label>
+                    <input type="number" id="edit-skill-cd" class="form-input" placeholder="초">
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 12px; color: var(--text-muted);">예고 타이밍 (초 전)</label>
+                    <input type="number" id="edit-skill-warn" class="form-input" placeholder="초 전">
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label style="font-size: 12px; color: var(--text-muted);">스카디 발화 대사</label>
+                <input type="text" id="edit-skill-voice" class="form-input" placeholder="스카디가 말할 음성 대사">
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+                <button class="btn-action" onclick="closeEditModal()">취소</button>
+                <button class="btn-action" style="background: rgba(255, 153, 0, 0.2); border-color: var(--orange-glow); color: var(--orange-glow); font-weight: 700;" onclick="saveEditedSkill()">
+                    <i class="fa-solid fa-check"></i> 변경사항 저장
+                </button>
             </div>
         </div>
     </div>
 
+    <!-- =====================================================================
+         📜 4. 실시간 데이터 폴링 및 인터랙션 자바스크립트
+    ===================================================================== -->
     <script>
-        const toggleBtn = document.getElementById('learningToggle');
-        const statusText = document.getElementById('learningStatusText');
-        const serverStatus = document.getElementById('serverStatus');
+        const API_BASE = window.location.origin;
+        let isTrackerRunning = false;
 
-        // 초기 상태 불러오기
-        async function fetchStatus() {
-            try {
-                const res = await fetch('http://localhost:8000/admin/status');
-                const data = await res.json();
-                
-                if (data.auto_learn_enabled) {
-                    toggleBtn.checked = true;
-                    updateUIState(true);
-                } else {
-                    toggleBtn.checked = false;
-                    updateUIState(false);
-                }
-                serverStatus.textContent = 'Online';
-                serverStatus.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-900 text-green-300 border border-green-700';
-            } catch (error) {
-                console.error("서버 연결 실패:", error);
-                serverStatus.textContent = 'Offline';
-                serverStatus.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-900 text-red-300 border border-red-700';
-            }
-        }
-
-        // 토글 버튼 클릭 시 API 호출
-        toggleBtn.addEventListener('change', async function() {
-            // UI를 먼저 즉각적으로 바꾼 뒤 서버에 전송
-            const isEnabled = this.checked;
-            updateUIState(isEnabled);
-
-            try {
-                const res = await fetch('http://localhost:8000/admin/toggle', { method: 'POST' });
-                const data = await res.json();
-                
-                // 서버 상태와 동기화
-                if (data.auto_learn_enabled !== isEnabled) {
-                    toggleBtn.checked = data.auto_learn_enabled;
-                    updateUIState(data.auto_learn_enabled);
-                }
-                
-                // OFF로 전환 시 요약문이 왔다면 알림창
-                if (!isEnabled && data.summary) {
-                    alert(`[학습 세션 종료 요약]\n\n${data.summary}`);
-                    // 목록 새로고침
-                    fetchKnowledgeList();
-                }
-            } catch (error) {
-                alert('서버와 통신할 수 없습니다.');
-                // 롤백
-                toggleBtn.checked = !isEnabled;
-                updateUIState(!isEnabled);
+        // 1. Chart.js 차트 초기화
+        const ctx = document.getElementById('llmChart').getContext('2d');
+        const llmChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Gemini 2.5/3.5', 'Claude 3.7', 'GPT-4o', 'Ollama (Local)'],
+                datasets: [{
+                    data: [45, 30, 15, 10],
+                    backgroundColor: ['#4facfe', '#7928ca', '#00ff87', '#f1fa8c'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'right', labels: { color: '#8b949e', font: { size: 12 } } } }
             }
         });
 
-        function updateUIState(enabled) {
-            if (enabled) {
-                statusText.textContent = '현재 활성화됨 (자율 학습 중)';
-                statusText.className = 'mt-4 text-xs font-medium text-emerald-400 bg-emerald-900 bg-opacity-30 inline-block px-2 py-1 rounded';
-            } else {
-                statusText.textContent = '비활성화됨 (대기 상태)';
-                statusText.className = 'mt-4 text-xs font-medium text-gray-400 bg-gray-700 bg-opacity-50 inline-block px-2 py-1 rounded';
-            }
-        }
-
-        // 5초마다 상태 갱신
-        setInterval(fetchStatus, 5000);
-        fetchStatus();
-
-        // 지식 보관소 로직
-        async function fetchKnowledgeList() {
-            const listEl = document.getElementById('kbList');
+        // 2. 실시간 시스템 메트릭 갱신
+        async function updateMetrics() {
             try {
-                const res = await fetch('http://localhost:8000/knowledge/list');
+                const res = await fetch(`${API_BASE}/api/system/metrics`);
+                if (!res.ok) return;
                 const data = await res.json();
-                listEl.innerHTML = '';
-                
-                if (data.files.length === 0) {
-                    listEl.innerHTML = '<li class="text-xs text-gray-500 text-center py-2">저장된 지식이 없습니다.</li>';
-                    return;
+
+                // CPU
+                document.getElementById('cpu-val').innerText = `${data.cpu.usage_pct}%`;
+                document.getElementById('cpu-bar').style.width = `${data.cpu.usage_pct}%`;
+                document.getElementById('cpu-sub').innerText = `${data.cpu.cores_physical}C / ${data.cpu.cores_logical}T`;
+
+                // RAM
+                document.getElementById('ram-val').innerText = `${data.ram.used_gb} GB`;
+                document.getElementById('ram-bar').style.width = `${data.ram.usage_pct}%`;
+                document.getElementById('ram-sub').innerText = `${data.ram.usage_pct}% (${data.ram.available_gb} GB 가용)`;
+
+                // GPU (4080 Super)
+                if (data.gpu && data.gpu.available && data.gpu.gpus.length > 0) {
+                    const gpu = data.gpu.gpus[0];
+                    document.getElementById('gpu-val').innerText = `${gpu.temperature_c}°C`;
+                    document.getElementById('gpu-bar').style.width = `${gpu.gpu_utilization_pct}%`;
+                    document.getElementById('gpu-sub').innerText = `로드율: ${gpu.gpu_utilization_pct}%`;
+
+                    // VRAM
+                    document.getElementById('vram-val').innerText = `${(gpu.vram_used_mb / 1024).toFixed(1)} GB`;
+                    document.getElementById('vram-bar').style.width = `${gpu.vram_usage_pct}%`;
+                    document.getElementById('vram-sub').innerText = `${gpu.vram_usage_pct}% (${(gpu.vram_total_mb / 1024).toFixed(1)} GB 총합)`;
                 }
-
-                data.files.forEach(file => {
-                    const li = document.createElement('li');
-                    li.className = 'flex justify-between items-center bg-gray-900 p-2 rounded border border-gray-700';
-                    li.innerHTML = `
-                        <span class="text-xs text-gray-300 truncate w-3/4" title="${file}">${file}</span>
-                        <button onclick="summarizeKnowledge('${file}')" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-1 rounded transition">요약 보기</button>
-                    `;
-                    listEl.appendChild(li);
-                });
-            } catch (error) {
-                listEl.innerHTML = '<li class="text-xs text-red-400 text-center py-2">목록을 불러오지 못했습니다.</li>';
+            } catch (e) {
+                console.warn('Metrics polling error:', e);
             }
         }
 
-        async function summarizeKnowledge(fileName) {
-            alert(`[${fileName}]\nLlama3.1 AI가 문서를 읽고 요약 중입니다... 잠시만 기다려주세요.`);
+        // 3. 메이플 스킬 트래커 로드
+        async function loadSkills() {
             try {
-                const res = await fetch('http://localhost:8000/knowledge/summarize', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ file_name: fileName })
-                });
+                const res = await fetch(`${API_BASE}/api/maple/tracker/skills`);
+                if (!res.ok) return;
                 const data = await res.json();
-                if (data.status === 'success') {
-                    alert(`[요약 완료]\n\n${data.summary}`);
+                isTrackerRunning = data.is_running;
+
+                const btn = document.getElementById('btn-tracker-toggle');
+                if (isTrackerRunning) {
+                    btn.className = "btn-action active";
+                    btn.innerHTML = `<i class="fa-solid fa-stop"></i> 감시 정지`;
                 } else {
-                    alert('요약 실패!');
+                    btn.className = "btn-action";
+                    btn.innerHTML = `<i class="fa-solid fa-play"></i> 감시 시작`;
                 }
-            } catch (error) {
-                alert('서버 오류로 요약하지 못했습니다.');
+
+                const tbody = document.getElementById('skill-tbody');
+                tbody.innerHTML = '';
+
+                data.skills.forEach(sk => {
+                    const remSec = sk.remaining_sec;
+                    const isCooling = sk.state === "ON_COOLDOWN" || sk.state === "WARNED";
+                    const statusColor = isCooling ? "var(--orange-glow)" : "var(--green-glow)";
+                    const statusText = isCooling ? `${remSec}초 남음` : "READY (사용 가능)";
+                    const keyBadge = sk.key_bind ? `<span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; font-weight: 700; color: var(--cyan-glow); font-family: monospace;">${sk.key_bind.toUpperCase()}</span>` : "-";
+
+                    const tr = document.createElement('tr');
+                    const encodedVoice = encodeURIComponent(sk.voice_text || '');
+                    tr.innerHTML = `
+                        <td style="font-weight: 600;">${sk.name}</td>
+                        <td>${keyBadge}</td>
+                        <td>${sk.cooldown_sec}초</td>
+                        <td>${sk.warn_before}초 전</td>
+                        <td style="color: var(--text-muted); font-size: 12px;">"${sk.voice_text}"</td>
+                        <td>
+                            <span style="color: ${statusColor}; font-weight: 700; margin-right: 8px;">${statusText}</span>
+                            <button class="btn-action" style="padding: 4px 8px; font-size: 11px;" onclick="triggerSkill('${sk.name}')" title="쿨타임 카운트다운 시작"><i class="fa-solid fa-stopwatch"></i> 쿨타임 시작</button>
+                            <button class="btn-action" style="padding: 4px 8px; font-size: 11px;" onclick="testVoice('${sk.voice_text}')" title="음성 브리핑 테스트"><i class="fa-solid fa-volume-high"></i></button>
+                            <button class="btn-action" style="padding: 4px 8px; font-size: 11px; color: var(--cyan-glow); border-color: rgba(0, 242, 254, 0.4);" onclick="openEditModal('${sk.name}', ${sk.cooldown_sec}, ${sk.warn_before}, '${sk.key_bind || 'shift'}', '${encodedVoice}')" title="스킬 정보 편집"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-action" style="padding: 4px 8px; font-size: 11px; color: var(--red-glow);" onclick="deleteSkill('${sk.name}')" title="스킬 삭제"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                console.warn('Skills load error:', e);
             }
         }
 
-        document.getElementById('kbSubmitBtn').addEventListener('click', async () => {
-            const title = document.getElementById('kbTitle').value.trim();
-            const content = document.getElementById('kbContent').value.trim();
-            
-            if (!title || !content) {
-                alert('제목과 내용을 모두 입력해주세요!');
+        // 스킬 빠른 추가
+        async function addSkill() {
+            const name = document.getElementById('skill-name').value.trim();
+            const cd = parseFloat(document.getElementById('skill-cd').value);
+            const warn = parseFloat(document.getElementById('skill-warn').value) || 5.0;
+            const key = document.getElementById('skill-key').value.trim().toLowerCase() || "shift";
+            const voice = document.getElementById('skill-voice').value.trim();
+
+            if (!name || isNaN(cd)) {
+                alert('스킬명과 쿨타임(초)을 정확히 입력해 주세요.');
                 return;
             }
 
-            document.getElementById('kbSubmitBtn').innerText = '주입 중...';
-            
-            try {
-                const res = await fetch('http://localhost:8000/knowledge/upload', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ title, content })
-                });
-                const data = await res.json();
-                
-                if (data.status === 'success') {
-                    alert('뇌에 성공적으로 지식이 주입되었습니다!');
-                    document.getElementById('kbTitle').value = '';
-                    document.getElementById('kbContent').value = '';
-                    fetchKnowledgeList();
-                }
-            } catch (error) {
-                alert('지식 주입에 실패했습니다.');
-            } finally {
-                document.getElementById('kbSubmitBtn').innerText = '뇌에 직접 주입하기';
+            await fetch(`${API_BASE}/api/maple/tracker/skills/quick-add`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name,
+                    category: 'defense',
+                    cooldown_sec: cd,
+                    warn_before: warn,
+                    key_bind: key,
+                    voice_text: voice || `${name} 쿨 ${parseInt(warn)}초 남았어.`
+                })
+            });
+
+            document.getElementById('skill-name').value = '';
+            document.getElementById('skill-cd').value = '';
+            document.getElementById('skill-voice').value = '';
+            appendLog('MAPLE', `'${name}' (${cd}초 / 단축키: ${key.toUpperCase()}) 스킬이 등록되었습니다.`);
+            loadSkills();
+        }
+
+        // 🍁 스킬 편집 모달 열기/닫기/저장
+        function openEditModal(name, cd, warn, key, encodedVoice) {
+            const voice = decodeURIComponent(encodedVoice);
+            document.getElementById('edit-original-name').value = name;
+            document.getElementById('edit-skill-name').value = name;
+            document.getElementById('edit-skill-cd').value = cd;
+            document.getElementById('edit-skill-warn').value = warn;
+            document.getElementById('edit-skill-key').value = key;
+            document.getElementById('edit-skill-voice').value = voice;
+            document.getElementById('editSkillModal').classList.add('active');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editSkillModal').classList.remove('active');
+        }
+
+        async function saveEditedSkill() {
+            const origName = document.getElementById('edit-original-name').value;
+            const name = document.getElementById('edit-skill-name').value.trim();
+            const cd = parseFloat(document.getElementById('edit-skill-cd').value);
+            const warn = parseFloat(document.getElementById('edit-skill-warn').value) || 5.0;
+            const key = document.getElementById('edit-skill-key').value.trim().toLowerCase() || "shift";
+            const voice = document.getElementById('edit-skill-voice').value.trim();
+
+            if (!name || isNaN(cd)) {
+                alert('스킬명과 쿨타임(초)을 정확히 입력해 주세요.');
+                return;
             }
-        });
 
-        // 초기화 로드
-        fetchKnowledgeList();
-        fetchDreamStatus('r6s');
-        fetchDreamLogs('r6s');
-        fetchDreamStatus('lol');
-        fetchDreamLogs('lol');
-        fetchDreamStatus('coding');
-        fetchDreamLogs('coding');
-        fetchDreamStatus('hacking');
-        fetchDreamLogs('hacking');
-        
-        // --- Dream Engine JS ---
-        let stoppingFlags = { r6s: false, lol: false, coding: false, hacking: false };
-
-        async function fetchDreamStatus(game) {
-            try {
-                const res = await fetch(`http://localhost:8000/api/dream/status?game=${game}`);
-                const data = await res.json();
-                const badge = document.getElementById(`dreamStatusBadge_${game}`);
-                
-                if(data.status === 'running') {
-                    badge.className = "px-2 py-1 text-xs font-bold rounded bg-green-600 text-white";
-                    badge.innerText = "가동 중 (ON)";
-                } else {
-                    badge.className = "px-2 py-1 text-xs font-bold rounded bg-gray-600 text-gray-300";
-                    badge.innerText = "중지됨 (OFF)";
-                    
-                    // 만약 종료 중(stopping) 상태였다면 완전히 꺼졌음을 감지하고 알림
-                    if (stoppingFlags[game]) {
-                        stoppingFlags[game] = false;
-                        let gameName = game;
-                        if(game==='r6s') gameName='레식(스카디)';
-                        else if(game==='lol') gameName='롤(브라이어)';
-                        else if(game==='coding') gameName='코딩(스카디 코더)';
-                        else if(game==='hacking') gameName='해킹(루시)';
-                        alert(`✅ ${gameName} 엔진이 연산을 마치고 안전하게 종료되었습니다!`);
+            const res = await fetch(`${API_BASE}/api/maple/tracker/skills/edit`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    original_name: origName,
+                    item: {
+                        name: name,
+                        category: 'defense',
+                        cooldown_sec: cd,
+                        warn_before: warn,
+                        key_bind: key,
+                        voice_text: voice || `${name} 쿨 ${parseInt(warn)}초 남았어.`,
+                        slot_id: 1
                     }
-                }
-            } catch(e) {}
-        }
-        
-        async function controlDreamEngine(action, game) {
-            try {
-                const res = await fetch(`http://localhost:8000/api/dream/${action}?game=${game}`, { method: 'POST' });
-                const data = await res.json();
-                
-                if (action === 'stop' && data.status === 'stop_signal_sent') {
-                    stoppingFlags[game] = true;
-                    const badge = document.getElementById(`dreamStatusBadge_${game}`);
-                    badge.className = "px-2 py-1 text-xs font-bold rounded bg-yellow-600 text-white";
-                    badge.innerText = "종료 중...";
-                } else {
-                    alert(`요청 완료: ${data.status}`);
-                }
-                
-                fetchDreamStatus(game);
-                setTimeout(() => fetchDreamLogs(game), 2000);
-            } catch(e) {
-                alert('요청 실패!');
+                })
+            });
+
+            if (res.ok) {
+                closeEditModal();
+                appendLog('MAPLE', `'${origName}' 스킬 설정이 수정되었습니다. -> '${name}' (${cd}초 / ${key.toUpperCase()})`);
+                loadSkills();
+            } else {
+                alert('스킬 수정 중 오류가 발생했습니다.');
             }
         }
-        
-        async function fetchDreamLogs(game) {
-            try {
-                const res = await fetch(`http://localhost:8000/api/dream/logs?game=${game}`);
-                const data = await res.json();
-                const logArea = document.getElementById(`dreamLogArea_${game}`);
-                logArea.value = data.logs;
-                logArea.scrollTop = logArea.scrollHeight;
-            } catch(e) {}
-        }
-        
-        // 5초마다 상태 및 로그 갱신
-        setInterval(() => {
-            fetchDreamStatus('r6s');
-            fetchDreamLogs('r6s');
-            fetchDreamStatus('lol');
-            fetchDreamLogs('lol');
-            fetchDreamStatus('coding');
-            fetchDreamLogs('coding');
-            fetchDreamStatus('hacking');
-            fetchDreamLogs('hacking');
-        }, 5000);
 
+        // 스킬 삭제
+        async function deleteSkill(name) {
+            if (!confirm(`'${name}' 스킬을 삭제하시겠습니까?`)) return;
+            await fetch(`${API_BASE}/api/maple/tracker/skills/${encodeURIComponent(name)}`, { method: 'DELETE' });
+            appendLog('MAPLE', `'${name}' 스킬이 삭제되었습니다.`);
+            loadSkills();
+        }
+
+        // 🌟 프리셋 목록 동적 로드
+        async function loadPresetsList() {
+            try {
+                const res = await fetch(`${API_BASE}/api/maple/tracker/presets`);
+                if (!res.ok) return;
+                const data = await res.json();
+                const select = document.getElementById('preset-select');
+                const currentVal = select.value;
+                select.innerHTML = '';
+                data.presets.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p;
+                    opt.textContent = p;
+                    if (p === currentVal) opt.selected = true;
+                    select.appendChild(opt);
+                });
+            } catch (e) {
+                console.warn('Presets list error:', e);
+            }
+        }
+
+        // 직업 프리셋 로드
+        async function loadJobPreset() {
+            const job = document.getElementById('preset-select').value;
+            if (!job) return;
+            await fetch(`${API_BASE}/api/maple/tracker/presets/load/${encodeURIComponent(job)}`, { method: 'POST' });
+            appendLog('MAPLE', `'${job}' 직업 프리셋이 적용되었습니다.`);
+            loadSkills();
+        }
+
+        // 프리셋 저장
+        async function saveCurrentAsPreset() {
+            const currentSelected = document.getElementById('preset-select').value || '커스텀 프리셋';
+            const presetName = prompt('현재 스킬 구성을 저장할 프리셋 이름을 입력하세요:', currentSelected);
+            if (!presetName || !presetName.trim()) return;
+
+            const res = await fetch(`${API_BASE}/api/maple/tracker/presets/save/${encodeURIComponent(presetName.trim())}`, { method: 'POST' });
+            if (res.ok) {
+                appendLog('MAPLE', `'${presetName.trim()}' 프리셋이 성공적으로 저장되었습니다.`);
+                await loadPresetsList();
+                document.getElementById('preset-select').value = presetName.trim();
+            }
+        }
+
+        // 프리셋 삭제
+        async function deleteCurrentPreset() {
+            const presetName = document.getElementById('preset-select').value;
+            if (!presetName) return;
+            if (presetName === '공통 (기본)') {
+                alert('기본 프리셋은 삭제할 수 없습니다.');
+                return;
+            }
+            if (!confirm(`'${presetName}' 프리셋을 삭제하시겠습니까?`)) return;
+
+            const res = await fetch(`${API_BASE}/api/maple/tracker/presets/${encodeURIComponent(presetName)}`, { method: 'DELETE' });
+            if (res.ok) {
+                appendLog('MAPLE', `'${presetName}' 프리셋이 삭제되었습니다.`);
+                await loadPresetsList();
+                await loadJobPreset();
+            }
+        }
+
+        // 새 프리셋 추가
+        async function addNewPresetPrompt() {
+            const name = prompt('새로운 프리셋 이름을 입력하세요 (예: 엔젤릭버스터, 루시드 3페, 칼로스 등):');
+            if (!name || !name.trim()) return;
+            const res = await fetch(`${API_BASE}/api/maple/tracker/presets/save/${encodeURIComponent(name.trim())}`, { method: 'POST' });
+            if (res.ok) {
+                appendLog('MAPLE', `'${name.trim()}' 새 프리셋이 생성되었습니다.`);
+                await loadPresetsList();
+                document.getElementById('preset-select').value = name.trim();
+            }
+        }
+
+        async function toggleTracker() {
+            if (isTrackerRunning) {
+                await fetch(`${API_BASE}/api/maple/tracker/stop`, { method: 'POST' });
+                appendLog('MAPLE', '스킬 감시가 정지되었습니다.');
+            } else {
+                await fetch(`${API_BASE}/api/maple/tracker/start`, { method: 'POST' });
+                appendLog('MAPLE', '스킬 감시가 시작되었습니다. (우측 하단 퀵슬롯 모니터링 중)');
+            }
+            loadSkills();
+        }
+
+        async function triggerSkill(name) {
+            await fetch(`${API_BASE}/api/maple/tracker/trigger/${encodeURIComponent(name)}`, { method: 'POST' });
+            appendLog('MAPLE', `'${name}' 쿨타임이 시작되었습니다.`);
+            loadSkills();
+        }
+
+        async function testVoice(text) {
+            await fetch(`${API_BASE}/api/maple/tracker/test-voice?message=${encodeURIComponent(text)}`, { method: 'POST' });
+            appendLog('SYS', `스카디 음성 테스트: "${text}"`);
+        }
+
+        // 5. OS 컨트롤
+        async function setVolume(val) {
+            document.getElementById('vol-text').innerText = `${val}%`;
+            await fetch(`${API_BASE}/api/system/volume/set`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ level: parseInt(val) })
+            });
+        }
+
+        async function mediaAction(action) {
+            await fetch(`${API_BASE}/api/system/media/${action}`, { method: 'POST' });
+        }
+
+        async function lockScreen() {
+            await fetch(`${API_BASE}/api/system/action/lock`, { method: 'POST' });
+        }
+
+        function appendLog(type, message) {
+            const terminal = document.getElementById('event-log');
+            const now = new Date().toTimeString().split(' ')[0];
+            const div = document.createElement('div');
+            div.className = 'log-line';
+            div.innerHTML = `<span class="log-time">[${now}]</span> <span class="log-tag-${type.toLowerCase()}">[${type}] ${message}</span>`;
+            terminal.appendChild(div);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        // 6. 초기 로드 및 주기적 실행 (메트릭 2초, 스킬 1초)
+        loadPresetsList();
+        setInterval(updateMetrics, 2000);
+        setInterval(loadSkills, 1000);
+        updateMetrics();
+        loadSkills();
     </script>
 </body>
 </html>
