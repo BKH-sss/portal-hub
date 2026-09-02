@@ -373,10 +373,11 @@
             </div>
 
             <!-- 스킬 등록 폼 -->
-            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 3fr auto; gap: 10px; align-items: center; background: rgba(0,0,0,0.25); padding: 14px; border-radius: 8px; margin-bottom: 14px;">
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 3fr auto; gap: 10px; align-items: center; background: rgba(0,0,0,0.25); padding: 14px; border-radius: 8px; margin-bottom: 14px;">
                 <input type="text" id="skill-name" class="form-input" placeholder="스킬명 (예: 제네시스 무적기)">
                 <input type="number" id="skill-cd" class="form-input" placeholder="쿨타임 초 (예: 180)">
-                <input type="number" id="skill-warn" class="form-input" placeholder="몇 초 전 예고 (예: 5)" value="5">
+                <input type="number" id="skill-warn" class="form-input" placeholder="몇 초 전 예고" value="5">
+                <input type="text" id="skill-key" class="form-input" placeholder="단축키 (예: shift, ctrl, s)" value="shift">
                 <input type="text" id="skill-voice" class="form-input" placeholder="스카디 음성 대사 (예: 방어 스킬 쿨 5초 남았어)">
                 <button class="btn-action" style="background: rgba(255, 153, 0, 0.2); border-color: var(--orange-glow); color: var(--orange-glow);" onclick="addSkill()">
                     <i class="fa-solid fa-plus"></i> 스킬 등록
@@ -387,10 +388,11 @@
             <table class="skill-table">
                 <thead>
                     <tr>
-                        <th style="width: 25%;">스킬명</th>
-                        <th style="width: 15%;">총 쿨타임</th>
-                        <th style="width: 15%;">예고 타이밍</th>
-                        <th style="width: 25%;">스카디 발화 대사</th>
+                        <th style="width: 22%;">스킬명</th>
+                        <th style="width: 10%;">단축키</th>
+                        <th style="width: 12%;">총 쿨타임</th>
+                        <th style="width: 12%;">예고 타이밍</th>
+                        <th style="width: 24%;">스카디 발화 대사</th>
                         <th style="width: 20%;">남은 시간 / 조작</th>
                     </tr>
                 </thead>
@@ -399,6 +401,7 @@
                 </tbody>
             </table>
         </div>
+
 
         <!-- 6. LLM 모델 라우팅 통계 차트 -->
         <div class="card" style="grid-column: span 6;">
@@ -500,10 +503,12 @@
                     const isCooling = sk.state === "ON_COOLDOWN" || sk.state === "WARNED";
                     const statusColor = isCooling ? "var(--orange-glow)" : "var(--green-glow)";
                     const statusText = isCooling ? `${remSec}초 남음` : "READY (사용 가능)";
+                    const keyBadge = sk.key_bind ? `<span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; font-weight: 700; color: var(--cyan-glow); font-family: monospace;">${sk.key_bind.toUpperCase()}</span>` : "-";
 
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td style="font-weight: 600;">${sk.name}</td>
+                        <td>${keyBadge}</td>
                         <td>${sk.cooldown_sec}초</td>
                         <td>${sk.warn_before}초 전</td>
                         <td style="color: var(--text-muted); font-size: 12px;">"${sk.voice_text}"</td>
@@ -525,6 +530,7 @@
             const name = document.getElementById('skill-name').value.trim();
             const cd = parseFloat(document.getElementById('skill-cd').value);
             const warn = parseFloat(document.getElementById('skill-warn').value) || 5.0;
+            const key = document.getElementById('skill-key').value.trim().toLowerCase() || "shift";
             const voice = document.getElementById('skill-voice').value.trim();
 
             if (!name || isNaN(cd)) {
@@ -540,6 +546,7 @@
                     category: 'defense',
                     cooldown_sec: cd,
                     warn_before: warn,
+                    key_bind: key,
                     voice_text: voice || `${name} 쿨 ${parseInt(warn)}초 남았어.`
                 })
             });
@@ -547,9 +554,10 @@
             document.getElementById('skill-name').value = '';
             document.getElementById('skill-cd').value = '';
             document.getElementById('skill-voice').value = '';
-            appendLog('MAPLE', `'${name}' (${cd}초) 스킬이 등록되었습니다.`);
+            appendLog('MAPLE', `'${name}' (${cd}초 / 단축키: ${key.toUpperCase()}) 스킬이 등록되었습니다.`);
             loadSkills();
         }
+
 
         async function deleteSkill(name) {
             if (!confirm(`'${name}' 스킬을 삭제하시겠습니까?`)) return;
