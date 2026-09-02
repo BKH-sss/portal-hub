@@ -8,6 +8,7 @@ venv/
 
 # Secrets & API Keys (CRITICAL SECURITY)
 config.py
+nexon_config.json
 discord_config.json
 discord_bot/discord_config.json
 *.key
@@ -15,6 +16,7 @@ discord_bot/discord_config.json
 
 # Logs & Temporary Data
 *.log
+*.vtt
 .chroma/
 chroma_db/
 .webview_data/
@@ -50,3 +52,4 @@ korean_briar_voice/
 targets/
 tuned_outputs/
 test_scripts_archive/
+tools_data_builder/
