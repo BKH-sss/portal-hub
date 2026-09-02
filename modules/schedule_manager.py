@@ -202,6 +202,94 @@ class ScheduleManager:
 
         return "\n".join(lines)
 
+    @staticmethod
+    def generate_google_calendar_url(title: str, start_time_str: str, end_time_str: Optional[str] = None, description: str = "") -> str:
+        """구글 캘린더 원클릭 등록 URL 템플릿 생성"""
+        import urllib.parse
+        clean_title = urllib.parse.quote(title.strip())
+        clean_desc = urllib.parse.quote((description or "스카디 AI 비서가 등록한 일정입니다.").strip())
+
+        # 날짜 파싱
+        try:
+            if " " in start_time_str:
+                dt_start = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M")
+                dt_end = dt_start + timedelta(hours=1) if not end_time_str else datetime.strptime(end_time_str, "%Y-%m-%d %H:%M")
+                dates_str = f"{dt_start.strftime('%Y%m%dT%H%M00')}/{dt_end.strftime('%Y%m%dT%H%M00')}"
+            else:
+                dt_start = datetime.strptime(start_time_str, "%Y-%m-%d")
+                dt_end = dt_start + timedelta(days=1)
+                dates_str = f"{dt_start.strftime('%Y%m%d')}/{dt_end.strftime('%Y%m%d')}"
+        except Exception:
+            dates_str = datetime.now().strftime("%Y%m%d/%Y%m%d")
+
+        return f"https://calendar.google.com/calendar/render?action=TEMPLATE&text={clean_title}&dates={dates_str}&details={clean_desc}"
+
+    @staticmethod
+    def generate_ical_feed() -> str:
+        """
+        🌐 표준 iCalendar (.ics / RFC 5545) 포맷 텍스트 생성
+        - 구글 캘린더, 삼성 캘린더(Galaxy), 애플 캘린더, 아웃룩 100% 호환
+        """
+        items = ScheduleManager.get_items(include_completed=True)
+        now_utc = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+
+        lines = [
+            "BEGIN:VCALENDAR",
+            "VERSION:2.0",
+            "PRODID:-//JARVIS Assistant//Skadi Scheduler 2.0//KO",
+            "CALSCALE:GREGORIAN",
+            "METHOD:PUBLISH",
+            "X-WR-CALNAME:스카디 캘린더 (JARVIS)",
+            "X-WR-CALDESC:J.A.R.V.I.S / 스카디 AI 비서 스마트 캘린더 실시간 피드",
+            "X-WR-TIMEZONE:Asia/Seoul",
+            "REFRESH-INTERVAL;VALUE=DURATION:PT15M",
+            "X-PUBLISHED-TTL:PT15M"
+        ]
+
+        for item in items:
+            item_id = item["id"]
+            title = item["title"].replace("\n", " ").replace(",", "\\,")
+            desc = (item.get("description") or "").replace("\n", "\\n").replace(",", "\\,")
+            is_todo = bool(item.get("is_todo"))
+            is_done = bool(item.get("is_completed"))
+            start_str = item["start_time"].strip()
+
+            if is_todo:
+                status_prefix = "[완료] " if is_done else "[할일] "
+                title = status_prefix + title
+
+            # 시간 포맷 계산
+            try:
+                if " " in start_str:
+                    # YYYY-MM-DD HH:MM
+                    dt = datetime.strptime(start_str, "%Y-%m-%d %H:%M")
+                    dt_end = dt + timedelta(hours=1)
+                    dt_start_fmt = f"DTSTART;TZID=Asia/Seoul:{dt.strftime('%Y%m%dT%H%M00')}"
+                    dt_end_fmt = f"DTEND;TZID=Asia/Seoul:{dt_end.strftime('%Y%m%dT%H%M00')}"
+                else:
+                    # YYYY-MM-DD (종일 일정)
+                    dt = datetime.strptime(start_str, "%Y-%m-%d")
+                    dt_end = dt + timedelta(days=1)
+                    dt_start_fmt = f"DTSTART;VALUE=DATE:{dt.strftime('%Y%m%d')}"
+                    dt_end_fmt = f"DTEND;VALUE=DATE:{dt_end.strftime('%Y%m%d')}"
+            except Exception:
+                continue
+
+            lines.extend([
+                "BEGIN:VEVENT",
+                f"UID:skadi-item-{item_id}@jarvis-assistant",
+                f"DTSTAMP:{now_utc}",
+                dt_start_fmt,
+                dt_end_fmt,
+                f"SUMMARY:{title}",
+                f"DESCRIPTION:{desc}",
+                "STATUS:CONFIRMED" if not is_done else "CANCELLED",
+                "END:VEVENT"
+            ])
+
+        lines.append("END:VCALENDAR")
+        return "\r\n".join(lines)
+
 
 # =============================================================================
 # 🌐 5. FastAPI 라우터 엔드포인트 정의
@@ -216,7 +304,10 @@ async def list_schedules(target_date: Optional[str] = None, only_todos: bool = F
 @router.post("/add", summary="새 일정/할 일 등록")
 async def add_schedule(req: ScheduleCreateRequest):
     """새로운 일정 또는 Todo를 생성합니다."""
-    return ScheduleManager.add_item(req)
+    res = ScheduleManager.add_item(req)
+    google_url = ScheduleManager.generate_google_calendar_url(req.title, req.start_time, req.end_time, req.description)
+    res["google_calendar_url"] = google_url
+    return res
 
 
 @router.post("/toggle/{item_id}", summary="할 일 완료 여부 토글")
@@ -235,3 +326,23 @@ async def delete_schedule(item_id: int):
 async def get_briefing_text():
     """디스코드 봇이나 음성 비서가 읽어줄 오늘의 브리핑 텍스트를 반환합니다."""
     return {"status": "success", "briefing": ScheduleManager.get_morning_briefing_summary()}
+
+
+@router.get("/calendar.ics", summary="구글/삼성/애플 캘린더 실시간 iCal 피드 구독")
+async def get_ical_calendar():
+    """
+    구글 캘린더 및 삼성 캘린더에서 'URL로 캘린더 추가'를 통해 실시간 자동 동기화할 수 있는
+    표준 iCalendar (.ics) 피드를 제공합니다.
+    """
+    from fastapi.responses import Response
+    ics_content = ScheduleManager.generate_ical_feed()
+    return Response(
+        content=ics_content,
+        media_type="text/calendar; charset=utf-8",
+        headers={
+            "Content-Disposition": "inline; filename=skadi_calendar.ics",
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "0"
+        }
+    )

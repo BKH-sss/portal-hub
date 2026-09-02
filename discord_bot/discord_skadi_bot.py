@@ -1099,6 +1099,7 @@ async def cmd_help(ctx: commands.Context):
             f"• **할일 확인**: `{prefix}할일` (진행 중인 할 일 체크리스트)\n"
             f"• **할일 등록**: `{prefix}할일추가 <내용>` (긴급 시 `[긴급]` 포함)\n"
             f"• **할일 완료**: `{prefix}할일완료 <ID>` (완료 토글)\n"
+            f"• **캘린더 연동**: `{prefix}캘린더연동` (구글/삼성 캘린더 실시간 동기화 iCal 가이드)\n"
             f"• **모닝 브리핑**: `{prefix}브리핑` (날씨 + 뉴스 + 오늘 스케줄)"
         ),
         inline=False
@@ -1518,9 +1519,63 @@ async def cmd_add_schedule(ctx: commands.Context, time_str: str, *, title: str):
             priority=2
         )
         res = ScheduleManager.add_item(req)
-        await ctx.send(f"✨ 마스터, 새로운 일정을 캘린더에 기록했어!\n> 📅 **{time_str}** | **{title}** `(ID: {res['id']})`")
+        gcal_url = ScheduleManager.generate_google_calendar_url(title, time_str)
+        
+        embed = discord.Embed(
+            title="✨ 새로운 일정 등록 완료",
+            description=f"마스터, 캘린더에 일정을 기록했어!\n\n> 📅 **일시**: `{time_str}`\n> 📌 **제목**: **{title}**\n> 🆔 **ID**: `{res['id']}`",
+            color=0x3498db
+        )
+        embed.add_field(
+            name="📱 스마트폰 캘린더 연동",
+            value=f"[🔗 구글 캘린더에 원클릭 추가하기]({gcal_url})\n💡 *누르면 구글/삼성 캘린더 앱에 즉시 등록돼.*",
+            inline=False
+        )
+        await ctx.send(embed=embed)
     except Exception as e:
         await ctx.send(f"앗... 일정을 등록하는 도중 오류가 발생했어: {e}\n형식: `!일정추가 YYYY-MM-DD [HH:MM] 일정제목`")
+
+
+@bot.command(name="캘린더연동", aliases=["구글캘린더", "삼성캘린더", "calendar_sync", "ical"])
+async def cmd_calendar_sync(ctx: commands.Context):
+    """구글 및 삼성 캘린더 실시간 자동 동기화 가이드 & iCal 피드 링크"""
+    host = os.environ.get("BASE_URL", "http://127.0.0.1:8000")
+    ical_url = f"{host}/api/schedule/calendar.ics"
+
+    embed = discord.Embed(
+        title="📱 구글 & 삼성 캘린더 실시간 연동 가이드",
+        description="스카디에 등록된 모든 일정을 스마트폰 캘린더 앱과 **실시간 자동 동기화**할 수 있어.",
+        color=0x9b59b6
+    )
+
+    embed.add_field(
+        name="1️⃣ 표준 iCal (.ics) 구독 주소",
+        value=f"```text\n{ical_url}\n```\n*(위 주소를 복사해서 캘린더 앱에 등록하면 돼)*",
+        inline=False
+    )
+
+    embed.add_field(
+        name="2️⃣ 구글 캘린더 연동 방법",
+        value=(
+            "1. PC/모바일 브라우저로 [구글 캘린더(웹)](https://calendar.google.com) 접속\n"
+            "2. 좌측 '다른 캘린더' 옆 **[+]** 클릭 ➔ **[URL로 추가]** 선택\n"
+            "3. 위 iCal 주소를 붙여넣고 **[캘린더 추가]** 클릭!\n"
+            "➔ *스마트폰 구글 캘린더 및 삼성 캘린더 앱에 자동 반영됩니다.*"
+        ),
+        inline=False
+    )
+
+    embed.add_field(
+        name="3️⃣ 삼성 캘린더 (Galaxy) 연동 방법",
+        value=(
+            "• 삼성 캘린더는 구글 계정과 기본 연동되므로, **구글 캘린더에 URL로 추가하면 삼성 캘린더 앱에도 1초 만에 자동 표시**됩니다!\n"
+            "• 또는 삼성 캘린더 메뉴 ➔ '캘린더 관리' ➔ 계정 동기화 켜기"
+        ),
+        inline=False
+    )
+
+    embed.set_footer(text="스카디 스마트 캘린더 • 구글/삼성/애플/아웃룩 100% 호환")
+    await ctx.send(embed=embed)
 
 
 @bot.command(name="일정삭제", aliases=["del_schedule"])
