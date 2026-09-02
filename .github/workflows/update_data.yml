@@ -2,8 +2,8 @@ name: Auto Update Portal Data
 
 on:
   schedule:
-    # 2시간마다 전 세계 축구 일정 및 4차 산업 뉴스 자동 최신화
-    - cron: '0 */2 * * *'
+    # 1시간마다 전 세계 축구 일정 및 4차 산업 뉴스 자동 최신화
+    - cron: '0 * * * *'
   workflow_dispatch: # 관리자가 수동 실행 가능
 
 permissions:

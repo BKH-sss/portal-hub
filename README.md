@@ -50,8 +50,8 @@ portal-hub (Repository)
 
 ```mermaid
 graph TD
-    subgraph GitHub Actions [🤖 GitHub Actions CI/CD (2시간 주기 자동 실행)]
-        cron[⏰ Cron Schedule 2h] --> runner[GitHub Ubuntu Runner]
+    subgraph GitHub Actions [🤖 GitHub Actions CI/CD (1시간 주기 자동 실행)]
+        cron[⏰ Cron Schedule 1h] --> runner[GitHub Ubuntu Runner]
         runner --> build[python build_portal_data.py]
         build --> engine1[news_service.py<br/>국내 뉴스/맨유/날씨 수집]
         build --> engine2[global_news_service.py<br/>글로벌 외신 150개+ RSS 수집]
@@ -71,7 +71,7 @@ graph TD
 2. **📰 글로벌 외신 수집 엔진 (`global_news_service.py`)**
    - Google News Global RSS 및 공신력 외신 피드를 연동하여 150개 이상의 최신 기사를 카테고리별로 정제하고 한국어 AI 맥락 포인트를 자동 생성합니다.
 3. **🤖 24시간 자동 빌드 로봇 (`.github/workflows/update_data.yml`)**
-   - 2시간마다 GitHub Actions가 실행되어 `data/portal_data.json`과 `data/global_data.json`을 최신 상태로 자동 갱신합니다.
+   - 1시간마다 GitHub Actions가 실행되어 `data/portal_data.json`과 `data/global_data.json`을 최신 상태로 자동 갱신합니다.
 
 ---
 
