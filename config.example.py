@@ -29,6 +29,7 @@ API_KEYS = {
 
 OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434")
 GPT_SOVITS_URL = os.environ.get("GPT_SOVITS_URL", "http://127.0.0.1:9880")
+GOOGLE_CALENDAR_ICAL_URL = os.environ.get("GOOGLE_CALENDAR_ICAL_URL", "")
 
 MODEL_REGISTRY: Dict[str, Dict[str, Any]] = {
     "gemini": {
