@@ -1029,18 +1029,19 @@
 
         /* 🎴 199종 증강체 도감 및 3지선다 시뮬레이터 모달 */
         .custom-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-            z-index: 9999;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: rgba(0, 0, 0, 0.75) !important;
+            backdrop-filter: blur(8px) !important;
+            z-index: 99999 !important;
             display: none;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            box-sizing: border-box;
         }
         .custom-modal-content {
             background: var(--bg-panel);
@@ -1373,8 +1374,11 @@
                     </svg>
                 </button>
             </div>
+        </div>
+    </div>
+
     <!-- 🎴 199종 칼바람 증강체 도감 및 3지선다 AI 시뮬레이터 모달 -->
-    <div id="augmentModal" class="custom-modal-overlay">
+    <div id="augmentModal" class="custom-modal-overlay" style="display: none;">
         <div class="custom-modal-content">
             <div class="modal-header">
                 <div class="modal-title">
@@ -4188,8 +4192,23 @@
 
         function closeAugmentModal() {
             const modal = document.getElementById('augmentModal');
-            if (modal) modal.style.display = 'none';
+            if (modal) {
+                modal.style.display = 'none';
+            }
         }
+
+        // 모달 배경 클릭 또는 ESC 누를 때 안전하게 닫기
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('augmentModal');
+            if (modal && e.target === modal) {
+                closeAugmentModal();
+            }
+        });
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeAugmentModal();
+            }
+        });
 
         function filterAugments(rarity) {
             currentAugmentFilter = rarity;
