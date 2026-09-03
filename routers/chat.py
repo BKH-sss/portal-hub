@@ -228,6 +228,23 @@ async def chat(req: ChatRequest):
                 pass
 
         # ----------------------------------------------------
+        # 3.5단계: 마스터 실시간 일정 / 모닝 브리핑 데이터 자동 주입
+        # ----------------------------------------------------
+        is_schedule_or_briefing = any(k in clean_last_msg for k in [
+            "일정", "스케줄", "브리핑", "모닝", "오늘 뭐해", "할일", "투두", "약속", "시간표", "수업", "캘린더"
+        ])
+        if is_schedule_or_briefing:
+            try:
+                from modules.schedule_manager import ScheduleManager
+                schedule_summary = ScheduleManager.get_morning_briefing_summary()
+                context_str += (
+                    f"\n\n[마스터의 실시간 구글 캘린더 & 오늘 실제 일정 정보 (⚠️ 절대 일정 없다고 거짓말하지 말고 아래 실제 일정을 바탕으로 친절하고 똑똑하게 브리핑해라)]\n"
+                    f"{schedule_summary}\n"
+                )
+            except Exception as se:
+                print(f"[Chat] 일정 브리핑 주입 에러: {se}")
+
+        # ----------------------------------------------------
         # 4단계: 유저 맞춤 프로필 및 장기 기억 주입
         # ----------------------------------------------------
         u_profile = load_user_profile(req.agent)
