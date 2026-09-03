@@ -100,30 +100,38 @@ def get_python_exe():
         return which_py
     return "python"
 
+def is_server_ready():
+    try:
+        req = urllib.request.Request("http://127.0.0.1:8000/api/health", headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=0.8) as resp:
+            return resp.status == 200
+    except Exception:
+        return False
+
 def kill_process_tree(pid):
     try:
         parent = psutil.Process(pid)
         children = parent.children(recursive=True)
         for child in children:
-            child.kill()
+            try:
+                child.kill()
+            except Exception:
+                pass
         parent.kill()
-    except psutil.NoSuchProcess:
+    except (psutil.NoSuchProcess, Exception):
         pass
 
 def stop_servers():
     global tts_process, brain_process, discord_process
     if tts_process:
-        kill_process_tree(tts_process.pid)
+        try: kill_process_tree(tts_process.pid)
+        except: pass
     if brain_process:
-        kill_process_tree(brain_process.pid)
+        try: kill_process_tree(brain_process.pid)
+        except: pass
     if discord_process:
-        kill_process_tree(discord_process.pid)
-    try:
-        os.system('taskkill /f /im python.exe 2>nul')
-        os.system('taskkill /f /im python3.11.exe 2>nul')
-        os.system('taskkill /f /im pythonw.exe 2>nul')
-    except:
-        pass
+        try: kill_process_tree(discord_process.pid)
+        except: pass
 
 def start_servers():
     global tts_process, brain_process, discord_process
@@ -149,16 +157,17 @@ def start_servers():
         except Exception as te:
             print(f"[TTS Launch Error] {te}")
 
-    # 2. Brain 서버 백그라운드 시작 (창 숨김)
-    try:
-        brain_process = subprocess.Popen(
-            [python_exe, "-m", "uvicorn", "brain_server:app", "--port", "8000"],
-            cwd=base_dir,
-            startupinfo=startupinfo,
-            creationflags=creation_flags
-        )
-    except Exception as be:
-        print(f"[Brain Launch Error] {be}")
+    # 2. Brain 서버 백그라운드 시작 (이미 실행 중이지 않을 때만 실행)
+    if not is_server_ready():
+        try:
+            brain_process = subprocess.Popen(
+                [python_exe, "-m", "uvicorn", "brain_server:app", "--host", "0.0.0.0", "--port", "8000"],
+                cwd=base_dir,
+                startupinfo=startupinfo,
+                creationflags=creation_flags
+            )
+        except Exception as be:
+            print(f"[Brain Launch Error] {be}")
 
     # 3. 스카디 디스코드 봇 백그라운드 시작 (창 숨김)
     discord_script = os.path.join(base_dir, "discord_bot", "discord_skadi_bot.py")
@@ -175,46 +184,45 @@ def start_servers():
             print(f"[Discord Launch Error] {de}")
 
 def check_and_redirect(window):
-    health_url = "http://127.0.0.1:8000/api/health"
     target_url = "http://127.0.0.1:8000/chatbot.html"
-    max_wait = 35
+    max_wait = 40
     start = time.time()
-    is_ready = False
     
     while time.time() - start < max_wait:
-        try:
-            req = urllib.request.Request(health_url, headers={'User-Agent': 'Mozilla/5.0'})
-            with urllib.request.urlopen(req, timeout=1.0) as resp:
-                if resp.status == 200:
-                    is_ready = True
-                    break
-        except Exception:
-            pass
-        time.sleep(0.25)
-    
-    # 서버 응답 200이 확인된 경우 즉시 매끄럽게 전환
-    if is_ready:
-        time.sleep(0.2)
-        try:
-            window.evaluate_js(f"if (typeof window.onServerReady === 'function') {{ window.onServerReady(); }} else {{ window.location.href = '{target_url}'; }}")
-        except Exception:
+        if is_server_ready():
+            time.sleep(0.3)
             try:
                 window.load_url(target_url)
             except Exception:
-                pass
+                try:
+                    window.evaluate_js(f"window.location.href = '{target_url}';")
+                except Exception:
+                    pass
+            return
+        time.sleep(0.2)
+    
+    # 타임아웃 시 강제 로드
+    try:
+        window.load_url(target_url)
+    except Exception:
+        pass
 
 if __name__ == "__main__":
     base_dir = PROJECT_ROOT
     loading_page = os.path.join(base_dir, "loading.html")
     loading_url = f"file:///{loading_page.replace(chr(92), '/')}"
+    target_url = "http://127.0.0.1:8000/chatbot.html"
 
     # 서버 프로세스 백그라운드 시작
     start_servers()
     
+    # 이미 서버가 켜져 있으면 로딩 없이 즉시 챗봇 화면으로 실행
+    initial_url = target_url if is_server_ready() else loading_url
+
     # 데스크탑 앱(웹뷰) 생성 - 텍스트 마우스 드래그 선택 및 우클릭 복사 완전 허용
     window = webview.create_window(
         'J.A.R.V.I.S Assistant',
-        loading_url,
+        initial_url,
         width=1280,
         height=800,
         min_size=(800, 600),
@@ -222,14 +230,15 @@ if __name__ == "__main__":
         text_select=True
     )
     
-    # 백그라운드 스레드에서 서버 상태 감시 후 자동 전환
-    watcher = threading.Thread(target=check_and_redirect, args=(window,), daemon=True)
-    watcher.start()
+    # 로딩 화면으로 시작된 경우에만 백그라운드 스레드로 전환 감시
+    if initial_url == loading_url:
+        watcher = threading.Thread(target=check_and_redirect, args=(window,), daemon=True)
+        watcher.start()
     
     # 앱 실행 (영구 캐시 및 localStorage 유지 모드로 구동)
     storage_dir = os.path.join(base_dir, ".webview_data")
     os.makedirs(storage_dir, exist_ok=True)
     webview.start(private_mode=False, storage_path=storage_dir)
     
-    # 창이 꺼지면 서버 자동 정리
+    # 창이 꺼지면 서버 정리
     stop_servers()
