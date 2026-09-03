@@ -200,6 +200,14 @@ class ScheduleManager:
         - 오늘 예정된 일정 목록
         - 마감되지 않은 긴급/중요 Todo 목록을 포맷팅하여 반환
         """
+        # 0. 구글 캘린더 자동 동기화 (설정된 경우)
+        try:
+            from config import GOOGLE_CALENDAR_ICAL_URL
+            if GOOGLE_CALENDAR_ICAL_URL:
+                ScheduleManager.sync_from_google_calendar_ical(GOOGLE_CALENDAR_ICAL_URL)
+        except Exception:
+            pass
+
         today_str = datetime.now().strftime("%Y-%m-%d")
         today_items = ScheduleManager.get_items(target_date=today_str, include_completed=False)
         pending_todos = ScheduleManager.get_items(only_todos=True, include_completed=False)
