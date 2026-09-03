@@ -4,75 +4,43 @@ import sys
 import time
 import threading
 import urllib.request
-import ctypes
 import psutil
 import webview
 
-def is_admin():
-    try:
-        return ctypes.windll.shell32.IsUserAnAdmin() != 0
-    except Exception:
-        return False
-
-def ensure_admin():
-    """J.A.R.V.I.S Assistant 실행 시 관리자 권한으로 자동 승격 실행"""
-    if not is_admin():
-        try:
-            if getattr(sys, 'frozen', False):
-                exe = sys.executable
-                params = " ".join([f'"{arg}"' for arg in sys.argv[1:]])
-                ret = ctypes.windll.shell32.ShellExecuteW(None, "runas", exe, params, None, 1)
-            else:
-                exe = sys.executable
-                script = f'"{os.path.abspath(sys.argv[0])}"'
-                params = f'{script} ' + " ".join([f'"{arg}"' for arg in sys.argv[1:]])
-                ret = ctypes.windll.shell32.ShellExecuteW(None, "runas", exe, params, None, 1)
-            if ret > 32:
-                sys.exit(0)
-        except Exception as e:
-            print(f"[Admin Elevation Error]: {e}")
-
-ensure_admin()
-
 def get_project_root():
-    # 1. 현재 작업 폴더 확인
-    if os.path.exists("chatbot.html") and os.path.exists("brain_server.py"):
-        return os.path.abspath(".")
-    
-    # 2. 실행 파일 위치 기반 탐색
-    candidates = []
+    # 1. 스크립트 실행 위치 확인
+    if "__file__" in globals():
+        file_dir = os.path.dirname(os.path.abspath(__file__))
+        if os.path.exists(os.path.join(file_dir, "chatbot.html")) and os.path.exists(os.path.join(file_dir, "brain_server.py")):
+            return file_dir
+
+    # 2. PyInstaller 패키징 환경 확인
     if getattr(sys, 'frozen', False):
         exe_dir = os.path.dirname(os.path.abspath(sys.executable))
-        candidates.extend([exe_dir, os.path.dirname(exe_dir), os.path.dirname(os.path.dirname(exe_dir))])
-    
-    file_dir = os.path.dirname(os.path.abspath(__file__))
-    candidates.extend([file_dir, os.path.dirname(file_dir), os.path.dirname(os.path.dirname(file_dir))])
-    
-    for cand in candidates:
-        if os.path.exists(os.path.join(cand, "chatbot.html")) and os.path.exists(os.path.join(cand, "brain_server.py")):
-            return os.path.abspath(cand)
-            
-    return os.path.abspath(".")
+        for cand in [exe_dir, os.path.dirname(exe_dir)]:
+            if os.path.exists(os.path.join(cand, "chatbot.html")) and os.path.exists(os.path.join(cand, "brain_server.py")):
+                return cand
+
+    # 3. 현재 작업 폴더 확인
+    cur = os.path.abspath(".")
+    if os.path.exists(os.path.join(cur, "chatbot.html")) and os.path.exists(os.path.join(cur, "brain_server.py")):
+        return cur
+        
+    return r"C:\Users\skbkh\Desktop\html\chat bot"
 
 PROJECT_ROOT = get_project_root()
 os.chdir(PROJECT_ROOT)
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-# 환경 변수 설정
 os.environ['PYTHONUTF8'] = '1'
 os.environ['PYTHONIOENCODING'] = 'utf-8'
-try:
-    from config import API_KEYS
-except Exception:
-    pass
 
 tts_process = None
 brain_process = None
 discord_process = None
 
 def get_python_exe():
-    # 1. 시스템에 설치된 실제 파이썬 경로 탐색
     candidates = [
         os.path.expandvars(r"%LOCALAPPDATA%\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\python.exe"),
         os.path.expandvars(r"%LOCALAPPDATA%\Microsoft\WindowsApps\python3.11.exe"),
@@ -142,7 +110,7 @@ def start_servers():
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
     creation_flags = subprocess.CREATE_NO_WINDOW if hasattr(subprocess, "CREATE_NO_WINDOW") else 0
 
-    # 1. TTS 서버 시작 (창 숨김)
+    # 1. TTS 서버 시작
     tts_dir = os.path.join(base_dir, "tts_engine_sovits", "GPT-SoVITS-main")
     tts_python = os.path.join(tts_dir, "venv_sovits", "Scripts", "python.exe")
     
@@ -169,7 +137,7 @@ def start_servers():
         except Exception as be:
             print(f"[Brain Launch Error] {be}")
 
-    # 3. 스카디 디스코드 봇 백그라운드 시작 (창 숨김)
+    # 3. 스카디 디스코드 봇 백그라운드 시작
     discord_script = os.path.join(base_dir, "discord_bot", "discord_skadi_bot.py")
     if os.path.exists(discord_script):
         try:
@@ -190,18 +158,14 @@ def check_and_redirect(window):
     
     while time.time() - start < max_wait:
         if is_server_ready():
-            time.sleep(0.3)
+            time.sleep(0.4)
             try:
                 window.load_url(target_url)
             except Exception:
-                try:
-                    window.evaluate_js(f"window.location.href = '{target_url}';")
-                except Exception:
-                    pass
+                pass
             return
-        time.sleep(0.2)
+        time.sleep(0.25)
     
-    # 타임아웃 시 강제 로드
     try:
         window.load_url(target_url)
     except Exception:
@@ -216,10 +180,10 @@ if __name__ == "__main__":
     # 서버 프로세스 백그라운드 시작
     start_servers()
     
-    # 이미 서버가 켜져 있으면 로딩 없이 즉시 챗봇 화면으로 실행
+    # 서버 기동 여부에 따라 URL 결정
     initial_url = target_url if is_server_ready() else loading_url
 
-    # 데스크탑 앱(웹뷰) 생성 - 텍스트 마우스 드래그 선택 및 우클릭 복사 완전 허용
+    # 데스크탑 앱(웹뷰) 생성
     window = webview.create_window(
         'J.A.R.V.I.S Assistant',
         initial_url,
@@ -230,15 +194,10 @@ if __name__ == "__main__":
         text_select=True
     )
     
-    # 로딩 화면으로 시작된 경우에만 백그라운드 스레드로 전환 감시
     if initial_url == loading_url:
         watcher = threading.Thread(target=check_and_redirect, args=(window,), daemon=True)
         watcher.start()
     
-    # 앱 실행 (영구 캐시 및 localStorage 유지 모드로 구동)
-    storage_dir = os.path.join(base_dir, ".webview_data")
-    os.makedirs(storage_dir, exist_ok=True)
-    webview.start(private_mode=False, storage_path=storage_dir)
+    webview.start(private_mode=False)
     
-    # 창이 꺼지면 서버 정리
     stop_servers()
