@@ -377,6 +377,11 @@ class ChampionGuideEngine:
         return {k: v for k, v in cls._champions_db.items() if v.get("role", "").lower() == r}
 
     @classmethod
+    def get_all_champions(cls) -> Dict[str, Any]:
+        cls.load_data()
+        return cls._champions_db
+
+    @classmethod
     def get_all_roles_summary(cls) -> Dict[str, Any]:
         cls.load_data()
         roles = {"top": [], "jungle": [], "mid": [], "adc": [], "support": []}

@@ -174,7 +174,11 @@ class AugmentEngine:
             }
         target_role = role.lower()
         if target_role == "auto" or not target_role:
-            target_role = cls.CHAMPION_ROLES.get(champion_name.strip(), "adc")
+            c_guide = ChampionGuideEngine.get_champion(champion_name.strip()) if champion_name else None
+            if c_guide and c_guide.get("role"):
+                target_role = c_guide["role"]
+            else:
+                target_role = cls.CHAMPION_ROLES.get(champion_name.strip(), "adc")
 
         scored = []
         for aug in matched:
@@ -409,6 +413,11 @@ class ChampionGuideEngine:
         if r in ["all", "전체", "모두"]:
             return cls._champions_db
         return {k: v for k, v in cls._champions_db.items() if v.get("role", "").lower() == r}
+
+    @classmethod
+    def get_all_champions(cls) -> Dict[str, Any]:
+        cls.load_data()
+        return cls._champions_db
 
     @classmethod
     def get_all_roles_summary(cls) -> Dict[str, Any]:
