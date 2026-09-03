@@ -3644,25 +3644,62 @@
             }
         }
 
+        async function triggerAramMapBriefing(champion, mapName, isMayhem) {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/lol/coach/map/${encodeURIComponent(mapName)}`);
+                let mapData = null;
+                if (res.ok) {
+                    const j = await res.json();
+                    mapData = j.map;
+                }
+                
+                let prompt = `[시스템 이벤트 - 칼바람 인게임 진입 브리핑]\n`;
+                prompt += `모드: ${isMayhem ? '무작위 총력전: 아수라장 (199종 증강 활성화)' : '무작위 총력전'}\n`;
+                prompt += `선택 챔피언: [${champion}]\n`;
+                prompt += `현재 맵: [${mapName}]\n`;
+                if (mapData) {
+                    prompt += `지형 기믹: ${mapData.gimmick}\n`;
+                    prompt += `초반 핵심 주의점:\n- ${mapData.cautions.join('\n- ')}\n`;
+                    prompt += `1400G 추천 스타트 템트리 요약: ${JSON.stringify(mapData.starter_builds)}\n`;
+                }
+                prompt += `\n[명령] 브라이어의 목소리로 이번 판 맵 [${mapName}]의 지형 특성과 초반 조심해야 할 점 2가지, 그리고 [${champion}]이 사야 할 1400G 스타트 템트리를 4줄 이내로 신나고 날카롭게 브리핑해주세요! (마지막에 3000G 모이면 처형당하라는 조언 포함)`;
+                
+                triggerHiddenSystemPrompt(prompt, "briar");
+            } catch (e) {
+                triggerHiddenSystemPrompt(`[시스템 이벤트] 칼바람 게임(${mapName})이 시작되었습니다! ${champion}의 초반 스타트 템과 주의점을 브리핑해주세요.`, "briar");
+            }
+        }
+
         async function checkRiotStatus() {
             try {
                 const res = await fetch(`${SERVER_URL}/api/riot/status`);
                 if (res.ok) {
                     const data = await res.json();
                     if (data.status === "online") {
-                        riotStatusEl.innerHTML = `<span style="color:#22c55e">접속 중: ${data.summoner_name} (Lv.${data.level} / ${data.tier})</span><br>상태: ${data.phase}`;
+                        let modeBadge = data.is_aram_mayhem 
+                            ? `<span style="color:#f43f5e;font-weight:bold;">🔥 무작위 총력전: 아수라장</span>` 
+                            : (data.lobby_game_mode || '일반');
+                        riotStatusEl.innerHTML = `<span style="color:#22c55e">접속 중: ${data.summoner_name} (Lv.${data.level} / ${data.tier})</span><br>모드: ${modeBadge}<br>상태: ${data.phase}`;
                         
                         // [선톡 로직] Phase(게임 상태) 변경 감지 ➔ 브라이어(briar) 방으로 전송
                         const currentPhase = data.phase;
                         if (lastGamePhase !== currentPhase) {
-                            if (currentPhase === "ChampSelect") {
-                                triggerHiddenSystemPrompt("[시스템 이벤트] 유저가 방금 픽창에 진입했습니다! 반갑게 인사하며 어떤 챔피언을 할지 물어보세요.", "briar");
-                                lastPickedChampion = ""; // 픽창 진입 시 챔피언 초기화
-                            } else if (currentPhase === "InProgress" && (lastGamePhase === "ChampSelect" || lastGamePhase === "ReadyCheck")) {
-                                if (data.enemy_laner && data.picked_champion) {
+                            if (currentPhase === "Lobby" && data.is_aram_mayhem) {
+                                triggerHiddenSystemPrompt("[시스템 이벤트] 유저가 [무작위 총력전: 아수라장] 로비에 진입했습니다! 반갑게 반말을 날리며 이번 판 199종 증강 1티어로 씹어먹자고 응원해주세요.", "briar");
+                            } else if (currentPhase === "ChampSelect") {
+                                const modeTitle = data.is_aram_mayhem ? "무작위 총력전: 아수라장" : (data.lobby_game_mode || "게임");
+                                triggerHiddenSystemPrompt(`[시스템 이벤트] 유저가 [${modeTitle}] 픽창에 진입했습니다! 반갑게 인사하며 어떤 챔피언이 걸렸는지 물어보세요.`, "briar");
+                                lastPickedChampion = "";
+                            } else if (currentPhase === "InProgress" && (lastGamePhase === "ChampSelect" || lastGamePhase === "ReadyCheck" || lastGamePhase === "Lobby")) {
+                                const isAramMode = data.is_aram_mayhem || (data.lobby_game_mode && data.lobby_game_mode.includes("총력전"));
+                                const mapName = data.map_name || "칼바람 나락 (Howling Abyss)";
+                                
+                                if (isAramMode) {
+                                    triggerAramMapBriefing(data.picked_champion || "내 챔피언", mapName, data.is_aram_mayhem);
+                                } else if (data.enemy_laner && data.picked_champion) {
                                     triggerHiddenSystemPrompt(`[시스템 이벤트] 방금 로딩창에 진입했습니다! 유저는 [${data.picked_champion}]을(를) 플레이하며, 적 라인 상대는 [${data.enemy_laner}]입니다 (포지션: ${data.my_position}). 구글 검색을 통해 '${data.picked_champion} vs ${data.enemy_laner} 라인전 시작 아이템'을 검색하여, 1렙에 사야 할 최적의 시작 아이템과 초반 라인전 핵심 팁 1~2가지를 브리핑해주세요. (🚨주의🚨: 아이템은 반드시 도란의 검, 도란의 방패 등 롤 공식 명칭만 사용하세요!)`, "briar");
                                 } else {
-                                    triggerHiddenSystemPrompt("[시스템 이벤트] 방금 게임(협곡/아레나 등)이 시작되었습니다! 유저에게 화이팅을 외치고 초반 주의점을 짧게 알려주세요.", "briar");
+                                    triggerHiddenSystemPrompt(`[시스템 이벤트] 방금 게임(${mapName})이 시작되었습니다! 유저에게 화이팅을 외치고 초반 주의점을 짧게 알려주세요.`, "briar");
                                 }
                             }
                             lastGamePhase = currentPhase;

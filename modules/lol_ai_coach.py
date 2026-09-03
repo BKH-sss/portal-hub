@@ -415,6 +415,97 @@ async def api_get_champion_guide(name: str):
     return {"status": "success", "champion": name, "guide": guide}
 
 
+class AramMapGuideEngine:
+    """칼바람 3대 맵 (칼바람 나락, 도살자의 다리, 진보의 다리) 지형 기믹, 초반 주의점, 스타트 템트리 코칭 엔진"""
+    
+    MAPS = {
+        "howling_abyss": {
+            "id": 12,
+            "key": "howling_abyss",
+            "name_ko": "칼바람 나락 (Howling Abyss)",
+            "theme": "❄️ 프렐요드 얼음 다리",
+            "gimmick": "좁은 1차선 직선 다리, 중앙 부쉬 2개, 마법공학 차원문(Hexgate), 1차 포탑 붕괴 시 잔해 벽 지형 생성",
+            "cautions": [
+                "1레벨 마법공학 차원문 착지 지점에서 적의 부쉬 선점 낚시(블리츠, 노틸 등 하드 그랩) 극도로 주의",
+                "1차 타워 파괴 시 거대한 포탑 잔해 벽 생성 ➔ 좁아진 틈새에서 광역 궁극기(말파이트, 오리아나, 세트) 대박 조심",
+                "중앙 힐팩 2개는 섭취 후 60초 쿨타임 (10초 전 리젠 원형 장판 형성) ➔ 힐팩 타이밍 무리한 진입 금지"
+            ],
+            "starter_builds": {
+                "AP 메이지 / 누커": "사라진 양피지 + 충전형 물약 (무한 마나 + QWE 난사)",
+                "AD 암살자 / 방관": "톱날단검 + 장화 (초반 방관 10으로 물몸 폭딜)",
+                "AD 브루저 / 전사": "강철가시 채찍 또는 온기 담은 바위 + 롱소드",
+                "탱커 / 이니시에이터": "온기 담은 바위 / 거인의 허리띠 + 루비 수정 (강심 하위 빌드업)",
+                "원거리 딜러 (ADC)": "절정의 화살 하위템 + 롱소드 3개 또는 흡혈의 낫 + 장화"
+            },
+            "voice_briefing": "이번 맵은 얼어붙은 '칼바람 나락'이야! 차원문 타고 내릴 때 부쉬 그랩 조심하고, 타워 부서지면 잔해 벽 뒤에 숨어있는 놈들 조심해! 1400원 스타트 템 사고 3000원 모이면 타워에 바로 처형당하자고! 헤헷 🩸"
+        },
+        "butchers_bridge": {
+            "id": 13,
+            "key": "butchers_bridge",
+            "name_ko": "도살자의 다리 (Butcher's Bridge)",
+            "theme": "🏴‍☠️ 빌지워터 해적 부두",
+            "gimmick": "넓어진 중앙 난타전 광장, 불규칙한 양옆 부쉬 구조, 시야 차단 목재 장애물, 대포 점프 기믹",
+            "cautions": [
+                "기본 칼바람보다 중앙 광장이 훨씬 넓어 측면 우회 기습(Flanking) 및 광역 난타전이 빈번하게 일어남",
+                "힐팩이 외곽 쪽에 배치되어 있어 먹으러 갈 때 적 딜러들의 장거리 포킹과 집중 점사에 노출되기 쉬움",
+                "부쉬가 양 끝으로 나뉘어 있어 암살자(제드, 탈론, 르블랑, 카직스)가 핑퐁하며 카이팅하기 유리하니 시야 체크 필수"
+            ],
+            "starter_builds": {
+                "AP 메이지 / 누커": "사라진 양피지 + 신속의 장화 (넓은 맵 포킹 및 기동성 확보)",
+                "AD 암살자 / 방관": "톱날단검 + 롱소드 2개 (측면 암살 딜 극대화)",
+                "AD 브루저 / 전사": "탐식의 망치 + 루비 수정 (난전 유지력 & 체력)",
+                "탱커 / 이니시에이터": "바미의 불씨 + 루비 수정 (넓은 광장 비비기)",
+                "원거리 딜러 (ADC)": "흡혈의 낫 + 신속의 장화 (외곽 무빙 카이팅 & 피흡)"
+            },
+            "voice_briefing": "크하하! 빌지워터 '도살자의 다리'에 온 걸 환영해! 여긴 중앙 광장이 넓어서 양옆에서 덮치는 놈들이 많아. 힐팩 먹을 때 포킹 조심하고, 기동성 챙겨서 피바다를 만들어보자고! 🩸"
+        },
+        "bridge_of_progress": {
+            "id": 30,
+            "key": "bridge_of_progress",
+            "name_ko": "진보의 다리 (Bridge of Progress)",
+            "theme": "⚙️ 아케인 필트오버 & 자운 테마",
+            "gimmick": "사이드 자운 가속 파이프/환풍구, 중앙 원형 분수 광장, 좁은 골목 및 필트오버 공학 게이트",
+            "cautions": [
+                "★최우선 주의★ 사이드 자운 가속 파이프를 타고 적 탱커/브루저가 후방 딜러 라인으로 초고속 뒤치기(Backstab) 다이브 가능!",
+                "좁은 골목 구간이 많아 벽꿍 챔피언(뽀삐, 베인, 세트, 키아나, 나르)의 치명타 폭딜 극도로 주의",
+                "사이드 통로는 시야가 가려져 있으므로 눈덩이(표식)를 통로에 던져 적의 기습을 사전에 색출해야 함"
+            ],
+            "starter_builds": {
+                "AP 메이지 / 누커": "사라진 양피지 + 방출의 마법봉 또는 라일라이 하위템 (사이드 진입 둔화)",
+                "AD 암살자 / 방관": "톱날단검 + 밤의 끝자락 하위템 (사이드 기습 방어용 스펠실드)",
+                "AD 브루저 / 전사": "강철가시 채찍 + 롱소드 (좁은 골목 난전 폭딜)",
+                "탱커 / 이니시에이터": "거인의 허리띠 + 덤불 조끼 (파이프 진입 후 진형 붕괴)",
+                "원거리 딜러 (ADC)": "절정의 화살 하위템 + 천갑옷/초시계 (사이드 다이브 급사 방지)"
+            },
+            "voice_briefing": "필트오버와 자운의 '진보의 다리'야! 저기 사이드 환풍구 파이프 보여? 저기서 적들이 갑자기 튀어나와서 우리 뒤통수를 칠 수 있어! 통로에 눈덩이 던져서 시야 꼭 확인하고 패버려! 🩸"
+        }
+    }
+
+    @classmethod
+    def get_all_maps(cls) -> Dict[str, Any]:
+        return cls.MAPS
+
+    @classmethod
+    def get_map_by_query(cls, query: str) -> Dict[str, Any]:
+        q = str(query).lower().strip()
+        if "13" in q or "butcher" in q or "도살자" in q or "빌지워터" in q:
+            return cls.MAPS["butchers_bridge"]
+        elif "30" in q or "33" in q or "progress" in q or "진보" in q or "자운" in q or "아케인" in q:
+            return cls.MAPS["bridge_of_progress"]
+        return cls.MAPS["howling_abyss"]
+
+
+@router.get("/maps", summary="칼바람 3종 맵 정보 및 전술 지형 가이드")
+async def api_get_aram_maps():
+    return {"status": "success", "maps": AramMapGuideEngine.get_all_maps()}
+
+
+@router.get("/map/{name_or_id}", summary="특정 칼바람 맵 초반 주의점 및 1400G 스타트 템트리 조회")
+async def api_get_aram_map(name_or_id: str):
+    m_info = AramMapGuideEngine.get_map_by_query(name_or_id)
+    return {"status": "success", "map": m_info}
+
+
 @router.post("/live/event", summary="인게임 실시간 이벤트 트리거 및 음성 브리핑 생성")
 async def api_trigger_live_event(req: LiveGameEventRequest):
     voice_msg = ""
@@ -441,6 +532,7 @@ async def api_coach_status():
         "status": "online",
         "total_augments": len(AugmentEngine._augments_list),
         "total_champions": len(ChampionGuideEngine._champions_db),
+        "total_maps": len(AramMapGuideEngine.MAPS),
         "yolo_vision_ready": YoloVisionDetector.is_yolo_available(),
         "database_file": str(AUGMENT_DATA_FILE)
     }

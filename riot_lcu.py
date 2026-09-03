@@ -108,10 +108,58 @@ class RiotLCU:
                         break
         
         # 2. 현재 상태 (로비, 픽창, 인게임 등) 조회
-        # /lol-gameflow/v1/gameflow-phase 반환값: None, Lobby, Matchmaking, ReadyCheck, ChampSelect, InProgress, PreEndOfGame, EndOfGame
         gameflow = self.request('GET', '/lol-gameflow/v1/gameflow-phase')
         phase = gameflow if gameflow else "Unknown"
         
+        # 2.5 로비/큐 및 맵 정보 (무작위 총력전: 아수라장 및 3종 맵) 실시간 감지
+        is_aram_mayhem = False
+        lobby_game_mode = "일반"
+        map_id = 12
+        map_name = "칼바람 나락 (Howling Abyss)"
+        
+        try:
+            lobby_data = self.request('GET', '/lol-lobby/v2/lobby')
+            if lobby_data and 'gameConfig' in lobby_data:
+                g_cfg = lobby_data['gameConfig']
+                q_id = g_cfg.get('queueId', 0)
+                g_mode = str(g_cfg.get('gameMode', '')).upper()
+                c_name = str(g_cfg.get('customGameName', ''))
+                m_id = g_cfg.get('mapId', 12)
+                
+                # 아수라장(Mayhem / RNG / URF / 특별 모드) 판별
+                if '아수라장' in c_name or '아수라장' in str(g_cfg) or 'MAYHEM' in g_mode or q_id in [490, 1900, 700]:
+                    is_aram_mayhem = True
+                    lobby_game_mode = "무작위 총력전: 아수라장"
+                elif q_id == 450 or 'ARAM' in g_mode:
+                    lobby_game_mode = "무작위 총력전"
+                elif 'SUMMONER' in g_mode or q_id in [420, 430, 440]:
+                    lobby_game_mode = "소환사의 협곡"
+
+            # 픽창 또는 인게임일 때 세션에서 정확한 mapId 및 모드 파싱
+            if phase in ["ChampSelect", "InProgress", "ReadyCheck", "Matchmaking"]:
+                session = self.request('GET', '/lol-gameflow/v1/session')
+                if session:
+                    map_data = session.get('map', {})
+                    map_id = map_data.get('id', 12)
+                    raw_map_name = map_data.get('name', '')
+                    
+                    if map_id == 13 or 'Butcher' in raw_map_name or 'Bilgewater' in raw_map_name:
+                        map_name = "도살자의 다리 (Butcher's Bridge)"
+                    elif map_id in [30, 33] or 'Progress' in raw_map_name or 'Arcane' in raw_map_name:
+                        map_name = "진보의 다리 (Bridge of Progress)"
+                    elif map_id == 12 or 'Howling' in raw_map_name:
+                        map_name = "칼바람 나락 (Howling Abyss)"
+                    elif 'Summoner' in raw_map_name or map_id == 11:
+                        map_name = "소환사의 협곡"
+                        
+                    game_data = session.get('gameData', {})
+                    queue_data = game_data.get('queue', {})
+                    if '아수라장' in str(queue_data) or queue_data.get('gameMode') in ['MAYHEM', 'URF']:
+                        is_aram_mayhem = True
+                        lobby_game_mode = "무작위 총력전: 아수라장"
+        except Exception:
+            pass
+
         # 3. 픽창일 경우 추가 정보 조회
         champ_select_info = None
         picked_champion = ""
@@ -124,12 +172,8 @@ class RiotLCU:
                 
                 champ_id = 0
                 has_snowball = False
-                is_aram = False
+                is_aram = (lobby_game_mode.startswith("무작위 총력전"))
                 
-                lobby = self.request('GET', '/lol-lobby/v2/lobby')
-                if lobby and lobby.get('gameConfig', {}).get('queueId') == 450:
-                    is_aram = True
-
                 for teammate in my_team:
                     if teammate.get("cellId") == local_player_cell_id:
                         champ_id = teammate.get("championId", 0)
@@ -142,7 +186,6 @@ class RiotLCU:
                 if is_aram and not has_snowball:
                     champ_select_info = "칼바람 눈덩이 경고"
 
-                
                 if champ_id > 0:
                     try:
                         champions_dict = self.request('GET', '/lol-game-data/assets/v1/champion-summary.json')
@@ -168,7 +211,6 @@ class RiotLCU:
                 my_team_list = []
                 enemy_team_list = []
                 
-                # puuid 기반으로 내 소환사 찾기
                 for p in team_one:
                     if p.get('puuid') == puuid:
                         my_player = p
@@ -184,10 +226,7 @@ class RiotLCU:
                             break
                             
                 if my_player:
-                    # 포지션 확인 (TOP, JUNGLE, MIDDLE, BOTTOM, UTILITY)
                     my_position = my_player.get('selectedPosition', '')
-                    
-                    # 내 챔피언 정보가 아직 없다면(클라이언트 재접속 등) 보강
                     if not picked_champion:
                         my_champ_id = my_player.get('championId', 0)
                         if my_champ_id > 0:
@@ -201,7 +240,6 @@ class RiotLCU:
                             except:
                                 pass
                                 
-                    # 상대 라이너 찾기
                     if my_position and my_position not in ["", "NONE"]:
                         enemy_champ_id = 0
                         for p in enemy_team_list:
@@ -226,6 +264,10 @@ class RiotLCU:
             "level": summoner_level,
             "tier": tier_info,
             "phase": phase,
+            "is_aram_mayhem": is_aram_mayhem,
+            "lobby_game_mode": lobby_game_mode,
+            "map_id": map_id,
+            "map_name": map_name,
             "champ_select_info": champ_select_info,
             "picked_champion": picked_champion,
             "my_position": my_position,
