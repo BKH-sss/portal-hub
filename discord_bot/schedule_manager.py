@@ -317,6 +317,65 @@ class ScheduleManager:
         return "\r\n".join(lines)
 
 
+    @staticmethod
+    def sync_from_google_calendar_ical(ical_url: str) -> Dict[str, Any]:
+        """
+        🌐 외부 구글 캘린더 iCal (basic.ics) URL을 읽어와서 로컬 schedule.db에 자동 동기화
+        """
+        import urllib.request
+        import re
+        if not ical_url or not ical_url.startswith("http"):
+            return {"status": "error", "message": "올바른 iCal (.ics) URL이 아닙니다."}
+            
+        try:
+            req = urllib.request.Request(ical_url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
+            with urllib.request.urlopen(req, timeout=10.0) as resp:
+                content = resp.read().decode('utf-8', errors='replace')
+        except Exception as e:
+            return {"status": "error", "message": f"구글 캘린더 iCal 다운로드 실패: {e}"}
+
+        events = re.findall(r'BEGIN:VEVENT(.*?)END:VEVENT', content, flags=re.DOTALL)
+        synced_count = 0
+        
+        for ev in events:
+            summary_m = re.search(r'SUMMARY:(.*?)(?:\r?\n[A-Z]|\r?\nEND)', ev)
+            summary = summary_m.group(1).strip().replace("\\,", ",") if summary_m else "구글 캘린더 일정"
+            
+            dtstart_m = re.search(r'DTSTART(?:;[^:]+)?:(\d{8}(?:T\d{6}Z?)?)', ev)
+            if not dtstart_m:
+                continue
+            raw_dt = dtstart_m.group(1)
+            
+            if "T" in raw_dt:
+                date_part = f"{raw_dt[:4]}-{raw_dt[4:6]}-{raw_dt[6:8]}"
+                time_part = f"{raw_dt[9:11]}:{raw_dt[11:13]}"
+                start_time_str = f"{date_part} {time_part}"
+            else:
+                start_time_str = f"{raw_dt[:4]}-{raw_dt[4:6]}-{raw_dt[6:8]}"
+                
+            desc_m = re.search(r'DESCRIPTION:(.*?)(?:\r?\n[A-Z]|\r?\nEND)', ev)
+            desc = desc_m.group(1).strip().replace("\\n", "\n").replace("\\,", ",") if desc_m else "구글 캘린더 동기화"
+            
+            with ScheduleDatabase.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT id FROM schedules WHERE title = ? AND start_time = ?", (summary, start_time_str))
+                row = cursor.fetchone()
+                if not row:
+                    cursor.execute("""
+                        INSERT INTO schedules (title, category, start_time, description, is_todo, is_completed, priority)
+                        VALUES (?, 'google', ?, ?, 0, 0, 2)
+                    """, (summary, start_time_str, desc))
+                    conn.commit()
+                    synced_count += 1
+
+        return {
+            "status": "success",
+            "total_events_in_feed": len(events),
+            "newly_synced_count": synced_count,
+            "message": f"구글 캘린더에서 {len(events)}개의 일정을 확인하고, {synced_count}개의 새로운 일정을 동기화했습니다."
+        }
+
+
 # =============================================================================
 # 🌐 5. FastAPI 라우터 엔드포인트 정의
 # =============================================================================
@@ -334,6 +393,12 @@ async def add_schedule(req: ScheduleCreateRequest):
     google_url = ScheduleManager.generate_google_calendar_url(req.title, req.start_time, req.end_time, req.description)
     res["google_calendar_url"] = google_url
     return res
+
+
+@router.post("/sync/google", summary="구글 캘린더 비공개 iCal URL로부터 일정 가져오기")
+@router.get("/sync/google", summary="구글 캘린더 비공개 iCal URL로부터 일정 가져오기")
+async def api_sync_google_calendar(ical_url: str):
+    return ScheduleManager.sync_from_google_calendar_ical(ical_url)
 
 
 @router.post("/toggle/{item_id}", summary="할 일 완료 여부 토글")
