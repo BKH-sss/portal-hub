@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-03 13:19:51",
+  "generated_at": "2026-09-03 14:51:07",
   "soccer": [
     {
       "id": "740604",
@@ -314,13 +314,13 @@
       "city": "서울",
       "region": "수도권",
       "current": {
-        "temp": 25.3,
-        "feels_like": 25.9,
+        "temp": 24.2,
+        "feels_like": 25.0,
         "weather_desc": "맑음",
         "weather_icon": "☀️",
-        "temp_max": 29.3,
-        "temp_min": 23.3,
-        "time_kst": "13:19"
+        "temp_max": 28.2,
+        "temp_min": 22.2,
+        "time_kst": "14:50"
       },
       "air": {
         "pm10": {
@@ -397,19 +397,19 @@
         }
       ],
       "source": "NAVER Weather",
-      "updated_at": "2026-09-03 13:19:36"
+      "updated_at": "2026-09-03 14:50:52"
     },
     "수원": {
       "city": "수원",
       "region": "경기",
       "current": {
-        "temp": 25.9,
-        "feels_like": 26.8,
+        "temp": 24.7,
+        "feels_like": 25.7,
         "weather_desc": "맑음",
         "weather_icon": "☀️",
-        "temp_max": 29.9,
-        "temp_min": 23.9,
-        "time_kst": "13:19"
+        "temp_max": 28.7,
+        "temp_min": 22.7,
+        "time_kst": "14:50"
       },
       "air": {
         "pm10": {
@@ -418,9 +418,9 @@
           "color": "#3b82f6"
         },
         "pm25": {
-          "val": 20.0,
-          "label": "보통",
-          "color": "#10b981"
+          "val": 10.0,
+          "label": "좋음",
+          "color": "#3b82f6"
         }
       },
       "hourly": [
@@ -486,25 +486,25 @@
         }
       ],
       "source": "NAVER Weather",
-      "updated_at": "2026-09-03 13:19:39"
+      "updated_at": "2026-09-03 14:50:55"
     },
     "익산": {
       "city": "익산",
       "region": "전북",
       "current": {
-        "temp": 26.3,
-        "feels_like": 28.3,
+        "temp": 25.4,
+        "feels_like": 27.4,
         "weather_desc": "흐림",
         "weather_icon": "☁️",
-        "temp_max": 30.3,
-        "temp_min": 24.3,
-        "time_kst": "13:19"
+        "temp_max": 29.4,
+        "temp_min": 23.4,
+        "time_kst": "14:50"
       },
       "air": {
         "pm10": {
-          "val": 35.0,
-          "label": "보통",
-          "color": "#10b981"
+          "val": 18.0,
+          "label": "좋음",
+          "color": "#3b82f6"
         },
         "pm25": {
           "val": 10.0,
@@ -575,7 +575,7 @@
         }
       ],
       "source": "NAVER Weather",
-      "updated_at": "2026-09-03 13:19:42"
+      "updated_at": "2026-09-03 14:50:58"
     },
     "부산": {
       "city": "부산",
@@ -587,7 +587,7 @@
         "weather_icon": "☀️",
         "temp_max": 28,
         "temp_min": 21,
-        "time_kst": "13:19"
+        "time_kst": "14:51"
       },
       "air": {
         "pm10": {
@@ -615,8 +615,21 @@
         "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9wSllpS0xNUlhJYjhPT2s1QjRyVXZKYjdYWWtRWUFYOGhEUUpBSzlNVzNrZFMxdHZjaUtPSjlWdXQ1TGpsX0FpUExGNlZnVTdQTS10LWZMMUJIQXZVT0hDU2pUMVZ1LVU5cWlkMmRRb0I?oc=5",
         "desc": "광양시장애인체육회 양은호 선수, 전국 장애인 e스포츠대회 리그 오브 레전드 3위 입상 > 뉴스  더코리아",
         "pubDate": "Thu, 03 Sep 2026 12:43:00 GMT",
-        "time_ago": "36분 전",
-        "diff_sec": 2211.328655,
+        "time_ago": "2시간 전",
+        "diff_sec": 7687.289401,
+        "category_badge": "게임산업",
+        "theme": "game"
+      },
+      {
+        "title": "[핫게임] 컴투스 낚시의 신 지중해 / 넷마블 세나리버스 하연 / 컴투스 SWC 지역컵 확정",
+        "press": "웹이코노미",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE9jTjE5YU9yc0JCUjNzam1GR3dKRDdmQy1HeEZjMHQ4M2RLVUt2NEtHMVdEdVJJYVhYbEZVcW9aWEZjSUREUXYyVlQzdzFYUXNBUWx0VWRDdW9nSUdhNzEzV0xlRHk4Q1JQUkV5Um9paHlvZw?oc=5",
+        "desc": "[핫게임] 컴투스 낚시의 신 지중해 / 넷마블 세나리버스 하연 / 컴투스 SWC 지역컵 확정  웹이코노미",
+        "pubDate": "Thu, 03 Sep 2026 12:29:00 GMT",
+        "time_ago": "2시간 전",
+        "diff_sec": 8527.290293,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -628,21 +641,21 @@
         "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5BeHRIc3NFWWZVQndaQVptYUtwQ1Z4WHhMemNFOHF3VlhySVBETkh4RmZwTzdHdUgtN3hLWVh3b0ZlU0g5TWVHNWM0bF9MQXNNR1YzWmJta09qZzM3bHIyOHhHZ2g1Zw?oc=5",
         "desc": "넷마블, 세븐나이츠 리버스 신규 영웅 ‘하연’ 추가 및 대규모 업데이트 실시  이슈투데이",
         "pubDate": "Thu, 03 Sep 2026 11:55:29 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 5062.328922,
+        "time_ago": "2시간 전",
+        "diff_sec": 10538.289692,
         "category_badge": "게임산업",
         "theme": "game"
       },
       {
         "title": "OPPO K14 Lite가 구글 플레이 콘솔에 공개되었습니다. 이 제품은 7000mAh 배터리를 탑재한 OPPO A6c의 리브랜딩 버전입니다.",
-        "press": "vietnam.vn",
+        "press": "Vietnam.vn",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
         "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPbWUxQUdOUzdnSjZnbDBUaWV4VzViS2lPU0hnQzBzSmhHWG1HS0V6RTR3bFVhUmJIZWtGMngxWms4UHNBTVV2VGdYeU9wZzJaVzZralV0WE9hczhDdUpzVjRhTFA4T0xGU2FodDBrSS1nQUdpR1ZKSGZBSzdJbzcwMG1zUnlnOEpQdmEwdld5ek1pRWhDalRLenFSSHBJMEJpRDJ1SEc3RmxDYVRRSy1HTGd3?oc=5",
-        "desc": "OPPO K14 Lite가 구글 플레이 콘솔에 공개되었습니다. 이 제품은 7000mAh 배터리를 탑재한 OPPO A6c의 리브랜딩 버전입니다.  vietnam.vn",
+        "desc": "OPPO K14 Lite가 구글 플레이 콘솔에 공개되었습니다. 이 제품은 7000mAh 배터리를 탑재한 OPPO A6c의 리브랜딩 버전입니다.  Vietnam.vn",
         "pubDate": "Thu, 03 Sep 2026 11:45:12 GMT",
-        "time_ago": "1시간 전",
-        "diff_sec": 5679.330207,
+        "time_ago": "3시간 전",
+        "diff_sec": 11155.290893,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -654,23 +667,10 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBieEdVQU80bG9xTlcyZE80NkdqczI0WERmbE02bWhUbFFTWXdpNzVIYmpBUDM2RE9Kdkd6amFXN2VncnVXSkNpVjlGczdaVldqcmgw?oc=5",
         "desc": "월드컵보다 뜨겁다…스크린 속 e스포츠 열전  네이트",
         "pubDate": "Thu, 03 Sep 2026 11:01:00 GMT",
-        "time_ago": "2시간 전",
-        "diff_sec": 8331.32986,
+        "time_ago": "3시간 전",
+        "diff_sec": 13807.290668,
         "category_badge": "게임산업",
         "theme": "game"
-      },
-      {
-        "title": "[IFA2026]로보락, 바닥 넘어 정원·수영장까지…'청소 영토' 넓힌다",
-        "press": "전자신문",
-        "is_verified": true,
-        "safety_badge": "공신력 언론사",
-        "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5kcGM5N2ExVTNxeWtiMU5aM3AtRlp1Z1F4Z3UxY1NoSEV0cWsyT0VfVHlnQ1gydVZyUEE5aXNSQV9RN1BxRnVPTzM2bzRNZw?oc=5",
-        "desc": "[IFA2026]로보락, 바닥 넘어 정원·수영장까지…'청소 영토' 넓힌다  전자신문",
-        "pubDate": "Thu, 03 Sep 2026 11:00:00 GMT",
-        "time_ago": "2시간 전",
-        "diff_sec": 8391.329399,
-        "category_badge": "게임산업",
-        "theme": "tech"
       },
       {
         "title": "\"귀여운 '핑크빈'이 온다\"…넥슨, '메이플 키우기' 업데이트 실시",
@@ -680,8 +680,8 @@
         "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5rX09UV29vZ3RBODlKZU5Ydl9MT3pyazlsRlE1SEF3ckhwOFZ1cjdieFlnek95U0hId3R1VDNsQjRqcUV1MzRYekRRWi1XaTBFTmFKTFQ3Nl9LZ0RJeHVMdk5tSTFrQTdobE5zSV9ZUU9YUHhs?oc=5",
         "desc": "\"귀여운 '핑크빈'이 온다\"…넥슨, '메이플 키우기' 업데이트 실시  파이낸셜포스트",
         "pubDate": "Thu, 03 Sep 2026 10:24:16 GMT",
-        "time_ago": "2시간 전",
-        "diff_sec": 10535.329047,
+        "time_ago": "4시간 전",
+        "diff_sec": 16011.28979,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -693,8 +693,8 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTFAzd002Rkh5ZTBnUzNpWENMOWZHUEh4RmlUZU9PR0doZ0NjWl96UFZHUEY0bzJZdG1LODhidUpQcm5aTVA0a0dQcDlvMHVFWlU?oc=5",
         "desc": "그라비티, 레이싱 게임 신작 '달려라 헤베레케: EX' 글로벌 출시…PC·콘솔 라인업 강화  v.daum.net",
         "pubDate": "Thu, 03 Sep 2026 10:16:50 GMT",
-        "time_ago": "3시간 전",
-        "diff_sec": 10981.329879,
+        "time_ago": "4시간 전",
+        "diff_sec": 16457.290705,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -706,8 +706,8 @@
         "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBRUWNJS2lCam1YbzZaUE0ycktYMTBseEdwZ2Z2UHZzWXNnVFZYczRtbVF1ZEhHcV9HNkdJT1duS3JZSF8wQi1VX3F3TGhYUGdlbi1WVHc0cG5JUnJyQkNJbVR5UUNaM01XekZLbF9qUdIBc0FVX3lxTE93RWNkbkR4ckRnakI5bmlLbmpTWHphTmREQkhWc0o2YXo2dW9WV3JWT1lvT3FuRVhWVl80NDFBaEZTdDkwV1RCUE9wQmU1LXZzUUE5MU1kOGxqclotYjV1d0poY01LZkkzdENIcGtZZVFJeU0?oc=5",
         "desc": "별빛축제·e스포츠 등 아산 9월 문화예술행사 풍성  대전일보",
         "pubDate": "Thu, 03 Sep 2026 09:57:49 GMT",
-        "time_ago": "3시간 전",
-        "diff_sec": 12122.329917,
+        "time_ago": "4시간 전",
+        "diff_sec": 17598.290741,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -719,8 +719,8 @@
         "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE82TzNFeHlsbi02YWZ1Tl9QTGtRcTRPeVFPM3loay1UYU11YnIybm42Wm5vMWZBazZRNWZhc2V1ZXRiTVJyS0dnTjgtcVFVV2VjQllUTXVNSzdpeWc3Tk5YZ1YyMlpwOGpoZk5SOVdPdEtKbnJMMUU5SWYwOEc?oc=5",
         "desc": "이전설 비웃듯 한중일 결집… 부산 지스타 더 뜨거워진다  부산일보",
         "pubDate": "Thu, 03 Sep 2026 09:38:10 GMT",
-        "time_ago": "3시간 전",
-        "diff_sec": 13301.32982,
+        "time_ago": "5시간 전",
+        "diff_sec": 18777.290627,
         "category_badge": "게임산업",
         "theme": "tech"
       },
@@ -732,8 +732,8 @@
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9XQ2pMcVNMdFpEcF9CYXRQanhCNW50ZnZ1VncwREx3NVpsdGcyNWwwUmxLeG1oRXdGOXFPODBVWXhvY0h3NXJXSmNKRXFud21adXAxY3FQWFdNRXdmamxLQUlSZXdiaXg0dWc?oc=5",
         "desc": "[e스포츠 종합] 컴투스, 파이널을 향한 'SWC2026' 소식 외  게임뷰",
         "pubDate": "Thu, 03 Sep 2026 09:13:00 GMT",
-        "time_ago": "4시간 전",
-        "diff_sec": 14811.330053,
+        "time_ago": "5시간 전",
+        "diff_sec": 20287.290818,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -745,8 +745,8 @@
         "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9xWmlCb3NKVThvQktkOHVNUVFRMnFLNjNXNDlLcU45b0FKbUpWYUxwS1ZYdXR6UjFJTUphV3JIZ09yQVBEb3ZPOXRMXy1mTUVnMmg4T09fVmxuU05GeVdkLV9EOWU?oc=5",
         "desc": "넥슨표 ‘스타크래프트’ 탄생하나…블리자드와 협력 논의  서울경제TV",
         "pubDate": "Thu, 03 Sep 2026 09:03:46 GMT",
-        "time_ago": "4시간 전",
-        "diff_sec": 15365.328456,
+        "time_ago": "5시간 전",
+        "diff_sec": 20841.289135,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -758,23 +758,10 @@
         "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTFBITk1qejN2YWlaTnREWGtqQWpVdXM5cm1jLWhxMmpMa0wtT0RNWWdhc1hFX1dVN0pZcXNIQ05fOExYOVhPUWh5SzVsaVJWSzg?oc=5",
         "desc": "\"게이머들이 맘껏 즐길 수 있는 무대 늘려야\"  v.daum.net",
         "pubDate": "Thu, 03 Sep 2026 08:57:00 GMT",
-        "time_ago": "4시간 전",
-        "diff_sec": 15771.329256,
+        "time_ago": "5시간 전",
+        "diff_sec": 21247.290059,
         "category_badge": "게임산업",
         "theme": "tech"
-      },
-      {
-        "title": "넷마블 '세븐나이츠 리버스', 신규 영웅 '하연'과 '모험가의 길' 열고 성장 지원",
-        "press": "네이트",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE85U3JMM2Z2bkpwYld0UUZ4UnpSVUIzUGlnQU9fLWR5clBOUjlpNzV3V00yQ0NOeTVDUE9nRXQ3a1VnRFlnX3BqVkpwVmxIWTJqVlh3?oc=5",
-        "desc": "넷마블 '세븐나이츠 리버스', 신규 영웅 '하연'과 '모험가의 길' 열고 성장 지원  네이트",
-        "pubDate": "Thu, 03 Sep 2026 08:26:00 GMT",
-        "time_ago": "4시간 전",
-        "diff_sec": 17631.33057,
-        "category_badge": "게임산업",
-        "theme": "game"
       },
       {
         "title": "英 1인 개발자가 개발 중인 'MMOS: MMO Simulator' 스팀에 데모 버전 출시",
@@ -784,8 +771,8 @@
         "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1vUTFXYTV3X1NkN3BQX2xNSFc2cXZoUWwtdnp3a2Jxei1Qd0dHVlEzX1l1emhxZWtTc2gxN1ItYXUwTHF4NWdGTzJjN25vMTRpWFlpX295VC15aFJGOHFBOQ?oc=5",
         "desc": "英 1인 개발자가 개발 중인 'MMOS: MMO Simulator' 스팀에 데모 버전 출시  게임포커스",
         "pubDate": "Thu, 03 Sep 2026 08:24:06 GMT",
-        "time_ago": "4시간 전",
-        "diff_sec": 17745.330301,
+        "time_ago": "6시간 전",
+        "diff_sec": 23221.291037,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -797,21 +784,47 @@
         "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBtTlhIZUZuTjhGanFJWVJyMEVEaHhieXFoMkpRaWVhSl9uVDEzVEZXa0FvNWxESDBJMEQxWWc0a2JIQlNoRllDQnUxeGFUaXJSVjlkbFJScnhLemhXVllocw?oc=5",
         "desc": "넷마블 세븐나이츠 리버스 신규 영웅 ‘하연’ 추가  NSP통신",
         "pubDate": "Thu, 03 Sep 2026 08:15:09 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 18282.32963,
+        "time_ago": "6시간 전",
+        "diff_sec": 23758.290235,
+        "category_badge": "게임산업",
+        "theme": "game"
+      },
+      {
+        "title": "넥슨 메이플 키우기, 신규 보스 레이드 ‘핑크빈’ 추가",
+        "press": "NSP통신",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1oTUpldTFtaW9SRkNYTUNmajNBLUZmR1ZyZkZJTG1ROGtRanhGVkdzT2YzTi1jRFU5VHJuRUJ0ajJ3dkRsNEhQa2lDTlZMSDAtRWJFODN4Z3ZoRGxKaUFwaw?oc=5",
+        "desc": "넥슨 메이플 키우기, 신규 보스 레이드 ‘핑크빈’ 추가  NSP통신",
+        "pubDate": "Thu, 03 Sep 2026 08:15:00 GMT",
+        "time_ago": "6시간 전",
+        "diff_sec": 23767.290103,
         "category_badge": "게임산업",
         "theme": "game"
       },
       {
         "title": "\"코딩테스트 폐지 파격\" 넥슨이 찾는 ‘AI 네이티브’ 프로그래머의 진짜 조건",
-        "press": "비즈트리뷴",
+        "press": "biztribune.co.kr",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
         "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9va3FGZldXTGpXV0RIaXNDeElySlEtOGFIOW1jUF9vSHZzX2FtZ0xqU3MwTnVEZnRJbmdMNnM3dTJ4d1NLc0pDVXA2S1ZNOGxIWDZEQ1AzdDhhTm1HbTUwV2pJUVNYdktTLVRKblo1dGo?oc=5",
-        "desc": "\"코딩테스트 폐지 파격\" 넥슨이 찾는 ‘AI 네이티브’ 프로그래머의 진짜 조건  비즈트리뷴",
+        "desc": "\"코딩테스트 폐지 파격\" 넥슨이 찾는 ‘AI 네이티브’ 프로그래머의 진짜 조건  biztribune.co.kr",
         "pubDate": "Thu, 03 Sep 2026 08:12:32 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 18439.329282,
+        "time_ago": "6시간 전",
+        "diff_sec": 23915.289927,
+        "category_badge": "게임산업",
+        "theme": "game"
+      },
+      {
+        "title": "[게임 Pick] 크래프톤, 지스타 참가…카카오게임즈, '도깨비의세계' 탱화 옥외광고",
+        "press": "라이센스뉴스",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1pVHJDUndtM2VLMktXdnRzWnd0WGlYS1VWNnJaVkhfTlZIUVVyc0ZjRlNGaS1OUUNMR1ZDZFhHS0pTMWhPc3pvclJNYjVuTU5McllfQXE1Y0xlYzNaQUJQUVB5bWRPajRuNlNn?oc=5",
+        "desc": "[게임 Pick] 크래프톤, 지스타 참가…카카오게임즈, '도깨비의세계' 탱화 옥외광고  라이센스뉴스",
+        "pubDate": "Thu, 03 Sep 2026 08:10:57 GMT",
+        "time_ago": "6시간 전",
+        "diff_sec": 24010.289379,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -823,34 +836,8 @@
         "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1pQ3RtTmZELXJFM1EzNV9UR0s5dFFhMHdDMkZuRmdwUTlQY19Ecm9Ia25BQkJfVUg0T3NpRjJGcDFPSmZhZ0ctWEVTRUE5Z09jRENxTnlGMzVQS21Fb2RaZHJzdmNPZ3hjd081dDZB?oc=5",
         "desc": "[창간특집] 넷마블, ‘신작’에 ‘장수 게임’ 더한다…글로벌 성장축 확장 승부수  이지경제",
         "pubDate": "Thu, 03 Sep 2026 08:09:45 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 18606.328749,
-        "category_badge": "게임산업",
-        "theme": "game"
-      },
-      {
-        "title": "게임업계, 구글 인앱결제 피해 배상 촉구…\"미국처럼 한국에도 배상하라\"",
-        "press": "네이트",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5TakptUFNJZW43Q29YX0ZpbE5xaTR6em5tVEtiejhlSUVMNFF1MW9CRnpRTk10TktfVzRqQXRxMjJlVnhMcDcyeV9XcnFiN0RHQldz?oc=5",
-        "desc": "게임업계, 구글 인앱결제 피해 배상 촉구…\"미국처럼 한국에도 배상하라\"  네이트",
-        "pubDate": "Thu, 03 Sep 2026 08:09:00 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 18651.330501,
-        "category_badge": "게임산업",
-        "theme": "game"
-      },
-      {
-        "title": "10년 연속 출전... 크래프톤, 국제게임전시회 ‘지스타 2026’ 참가 확정",
-        "press": "ipnn.co.kr",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFAtbDJLQ19vbVZ2Mndfbk1DWFlFQUlaTzdPRFlrM1U2T09vUFNBSkZRczR5R2J1aGhCNlVNUFVKRU5wQWQyd2NGS3EyanN3Z2hRN1JRUGx5N0RTcnYtMkZfNmJEY3RrSlo1?oc=5",
-        "desc": "10년 연속 출전... 크래프톤, 국제게임전시회 ‘지스타 2026’ 참가 확정  ipnn.co.kr",
-        "pubDate": "Thu, 03 Sep 2026 08:08:41 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 18670.329899,
+        "time_ago": "6시간 전",
+        "diff_sec": 24082.289356,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -862,8 +849,8 @@
         "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE52bmJZV1N4YWhJU1BTNkxhZ1IxX0JrazhRY1BPTmFFODJEZkxPU2NVaEsxWUUxQ25PSjhEd1J6UXROdHk3SDBFX3ZLUmFvMDNtNm9Ddi11ckt1RDkxV1dYOFh4c2Vqb1FG?oc=5",
         "desc": "넷마블 세븐나이츠 리버스, 신규 영웅 하연·심연 토벌전 추가…무엇이 바뀌었나  창업일보",
         "pubDate": "Thu, 03 Sep 2026 08:08:21 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 18690.329668,
+        "time_ago": "6시간 전",
+        "diff_sec": 24166.290553,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -875,8 +862,8 @@
         "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB2RW5sZE9CQWJ3bk1nSjVJUlJUd0RJNUNSV2lnNUpSRV9wVU0xclAxM3NRVWdELWR3WThxdzhhOW1lQ25uWTVoXzhvWWNVSV9yMHNaQTVzWFJLMFN3TENGVkNZMThGcDZSQmJVdmtn?oc=5",
         "desc": "[위클리오늘] 온라인 게임_넷마블, 컴투스(9.3)  위클리오늘",
         "pubDate": "Thu, 03 Sep 2026 08:08:20 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 18691.329361,
+        "time_ago": "6시간 전",
+        "diff_sec": 24167.290142,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -888,8 +875,8 @@
         "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9OdmVnYWxBdVBZMWcwMHEtdEprTTdaT1JCSHdZVGpNbGpteVh2LWREZmlVb3ZjcFhHU3d0X01GSy1kbG5nbDdEa1UwMnVMMlgxUnFWODhpY1c?oc=5",
         "desc": "[업데이트] 넥슨 '메이플 키우기', 신규 보스 '핑크빈' 등장  뷰어스",
         "pubDate": "Thu, 03 Sep 2026 08:06:47 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 18784.329841,
+        "time_ago": "6시간 전",
+        "diff_sec": 24260.290039,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -901,60 +888,47 @@
         "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBXRUFVeEI1aENLNU1Ra2czRTVQTkV3LVdMempMeUJvaVZ1RUZENVkyMGNlbnNsRzlEVk81U3V3UlJ5cEZGQWdaZTRqMTB0bkVGSDRv?oc=5",
         "desc": "넷마블, 2년 연속 도쿄게임쇼 참가로 글로벌 공세  네이트",
         "pubDate": "Thu, 03 Sep 2026 08:00:00 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 19191.330187,
-        "category_badge": "게임산업",
-        "theme": "game"
-      },
-      {
-        "title": "넥슨 '메이플 키우기' 핑크빈 보스 레이드 추가…포켓 장비 '핑크빛 성배' 등장",
-        "press": "창업일보",
-        "is_verified": false,
-        "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFByQl9OZVloakJXUlAwaVRWRnRvSngtckdiS1ZONHpuQkF6NVNaM1F6OS03LXFXdlZWamJZNEZwdmVEVFhMU0NYek5JSE9OYVRyRUJlMVNCdWpSdC1CRW53WTJjLTBCSFRs?oc=5",
-        "desc": "넥슨 '메이플 키우기' 핑크빈 보스 레이드 추가…포켓 장비 '핑크빛 성배' 등장  창업일보",
-        "pubDate": "Thu, 03 Sep 2026 07:59:39 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 19212.329381,
+        "time_ago": "6시간 전",
+        "diff_sec": 24667.290912,
         "category_badge": "게임산업",
         "theme": "game"
       },
       {
         "title": "[세나리버스 새바람 본격화]넷마블 ‘세븐나이츠 리버스’, 신규 영웅 ‘하연’ 합류…대규모 콘텐츠 업데이트",
-        "press": "jeonguknews.co.kr",
+        "press": "전국뉴스",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
         "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5hTmQ5anBXdnlraXViMmE4SFdWR1NnTDhQOWw4T3A4X0pveDAtU1I2WVNGZUU2X0ZmeThIekpDNjNMZ3BpckpnY1VZaFlfanpFbWtCZ0ZVR1dQWkd1MWx5MGlMd05Vd0RpZUwzaFd3YXk?oc=5",
-        "desc": "[세나리버스 새바람 본격화]넷마블 ‘세븐나이츠 리버스’, 신규 영웅 ‘하연’ 합류…대규모 콘텐츠 업데이트  jeonguknews.co.kr",
+        "desc": "[세나리버스 새바람 본격화]넷마블 ‘세븐나이츠 리버스’, 신규 영웅 ‘하연’ 합류…대규모 콘텐츠 업데이트  전국뉴스",
         "pubDate": "Thu, 03 Sep 2026 07:59:04 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 19247.329478,
+        "time_ago": "6시간 전",
+        "diff_sec": 24723.289946,
         "category_badge": "게임산업",
         "theme": "game"
       },
       {
         "title": "넥슨 ‘메이플 키우기’, 4인 레이드 ‘핑크빈’ 출격···성장 시스템도 개편",
-        "press": "enewstoday.co.kr",
+        "press": "이뉴스투데이",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
         "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE05Ujd5Z2lweE91dFFSTGdCUFdHTThQamJhWnJxWG1hMnlPWmxIUHBsODh3cFNrSmZwd05BalU0THpldmlVRnlwOXlJVGNKZmxYTVBnR3FXV2o5Y3RLM3VFTHRUaXNpOVBBTjg0bndYX27SAXRBVV95cUxPSTI1Qkg5MV9rZXpJWU9iRXZmdE9ZVjVnMjcwRXBJWkdPcTBfY1VkNmRhekJOdGNJRHpEak9CVmVoS0luTlBDaWN0QVRldngtNTIwNEFzbGYwbG5HS1JZajUwTWFadl9CM1JCN2pvVk1VdkZuSw?oc=5",
-        "desc": "넥슨 ‘메이플 키우기’, 4인 레이드 ‘핑크빈’ 출격···성장 시스템도 개편  enewstoday.co.kr",
+        "desc": "넥슨 ‘메이플 키우기’, 4인 레이드 ‘핑크빈’ 출격···성장 시스템도 개편  이뉴스투데이",
         "pubDate": "Thu, 03 Sep 2026 07:54:36 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 19515.329518,
+        "time_ago": "6시간 전",
+        "diff_sec": 24991.290332,
         "category_badge": "게임산업",
         "theme": "game"
       },
       {
-        "title": "[e스포츠 Pick] SWC2026 지역 컵 진출자 확정…VCT 퍼시픽 파이널 부산 개막",
-        "press": "라이센스뉴스",
+        "title": "넥슨 서든어택, 치어리더 김가현·이예빈 신규 캐릭터 출시…2026 시즌3 피날레 이벤트는?",
+        "press": "창업일보",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
-        "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5CMjU3U1ZvNFJ3dnFVM1FiYXNic29BeEkzcW5FNC0yZTktUk12NXM4TC16Q3FfUWRNbC1scjlaZFJUelNYU1p4c3EzdkUyaUR2MzJUS2RleUU5ajJVOVJlNzZGczdHUnVUT0cw?oc=5",
-        "desc": "[e스포츠 Pick] SWC2026 지역 컵 진출자 확정…VCT 퍼시픽 파이널 부산 개막  라이센스뉴스",
-        "pubDate": "Thu, 03 Sep 2026 07:50:24 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 19767.329215,
+        "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9qZkR5cUFaSVZwUHBSdElvbWlGakY4YjdKQjR2LUJiaTV5cVBpV3I5X3hlNXFLbTVZYTk0Y2QwVUN4UVZNR2VjZzRGeEkyTW5nZGFUMXBhWDN2dXBMbVZ6bmk1aS1CTDM2?oc=5",
+        "desc": "넥슨 서든어택, 치어리더 김가현·이예빈 신규 캐릭터 출시…2026 시즌3 피날레 이벤트는?  창업일보",
+        "pubDate": "Thu, 03 Sep 2026 07:52:48 GMT",
+        "time_ago": "6시간 전",
+        "diff_sec": 25099.290409,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -966,8 +940,8 @@
         "link": "https://news.google.com/rss/articles/CBMiQ0FVX3lxTE5tcGJYWUctY0dnbVJIZ3ZRT0NzSVlTMkJSOTZnSmQ0X1R2SnJ4YW5NMTBzaS1MaUNMM2UwN0FUbjV3TXc?oc=5",
         "desc": "넥슨, ‘메이플 키우기’ 신규 보스 레이드 핑크빈 업데이트 실시  브레이크뉴스",
         "pubDate": "Thu, 03 Sep 2026 07:50:00 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 19791.329323,
+        "time_ago": "7시간 전",
+        "diff_sec": 25267.290123,
         "category_badge": "게임산업",
         "theme": "game"
       },
@@ -979,21 +953,47 @@
         "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1TQ0NIRTV3VjQ0cUJNaHB4OS14WVh3VTRWRThnTkt3bmtteXFpcFNpS1VXWldfQUEyQjFINi16cWRvUHE5ZFVZWmRsWktmQUN6YTBoc09kWWfSAVtBVV95cUxNaTNieDNhWjg5SjFRcnJndXFjeXM2NWtwbkZIdDZvZ0FlTGxjZlNmVm1XNjFKdEh3X0RvM2Vxa093cWx6c3pmemZxeWhnSkVDT29KRjdPazloWFJZ?oc=5",
         "desc": "[오늘의 스팀] 기대작 ‘던워커’ 스토리 호평·최적화 혹평  게임메카",
         "pubDate": "Thu, 03 Sep 2026 07:47:19 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 19952.329303,
+        "time_ago": "7시간 전",
+        "diff_sec": 25428.290083,
+        "category_badge": "게임산업",
+        "theme": "game"
+      },
+      {
+        "title": "기존 흥행작 키우고 새 간판 찾고...게임업계 IP 확장 활발",
+        "press": "이코리아",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBLS3hOdEE4VnlZYTNpYVJ4Ujd6XzRrMUR1T0pjeXF0NkRxamduUWF5QXpLd1FCbHlVSzlKSmtXVjJqaUEwX25BN0JZdENGWjBwUW9fdWktaTFDMG1GVVd1ai1xZXBSZzNnVk1wRmRLcw?oc=5",
+        "desc": "기존 흥행작 키우고 새 간판 찾고...게임업계 IP 확장 활발  이코리아",
+        "pubDate": "Thu, 03 Sep 2026 07:46:33 GMT",
+        "time_ago": "7시간 전",
+        "diff_sec": 25474.28928,
         "category_badge": "게임산업",
         "theme": "game"
       },
       {
         "title": "넥슨 오버워치 이어 스타크래프트 '눈독', 이정헌 돈 안되는 토종 장수게임 접고 해외 인기IP 확보 '혈안'",
-        "press": "비즈니스포스트",
+        "press": "businesspost.co.kr",
         "is_verified": false,
         "safety_badge": "전문 뉴스",
         "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1ya1U5cjhYVTJaUmpjYzJsTktfRmEtSHExcTd4Nlh2MkQ1UTBJaW54QkJrMjhqdUlTNWlXaHVEZGdwUW1WNzFEQno1ZjVlQldFcldGOUdIWGo0S2tGbVVhQU9SNTJ0T3h0YjFPdVBfSmEwVTA?oc=5",
-        "desc": "넥슨 오버워치 이어 스타크래프트 '눈독', 이정헌 돈 안되는 토종 장수게임 접고 해외 인기IP 확보 '혈안'  비즈니스포스트",
+        "desc": "넥슨 오버워치 이어 스타크래프트 '눈독', 이정헌 돈 안되는 토종 장수게임 접고 해외 인기IP 확보 '혈안'  businesspost.co.kr",
         "pubDate": "Thu, 03 Sep 2026 07:42:28 GMT",
-        "time_ago": "5시간 전",
-        "diff_sec": 20243.328728,
+        "time_ago": "7시간 전",
+        "diff_sec": 25719.289446,
+        "category_badge": "게임산업",
+        "theme": "game"
+      },
+      {
+        "title": "\"하연 합류하고 '심연 토벌전' 열렸다\"…넷마블 '세븐나이츠 리버스' 대규모 업데이트",
+        "press": "네이트",
+        "is_verified": false,
+        "safety_badge": "전문 뉴스",
+        "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1mY3o5YzQ0MlJWQXZMRGI0MVpna2Jaaml0a2VDU2MxUV9TSXFHM0lwc3pNSjV6QVhWLUpVTk5haDE4UUh5R0hmT3pEYlFxRXd4NzBhQXB4UW5hTk84?oc=5",
+        "desc": "\"하연 합류하고 '심연 토벌전' 열렸다\"…넷마블 '세븐나이츠 리버스' 대규모 업데이트  네이트",
+        "pubDate": "Thu, 03 Sep 2026 07:32:00 GMT",
+        "time_ago": "7시간 전",
+        "diff_sec": 26347.291056,
         "category_badge": "게임산업",
         "theme": "game"
       }

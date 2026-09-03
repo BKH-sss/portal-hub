@@ -1,660 +1,222 @@
 {
-  "generated_at": "2026-09-03 13:19:54",
-  "total_count": 60,
+  "generated_at": "2026-09-03 14:51:09",
+  "total_count": 30,
   "market_tickers": [
     {
       "name": "NASDAQ",
-      "price_str": "26,217.83",
-      "price": 26217.828,
-      "change": -0.58,
-      "change_str": "-0.58%"
+      "price_str": "26,401.40",
+      "price": 26401.402,
+      "change": 1.16,
+      "change_str": "+1.16%"
     },
     {
       "name": "S&P 500",
-      "price_str": "7,666.60",
-      "price": 7666.6,
-      "change": -0.25,
-      "change_str": "-0.25%"
+      "price_str": "7,701.64",
+      "price": 7701.64,
+      "change": 0.92,
+      "change_str": "+0.92%"
     },
     {
       "name": "NVDA",
-      "price_str": "$224.41",
-      "price": 224.41,
-      "change": 1.64,
-      "change_str": "+1.64%"
+      "price_str": "$226.09",
+      "price": 226.09,
+      "change": 3.98,
+      "change_str": "+3.98%"
     },
     {
       "name": "AAPL",
-      "price_str": "$324.96",
-      "price": 324.96,
-      "change": 2.56,
-      "change_str": "+2.56%"
+      "price_str": "$328.81",
+      "price": 328.815,
+      "change": 1.13,
+      "change_str": "+1.13%"
     },
     {
       "name": "MSFT",
-      "price_str": "$496.82",
-      "price": 496.82,
-      "change": -2.06,
-      "change_str": "-2.06%"
+      "price_str": "$508.86",
+      "price": 508.86,
+      "change": 1.56,
+      "change_str": "+1.56%"
     },
     {
       "name": "TSLA",
-      "price_str": "$357.01",
-      "price": 357.01,
-      "change": -2.97,
-      "change_str": "-2.97%"
+      "price_str": "$379.50",
+      "price": 379.5,
+      "change": 6.57,
+      "change_str": "+6.57%"
     },
     {
       "name": "USD/KRW",
-      "price_str": "1,356.27원",
-      "price": 1356.27,
-      "change": -1.21,
-      "change_str": "-1.21%"
+      "price_str": "1,357.22원",
+      "price": 1357.22,
+      "change": -1.14,
+      "change_str": "-1.14%"
     },
     {
       "name": "BITCOIN",
-      "price_str": "$78,468",
-      "price": 78467.82,
-      "change": 1.51,
-      "change_str": "+1.51%"
+      "price_str": "$80,202",
+      "price": 80201.63,
+      "change": 3.75,
+      "change_str": "+3.75%"
     }
   ],
   "news": {
-    "ai_tech": [
-      {
-        "id": "orbis_ai_tech_40_1788402360",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Bloomberg",
-        "title": "ByteDance Gets $30 Billion Loan, Asia’s Second-Largest This Year",
-        "title_ko": "🤖 [AI·프론티어] ByteDance Gets $30 Billion Loan, Asia’s Second-Largest This Year",
-        "desc": "ByteDance Gets $30 Billion Loan, Asia’s Second-Largest This Year  Bloomberg.com",
-        "desc_ko": "ByteDance Gets $30 Billion Loan, Asia’s Second-Largest This Year",
-        "time_ago": "10h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788402360,
-        "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPcDZ5TS16SGlnZnEwdVRGM3FQQXI4X3lmU21YUm9wSXpGWFdkYnlMQU9jNnEyRllQTkZJa3hRZ3lRZDRaV3VpMXZfYzhnNW10cnpkeFdncWZzZmJRM25URkhGR1pxYmctaGp5MkhhcDNRM0wyUTQxdmF6SHVlMWw1MTE1bk9udUZoWEtGNG5abk5CM2liVDlvWGdmVnQ1NG1xaWFIWGRYSjhUSnJpYjZfOFE5OA?oc=5",
-        "points": [
-          "핵심 내용: ByteDance Gets $30 Billion Loan, Asia’s Second-Largest This Year",
-          "ByteDance Gets $30 Billion Loan, Asia’s Second-Largest This Year  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_60_1788396360",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Oil prices hit fresh 6-week highs on renewed Middle East tensions",
-        "title_ko": "🤖 [AI·프론티어] Oil prices hit fresh 6-week highs on renewed Middle East tensions",
-        "desc": "Oil prices hit fresh 6-week highs on renewed Middle East tensions  Reuters",
-        "desc_ko": "Oil prices hit fresh 6-week highs on renewed Middle East tensions",
-        "time_ago": "12h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788396360,
-        "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQVk5vakhhby03N0RCUHNMTU1jY1F4OGdsMmt2cThTLW5hU0VNM181YUVwYW1wSlJsbGoweDQtd3ROSTFfMDhUSGpWMHI5WG9qeTByTGJpVTRZaER0dGlwZ1BULXVRUzlPemRSOC1ranltaDQ0QjJ4OWMwWTRrNjJ6eDdkaExIMjFiVDJlbUxZcTU2Sk1DRE1uNTR5SkdPM0VJanktVUI1RkNpcXoxRkxBN1lkUDRnUQ?oc=5",
-        "points": [
-          "핵심 내용: Oil prices hit fresh 6-week highs on renewed Middle East tensions",
-          "Oil prices hit fresh 6-week highs on renewed Middle East tensions  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_69_1788393780",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Ali al-Taher ridge emerges as flashpoint in Israel-Hezbollah war",
-        "title_ko": "🤖 [AI·프론티어] Ali al-Taher ridge emerges as flashpoint in Israel-Hezbollah war",
-        "desc": "Ali al-Taher ridge emerges as flashpoint in Israel-Hezbollah war  Reuters",
-        "desc_ko": "Ali al-Taher ridge emerges as flashpoint in Israel-Hezbollah war",
-        "time_ago": "13h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788393780,
-        "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPakRyMlpkYi00X1dGcXhwdmgzYklaeTFicENLWDJVQ2FJUW1JYURrMThUeFM5RUlzcUtJQmV6c0xuNjl0SG9UYUJUZXpGVWYyNmJpNThfTnAzX0pxeGFyczNYMHFVVEhyN0hQR25ERUhHamVxZHBZVHptdXo2c1pHT2E3NUlacEo2LTlIX3BYMVVJWTRKU3J2RHNYU3NTdnN3dWtSRW4zNmhJaFVRSmkxTWZR?oc=5",
-        "points": [
-          "핵심 내용: Ali al-Taher ridge emerges as flashpoint in Israel-Hezbollah war",
-          "Ali al-Taher ridge emerges as flashpoint in Israel-Hezbollah war  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_31_1788393720",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Tech pilgrims flock to China as global innovation race heats up",
-        "title_ko": "🤖 [AI·프론티어] Tech pilgrims flock to China as global innovation race heats up",
-        "desc": "Tech pilgrims flock to China as global innovation race heats up  Reuters",
-        "desc_ko": "Tech pilgrims flock to China as global innovation race heats up",
-        "time_ago": "13h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788393720,
-        "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOVTV1eVp6ajVXRkVyRlFMVXBJNG9UQ1p0UDZuZTh2VldJTDJZSXRPYmVsOWFsVmxMd0dOeGtkWmlkNGpKeXJjMjVoTEV0cjJlQ0N6Rk9sTTFVdWppSWFORVF2Wk0waFZERWNXNXZpbWoteW5JSVdIR1loNnQyR21VODVQU2gyTGl5a1N2TFVFd0RORFpPTjItY0tvTWliNDFZSXZlYkx2c2U?oc=5",
-        "points": [
-          "핵심 내용: Tech pilgrims flock to China as global innovation race heats up",
-          "Tech pilgrims flock to China as global innovation race heats up  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_18_1788388789",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Bloomberg",
-        "title": "US Strikes Light-Touch AI Regulation Accord With G20 Members",
-        "title_ko": "🤖 [AI·프론티어] US Strikes Light-Touch AI Regulation Accord With G20 Members",
-        "desc": "US Strikes Light-Touch AI Regulation Accord With G20 Members  Bloomberg.com",
-        "desc_ko": "US Strikes Light-Touch AI Regulation Accord With G20 Members",
-        "time_ago": "14h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788388789,
-        "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOR3ZNOVVac1k3Ymxlb0Y0R2YyWGFxUHBreldYRVlMdldlZG9rZTgySEx6M3BiZzNWMmFJWlVoNWFDaGwzelVzT1RmTGRzMDZWcUxvUXp5dG41X2ZXVWZreXo1M0tBSkdqUXZqdmJ5Z1JUckxJVllHQTR2S1ZGUDYtOTdBNzhWY3A2NGViR3ltN09LWFd3cm4yMXNWaWVKUE9zR1liR2tsQldCcDRsN0tPNw?oc=5",
-        "points": [
-          "핵심 내용: US Strikes Light-Touch AI Regulation Accord With G20 Members",
-          "US Strikes Light-Touch AI Regulation Accord With G20 Members  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_54_1788387249",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Thoma Bravo explores $2 billion-plus sale of Foundation Software, sources say",
-        "title_ko": "🤖 [AI·프론티어] Thoma Bravo explores $2 billion-plus sale of Foundation Software, sources say",
-        "desc": "Thoma Bravo explores $2 billion-plus sale of Foundation Software, sources say  Reuters",
-        "desc_ko": "Thoma Bravo explores $2 billion-plus sale of Foundation Software, sources say",
-        "time_ago": "15h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788387249,
-        "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOb3I0aUtzLXA0VmFHdjdLb2pfbnZ4NGdPOHduVDdwSXh4MlY1bEMxa3d2UXRqUGpDek91TjNUMXBLVUxsZFAwNi1CYnNBMnlYV2k3UWMtLVhRU1dtYjNhQmdySHdPNUJPSm1kNmMzNnJZbDR5Qmt0QVlHVGdNSE14dEZMcWZrcEpNS2F0bl9Wckh1WHRmT3JwaUk2LWpBTzBnWGhtWEJxSW1YZlFKY0dSNkkweFp5Ymk5TjRjRm5OVWxKaFd4MFE0?oc=5",
-        "points": [
-          "핵심 내용: Thoma Bravo explores $2 billion-plus sale of Foundation Software, sources say",
-          "Thoma Bravo explores $2 billion-plus sale of Foundation Software, sources say  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_45_1788386263",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "US charges two former Linqto CEOs over $450 million 'pre-IPO' fraud scheme, one pleads guilty",
-        "title_ko": "🤖 [AI·프론티어] US charges two former Linqto CEOs over $450 million 'pre-IPO' fraud scheme, one pleads guilty",
-        "desc": "US charges two former Linqto CEOs over $450 million 'pre-IPO' fraud scheme, one pleads guilty  Reuters",
-        "desc_ko": "US charges two former Linqto CEOs over $450 million 'pre-IPO' fraud scheme, one pleads guilty",
-        "time_ago": "15h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788386263,
-        "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQRnVXRzRGdmdmUVRkV3VzRG4zbnlGXzBNcXZyZUxIM0pEcFpuSXdWdnFQU05tRW1WZENCa0dHbnFmbVZFeUZUQjR5THZOZmVjQ0Q1S0xZX25pNTdNRTJZQ3ZlSUM2LUZTbEpVSERpeXlFUGxzam5FVUxYaGFTZF9rVU9ob3NhdU9PMV9OdWZ4Y0RpNHVGZUI0d0xmTXBOZFhFaDdQdmtlRDVMdGN6NjgteHkxTy1ORzVmSlNKd1FnUUduWVpfOXFJ?oc=5",
-        "points": [
-          "핵심 내용: US charges two former Linqto CEOs over $450 million 'pre-IPO' fraud scheme, one pleads guilty",
-          "US charges two former Linqto CEOs over $450 million 'pre-IPO' fraud scheme, one pleads guilty  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_62_1788380409",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Pet food platform Golden Pet Brands taps banks for IPO, sources say",
-        "title_ko": "🤖 [AI·프론티어] Pet food platform Golden Pet Brands taps banks for IPO, sources say",
-        "desc": "Pet food platform Golden Pet Brands taps banks for IPO, sources say  Reuters",
-        "desc_ko": "Pet food platform Golden Pet Brands taps banks for IPO, sources say",
-        "time_ago": "16h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788380409,
-        "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPdFBmTVY0YUZSV0ludEllQ3JhbVBnR3VXRWFacFJsT0hIUWRkUDRtd2pLU1B3ajhwRXFpUDI4TTlEcWhVM3QyaE1zRXE0aUlHWjJDX0tSZTcyNjRxNVU4N3dMY2RSS3lzYjM3b25tZGxfcl9taUJ3eWQyR2RaelkwemJFVndnUUpGMlF6cDlpbXV6QU9HeFRVbnBiaHpGM3BoeGdsaTF0SQ?oc=5",
-        "points": [
-          "핵심 내용: Pet food platform Golden Pet Brands taps banks for IPO, sources say",
-          "Pet food platform Golden Pet Brands taps banks for IPO, sources say  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_32_1788379900",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "The Verge",
-        "title": "Google says its new Gemini 3.8 Flash model ‘works harder’ but might cost more",
-        "title_ko": "🤖 [AI·프론티어] Google says its new Gemini 3.8 Flash model ‘works harder’ but might cost more",
-        "desc": "Google says its new Gemini 3.8 Flash model ‘works harder’ but might cost more  The Verge",
-        "desc_ko": "Google says its new Gemini 3.8 Flash model ‘works harder’ but might cost more",
-        "time_ago": "17h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788379900,
-        "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNZGZOd1k3V2lUSk9raG9XeDg4dm9Fd0N4blA2LWZSUFNHOWVZY1FHSWpNU2JXSXl6VGhmU2tiUlhka19FbFh0TVBiU1V0QkNnMGE2VHNpWWhuamlwMXhlOEpIc3RPV1V4UlpVTzFRUVdJRW5uY2FnTXVuNi1GQmV2UHMtN3hLWjRxMnc?oc=5",
-        "points": [
-          "핵심 내용: Google says its new Gemini 3.8 Flash model ‘works harder’ but might cost more",
-          "Google says its new Gemini 3.8 Flash model ‘works harder’ but might cost more  The Verge",
-          "공신력 검증: 전 세계 주요 언론사 The Verge을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_65_1788378180",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "EXCLUSIVE: Private equity firms Carlyle, Bain, Oaktree readying bids for Serie A international media unit, sources say",
-        "title_ko": "🤖 [AI·프론티어] EXCLUSIVE: Private equity firms Carlyle, Bain, Oaktree readying bids for Serie A international media unit, sources say",
-        "desc": "EXCLUSIVE: Private equity firms Carlyle, Bain, Oaktree readying bids for Serie A international media unit, sources say  Reuters",
-        "desc_ko": "EXCLUSIVE: Private equity firms Carlyle, Bain, Oaktree readying bids for Serie A international media unit, sources say",
-        "time_ago": "17h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788378180,
-        "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOUERGRVpPb0FBQlRqVXBZaWhBSzBSSW0zaWpVOWt3eWlyU2h2Ukp1aC1EZkRieVlmVDA1ZXJzcy1CLVJvR2VxcTRCZ241MVZMekRBNzBIeHhhaFM5WnJkRGJMN19hYllxWFFaTmR3UWZmblU0OFFZanVzVXhFYzRJU2NheDlnaVJhTndrWHZ5X1JialFLX291MW1vRW5TNkRDZlVUVTFMdlhLSU5vN09MU1ZiUDJGT05Hem5VQmFn?oc=5",
-        "points": [
-          "핵심 내용: EXCLUSIVE: Private equity firms Carlyle, Bain, Oaktree readying bids for Serie A international media unit, sources say",
-          "EXCLUSIVE: Private equity firms Carlyle, Bain, Oaktree readying bids for Serie A international media unit, sources say  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_49_1788378009",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Waymo taps Pimco, Blackstone to raise $3 billion debt, Bloomberg News reports",
-        "title_ko": "🤖 [AI·프론티어] Waymo taps Pimco, Blackstone to raise $3 billion debt, Bloomberg News reports",
-        "desc": "Waymo taps Pimco, Blackstone to raise $3 billion debt, Bloomberg News reports  Reuters",
-        "desc_ko": "Waymo taps Pimco, Blackstone to raise $3 billion debt, Bloomberg News reports",
-        "time_ago": "17h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788378009,
-        "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQU29YQk9RWTlVZm1OQzdHZWlaNzBXVHVjNjJwQjZIS25SWElyUDJ4Qm9pQ0paTHRRR2IyTXBYOWNva2ZNdVA3WlZvTi14cElERzZuMVlmdUQ5bDRLSWItRHJibk9qaFB1OUNUQTZCazBnR2s3R1cwWl9zay1OTm5GUXVGWnZISUIxSmpiLWtXTHJDaVBVQW1kd20wS0pqZTk2SmJ0YkQtWVZpYnRCRXJFMnF0c0MtNVU5bkZjMW1xR0UzWmFkSGc?oc=5",
-        "points": [
-          "핵심 내용: Waymo taps Pimco, Blackstone to raise $3 billion debt, Bloomberg News reports",
-          "Waymo taps Pimco, Blackstone to raise $3 billion debt, Bloomberg News reports  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_38_1788368091",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Google escapes ad tech breakup in third Big Tech antitrust loss for US",
-        "title_ko": "🤖 [AI·프론티어] Google escapes ad tech breakup in third Big Tech antitrust loss for US",
-        "desc": "Google escapes ad tech breakup in third Big Tech antitrust loss for US  Reuters",
-        "desc_ko": "Google escapes ad tech breakup in third Big Tech antitrust loss for US",
-        "time_ago": "20h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788368091,
-        "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPYzZjU0NTeE1iWXZnaFIwQ3owdlFBWTM4NnZNZ25ncjI0VngydVFCc2ZLOS1PalpFLTNBdjNkTkpyNDNIYTFXd1JQMURDbnFadXB1T2s4eFNENXpxQk9BcVFWdUNvRTBwVFh4NEwzaGd4S3NmbDJYZVVyeGlseTVXWktpa2tDWmpTZllyYmVOQ2FIaVEzSVlacA?oc=5",
-        "points": [
-          "핵심 내용: Google escapes ad tech breakup in third Big Tech antitrust loss for US",
-          "Google escapes ad tech breakup in third Big Tech antitrust loss for US  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_46_1788367546",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Vertiv to buy Utility Innovation Group for up to $2.6 billion in data center push",
-        "title_ko": "🤖 [AI·프론티어] Vertiv to buy Utility Innovation Group for up to $2.6 billion in data center push",
-        "desc": "Vertiv to buy Utility Innovation Group for up to $2.6 billion in data center push  Reuters",
-        "desc_ko": "Vertiv to buy Utility Innovation Group for up to $2.6 billion in data center push",
-        "time_ago": "20h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788367546,
-        "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQQzJLNm1lTUp4Z004cGlyeTNXcmJMcVc5RzRPYjVSQ2ZPWFBaS2U3WWo1cUFRQ3JPT0ZORVVYTGEzNmhSQmZWZzdMZ2RxaDZiVUJaVUxMYXNHS051V3YxTWJqbURmYjU5a2NGeHpYdlZldmV5V3NFQlpmcnV3QzcxNGZ5eF94c3M1d0FTanpQNnBzaVpXRGFReGczb3lDTGdzLUxib1I0MUFZdWRXZUxpWmkwOU8yQWJVTGdLVUxnWnNoekMxZmc?oc=5",
-        "points": [
-          "핵심 내용: Vertiv to buy Utility Innovation Group for up to $2.6 billion in data center push",
-          "Vertiv to buy Utility Innovation Group for up to $2.6 billion in data center push  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_11_1788366383",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Berkshire CEO Abel says AI to help power growth",
-        "title_ko": "🤖 [AI·프론티어] Berkshire CEO Abel says AI to help power growth",
-        "desc": "Berkshire CEO Abel says AI to help power growth  Reuters",
-        "desc_ko": "Berkshire CEO Abel says AI to help power growth",
-        "time_ago": "20h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788366383,
-        "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOQUhNVlk0cFV2aWlLZS05RGdXb09LX2E3V01uSzBlc0tqY3R5S2NDblgyNk10QW05Z3FFSXBGVkhVTUJkSVU5TGxvZ0VqelU0eVdjV1gyWXBHWFZnMnQ5VW1sRnQyRXhkR1BYSlplWnF1OG4wYWFvWEJCQThFa2ljMFdvRFpVZk45eGFaNHdrSzZMVWNCSjNxcHVSNy1CdFZUNWxIWjBHSmFxXzhvZm1r?oc=5",
-        "points": [
-          "핵심 내용: Berkshire CEO Abel says AI to help power growth",
-          "Berkshire CEO Abel says AI to help power growth  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_13_1788365545",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "The Verge",
-        "title": "The Trump administration is supporting OpenAI in the NYT copyright lawsuit",
-        "title_ko": "🤖 [AI·프론티어] The Trump administration is supporting OpenAI in the NYT copyright lawsuit",
-        "desc": "The Trump administration is supporting OpenAI in the NYT copyright lawsuit  The Verge",
-        "desc_ko": "The Trump administration is supporting OpenAI in the NYT copyright lawsuit",
-        "time_ago": "21h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788365545,
-        "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOTEYtTENkd0RzX0xNdUJVNHgxMDc1bWlrSEZybHRrcUlDTXBzNFlNRkhKTk44Tk5RUHNIQmttZkp3cjFZNHJiUVJQaGJ1dVJnc3VacHRKQi1XbXFsb1dZcWM4aXU4SDdZLUFydzg1WTFHdWFHSmtuYmdxcEJmZ09rOXhHSEZQWXZGeENZV2ZUZTR4M3VJRGIyajJSMHZyckRXNXFNeldXZDFzV1B2OEE?oc=5",
-        "points": [
-          "핵심 내용: The Trump administration is supporting OpenAI in the NYT copyright lawsuit",
-          "The Trump administration is supporting OpenAI in the NYT copyright lawsuit  The Verge",
-          "공신력 검증: 전 세계 주요 언론사 The Verge을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_68_1788360792",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Good chance that trapped workers are still alive in Nepal hydropower plant, official says",
-        "title_ko": "🤖 [AI·프론티어] Good chance that trapped workers are still alive in Nepal hydropower plant, official says",
-        "desc": "Good chance that trapped workers are still alive in Nepal hydropower plant, official says  Reuters",
-        "desc_ko": "Good chance that trapped workers are still alive in Nepal hydropower plant, official says",
-        "time_ago": "22h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788360792,
-        "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNMDZPXzQxWXM4RUJQaEJBandibmgtV2xrc1RGSXBiUTZ0cmZwYTQxN21KNVlhVVY3V0hEZ0FpYTVWbnNta09ReTNwWGJaMnRrbTlDeU9xQlBTQlJUdXRjUWNWLWdxQkJHOVhpZ0hRZ1JOeDFUYzZWaXhucG9sd29UeDdWVjc0aVBSSWZhQ3VNMTVjOV9ycFVzRzJYTnpOTFJVb0hFYTR4XzBfdGJmeThNUV9zMGVjcHhRcEJMMmd6UmtkRjYtVmhj?oc=5",
-        "points": [
-          "핵심 내용: Good chance that trapped workers are still alive in Nepal hydropower plant, official says",
-          "Good chance that trapped workers are still alive in Nepal hydropower plant, official says  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_19_1788359949",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Bloomberg",
-        "title": "AI Startup Wonderful Raises Funds at $5 Billion Valuation",
-        "title_ko": "🤖 [AI·프론티어] AI Startup Wonderful Raises Funds at $5 Billion Valuation",
-        "desc": "AI Startup Wonderful Raises Funds at $5 Billion Valuation  Bloomberg.com",
-        "desc_ko": "AI Startup Wonderful Raises Funds at $5 Billion Valuation",
-        "time_ago": "22h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788359949,
-        "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNaW9CRnJwZkJxTm1UaE5lMk0zWnNvWUNFVHB1YkFxRTZUemlub05XVnU0VjltQ05pUjhXMFhWakR1UXpkdk5uYTFleHRXSVVkVkU5NWpJT052WkZNMm1hR2YxYWI1NDNncHhtU0RsMlpXSl92Y3dsZ0JGZnNqYV8xVVBCaDktcGxRNW9oeFpoR3QtNU5NbUg5ZTFhTm0zTVpTYmdTY1FvNml1ckU?oc=5",
-        "points": [
-          "핵심 내용: AI Startup Wonderful Raises Funds at $5 Billion Valuation",
-          "AI Startup Wonderful Raises Funds at $5 Billion Valuation  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_22_1788359669",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Bloomberg",
-        "title": "AI Security Firm Upwind Raises Funds at $3.8 Billion Value",
-        "title_ko": "🤖 [AI·프론티어] AI Security Firm Upwind Raises Funds at $3.8 Billion Value",
-        "desc": "AI Security Firm Upwind Raises Funds at $3.8 Billion Value  Bloomberg.com",
-        "desc_ko": "AI Security Firm Upwind Raises Funds at $3.8 Billion Value",
-        "time_ago": "22h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788359669,
-        "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNRWJNb3pVWDZ4Wk8zYk5rNE5MbDFoQUhzQndBYXRqTE1vYWJLaEJZVXd2UFVNSkRDcFZLQjBLR2U5RzJUWjlGRGpGSEszVWJmUHQ5Y3BYT0JfY2J2UXNfekp2TmJqSXg1bTZSN0EyaVQySWdTclRTSTRWZGUxUnEzOGZ6cjRhc0dOaHJxVmdxQmp3elV6R2ZrcUZLZ3k1MHc1cXVnTFdXNGp2VjN5ZFV6MUk1OHo4Wm5WdUl2X25IRXRHUHRpMlZV?oc=5",
-        "points": [
-          "핵심 내용: AI Security Firm Upwind Raises Funds at $3.8 Billion Value",
-          "AI Security Firm Upwind Raises Funds at $3.8 Billion Value  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_48_1788350859",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "KKR to acquire A1 Garage Door Service for around $2 billion, sources say",
-        "title_ko": "🤖 [AI·프론티어] KKR to acquire A1 Garage Door Service for around $2 billion, sources say",
-        "desc": "KKR to acquire A1 Garage Door Service for around $2 billion, sources say  Reuters",
-        "desc_ko": "KKR to acquire A1 Garage Door Service for around $2 billion, sources say",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788350859,
-        "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPMzBsYXlGY0dqSEdBMnJCNHNJaHo2YUtSNTRIaEcxTFd6dVIxOHhDWDl2TlVEREVYOE1WcEs3dE5IRHYyVXE3TDE4S0pBeHd4SG9MUjVfdzlaTWNLX3JWODU4VEFWS25IdEtnb1BKeHQ2ejU0NFYzZ3dGdmIwajRwc2lVclEwcXRYZ29OOVlYUTFrbmM2dFMzU2N5aWVwN3JHSVJtUDVqM01JTzBfRWd1amZLc3V0QV9Mdncw?oc=5",
-        "points": [
-          "핵심 내용: KKR to acquire A1 Garage Door Service for around $2 billion, sources say",
-          "KKR to acquire A1 Garage Door Service for around $2 billion, sources say  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_17_1788341403",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Bloomberg",
-        "title": "Lyte, Founded by Ex-Apple Face ID Engineers, Triples Valuation to $1.6 Billion",
-        "title_ko": "🤖 [AI·프론티어] Lyte, Founded by Ex-Apple Face ID Engineers, Triples Valuation to $1.6 Billion",
-        "desc": "Lyte, Founded by Ex-Apple Face ID Engineers, Triples Valuation to $1.6 Billion  Bloomberg.com",
-        "desc_ko": "Lyte, Founded by Ex-Apple Face ID Engineers, Triples Valuation to $1.6 Billion",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788341403,
-        "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPc1N6R3dwSUp4UkhYUlhKZ2ltaGdXeUVRcVowX0tSTmgtZjRmWTAyeXhpMktvNFNjRnozcVNFSzdHRlpxT3NfQVB0QXFyNWlnRGIyRll3MnRwUDh4RG9qZ0REdXMzbmg5WWxtTXNNcm8ycUpqZm1Cemw0SEpSN1Z4aFhObHZoaFNmS0VBMVl1Y3VzdWRhZVctODVzeDMwX1lhX2Y4M2xaRElpbDRqc0h6dE5ocE52WUpGdkEwb1E0WG85eGQwcVE?oc=5",
-        "points": [
-          "핵심 내용: Lyte, Founded by Ex-Apple Face ID Engineers, Triples Valuation to $1.6 Billion",
-          "Lyte, Founded by Ex-Apple Face ID Engineers, Triples Valuation to $1.6 Billion  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_10_1788308940",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Bloomberg",
-        "title": "AI Startup Cognition Set to Raise Around $1 Billion at a $47 Billion Value",
-        "title_ko": "🤖 [AI·프론티어] AI Startup Cognition Set to Raise Around $1 Billion at a $47 Billion Value",
-        "desc": "AI Startup Cognition Set to Raise Around $1 Billion at a $47 Billion Value  Bloomberg.com",
-        "desc_ko": "AI Startup Cognition Set to Raise Around $1 Billion at a $47 Billion Value",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788308940,
-        "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNRTNON3o3cnJBZjlQcS1CVm5CRFNVYms2enBQZF9lM0F3VXk1Wk5GNjltQ3VabHlYR1VuNzMteEY2cHdhV3kyX3hDU09sYm5nTnlZQWxJN0o3S3FpSTktRVNqZnF5WnZVSi10eDQ4RFlyMWhMWkJfeGw2N3RxUDVyV2ZzeUkwR2l4dHMyOTZaTDBEOEhrc0xDXy1Hd2k5TmotSWNodTJpdFQzdlhjMnVmUW1vWS1TYWR4aFE1VE0xSzA?oc=5",
-        "points": [
-          "핵심 내용: AI Startup Cognition Set to Raise Around $1 Billion at a $47 Billion Value",
-          "AI Startup Cognition Set to Raise Around $1 Billion at a $47 Billion Value  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_1_1788304636",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "California lawmakers pass bill governing lawyers' use of AI",
-        "title_ko": "🤖 [AI·프론티어] California lawmakers pass bill governing lawyers' use of AI",
-        "desc": "California lawmakers pass bill governing lawyers' use of AI  Reuters",
-        "desc_ko": "California lawmakers pass bill governing lawyers' use of AI",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 01",
-        "timestamp": 1788304636,
-        "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQbFh0bjF0aXc5OFBldkJvWXMzcW00WnF4TTVybHBsWDR0T2dXaWxJNWp5ci1kaFpCNXloY1FxM2JjRHlEY1F6cEFhSmU4LTMtYlBUTXI0TUd0OFVBLVZSNzJUY2dDT1pXR21wZTRteThtYUtQMnlmRHZ3TmFnR3FrQndEZ3BOaHRZRGlvdklaMGJjeGg1TTdjUDU4UW93amlmTjRUNV9kZTdXalNJ?oc=5",
-        "points": [
-          "핵심 내용: California lawmakers pass bill governing lawyers' use of AI",
-          "California lawmakers pass bill governing lawyers' use of AI  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_24_1788303029",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "The Verge",
-        "title": "Google needs Hollywood more than the studios need AI",
-        "title_ko": "🤖 [AI·프론티어] Google needs Hollywood more than the studios need AI",
-        "desc": "Google needs Hollywood more than the studios need AI  The Verge",
-        "desc_ko": "Google needs Hollywood more than the studios need AI",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 01",
-        "timestamp": 1788303029,
-        "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPR3Yxenk4VzFDUWJ3TWY1M1VMWVVVcVZlSzVvTEFmLWtIaWlIT2FrS25EbkF2MVBDY1luRkdzcDJ3cl9HUWhVc3lTRmx1NXI2Vk9uS1NBajNSamRCYm0wMGRFZlZGMUhyQUZLU0JXMkw0Y05EN1JaZ29Uc25CT0habUVLeTUweTZCVWE1YlNaS1NvVHM?oc=5",
-        "points": [
-          "핵심 내용: Google needs Hollywood more than the studios need AI",
-          "Google needs Hollywood more than the studios need AI  The Verge",
-          "공신력 검증: 전 세계 주요 언론사 The Verge을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_61_1788302614",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Kroenke reaches deal to add Angels to sports portfolio",
-        "title_ko": "🤖 [AI·프론티어] Kroenke reaches deal to add Angels to sports portfolio",
-        "desc": "Kroenke reaches deal to add Angels to sports portfolio  Reuters",
-        "desc_ko": "Kroenke reaches deal to add Angels to sports portfolio",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 01",
-        "timestamp": 1788302614,
-        "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxON2hMOWx4V0tvdDJHakFxNkVLZkUwNmFheTlDdnlZR05xRkxlOWxsZkZ1OEV4MFhUbW4zUUw2RlNTdEtscEUwNkJHV3g1YmhQRVFrZnRVbFJ1cWFkOUZfVF8xV2JkWTRKdXlkSnUyNWZkT3Q2eERQX0RSbWZxbFVBM2VWeUhqamNzNWVTbXN4UF9nSTdSb3IxV3ZqUWVhZEwtZ0xISU52TQ?oc=5",
-        "points": [
-          "핵심 내용: Kroenke reaches deal to add Angels to sports portfolio",
-          "Kroenke reaches deal to add Angels to sports portfolio  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_55_1788292148",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Nestle to offload mainstream vitamin brands for $1 billion",
-        "title_ko": "🤖 [AI·프론티어] Nestle to offload mainstream vitamin brands for $1 billion",
-        "desc": "Nestle to offload mainstream vitamin brands for $1 billion  Reuters",
-        "desc_ko": "Nestle to offload mainstream vitamin brands for $1 billion",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 01",
-        "timestamp": 1788292148,
-        "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNZTRiNXdVWW1qVU9mUDVTa3VoT1BSUFpVVHdWTk5Nal9pWTlfRGROb2Y1dXFaUkY4dl9Ub01PWWFGYnZGVU9xN2Vxd0c3WmN2MTlSTktmRVNZY1Rua1ZqckwxSnVrUUZSUnFmSlZVdW9TZ21uNEkwenFyc3h0Nlp6d3dPVE9JWHJjcW5oTUs2bGdSNkJ6bXZMSFFLR2h1eURVMjNuaGVUZTZacDhEUGgyaA?oc=5",
-        "points": [
-          "핵심 내용: Nestle to offload mainstream vitamin brands for $1 billion",
-          "Nestle to offload mainstream vitamin brands for $1 billion  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_3_1788289374",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "The Verge",
-        "title": "The rise of AI ‘civilizations’ and the fall of corporate responsibility",
-        "title_ko": "🤖 [AI·프론티어] The rise of AI ‘civilizations’ and the fall of corporate responsibility",
-        "desc": "The rise of AI ‘civilizations’ and the fall of corporate responsibility  The Verge",
-        "desc_ko": "The rise of AI ‘civilizations’ and the fall of corporate responsibility",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 01",
-        "timestamp": 1788289374,
-        "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxORHViNDlHOXE4a3NsVkJTc1MwSUdfcDdsWmFiSWhnQW93bHVINGJ2ZzM2bUZLT1dwV1Z6WmF2bjlwTjQ3ZnpOR055dm5sYUpwT1dwOFp0TmdHN2Rfd3lXemktZXo4RzdfdXJfY2xSQkpHbEl6b2htXzF3azRMNVZzRGxfdWRYTXpmZm1vUEpmczBJbEZNdXc2X3BLa2NBS2F5?oc=5",
-        "points": [
-          "핵심 내용: The rise of AI ‘civilizations’ and the fall of corporate responsibility",
-          "The rise of AI ‘civilizations’ and the fall of corporate responsibility  The Verge",
-          "공신력 검증: 전 세계 주요 언론사 The Verge을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_81_1788285780",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Mexican soldiers kill suspected cartel leader as anti-crime campaign escalates",
-        "title_ko": "🤖 [AI·프론티어] Mexican soldiers kill suspected cartel leader as anti-crime campaign escalates",
-        "desc": "Mexican soldiers kill suspected cartel leader as anti-crime campaign escalates  Reuters",
-        "desc_ko": "Mexican soldiers kill suspected cartel leader as anti-crime campaign escalates",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 01",
-        "timestamp": 1788285780,
-        "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQc1JidklTWnY4NmdtN21qZGFadUwxc0NpbEk2RERJdjVQZVJ3d191UzZYY0tROTZ0Wk13Vy1sSlpLdTRiOU5MS19HM0lxVVBtaGpiNnZ0LTRmZFN3Z3RZSno3V3dtMGZXQjA0RE5aa0VBQlpfWEphOFgxRlc4UlR0T3lmQkNBT293TmI2Mk05Qk5xZWxBcmlzQkxNbDJPOHN1TVFweVpYcXNNeUg2Y1d0STNMY29VOTFyZ19fR0RVNkVTemEy?oc=5",
-        "points": [
-          "핵심 내용: Mexican soldiers kill suspected cartel leader as anti-crime campaign escalates",
-          "Mexican soldiers kill suspected cartel leader as anti-crime campaign escalates  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_82_1788284264",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Bombardier to buy Canadian factory from supplier Mitsubishi Heavy Industries",
-        "title_ko": "🤖 [AI·프론티어] Bombardier to buy Canadian factory from supplier Mitsubishi Heavy Industries",
-        "desc": "Bombardier to buy Canadian factory from supplier Mitsubishi Heavy Industries  Reuters",
-        "desc_ko": "Bombardier to buy Canadian factory from supplier Mitsubishi Heavy Industries",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 01",
-        "timestamp": 1788284264,
-        "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOdU52R0t4QzU0bVVnMTBpVktORkNtcHFmbjVzRVRqVE5zV2FJYTMtbGFGYWp3bTdJZEQ3MmgzVFpZNXdvX0xibzRHTVk2VTVOWjREcGZ2MDBDSkV4NUdPZGpkYjdfZHB1UEhGSmw5QkxhZlFWV19BMGY2bWJ4V25hLXZtd0NuZ042SlNxRW5pQ0k0cVpiZ2t6WTk0MjF4U2ZUenprUTd1SDZDWFRaTTNLMVpyZFFxNWVoN3BjQ3VIVDdFZw?oc=5",
-        "points": [
-          "핵심 내용: Bombardier to buy Canadian factory from supplier Mitsubishi Heavy Industries",
-          "Bombardier to buy Canadian factory from supplier Mitsubishi Heavy Industries  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_34_1788284137",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "TechCrunch",
-        "title": "Google’s answer to Canva is an AI tool where you prompt instead of design",
-        "title_ko": "🤖 [AI·프론티어] Google’s answer to Canva is an AI tool where you prompt instead of design",
-        "desc": "Google’s answer to Canva is an AI tool where you prompt instead of design  TechCrunch",
-        "desc_ko": "Google’s answer to Canva is an AI tool where you prompt instead of design",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 01",
-        "timestamp": 1788284137,
-        "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQcEpTdDB1MXpBQ0JJVjA2NmJpb1FwOEZfN0wwM0dxdnF4c29rY1lkclVLN1h4dXkwLUtiVkw1YnhTcmxnOXVhc3Y3WDFUSmVZWUQwUm5mSzMtVjJmdnF2d2lEWlMzV3NPY0ZrcTdFcmFacThKQ2JRcXpWZUMxRVRvcXQ0NFdsQS1HaENydUhzWTB1NXlieDZnMVZBZ0h4bW9teUpxNFVvcW10SEk?oc=5",
-        "points": [
-          "핵심 내용: Google’s answer to Canva is an AI tool where you prompt instead of design",
-          "Google’s answer to Canva is an AI tool where you prompt instead of design  TechCrunch",
-          "공신력 검증: 전 세계 주요 언론사 TechCrunch을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_ai_tech_74_1788282094",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "Nepal flood death toll crosses 1,000, rescuers reach remote areas",
-        "title_ko": "🤖 [AI·프론티어] Nepal flood death toll crosses 1,000, rescuers reach remote areas",
-        "desc": "Nepal flood death toll crosses 1,000, rescuers reach remote areas  Reuters",
-        "desc_ko": "Nepal flood death toll crosses 1,000, rescuers reach remote areas",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 01",
-        "timestamp": 1788282094,
-        "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQYzM2eXZHNlAtNllHNlpsYldnQ2xtdjhiTkxaUW92cExCWmhnWll5eUl1aVVBN2tnUGw4eG9VbmFENmhoUmZRM0lRZ043VHZiM3liSkFhY1RzVEx2am1hX1lsQi1vajliSDhUV05NN1FNMzVFZnN2OUhFdjNPMHo0UzNXSkwtTnVUZ2lGSzhhWDdyNUh6cWFlUTZiMy1Ia3ZHN0pseDhVRjBpY0ZBWTBmS2czUjJ6X0ZZVkZLaHpXQl9uLVpvRW40cA?oc=5",
-        "points": [
-          "핵심 내용: Nepal flood death toll crosses 1,000, rescuers reach remote areas",
-          "Nepal flood death toll crosses 1,000, rescuers reach remote areas  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      }
-    ],
+    "ai_tech": [],
     "economy": [],
     "semiconductors": [
       {
-        "id": "orbis_semiconductors_1_1788441476",
+        "id": "orbis_semiconductors_2_1788445968",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
-        "press": "The Motley Fool",
-        "title": "Better AI Infrastructure Stock: Nvidia vs. AMD",
-        "title_ko": "🤖 [AI·프론티어] Better AI Infrastructure Stock: Nvidia vs. AMD",
-        "desc": "Better AI Infrastructure Stock: Nvidia vs. AMD  The Motley Fool",
-        "desc_ko": "Better AI Infrastructure Stock: Nvidia vs. AMD",
-        "time_ago": "1m ago",
+        "press": "HPCwire",
+        "title": "Quantinuum and Aramco Sign MOU on Industrial Quantum Computing Use Cases",
+        "title_ko": "💻 [반도체·하드웨어] Quantinuum and Aramco Sign MOU on Industrial Quantum Computing Use Cases",
+        "desc": "Quantinuum and Aramco Sign MOU on Industrial Quantum Computing Use Cases  HPCwire",
+        "desc_ko": "Quantinuum and Aramco Sign MOU on Industrial Quantum Computing Use Cases",
+        "time_ago": "18m ago",
         "pubDate": "2026. 09. 03",
-        "timestamp": 1788441476,
-        "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOT1VUdGZvU3FpZTNaS2dGRjZyQ0xmUzJPYVc5WEVKWEt0RU16LUszT2JsS2MwaEowNTJ1QXNBMWJsTHBBZUg2aHFPbzZUVnloTlE3Zjh0WHB4Y2gxZHNRNXFwempxaWlfMjhIMF9uNDJZUTA1VlJnYTBGai13OUtzYWlIQ3Y5Q3RHYlZyRXNLcHA?oc=5",
+        "timestamp": 1788445968,
+        "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPNnRKRWo3aFhUZ3ZfRklJdEYyeGd3Q2EzcWxwSWx0Zk5uTTVGRklZaGp1YzVtRXpnRGNWRXRSM3RMX1FtbnBIN2xxVUI2cDd3b0lUSGRLQ3Y3RlJrZTROSzNPUVZ0OGNVQThVYlBSX1BFSE1uejBHVng3NkcwS0lER0JGZjdVay1TTEtzSnNuOER0a3F6QWxFaFRuQXZQbEJBUUlfck84Q1JUME1wYTBn?oc=5",
         "points": [
-          "핵심 내용: Better AI Infrastructure Stock: Nvidia vs. AMD",
-          "Better AI Infrastructure Stock: Nvidia vs",
-          "공신력 검증: 전 세계 주요 언론사 The Motley Fool을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "핵심 내용: Quantinuum and Aramco Sign MOU on Industrial Quantum Computing Use Cases",
+          "Quantinuum and Aramco Sign MOU on Industrial Quantum Computing Use Cases  HPCwire",
+          "공신력 검증: 전 세계 주요 언론사 HPCwire을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
-        "id": "orbis_semiconductors_10_1788441106",
+        "id": "orbis_semiconductors_13_1788445575",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "The Quantum Insider",
+        "title": "Quobly and Orange Quantum Systems Partner on Silicon Spin Qubit Testing",
+        "title_ko": "💻 [반도체·하드웨어] Quobly and Orange Quantum Systems Partner on Silicon Spin Qubit Testing",
+        "desc": "Quobly and Orange Quantum Systems Partner on Silicon Spin Qubit Testing  The Quantum Insider",
+        "desc_ko": "Quobly and Orange Quantum Systems Partner on Silicon Spin Qubit Testing",
+        "time_ago": "24m ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788445575,
+        "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPM2dFVk1uT3ZzNFRsaTdZUS0xc3NiN0pyVjdraFl3dHdFcUJZQW5OS0pWM2tTbEN2ZkV3NkM0NGRBeEZMc1NlZHBtMmlYdC1PTnlxTldWeW1LZ3JsRkFXR2xjOFQ4ZDZlQlI5bG53RDhpUjNEMlpjeFBCRHprRUlrMy1nNkl4MTBlaHpkZzlXNmN6UFZwZGxnQnBBMXF5VWM?oc=5",
+        "points": [
+          "핵심 내용: Quobly and Orange Quantum Systems Partner on Silicon Spin Qubit Testing",
+          "Quobly and Orange Quantum Systems Partner on Silicon Spin Qubit Testing  The Quantum Insider",
+          "공신력 검증: 전 세계 주요 언론사 The Quantum Insider을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_18_1788445079",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Scientific Computing World",
+        "title": "Nvidia to acquire Hugging Face for $12.9 billion",
+        "title_ko": "💻 [반도체·하드웨어] Nvidia to acquire Hugging Face for $12.9 billion",
+        "desc": "Nvidia to acquire Hugging Face for $12.9 billion  Scientific Computing World",
+        "desc_ko": "Nvidia to acquire Hugging Face for $12.9 billion",
+        "time_ago": "33m ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788445079,
+        "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNYXRHVk5kREotdVJhVEtfY0FkclJ2MXQ2ZHN3dG1FRjdLRnEyd2Zza1pERHRxNjRVTWI5M0RwTWJPVG13RkhJbXpBd0g0RUhCajJMWXk4UFRCQ2tSV2VuY0V4XzFNYWRaSDZ2UEJ2dlhSaDZRWEhxWVAtdjJpWGc3dWVZOGhZdlNEYzVpRQ?oc=5",
+        "points": [
+          "핵심 내용: Nvidia to acquire Hugging Face for $12.9 billion",
+          "Nvidia to acquire Hugging Face for $12.9 billion  Scientific Computing World",
+          "공신력 검증: 전 세계 주요 언론사 Scientific Computing World을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_20_1788444750",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Blockspace Media",
+        "title": "Blue Owl leads $2.4 billion IREN GPU financing at 9%",
+        "title_ko": "💻 [반도체·하드웨어] Blue Owl leads $2.4 billion IREN GPU financing at 9%",
+        "desc": "Blue Owl leads $2.4 billion IREN GPU financing at 9%  Blockspace Media",
+        "desc_ko": "Blue Owl leads $2.4 billion IREN GPU financing at 9%",
+        "time_ago": "38m ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788444750,
+        "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPbFlnNTdxdjNOOU1WZU1EQ2Z6Mnk1Q2dwWEs4R1JkYjRJX2pYZ2JsaC1tTGl5d2E1S3hUQmxMS09EaC0wQy1jcHdpc1N3aUExWGRmMF9GTXFmSDBBb3cxX2Flc2pIdmphbEVLdUhYQ3EzQkp6OHFaZnBWZmV2eTlkTFRhSWw?oc=5",
+        "points": [
+          "핵심 내용: Blue Owl leads $2.4 billion IREN GPU financing at 9%",
+          "Blue Owl leads $2.4 billion IREN GPU financing at 9%  Blockspace Media",
+          "공신력 검증: 전 세계 주요 언론사 Blockspace Media을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_37_1788443913",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Club386",
+        "title": "Intel Nova Lake presentation leak shows a Q1 2027 release target",
+        "title_ko": "💻 [반도체·하드웨어] Intel Nova Lake presentation leak shows a Q1 2027 release target",
+        "desc": "Intel Nova Lake presentation leak shows a Q1 2027 release target  Club386",
+        "desc_ko": "Intel Nova Lake presentation leak shows a Q1 2027 release target",
+        "time_ago": "52m ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788443913,
+        "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNRlBuNjhaX1hFa1ZNT0gyeTAyQm9hSmdBOGdBTkItRFU4YlJESW83Sy1uZnlxaTAzd3dPU1JobzVseEZWTHh5WklCemM0ZHV4TzFCT010OHJUNzk4TmR3RjVXOW5aQldFdUhMRGdwM1RZYnlxNk05bFVZbDRRLU5TLWs3aEsyYnJNeXRGeTduMkM?oc=5",
+        "points": [
+          "핵심 내용: Intel Nova Lake presentation leak shows a Q1 2027 release target",
+          "Intel Nova Lake presentation leak shows a Q1 2027 release target  Club386",
+          "공신력 검증: 전 세계 주요 언론사 Club386을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_0_1788442287",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "The Quantum Insider",
+        "title": "George Mason and TreQ Partner on Open-Architecture Quantum Computing in Virginia",
+        "title_ko": "💻 [반도체·하드웨어] George Mason and TreQ Partner on Open-Architecture Quantum Computing in Virginia",
+        "desc": "George Mason and TreQ Partner on Open-Architecture Quantum Computing in Virginia  The Quantum Insider",
+        "desc_ko": "George Mason and TreQ Partner on Open-Architecture Quantum Computing in Virginia",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788442287,
+        "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPdFUzcktTUmk2UGdfVjBiSnZtSWdqU2ppU0p0WGJnTnp2ckRwN2tHcVFWTjVzaWZfX1pMajBEX00tMVN0ekFvSWotMWdwYUZ2alN0c3ZHUndmTERYczhpa3BCMXFXOERqcUVYUjNyWlMtdjN5SkNFZXNGWWZBMUJHVHk3MGh3T0lrSEtELWJQaUJZbHFNVnVMeVFkY1dyVm9EU2ZDSzBB?oc=5",
+        "points": [
+          "핵심 내용: George Mason and TreQ Partner on Open-Architecture Quantum Computing in Virginia",
+          "George Mason and TreQ Partner on Open-Architecture Quantum Computing in Virginia  The Quantum Insider",
+          "공신력 검증: 전 세계 주요 언론사 The Quantum Insider을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_8_1788441881",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "The Globe and Mail",
+        "title": "Better AI Infrastructure Stock: Nvidia vs. AMD",
+        "title_ko": "🤖 [AI·프론티어] Better AI Infrastructure Stock: Nvidia vs. AMD",
+        "desc": "Better AI Infrastructure Stock: Nvidia vs. AMD  The Globe and Mail",
+        "desc_ko": "Better AI Infrastructure Stock: Nvidia vs. AMD",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788441881,
+        "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNd2dzdFFtcGdBZ2hKeVRRY1VfUXZ2T3VRYlB4bUNfdmhmSFZBdnFMVTNtZ1VHcHZOX3llb1VtNXVSLTkwTEs1WkNvenBlQmpsdmFsUlRmNWdKYmdYUnBZR2ZxWWQtTDdvVTNxWV92cXhnUEJYNGNDbHBELUNQZEd5b2RrZi1kOFBudGF4R3MydVFGSEVhdUx4NHFyX3I5SmFjU2p6VTdHcHo1S3dybUt2ajNnZmRBcUVHcjJZNV9ESWJsWWRkWXZ1WGh3?oc=5",
+        "points": [
+          "핵심 내용: Better AI Infrastructure Stock: Nvidia vs. AMD",
+          "Better AI Infrastructure Stock: Nvidia vs",
+          "공신력 검증: 전 세계 주요 언론사 The Globe and Mail을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_46_1788441756",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Pluang",
+        "title": "AMD posts strong data center growth while Nvidi...",
+        "title_ko": "💻 [반도체·하드웨어] AMD posts strong data center growth while Nvidi...",
+        "desc": "AMD posts strong data center growth while Nvidi...  Pluang",
+        "desc_ko": "AMD posts strong data center growth while Nvidi...",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788441756,
+        "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBBbThUc0F6T3dmRFZYR0s1Nm5pQy1GaTBMNzcxMnFDZHRoMExESWhjN0lrTUdHS1lTVW9WbjB6U2tnUVVEOHRSYVlrNDN0VWNzbFJIc2pGSzFMeEhNOHdfZDJpWmxBZFBMQ05SMHRENXl0ZHpoSGpBRkk3dDROQQ?oc=5",
+        "points": [
+          "핵심 내용: AMD posts strong data center growth while Nvidi...",
+          "AMD posts strong data center growth while Nvidi..",
+          "공신력 검증: 전 세계 주요 언론사 Pluang을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_4_1788441106",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "MarketBeat",
@@ -662,7 +224,7 @@
         "title_ko": "💻 [반도체·하드웨어] Could IonQ Become More Than a Quantum Computing Company?",
         "desc": "Could IonQ Become More Than a Quantum Computing Company?  MarketBeat",
         "desc_ko": "Could IonQ Become More Than a Quantum Computing Company?",
-        "time_ago": "8m ago",
+        "time_ago": "1h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788441106,
         "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOYlgzS1dkWUxPWWMxSXpRTnRpaVJDZ1ZrR2pQc3lJVTZsNGlTRU5TVWpJM3BmWkpWWUEtNHZQVVF0M05XQ2t4c2tYMXZBUWFoM2dDelVfT2RBOUhsRkVNYXlJZlczLXFLaEMtWGpsRWZnUFhmMXhsRUt2TlhDYUxVXy1JY0VqTnlPeWpTTXZvcnktOXg2UHhN?oc=5",
@@ -673,26 +235,83 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_3_1788439020",
+        "id": "orbis_semiconductors_9_1788440593",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
-        "press": "Morningstar",
-        "title": "George Mason University Partners With Oxford-Based TreQ to Bring the First Open-Architecture Quantum Computing System to Virginia",
-        "title_ko": "💻 [반도체·하드웨어] George Mason University Partners With Oxford-Based TreQ to Bring the First Open-Architecture Quantum Computing System to Virginia",
-        "desc": "George Mason University Partners With Oxford-Based TreQ to Bring the First Open-Architecture Quantum Computing System to Virginia  Morningstar",
-        "desc_ko": "George Mason University Partners With Oxford-Based TreQ to Bring the First Open-Architecture Quantum Computing System to Virginia",
-        "time_ago": "42m ago",
+        "press": "The Register",
+        "title": "Nvidia buys Hugging Face for $12.9B, promises not to squeeze too hard",
+        "title_ko": "💻 [반도체·하드웨어] Nvidia buys Hugging Face for $12.9B, promises not to squeeze too hard",
+        "desc": "Nvidia buys Hugging Face for $12.9B, promises not to squeeze too hard  The Register",
+        "desc_ko": "Nvidia buys Hugging Face for $12.9B, promises not to squeeze too hard",
+        "time_ago": "1h ago",
         "pubDate": "2026. 09. 03",
-        "timestamp": 1788439020,
-        "link": "https://news.google.com/rss/articles/CBMimgJBVV95cUxPOTJxYXVpMU5EdWctb2o2MXE5Q1kzckdRQnBaSkRRNzZmdW5sQVFvY0oxVmg5aDgxSm5WcHZHSUdIWWphZGVFbER2LXBUNnVBS1dwczZzaDNXcU5aRmxVZ2lOc3dyT3R3WU1mVGxNaTl6QlZYV3ZaT0YxdXpmOW1fdWI2OG15U3NMeFhxSnJzWVpWR0Q0MFJxdGdfVmQ1MWtRd3ZWc2Z6bi1TOVJ6V2lZTEN4dkM3Mm1OcU44MFV3V3pvMjhoRGpTY3IxNlJSY01JZmNmUVYtMUh0VlNNVEJsSk5NSjRjcGdORk1HU3l5TXNuRFZRc1J3R09LaHI5V0p0SDQ5VUoyV05mUmRwSTVnTlh1ajVYUXRQZ2c?oc=5",
+        "timestamp": 1788440593,
+        "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPbmZiNUoyMzdGQnJQQ0xWNVVac3dHZmxSUl85eDZIS0k4NlAxbW5neGZxTjU2SVRlNnk4RGJLMnJhVkdua0MweUpYOFhKS2Q5S1BhMjItVUZZeFYwdWlESmw2NFNkSTVQNXdzSG5yVk4zTE1Vd3R3YXJnMlJZTWwxaldtOWVyREVVczl1NzRfYzdYejBnVkFzdS11VEZjTXF2eDlOaldLTXFPSmhaNE5DRnNaU3JfZm05SU9JZWhrOG8?oc=5",
         "points": [
-          "핵심 내용: George Mason University Partners With Oxford-Based TreQ to Bring the First Open-Architecture Quantum Computing System to Virginia",
-          "George Mason University Partners With Oxford-Based TreQ to Bring the First Open-Architecture Quantum Computing System to Virginia  Morningstar",
-          "공신력 검증: 전 세계 주요 언론사 Morningstar을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "핵심 내용: Nvidia buys Hugging Face for $12.9B, promises not to squeeze too hard",
+          "Nvidia buys Hugging Face for $12.9B, promises not to squeeze too hard  The Register",
+          "공신력 검증: 전 세계 주요 언론사 The Register을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
-        "id": "orbis_semiconductors_11_1788438557",
+        "id": "orbis_semiconductors_5_1788440503",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "The New York Times",
+        "title": "Nvidia Buys Hugging Face in $12.9 Billion Deal",
+        "title_ko": "💻 [반도체·하드웨어] Nvidia Buys Hugging Face in $12.9 Billion Deal",
+        "desc": "Nvidia Buys Hugging Face in $12.9 Billion Deal  The New York Times",
+        "desc_ko": "Nvidia Buys Hugging Face in $12.9 Billion Deal",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788440503,
+        "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE0yMlJhVkx6YWNlSEdlelNIVXNzaG9oUWVVdWlJcFQ3NHVzVXJvOC1RWmJqN1NKQXlSbmVTU2l3WHdrdTBSbEhvaHh6NVVIa3h6b1BENWJYZnRpZnNMU0RRQl9fQ1NKSk9MLVdEcFZQcjZDRzZ2QWVBeTNB?oc=5",
+        "points": [
+          "핵심 내용: Nvidia Buys Hugging Face in $12.9 Billion Deal",
+          "Nvidia Buys Hugging Face in $12.9 Billion Deal  The New York Times",
+          "공신력 검증: 전 세계 주요 언론사 The New York Times을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_33_1788439806",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "TradingKey",
+        "title": "NVIDIA Stock Rebounds as AI Demand Holds: Can NVDA Break $230?",
+        "title_ko": "🤖 [AI·프론티어] NVIDIA Stock Rebounds as AI Demand Holds: Can NVDA Break $230?",
+        "desc": "NVIDIA Stock Rebounds as AI Demand Holds: Can NVDA Break $230?  TradingKey",
+        "desc_ko": "NVIDIA Stock Rebounds as AI Demand Holds: Can NVDA Break $230?",
+        "time_ago": "2h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788439806,
+        "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNTHFvUVRqNjdEWkduZ2lLUXFTakNPQkJyZFZ5bGVaa2t4ZVVYVUsyYWtxcDhKUk1sUnlCNVY4WWMycjJXTFRlQkRSNnRNY1VsMDIyT1ctV1JhWFFYS29VaDVaVHZGelNEcDU1LURtY3c2ZzFZd2JSelVCR3FNdlhNb1ZMcEltQnVvR3RoYTBCb3Q2b2l0OUx6RWZEa0FWWmctdmx2cGUzTEtDT2RaQ1NOZmxUeTI?oc=5",
+        "points": [
+          "핵심 내용: NVIDIA Stock Rebounds as AI Demand Holds: Can NVDA Break $230?",
+          "NVIDIA Stock Rebounds as AI Demand Holds: Can NVDA Break $230",
+          "공신력 검증: 전 세계 주요 언론사 TradingKey을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_23_1788438660",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "TradingView",
+        "title": "Memory Costs Rise: Can NVIDIA Protect Its 70%+ Gross Margin?",
+        "title_ko": "💻 [반도체·하드웨어] Memory Costs Rise: Can NVIDIA Protect Its 70%+ Gross Margin?",
+        "desc": "Memory Costs Rise: Can NVIDIA Protect Its 70%+ Gross Margin?  TradingView",
+        "desc_ko": "Memory Costs Rise: Can NVIDIA Protect Its 70%+ Gross Margin?",
+        "time_ago": "2h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788438660,
+        "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQc2FaMnRpdVhBLXdwYTJ3TzI4djRfeGJkZG4wLTVPZ1VsX2JTOE9DVTBXS2ktOUc2YXFXY0R2WGFWanp0S1hSUzhHaG1BaE9LOE1OOGdmdjBfeXNjWTk5d2JGaHIydnhyNVdycGU3NFB1TWhaY1NOMzljdGc3ZHcwSW10aWVYYXBST0xXRjRKTXl6WWpyOFdRSjBsN0Nobm5Pa3lIYS1UY0JNRG1iaXBMaXhn?oc=5",
+        "points": [
+          "핵심 내용: Memory Costs Rise: Can NVIDIA Protect Its 70%+ Gross Margin?",
+          "Memory Costs Rise: Can NVIDIA Protect Its 70%+ Gross Margin",
+          "공신력 검증: 전 세계 주요 언론사 TradingView을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_19_1788438557",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "marketscreener.com",
@@ -700,7 +319,7 @@
         "title_ko": "🤖 [AI·프론티어] QumulusAI Completes Nvidia GPU Deployment for Runpod",
         "desc": "QumulusAI Completes Nvidia GPU Deployment for Runpod  marketscreener.com",
         "desc_ko": "QumulusAI Completes Nvidia GPU Deployment for Runpod",
-        "time_ago": "50m ago",
+        "time_ago": "2h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788438557,
         "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQZDE5X2hiTjVIamxZQ0ozZ1Y0eE4zdnA0cGkwSEJURl9jZVJVQnpBZEpEdXFpdUcwbHMyRVNvcjBwaC14TEJ3T3ZjZlpiOEtzY09ocFhjQlZEV19aWHpOcFRnVThmXzJkSHJUS2tGOEEzMlRBTDJYU2V5WVN3bm5UVWJnejB0Ukg1OExhMmpTem1mdEx6SHQtcjZ0NFFiTHluWGpIOC1yeEE?oc=5",
@@ -711,26 +330,26 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_13_1788438286",
+        "id": "orbis_semiconductors_1_1788438240",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
-        "press": "AOL.com",
+        "press": "24/7 Wall St.",
         "title": "AMD is Quietly Eating Intel’s Lunch",
         "title_ko": "💻 [반도체·하드웨어] AMD is Quietly Eating Intel’s Lunch",
-        "desc": "AMD is Quietly Eating Intel’s Lunch  AOL.com",
+        "desc": "AMD is Quietly Eating Intel’s Lunch  24/7 Wall St.",
         "desc_ko": "AMD is Quietly Eating Intel’s Lunch",
-        "time_ago": "55m ago",
+        "time_ago": "2h ago",
         "pubDate": "2026. 09. 03",
-        "timestamp": 1788438286,
-        "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE01c1ZtUVRPLWFsVldxVFhja3c3TEZPR3JyZkFUbm5CS2lBa2FvSDdKVmdpVnFPSkJaVk5qdzBjNGxfaXNUTXJrWTI0QU1RZ1dvYVB4b24zdTdwbF9tLThKU3JxT3lOQzVFU0k3SUxoOHdlSXNvNFhSTTdLRlRmdUE?oc=5",
+        "timestamp": 1788438240,
+        "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNT2RkOTV3eTkzNkk3d0dHeHQ2T1ltQXh4T1NMaWVoZGRKMU16OXJ2eU9ua2pZRmxnYW5DNVpILWtRU3NDdGdBRmJQN08xUWUwZ0hTdENsd01zd0VWZC1nZ1lFV1JnRUFkWkl5VDVYREgxOHBiNXBOUzJrS01Gbnk5WWlQekk?oc=5",
         "points": [
           "핵심 내용: AMD is Quietly Eating Intel’s Lunch",
-          "AMD is Quietly Eating Intel’s Lunch  AOL.com",
-          "공신력 검증: 전 세계 주요 언론사 AOL.com을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "AMD is Quietly Eating Intel’s Lunch  24/7 Wall St.",
+          "공신력 검증: 전 세계 주요 언론사 24/7 Wall St.을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
-        "id": "orbis_semiconductors_8_1788438240",
+        "id": "orbis_semiconductors_11_1788438240",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "quiverquant.com",
@@ -738,7 +357,7 @@
         "title_ko": "💻 [반도체·하드웨어] Nvidia to Acquire Hugging Face for $12.93 Billion",
         "desc": "Nvidia to Acquire Hugging Face for $12.93 Billion  quiverquant.com",
         "desc_ko": "Nvidia to Acquire Hugging Face for $12.93 Billion",
-        "time_ago": "55m ago",
+        "time_ago": "2h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788438240,
         "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPeWdWUlNnR2xKNVNhSDRMTTVOZHRYZ3NvQ3Z5VWhwdDBUTTRJc1ZiR0FvV1FDTk5rYmhPRHBrYVRrQnByRDJrLThmU21Wckc4eVhZVlVpMzF3dXZYajh3VjlDUFcyUkJUVWN0bldaZ1FXeEJlLUw5SUtOaklPZGo2cnlMU3RpZEZlcjl2WQ?oc=5",
@@ -749,26 +368,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_4_1788437991",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "The New York Times",
-        "title": "Nvidia Buys Hugging Face in $12.9 Billion Deal",
-        "title_ko": "💻 [반도체·하드웨어] Nvidia Buys Hugging Face in $12.9 Billion Deal",
-        "desc": "Nvidia Buys Hugging Face in $12.9 Billion Deal  The New York Times",
-        "desc_ko": "Nvidia Buys Hugging Face in $12.9 Billion Deal",
-        "time_ago": "1h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788437991,
-        "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE0yMlJhVkx6YWNlSEdlelNIVXNzaG9oUWVVdWlJcFQ3NHVzVXJvOC1RWmJqN1NKQXlSbmVTU2l3WHdrdTBSbEhvaHh6NVVIa3h6b1BENWJYZnRpZnNMU0RRQl9fQ1NKSk9MLVdEcFZQcjZDRzZ2QWVBeTNB?oc=5",
-        "points": [
-          "핵심 내용: Nvidia Buys Hugging Face in $12.9 Billion Deal",
-          "Nvidia Buys Hugging Face in $12.9 Billion Deal  The New York Times",
-          "공신력 검증: 전 세계 주요 언론사 The New York Times을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_22_1788436248",
+        "id": "orbis_semiconductors_28_1788436248",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "Quantum Zeitgeist",
@@ -776,7 +376,7 @@
         "title_ko": "🤖 [AI·프론티어] Kilometer-scale Earth Modeling Has Supercomputers SCREAM Under Limits",
         "desc": "Kilometer-scale Earth Modeling Has Supercomputers SCREAM Under Limits  Quantum Zeitgeist",
         "desc_ko": "Kilometer-scale Earth Modeling Has Supercomputers SCREAM Under Limits",
-        "time_ago": "1h ago",
+        "time_ago": "3h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788436248,
         "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOQnhUUE1uS2h1Mi10S3hoaENibEI2ZHFmOHd2aDYyWG80NEx5T3hIeFBCX2YzdU5WNHJ1V3pYNmktUXBEUXpkYS1XNGhUZzlIcWMwY2U3MzBON1poNjZHTloxZGE5SERXdlViV1hZa2RiSzN1U2xJOEtTaHpfTzU3M0Jlc19PRnBnSmJ5cGZkN2ZtZw?oc=5",
@@ -787,7 +387,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_0_1788434793",
+        "id": "orbis_semiconductors_12_1788434793",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "The Quantum Insider",
@@ -795,7 +395,7 @@
         "title_ko": "🤖 [AI·프론티어] Kensho and Classiq Partner to Expand Quantum Software Access in Taiwan",
         "desc": "Kensho and Classiq Partner to Expand Quantum Software Access in Taiwan  The Quantum Insider",
         "desc_ko": "Kensho and Classiq Partner to Expand Quantum Software Access in Taiwan",
-        "time_ago": "1h ago",
+        "time_ago": "3h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788434793,
         "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQRHVKemdRWUtLa3BzTTJwNGdMOXBkdGZTLWZibDVjMHVKc3Z2dWFCdV9rSERva1dqZmhuYTNxSk9PdEQ5OE9nS3BRUkk1V2tNQ0dyOGZxdzlpR0V4SUM0ckdubXZSTk5KbG1qTlNOam5HRGpJUU5GMUFGRGtnV1l0aDNwMXN5LUE?oc=5",
@@ -806,7 +406,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_26_1788434235",
+        "id": "orbis_semiconductors_36_1788434235",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "Quantum Zeitgeist",
@@ -814,7 +414,7 @@
         "title_ko": "💻 [반도체·하드웨어] Jamming Quantum States Shows Hidden Signals At Superluminal Speeds",
         "desc": "Jamming Quantum States Shows Hidden Signals At Superluminal Speeds  Quantum Zeitgeist",
         "desc_ko": "Jamming Quantum States Shows Hidden Signals At Superluminal Speeds",
-        "time_ago": "2h ago",
+        "time_ago": "3h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788434235,
         "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPVE5OaENBWG5YQzlmN3ZEcmI3bkhUeF81NmZoamYwSjJjTGhUb25ZYk04RVpfYW9QZkRoOTRIbHcyT2RrLTloYnR0ZUFIZjZNTFRieXc5YXlZWDN4bWxiXzlHT3JDeFVzS0ZpdVBySWtKdkFvaTViNF9JSmdPUF9OSlVqM3VvMGlZWTlF?oc=5",
@@ -822,44 +422,6 @@
           "핵심 내용: Jamming Quantum States Shows Hidden Signals At Superluminal Speeds",
           "Jamming Quantum States Shows Hidden Signals At Superluminal Speeds  Quantum Zeitgeist",
           "공신력 검증: 전 세계 주요 언론사 Quantum Zeitgeist을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_2_1788434029",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "NVIDIA",
-        "title": "GTC - NVIDIA",
-        "title_ko": "💻 [반도체·하드웨어] GTC - NVIDIA",
-        "desc": "GTC - NVIDIA  NVIDIA",
-        "desc_ko": "GTC - NVIDIA",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788434029,
-        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5Xc2Y5eWRzZ2NhaVY2cURNUDM2VC1VczhUdVdLSWM5Ql8xdG5KMXNxUWdhanJfUFc2SncyTnFPWktwbWd3TDI2SWg2SkVKZmlvMFk1SC05REswc29WSlF4bGZIWQ?oc=5",
-        "points": [
-          "핵심 내용: GTC - NVIDIA",
-          "GTC - NVIDIA  NVIDIA",
-          "공신력 검증: 전 세계 주요 언론사 NVIDIA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_86_1788433864",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "thehindubusinessline.com",
-        "title": "AMD, Delhi University to train 10,000 students in AI, semiconductors",
-        "title_ko": "🤖 [AI·프론티어] AMD, Delhi University to train 10,000 students in AI, semiconductors",
-        "desc": "AMD, Delhi University to train 10,000 students in AI, semiconductors  thehindubusinessline.com",
-        "desc_ko": "AMD, Delhi University to train 10,000 students in AI, semiconductors",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788433864,
-        "link": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxQcGZoRmF4enF6ZDNIekZLZWlxSS1uN1NlU3FpMk8xUnRYZXdUTk1NU1VpOUNKRUQ3ZDdIaFk3SjJNZWQzWXJXazloSmhSUENiUWF4dWgxTnE2NzBaR1RSWlplVkJqay1qUjlsWkRhdU42V2NDZTN2cTl0QWFOZzAyYjlxd2gzZ2JCb3hwbENZREZmRGdsSkkwWXFYamUzdTkwek03UHlvUWlsVTVIelZWRjVJZ1I4VW5OQVFEdmtUQnIxSW8zY3NUTTN0TVM4V1VmY2lZVjdPZFhYWWJVdmMyU210WTBTd9IB7AFBVV95cUxNYVZDUlR0a3V1Q25GdUFfaVBpdVJVWUR6UnhsbEluQzA0NXFUZDRENFJLLTUzcGJuNmNVUkZrZVpoX0d4SUM0RlhkeUJ2S3piNFN5enlZMEtQMUVoSjdPWTN0eEtZZ0VIeDYxY21KRkhuenZlSmxGbFlrNE1vcERxRXAyTE1lYTBVZC1nVXQwTUt5RHdENWpValFZekRGaTJRY096S2JlUG1ISmpkOXBBTnJGV2FDclBQTGVXSTVmbEhSTW41eFh2Ny1kb2lMb3FHMjkxYmNRc1djUnNuWUM5akJzOVFwRFFVQ2lOMA?oc=5",
-        "points": [
-          "핵심 내용: AMD, Delhi University to train 10,000 students in AI, semiconductors",
-          "AMD, Delhi University to train 10,000 students in AI, semiconductors  thehindubusinessline.com",
-          "공신력 검증: 전 세계 주요 언론사 thehindubusinessline.com을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
@@ -871,7 +433,7 @@
         "title_ko": "💻 [반도체·하드웨어] QuantumCore to Participate in IEEE Quantum Week 2026 in Toronto",
         "desc": "QuantumCore to Participate in IEEE Quantum Week 2026 in Toronto  Stock Titan",
         "desc_ko": "QuantumCore to Participate in IEEE Quantum Week 2026 in Toronto",
-        "time_ago": "2h ago",
+        "time_ago": "3h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788433200,
         "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNU0I0VEdFYkpCeUFKanR1WnZYMnE1NW1iVVpHVFFCRUJVQ1ZzTG5RTnRvNDRrWW1JUHhIVVJVTWp3Z3dndkhQZ3dlQkFOcTcyZjlYbGRMYU5RdzVKWE5OS0pCUkkwcTc0OHZyOXV2UzJneUNySHF4VmpLREFsMzJMRUxsTE1SRW9nSzROaklrWEJlR3NKckRKR1dPOWhDaElTdENBaXBNa2g1Rmc1eVZQNW1B?oc=5",
@@ -882,7 +444,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_14_1788431813",
+        "id": "orbis_semiconductors_24_1788431813",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "Quantum Zeitgeist",
@@ -890,7 +452,7 @@
         "title_ko": "🤖 [AI·프론티어] SEEQC Signs Deal To Link US Quantum Tech With Taiwan’s Manufacturing",
         "desc": "SEEQC Signs Deal To Link US Quantum Tech With Taiwan’s Manufacturing  Quantum Zeitgeist",
         "desc_ko": "SEEQC Signs Deal To Link US Quantum Tech With Taiwan’s Manufacturing",
-        "time_ago": "2h ago",
+        "time_ago": "4h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788431813,
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9wTlRnY0NrR3NGN05wYjBVb2lEaDhBeS1SZmM3OTBkNmpwT3ZzUjV1UHlHMWE0Vlp2a2JHZ19zc3hNcTUteGs2cWMtUjF6Ni1acUNEZkw4TlV3VEc4OEd1Q3pFUUpRS1FGWnc?oc=5",
@@ -901,45 +463,26 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_82_1788430197",
+        "id": "orbis_semiconductors_14_1788429000",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
-        "press": "Moneycontrol.com",
-        "title": "AMD, Delhi University partner to train 10,000 students in AI, semiconductor technologies",
-        "title_ko": "🤖 [AI·프론티어] AMD, Delhi University partner to train 10,000 students in AI, semiconductor technologies",
-        "desc": "AMD, Delhi University partner to train 10,000 students in AI, semiconductor technologies  Moneycontrol.com",
-        "desc_ko": "AMD, Delhi University partner to train 10,000 students in AI, semiconductor technologies",
-        "time_ago": "3h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788430197,
-        "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNTGFMNGNDNHRHdlJHRmRaWGtNamlFa0E4enZUWjFpYi1kLUdfN2lhUWt2eXpGQnVIUGotR0xQX1BVT09tOHpYRWhGVU5MQ1dsaGp0dHgteW9XN3JKaHBZMHVIRG41a3JLalY4WGo1VHo2T3JPZU9YUnJ6SkhsNHB6eDBlcjU5eEhzWXZPc3hfMnFEay1TUXJyOHNPNVlsNy1OWm1NVzAxQ3JkMU1KOS1JVFBuOHJ1UC05WUdocVQ5Y2ZaQnlJV0lsa3B6MlQ1RGd6TEluX2xLMNIB3AFBVV95cUxQV3lhR3NCczdsYTJ1Skt6bEVyY2VEQ3FUR1RZbFRBUV84N0JldEJ6NWZ0cEo4THE4VGZqSlk3YWlKeXVyYld5dHpkMDhKWUxQQzBMc1dyczJqYVQ3czhMeDl2YnNQZXZnaEZKanpCMk9pRXFzWmVkNVV5eVNoZUFFdjEzNnNVTC1Za2hRREFTWG9rcDlxWWlvYTNMXy1YMkVBSEhYNm93ejNueE0wODM2RW5LeGJVajQ1UTFuUHMtSXRzZDZUTHlqNmNOTnJDRUJFUE5LWEFYb3hTRWpr?oc=5",
-        "points": [
-          "핵심 내용: AMD, Delhi University partner to train 10,000 students in AI, semiconductor technologies",
-          "AMD, Delhi University partner to train 10,000 students in AI, semiconductor technologies  Moneycontrol.com",
-          "공신력 검증: 전 세계 주요 언론사 Moneycontrol.com을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_15_1788429276",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "The Motley Fool",
+        "press": "Yahoo Finance",
         "title": "Prediction: Nvidia Stock Will Outperform AMD Through 2028",
         "title_ko": "💻 [반도체·하드웨어] Prediction: Nvidia Stock Will Outperform AMD Through 2028",
-        "desc": "Prediction: Nvidia Stock Will Outperform AMD Through 2028  The Motley Fool",
+        "desc": "Prediction: Nvidia Stock Will Outperform AMD Through 2028  Yahoo Finance",
         "desc_ko": "Prediction: Nvidia Stock Will Outperform AMD Through 2028",
-        "time_ago": "3h ago",
+        "time_ago": "5h ago",
         "pubDate": "2026. 09. 03",
-        "timestamp": 1788429276,
-        "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQV0NaLXZEUk03ZnNiMzFkNGd4LVk2VXUyOXlxS19fNDRKZnZOX1FjakI0ZnpVWV9IeFlycm5OdmxUdWRTYXhZaktmR0dDMk90TS1UX2EtN3dxV2d3NGJMdnZBOExYU0NVS09BSm55T1J3NzEyeS1tUFFlNV94TFZ3ZkRJWEFGczA1NllnVHU5ZFNnZ29PbndDcQ?oc=5",
+        "timestamp": 1788429000,
+        "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQRHFONTV6a2dyS1NhbEZqbWNLU2dScnJXalNTdUhPbkZNRG1zNzZDN0hTcVZaVkFORW9aMDh4RXZNWTNEeGlrVHRkY3JyS0JzUzFGTkNPcmpkckRqbGtIczFZUldxWVFjRlgzMnBzWFNINmxpUWZxeWJ0WjRJR1c5czR0ZkJuYnRSZG9UQUVVcERoVmpXLXZSYmxOVUZKVnpOLUZxZXF3?oc=5",
         "points": [
           "핵심 내용: Prediction: Nvidia Stock Will Outperform AMD Through 2028",
-          "Prediction: Nvidia Stock Will Outperform AMD Through 2028  The Motley Fool",
-          "공신력 검증: 전 세계 주요 언론사 The Motley Fool을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "Prediction: Nvidia Stock Will Outperform AMD Through 2028  Yahoo Finance",
+          "공신력 검증: 전 세계 주요 언론사 Yahoo Finance을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
-        "id": "orbis_semiconductors_51_1788426068",
+        "id": "orbis_semiconductors_59_1788426068",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "SMBtech",
@@ -947,7 +490,7 @@
         "title_ko": "🤖 [AI·프론티어] Dell Users Air Frustrations Over Firmware Bugs, Hardware Failures And Warranty Battles",
         "desc": "Dell Users Air Frustrations Over Firmware Bugs, Hardware Failures And Warranty Battles  SMBtech",
         "desc_ko": "Dell Users Air Frustrations Over Firmware Bugs, Hardware Failures And Warranty Battles",
-        "time_ago": "4h ago",
+        "time_ago": "5h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788426068,
         "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPbThuZ3JWeDAzcnlqMnpRMkkyTUpyZzZHMmNnT183NUMtS2RpQm1fQmpKQi1IN1ZLRE9US09xdUNRYm5BLWdlNjh1UEw3R2p2a0lib0JNdDF1T3RGeWp4aG1Rd3Z0eVQ4X3VDYVdFWDU3YXN1bnNMM2NBSTRxNWpRaXVXaXM1TENyY21rYXg2eWhoc3Q2T3FyZG5XZnNfQmd4VW1FdFM3MUVmT0RJMFkw?oc=5",
@@ -958,7 +501,45 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_20_1788408720",
+        "id": "orbis_semiconductors_3_1788424036",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "NVIDIA",
+        "title": "NVIDIA GTC",
+        "title_ko": "💻 [반도체·하드웨어] NVIDIA GTC",
+        "desc": "NVIDIA GTC  NVIDIA",
+        "desc_ko": "NVIDIA GTC",
+        "time_ago": "6h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788424036,
+        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5IX1lvZGNiMnNKQkk5dzZ1X2g5Y2xnbjgzQU56cnlNcHhMM3V4Szdncl9MVUVEVmtaZzJXUXBxNGtUQ2lBZlNWeXhIWVBad0xVeW8tTWFxQkRmbjFtRHJMdkJETQ?oc=5",
+        "points": [
+          "핵심 내용: NVIDIA GTC",
+          "NVIDIA GTC  NVIDIA",
+          "공신력 검증: 전 세계 주요 언론사 NVIDIA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_16_1788422518",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "EE Times",
+        "title": "India’s Quantum Journey Goes Beyond the Qubit",
+        "title_ko": "💻 [반도체·하드웨어] India’s Quantum Journey Goes Beyond the Qubit",
+        "desc": "India’s Quantum Journey Goes Beyond the Qubit  EE Times",
+        "desc_ko": "India’s Quantum Journey Goes Beyond the Qubit",
+        "time_ago": "6h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788422518,
+        "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBuOERsclR1RXJhd1dyUVU5UG82WkdCTGJaa282bVRWbXlkSlVPanRzNFlJVG84b21aWVFhbFItUkRDMzNFYXhtTUpwOHZRYnY5Y05Xa0lVdHpKYlpEdzZkY3NqYVFFWWlBcFNHUzEtQW5sXzljSzE1Mg?oc=5",
+        "points": [
+          "핵심 내용: India’s Quantum Journey Goes Beyond the Qubit",
+          "India’s Quantum Journey Goes Beyond the Qubit  EE Times",
+          "공신력 검증: 전 세계 주요 언론사 EE Times을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_25_1788408720",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "AZoQuantum",
@@ -966,7 +547,7 @@
         "title_ko": "💻 [반도체·하드웨어] IBM Ventures Invests in BQP as Quantum-Algorithm Physics Acceleration Reaches Production",
         "desc": "IBM Ventures Invests in BQP as Quantum-Algorithm Physics Acceleration Reaches Production  AZoQuantum",
         "desc_ko": "IBM Ventures Invests in BQP as Quantum-Algorithm Physics Acceleration Reaches Production",
-        "time_ago": "9h ago",
+        "time_ago": "10h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788408720,
         "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9OcUNyakRmTHRVN3NIcWNHYXA5Z1AzUEVkZ3NVUDl4YnBpTE5sdjhMMVNuOHhlVEZJM0REVWdKTjd3TF9md2FfdnpzUjN5aDVsWEZ0SXdzZ2xtX25qUGc?oc=5",
@@ -977,45 +558,64 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_27_1788399540",
+        "id": "orbis_semiconductors_34_1788405480",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
-        "press": "Global Times",
+        "press": "People's Daily Online",
         "title": "China achieves 98% transmission efficiency in single quantum router breakthrough",
         "title_ko": "💻 [반도체·하드웨어] China achieves 98% transmission efficiency in single quantum router breakthrough",
-        "desc": "China achieves 98% transmission efficiency in single quantum router breakthrough  Global Times",
+        "desc": "China achieves 98% transmission efficiency in single quantum router breakthrough  People's Daily Online",
         "desc_ko": "China achieves 98% transmission efficiency in single quantum router breakthrough",
         "time_ago": "11h ago",
         "pubDate": "2026. 09. 03",
-        "timestamp": 1788399540,
-        "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1fVVhrSF92bG5oVmRNeDk2SEc5ZGdveF9jUEJfdDFLZHFBQjdFRGpBc0c2WUstOF80b1YwX1BQZElSel85aVl4Y1JEaDlZcERZS0lsSEw3Nm9yZUVwWS12ZXlR?oc=5",
+        "timestamp": 1788405480,
+        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9OV3NCSUlMOXhaLXQ4dVFKeFltR2xoT1lRc2l4Vlk1eE04QW9ZX1NEQmpjSGt2cVk1SzBuRVBvdWRDYW1XeVNoVEhtSHpZNTZyaFZZd0NydmFvRnh6VktuOThBVQ?oc=5",
         "points": [
           "핵심 내용: China achieves 98% transmission efficiency in single quantum router breakthrough",
-          "China achieves 98% transmission efficiency in single quantum router breakthrough  Global Times",
-          "공신력 검증: 전 세계 주요 언론사 Global Times을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "China achieves 98% transmission efficiency in single quantum router breakthrough  People's Daily Online",
+          "공신력 검증: 전 세계 주요 언론사 People's Daily Online을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_79_1788403440",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Mirage News",
+        "title": "Quantum Algorithm May Unlock Bird Migration Mystery",
+        "title_ko": "💻 [반도체·하드웨어] Quantum Algorithm May Unlock Bird Migration Mystery",
+        "desc": "Quantum Algorithm May Unlock Bird Migration Mystery  Mirage News",
+        "desc_ko": "Quantum Algorithm May Unlock Bird Migration Mystery",
+        "time_ago": "12h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788403440,
+        "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPVjY4TnpMOHNHRlpSZi1vOXB0RkRrWS1ZSjhISDR3aFhuS1FZSGxRTnRpQzdELWZheUcybEtrNUM2SzdsQl9XZVZPamE2cTA3TElTeFhYMkYxR3EwdU4xRHN0bUhYSUFfQlFvdGhFNXFBQWg5U2Y2clN5c2FlYlNEYVhHZFp4dw?oc=5",
+        "points": [
+          "핵심 내용: Quantum Algorithm May Unlock Bird Migration Mystery",
+          "Quantum Algorithm May Unlock Bird Migration Mystery  Mirage News",
+          "공신력 검증: 전 세계 주요 언론사 Mirage News을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
         "id": "orbis_semiconductors_7_1788395575",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
-        "press": "quantumcomputingreport.com",
+        "press": "Quantum Computing Report",
         "title": "Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs",
         "title_ko": "💻 [반도체·하드웨어] Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs",
-        "desc": "Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs  quantumcomputingreport.com",
+        "desc": "Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs  Quantum Computing Report",
         "desc_ko": "Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs",
-        "time_ago": "12h ago",
+        "time_ago": "14h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788395575,
         "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNaGJCQkt6bWZoeTBxTDNEY3F1T0t0ci1aOFJNalVLdC1xWVc1NHhiM0psbFJ6bGd6UGdqTDZRSTQtWTJiXzZ3VFFhQThRZ3FjekFqblVycFU3eS15enlBWGVFV2FGTU95azhPQXlGejcyWTdoakRGMUwzekllSEU1WEpSRXZpc2h1dG9RMEN4NnpEMk9UVDlTS3Fodms5c2Q5NG5xWVJuVGtJWmpZQU9pUHNXTdIBuAFBVV95cUxQWmkxeVpuZm00YXRHZnZ1Qm9FQzhwYkRzQlpDUXZXRS1jTXM0QmpfcDZ0SllTTXQ0YUVqTldJQ1hDZmdKSVMxMWpBcl9DeXYxenNqZTZhdjFnU1JiZGFremQzNFpZVXN2QTZ1V2F3TTA1UjcwaVZ0Zko0dVhiVjJFMEx1Z0xEeGdaR0lVMF9tcGliWTlpeVRnMmFnUkVqTE1RT3RfMXVKdXozNTQ3Z3ZCQlF1TDQ3UG5C?oc=5",
         "points": [
           "핵심 내용: Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs",
-          "Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs  quantumcomputingreport.com",
-          "공신력 검증: 전 세계 주요 언론사 quantumcomputingreport.com을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs  Quantum Computing Report",
+          "공신력 검증: 전 세계 주요 언론사 Quantum Computing Report을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
-        "id": "orbis_semiconductors_61_1788393979",
+        "id": "orbis_semiconductors_72_1788393979",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "manilatimes.net",
@@ -1023,7 +623,7 @@
         "title_ko": "🤖 [AI·프론티어] Kensho and Classiq Partner to Expand Access to Quantum Software in Taiwan",
         "desc": "Kensho and Classiq Partner to Expand Access to Quantum Software in Taiwan  manilatimes.net",
         "desc_ko": "Kensho and Classiq Partner to Expand Access to Quantum Software in Taiwan",
-        "time_ago": "13h ago",
+        "time_ago": "14h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788393979,
         "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxNZWhuZjlJM1dJZVNwQ3FxNXJ6UTJkM3RqVHlNcFBkVlhmVmQzbTJzN1Rkd1ppdHRNZmZJUDR3U1QxX2gtZTBrU1ltVVpKc2NaaUZaaDhJaDB3amJ0X2tRWERFc29nUW5DTGk1YkFJeEZjTXliV0E5ODNUbjZ3b3lvNEhPZnV5ZHVoTU9kNnU2YmQ5WWxwQjZWQlYyaUVFbDM5NS1Jd09jZTB6b0JOaW9xdWVZVDQwTEEwMXMxZVlDbU1CXzMzSDlRSDl6alZDcHMzNHNrUzM2YXlUOHhJeGRWbdIB5gFBVV95cUxQUGNkZVVCUmt3SVZ4TG5kSmF6M0wxSW85NEktV3MyUXB4Q3puMEZsUzZwa0dkN2x0YUxERWxWa1k5Ujc3dXc5R0NvS0hZRHRiOWZXX2N4ZVdfckNfSXIxN2JnajJwLW5uMzU3bF9tcENpNXF1bjdKcDUxaDZMcG9peHM0VzUwdGhvVFpzdHVJRjRyaHRQdUFRNlFadUpYOW9uZDQxemJqTmZmRmhlcmVZY0MtVS1WdWdFTFBaX09MMVNUaWxDUDRLVmowWnk5WnBqQTl3V0dsc3Q2SUQ1MzJkTHJmdkRxZw?oc=5",
@@ -1032,203 +632,165 @@
           "Kensho and Classiq Partner to Expand Access to Quantum Software in Taiwan  manilatimes.net",
           "공신력 검증: 전 세계 주요 언론사 manilatimes.net을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
-      },
-      {
-        "id": "orbis_semiconductors_91_1788393319",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "The Motley Fool Australia",
-        "title": "How to invest in quantum computing on the ASX",
-        "title_ko": "💻 [반도체·하드웨어] How to invest in quantum computing on the ASX",
-        "desc": "How to invest in quantum computing on the ASX  The Motley Fool Australia",
-        "desc_ko": "How to invest in quantum computing on the ASX",
-        "time_ago": "13h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788393319,
-        "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNZlctOVRUT3hTWERPdFl1dEVjd3h0TC1jWElpMmlCZ2tsd2pxREJ0cXZUUHpCN3JkdGgwbkwxenBqMGxtRzdlSFdveHVYZlJPX3dKdWpTc1lzblo3dWN1VWlWVmRSNU1YRHJTNUEzNjRhTnBTOVk1YV9qbi1uNmtSbXE1ZlNSaHlD?oc=5",
-        "points": [
-          "핵심 내용: How to invest in quantum computing on the ASX",
-          "How to invest in quantum computing on the ASX  The Motley Fool Australia",
-          "공신력 검증: 전 세계 주요 언론사 The Motley Fool Australia을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_46_1788390900",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "The Tech Buzz",
-        "title": "Nvidia Taps Equinix, Together AI for AI Inference Push",
-        "title_ko": "🤖 [AI·프론티어] Nvidia Taps Equinix, Together AI for AI Inference Push",
-        "desc": "Nvidia Taps Equinix, Together AI for AI Inference Push  The Tech Buzz",
-        "desc_ko": "Nvidia Taps Equinix, Together AI for AI Inference Push",
-        "time_ago": "14h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788390900,
-        "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQVXg5ZTlLU0lhckp2SmpXeFJjR2hBTzFvUjc4MkY3ZlhUSGMyS2R1Qm14b3g5S0F0Uk5Qei1Lb015YXNGMDZvdVJnVkRTRUtxc2tDOEMwanQyUF9taW5IeWEyaFBXSUhQVllSTWpaX09pZExaemw1Q25vdS13Rm05RnE3eXBHUkRTYTg5MGkyOA?oc=5",
-        "points": [
-          "핵심 내용: Nvidia Taps Equinix, Together AI for AI Inference Push",
-          "Nvidia Taps Equinix, Together AI for AI Inference Push  The Tech Buzz",
-          "공신력 검증: 전 세계 주요 언론사 The Tech Buzz을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_25_1788384600",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "Business Wire",
-        "title": "SEEQC Signs MOU with Taiwan Quantum Industry Technology Promotion Office to Advance Quantum Collaboration",
-        "title_ko": "🤖 [AI·프론티어] SEEQC Signs MOU with Taiwan Quantum Industry Technology Promotion Office to Advance Quantum Collaboration",
-        "desc": "SEEQC Signs MOU with Taiwan Quantum Industry Technology Promotion Office to Advance Quantum Collaboration  Business Wire",
-        "desc_ko": "SEEQC Signs MOU with Taiwan Quantum Industry Technology Promotion Office to Advance Quantum Collaboration",
-        "time_ago": "15h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788384600,
-        "link": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxOVHRaMlpUaE05UEJFZ0ZWMlBWZlhSQlgzazcwaHlzVDFGSlY3dUtWS1AxLUN2RjJkb2p0MmU4UGlCeE15X1pPUDRXa3dwZTlDOUdtNFpGbThpV2QzSzNja3c5OWNjOGNlUXhrZGtRMkhtbzRSWnZaekttTVlZYjBoQXN6a1lFQnhhbjhpczRfSENNVURibVdSYVBBd0dKcnhGUlRyMFhLc1J6N1FhejNKaXJCcXFwSF9mVGNTM2p4c25rMHFsaXdjcDIyblRGNGt2cXAxRDhBeTl3eDE3dmJkOWZnZnFqaHR6RFNhV3pjZXI1X25o?oc=5",
-        "points": [
-          "핵심 내용: SEEQC Signs MOU with Taiwan Quantum Industry Technology Promotion Office to Advance Quantum Collaboration",
-          "SEEQC Signs MOU with Taiwan Quantum Industry Technology Promotion Office to Advance Quantum Collaboration  Business Wire",
-          "공신력 검증: 전 세계 주요 언론사 Business Wire을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_36_1788382578",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "Quantum Zeitgeist",
-        "title": "Quobly And Orange Quantum Systems Team Up On Silicon Qubit Testing",
-        "title_ko": "💻 [반도체·하드웨어] Quobly And Orange Quantum Systems Team Up On Silicon Qubit Testing",
-        "desc": "Quobly And Orange Quantum Systems Team Up On Silicon Qubit Testing  Quantum Zeitgeist",
-        "desc_ko": "Quobly And Orange Quantum Systems Team Up On Silicon Qubit Testing",
-        "time_ago": "16h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788382578,
-        "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE05WW44WkhPU2ZvWGhfYkwwY1ItZ1lIa1o4LV9wbU5RUUxlNnQ4ajk5NHl6dXFUdjBGRG1QWWFOQUVZcFFlMUFIQW1tV1o5TUpOWnNZdUpIMk1kcjltZWZ0LUlvVThLWU4tMGtkMEhjT1lsYzQ?oc=5",
-        "points": [
-          "핵심 내용: Quobly And Orange Quantum Systems Team Up On Silicon Qubit Testing",
-          "Quobly And Orange Quantum Systems Team Up On Silicon Qubit Testing  Quantum Zeitgeist",
-          "공신력 검증: 전 세계 주요 언론사 Quantum Zeitgeist을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_43_1788382578",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "Quantum Zeitgeist",
-        "title": "Qilimanjaro Trains New 99.9% Accurate Machine Learning Readout, Not Quantum System",
-        "title_ko": "🤖 [AI·프론티어] Qilimanjaro Trains New 99.9% Accurate Machine Learning Readout, Not Quantum System",
-        "desc": "Qilimanjaro Trains New 99.9% Accurate Machine Learning Readout, Not Quantum System  Quantum Zeitgeist",
-        "desc_ko": "Qilimanjaro Trains New 99.9% Accurate Machine Learning Readout, Not Quantum System",
-        "time_ago": "16h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788382578,
-        "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE42QkRhVzJNZ2JHZ0Y3aHdjOGI3NTl6UEJhaWJtMTVYaVl6VlV0TU40eGRWT1BQZDFYQUlaY05PLWhvOWVOa2RBRjE3Mkd4ZFl5elctTktuQ21IbXRNQWpKYl95VUZPcjZnSFlzZG5Sc19HOHRsY1E?oc=5",
-        "points": [
-          "핵심 내용: Qilimanjaro Trains New 99.9% Accurate Machine Learning Readout, Not Quantum System",
-          "Qilimanjaro Trains New 99.9% Accurate Machine Learning Readout, Not Quantum System  Quantum Zeitgeist",
-          "공신력 검증: 전 세계 주요 언론사 Quantum Zeitgeist을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_38_1788381752",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "Investing.com",
-        "title": "Solowin Holdings signs MOU with EvolveQ on quantum computing",
-        "title_ko": "💻 [반도체·하드웨어] Solowin Holdings signs MOU with EvolveQ on quantum computing",
-        "desc": "Solowin Holdings signs MOU with EvolveQ on quantum computing  Investing.com",
-        "desc_ko": "Solowin Holdings signs MOU with EvolveQ on quantum computing",
-        "time_ago": "16h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788381752,
-        "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQUm90NWszOFQ4Qm5sVlJyanBuRHozdVE4bnBzXy1rM1ZVLWJmOTkwbWZOMzNNanZTS0VPZGZheHJPcFg0SVNEQ3FQa250NkNNTk9TSlNHdkpheHY1WEN0RkdvV0R0SlZGWU5oNjZSak81NDl5T1dUWU5ES21vQUppaWN3NUtCY2ZZTXJjenVJZHUxZ3BFLU5jZXRYN0NwSnIwaGlaalVobU5ralkzTG9mRGtqVzdFQkti?oc=5",
-        "points": [
-          "핵심 내용: Solowin Holdings signs MOU with EvolveQ on quantum computing",
-          "Solowin Holdings signs MOU with EvolveQ on quantum computing  Investing.com",
-          "공신력 검증: 전 세계 주요 언론사 Investing.com을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_5_1788380700",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "MIT News",
-        "title": "From MIT to IBM, expediting AI and quantum deployment",
-        "title_ko": "🤖 [AI·프론티어] From MIT to IBM, expediting AI and quantum deployment",
-        "desc": "From MIT to IBM, expediting AI and quantum deployment  MIT News",
-        "desc_ko": "From MIT to IBM, expediting AI and quantum deployment",
-        "time_ago": "16h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788380700,
-        "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQZVg3bnRSMmlzZ1lPSUFIYWxSb1ZpWE01MkpOSW80NWRMRURYYWl3Q1ZISGFkMkFWVDRqMVZ4RHg4blFkY0VPbk5yM0tFMHRtLUZRMTVCSjV1S2ozZHhfLUk3S1l2TTBlNHhBS1d2WkxqeGtwSF9kWF9Wbk1hcUxROXFEX3dENkxZc1VV?oc=5",
-        "points": [
-          "핵심 내용: From MIT to IBM, expediting AI and quantum deployment",
-          "From MIT to IBM, expediting AI and quantum deployment  MIT News",
-          "공신력 검증: 전 세계 주요 언론사 MIT News을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_62_1788380457",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "Tech Times",
-        "title": "AMD’s Gaming Cache Architecture Hits Pro Workstations: ThinkStation P4 Debuts in Korea",
-        "title_ko": "💻 [반도체·하드웨어] AMD’s Gaming Cache Architecture Hits Pro Workstations: ThinkStation P4 Debuts in Korea",
-        "desc": "AMD’s Gaming Cache Architecture Hits Pro Workstations: ThinkStation P4 Debuts in Korea  Tech Times",
-        "desc_ko": "AMD’s Gaming Cache Architecture Hits Pro Workstations: ThinkStation P4 Debuts in Korea",
-        "time_ago": "16h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788380457,
-        "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPeWZkUjBlZFVMZVBQRWJGLUU2VDZvU0M1TzdYVG0xMDBsRG8xRmtNdVdmOHlabm9VemdZWlRRcjJ5RmFrZmVmVnRCN0hHTjFkVnp2OWg3clgybzhkQzl4TklQX0tqMV9OS0YtbWZVN3RsRWhYelNjZ01HYWdoYlROeHJYd1BhV29Zc2dNUF9QTVNKRWs5Nmp0dU1IallBTEprbTFZazExOEU5cklCczhUNmNpZWlXWG13ci1VU3NNZDBOT1VsakpyRjYyQTFNUXNHT3c?oc=5",
-        "points": [
-          "핵심 내용: AMD’s Gaming Cache Architecture Hits Pro Workstations: ThinkStation P4 Debuts in Korea",
-          "AMD’s Gaming Cache Architecture Hits Pro Workstations: ThinkStation P4 Debuts in Korea  Tech Times",
-          "공신력 검증: 전 세계 주요 언론사 Tech Times을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_42_1788379500",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "Stock Titan",
-        "title": "AI and quantum computers may team up in finance. Solowin's unit signed a non-binding agreement.",
-        "title_ko": "🤖 [AI·프론티어] AI and quantum computers may team up in finance. Solowin's unit signed a non-binding agreement.",
-        "desc": "AI and quantum computers may team up in finance. Solowin's unit signed a non-binding agreement.  Stock Titan",
-        "desc_ko": "AI and quantum computers may team up in finance. Solowin's unit signed a non-binding agreement.",
-        "time_ago": "17h ago",
-        "pubDate": "2026. 09. 02",
-        "timestamp": 1788379500,
-        "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQaG1NdVFhUy1vTU9pTEIxZU5LSFNVdG9NS0FXbEZFUTBGNTRXdWN6cTBIbFFJdkNaeFB4eDdEYWw2MGRVVTkwSm9Rb1NaSmNEYXBzaGxQWE55eUFvaG5tZi13UTExY2M0YXJsaS13OG5UemR6YmJPQ0JnVGQ1bEFWOXg1SXVQVmhLbmc3dzNzSnMtRktOVm9hRC1OaWZTVlB2SnFXS1IzdDV5cjAwVGlVbVI3SFpqVmpOU2xYSHN3?oc=5",
-        "points": [
-          "핵심 내용: AI and quantum computers may team up in finance. Solowin's unit signed a non-binding agreement.",
-          "AI and quantum computers may team up in finance",
-          "공신력 검증: 전 세계 주요 언론사 Stock Titan을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
       }
     ],
     "science_space": [],
     "geopolitics": [],
     "all": [
       {
-        "id": "orbis_semiconductors_1_1788441476",
+        "id": "orbis_semiconductors_2_1788445968",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
-        "press": "The Motley Fool",
-        "title": "Better AI Infrastructure Stock: Nvidia vs. AMD",
-        "title_ko": "🤖 [AI·프론티어] Better AI Infrastructure Stock: Nvidia vs. AMD",
-        "desc": "Better AI Infrastructure Stock: Nvidia vs. AMD  The Motley Fool",
-        "desc_ko": "Better AI Infrastructure Stock: Nvidia vs. AMD",
-        "time_ago": "1m ago",
+        "press": "HPCwire",
+        "title": "Quantinuum and Aramco Sign MOU on Industrial Quantum Computing Use Cases",
+        "title_ko": "💻 [반도체·하드웨어] Quantinuum and Aramco Sign MOU on Industrial Quantum Computing Use Cases",
+        "desc": "Quantinuum and Aramco Sign MOU on Industrial Quantum Computing Use Cases  HPCwire",
+        "desc_ko": "Quantinuum and Aramco Sign MOU on Industrial Quantum Computing Use Cases",
+        "time_ago": "18m ago",
         "pubDate": "2026. 09. 03",
-        "timestamp": 1788441476,
-        "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOT1VUdGZvU3FpZTNaS2dGRjZyQ0xmUzJPYVc5WEVKWEt0RU16LUszT2JsS2MwaEowNTJ1QXNBMWJsTHBBZUg2aHFPbzZUVnloTlE3Zjh0WHB4Y2gxZHNRNXFwempxaWlfMjhIMF9uNDJZUTA1VlJnYTBGai13OUtzYWlIQ3Y5Q3RHYlZyRXNLcHA?oc=5",
+        "timestamp": 1788445968,
+        "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPNnRKRWo3aFhUZ3ZfRklJdEYyeGd3Q2EzcWxwSWx0Zk5uTTVGRklZaGp1YzVtRXpnRGNWRXRSM3RMX1FtbnBIN2xxVUI2cDd3b0lUSGRLQ3Y3RlJrZTROSzNPUVZ0OGNVQThVYlBSX1BFSE1uejBHVng3NkcwS0lER0JGZjdVay1TTEtzSnNuOER0a3F6QWxFaFRuQXZQbEJBUUlfck84Q1JUME1wYTBn?oc=5",
         "points": [
-          "핵심 내용: Better AI Infrastructure Stock: Nvidia vs. AMD",
-          "Better AI Infrastructure Stock: Nvidia vs",
-          "공신력 검증: 전 세계 주요 언론사 The Motley Fool을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "핵심 내용: Quantinuum and Aramco Sign MOU on Industrial Quantum Computing Use Cases",
+          "Quantinuum and Aramco Sign MOU on Industrial Quantum Computing Use Cases  HPCwire",
+          "공신력 검증: 전 세계 주요 언론사 HPCwire을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
-        "id": "orbis_semiconductors_10_1788441106",
+        "id": "orbis_semiconductors_13_1788445575",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "The Quantum Insider",
+        "title": "Quobly and Orange Quantum Systems Partner on Silicon Spin Qubit Testing",
+        "title_ko": "💻 [반도체·하드웨어] Quobly and Orange Quantum Systems Partner on Silicon Spin Qubit Testing",
+        "desc": "Quobly and Orange Quantum Systems Partner on Silicon Spin Qubit Testing  The Quantum Insider",
+        "desc_ko": "Quobly and Orange Quantum Systems Partner on Silicon Spin Qubit Testing",
+        "time_ago": "24m ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788445575,
+        "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPM2dFVk1uT3ZzNFRsaTdZUS0xc3NiN0pyVjdraFl3dHdFcUJZQW5OS0pWM2tTbEN2ZkV3NkM0NGRBeEZMc1NlZHBtMmlYdC1PTnlxTldWeW1LZ3JsRkFXR2xjOFQ4ZDZlQlI5bG53RDhpUjNEMlpjeFBCRHprRUlrMy1nNkl4MTBlaHpkZzlXNmN6UFZwZGxnQnBBMXF5VWM?oc=5",
+        "points": [
+          "핵심 내용: Quobly and Orange Quantum Systems Partner on Silicon Spin Qubit Testing",
+          "Quobly and Orange Quantum Systems Partner on Silicon Spin Qubit Testing  The Quantum Insider",
+          "공신력 검증: 전 세계 주요 언론사 The Quantum Insider을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_18_1788445079",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Scientific Computing World",
+        "title": "Nvidia to acquire Hugging Face for $12.9 billion",
+        "title_ko": "💻 [반도체·하드웨어] Nvidia to acquire Hugging Face for $12.9 billion",
+        "desc": "Nvidia to acquire Hugging Face for $12.9 billion  Scientific Computing World",
+        "desc_ko": "Nvidia to acquire Hugging Face for $12.9 billion",
+        "time_ago": "33m ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788445079,
+        "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNYXRHVk5kREotdVJhVEtfY0FkclJ2MXQ2ZHN3dG1FRjdLRnEyd2Zza1pERHRxNjRVTWI5M0RwTWJPVG13RkhJbXpBd0g0RUhCajJMWXk4UFRCQ2tSV2VuY0V4XzFNYWRaSDZ2UEJ2dlhSaDZRWEhxWVAtdjJpWGc3dWVZOGhZdlNEYzVpRQ?oc=5",
+        "points": [
+          "핵심 내용: Nvidia to acquire Hugging Face for $12.9 billion",
+          "Nvidia to acquire Hugging Face for $12.9 billion  Scientific Computing World",
+          "공신력 검증: 전 세계 주요 언론사 Scientific Computing World을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_20_1788444750",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Blockspace Media",
+        "title": "Blue Owl leads $2.4 billion IREN GPU financing at 9%",
+        "title_ko": "💻 [반도체·하드웨어] Blue Owl leads $2.4 billion IREN GPU financing at 9%",
+        "desc": "Blue Owl leads $2.4 billion IREN GPU financing at 9%  Blockspace Media",
+        "desc_ko": "Blue Owl leads $2.4 billion IREN GPU financing at 9%",
+        "time_ago": "38m ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788444750,
+        "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPbFlnNTdxdjNOOU1WZU1EQ2Z6Mnk1Q2dwWEs4R1JkYjRJX2pYZ2JsaC1tTGl5d2E1S3hUQmxMS09EaC0wQy1jcHdpc1N3aUExWGRmMF9GTXFmSDBBb3cxX2Flc2pIdmphbEVLdUhYQ3EzQkp6OHFaZnBWZmV2eTlkTFRhSWw?oc=5",
+        "points": [
+          "핵심 내용: Blue Owl leads $2.4 billion IREN GPU financing at 9%",
+          "Blue Owl leads $2.4 billion IREN GPU financing at 9%  Blockspace Media",
+          "공신력 검증: 전 세계 주요 언론사 Blockspace Media을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_37_1788443913",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Club386",
+        "title": "Intel Nova Lake presentation leak shows a Q1 2027 release target",
+        "title_ko": "💻 [반도체·하드웨어] Intel Nova Lake presentation leak shows a Q1 2027 release target",
+        "desc": "Intel Nova Lake presentation leak shows a Q1 2027 release target  Club386",
+        "desc_ko": "Intel Nova Lake presentation leak shows a Q1 2027 release target",
+        "time_ago": "52m ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788443913,
+        "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNRlBuNjhaX1hFa1ZNT0gyeTAyQm9hSmdBOGdBTkItRFU4YlJESW83Sy1uZnlxaTAzd3dPU1JobzVseEZWTHh5WklCemM0ZHV4TzFCT010OHJUNzk4TmR3RjVXOW5aQldFdUhMRGdwM1RZYnlxNk05bFVZbDRRLU5TLWs3aEsyYnJNeXRGeTduMkM?oc=5",
+        "points": [
+          "핵심 내용: Intel Nova Lake presentation leak shows a Q1 2027 release target",
+          "Intel Nova Lake presentation leak shows a Q1 2027 release target  Club386",
+          "공신력 검증: 전 세계 주요 언론사 Club386을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_0_1788442287",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "The Quantum Insider",
+        "title": "George Mason and TreQ Partner on Open-Architecture Quantum Computing in Virginia",
+        "title_ko": "💻 [반도체·하드웨어] George Mason and TreQ Partner on Open-Architecture Quantum Computing in Virginia",
+        "desc": "George Mason and TreQ Partner on Open-Architecture Quantum Computing in Virginia  The Quantum Insider",
+        "desc_ko": "George Mason and TreQ Partner on Open-Architecture Quantum Computing in Virginia",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788442287,
+        "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPdFUzcktTUmk2UGdfVjBiSnZtSWdqU2ppU0p0WGJnTnp2ckRwN2tHcVFWTjVzaWZfX1pMajBEX00tMVN0ekFvSWotMWdwYUZ2alN0c3ZHUndmTERYczhpa3BCMXFXOERqcUVYUjNyWlMtdjN5SkNFZXNGWWZBMUJHVHk3MGh3T0lrSEtELWJQaUJZbHFNVnVMeVFkY1dyVm9EU2ZDSzBB?oc=5",
+        "points": [
+          "핵심 내용: George Mason and TreQ Partner on Open-Architecture Quantum Computing in Virginia",
+          "George Mason and TreQ Partner on Open-Architecture Quantum Computing in Virginia  The Quantum Insider",
+          "공신력 검증: 전 세계 주요 언론사 The Quantum Insider을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_8_1788441881",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "The Globe and Mail",
+        "title": "Better AI Infrastructure Stock: Nvidia vs. AMD",
+        "title_ko": "🤖 [AI·프론티어] Better AI Infrastructure Stock: Nvidia vs. AMD",
+        "desc": "Better AI Infrastructure Stock: Nvidia vs. AMD  The Globe and Mail",
+        "desc_ko": "Better AI Infrastructure Stock: Nvidia vs. AMD",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788441881,
+        "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNd2dzdFFtcGdBZ2hKeVRRY1VfUXZ2T3VRYlB4bUNfdmhmSFZBdnFMVTNtZ1VHcHZOX3llb1VtNXVSLTkwTEs1WkNvenBlQmpsdmFsUlRmNWdKYmdYUnBZR2ZxWWQtTDdvVTNxWV92cXhnUEJYNGNDbHBELUNQZEd5b2RrZi1kOFBudGF4R3MydVFGSEVhdUx4NHFyX3I5SmFjU2p6VTdHcHo1S3dybUt2ajNnZmRBcUVHcjJZNV9ESWJsWWRkWXZ1WGh3?oc=5",
+        "points": [
+          "핵심 내용: Better AI Infrastructure Stock: Nvidia vs. AMD",
+          "Better AI Infrastructure Stock: Nvidia vs",
+          "공신력 검증: 전 세계 주요 언론사 The Globe and Mail을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_46_1788441756",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Pluang",
+        "title": "AMD posts strong data center growth while Nvidi...",
+        "title_ko": "💻 [반도체·하드웨어] AMD posts strong data center growth while Nvidi...",
+        "desc": "AMD posts strong data center growth while Nvidi...  Pluang",
+        "desc_ko": "AMD posts strong data center growth while Nvidi...",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788441756,
+        "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBBbThUc0F6T3dmRFZYR0s1Nm5pQy1GaTBMNzcxMnFDZHRoMExESWhjN0lrTUdHS1lTVW9WbjB6U2tnUVVEOHRSYVlrNDN0VWNzbFJIc2pGSzFMeEhNOHdfZDJpWmxBZFBMQ05SMHRENXl0ZHpoSGpBRkk3dDROQQ?oc=5",
+        "points": [
+          "핵심 내용: AMD posts strong data center growth while Nvidi...",
+          "AMD posts strong data center growth while Nvidi..",
+          "공신력 검증: 전 세계 주요 언론사 Pluang을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_4_1788441106",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "MarketBeat",
@@ -1236,7 +798,7 @@
         "title_ko": "💻 [반도체·하드웨어] Could IonQ Become More Than a Quantum Computing Company?",
         "desc": "Could IonQ Become More Than a Quantum Computing Company?  MarketBeat",
         "desc_ko": "Could IonQ Become More Than a Quantum Computing Company?",
-        "time_ago": "8m ago",
+        "time_ago": "1h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788441106,
         "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOYlgzS1dkWUxPWWMxSXpRTnRpaVJDZ1ZrR2pQc3lJVTZsNGlTRU5TVWpJM3BmWkpWWUEtNHZQVVF0M05XQ2t4c2tYMXZBUWFoM2dDelVfT2RBOUhsRkVNYXlJZlczLXFLaEMtWGpsRWZnUFhmMXhsRUt2TlhDYUxVXy1JY0VqTnlPeWpTTXZvcnktOXg2UHhN?oc=5",
@@ -1247,83 +809,83 @@
         ]
       },
       {
-        "id": "orbis_all_65_1788440379",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Devdiscourse",
-        "title": "Reuters World News Summary",
-        "title_ko": "⚡ [글로벌 속보] Reuters World News Summary",
-        "desc": "Reuters World News Summary  Devdiscourse",
-        "desc_ko": "Reuters World News Summary",
-        "time_ago": "20m ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788440379,
-        "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNRWlzaU1JRHByYjdFUHBXWTZnN3NKenBjQXBlazlIR0tRSWtyV1dfLVFjNXdTNVo2WGNFcmk2Q1d0YTF6ZWV3LWlLREctUU5ERWhiS2cxcFp3aVNzNFYxOFdhWTY5SktoTUdTRHVoa2Vyc1l4SWFQSzY5cGViQVdzcUIyNnFMRmk0cFE4dENn0gGTAUFVX3lxTFBsZWJKNFpybjFWVHo0N2lqMlppaG9DbmR5OTQzY093U09NZ05ITmVDTEpiVnFFdjBoOS1LQ1plaldpYnBDZWZsR2xFRk12X0FHWElHOVRkSWw1T3hDSHNuek9JSWpxMnM4NU1TWmtubHRqSVlrQzltanJrSHpPd0pUZXVWUEtwWGN6ZWtIWkJKQWZPWQ?oc=5",
-        "points": [
-          "핵심 내용: Reuters World News Summary",
-          "Reuters World News Summary  Devdiscourse",
-          "공신력 검증: 전 세계 주요 언론사 Devdiscourse을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_2_1788439427",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "WRAL",
-        "title": "Nvidia to spend $13 billion on Hugging Face, leaving it as an open source platform",
-        "title_ko": "💻 [반도체·하드웨어] Nvidia to spend $13 billion on Hugging Face, leaving it as an open source platform",
-        "desc": "Nvidia to spend $13 billion on Hugging Face, leaving it as an open source platform  WRAL",
-        "desc_ko": "Nvidia to spend $13 billion on Hugging Face, leaving it as an open source platform",
-        "time_ago": "36m ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788439427,
-        "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNdkhqdzcwOVljYXVacWF2UG9va2Y2VDZrWHJnNzdfRjVhOGVtazlWOTBqbGp0RWs3bEtPb1REaERiN2VHRHlIdG1uQlVVWE1NbmVqUWpZUWZ1YjZ0ZHZ4bm5rX3QxdzcwZGVOQ3lyUDlleHZDMVpsdzlIaTM2Y215ZXJwOGdTSDAzOTBpWUZYQ2ozaTZpS21SWEQwVXNxR2ROS0c2LU56YnUwSVZzWjRV?oc=5",
-        "points": [
-          "핵심 내용: Nvidia to spend $13 billion on Hugging Face, leaving it as an open source platform",
-          "Nvidia to spend $13 billion on Hugging Face, leaving it as an open source platform  WRAL",
-          "공신력 검증: 전 세계 주요 언론사 WRAL을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_11_1788439212",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "US Trade Gap Widens to Largest Since Early Last Year on Imports",
-        "title_ko": "⚡ [글로벌 속보] US Trade Gap Widens to Largest Since Early Last Year on Imports",
-        "desc": "US Trade Gap Widens to Largest Since Early Last Year on Imports  Bloomberg.com",
-        "desc_ko": "US Trade Gap Widens to Largest Since Early Last Year on Imports",
-        "time_ago": "39m ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788439212,
-        "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQSGxUVjYzMzB5bW4wbHpUWmV4SkJJcC04LXhfTXZVczlmMF81R21XRk9CYjU2R05MTmRZS05PMTc0X2J0dTkxcUxqTFJPN1MtcGZrTTVnd0pmNlNCZW9COXQtdzRwUXVHTkUtVmFtUGw3YVdLSGRIQjB4dW5IMTVvRXZ2QWQ2NWFWVFlvSE1mejhjQVN6Rm5mU1NGWmFNZ1dwN0FBNzQ0Ul8xMjNzNG9fRmZaX1o?oc=5",
-        "points": [
-          "핵심 내용: US Trade Gap Widens to Largest Since Early Last Year on Imports",
-          "US Trade Gap Widens to Largest Since Early Last Year on Imports  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_3_1788439020",
+        "id": "orbis_semiconductors_9_1788440593",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
-        "press": "Morningstar",
-        "title": "George Mason University Partners With Oxford-Based TreQ to Bring the First Open-Architecture Quantum Computing System to Virginia",
-        "title_ko": "💻 [반도체·하드웨어] George Mason University Partners With Oxford-Based TreQ to Bring the First Open-Architecture Quantum Computing System to Virginia",
-        "desc": "George Mason University Partners With Oxford-Based TreQ to Bring the First Open-Architecture Quantum Computing System to Virginia  Morningstar",
-        "desc_ko": "George Mason University Partners With Oxford-Based TreQ to Bring the First Open-Architecture Quantum Computing System to Virginia",
-        "time_ago": "42m ago",
+        "press": "The Register",
+        "title": "Nvidia buys Hugging Face for $12.9B, promises not to squeeze too hard",
+        "title_ko": "💻 [반도체·하드웨어] Nvidia buys Hugging Face for $12.9B, promises not to squeeze too hard",
+        "desc": "Nvidia buys Hugging Face for $12.9B, promises not to squeeze too hard  The Register",
+        "desc_ko": "Nvidia buys Hugging Face for $12.9B, promises not to squeeze too hard",
+        "time_ago": "1h ago",
         "pubDate": "2026. 09. 03",
-        "timestamp": 1788439020,
-        "link": "https://news.google.com/rss/articles/CBMimgJBVV95cUxPOTJxYXVpMU5EdWctb2o2MXE5Q1kzckdRQnBaSkRRNzZmdW5sQVFvY0oxVmg5aDgxSm5WcHZHSUdIWWphZGVFbER2LXBUNnVBS1dwczZzaDNXcU5aRmxVZ2lOc3dyT3R3WU1mVGxNaTl6QlZYV3ZaT0YxdXpmOW1fdWI2OG15U3NMeFhxSnJzWVpWR0Q0MFJxdGdfVmQ1MWtRd3ZWc2Z6bi1TOVJ6V2lZTEN4dkM3Mm1OcU44MFV3V3pvMjhoRGpTY3IxNlJSY01JZmNmUVYtMUh0VlNNVEJsSk5NSjRjcGdORk1HU3l5TXNuRFZRc1J3R09LaHI5V0p0SDQ5VUoyV05mUmRwSTVnTlh1ajVYUXRQZ2c?oc=5",
+        "timestamp": 1788440593,
+        "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPbmZiNUoyMzdGQnJQQ0xWNVVac3dHZmxSUl85eDZIS0k4NlAxbW5neGZxTjU2SVRlNnk4RGJLMnJhVkdua0MweUpYOFhKS2Q5S1BhMjItVUZZeFYwdWlESmw2NFNkSTVQNXdzSG5yVk4zTE1Vd3R3YXJnMlJZTWwxaldtOWVyREVVczl1NzRfYzdYejBnVkFzdS11VEZjTXF2eDlOaldLTXFPSmhaNE5DRnNaU3JfZm05SU9JZWhrOG8?oc=5",
         "points": [
-          "핵심 내용: George Mason University Partners With Oxford-Based TreQ to Bring the First Open-Architecture Quantum Computing System to Virginia",
-          "George Mason University Partners With Oxford-Based TreQ to Bring the First Open-Architecture Quantum Computing System to Virginia  Morningstar",
-          "공신력 검증: 전 세계 주요 언론사 Morningstar을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "핵심 내용: Nvidia buys Hugging Face for $12.9B, promises not to squeeze too hard",
+          "Nvidia buys Hugging Face for $12.9B, promises not to squeeze too hard  The Register",
+          "공신력 검증: 전 세계 주요 언론사 The Register을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
-        "id": "orbis_semiconductors_11_1788438557",
+        "id": "orbis_semiconductors_5_1788440503",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "The New York Times",
+        "title": "Nvidia Buys Hugging Face in $12.9 Billion Deal",
+        "title_ko": "💻 [반도체·하드웨어] Nvidia Buys Hugging Face in $12.9 Billion Deal",
+        "desc": "Nvidia Buys Hugging Face in $12.9 Billion Deal  The New York Times",
+        "desc_ko": "Nvidia Buys Hugging Face in $12.9 Billion Deal",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788440503,
+        "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE0yMlJhVkx6YWNlSEdlelNIVXNzaG9oUWVVdWlJcFQ3NHVzVXJvOC1RWmJqN1NKQXlSbmVTU2l3WHdrdTBSbEhvaHh6NVVIa3h6b1BENWJYZnRpZnNMU0RRQl9fQ1NKSk9MLVdEcFZQcjZDRzZ2QWVBeTNB?oc=5",
+        "points": [
+          "핵심 내용: Nvidia Buys Hugging Face in $12.9 Billion Deal",
+          "Nvidia Buys Hugging Face in $12.9 Billion Deal  The New York Times",
+          "공신력 검증: 전 세계 주요 언론사 The New York Times을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_33_1788439806",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "TradingKey",
+        "title": "NVIDIA Stock Rebounds as AI Demand Holds: Can NVDA Break $230?",
+        "title_ko": "🤖 [AI·프론티어] NVIDIA Stock Rebounds as AI Demand Holds: Can NVDA Break $230?",
+        "desc": "NVIDIA Stock Rebounds as AI Demand Holds: Can NVDA Break $230?  TradingKey",
+        "desc_ko": "NVIDIA Stock Rebounds as AI Demand Holds: Can NVDA Break $230?",
+        "time_ago": "2h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788439806,
+        "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNTHFvUVRqNjdEWkduZ2lLUXFTakNPQkJyZFZ5bGVaa2t4ZVVYVUsyYWtxcDhKUk1sUnlCNVY4WWMycjJXTFRlQkRSNnRNY1VsMDIyT1ctV1JhWFFYS29VaDVaVHZGelNEcDU1LURtY3c2ZzFZd2JSelVCR3FNdlhNb1ZMcEltQnVvR3RoYTBCb3Q2b2l0OUx6RWZEa0FWWmctdmx2cGUzTEtDT2RaQ1NOZmxUeTI?oc=5",
+        "points": [
+          "핵심 내용: NVIDIA Stock Rebounds as AI Demand Holds: Can NVDA Break $230?",
+          "NVIDIA Stock Rebounds as AI Demand Holds: Can NVDA Break $230",
+          "공신력 검증: 전 세계 주요 언론사 TradingKey을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_23_1788438660",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "TradingView",
+        "title": "Memory Costs Rise: Can NVIDIA Protect Its 70%+ Gross Margin?",
+        "title_ko": "💻 [반도체·하드웨어] Memory Costs Rise: Can NVIDIA Protect Its 70%+ Gross Margin?",
+        "desc": "Memory Costs Rise: Can NVIDIA Protect Its 70%+ Gross Margin?  TradingView",
+        "desc_ko": "Memory Costs Rise: Can NVIDIA Protect Its 70%+ Gross Margin?",
+        "time_ago": "2h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788438660,
+        "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQc2FaMnRpdVhBLXdwYTJ3TzI4djRfeGJkZG4wLTVPZ1VsX2JTOE9DVTBXS2ktOUc2YXFXY0R2WGFWanp0S1hSUzhHaG1BaE9LOE1OOGdmdjBfeXNjWTk5d2JGaHIydnhyNVdycGU3NFB1TWhaY1NOMzljdGc3ZHcwSW10aWVYYXBST0xXRjRKTXl6WWpyOFdRSjBsN0Nobm5Pa3lIYS1UY0JNRG1iaXBMaXhn?oc=5",
+        "points": [
+          "핵심 내용: Memory Costs Rise: Can NVIDIA Protect Its 70%+ Gross Margin?",
+          "Memory Costs Rise: Can NVIDIA Protect Its 70%+ Gross Margin",
+          "공신력 검증: 전 세계 주요 언론사 TradingView을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_19_1788438557",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "marketscreener.com",
@@ -1331,7 +893,7 @@
         "title_ko": "🤖 [AI·프론티어] QumulusAI Completes Nvidia GPU Deployment for Runpod",
         "desc": "QumulusAI Completes Nvidia GPU Deployment for Runpod  marketscreener.com",
         "desc_ko": "QumulusAI Completes Nvidia GPU Deployment for Runpod",
-        "time_ago": "50m ago",
+        "time_ago": "2h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788438557,
         "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQZDE5X2hiTjVIamxZQ0ozZ1Y0eE4zdnA0cGkwSEJURl9jZVJVQnpBZEpEdXFpdUcwbHMyRVNvcjBwaC14TEJ3T3ZjZlpiOEtzY09ocFhjQlZEV19aWHpOcFRnVThmXzJkSHJUS2tGOEEzMlRBTDJYU2V5WVN3bm5UVWJnejB0Ukg1OExhMmpTem1mdEx6SHQtcjZ0NFFiTHluWGpIOC1yeEE?oc=5",
@@ -1342,45 +904,26 @@
         ]
       },
       {
-        "id": "orbis_all_42_1788438491",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "BBC World",
-        "title": "Family says man killed in train crash was 'centre of their world'",
-        "title_ko": "🤖 [AI·프론티어] Family says man killed in train crash was 'centre of their world'",
-        "desc": "Family says man killed in train crash was 'centre of their world'  BBC",
-        "desc_ko": "Family says man killed in train crash was 'centre of their world'",
-        "time_ago": "51m ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788438491,
-        "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBJX3k4eUNmQmlwejY4SWo4UWNHTURwd0h2dGFMTF9mcDJ6WlBXdTVHLURRS1lqTGxQWXBua19GMlFTOWx5VmVaN2lfMGNaUWdtc1ZRalF3X0g4QQ?oc=5",
-        "points": [
-          "핵심 내용: Family says man killed in train crash was 'centre of their world'",
-          "Family says man killed in train crash was 'centre of their world'  BBC",
-          "공신력 검증: 전 세계 주요 언론사 BBC World을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_13_1788438286",
+        "id": "orbis_semiconductors_1_1788438240",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
-        "press": "AOL.com",
+        "press": "24/7 Wall St.",
         "title": "AMD is Quietly Eating Intel’s Lunch",
         "title_ko": "💻 [반도체·하드웨어] AMD is Quietly Eating Intel’s Lunch",
-        "desc": "AMD is Quietly Eating Intel’s Lunch  AOL.com",
+        "desc": "AMD is Quietly Eating Intel’s Lunch  24/7 Wall St.",
         "desc_ko": "AMD is Quietly Eating Intel’s Lunch",
-        "time_ago": "55m ago",
+        "time_ago": "2h ago",
         "pubDate": "2026. 09. 03",
-        "timestamp": 1788438286,
-        "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE01c1ZtUVRPLWFsVldxVFhja3c3TEZPR3JyZkFUbm5CS2lBa2FvSDdKVmdpVnFPSkJaVk5qdzBjNGxfaXNUTXJrWTI0QU1RZ1dvYVB4b24zdTdwbF9tLThKU3JxT3lOQzVFU0k3SUxoOHdlSXNvNFhSTTdLRlRmdUE?oc=5",
+        "timestamp": 1788438240,
+        "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNT2RkOTV3eTkzNkk3d0dHeHQ2T1ltQXh4T1NMaWVoZGRKMU16OXJ2eU9ua2pZRmxnYW5DNVpILWtRU3NDdGdBRmJQN08xUWUwZ0hTdENsd01zd0VWZC1nZ1lFV1JnRUFkWkl5VDVYREgxOHBiNXBOUzJrS01Gbnk5WWlQekk?oc=5",
         "points": [
           "핵심 내용: AMD is Quietly Eating Intel’s Lunch",
-          "AMD is Quietly Eating Intel’s Lunch  AOL.com",
-          "공신력 검증: 전 세계 주요 언론사 AOL.com을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "AMD is Quietly Eating Intel’s Lunch  24/7 Wall St.",
+          "공신력 검증: 전 세계 주요 언론사 24/7 Wall St.을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
-        "id": "orbis_semiconductors_8_1788438240",
+        "id": "orbis_semiconductors_11_1788438240",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "quiverquant.com",
@@ -1388,7 +931,7 @@
         "title_ko": "💻 [반도체·하드웨어] Nvidia to Acquire Hugging Face for $12.93 Billion",
         "desc": "Nvidia to Acquire Hugging Face for $12.93 Billion  quiverquant.com",
         "desc_ko": "Nvidia to Acquire Hugging Face for $12.93 Billion",
-        "time_ago": "55m ago",
+        "time_ago": "2h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788438240,
         "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPeWdWUlNnR2xKNVNhSDRMTTVOZHRYZ3NvQ3Z5VWhwdDBUTTRJc1ZiR0FvV1FDTk5rYmhPRHBrYVRrQnByRDJrLThmU21Wckc4eVhZVlVpMzF3dXZYajh3VjlDUFcyUkJUVWN0bldaZ1FXeEJlLUw5SUtOaklPZGo2cnlMU3RpZEZlcjl2WQ?oc=5",
@@ -1399,83 +942,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_4_1788437991",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "The New York Times",
-        "title": "Nvidia Buys Hugging Face in $12.9 Billion Deal",
-        "title_ko": "💻 [반도체·하드웨어] Nvidia Buys Hugging Face in $12.9 Billion Deal",
-        "desc": "Nvidia Buys Hugging Face in $12.9 Billion Deal  The New York Times",
-        "desc_ko": "Nvidia Buys Hugging Face in $12.9 Billion Deal",
-        "time_ago": "1h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788437991,
-        "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE0yMlJhVkx6YWNlSEdlelNIVXNzaG9oUWVVdWlJcFQ3NHVzVXJvOC1RWmJqN1NKQXlSbmVTU2l3WHdrdTBSbEhvaHh6NVVIa3h6b1BENWJYZnRpZnNMU0RRQl9fQ1NKSk9MLVdEcFZQcjZDRzZ2QWVBeTNB?oc=5",
-        "points": [
-          "핵심 내용: Nvidia Buys Hugging Face in $12.9 Billion Deal",
-          "Nvidia Buys Hugging Face in $12.9 Billion Deal  The New York Times",
-          "공신력 검증: 전 세계 주요 언론사 The New York Times을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_6_1788437902",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Reuters",
-        "title": "Nvidia to buy Hugging Face for nearly $13 billion in big bet on open AI models",
-        "title_ko": "🤖 [AI·프론티어] Nvidia to buy Hugging Face for nearly $13 billion in big bet on open AI models",
-        "desc": "Nvidia to buy Hugging Face for nearly $13 billion in big bet on open AI models  Reuters",
-        "desc_ko": "Nvidia to buy Hugging Face for nearly $13 billion in big bet on open AI models",
-        "time_ago": "1h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788437902,
-        "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPSktMTEFzVUpJM09CZGMxcnEtMVJHTElxMllESE9QbHdMbjl4MmQ2TjJvSjRXY1Q3RUVmNGMxQ2xIMTVtOWhnVHYyWGluNmNDektRcVloUmZfTmdWMDJyMFRrTjZHYzl6aUYyd1JYM3hQenBmeFJ1N3FleW01SF9HeFVSZ3oxMlBsS3BrcHZiblZBWTNSWDQyMzdSWGMwMnJ3NnNTbG14R3FTb1BUdGc?oc=5",
-        "points": [
-          "핵심 내용: Nvidia to buy Hugging Face for nearly $13 billion in big bet on open AI models",
-          "Nvidia to buy Hugging Face for nearly $13 billion in big bet on open AI models  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_3_1788436620",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "AP News",
-        "title": "US futures mostly lower and oil prices climb due to ongoing clashes around Iran",
-        "title_ko": "⚡ [글로벌 속보] US futures mostly lower and oil prices climb due to ongoing clashes around Iran",
-        "desc": "US futures mostly lower and oil prices climb due to ongoing clashes around Iran  AP News",
-        "desc_ko": "US futures mostly lower and oil prices climb due to ongoing clashes around Iran",
-        "time_ago": "1h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788436620,
-        "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPRm1qUndzRGJ6NHpzRWZueGRlcTNFS0tCb2RQakc0ZWZnUlBjUkJJM2d5RGM3eEJOelBwc21LME4xazIxc1ktTzVPOVNjNWxrb3hYenFkemtuR1R2Q3Rvajk1Tmd1RDZLX2lnT1F2TGxldDBDXzFOM2plMmxPLWpUaVZJVEt6RHRYSGtVcVA1TGRqRjB3NWY0OA?oc=5",
-        "points": [
-          "핵심 내용: US futures mostly lower and oil prices climb due to ongoing clashes around Iran",
-          "US futures mostly lower and oil prices climb due to ongoing clashes around Iran  AP News",
-          "공신력 검증: 전 세계 주요 언론사 AP News을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_9_1788436439",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "So Much Intervention Talk Is Making Markets Jumpy",
-        "title_ko": "📈 [글로벌 금융·경제] So Much Intervention Talk Is Making Markets Jumpy",
-        "desc": "So Much Intervention Talk Is Making Markets Jumpy  Bloomberg.com",
-        "desc_ko": "So Much Intervention Talk Is Making Markets Jumpy",
-        "time_ago": "1h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788436439,
-        "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxONy1CWmx4RUhLT2dneGd0NlprOU8xdnZFSHpaeGRvSzhUT19XWXBnQ2d0Vzh2d09Weks4eHRhNzk0d202dFp5eE1hcExYeGVrcTMxOUhFaE9wd0hVbjIzM1VSaEp6cTlzTmN5NkpOeVNUMkJaRC1SOUFDTlpJWG0wemx5QWRGTFBBWVNWaHlrN1M1UElIeEsyVXREd1lrenpqZTBoZG9R?oc=5",
-        "points": [
-          "핵심 내용: So Much Intervention Talk Is Making Markets Jumpy",
-          "So Much Intervention Talk Is Making Markets Jumpy  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_22_1788436248",
+        "id": "orbis_semiconductors_28_1788436248",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "Quantum Zeitgeist",
@@ -1483,7 +950,7 @@
         "title_ko": "🤖 [AI·프론티어] Kilometer-scale Earth Modeling Has Supercomputers SCREAM Under Limits",
         "desc": "Kilometer-scale Earth Modeling Has Supercomputers SCREAM Under Limits  Quantum Zeitgeist",
         "desc_ko": "Kilometer-scale Earth Modeling Has Supercomputers SCREAM Under Limits",
-        "time_ago": "1h ago",
+        "time_ago": "3h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788436248,
         "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOQnhUUE1uS2h1Mi10S3hoaENibEI2ZHFmOHd2aDYyWG80NEx5T3hIeFBCX2YzdU5WNHJ1V3pYNmktUXBEUXpkYS1XNGhUZzlIcWMwY2U3MzBON1poNjZHTloxZGE5SERXdlViV1hZa2RiSzN1U2xJOEtTaHpfTzU3M0Jlc19PRnBnSmJ5cGZkN2ZtZw?oc=5",
@@ -1494,64 +961,7 @@
         ]
       },
       {
-        "id": "orbis_all_17_1788435796",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Reuters",
-        "title": "American hurdler Russell senses more to come after world record",
-        "title_ko": "⚡ [글로벌 속보] American hurdler Russell senses more to come after world record",
-        "desc": "American hurdler Russell senses more to come after world record  Reuters",
-        "desc_ko": "American hurdler Russell senses more to come after world record",
-        "time_ago": "1h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788435796,
-        "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOUENKdU9ndWhEM3lKX3l2WXplX0ctcks4TWY5QW9MWUM2eFpUaGhyTHNKdjV2XzRpSTVpSUt3enJwZjA5WFhCUEk0UnJybmd1dmQ4MGxqeHdDUnZ2d3V1MXFueHNhYVZjRzdCdTRFVnQ0SmRvVjdKNXVlRGM5Y0pSUDJYZEtXVUUwUlJjSVhvbFhRU29aNUJLMGc0SDg5TjZXcm5mQThR?oc=5",
-        "points": [
-          "핵심 내용: American hurdler Russell senses more to come after world record",
-          "American hurdler Russell senses more to come after world record  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_34_1788435000",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "Robotaxis Aren’t Going Where They Are Needed Most",
-        "title_ko": "⚡ [글로벌 속보] Robotaxis Aren’t Going Where They Are Needed Most",
-        "desc": "Robotaxis Aren’t Going Where They Are Needed Most  Bloomberg.com",
-        "desc_ko": "Robotaxis Aren’t Going Where They Are Needed Most",
-        "time_ago": "1h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788435000,
-        "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPa1BSaFozR25FQTNCakdCSHNDTERkMEJqUHRrOUxsRk5yQTVBSVg4cjlqdlFJUDNqZDNfcl9NRklySTQzbHNqalEtSWk0VVpYb2xxWU9Ka3ljZEdEaTBjdklvaFJ5UDhheE9xVDV6REVQZi16MUxSUG9qdlhnZG5NX21MYy13T1F6WExtNWhJNjF6TFNoMDJIYg?oc=5",
-        "points": [
-          "핵심 내용: Robotaxis Aren’t Going Where They Are Needed Most",
-          "Robotaxis Aren’t Going Where They Are Needed Most  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_1_1788434908",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Reuters",
-        "title": "Yen rallies sharply as markets raise bets on Bank of Japan rate hikes",
-        "title_ko": "🤖 [AI·프론티어] Yen rallies sharply as markets raise bets on Bank of Japan rate hikes",
-        "desc": "Yen rallies sharply as markets raise bets on Bank of Japan rate hikes  Reuters",
-        "desc_ko": "Yen rallies sharply as markets raise bets on Bank of Japan rate hikes",
-        "time_ago": "1h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788434908,
-        "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPUk4xazZBQThxRzlWV094ZGRtRGVpZUNWekE2R1lYVnRkQTduUVRHM3N3RW9TcmNjbWJ6TmIwNkliS0xNTzJDM09WVlIzOWktRV8tZE5LaTNJbkdoOHpRZVlWWkpQM2hVSXA5QTBDNklmTUdJbnlVVk9NV0tkT0dUcko3YmFSVUhVVzRkQnMwbw?oc=5",
-        "points": [
-          "핵심 내용: Yen rallies sharply as markets raise bets on Bank of Japan rate hikes",
-          "Yen rallies sharply as markets raise bets on Bank of Japan rate hikes  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_0_1788434793",
+        "id": "orbis_semiconductors_12_1788434793",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "The Quantum Insider",
@@ -1559,7 +969,7 @@
         "title_ko": "🤖 [AI·프론티어] Kensho and Classiq Partner to Expand Quantum Software Access in Taiwan",
         "desc": "Kensho and Classiq Partner to Expand Quantum Software Access in Taiwan  The Quantum Insider",
         "desc_ko": "Kensho and Classiq Partner to Expand Quantum Software Access in Taiwan",
-        "time_ago": "1h ago",
+        "time_ago": "3h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788434793,
         "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQRHVKemdRWUtLa3BzTTJwNGdMOXBkdGZTLWZibDVjMHVKc3Z2dWFCdV9rSERva1dqZmhuYTNxSk9PdEQ5OE9nS3BRUkk1V2tNQ0dyOGZxdzlpR0V4SUM0ckdubXZSTk5KbG1qTlNOam5HRGpJUU5GMUFGRGtnV1l0aDNwMXN5LUE?oc=5",
@@ -1570,7 +980,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_26_1788434235",
+        "id": "orbis_semiconductors_36_1788434235",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "Quantum Zeitgeist",
@@ -1578,7 +988,7 @@
         "title_ko": "💻 [반도체·하드웨어] Jamming Quantum States Shows Hidden Signals At Superluminal Speeds",
         "desc": "Jamming Quantum States Shows Hidden Signals At Superluminal Speeds  Quantum Zeitgeist",
         "desc_ko": "Jamming Quantum States Shows Hidden Signals At Superluminal Speeds",
-        "time_ago": "2h ago",
+        "time_ago": "3h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788434235,
         "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPVE5OaENBWG5YQzlmN3ZEcmI3bkhUeF81NmZoamYwSjJjTGhUb25ZYk04RVpfYW9QZkRoOTRIbHcyT2RrLTloYnR0ZUFIZjZNTFRieXc5YXlZWDN4bWxiXzlHT3JDeFVzS0ZpdVBySWtKdkFvaTViNF9JSmdPUF9OSlVqM3VvMGlZWTlF?oc=5",
@@ -1586,82 +996,6 @@
           "핵심 내용: Jamming Quantum States Shows Hidden Signals At Superluminal Speeds",
           "Jamming Quantum States Shows Hidden Signals At Superluminal Speeds  Quantum Zeitgeist",
           "공신력 검증: 전 세계 주요 언론사 Quantum Zeitgeist을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_12_1788434084",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Reuters",
-        "title": "Feminist activist Gloria Steinem dies at age 92",
-        "title_ko": "⚡ [글로벌 속보] Feminist activist Gloria Steinem dies at age 92",
-        "desc": "Feminist activist Gloria Steinem dies at age 92  Reuters",
-        "desc_ko": "Feminist activist Gloria Steinem dies at age 92",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788434084,
-        "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNOFdLOGdBaEJnX2gtRkpFR283dUxMS2JHcHlRNmhmTTM4S3lQQkdSSl9VeE9sa0RLX0JWRm1aVk5pM05PclNaX2Q4dTVLVmtKRWFjdjdlOTQ0OXA2Q3ZhOVI5QTNfUDJxNm5Vak1sN241OHlXSlo4TzljVEJyTE1ac1ZRUTIyd0wzSUUwNjFKUQ?oc=5",
-        "points": [
-          "핵심 내용: Feminist activist Gloria Steinem dies at age 92",
-          "Feminist activist Gloria Steinem dies at age 92  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_2_1788434029",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "NVIDIA",
-        "title": "GTC - NVIDIA",
-        "title_ko": "💻 [반도체·하드웨어] GTC - NVIDIA",
-        "desc": "GTC - NVIDIA  NVIDIA",
-        "desc_ko": "GTC - NVIDIA",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788434029,
-        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5Xc2Y5eWRzZ2NhaVY2cURNUDM2VC1VczhUdVdLSWM5Ql8xdG5KMXNxUWdhanJfUFc2SncyTnFPWktwbWd3TDI2SWg2SkVKZmlvMFk1SC05REswc29WSlF4bGZIWQ?oc=5",
-        "points": [
-          "핵심 내용: GTC - NVIDIA",
-          "GTC - NVIDIA  NVIDIA",
-          "공신력 검증: 전 세계 주요 언론사 NVIDIA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_86_1788433864",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "thehindubusinessline.com",
-        "title": "AMD, Delhi University to train 10,000 students in AI, semiconductors",
-        "title_ko": "🤖 [AI·프론티어] AMD, Delhi University to train 10,000 students in AI, semiconductors",
-        "desc": "AMD, Delhi University to train 10,000 students in AI, semiconductors  thehindubusinessline.com",
-        "desc_ko": "AMD, Delhi University to train 10,000 students in AI, semiconductors",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788433864,
-        "link": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxQcGZoRmF4enF6ZDNIekZLZWlxSS1uN1NlU3FpMk8xUnRYZXdUTk1NU1VpOUNKRUQ3ZDdIaFk3SjJNZWQzWXJXazloSmhSUENiUWF4dWgxTnE2NzBaR1RSWlplVkJqay1qUjlsWkRhdU42V2NDZTN2cTl0QWFOZzAyYjlxd2gzZ2JCb3hwbENZREZmRGdsSkkwWXFYamUzdTkwek03UHlvUWlsVTVIelZWRjVJZ1I4VW5OQVFEdmtUQnIxSW8zY3NUTTN0TVM4V1VmY2lZVjdPZFhYWWJVdmMyU210WTBTd9IB7AFBVV95cUxNYVZDUlR0a3V1Q25GdUFfaVBpdVJVWUR6UnhsbEluQzA0NXFUZDRENFJLLTUzcGJuNmNVUkZrZVpoX0d4SUM0RlhkeUJ2S3piNFN5enlZMEtQMUVoSjdPWTN0eEtZZ0VIeDYxY21KRkhuenZlSmxGbFlrNE1vcERxRXAyTE1lYTBVZC1nVXQwTUt5RHdENWpValFZekRGaTJRY096S2JlUG1ISmpkOXBBTnJGV2FDclBQTGVXSTVmbEhSTW41eFh2Ny1kb2lMb3FHMjkxYmNRc1djUnNuWUM5akJzOVFwRFFVQ2lOMA?oc=5",
-        "points": [
-          "핵심 내용: AMD, Delhi University to train 10,000 students in AI, semiconductors",
-          "AMD, Delhi University to train 10,000 students in AI, semiconductors  thehindubusinessline.com",
-          "공신력 검증: 전 세계 주요 언론사 thehindubusinessline.com을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_4_1788433203",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "World’s Unusually High Dollar Exposure Risks Fueling Selloff",
-        "title_ko": "⚡ [글로벌 속보] World’s Unusually High Dollar Exposure Risks Fueling Selloff",
-        "desc": "World’s Unusually High Dollar Exposure Risks Fueling Selloff  Bloomberg.com",
-        "desc_ko": "World’s Unusually High Dollar Exposure Risks Fueling Selloff",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788433203,
-        "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNYWQzQzFfUmVlRlRHQkxaMnM0WC1oamw3eER3VzZVeEtGSExkTHRxOU1mQTdYWFVTYU1QRkZTcW5Xd2xBQVFJMWRUNF9ieXJUTlhyVFlwcHBlbHo5Q2ZZaHdSZnk5MTVmelNMakYyb1c4Q1ZtRWpRSjdoUWJmSmd6bWZrMEx2bGlWNGtabnRnbHRlZXBjRF9aNkRuUS1KMTZ6WW91ZHcwUGE1QlZTTkJldg?oc=5",
-        "points": [
-          "핵심 내용: World’s Unusually High Dollar Exposure Risks Fueling Selloff",
-          "World’s Unusually High Dollar Exposure Risks Fueling Selloff  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
@@ -1673,7 +1007,7 @@
         "title_ko": "💻 [반도체·하드웨어] QuantumCore to Participate in IEEE Quantum Week 2026 in Toronto",
         "desc": "QuantumCore to Participate in IEEE Quantum Week 2026 in Toronto  Stock Titan",
         "desc_ko": "QuantumCore to Participate in IEEE Quantum Week 2026 in Toronto",
-        "time_ago": "2h ago",
+        "time_ago": "3h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788433200,
         "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNU0I0VEdFYkpCeUFKanR1WnZYMnE1NW1iVVpHVFFCRUJVQ1ZzTG5RTnRvNDRrWW1JUHhIVVJVTWp3Z3dndkhQZ3dlQkFOcTcyZjlYbGRMYU5RdzVKWE5OS0pCUkkwcTc0OHZyOXV2UzJneUNySHF4VmpLREFsMzJMRUxsTE1SRW9nSzROaklrWEJlR3NKckRKR1dPOWhDaElTdENBaXBNa2g1Rmc1eVZQNW1B?oc=5",
@@ -1684,26 +1018,7 @@
         ]
       },
       {
-        "id": "orbis_all_14_1788432706",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Reuters",
-        "title": "Spain's PM Sanchez says no evidence Morocco orchestrated Ceuta border surge",
-        "title_ko": "🤖 [AI·프론티어] Spain's PM Sanchez says no evidence Morocco orchestrated Ceuta border surge",
-        "desc": "Spain's PM Sanchez says no evidence Morocco orchestrated Ceuta border surge  Reuters",
-        "desc_ko": "Spain's PM Sanchez says no evidence Morocco orchestrated Ceuta border surge",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788432706,
-        "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOTTkzbWhhWktPS0RDWmlYRFBhRkJUUXBYNjFZYWpwZ3lwbHhFaHJqd2hVMWdzV3JDYkt5amxZYUVkd01iUVo5Z2U4a0QwRG1WYlVVaXd0eE45YzBSczEyNlRvY3JuNGdBaHFtT0NubGpsTHpqY2RqQk9ybW5PZzJ2Si1EcTNNaGlIbjZPMnhrR0s1bTBVTmNJUTVuODlkZlhvaGw1Q21ZbFdSNmlDN1o5eU1xRGFKSzBWLXhrNEdIaHE?oc=5",
-        "points": [
-          "핵심 내용: Spain's PM Sanchez says no evidence Morocco orchestrated Ceuta border surge",
-          "Spain's PM Sanchez says no evidence Morocco orchestrated Ceuta border surge  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_14_1788431813",
+        "id": "orbis_semiconductors_24_1788431813",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "Quantum Zeitgeist",
@@ -1711,7 +1026,7 @@
         "title_ko": "🤖 [AI·프론티어] SEEQC Signs Deal To Link US Quantum Tech With Taiwan’s Manufacturing",
         "desc": "SEEQC Signs Deal To Link US Quantum Tech With Taiwan’s Manufacturing  Quantum Zeitgeist",
         "desc_ko": "SEEQC Signs Deal To Link US Quantum Tech With Taiwan’s Manufacturing",
-        "time_ago": "2h ago",
+        "time_ago": "4h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788431813,
         "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9wTlRnY0NrR3NGN05wYjBVb2lEaDhBeS1SZmM3OTBkNmpwT3ZzUjV1UHlHMWE0Vlp2a2JHZ19zc3hNcTUteGs2cWMtUjF6Ni1acUNEZkw4TlV3VEc4OEd1Q3pFUUpRS1FGWnc?oc=5",
@@ -1722,273 +1037,26 @@
         ]
       },
       {
-        "id": "orbis_all_21_1788431318",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "BOJ Accounts Suggest No Major Yen Intervention on Wednesday",
-        "title_ko": "⚡ [글로벌 속보] BOJ Accounts Suggest No Major Yen Intervention on Wednesday",
-        "desc": "BOJ Accounts Suggest No Major Yen Intervention on Wednesday  Bloomberg.com",
-        "desc_ko": "BOJ Accounts Suggest No Major Yen Intervention on Wednesday",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788431318,
-        "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOMUlpb2tUX1RMX0J4OXNZSFJDZ01Fd0I2UkEyRVJiTlM4SEJhXzVfNjBza3R6WUdkZFBYWDZZaTJWaUFfQmplZFI1NWcxa3BWQkY1ZldpNENad2dNOUpULXhzYS1MNDcyenhUUW9TZ1hEQTdSSWhzX0RQUjlzZnhtcjZUbC0zOTJSeEZhRXE4c3BUMURQTEJqMWZDRzFQYXZHb24zMS01V2lRajNUdDNJ?oc=5",
-        "points": [
-          "핵심 내용: BOJ Accounts Suggest No Major Yen Intervention on Wednesday",
-          "BOJ Accounts Suggest No Major Yen Intervention on Wednesday  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_23_1788431103",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "Russians See New Allure in Cash as War Hits Closer to Home",
-        "title_ko": "⚡ [글로벌 속보] Russians See New Allure in Cash as War Hits Closer to Home",
-        "desc": "Russians See New Allure in Cash as War Hits Closer to Home  Bloomberg.com",
-        "desc_ko": "Russians See New Allure in Cash as War Hits Closer to Home",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788431103,
-        "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOZjBKdndTMERFQk9iUFB1OUcteTdETTNUUEZyUGRTSDhfUWxfYjdma19PTEJIVjVob3V1VzIxU2ZnUlNTbDU0QzM4MzV5YUpNM0JUV0EtT0lWazU2blNNOXFqcTRxblV6TWdaRTV1Z1JqUXN1OWVMRWVxSkdpZ0U1RUo0anRIanI2YnlYaFR4WHJlaWFUeFhaMFpmYV9GY0dzTHpnYnlXS01SUWlqNWc?oc=5",
-        "points": [
-          "핵심 내용: Russians See New Allure in Cash as War Hits Closer to Home",
-          "Russians See New Allure in Cash as War Hits Closer to Home  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_82_1788430197",
+        "id": "orbis_semiconductors_14_1788429000",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
-        "press": "Moneycontrol.com",
-        "title": "AMD, Delhi University partner to train 10,000 students in AI, semiconductor technologies",
-        "title_ko": "🤖 [AI·프론티어] AMD, Delhi University partner to train 10,000 students in AI, semiconductor technologies",
-        "desc": "AMD, Delhi University partner to train 10,000 students in AI, semiconductor technologies  Moneycontrol.com",
-        "desc_ko": "AMD, Delhi University partner to train 10,000 students in AI, semiconductor technologies",
-        "time_ago": "3h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788430197,
-        "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNTGFMNGNDNHRHdlJHRmRaWGtNamlFa0E4enZUWjFpYi1kLUdfN2lhUWt2eXpGQnVIUGotR0xQX1BVT09tOHpYRWhGVU5MQ1dsaGp0dHgteW9XN3JKaHBZMHVIRG41a3JLalY4WGo1VHo2T3JPZU9YUnJ6SkhsNHB6eDBlcjU5eEhzWXZPc3hfMnFEay1TUXJyOHNPNVlsNy1OWm1NVzAxQ3JkMU1KOS1JVFBuOHJ1UC05WUdocVQ5Y2ZaQnlJV0lsa3B6MlQ1RGd6TEluX2xLMNIB3AFBVV95cUxQV3lhR3NCczdsYTJ1Skt6bEVyY2VEQ3FUR1RZbFRBUV84N0JldEJ6NWZ0cEo4THE4VGZqSlk3YWlKeXVyYld5dHpkMDhKWUxQQzBMc1dyczJqYVQ3czhMeDl2YnNQZXZnaEZKanpCMk9pRXFzWmVkNVV5eVNoZUFFdjEzNnNVTC1Za2hRREFTWG9rcDlxWWlvYTNMXy1YMkVBSEhYNm93ejNueE0wODM2RW5LeGJVajQ1UTFuUHMtSXRzZDZUTHlqNmNOTnJDRUJFUE5LWEFYb3hTRWpr?oc=5",
-        "points": [
-          "핵심 내용: AMD, Delhi University partner to train 10,000 students in AI, semiconductor technologies",
-          "AMD, Delhi University partner to train 10,000 students in AI, semiconductor technologies  Moneycontrol.com",
-          "공신력 검증: 전 세계 주요 언론사 Moneycontrol.com을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_7_1788430126",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "WRAL",
-        "title": "Fall Movie Preview: In an AI world, Laika makes handmade wonders — and 'Wildwood'",
-        "title_ko": "🤖 [AI·프론티어] Fall Movie Preview: In an AI world, Laika makes handmade wonders — and 'Wildwood'",
-        "desc": "Fall Movie Preview: In an AI world, Laika makes handmade wonders — and 'Wildwood'  WRAL",
-        "desc_ko": "Fall Movie Preview: In an AI world, Laika makes handmade wonders — and 'Wildwood'",
-        "time_ago": "3h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788430126,
-        "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNX0ZoWkpVMW1TcFpybzYyUVJCR3J2V25TYWdvMmFaV1pCUFRobm5sZF9nLVBmaWRfWDdzdlhpZGtfb2lvczdZaTBRNGpzcFRIVkRNWFRvaVM3V2NBRnB1TzNFTXF3RTIyVnVpdjRHd3lwMXdQVmh1a3hCYk1yU1RuWVotWVlzT3dubjBTS3FxdXVNWFNWMEdxM0k4Z1pYTjROdWJiOE9KUFl0YWdrLU1KYg?oc=5",
-        "points": [
-          "핵심 내용: Fall Movie Preview: In an AI world, Laika makes handmade wonders — and 'Wildwood'",
-          "Fall Movie Preview: In an AI world, Laika makes handmade wonders — and 'Wildwood'  WRAL",
-          "공신력 검증: 전 세계 주요 언론사 WRAL을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_35_1788429777",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "WRAL",
-        "title": "Young Orthodox Christians take part in a lights procession in Romania’s capital",
-        "title_ko": "⚡ [글로벌 속보] Young Orthodox Christians take part in a lights procession in Romania’s capital",
-        "desc": "Young Orthodox Christians take part in a lights procession in Romania’s capital  WRAL",
-        "desc_ko": "Young Orthodox Christians take part in a lights procession in Romania’s capital",
-        "time_ago": "3h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788429777,
-        "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQcnJkX24xbUoyUVhZWkZnbWpJRTJhMWF1a1Y1bmxwSG5lWHNaeWxFRlVnZEVQa3R4dzBxTEV2N0p5YUE3R0tvOTB4WkkwazdVTm1Yc2pmU1pRbWZaeE4yZmo5TGlFb0pSVTBmcHdIODNiVzliZjhIX2JVRzlUMDRHQV9XMEpzaWJKWkhxdUFZb05QaHJGbWIyemlLM3lKaFV6anZnRE1jdkozSkF0T3ZkZ2huWnN0Zw?oc=5",
-        "points": [
-          "핵심 내용: Young Orthodox Christians take part in a lights procession in Romania’s capital",
-          "Young Orthodox Christians take part in a lights procession in Romania’s capital  WRAL",
-          "공신력 검증: 전 세계 주요 언론사 WRAL을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_28_1788429654",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "Pakistan Raises $3 Billion in Two-Part Junk Bond Sale After Credit Upgrades",
-        "title_ko": "🤖 [AI·프론티어] Pakistan Raises $3 Billion in Two-Part Junk Bond Sale After Credit Upgrades",
-        "desc": "Pakistan Raises $3 Billion in Two-Part Junk Bond Sale After Credit Upgrades  Bloomberg.com",
-        "desc_ko": "Pakistan Raises $3 Billion in Two-Part Junk Bond Sale After Credit Upgrades",
-        "time_ago": "3h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788429654,
-        "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOck5aclNlR0pkMzNDY1d1UTJLTWk2TWZzNFR3T092dlhKcDRKaWJRaDh4TUZYZEZuMEpUVmVha2dIOVVVTU43M3VlMXVTMEZOZHZWWFNnR3BjVnZ3UzJhN3lDTjhWdUxNeFk2S2NuMl95RTdJT015YWRZM05RM01SbTRudUFjeHRaZkxob0R3QUx6U1ZULUFRc0Q0ZTNEc29PNHczbW9n?oc=5",
-        "points": [
-          "핵심 내용: Pakistan Raises $3 Billion in Two-Part Junk Bond Sale After Credit Upgrades",
-          "Pakistan Raises $3 Billion in Two-Part Junk Bond Sale After Credit Upgrades  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_13_1788429600",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "China-US Spat at G20 Largely Came Down to Dispute Over One Word",
-        "title_ko": "⚡ [글로벌 속보] China-US Spat at G20 Largely Came Down to Dispute Over One Word",
-        "desc": "China-US Spat at G20 Largely Came Down to Dispute Over One Word  Bloomberg.com",
-        "desc_ko": "China-US Spat at G20 Largely Came Down to Dispute Over One Word",
-        "time_ago": "3h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788429600,
-        "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQSXFxTC1iVkF0NGQxWWt4ZUs2ZTJQQjY5bnQwRE5hbHBHN1FRRThrZUhSeVk3WFQ1QjR5alhQRW5raGprWkJuZVI4SENFUWJPUDhlZUJzdnZGeVJpbnRmaUczMHhzU3ptVXIxREdEWFBoY1Z6ZWNPX3AzNF9Yclo4cWVIekd5by11VjJpVlV5Vm83UzNON210SW5MdWg3UjlRb3hCb2ktcV9xUnFzTDV5emdzVG8?oc=5",
-        "points": [
-          "핵심 내용: China-US Spat at G20 Largely Came Down to Dispute Over One Word",
-          "China-US Spat at G20 Largely Came Down to Dispute Over One Word  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_31_1788429600",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "Fewer Americans are Working or Looking for a Job. Experts Can’t Agree on Why",
-        "title_ko": "⚡ [글로벌 속보] Fewer Americans are Working or Looking for a Job. Experts Can’t Agree on Why",
-        "desc": "Fewer Americans are Working or Looking for a Job. Experts Can’t Agree on Why  Bloomberg.com",
-        "desc_ko": "Fewer Americans are Working or Looking for a Job. Experts Can’t Agree on Why",
-        "time_ago": "3h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788429600,
-        "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQNktYaGN4bElfelYxLTktUk1xZzhEN1JuNC1MM25hZERxb0d2VExETXVoY0NTMHl2bjVFMEpiT0FNVUJJdlNCX0trUTRrZndQQUhMb0w0MVBLSmxVNEZmVUNlM2JPdkZHanBQWDNtcWRiYmo3d2RleGxCWGcwUl9UTEUzenZaX253RGEyZElTaktQN2t5T2V3MjBwcERqSmZOSW55TTNPVkQydFlwQmtXeW54WU5ZUQ?oc=5",
-        "points": [
-          "핵심 내용: Fewer Americans are Working or Looking for a Job. Experts Can’t Agree on Why",
-          "Fewer Americans are Working or Looking for a Job",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_15_1788429276",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "The Motley Fool",
+        "press": "Yahoo Finance",
         "title": "Prediction: Nvidia Stock Will Outperform AMD Through 2028",
         "title_ko": "💻 [반도체·하드웨어] Prediction: Nvidia Stock Will Outperform AMD Through 2028",
-        "desc": "Prediction: Nvidia Stock Will Outperform AMD Through 2028  The Motley Fool",
+        "desc": "Prediction: Nvidia Stock Will Outperform AMD Through 2028  Yahoo Finance",
         "desc_ko": "Prediction: Nvidia Stock Will Outperform AMD Through 2028",
-        "time_ago": "3h ago",
+        "time_ago": "5h ago",
         "pubDate": "2026. 09. 03",
-        "timestamp": 1788429276,
-        "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQV0NaLXZEUk03ZnNiMzFkNGd4LVk2VXUyOXlxS19fNDRKZnZOX1FjakI0ZnpVWV9IeFlycm5OdmxUdWRTYXhZaktmR0dDMk90TS1UX2EtN3dxV2d3NGJMdnZBOExYU0NVS09BSm55T1J3NzEyeS1tUFFlNV94TFZ3ZkRJWEFGczA1NllnVHU5ZFNnZ29PbndDcQ?oc=5",
+        "timestamp": 1788429000,
+        "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQRHFONTV6a2dyS1NhbEZqbWNLU2dScnJXalNTdUhPbkZNRG1zNzZDN0hTcVZaVkFORW9aMDh4RXZNWTNEeGlrVHRkY3JyS0JzUzFGTkNPcmpkckRqbGtIczFZUldxWVFjRlgzMnBzWFNINmxpUWZxeWJ0WjRJR1c5czR0ZkJuYnRSZG9UQUVVcERoVmpXLXZSYmxOVUZKVnpOLUZxZXF3?oc=5",
         "points": [
           "핵심 내용: Prediction: Nvidia Stock Will Outperform AMD Through 2028",
-          "Prediction: Nvidia Stock Will Outperform AMD Through 2028  The Motley Fool",
-          "공신력 검증: 전 세계 주요 언론사 The Motley Fool을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "Prediction: Nvidia Stock Will Outperform AMD Through 2028  Yahoo Finance",
+          "공신력 검증: 전 세계 주요 언론사 Yahoo Finance을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
-        "id": "orbis_all_37_1788428735",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "Spain to Review Morocco Cooperation After Migration Influx",
-        "title_ko": "🤖 [AI·프론티어] Spain to Review Morocco Cooperation After Migration Influx",
-        "desc": "Spain to Review Morocco Cooperation After Migration Influx  Bloomberg.com",
-        "desc_ko": "Spain to Review Morocco Cooperation After Migration Influx",
-        "time_ago": "3h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788428735,
-        "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNNWpscDAwVWlzYUo5UlZRNVV3MFdLWEVOMnBSdVdmcVZxTk8yYXZTaFBSdDBCMlNwS1N2RDhlN0p5c2ZhMzNYcEtnZjlTMlo3d2ZkNVY3UG1TLWhmYk5xRjh2UnZaV1BLRk53MEs1VWg2ZnFNSGgwc1lNb3pRRVZLUjI0RkVDbE1OSHVyVGxidnB0MU05MEJhTHJ2RmpLQ0Vnc1JhNWtZdXIzQU9PTHc?oc=5",
-        "points": [
-          "핵심 내용: Spain to Review Morocco Cooperation After Migration Influx",
-          "Spain to Review Morocco Cooperation After Migration Influx  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_30_1788427800",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "Chevron Just Exposed the Gap Between Venezuela Rhetoric and Reality",
-        "title_ko": "⚡ [글로벌 속보] Chevron Just Exposed the Gap Between Venezuela Rhetoric and Reality",
-        "desc": "Chevron Just Exposed the Gap Between Venezuela Rhetoric and Reality  Bloomberg.com",
-        "desc_ko": "Chevron Just Exposed the Gap Between Venezuela Rhetoric and Reality",
-        "time_ago": "3h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788427800,
-        "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOUzVaSGNtd3dZRVZUcDNwU3l5UTNKZnNzYk9SZVdBSjQtLXFhMm9NMGU5VDBZeVI2OFBrMVVrVklWaGhQSE9KOXFQZ1ZoZ3BTUndnd1dsSjBKYmZHOFNHZko2cFc5T0o3ZXlxaWFmTVEteWdQNmlkclhUcTc0Um9HV0FIS01Eb3J0YTJOZ09wQkZ0TkV6N2w0NFU4UjlGZVFtc0t1V0FhZFFRV3Etc3c3d1RwZlB0Z1RDSVFZ?oc=5",
-        "points": [
-          "핵심 내용: Chevron Just Exposed the Gap Between Venezuela Rhetoric and Reality",
-          "Chevron Just Exposed the Gap Between Venezuela Rhetoric and Reality  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_8_1788427567",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Reuters",
-        "title": "Snowflake shares surge as AI demand powers growth, lifts outlook",
-        "title_ko": "🤖 [AI·프론티어] Snowflake shares surge as AI demand powers growth, lifts outlook",
-        "desc": "Snowflake shares surge as AI demand powers growth, lifts outlook  Reuters",
-        "desc_ko": "Snowflake shares surge as AI demand powers growth, lifts outlook",
-        "time_ago": "3h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788427567,
-        "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNMGllenZQOUdyWUY5dll4MzN6UThlWUp1MWdhN2NTNE00U2JvR2tGcE01a2wzdDA1U0tEb2lwS1NnYkU2STNXNHVXY3lJSGxwbTllTGIxc042dGdwUkduOTQ0c2lTM2xCOHBVcFlXNWdJa2xGMl9XcEZOTjdtdWgwcG4wbjRIWkptSjVRWEpBNUUyaHktWU5YUnNEMlZpZnphUUg3bWlXNFU?oc=5",
-        "points": [
-          "핵심 내용: Snowflake shares surge as AI demand powers growth, lifts outlook",
-          "Snowflake shares surge as AI demand powers growth, lifts outlook  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_32_1788427000",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "Radiant World Sent Lender Fake Glencore Contracts, Lawsuit Says",
-        "title_ko": "⚡ [글로벌 속보] Radiant World Sent Lender Fake Glencore Contracts, Lawsuit Says",
-        "desc": "Radiant World Sent Lender Fake Glencore Contracts, Lawsuit Says  Bloomberg.com",
-        "desc_ko": "Radiant World Sent Lender Fake Glencore Contracts, Lawsuit Says",
-        "time_ago": "4h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788427000,
-        "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPZXoweFdoejU0Wnk0bFdma3RZaV9LUUNrbFJ4WlFLek5hVDNrTFEzYnlfbUxKV254Sk9zUEt4WFl4azc4OHA5OXIxa1laS1BNSjB6cGpjdU5ZRUlPN0RMTjNmaU9oWDRXeGlVY3ZZaWgwaXlkV3B2OUNzaFVGR0dlQUp1STRNY0ZFUjVOTjFmbFA4LWltbWpLdi1CYkRXQ2xvR1FNVjBZWXNVNUx4aXZFdnRwbw?oc=5",
-        "points": [
-          "핵심 내용: Radiant World Sent Lender Fake Glencore Contracts, Lawsuit Says",
-          "Radiant World Sent Lender Fake Glencore Contracts, Lawsuit Says  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_33_1788426130",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "‘We Are Stalled’: US-Iran Conflict Stuck With No End in Sight",
-        "title_ko": "⚡ [글로벌 속보] ‘We Are Stalled’: US-Iran Conflict Stuck With No End in Sight",
-        "desc": "‘We Are Stalled’: US-Iran Conflict Stuck With No End in Sight  Bloomberg.com",
-        "desc_ko": "‘We Are Stalled’: US-Iran Conflict Stuck With No End in Sight",
-        "time_ago": "4h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788426130,
-        "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNaWIxcm90dTNDWnZDUElYS1phT2xtTzB2MUdnbUhCQVdhbGFDV1U2V0NBcTZSQzdhYUVuVEM3WHVLdnNQclloWlI0R1ctSi1kbzA0bDdZOG84YUEtZXJKcVhLYnUtTkEtUWhKYkoxdVJqNmhhVTNLd3RTckRQOXYtZ0dEZEtTMmNCaVJSRmZLdU03aENielB2ZGd6VVZ3M2RaTXA3TmQ2a0d2THhZLVdB?oc=5",
-        "points": [
-          "핵심 내용: ‘We Are Stalled’: US-Iran Conflict Stuck With No End in Sight",
-          "‘We Are Stalled’: US-Iran Conflict Stuck With No End in Sight  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_51_1788426068",
+        "id": "orbis_semiconductors_59_1788426068",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "SMBtech",
@@ -1996,7 +1064,7 @@
         "title_ko": "🤖 [AI·프론티어] Dell Users Air Frustrations Over Firmware Bugs, Hardware Failures And Warranty Battles",
         "desc": "Dell Users Air Frustrations Over Firmware Bugs, Hardware Failures And Warranty Battles  SMBtech",
         "desc_ko": "Dell Users Air Frustrations Over Firmware Bugs, Hardware Failures And Warranty Battles",
-        "time_ago": "4h ago",
+        "time_ago": "5h ago",
         "pubDate": "2026. 09. 03",
         "timestamp": 1788426068,
         "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPbThuZ3JWeDAzcnlqMnpRMkkyTUpyZzZHMmNnT183NUMtS2RpQm1fQmpKQi1IN1ZLRE9US09xdUNRYm5BLWdlNjh1UEw3R2p2a0lib0JNdDF1T3RGeWp4aG1Rd3Z0eVQ4X3VDYVdFWDU3YXN1bnNMM2NBSTRxNWpRaXVXaXM1TENyY21rYXg2eWhoc3Q2T3FyZG5XZnNfQmd4VW1FdFM3MUVmT0RJMFkw?oc=5",
@@ -2007,155 +1075,136 @@
         ]
       },
       {
-        "id": "orbis_all_10_1788424913",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Reuters",
-        "title": "EXCLUSIVE: India stalls Alipay+ payments link over security, data concerns, sources say",
-        "title_ko": "🌐 [국제정세·외교] EXCLUSIVE: India stalls Alipay+ payments link over security, data concerns, sources say",
-        "desc": "EXCLUSIVE: India stalls Alipay+ payments link over security, data concerns, sources say  Reuters",
-        "desc_ko": "EXCLUSIVE: India stalls Alipay+ payments link over security, data concerns, sources say",
-        "time_ago": "4h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788424913,
-        "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPMnVCOGpCQkJrVXBLSjBiZGtOb0FBR29SRG4xbzR3ckVHNEpBQ0dKTnNZQTY5STNlZ1FuUnRUaXV1X2NzSFNoVG5XRUhLZXB2alZZdjIwQlo5M1R6Um9rMUNBUk12T1NYUml3akk4aWxmSmNiemdXUGFpNzN0cHBmbHdNWjJZZGowLTBnb2FDZm9EWi15cDVCWFd5VGZKWkpwUDVuT1ZDcUVvTUtYcHB4MkdaY2s0aHBVZUZPczZR?oc=5",
-        "points": [
-          "핵심 내용: EXCLUSIVE: India stalls Alipay+ payments link over security, data concerns, sources say",
-          "EXCLUSIVE: India stalls Alipay+ payments link over security, data concerns, sources say  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_18_1788424449",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Reuters",
-        "title": "UK economy gathers pace but cost pressures intensify, PMI shows",
-        "title_ko": "⚡ [글로벌 속보] UK economy gathers pace but cost pressures intensify, PMI shows",
-        "desc": "UK economy gathers pace but cost pressures intensify, PMI shows  Reuters",
-        "desc_ko": "UK economy gathers pace but cost pressures intensify, PMI shows",
-        "time_ago": "4h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788424449,
-        "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPNFJaeEFxSTBoY1BTWFQ5cy1zVEc1NVFMMDhXcWhlWUpkbnJ5cjJLeTdYVGRuTUZseUo4aWtyRlZ0VEhZZy1iYkkwSF8td3dmZVl2SnNMRm1zNU0xZ1JvU194a2k1NzJZc21OcEwtQ1V3Sl9vTFMwTGY1SkJjbG14MXZUVDRoeGh3dWZROVZBX2F6aExsOU0wN0R4MUNiMHc2UUk5d2RB?oc=5",
-        "points": [
-          "핵심 내용: UK economy gathers pace but cost pressures intensify, PMI shows",
-          "UK economy gathers pace but cost pressures intensify, PMI shows  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_54_1788422243",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "BBC World",
-        "title": "Why did this Canadian 'island' seemingly vanish and reappear miles away?",
-        "title_ko": "⚡ [글로벌 속보] Why did this Canadian 'island' seemingly vanish and reappear miles away?",
-        "desc": "Why did this Canadian 'island' seemingly vanish and reappear miles away?  BBC",
-        "desc_ko": "Why did this Canadian 'island' seemingly vanish and reappear miles away?",
-        "time_ago": "5h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788422243,
-        "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE1KY0hCejVJSG5XXzJNZnVabms1NW9WNnlpd1NmRWxVVWdJT3JkTjRPdWtWbHRxRnN0OXlaM2lra3pWbUgtYTE3cjhYRHpBRERLbU9JN09fdw?oc=5",
-        "points": [
-          "핵심 내용: Why did this Canadian 'island' seemingly vanish and reappear miles away?",
-          "Why did this Canadian 'island' seemingly vanish and reappear miles away",
-          "공신력 검증: 전 세계 주요 언론사 BBC World을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_52_1788420600",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "South Africa Watchdog Eyes Malls Over Township-Retail Access",
-        "title_ko": "🤖 [AI·프론티어] South Africa Watchdog Eyes Malls Over Township-Retail Access",
-        "desc": "South Africa Watchdog Eyes Malls Over Township-Retail Access  Bloomberg.com",
-        "desc_ko": "South Africa Watchdog Eyes Malls Over Township-Retail Access",
-        "time_ago": "5h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788420600,
-        "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPQnJBT25mclNwZjZQXzdsUkozSkg2RnNYblJ0dTdIQWFqZHJNOXlOdENjcVk4OWwyZW0yanV0OFFhOEtQT1d2Tkh2aW50SG5DS21MUmR5OFlrRVB0eXhvM3lCdXlRLUZxRGllNlo5UWoyRVJzNUdXSnRxUVhpbk9JZG5VLW1vVFc1aHJuUjZjRTN6YzVLZkNDaGVHRjBDQlQ1dlVuUUI1RmRyUkxBRENseQ?oc=5",
-        "points": [
-          "핵심 내용: South Africa Watchdog Eyes Malls Over Township-Retail Access",
-          "South Africa Watchdog Eyes Malls Over Township-Retail Access  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_39_1788420474",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "India’s Record Diaspora Inflows Swamp Banks, Test RBI Tools",
-        "title_ko": "⚡ [글로벌 속보] India’s Record Diaspora Inflows Swamp Banks, Test RBI Tools",
-        "desc": "India’s Record Diaspora Inflows Swamp Banks, Test RBI Tools  Bloomberg.com",
-        "desc_ko": "India’s Record Diaspora Inflows Swamp Banks, Test RBI Tools",
-        "time_ago": "5h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788420474,
-        "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNSVJPSnA5WWVlQ1dvUTUyQUdwM2JTeUxqRjhMRmdfMGk1OE5zLURkSmtSNUdpejlKMWVIdEdUVk5vMXdPWkgtc2o3Y05tTGppWHhpN2xkdWJZQWVWSnIzNXF0c2FRSXVKVld0bFdZLUN1VlMzRVdRMWZMQTN2T2lqQ3FlQmoyNV9DazFLMkNHN0oyWFQzOF9fN2hBVVU2R3BJUFRrbURjZXE5bDdHbkE?oc=5",
-        "points": [
-          "핵심 내용: India’s Record Diaspora Inflows Swamp Banks, Test RBI Tools",
-          "India’s Record Diaspora Inflows Swamp Banks, Test RBI Tools  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_49_1788420291",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "US Diesel Hits Four-Year High as Wars Strain Global Supplies",
-        "title_ko": "🤖 [AI·프론티어] US Diesel Hits Four-Year High as Wars Strain Global Supplies",
-        "desc": "US Diesel Hits Four-Year High as Wars Strain Global Supplies  Bloomberg.com",
-        "desc_ko": "US Diesel Hits Four-Year High as Wars Strain Global Supplies",
-        "time_ago": "5h ago",
-        "pubDate": "2026. 09. 03",
-        "timestamp": 1788420291,
-        "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPS1NBTEstRW01M3RzUUpkV1hITG9veU5ZbUljRlREeXo3RkxRbmg5eXFLWnNNamtsQTVkYkhTSTVjSnVnZWtVNmxaZ1FNci16b0dFM3JieUlFczdnMjAtdzZDYzYwODR6dlp2ejE3YTNpLW1VRE90V1pfODV4SFZlQmRtNmpVMVVxYU4tWU5Rd1hnaGNpb1VHV2FjY2VaTUcwYUl0N29RX0IyYUJlNUhxWg?oc=5",
-        "points": [
-          "핵심 내용: US Diesel Hits Four-Year High as Wars Strain Global Supplies",
-          "US Diesel Hits Four-Year High as Wars Strain Global Supplies  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_55_1788419849",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "Carry Trade Funding May Shift to Yuan From Yen, BBVA Says",
-        "title_ko": "⚡ [글로벌 속보] Carry Trade Funding May Shift to Yuan From Yen, BBVA Says",
-        "desc": "Carry Trade Funding May Shift to Yuan From Yen, BBVA Says  Bloomberg.com",
-        "desc_ko": "Carry Trade Funding May Shift to Yuan From Yen, BBVA Says",
+        "id": "orbis_semiconductors_3_1788424036",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "NVIDIA",
+        "title": "NVIDIA GTC",
+        "title_ko": "💻 [반도체·하드웨어] NVIDIA GTC",
+        "desc": "NVIDIA GTC  NVIDIA",
+        "desc_ko": "NVIDIA GTC",
         "time_ago": "6h ago",
         "pubDate": "2026. 09. 03",
-        "timestamp": 1788419849,
-        "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNRFVjZGRoU3RpUFQ0ZVM2RWUwNHBzUm9ERHdOa0FKVTR0alBBTm1wZ3F6Y2p5OUpnY2ZkTWh5VWtwV3VyZm16M3dCX1dWOEc3ajdQVVVBYk1PdTA5NC1aUmdLOFZkOWlpNkxpaTlaVjVjMXpRd1R5cWQ4dFBOQUd1Vk45TXpVUjVqeE9BUmdpaW4zMDdzNXhVQml1dXBkYmtEaXlzSVczckVkbmM?oc=5",
+        "timestamp": 1788424036,
+        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5IX1lvZGNiMnNKQkk5dzZ1X2g5Y2xnbjgzQU56cnlNcHhMM3V4Szdncl9MVUVEVmtaZzJXUXBxNGtUQ2lBZlNWeXhIWVBad0xVeW8tTWFxQkRmbjFtRHJMdkJETQ?oc=5",
         "points": [
-          "핵심 내용: Carry Trade Funding May Shift to Yuan From Yen, BBVA Says",
-          "Carry Trade Funding May Shift to Yuan From Yen, BBVA Says  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "핵심 내용: NVIDIA GTC",
+          "NVIDIA GTC  NVIDIA",
+          "공신력 검증: 전 세계 주요 언론사 NVIDIA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
-        "id": "orbis_all_58_1788419844",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "Bangladesh Pays Most for Gas Since 2022 to Ease Power Blackouts",
-        "title_ko": "⚡ [글로벌 속보] Bangladesh Pays Most for Gas Since 2022 to Ease Power Blackouts",
-        "desc": "Bangladesh Pays Most for Gas Since 2022 to Ease Power Blackouts  Bloomberg.com",
-        "desc_ko": "Bangladesh Pays Most for Gas Since 2022 to Ease Power Blackouts",
+        "id": "orbis_semiconductors_16_1788422518",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "EE Times",
+        "title": "India’s Quantum Journey Goes Beyond the Qubit",
+        "title_ko": "💻 [반도체·하드웨어] India’s Quantum Journey Goes Beyond the Qubit",
+        "desc": "India’s Quantum Journey Goes Beyond the Qubit  EE Times",
+        "desc_ko": "India’s Quantum Journey Goes Beyond the Qubit",
         "time_ago": "6h ago",
         "pubDate": "2026. 09. 03",
-        "timestamp": 1788419844,
-        "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQQndXNVdVSFVrSXB5cmoxNEFRd1ctWlBLSWI1cVdGQ1FpRGJxdDZpeFJydUZ5UUxXdkd2c2o4SHZRd3ltOGFkX1JOd1hGT1pkYWlxR0hXdEZVd1VZZW9VS0htRWN3c3Bmd0RrV1NOc1NqcWdXME5kUHk4N01TeGdJbHpObG5rbkM2RjAzSXJlYmxTWFo5OW1xaWU3ckt0NnJTdmNxY1RUWVhnZnMwSWJTalMyaDQ?oc=5",
+        "timestamp": 1788422518,
+        "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBuOERsclR1RXJhd1dyUVU5UG82WkdCTGJaa282bVRWbXlkSlVPanRzNFlJVG84b21aWVFhbFItUkRDMzNFYXhtTUpwOHZRYnY5Y05Xa0lVdHpKYlpEdzZkY3NqYVFFWWlBcFNHUzEtQW5sXzljSzE1Mg?oc=5",
         "points": [
-          "핵심 내용: Bangladesh Pays Most for Gas Since 2022 to Ease Power Blackouts",
-          "Bangladesh Pays Most for Gas Since 2022 to Ease Power Blackouts  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "핵심 내용: India’s Quantum Journey Goes Beyond the Qubit",
+          "India’s Quantum Journey Goes Beyond the Qubit  EE Times",
+          "공신력 검증: 전 세계 주요 언론사 EE Times을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_25_1788408720",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "AZoQuantum",
+        "title": "IBM Ventures Invests in BQP as Quantum-Algorithm Physics Acceleration Reaches Production",
+        "title_ko": "💻 [반도체·하드웨어] IBM Ventures Invests in BQP as Quantum-Algorithm Physics Acceleration Reaches Production",
+        "desc": "IBM Ventures Invests in BQP as Quantum-Algorithm Physics Acceleration Reaches Production  AZoQuantum",
+        "desc_ko": "IBM Ventures Invests in BQP as Quantum-Algorithm Physics Acceleration Reaches Production",
+        "time_ago": "10h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788408720,
+        "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9OcUNyakRmTHRVN3NIcWNHYXA5Z1AzUEVkZ3NVUDl4YnBpTE5sdjhMMVNuOHhlVEZJM0REVWdKTjd3TF9md2FfdnpzUjN5aDVsWEZ0SXdzZ2xtX25qUGc?oc=5",
+        "points": [
+          "핵심 내용: IBM Ventures Invests in BQP as Quantum-Algorithm Physics Acceleration Reaches Production",
+          "IBM Ventures Invests in BQP as Quantum-Algorithm Physics Acceleration Reaches Production  AZoQuantum",
+          "공신력 검증: 전 세계 주요 언론사 AZoQuantum을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_34_1788405480",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "People's Daily Online",
+        "title": "China achieves 98% transmission efficiency in single quantum router breakthrough",
+        "title_ko": "💻 [반도체·하드웨어] China achieves 98% transmission efficiency in single quantum router breakthrough",
+        "desc": "China achieves 98% transmission efficiency in single quantum router breakthrough  People's Daily Online",
+        "desc_ko": "China achieves 98% transmission efficiency in single quantum router breakthrough",
+        "time_ago": "11h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788405480,
+        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9OV3NCSUlMOXhaLXQ4dVFKeFltR2xoT1lRc2l4Vlk1eE04QW9ZX1NEQmpjSGt2cVk1SzBuRVBvdWRDYW1XeVNoVEhtSHpZNTZyaFZZd0NydmFvRnh6VktuOThBVQ?oc=5",
+        "points": [
+          "핵심 내용: China achieves 98% transmission efficiency in single quantum router breakthrough",
+          "China achieves 98% transmission efficiency in single quantum router breakthrough  People's Daily Online",
+          "공신력 검증: 전 세계 주요 언론사 People's Daily Online을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_79_1788403440",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Mirage News",
+        "title": "Quantum Algorithm May Unlock Bird Migration Mystery",
+        "title_ko": "💻 [반도체·하드웨어] Quantum Algorithm May Unlock Bird Migration Mystery",
+        "desc": "Quantum Algorithm May Unlock Bird Migration Mystery  Mirage News",
+        "desc_ko": "Quantum Algorithm May Unlock Bird Migration Mystery",
+        "time_ago": "12h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788403440,
+        "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPVjY4TnpMOHNHRlpSZi1vOXB0RkRrWS1ZSjhISDR3aFhuS1FZSGxRTnRpQzdELWZheUcybEtrNUM2SzdsQl9XZVZPamE2cTA3TElTeFhYMkYxR3EwdU4xRHN0bUhYSUFfQlFvdGhFNXFBQWg5U2Y2clN5c2FlYlNEYVhHZFp4dw?oc=5",
+        "points": [
+          "핵심 내용: Quantum Algorithm May Unlock Bird Migration Mystery",
+          "Quantum Algorithm May Unlock Bird Migration Mystery  Mirage News",
+          "공신력 검증: 전 세계 주요 언론사 Mirage News을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_7_1788395575",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Quantum Computing Report",
+        "title": "Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs",
+        "title_ko": "💻 [반도체·하드웨어] Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs",
+        "desc": "Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs  Quantum Computing Report",
+        "desc_ko": "Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs",
+        "time_ago": "14h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788395575,
+        "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNaGJCQkt6bWZoeTBxTDNEY3F1T0t0ci1aOFJNalVLdC1xWVc1NHhiM0psbFJ6bGd6UGdqTDZRSTQtWTJiXzZ3VFFhQThRZ3FjekFqblVycFU3eS15enlBWGVFV2FGTU95azhPQXlGejcyWTdoakRGMUwzekllSEU1WEpSRXZpc2h1dG9RMEN4NnpEMk9UVDlTS3Fodms5c2Q5NG5xWVJuVGtJWmpZQU9pUHNXTdIBuAFBVV95cUxQWmkxeVpuZm00YXRHZnZ1Qm9FQzhwYkRzQlpDUXZXRS1jTXM0QmpfcDZ0SllTTXQ0YUVqTldJQ1hDZmdKSVMxMWpBcl9DeXYxenNqZTZhdjFnU1JiZGFremQzNFpZVXN2QTZ1V2F3TTA1UjcwaVZ0Zko0dVhiVjJFMEx1Z0xEeGdaR0lVMF9tcGliWTlpeVRnMmFnUkVqTE1RT3RfMXVKdXozNTQ3Z3ZCQlF1TDQ3UG5C?oc=5",
+        "points": [
+          "핵심 내용: Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs",
+          "Pasqal and True Nexus Encode Protein Gelation Structures on Neutral-Atom QPUs  Quantum Computing Report",
+          "공신력 검증: 전 세계 주요 언론사 Quantum Computing Report을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_72_1788393979",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "manilatimes.net",
+        "title": "Kensho and Classiq Partner to Expand Access to Quantum Software in Taiwan",
+        "title_ko": "🤖 [AI·프론티어] Kensho and Classiq Partner to Expand Access to Quantum Software in Taiwan",
+        "desc": "Kensho and Classiq Partner to Expand Access to Quantum Software in Taiwan  manilatimes.net",
+        "desc_ko": "Kensho and Classiq Partner to Expand Access to Quantum Software in Taiwan",
+        "time_ago": "14h ago",
+        "pubDate": "2026. 09. 03",
+        "timestamp": 1788393979,
+        "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxNZWhuZjlJM1dJZVNwQ3FxNXJ6UTJkM3RqVHlNcFBkVlhmVmQzbTJzN1Rkd1ppdHRNZmZJUDR3U1QxX2gtZTBrU1ltVVpKc2NaaUZaaDhJaDB3amJ0X2tRWERFc29nUW5DTGk1YkFJeEZjTXliV0E5ODNUbjZ3b3lvNEhPZnV5ZHVoTU9kNnU2YmQ5WWxwQjZWQlYyaUVFbDM5NS1Jd09jZTB6b0JOaW9xdWVZVDQwTEEwMXMxZVlDbU1CXzMzSDlRSDl6alZDcHMzNHNrUzM2YXlUOHhJeGRWbdIB5gFBVV95cUxQUGNkZVVCUmt3SVZ4TG5kSmF6M0wxSW85NEktV3MyUXB4Q3puMEZsUzZwa0dkN2x0YUxERWxWa1k5Ujc3dXc5R0NvS0hZRHRiOWZXX2N4ZVdfckNfSXIxN2JnajJwLW5uMzU3bF9tcENpNXF1bjdKcDUxaDZMcG9peHM0VzUwdGhvVFpzdHVJRjRyaHRQdUFRNlFadUpYOW9uZDQxemJqTmZmRmhlcmVZY0MtVS1WdWdFTFBaX09MMVNUaWxDUDRLVmowWnk5WnBqQTl3V0dsc3Q2SUQ1MzJkTHJmdkRxZw?oc=5",
+        "points": [
+          "핵심 내용: Kensho and Classiq Partner to Expand Access to Quantum Software in Taiwan",
+          "Kensho and Classiq Partner to Expand Access to Quantum Software in Taiwan  manilatimes.net",
+          "공신력 검증: 전 세계 주요 언론사 manilatimes.net을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       }
     ]
