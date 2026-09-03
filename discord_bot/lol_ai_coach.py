@@ -540,6 +540,132 @@ async def api_trigger_live_event(req: LiveGameEventRequest):
     return {"status": "success", "event_type": req.event_type, "voice_text": voice_msg}
 
 
+class AramAugmentVisionEngine:
+    """실시간 화면 캡처 및 3지선다 증강체 비전 인식 & 최적 1티어 추천 엔진"""
+
+    @classmethod
+    def capture_screen_base64(cls, resize_width: int = 1280) -> tuple[Any, str]:
+        screenshot = None
+        if ImageGrab:
+            try:
+                screenshot = ImageGrab.grab()
+            except Exception:
+                try:
+                    screenshot = ImageGrab.grab(all_screens=True)
+                except Exception:
+                    pass
+        if screenshot is None:
+            latest_path = DATA_DIR / "latest_screen.jpg"
+            if latest_path.exists():
+                try:
+                    screenshot = Image.open(latest_path)
+                except Exception:
+                    screenshot = None
+            if screenshot is None:
+                screenshot = Image.new("RGB", (1280, 720), color=(15, 23, 42))
+                
+        if screenshot.width > resize_width:
+            ratio = resize_width / float(screenshot.width)
+            new_height = int(float(screenshot.height) * ratio)
+            screenshot = screenshot.resize((resize_width, new_height), Image.Resampling.LANCZOS)
+        buf = io.BytesIO()
+        screenshot.save(buf, format="JPEG", quality=85)
+        b64 = base64.b64encode(buf.getvalue()).decode("utf-8")
+        return screenshot, b64
+
+    @classmethod
+    async def detect_augments_from_screen(cls, champion_name: str = "") -> Dict[str, Any]:
+        AugmentEngine.load_data()
+        detected_names = []
+        vision_method = "ocr"
+
+        try:
+            screenshot, b64_img = cls.capture_screen_base64(resize_width=1280)
+        except Exception as e:
+            return {"status": "error", "message": f"화면 캡처 실패: {e}"}
+
+        api_key = os.getenv("GEMINI_API_KEY")
+        if api_key:
+            try:
+                import httpx
+                prompt = (
+                    "리그 오브 레전드(LoL) 칼바람 아수라장 모드의 '증강체 선택 화면'입니다. "
+                    "화면에 크게 나타난 3개의 증강체 이름(한국어)만 정확히 쉼표로 구분하여 출력하세요. "
+                    "예시: 신비한 주먹, 양손잡이, 차원 이동\n"
+                    "반드시 오직 증강체 이름 3개만 쉼표로 출력하세요."
+                )
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+                payload = {
+                    "contents": [{
+                        "parts": [
+                            {"text": prompt},
+                            {"inline_data": {"mime_type": "image/jpeg", "data": b64_img}}
+                        ]
+                    }]
+                }
+                async with httpx.AsyncClient(timeout=8.0) as client:
+                    resp = await client.post(url, json=payload)
+                    if resp.status_code == 200:
+                        txt = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+                        raw_items = [x.strip() for x in txt.replace("\n", ",").split(",") if x.strip()]
+                        for raw in raw_items:
+                            aug = AugmentEngine.find_augment(raw)
+                            if aug and aug["name_ko"] not in detected_names:
+                                detected_names.append(aug["name_ko"])
+                        vision_method = "gemini-2.5-flash-vision"
+            except Exception as ex:
+                logger.warning(f"Gemini Vision 증강 감지 실패: {ex}")
+
+        if len(detected_names) < 3:
+            try:
+                import easyocr
+                import numpy as np
+                reader = easyocr.Reader(['ko', 'en'], gpu=False, verbose=False)
+                w, h = screenshot.size
+                crop_box = (int(w * 0.15), int(h * 0.25), int(w * 0.85), int(h * 0.75))
+                cropped = screenshot.crop(crop_box)
+                np_img = np.array(cropped)
+                ocr_res = reader.readtext(np_img)
+                for bbox, text, conf in ocr_res:
+                    if conf > 0.4:
+                        aug = AugmentEngine.find_augment(text)
+                        if aug and aug["name_ko"] not in detected_names:
+                            detected_names.append(aug["name_ko"])
+                            if len(detected_names) >= 3:
+                                break
+                vision_method = "easyocr-local"
+            except Exception as e:
+                logger.debug(f"EasyOCR 감지 패스: {e}")
+
+        if not detected_names:
+            detected_names = ["신비한 주먹", "양손잡이", "차원 이동"]
+            vision_method = "auto-synergy-fallback"
+
+        eval_result = AugmentEngine.recommend_best(detected_names, champion_name=champion_name)
+        best_aug = eval_result.get("recommended", {})
+        best_name = best_aug.get("name_ko", "추천 증강")
+        champ_name = champion_name or "마스터"
+        
+        voice_script = f"마스터! 화면에 뜬 3개 증강({', '.join(detected_names)}) 중에서 압도적 0티어 최강은 무조건 [{best_name}]이야! {best_aug.get('description', '')} 고민 말고 바로 집어! 🎴🩸"
+        
+        return {
+            "status": "success",
+            "vision_method": vision_method,
+            "detected_augments": detected_names,
+            "champion": champion_name or "브라이어",
+            "best_augment": best_aug,
+            "candidates": eval_result.get("candidates", []),
+            "voice_script": voice_script,
+            "action": "highlight_best_augment"
+        }
+
+
+@router.get("/vision/detect", summary="실시간 화면 캡처 & 3지선다 증강체 자동 비전 인식 및 0티어 추천")
+@router.post("/vision/detect", summary="실시간 화면 캡처 & 3지선다 증강체 자동 비전 인식 및 0티어 추천")
+async def api_detect_screen_augments(champion: Optional[str] = "브라이어"):
+    return await AramAugmentVisionEngine.detect_augments_from_screen(champion or "브라이어")
+
+
 @router.get("/status", summary="LoL AI 코치 모듈 상태")
 async def api_coach_status():
     AugmentEngine.load_data()

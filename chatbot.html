@@ -1395,7 +1395,8 @@
                             <span>🎲 인게임 3지선다 AI 1순위 추천기</span>
                             <span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">(아래 카드를 클릭해 채우거나 무작위 버튼 클릭)</span>
                         </div>
-                        <div style="display: flex; gap: 6px;">
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <button class="hdr-btn" style="background: linear-gradient(135deg, #e11d48, #9333ea); color: #fff; font-weight: bold; border: none;" onclick="triggerLiveScreenVisionAugmentScan()">📸 실시간 화면 자동 인식 (Vision AI)</button>
                             <button class="hdr-btn" onclick="randomizeAugmentSlots()">🎲 무작위 3개</button>
                             <button class="hdr-btn active" onclick="runAugmentSimulation()">🧠 AI 1순위 추천받기</button>
                             <button class="hdr-btn" onclick="resetAugmentSlots()">초기화</button>
@@ -4471,6 +4472,65 @@
                 }
             } catch (err) {
                 console.error("시뮬레이션 추천 호출 에러:", err);
+            }
+        }
+
+        async function triggerLiveScreenVisionAugmentScan() {
+            showToast('📸 화면의 3개 증강체를 실시간 Vision AI로 인식 중...', 'info');
+            try {
+                const champName = (typeof lastPickedChampion !== 'undefined' && lastPickedChampion && lastPickedChampion !== 'Unknown') 
+                    ? lastPickedChampion 
+                    : '브라이어';
+                
+                const res = await fetch(`${SERVER_URL}/api/lol/coach/vision/detect?champion=${encodeURIComponent(champName)}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.status === 'success' && data.candidates && data.candidates.length > 0) {
+                        // 3개 슬롯 자동 채우기
+                        selectedAugmentSlots = [
+                            data.candidates[0] || null,
+                            data.candidates[1] || null,
+                            data.candidates[2] || null
+                        ];
+                        updateSlotUI();
+                        
+                        // 결과 박스 렌더링
+                        const rec = data.best_augment;
+                        const resBox = document.getElementById('simResultBox');
+                        const titleEl = document.getElementById('simRecTitle');
+                        const rarityEl = document.getElementById('simRecRarity');
+                        const reasonEl = document.getElementById('simRecReason');
+                        const ttsBtn = document.getElementById('simTtsPlayBtn');
+                        
+                        if (resBox && rec) {
+                            resBox.style.display = 'block';
+                            titleEl.innerText = rec.name_ko;
+                            rarityEl.innerText = rec.rarity;
+                            rarityEl.className = 'rarity-pill ' + ((rec.rarity || '').includes('프리즘') ? 'rarity-prismatic' : ((rec.rarity || '').includes('골드') ? 'rarity-gold' : 'rarity-silver'));
+                            reasonEl.innerHTML = `<b>[AI 비전 분석 (${data.vision_method})]</b><br>${data.voice_script}`;
+                            lastSimVoiceText = data.voice_script;
+                            
+                            if (ttsBtn) {
+                                ttsBtn.onclick = () => {
+                                    speakText(lastSimVoiceText, agents['briar'] || agents['skadi']);
+                                };
+                            }
+                            
+                            // 브라이어 실시간 음성 발화
+                            speakText(data.voice_script, agents['briar'] || agents['skadi']);
+                            
+                            // 브라이어 채팅방으로 전송
+                            triggerHiddenSystemPrompt(`[실시간 비전 증강 감지 완료]\n화면에 뜬 3개 증강: [${data.detected_augments.join(', ')}]\n챔피언: ${champName}\n압도적 1순위 추천: [${rec.name_ko} (${rec.rarity})]\n[명령] 브라이어 특유의 흡혈귀 텐션으로 왜 [${rec.name_ko}]을(를) 집어야 하는지 2줄로 강렬하게 코칭해주세요! 🎴🩸`, 'briar');
+                            
+                            showToast(`👑 0티어 최강 추천: [${rec.name_ko}]`, 'success');
+                        }
+                    } else {
+                        showToast('화면에서 증강 카드를 감지하지 못했습니다.', 'warning');
+                    }
+                }
+            } catch (err) {
+                console.error("화면 비전 증강 인식 에러:", err);
+                showToast(`비전 인식 오류: ${err.message}`, 'error');
             }
         }
 
