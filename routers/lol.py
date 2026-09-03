@@ -44,6 +44,14 @@ async def get_riot_status():
     """
     return await asyncio.to_thread(riot_lcu.get_current_status)
 
+@router.get("/api/lol/live_player", summary="인게임 실시간 플레이어 레벨(3/7/11/15) 및 골드 조회")
+async def get_live_player_info():
+    """
+    인게임 중(InProgress) 실시간 라이브 클라이언트 API (Port 2999)에서
+    소환사의 현재 레벨(Level), 골드(currentGold), 챔피언 이름을 반환합니다.
+    """
+    return await asyncio.to_thread(riot_lcu.get_live_in_game_player)
+
 @router.get("/api/briar/feedback", summary="브라이어 최근 5게임 전적 피드백")
 def get_briar_feedback():
     """

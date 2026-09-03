@@ -253,9 +253,43 @@ class AugmentEngine:
 
 
 class AramMayhemCoach:
-    """칼바람 골드, 힐팩 리젠, 눈덩이 실시간 보이스 오더 엔진"""
+    """칼바람 골드, 힐팩 리젠, 눈덩이, 3/7/11/15 레벨 증강 선택 실시간 보이스 오더 엔진"""
     _last_relic_time: float = 0.0
     _relic_warning_sent: bool = True
+    AUGMENT_LEVELS = [3, 7, 11, 15]
+
+    @classmethod
+    def check_level_augment_timing(cls, level: int, champion_name: str = "") -> Dict[str, Any]:
+        """
+        3 / 7 / 11 / 15 레벨 도달 시 해당 레벨 증강 선택 타이밍 감지 및 1티어 추천 생성
+        """
+        if level not in cls.AUGMENT_LEVELS:
+            return {"is_augment_level": False, "level": level}
+            
+        champ_guide = ChampionGuideEngine.get_champion(champion_name) if champion_name else None
+        top_augments = champ_guide.get("augments", ["되풀이", "유레카", "거인"]) if champ_guide else ["되풀이", "유레카", "보석 건틀릿"]
+        champ_type = champ_guide.get("type", "딜러/올라운더") if champ_guide else "챔피언"
+
+        stage_names = {
+            3: "1차 증강 (Lv.3)",
+            7: "2차 증강 (Lv.7)",
+            11: "3차 증강 (Lv.11)",
+            15: "4차 최종 증강 (Lv.15)"
+        }
+        stage_name = stage_names.get(level, f"Lv.{level} 증강")
+        
+        voice_script = f"마스터! 레벨 {level} 달성! 지금 [{stage_name}] 선택할 시간이야! {champion_name}한테는 {', '.join(top_augments[:2])} 같은 증강이 1티어니까 선택지에 뜨면 무조건 집어! 🎴🩸"
+        
+        return {
+            "is_augment_level": True,
+            "level": level,
+            "stage_name": stage_name,
+            "champion": champion_name,
+            "champion_type": champ_type,
+            "top_augments": top_augments,
+            "voice_script": voice_script,
+            "action": "open_augment_modal"
+        }
 
     @classmethod
     def check_gold_timing(cls, current_gold: int) -> Optional[str]:
@@ -506,6 +540,12 @@ async def api_get_aram_map(name_or_id: str):
     return {"status": "success", "map": m_info}
 
 
+@router.get("/live/level_check", summary="3/7/11/15 레벨 증강 선택 타이밍 실시간 감지 및 1티어 추천")
+async def api_check_level_augment(level: int = 3, champion: Optional[str] = None):
+    res = AramMayhemCoach.check_level_augment_timing(level, champion or "")
+    return {"status": "success", "data": res}
+
+
 @router.post("/live/event", summary="인게임 실시간 이벤트 트리거 및 음성 브리핑 생성")
 async def api_trigger_live_event(req: LiveGameEventRequest):
     voice_msg = ""
@@ -521,6 +561,11 @@ async def api_trigger_live_event(req: LiveGameEventRequest):
         champ = req.champion or "상대"
         skill = str(req.value or "핵심 스킬")
         voice_msg = RiftChallengerCoach.on_enemy_skill_used(champ, skill, 15)
+    elif req.event_type == "level_up":
+        lvl = int(req.value or 3)
+        champ = req.champion or ""
+        lvl_info = AramMayhemCoach.check_level_augment_timing(lvl, champ)
+        voice_msg = lvl_info.get("voice_script", "")
     return {"status": "success", "event_type": req.event_type, "voice_text": voice_msg}
 
 

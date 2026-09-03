@@ -399,6 +399,43 @@ class RiotLCU:
             "matches": parsed_matches
         }
 
+    def get_live_in_game_player(self):
+        """
+        인게임 중(InProgress) 실시간 라이브 클라이언트 API (Port 2999)에서
+        내 소환사의 현재 레벨(Level), 골드(currentGold), 챔피언 이름, 스탯을 0ms 초저지연으로 조회합니다.
+        3 / 7 / 11 / 15 레벨 도달 시 증강체 선택 타이밍을 감지합니다.
+        """
+        try:
+            res = requests.get(
+                "https://127.0.0.1:2999/liveclientdata/activeplayer",
+                verify=False,
+                timeout=0.8
+            )
+            if res.status_code == 200:
+                data = res.json()
+                level = data.get("level", 1)
+                gold = data.get("currentGold", 0)
+                summoner_name = data.get("summonerName", "")
+                
+                # 챔피언 이름 조회
+                champ_res = requests.get(
+                    "https://127.0.0.1:2999/liveclientdata/activeplayername",
+                    verify=False,
+                    timeout=0.8
+                )
+                champ_name = champ_res.json() if champ_res.status_code == 200 else ""
+                
+                return {
+                    "in_game": True,
+                    "level": int(level),
+                    "gold": float(gold),
+                    "summoner_name": summoner_name,
+                    "champion_name": champ_name
+                }
+        except Exception:
+            pass
+        return {"in_game": False, "level": 1, "gold": 0, "summoner_name": "", "champion_name": ""}
+
 # 단독 실행 테스트용
 if __name__ == "__main__":
     lcu = RiotLCU()

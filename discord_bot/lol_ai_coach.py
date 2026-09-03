@@ -506,6 +506,12 @@ async def api_get_aram_map(name_or_id: str):
     return {"status": "success", "map": m_info}
 
 
+@router.get("/live/level_check", summary="3/7/11/15 레벨 증강 선택 타이밍 실시간 감지 및 1티어 추천")
+async def api_check_level_augment(level: int = 3, champion: Optional[str] = None):
+    res = AramMayhemCoach.check_level_augment_timing(level, champion or "")
+    return {"status": "success", "data": res}
+
+
 @router.post("/live/event", summary="인게임 실시간 이벤트 트리거 및 음성 브리핑 생성")
 async def api_trigger_live_event(req: LiveGameEventRequest):
     voice_msg = ""
@@ -521,6 +527,11 @@ async def api_trigger_live_event(req: LiveGameEventRequest):
         champ = req.champion or "상대"
         skill = str(req.value or "핵심 스킬")
         voice_msg = RiftChallengerCoach.on_enemy_skill_used(champ, skill, 15)
+    elif req.event_type == "level_up":
+        lvl = int(req.value or 3)
+        champ = req.champion or ""
+        lvl_info = AramMayhemCoach.check_level_augment_timing(lvl, champ)
+        voice_msg = lvl_info.get("voice_script", "")
     return {"status": "success", "event_type": req.event_type, "voice_text": voice_msg}
 
 

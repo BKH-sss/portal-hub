@@ -3670,6 +3670,39 @@
             }
         }
 
+        let lastTriggeredAugmentLevel = 0;
+
+        async function triggerAugmentLevelAlert(level, champion) {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/lol/coach/live/level_check?level=${level}&champion=${encodeURIComponent(champion)}`);
+                let lvlData = null;
+                if (res.ok) {
+                    const j = await res.json();
+                    lvlData = j.data;
+                }
+                
+                const stageName = (lvlData && lvlData.stage_name) ? lvlData.stage_name : `Lv.${level} 증강`;
+                const topAugs = (lvlData && lvlData.top_augments) ? lvlData.top_augments.slice(0, 3).join(', ') : "되풀이, 유레카, 거인";
+                
+                // 1. 브라이어 1순위 증강 추천 프롬프트 전송
+                let prompt = `[시스템 이벤트 - ${stageName} 선택 타이밍 도달]\n`;
+                prompt += `플레이어 레벨: ${level}\n`;
+                prompt += `챔피언: [${champion}]\n`;
+                prompt += `이 챔피언의 공식 1티어 추천 증강: [${topAugs}]\n`;
+                prompt += `[명령] 브라이어의 신나고 거친 목소리로 "마스터! 레벨 ${level} 달성했어! 지금 [${stageName}] 선택 타이밍이야!" 라고 외치며, [${champion}]에게 가장 사기적인 1티어 증강 2~3개와 그 이유를 2~3줄로 바로 집으라고 강렬하게 오더해주세요! 🎴🩸`;
+                
+                triggerHiddenSystemPrompt(prompt, "briar");
+                
+                // 2. 증강체 도감 및 3지선다 시뮬레이터 모달 자동 활성화/열기
+                openAugmentModal();
+                
+                // 3. 토스트 알림 표시
+                showToast(`🎴 [Lv.${level} 증강 선택] ${champion} 1티어: ${topAugs}`, 'info');
+            } catch (err) {
+                console.error("레벨 증강 알림 오류:", err);
+            }
+        }
+
         async function checkRiotStatus() {
             try {
                 const res = await fetch(`${SERVER_URL}/api/riot/status`);
@@ -3714,10 +3747,31 @@
                             }
                         }
 
+                        // [인게임 3/7/11/15 레벨 증강 선택 타이밍 실시간 감지]
+                        if (currentPhase === "InProgress") {
+                            try {
+                                const liveRes = await fetch(`${SERVER_URL}/api/lol/live_player`);
+                                if (liveRes.ok) {
+                                    const liveData = await liveRes.json();
+                                    if (liveData.in_game && liveData.level) {
+                                        const curLvl = liveData.level;
+                                        const augmentLevels = [3, 7, 11, 15];
+                                        if (augmentLevels.includes(curLvl) && lastTriggeredAugmentLevel !== curLvl) {
+                                            lastTriggeredAugmentLevel = curLvl;
+                                            triggerAugmentLevelAlert(curLvl, data.picked_champion || liveData.champion_name || "내 챔피언");
+                                        }
+                                    }
+                                }
+                            } catch (e) {}
+                        } else {
+                            lastTriggeredAugmentLevel = 0;
+                        }
+
                     } else {
                         riotStatusEl.innerHTML = `자동 감지 대기 중...<br>(롤 클라이언트 실행 시 연동)`;
                         lastGamePhase = "Unknown";
                         lastPickedChampion = "";
+                        lastTriggeredAugmentLevel = 0;
                     }
                 }
             } catch (err) {
