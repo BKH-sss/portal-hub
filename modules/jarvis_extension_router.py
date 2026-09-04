@@ -29,6 +29,11 @@ from modules.daily_journal_writer import router as journal_router
 from modules.game_auto_coach import router as game_coach_router
 from modules.maple_skill_tracker import router as maple_tracker_router
 from modules.lol_minimap_tracker import router as lol_minimap_router
+from modules.lol_voice_alert_engine import router as lol_voice_router
+from modules.lol_gank_eta_predictor import router as lol_eta_router
+from modules.lol_overlay_hud import router as lol_overlay_router
+from modules.lol_vision_gap_checker import router as lol_vision_gap_router
+from modules.lol_snapshot_reviewer import router as lol_snapshot_router
 
 # 2. 통합 확장 라우터 생성
 extension_router = APIRouter()
@@ -43,6 +48,11 @@ extension_router.include_router(journal_router)
 extension_router.include_router(game_coach_router)
 extension_router.include_router(maple_tracker_router)
 extension_router.include_router(lol_minimap_router)
+extension_router.include_router(lol_voice_router)
+extension_router.include_router(lol_eta_router)
+extension_router.include_router(lol_overlay_router)
+extension_router.include_router(lol_vision_gap_router)
+extension_router.include_router(lol_snapshot_router)
 
 
 

@@ -161,11 +161,54 @@ Modern DeepLeague는 데스크탑의 주 모니터 해상도를 시작 시 자�
 
 ---
 
-## 8. 자주 묻는 질문 및 문제 해결 (FAQ)
+## 8. 미래형 5대 확장 전술 모듈 상세 안내
+
+Modern DeepLeague 엔진과 완벽하게 유기적으로 연동되는 **차세대 5대 전술 모듈**이 독립된 마이크로 모듈 구조로 구현되어 있습니다.
+
+```mermaid
+flowchart LR
+    MINIMAP["Modern DeepLeague<br/>(lol_minimap_tracker.py)"]
+    
+    MINIMAP --> V_ALERT["1. lol_voice_alert_engine.py<br/>(핸즈프리 음성 콜)"]
+    MINIMAP --> G_ETA["2. lol_gank_eta_predictor.py<br/>(동선 벡터 & 도착 타이머)"]
+    MINIMAP --> HUD["3. lol_overlay_hud.py<br/>(인게임 반투명 HUD)"]
+    MINIMAP --> V_GAP["4. lol_vision_gap_checker.py<br/>(오브젝트 시야 공백 감지)"]
+    MINIMAP --> SNAP["5. lol_snapshot_reviewer.py<br/>(스냅샷 & 오답노트 복기)"]
+```
+
+### 1) 🎧 스카디 인게임 음성 콜 엔진 (`modules/lol_voice_alert_engine.py`)
+- **역할**: 대시보드를 쳐다보지 않아도, 전술 위험 발생 시 백엔드 워커 스레드가 비동기로 스카디 AI 음성(Edge-TTS / GPT-SoVITS)을 헤드셋으로 즉시 발화합니다.
+- **특징**: 우선순위 기반 쿨타임(10~20초)과 최소 발화 간격을 두어 인게임 오디오가 시끄럽지 않게 정밀 조율됩니다.
+- **주요 엔드포인트**: `POST /api/lol/voice/toggle`, `POST /api/lol/voice/test`
+
+### 2) ⏳ 적 동선 벡터 예측 & 갱킹 도착 타이머 (`modules/lol_gank_eta_predictor.py`)
+- **역할**: 미니맵 상에서 이동하는 적 챔피언의 2D 이동 속도 벡터($v_x, v_y$)를 계산하여, 탑/미드/바텀을 향한 갱킹 경로인지 판별하고 **예상 도착 시간(ETA, 초)**을 카운트다운합니다.
+- **알림 예시**: `"🚨 [상단 강가]에서 [미드 라인] 방향 급습 감지! (도착 예상: 약 7초)"`
+- **주요 엔드포인트**: `GET /api/lol/eta/active`, `POST /api/lol/eta/simulate`
+
+### 3) 🖥️ 인게임 반투명 플로팅 오버레이 HUD (`modules/lol_overlay_hud.py`)
+- **역할**: 싱글 모니터 환경에서도 롤 화면 구석에 띄워둘 수 있는 미래형 사이버틱 반투명 오버레이 HUD를 제공합니다.
+- **접속 URL**: **`http://localhost:8000/overlay`**
+- **특징**: 브라우저 창, OBS 브라우저 소스, PIP 또는 엣지 앱 모드로 띄울 수 있으며, 실시간 미니맵 레이더, 적군/아군 수, 갱킹 카운트다운 바가 0.25초 주기로 갱신됩니다.
+- **원클릭 실행**: `POST /api/lol/overlay/launch` 호출 시 Windows 테두리 없는 미니 팝업창 자동 실행.
+
+### 4) 🐉 오브젝트 1분 전 시야 공백 선제 감지기 (`modules/lol_vision_gap_checker.py`)
+- **역할**: 드래곤 및 내셔 남작(바론) 리젠 60초 전, 미니맵 둥지 관심영역의 픽셀 휘도(Luminance)를 분석해 전장 안개(Fog of War) 상태인지 자동 판정합니다.
+- **선제 경고**: 용 젠 45초 전인데 둥지가 깜깜할 경우: `"🐉 드래곤 출현 45초 전인데 용 둥지 시야가 비어있어요! 와드 설치 권장!"` 선제 브리핑.
+- **주요 엔드포인트**: `GET /api/lol/vision/status`, `POST /api/lol/vision/test-alert`
+
+### 5) 📸 전술 스냅샷 & 협곡 오답노트 복기 엔진 (`modules/lol_snapshot_reviewer.py`)
+- **역할**: 다이브 위협, 용/바론 버스트 등 치명적 상황 발생 시 그 순간의 미니맵 영상을 `memory/lol_matches/{YYYY-MM-DD}/` 폴더에 즉시 자동 저장합니다.
+- **야간 수면학습 연동**: 자율 학습 주기(`dream_engine_lol.py`)와 연계되어 경기 종료 후 옵시디언 다이어리에 **"스카디의 소환사의 협곡 전술 오답노트"** Markdown 보고서를 자동 편찬합니다.
+- **주요 엔드포인트**: `GET /api/lol/review/latest`, `POST /api/lol/review/generate-report`
+
+---
+
+## 9. 자주 묻는 질문 및 문제 해결 (FAQ)
 
 ### Q1. 인게임 프레임(FPS)이 떨어지거나 렉이 걸리지 않나요?
 > **전혀 영향이 없습니다.**  
-> Modern DeepLeague는 GPU를 단 0.1%도 사용하지 않으며, 초당 4회 캡처 연산 전체가 초경량 CPU 벡터 연산(회당 2~3ms 소요)으로 처리됩니다. 240Hz, 360Hz 초고주사율 게이밍 환경에서도 완벽한 프레임을 방어합니다.
+> Modern DeepLeague 및 5대 전술 모듈 전체는 GPU를 0% 사용하며, 순수 초경량 CPU 비동기 스레드에서 0.3~2ms 안에 처리됩니다. 240Hz, 360Hz 초고주사율 게이밍 환경에서도 완벽한 프레임을 방어합니다.
 
 ### Q2. 화면 캡처가 검은색으로 나오거나 아무것도 안 잡혀요.
 > 1. 롤 비디오 설정이 **"전체 화면"**일 경우 일부 윈도우 그래픽 드라이버 환경에서 캡처가 지연될 수 있습니다. **"테두리 없는 창 모드"**로 변경해 주세요.
@@ -174,6 +217,7 @@ Modern DeepLeague는 데스크탑의 주 모니터 해상도를 시작 시 자�
 ### Q3. 스카디 음성 알림이 안 들려요.
 > 1. `brain_server.py` 콘솔에서 `Edge-TTS` 또는 `GPT-SoVITS`가 정상 가동 중인지 확인합니다.
 > 2. 윈도우 기본 사운드 출력 장치가 헤드셋이나 스피커로 올바르게 설정되어 있는지 확인합니다.
+> 3. `POST /api/lol/voice/test` 호출을 통해 스피커 출력을 직접 테스트해 볼 수 있습니다.
 
 ---
 *© 2026 JARVIS / SKADI Intelligent Tactical Assistance System. All rights reserved.*

@@ -390,8 +390,68 @@ class ModernDeepLeagueTracker:
                 "zone": zone,
             })
 
-        # 3. 전술 위험 조기경보 판독
+        # 3. 전술 위험 조기경보 판독 (기본 룰)
         new_alerts = self._analyze_tactical_threats(enemies, allies)
+
+        # 🚀 4. 적 동선 벡터 예측 & 갱킹 도착 타이머 (ETA) 연동
+        try:
+            from modules.lol_gank_eta_predictor import gank_predictor
+            gank_alerts = gank_predictor.update_positions(enemies)
+            for ga in gank_alerts:
+                new_alerts.append({
+                    "type": "ETA_GANK",
+                    "priority": "HIGH",
+                    "message": ga["alert_message"],
+                    "timestamp": ga["timestamp"],
+                    "eta": int(ga["eta_seconds"]),
+                    "target": ga["target_lane"]
+                })
+        except Exception:
+            pass
+
+        # 🚀 5. 오브젝트(용/바론) 1분 전 시야 공백 (Fog of War) 연동
+        try:
+            from modules.lol_vision_gap_checker import vision_gap_checker
+            vision_res = vision_gap_checker.analyze_pit_vision(bgra)
+            if vision_res.get("alerts"):
+                new_alerts.extend(vision_res["alerts"])
+        except Exception:
+            pass
+
+        # 🚀 6. 스카디 인게임 음성 콜 & 전술 스냅샷 오답노트 자동 트리거
+        if new_alerts:
+            # 1) 스카디 음성 브리핑 자동 발화
+            try:
+                from modules.lol_voice_alert_engine import voice_alert_engine
+                for alt in new_alerts:
+                    ctx = {
+                        "lane": alt.get("lane", "라인"),
+                        "count": alt.get("count", len(enemies)),
+                        "zone": alt.get("zone", "협곡"),
+                        "eta": alt.get("eta", 7),
+                        "target": alt.get("target", "라인"),
+                        "pit": alt.get("pit", "오브젝트 둥지"),
+                        "message": alt.get("message", "")
+                    }
+                    voice_alert_engine.trigger_alert(alt["type"], ctx)
+            except Exception:
+                pass
+
+            # 2) CRITICAL / HIGH 위협 시 전술 스냅샷 자동 저장
+            try:
+                from modules.lol_snapshot_reviewer import snapshot_reviewer
+                critical_alerts = [a for a in new_alerts if a.get("priority") in ("CRITICAL", "HIGH")]
+                if critical_alerts:
+                    top_alert = critical_alerts[0]
+                    snapshot_reviewer.record_tactical_moment(
+                        event_type=top_alert["type"],
+                        enemies=enemies,
+                        allies=allies,
+                        raw_bgra=bgra,
+                        message=top_alert.get("message", "")
+                    )
+            except Exception:
+                pass
 
         t1 = time.time()
         process_ms = round((t1 - t0) * 1000, 2)
