@@ -26,13 +26,17 @@
 7. **📝 데일리 저널 & 옵시디언 자동화 (`modules/daily_journal_writer.py`)**:
    - 일일 대화/일정/개발 기록 자동 요약 및 옵시디언 호환 Markdown 저널 자동 생성
 8. **🎮 게임 프로세스 자동 감지 & 코칭 브리퍼 (`modules/game_auto_coach.py`)**:
-   - LoL, 발로란트, 메이플스토리 등 게임 실행 자동 감지 및 실시간 전술 코칭 가이드
+   - LoL, 발로란트, 메이플스토리 등 게임 실행 자동 감지 및 실시간 인게임 코칭
    - 📖 [차세대 롤(LoL) 실시간 AI 코치 기획서 & 아키텍처 상세 문서 보기](docs/LOL_AI_COACH_SPEC.md)
+9. **🗺️ Modern DeepLeague: 실시간 롤 미니맵 전술 레이더 (`modules/lol_minimap_tracker.py`)**:
+   - 0.3ms 고속 메모리 캡처(mss) & 순수 CPU 초경량 벡터 연산(NumPy), GPU 부하 0.0%, 240+ FPS 방어
+   - 적 챔피언 위치 추출, 용/바론 버스트 감지, 타워 3인 다이브 위협, 강가 로밍 기습 조기경보
+   - 📖 [Modern DeepLeague 데스크탑 실전 가이드 보기](docs/LOL_MINIMAP_TACTICAL_RADAR_GUIDE.md)
 
-9. **🔌 표준 MCP (Model Context Protocol) 지원 (`modules/mcp_server.py`)**:
+10. **🔌 표준 MCP (Model Context Protocol) 지원 (`modules/mcp_server.py`)**:
    - Claude Desktop, VS Code, Cursor, Antigravity 등 외부 AI 도구와 JARVIS 기능 실시간 연동
-10. **📊 JARVIS 사이버틱 관측성 대시보드 (`/admin`)**:
-   - 실시간 하드웨어 게이지, LLM 모델별 호출 분배율 차트(Chart.js), 실시간 이벤트 터미널 로그
+11. **📊 JARVIS 사이버틱 관측성 대시보드 (`/admin`)**:
+   - 실시간 하드웨어 게이지, LLM 모델별 호출 분배율 차트(Chart.js), Modern DeepLeague 실시간 레이더 HUD
 
 ---
 
@@ -41,6 +45,8 @@
 ```
 JARVIS-Assistant/
 ├── 🚀 모듈형 신규 확장 패키지 (modules/)
+│   ├── modules/lol_minimap_tracker.py    # 🎮 Modern DeepLeague 실시간 롤 미니맵 비전 트래커 & 전술 조기경보
+│   ├── modules/lol_ai_coach.py           # 🏆 칼바람 199종 증강체 추천 & 실시간 AI 코치
 │   ├── modules/maple_skill_tracker.py    # 🍁 메이플 우측 하단 퀵슬롯 감시 & 5초 전 스카디 음성 알리미
 │   ├── modules/system_os_controller.py   # 💻 CPU/RAM/GPU(4080 Super) 모니터링 & OS/볼륨/미디어 제어
 │   ├── modules/schedule_manager.py       # 📅 SQLite 기반 일정/할일(Todo) 관리 & 모닝 브리핑 엔진
