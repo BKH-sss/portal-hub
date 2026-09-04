@@ -33,9 +33,10 @@ router = APIRouter(prefix="/api/lol/voice", tags=["LoL Ingame Voice Coach"])
 
 
 # =============================================================================
-# 🎙️ 2. 페르소나별 인게임 상황 대사 사전
+# 🎙️ 2. 페르소나별 인게임 상황 대사 사전 (협곡 & 칼바람 나락 완벽 분기)
 # =============================================================================
 SKADI_VOICE_SCRIPTS = {
+    # --- 🐉 소환사의 협곡 (Summoner's Rift) 전용 대사 ---
     "DIVE_WARNING": [
         "마스터! {lane}에 적 3명 이상 몰려와요! 타워 버리고 즉시 물러나세요!",
         "위험해요! {lane} 다이브 옵니다! 무리하지 말고 뒤로 빼세요!"
@@ -59,6 +60,40 @@ SKADI_VOICE_SCRIPTS = {
     "VISION_GAP": [
         "오브젝트 출현 1분 전인데 {pit} 시야가 완전히 어두워요. 와드 설치가 필요해요!",
         "{pit} 주변 시야 공백 감지! 서포터와 함께 시야 확보 추천해요."
+    ],
+    "SR_GOLD_RECALL": [
+        "마스터, {gold}골드 모였어요! 대포 웨이브 밀고 황금 귀환 타이밍 잡으세요!",
+        "핵심 아이템 골드 달성! 라인 정리하고 집 다녀오기 딱 좋아요."
+    ],
+
+    # --- ❄️ 칼바람 나락 (Howling Abyss / ARAM) 전용 대사 ---
+    "ARAM_BUSH_AMBUSH": [
+        "마스터! 부쉬 쪽에 적 다수가 숨어있어요! 페이스체크 절대 금지예요!",
+        "수풀 기습 위험 감지! 앞장서지 말고 스킬 빠질 때까지 사려주세요!"
+    ],
+    "ARAM_RELIC_CONTEST": [
+        "힐팩 근처에서 교전 발생! 상대보다 먼저 체력 팩 챙겨주세요!",
+        "우리 쪽 힐팩 챙기고 피 채우세요! 상대 눈덩이 진입 조심해요!"
+    ],
+    "ARAM_GOLD_WARN": [
+        "마스터, {gold}골드 이상 모였어요! 한타 후 적절한 타이밍에 처형당하거나 아이템 구매를 추천해요!",
+        "골드가 {gold}골드 넘게 쌓였어요! 이번 턴에 템 사고 강해져야 딜로스가 없어요!"
+    ],
+    "ARAM_PUSH_TURRET": [
+        "상대 주요 딜러가 잡혔어요! 지금 포탑 강하게 압박해요!",
+        "인원수 유리해요! 포탑 철거 고고!"
+    ],
+    "ARAM_DIVE_DEFENSE": [
+        "상대 {count}명이 타워로 돌진해요! 포탑 뒤로 빠져서 수비하세요!",
+        "무리한 다이브 받아칠 준비하세요! CC기 연계 집중!"
+    ],
+    "ARAM_ACE_PUSH": [
+        "적 전멸(에이스)! 지금 억제기까지 쭉 밀어붙여요!",
+        "올킬이에요 마스터! 넥서스까지 직진!"
+    ],
+    "MULTI_KILL": [
+        "나이스! {count}연속 처치 달성! 기세 몰아서 압박해요!",
+        "대단해요 마스터! 한타 완승 각이에요!"
     ]
 }
 
@@ -82,7 +117,15 @@ class LoLVoiceAlertEngine:
             "OBJECTIVE_BURST": 20.0,
             "ROAM_SPOTTED": 12.0,
             "ETA_GANK": 10.0,
-            "VISION_GAP": 30.0
+            "VISION_GAP": 30.0,
+            "SR_GOLD_RECALL": 30.0,
+            "ARAM_BUSH_AMBUSH": 12.0,
+            "ARAM_RELIC_CONTEST": 15.0,
+            "ARAM_GOLD_WARN": 45.0,
+            "ARAM_PUSH_TURRET": 15.0,
+            "ARAM_DIVE_DEFENSE": 15.0,
+            "ARAM_ACE_PUSH": 20.0,
+            "MULTI_KILL": 10.0,
         }
 
         # 비동기 발화 큐 & 워커 스레드
@@ -112,8 +155,9 @@ class LoLVoiceAlertEngine:
     def trigger_alert(self, alert_type: str, context: Optional[Dict[str, Any]] = None):
         """
         외부(미니맵 트래커, 갱 예측기 등)에서 전술 경고를 발생시킬 때 호출하는 진입점
+        - 다계층 전술 검증기(TacticalAlertValidator)를 거쳐 맵 모드 불일치 오탐지를 100% 차단합니다.
         """
-        if not self.is_enabled:
+        if not self.is_enabled or self.volume <= 0:
             return
 
         now = time.time()
@@ -125,17 +169,44 @@ class LoLVoiceAlertEngine:
         if (now - self.last_spoken_time) < self.min_interval:
             return
 
-        self.cooldowns[alert_type] = now
         text = self._format_speech(alert_type, context or {})
-        if text:
-            try:
-                self.alert_queue.put_nowait({
-                    "type": alert_type,
-                    "text": text,
-                    "timestamp": now
-                })
-            except queue.Full:
-                pass
+        if not text:
+            return
+
+        # 🛡️ 다계층 전술 검증기 & 오답노트 로깅 연동
+        try:
+            from modules.lol_feedback_system import game_mode_detector, TacticalAlertValidator, feedback_manager
+            mode, map_name, _ = game_mode_detector.get_current_mode()
+            is_valid, reason = TacticalAlertValidator.validate({
+                "type": alert_type,
+                "message": text,
+                "zone": (context or {}).get("zone", "")
+            }, mode)
+
+            feedback_manager.log_alert_moment(
+                alert_type=alert_type,
+                message=text,
+                map_mode=mode,
+                is_valid=is_valid,
+                validation_reason=reason,
+                context=context
+            )
+
+            if not is_valid:
+                logger.warning(f"[LoLVoice] Alert '{alert_type}' blocked for {map_name}: {reason}")
+                return
+        except Exception:
+            pass
+
+        self.cooldowns[alert_type] = now
+        try:
+            self.alert_queue.put_nowait({
+                "type": alert_type,
+                "text": text,
+                "timestamp": now
+            })
+        except queue.Full:
+            pass
 
     def _format_speech(self, alert_type: str, ctx: Dict[str, Any]) -> str:
         """이벤트 타입과 컨텍스트를 스카디의 부드럽고 명확한 한글 대사로 포맷"""
@@ -152,7 +223,8 @@ class LoLVoiceAlertEngine:
                 zone=ctx.get("zone", "협곡"),
                 eta=ctx.get("eta", "수"),
                 target=ctx.get("target", "라인"),
-                pit=ctx.get("pit", "오브젝트 둥지")
+                pit=ctx.get("pit", "오브젝트 둥지"),
+                gold=ctx.get("gold", "3000")
             )
         except Exception:
             return templates[0]

@@ -31,6 +31,8 @@ from modules.maple_skill_tracker import router as maple_tracker_router
 from modules.maple_cancel_trainer import router as maple_cancel_router
 from modules.lol_minimap_tracker import router as lol_minimap_router
 from modules.lol_voice_alert_engine import router as lol_voice_router
+from modules.lol_feedback_system import router as lol_feedback_router
+from modules.lol_ai_coach import router as lol_coach_router
 from modules.lol_gank_eta_predictor import router as lol_eta_router
 from modules.lol_overlay_hud import router as lol_overlay_router
 from modules.lol_vision_gap_checker import router as lol_vision_gap_router
@@ -51,6 +53,8 @@ extension_router.include_router(maple_tracker_router)
 extension_router.include_router(maple_cancel_router)
 extension_router.include_router(lol_minimap_router)
 extension_router.include_router(lol_voice_router)
+extension_router.include_router(lol_feedback_router)
+extension_router.include_router(lol_coach_router)
 extension_router.include_router(lol_eta_router)
 extension_router.include_router(lol_overlay_router)
 extension_router.include_router(lol_vision_gap_router)

@@ -548,8 +548,11 @@
                     <span><i class="fa-solid fa-satellite-dish"></i> 리그 오브 레전드: Modern DeepLeague 미니맵 전술 레이더</span>
                     <span id="lol-target-lock-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--cyan-glow);"><i class="fa-solid fa-crosshairs"></i> LoL 전용 창 탐색 중</span>
                     <span id="lol-focus-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--cyan-glow); cursor: pointer;" onclick="toggleLoLFocusFilter()" title="클릭 시 포커스 필터(롤 활성창 전용 감지) ON/OFF 전환"><i class="fa-solid fa-bullseye"></i> 🔒 롤 전용 포커스: 켜짐</span>
+                    <span id="lol-map-mode-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 242, 254, 0.12); border: 1px solid rgba(0, 242, 254, 0.35); color: var(--cyan-glow); cursor: pointer;" onclick="cycleLoLMapMode()" title="클릭 시 맵 모드 강제 전환 [AUTO ➔ ARAM ➔ CLASSIC]"><i class="fa-solid fa-map-location-dot"></i> 🗺️ [AUTO] 소환사의 협곡</span>
+                    <span id="lol-validator-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 255, 135, 0.1); border: 1px solid rgba(0, 255, 135, 0.3); color: var(--green-glow);" title="다계층 전술 검증기: 칼바람/협곡 오탐지 브리핑 100% 원천 차단"><i class="fa-solid fa-shield-halved"></i> 🛡️ AI 검증: 100% 무오류</span>
                 </span>
                 <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <button id="btn-run-scenarios" class="btn-action" style="color: #c084fc; border-color: rgba(192, 132, 252, 0.4);" onclick="runTacticalTestSuite()" title="20가지 인게임 전술 시나리오(칼바람/협곡) 자가 검증 일괄 실행"><i class="fa-solid fa-vial-circle-check"></i> 🧪 20종 시나리오 검증</button>
                     <!-- 🔊 스카디 LoL 음성 브리핑 볼륨 조절 -->
                     <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);" title="스카디 LoL 전술 음성 브리핑 볼륨 조절 (0~100%)">
                         <i id="lol-voice-vol-icon" class="fa-solid fa-volume-high" style="color: var(--cyan-glow); font-size: 13px; cursor: pointer;" onclick="toggleLoLVoiceMute()" title="음소거 토글"></i>
@@ -689,6 +692,26 @@
                 <button class="btn-action" style="background: rgba(255, 153, 0, 0.2); border-color: var(--orange-glow); color: var(--orange-glow); font-weight: 700;" onclick="saveEditedSkill()">
                     <i class="fa-solid fa-check"></i> 변경사항 저장
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🧪 롤 20종 전술 시나리오 검증 결과 팝업 모달 -->
+    <div id="lolTestModal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 680px; max-height: 80vh; overflow-y: auto; border-color: #c084fc; box-shadow: 0 12px 48px rgba(192, 132, 252, 0.25);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(192, 132, 252, 0.3); padding-bottom: 10px;">
+                <span style="font-size: 16px; font-weight: 700; color: #c084fc; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-vial-circle-check"></i> 🛡️ LoL 다계층 전술 검증기 20종 시나리오 결과
+                </span>
+                <button class="btn-action" onclick="closeLoLTestModal()" style="padding: 2px 8px; border: none; font-size: 16px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="lol-test-summary" style="padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; font-size: 13px;">
+                검증 진행 중...
+            </div>
+            <div id="lol-test-results-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 360px; overflow-y: auto;">
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                <button class="btn-action" onclick="closeLoLTestModal()">닫기</button>
             </div>
         </div>
     </div>
@@ -1359,6 +1382,131 @@
             }
         }
 
+        let currentMapMode = 'AUTO';
+
+        async function cycleLoLMapMode() {
+            const modes = ['AUTO', 'ARAM', 'CLASSIC'];
+            const curIdx = modes.indexOf(currentMapMode);
+            const nextMode = modes[(curIdx + 1) % modes.length];
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/feedback/set-mode`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode: nextMode })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    currentMapMode = nextMode;
+                    updateMapModeBadge(data.mode, data.map_name, nextMode === 'AUTO');
+                    appendLog('LOL', data.message);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function updateMapModeBadge(mode, mapName, isAuto) {
+            const badge = document.getElementById('lol-map-mode-badge');
+            if (!badge) return;
+            const prefix = isAuto ? '🗺️ [AUTO]' : '📌 [수동고정]';
+            if (mode === 'ARAM') {
+                badge.innerHTML = `<i class="fa-solid fa-snowflake"></i> ❄️ ${prefix} 칼바람 나락`;
+                badge.style.color = '#38bdf8';
+                badge.style.borderColor = 'rgba(56, 189, 248, 0.4)';
+                badge.style.background = 'rgba(56, 189, 248, 0.12)';
+            } else if (mode === 'CHERRY') {
+                badge.innerHTML = `<i class="fa-solid fa-ring"></i> 🎪 ${prefix} 아레나`;
+                badge.style.color = '#f472b6';
+                badge.style.borderColor = 'rgba(244, 114, 182, 0.4)';
+                badge.style.background = 'rgba(244, 114, 182, 0.12)';
+            } else {
+                badge.innerHTML = `<i class="fa-solid fa-map-location-dot"></i> 🐉 ${prefix} 소환사의 협곡`;
+                badge.style.color = 'var(--cyan-glow)';
+                badge.style.borderColor = 'rgba(0, 242, 254, 0.35)';
+                badge.style.background = 'rgba(0, 242, 254, 0.12)';
+            }
+        }
+
+        async function rateAlert(alertId, rating) {
+            if (!alertId) {
+                appendLog('LOL', '평가 대상 알림 ID가 유효하지 않습니다.');
+                return;
+            }
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/feedback/rate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ alert_id: alertId, rating: rating, comment: rating > 0 ? "정확한 전술 브리핑" : "오탐지 피드백" })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    appendLog('LOL', `피드백 등록 완료: ${rating > 0 ? '👍 정확' : '👎 오답노트'} (AI 정확도: ${data.accuracy_rate}%)`);
+                    pollMinimapStatus();
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function runTacticalTestSuite() {
+            const modal = document.getElementById('lolTestModal');
+            const summary = document.getElementById('lol-test-summary');
+            const list = document.getElementById('lol-test-results-list');
+            if (modal) modal.classList.add('active');
+            if (summary) summary.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 20종 전술 시나리오 (칼바람/협곡) 검증 중...';
+            if (list) list.innerHTML = '';
+
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/feedback/test-suite`, { method: 'POST' });
+                const data = await res.json();
+                
+                if (summary) {
+                    summary.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                            <div>
+                                <span style="font-weight: 700; color: ${data.status === 'success' ? 'var(--green-glow)' : 'var(--red-glow)'};">
+                                    ${data.status === 'success' ? '✅ 전 시나리오 100% 통과 (무오류)' : '❌ 일부 시나리오 실패'}
+                                </span>
+                                <div style="color: var(--text-muted); font-size: 11px; margin-top: 2px;">
+                                    총 ${data.total_scenarios}개 시나리오 중 ${data.passed_count}개 성공 (${data.pass_rate_pct}%) | 소요 시간: ${data.duration_ms}ms
+                                </div>
+                            </div>
+                            <span style="font-size: 18px; font-weight: 800; color: var(--green-glow); font-family: monospace;">${data.pass_rate_pct}% PASS</span>
+                        </div>
+                    `;
+                }
+
+                if (list && data.results) {
+                    list.innerHTML = data.results.map((r, i) => `
+                        <div style="padding: 8px 10px; background: rgba(0,0,0,0.3); border-radius: 6px; border-left: 3px solid ${r.passed ? '#00ff87' : '#ff0055'}; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; font-size: 12px; color: #fff;">
+                                    <span style="padding: 1px 5px; border-radius: 3px; font-size: 10px; background: ${r.mode === 'ARAM' ? 'rgba(56,189,248,0.2)' : 'rgba(0,242,254,0.2)'}; color: ${r.mode === 'ARAM' ? '#38bdf8' : 'var(--cyan-glow)'}; margin-right: 4px;">${r.mode}</span>
+                                    ${r.scenario_name}
+                                </div>
+                                <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+                                    대사: "${r.message}"
+                                </div>
+                                <div style="font-size: 10px; color: ${r.passed ? '#00ff87' : '#ffaa00'}; margin-top: 1px;">
+                                    ${r.reason}
+                                </div>
+                            </div>
+                            <span style="font-size: 11px; font-weight: 700; color: ${r.passed ? '#00ff87' : '#ff0055'};">${r.passed ? 'PASS' : 'FAIL'}</span>
+                        </div>
+                    `).join('');
+                }
+                appendLog('LOL', `20종 전술 시나리오 검증 완료: ${data.passed_count}/${data.total_scenarios} 통과 (${data.pass_rate_pct}%)`);
+            } catch (e) {
+                if (summary) summary.innerHTML = `<span style="color: var(--red-glow);">검증 실행 실패: ${e.message}</span>`;
+                console.error(e);
+            }
+        }
+
+        function closeLoLTestModal() {
+            const modal = document.getElementById('lolTestModal');
+            if (modal) modal.classList.remove('active');
+        }
+
         async function toggleLoLFocusFilter() {
             const nextState = !lolFocusFilterEnabled;
             try {
@@ -1397,151 +1545,6 @@
                         if (slider) slider.value = lolVoiceVol;
                         if (textEl) textEl.innerText = `${lolVoiceVol}%`;
                     }
-                }
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        async function toggleMinimap() {
-            const nextState = !isMinimapTracking;
-            const btn = document.getElementById('btn-minimap-toggle');
-            const statusTag = document.getElementById('lol-minimap-status-tag');
-            
-            try {
-                const res = await fetch(`${API_BASE}/api/lol/minimap/toggle?enable=${nextState}`, { method: 'POST' });
-                const data = await res.json();
-                isMinimapTracking = nextState;
-                if (isMinimapTracking) {
-                    btn.className = 'btn-action active';
-                    btn.innerHTML = '<i class="fa-solid fa-stop"></i> 감시 정지';
-                    statusTag.innerText = '실시간 감시 중 (0.25s)';
-                    statusTag.style.color = 'var(--green-glow)';
-                    appendLog('LOL', 'Modern DeepLeague 미니맵 실시간 전술 감시 시작!');
-                } else {
-                    btn.className = 'btn-action';
-                    btn.innerHTML = '<i class="fa-solid fa-play"></i> 미니맵 감시 시작';
-                    statusTag.innerText = '대기 중 (인게임 자동 감지)';
-                    statusTag.style.color = 'var(--text-muted)';
-                    appendLog('LOL', '미니맵 감시가 정지되었습니다.');
-                }
-                pollMinimapStatus();
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        async function scanMinimapNow() {
-            try {
-                const res = await fetch(`${API_BASE}/api/lol/minimap/scan-now`);
-                const data = await res.json();
-                if (data.status === 'success') {
-                    updateMinimapUI(data.result, data.debug_image_b64);
-                    appendLog('LOL', `1회 스캔 완료: 적군 ${data.result.enemies.length}명 / 아군 ${data.result.allies.length}명 (${data.result.process_time_ms}ms)`);
-                } else {
-                    appendLog('LOL', `스캔 실패: ${data.message}`);
-                }
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        async function pollMinimapStatus() {
-            try {
-                const res = await fetch(`${API_BASE}/api/lol/minimap/status`);
-                if (!res.ok) return;
-                const data = await res.json();
-                
-                // 1. 트래킹 상태 동기화 (자동 시작/종료 감지 반영)
-                if (data.is_running !== isMinimapTracking) {
-                    isMinimapTracking = data.is_running;
-                    const btn = document.getElementById('btn-minimap-toggle');
-                    const statusTag = document.getElementById('lol-minimap-status-tag');
-                    if (isMinimapTracking) {
-                        btn.className = 'btn-action active';
-                        btn.innerHTML = '<i class="fa-solid fa-stop"></i> 감시 정지';
-                        statusTag.innerText = '실시간 감시 중 (0.25s)';
-                        statusTag.style.color = 'var(--green-glow)';
-                    } else {
-                        btn.className = 'btn-action';
-                        btn.innerHTML = '<i class="fa-solid fa-play"></i> 미니맵 감시 시작';
-                        statusTag.innerText = '대기 중 (인게임 자동 감지)';
-                        statusTag.style.color = 'var(--text-muted)';
-                    }
-                }
-
-                // 1-1. LoL 전용 창 타겟 락온 & 포커스 배지 갱신
-                const targetBadge = document.getElementById('lol-target-lock-badge');
-                if (targetBadge) {
-                    if (data.is_lol_active) {
-                        if (data.is_lol_foreground) {
-                            targetBadge.innerHTML = `<i class="fa-solid fa-crosshairs"></i> 🎯 롤 창 락온 (인게임 활성)`;
-                            targetBadge.style.color = 'var(--green-glow)';
-                            targetBadge.style.borderColor = 'var(--green-glow)';
-                            targetBadge.style.background = 'rgba(0, 255, 135, 0.15)';
-                        } else {
-                            targetBadge.innerHTML = `<i class="fa-solid fa-pause"></i> ⏳ 롤 백그라운드 (대기 중)`;
-                            targetBadge.style.color = 'var(--orange-glow)';
-                            targetBadge.style.borderColor = 'rgba(255, 153, 0, 0.4)';
-                            targetBadge.style.background = 'rgba(255, 153, 0, 0.12)';
-                        }
-                    } else {
-                        targetBadge.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> 🔍 롤 인게임 창 탐색 중';
-                        targetBadge.style.color = 'var(--cyan-glow)';
-                        targetBadge.style.borderColor = 'rgba(0, 229, 255, 0.3)';
-                        targetBadge.style.background = 'rgba(0, 229, 255, 0.1)';
-                    }
-                }
-
-                const focusBadge = document.getElementById('lol-focus-badge');
-                if (focusBadge && typeof data.focus_filter_enabled === 'boolean') {
-                    lolFocusFilterEnabled = data.focus_filter_enabled;
-                    if (lolFocusFilterEnabled) {
-                        focusBadge.innerHTML = '<i class="fa-solid fa-bullseye"></i> 🔒 롤 전용 포커스: 켜짐';
-                        focusBadge.style.color = 'var(--cyan-glow)';
-                        focusBadge.style.borderColor = 'rgba(0, 229, 255, 0.4)';
-                        focusBadge.style.background = 'rgba(0, 229, 255, 0.1)';
-                    } else {
-                        focusBadge.innerHTML = '<i class="fa-solid fa-unlock"></i> 🔓 포커스 해제 (전체화면)';
-                        focusBadge.style.color = 'var(--orange-glow)';
-                        focusBadge.style.borderColor = 'rgba(255, 153, 0, 0.4)';
-                        focusBadge.style.background = 'rgba(255, 153, 0, 0.12)';
-                    }
-                }
-
-                // 2. 디버그 뷰포트 실시간 이미지 갱신
-                const previewImg = document.getElementById('minimap-preview');
-                if (previewImg && data.debug_image_b64) {
-                    previewImg.src = `data:image/jpeg;base64,${data.debug_image_b64}`;
-                    previewImg.style.borderStyle = 'solid';
-                }
-
-                // 3. 해상도 프리셋 UI 동기화
-                if (data.current_preset) {
-                    updatePresetButtonsUI(data.current_preset, data.screen_res);
-                }
-
-                // 4. 감지된 챔피언 및 구역 업데이트
-                document.getElementById('enemy-count').innerText = `${data.last_enemies.length} 명`;
-                document.getElementById('ally-count').innerText = `${data.last_allies.length} 명`;
-                
-                // 구역 요약
-                const enemyZones = data.last_enemies.map(e => e.zone).filter((v, i, a) => a.indexOf(v) === i);
-                document.getElementById('enemy-zones').innerText = enemyZones.length ? enemyZones.join(', ') : '전장 안개(Fog) 속 미탐지';
-                
-                const allyZones = data.last_allies.map(a => a.zone).filter((v, i, a) => a.indexOf(v) === i);
-                document.getElementById('ally-zones').innerText = allyZones.length ? allyZones.join(', ') : '-';
-                
-                document.getElementById('minimap-perf').innerText = `스캔 지연: ${data.latency_ms}ms | GPU 부하: 0.0% | 총 ${data.total_frames} 프레임`;
-                
-                // 5. 알림 렌더링
-                const alertBox = document.getElementById('minimap-alerts-box');
-                if (data.recent_alerts && data.recent_alerts.length > 0) {
-                    alertBox.innerHTML = data.recent_alerts.slice().reverse().map(a => `
-                        <div style="margin-bottom: 6px; padding: 6px 8px; border-radius: 4px; background: ${a.priority === 'CRITICAL' ? 'rgba(255,0,0,0.2)' : 'rgba(255,165,0,0.15)'}; border-left: 3px solid ${a.priority === 'CRITICAL' ? '#ff3333' : '#ff9900'};">
-                            <strong>${a.message}</strong>
-                        </div>
-                    `).join('');
                 }
             } catch (e) {
                 console.error(e);

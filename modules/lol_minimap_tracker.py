@@ -82,11 +82,9 @@ router = APIRouter(prefix="/api/lol/minimap", tags=["LoL Modern DeepLeague Track
 
 
 # =============================================================================
-# 🗺️ 2. 소환사의 협곡 11대 핵심 전술 구역(Sector) 정규화 경계 정의
+# 🗺️ 2. 소환사의 협곡 및 칼바람 나락 핵심 전술 구역(Sector) 정규화 경계 정의
 # =============================================================================
-# 미니맵 좌표계: 좌상단 (0.0, 0.0) ~ 우하단 (1.0, 1.0)
-# 협곡의 대각선 구조와 강가/에픽 몬스터 둥지를 정확하게 구분합니다.
-ZONES = [
+SR_ZONES = [
     {"name": "용 둥지 (Dragon Pit)", "x_range": (0.55, 0.72), "y_range": (0.48, 0.68)},
     {"name": "바론 둥지 (Baron Pit)", "x_range": (0.28, 0.45), "y_range": (0.32, 0.52)},
     {"name": "상단 강가 (River Top)", "x_range": (0.22, 0.46), "y_range": (0.45, 0.62)},
@@ -99,6 +97,34 @@ ZONES = [
     {"name": "아군 상단 정글 (Ally Top Jungle)", "x_range": (0.05, 0.35), "y_range": (0.35, 0.65)},
     {"name": "아군 하단 정글 (Ally Bot Jungle)", "x_range": (0.30, 0.60), "y_range": (0.60, 0.90)},
 ]
+
+ARAM_ZONES = [
+    {"name": "블루 본진/우물 (Blue Fountain)", "x_range": (0.02, 0.22), "y_range": (0.75, 0.98)},
+    {"name": "블루 억제기 포탑 (Blue Inhibitor)", "x_range": (0.18, 0.32), "y_range": (0.65, 0.82)},
+    {"name": "블루 1차 외곽 포탑 (Blue Outer Tower)", "x_range": (0.28, 0.42), "y_range": (0.55, 0.72)},
+    {"name": "아군 힐팩 구역 (Ally Relic)", "x_range": (0.32, 0.46), "y_range": (0.50, 0.65)},
+    {"name": "중앙 다리 격전지 (Bridge Center)", "x_range": (0.42, 0.58), "y_range": (0.42, 0.58)},
+    {"name": "중앙 수풀/부쉬 (Center Bushes)", "x_range": (0.38, 0.62), "y_range": (0.38, 0.62)},
+    {"name": "적군 힐팩 구역 (Enemy Relic)", "x_range": (0.54, 0.68), "y_range": (0.35, 0.50)},
+    {"name": "레드 1차 외곽 포탑 (Red Outer Tower)", "x_range": (0.58, 0.72), "y_range": (0.28, 0.45)},
+    {"name": "레드 억제기 포탑 (Red Inhibitor)", "x_range": (0.68, 0.82), "y_range": (0.18, 0.35)},
+    {"name": "레드 본진/우물 (Red Fountain)", "x_range": (0.78, 0.98), "y_range": (0.02, 0.25)},
+]
+
+ZONES = SR_ZONES
+
+
+def map_coordinate_to_zone(nx: float, ny: float, mode: str = "CLASSIC") -> str:
+    """
+    정규화된 (0.0 ~ 1.0) 미니맵 좌표를 현재 게임 모드(협곡/칼바람)에 맞춰 실제 구역 명칭으로 변환합니다.
+    """
+    zone_list = ARAM_ZONES if mode == "ARAM" else SR_ZONES
+    for z in zone_list:
+        x1, x2 = z["x_range"]
+        y1, y2 = z["y_range"]
+        if x1 <= nx <= x2 and y1 <= ny <= y2:
+            return z["name"]
+    return "칼바람 중앙 다리" if mode == "ARAM" else "소환사의 협곡"
 
 
 # =============================================================================
@@ -699,14 +725,23 @@ class ModernDeepLeagueTracker:
         t0 = time.time()
         h, w = bgra.shape[:2]
 
+        # 0. 현재 맵/게임모드 자동 판별 (소환사의 협곡 vs 칼바람 나락)
+        current_mode = "CLASSIC"
+        current_map_name = "소환사의 협곡 (Summoner's Rift)"
+        try:
+            from modules.lol_feedback_system import game_mode_detector
+            current_mode, current_map_name, _ = game_mode_detector.get_current_mode(minimap_bgra=bgra)
+        except Exception:
+            pass
+
         enemy_raw, ally_raw = self.detect_champion_rings(bgra)
 
-        # 1. 적군 정규화 좌표 및 구역 매핑
+        # 1. 적군 정규화 좌표 및 구역 매핑 (맵 모드별 구역 매핑)
         enemies = []
         for ex, ey in enemy_raw:
             nx = round(float(ex) / w, 3)
             ny = round(float(ey) / h, 3)
-            zone = map_coordinate_to_zone(nx, ny)
+            zone = map_coordinate_to_zone(nx, ny, mode=current_mode)
             enemies.append({
                 "x": round(float(ex), 1),
                 "y": round(float(ey), 1),
@@ -715,12 +750,12 @@ class ModernDeepLeagueTracker:
                 "zone": zone,
             })
 
-        # 2. 아군 정규화 좌표 및 구역 매핑
+        # 2. 아군 정규화 좌표 및 구역 매핑 (맵 모드별 구역 매핑)
         allies = []
         for ax, ay in ally_raw:
             nx = round(float(ax) / w, 3)
             ny = round(float(ay) / h, 3)
-            zone = map_coordinate_to_zone(nx, ny)
+            zone = map_coordinate_to_zone(nx, ny, mode=current_mode)
             allies.append({
                 "x": round(float(ax), 1),
                 "y": round(float(ay), 1),
@@ -729,15 +764,15 @@ class ModernDeepLeagueTracker:
                 "zone": zone,
             })
 
-        # 3. 전술 위험 조기경보 판독 (기본 룰)
-        new_alerts = self._analyze_tactical_threats(enemies, allies)
+        # 3. 전술 위험 조기경보 판독 (현재 맵 모드 완벽 분기)
+        raw_alerts = self._analyze_tactical_threats(enemies, allies, map_mode=current_mode)
 
-        # 🚀 4. 적 동선 벡터 예측 & 갱킹 도착 타이머 (ETA) 연동
-        if gank_predictor is not None:
+        # 🚀 4. 적 동선 벡터 예측 & 갱킹 도착 타이머 (ETA) 연동 (소환사의 협곡 전용)
+        if current_mode == "CLASSIC" and gank_predictor is not None:
             try:
                 gank_alerts = gank_predictor.update_positions(enemies)
                 for ga in gank_alerts:
-                    new_alerts.append({
+                    raw_alerts.append({
                         "type": "ETA_GANK",
                         "priority": "HIGH",
                         "message": ga["alert_message"],
@@ -748,16 +783,36 @@ class ModernDeepLeagueTracker:
             except Exception:
                 pass
 
-        # 🚀 5. 오브젝트(용/바론) 1분 전 시야 공백 (Fog of War) 연동
-        if vision_gap_checker is not None:
+        # 🚀 5. 오브젝트(용/바론) 1분 전 시야 공백 (Fog of War) 연동 (소환사의 협곡 전용)
+        if current_mode == "CLASSIC" and vision_gap_checker is not None:
             try:
                 vision_res = vision_gap_checker.analyze_pit_vision(bgra)
                 if vision_res.get("alerts"):
-                    new_alerts.extend(vision_res["alerts"])
+                    raw_alerts.extend(vision_res["alerts"])
             except Exception:
                 pass
 
-        # 🚀 6. 스카디 인게임 음성 콜 & 전술 스냅샷 오답노트 자동 트리거
+        # 🛡️ 6. 다계층 전술 검증기(TacticalAlertValidator) 필터링
+        new_alerts = []
+        try:
+            from modules.lol_feedback_system import TacticalAlertValidator
+            for i, alt in enumerate(raw_alerts):
+                is_valid, _ = TacticalAlertValidator.validate(alt, current_mode)
+                if is_valid:
+                    if "id" not in alt:
+                        alt["id"] = f"ALT-{int(time.time() * 1000)}-{i+1}"
+                    if "time_str" not in alt:
+                        alt["time_str"] = time.strftime("%H:%M:%S")
+                    new_alerts.append(alt)
+        except Exception:
+            for i, alt in enumerate(raw_alerts):
+                if "id" not in alt:
+                    alt["id"] = f"ALT-{int(time.time() * 1000)}-{i+1}"
+                if "time_str" not in alt:
+                    alt["time_str"] = time.strftime("%H:%M:%S")
+                new_alerts.append(alt)
+
+        # 🚀 7. 스카디 인게임 음성 콜 & 전술 스냅샷 오답노트 자동 트리거
         if new_alerts:
             # 1) 스카디 음성 브리핑 자동 발화
             if voice_alert_engine is not None:
@@ -898,18 +953,75 @@ class ModernDeepLeagueTracker:
             pass
 
     def _analyze_tactical_threats(
-        self, enemies: List[Dict[str, Any]], allies: List[Dict[str, Any]]
+        self, enemies: List[Dict[str, Any]], allies: List[Dict[str, Any]], map_mode: str = "CLASSIC"
     ) -> List[Dict[str, Any]]:
         """
-        인게임 전술 조기경보 4대 핵심 규칙:
-        1. 오브젝트 집결 (용/바론 둥지 적 2명 이상 출현 시 스틸/한타 경고)
-        2. 타워 다이브 위협 (라이너가 있는 라인에 적 3명 이상 급습 감지)
-        3. 강가(River) 로밍 포착 (적 라이너/정글러의 기습 갱킹 경고)
+        인게임 전술 조기경보 엔진 (소환사의 협곡 vs 칼바람 나락 완벽 분기):
+        1. [ARAM] 부쉬 매복(페이스체크 방지), 힐팩 쟁탈전, 타워 방어 및 다이브 철거
+        2. [CLASSIC] 용/바론 둥지 집결, 3라인 다이브 위협, 강가 로밍 기습
         """
         now = time.time()
         alerts = []
 
-        # 1. 용 / 바론 둥지 다수 출현 감지
+        # =====================================================================
+        # ❄️ 1. 칼바람 나락 (ARAM) 전용 전술 조기경보 (용/바론/강가 100% 배제)
+        # =====================================================================
+        if map_mode == "ARAM":
+            # 1-1. 부쉬(수풀) 적 2인 이상 밀집 매복 감지
+            bush_enemies = [e for e in enemies if "수풀" in e.get("zone", "") or "부쉬" in e.get("zone", "")]
+            if len(bush_enemies) >= 2 and (now - self.alert_cooldowns.get("aram_bush", 0) > 12):
+                self.alert_cooldowns["aram_bush"] = now
+                alerts.append({
+                    "type": "ARAM_BUSH_AMBUSH",
+                    "priority": "HIGH",
+                    "message": f"🚨 중앙 부쉬에 적 {len(bush_enemies)}명 매복 포착! 페이스체크 주의!",
+                    "timestamp": now,
+                    "zone": "중앙 수풀/부쉬"
+                })
+
+            # 1-2. 힐팩(체력 팩) 구역 적군 접근 감지
+            relic_enemies = [e for e in enemies if "힐팩" in e.get("zone", "")]
+            if len(relic_enemies) >= 2 and (now - self.alert_cooldowns.get("aram_relic", 0) > 15):
+                self.alert_cooldowns["aram_relic"] = now
+                alerts.append({
+                    "type": "ARAM_RELIC_CONTEST",
+                    "priority": "MEDIUM",
+                    "message": f"❤️ 힐팩 구역 적 {len(relic_enemies)}명 접근! 체력 팩 선점 경쟁 주의!",
+                    "timestamp": now,
+                    "zone": "힐팩 구역"
+                })
+
+            # 1-3. 아군 포탑 다이브 방어 경고 (아군 포탑 구역에 적 3인 이상 진입)
+            dive_enemies = [e for e in enemies if "블루" in e.get("zone", "") and "포탑" in e.get("zone", "")]
+            if len(dive_enemies) >= 3 and (now - self.alert_cooldowns.get("aram_dive", 0) > 15):
+                self.alert_cooldowns["aram_dive"] = now
+                alerts.append({
+                    "type": "ARAM_DIVE_DEFENSE",
+                    "priority": "CRITICAL",
+                    "message": f"⚠️ 아군 포탑으로 적 {len(dive_enemies)}명 돌진! 뒤로 빠져서 수비하세요!",
+                    "timestamp": now,
+                    "zone": "아군 포탑"
+                })
+
+            # 1-4. 적 포탑 철거 찬스 (아군 3인 이상 적 포탑 압박 & 적 1인 이하)
+            push_allies = [a for a in allies if "레드" in a.get("zone", "") and "포탑" in a.get("zone", "")]
+            defending_enemies = [e for e in enemies if "레드" in e.get("zone", "")]
+            if len(push_allies) >= 3 and len(defending_enemies) <= 1 and (now - self.alert_cooldowns.get("aram_push", 0) > 20):
+                self.alert_cooldowns["aram_push"] = now
+                alerts.append({
+                    "type": "ARAM_PUSH_TURRET",
+                    "priority": "HIGH",
+                    "message": "⚔️ 적 포탑 수비 공백! 지금 타워 강하게 철거하세요!",
+                    "timestamp": now,
+                    "zone": "적 1차 포탑"
+                })
+
+            return alerts
+
+        # =====================================================================
+        # 🐉 2. 소환사의 협곡 (CLASSIC) 전용 전술 조기경보
+        # =====================================================================
+        # 2-1. 용 / 바론 둥지 다수 출현 감지
         dragon_enemies = [e for e in enemies if "용" in e["zone"]]
         baron_enemies = [e for e in enemies if "바론" in e["zone"]]
 
@@ -920,6 +1032,7 @@ class ModernDeepLeagueTracker:
                 "priority": "HIGH",
                 "message": f"🐉 상대 {len(dragon_enemies)}명 용 둥지 집결 포착! 스틸 준비 또는 라인 압박 권장!",
                 "timestamp": now,
+                "zone": "용 둥지"
             })
 
         if len(baron_enemies) >= 2 and (now - self.alert_cooldowns.get("baron_alert", 0) > 20):
@@ -929,9 +1042,10 @@ class ModernDeepLeagueTracker:
                 "priority": "CRITICAL",
                 "message": f"👾 상대 {len(baron_enemies)}명 바론 둥지 집결! 즉시 와드 확인 및 한타 대비!",
                 "timestamp": now,
+                "zone": "바론 둥지"
             })
 
-        # 2. 다이브 위험 감지 (주요 라인에 적 3인 이상 동시 출현)
+        # 2-2. 다이브 위험 감지 (주요 라인에 적 3인 이상 동시 출현)
         for lane in ["탑 라인", "바텀 라인", "미드 라인"]:
             lane_enemies = [e for e in enemies if lane in e["zone"]]
             if len(lane_enemies) >= 3 and (now - self.alert_cooldowns.get(f"dive_{lane}", 0) > 15):
@@ -941,9 +1055,11 @@ class ModernDeepLeagueTracker:
                     "priority": "CRITICAL",
                     "message": f"🚨 {lane} 적 {len(lane_enemies)}인 다이브 위협 감지! 타워 버리고 뒤로 물러서세요!",
                     "timestamp": now,
+                    "zone": lane,
+                    "lane": lane
                 })
 
-        # 3. 강가 로밍 / 기습 포착 (River Zone)
+        # 2-3. 강가 로밍 / 기습 포착 (River Zone)
         for e in enemies:
             if "강가" in e["zone"] and (now - self.alert_cooldowns.get(f"roam_{e['zone']}", 0) > 12):
                 self.alert_cooldowns[f"roam_{e['zone']}"] = now
@@ -952,6 +1068,7 @@ class ModernDeepLeagueTracker:
                     "priority": "MEDIUM",
                     "message": f"⚠️ [{e['zone']}] 적 챔피언 기습/로밍 이동 중! 갱킹 주의!",
                     "timestamp": now,
+                    "zone": e["zone"]
                 })
 
         return alerts
@@ -1004,6 +1121,15 @@ def get_minimap_status():
     """트래커 활성화 여부, 캡처 레이턴시, 감지된 적/아군 목록, 최근 전술 경고를 반환합니다."""
     is_lol_act = is_lol_ingame_active()
     is_lol_fg = is_lol_foreground_active()
+    map_mode, map_name, det_source = "CLASSIC", "소환사의 협곡 (Summoner's Rift)", "DEFAULT"
+    accuracy_rate = 100.0
+    try:
+        from modules.lol_feedback_system import game_mode_detector, feedback_manager
+        map_mode, map_name, det_source = game_mode_detector.get_current_mode()
+        accuracy_rate = feedback_manager.get_accuracy_rate()
+    except Exception:
+        pass
+
     with minimap_tracker.lock:
         return {
             "is_running": minimap_tracker.is_running,
@@ -1012,6 +1138,10 @@ def get_minimap_status():
             "is_lol_active": is_lol_act,
             "is_lol_foreground": is_lol_fg,
             "focus_filter_enabled": minimap_tracker.focus_filter_enabled,
+            "map_mode": map_mode,
+            "map_name": map_name,
+            "detection_source": det_source,
+            "accuracy_rate": accuracy_rate,
             "current_preset": minimap_tracker.current_preset,
             "screen_res": f"{minimap_tracker.screen_width}x{minimap_tracker.screen_height}",
             "minimap_size": minimap_tracker.minimap_size,
