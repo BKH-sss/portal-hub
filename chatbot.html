@@ -1558,6 +1558,91 @@
         </div>
     </div>
 
+    <!-- 🍁 메이플스토리 47+ 직업 쿨타임 & 스카디 음성 브리핑 인앱 HUD 모달 -->
+    <div id="mapleTrackerModal" class="custom-modal-overlay" style="display: none;">
+        <div class="custom-modal-content" style="max-width: 1050px;">
+            <div class="modal-header" style="border-bottom-color: rgba(255, 153, 0, 0.4);">
+                <div class="modal-title" style="color: #ff9900;">
+                    <span>🍁 메이플스토리 47+ 직업 쿨타임 & 스카디 음성 알리미 HUD</span>
+                    <span id="inAppMapleProcessBadge" class="hdr-badge badge-mode" style="font-size: 11px; background: rgba(255,255,255,0.06); color: var(--text-muted);">MapleStory.exe 대기</span>
+                    <span id="inAppMapleAdminBadge" class="hdr-badge badge-live" style="font-size: 11px;">관리자 감지 모드</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button id="inAppTrackerToggleBtn" class="hdr-btn" onclick="toggleInAppMapleTracker()">▶ 감시 시작</button>
+                    <button class="modal-close-btn" onclick="closeMapleTrackerModal()">✕</button>
+                </div>
+            </div>
+            <div class="modal-body" style="gap: 12px;">
+                <!-- 상단 프리셋 툴바 & 넥슨 캐릭터 연동 바 -->
+                <div style="background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 153, 0, 0.25); border-radius: 10px; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <span style="font-size: 12px; font-weight: 700; color: #ff9900;">⚡ 직업/보스 프리셋:</span>
+                            <select id="inAppPresetSelect" style="padding: 5px 10px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); font-size: 12px; font-weight: 600; width: 180px;">
+                                <!-- 동적 렌더링 -->
+                            </select>
+                            <button class="hdr-btn" onclick="loadInAppMaplePreset()" title="선택한 프리셋 스킬 목록 불러오기">⚡ 로드</button>
+                            <button class="hdr-btn" style="color: #34d399;" onclick="saveInAppMaplePreset()" title="현재 스킬 구성을 새 프리셋으로 저장">💾 저장</button>
+                            <button class="hdr-btn" style="color: #f87171;" onclick="deleteInAppMaplePreset()" title="선택된 프리셋 삭제">🗑️ 삭제</button>
+                            <button class="hdr-btn" style="color: #60a5fa;" onclick="precacheInAppMapleVoices()" title="스카디 AI 음성 0ms 즉시 발화용 사전 다운로드">🎙️ 음성 캐싱</button>
+                        </div>
+                        <!-- 음성 볼륨 -->
+                        <div style="display: flex; align-items: center; gap: 6px; font-size: 12px;">
+                            <span>🔊 스카디 볼륨:</span>
+                            <input type="range" id="inAppMapleVoiceVol" min="0" max="100" value="100" style="width: 70px; accent-color: #ff9900; cursor: pointer;" oninput="onInAppVoiceVolChange(this.value)">
+                            <span id="inAppMapleVoiceVolText" style="font-size: 11px; font-weight: bold; min-width: 30px;">100%</span>
+                        </div>
+                    </div>
+
+                    <!-- 넥슨 캐릭터 연동 인풋바 -->
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06);">
+                        <span style="font-size: 12px; color: #fbcfe8; font-weight: 600;">🍁 넥슨 캐릭터 직업 자동 연동:</span>
+                        <input type="text" id="inAppMapleCharName" placeholder="캐릭터 닉네임 (예: 타락파워전사)" style="width: 170px; padding: 4px 8px; font-size: 12px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-input); color: #fff;" onkeydown="if(event.key==='Enter') linkMapleCharacterFromInApp()">
+                        <button class="hdr-btn" style="padding: 4px 10px; font-size: 11px;" onclick="linkMapleCharacterFromInApp()">🔗 연동 & 직업 자동 세팅</button>
+                        <span id="inAppMapleCharResult" style="font-size: 12px; color: var(--text-muted); margin-left: auto;"></span>
+                    </div>
+                </div>
+
+                <!-- 스킬 빠른 등록 인풋 폼 -->
+                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 3fr auto; gap: 8px; align-items: center; background: rgba(0,0,0,0.25); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border);">
+                    <input type="text" id="inAppSkillName" placeholder="스킬명 (예: 제네시스)" style="padding: 5px 8px; font-size: 12px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-input); color: #fff;">
+                    <select id="inAppSkillCat" style="padding: 5px 4px; font-size: 12px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-input); color: #fff;">
+                        <option value="defense">🛡️ 방어/무적</option>
+                        <option value="burst">🔥 극딜기</option>
+                        <option value="bind">⚡ 바인드</option>
+                        <option value="buff">💫 버프/준극</option>
+                        <option value="boss">👾 보스패턴</option>
+                    </select>
+                    <input type="number" id="inAppSkillCd" placeholder="쿨초 (예: 180)" style="padding: 5px 8px; font-size: 12px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-input); color: #fff;">
+                    <input type="number" id="inAppSkillWarn" placeholder="예고 초" value="5" style="padding: 5px 8px; font-size: 12px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-input); color: #fff;">
+                    <input type="text" id="inAppSkillKey" placeholder="단축키 (예: shift)" value="shift" style="padding: 5px 8px; font-size: 12px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-input); color: #fff;">
+                    <input type="text" id="inAppSkillVoice" placeholder="스카디 발화 대사" style="padding: 5px 8px; font-size: 12px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-input); color: #fff;">
+                    <button class="hdr-btn" style="background: rgba(255, 153, 0, 0.25); border-color: #ff9900; color: #ff9900; font-weight: bold; padding: 6px 12px;" onclick="addInAppSkill()">+ 등록</button>
+                </div>
+
+                <!-- 스킬 실시간 게이지 및 목록 테이블 -->
+                <div style="overflow-x: auto; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid var(--border);">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: left;">
+                        <thead>
+                            <tr style="background: rgba(255,255,255,0.06); border-bottom: 1px solid var(--border); color: var(--text-muted);">
+                                <th style="padding: 8px 10px; width: 18%;">스킬명</th>
+                                <th style="padding: 8px 10px; width: 11%;">분류</th>
+                                <th style="padding: 8px 10px; width: 8%;">단축키</th>
+                                <th style="padding: 8px 10px; width: 8%;">총 쿨타임</th>
+                                <th style="padding: 8px 10px; width: 8%;">예고</th>
+                                <th style="padding: 8px 10px; width: 21%;">스카디 발화 대사</th>
+                                <th style="padding: 8px 10px; width: 26%;">실시간 상태 & 조작</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inAppSkillTbody">
+                            <!-- JS 렌더링 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         window.onerror = function(msg, url, lineNo, columnNo, error) {
             console.error('JS Error:', msg, 'Line:', lineNo, error);
@@ -2373,17 +2458,21 @@
             } else if (agentId === 'angelic') {
                 toolbarHtml = `
                     <div class="agent-header-toolbar" id="agentToolbar">
-                        <button class="hdr-btn" onclick="window.open('/admin', '_blank')" title="메이플 스킬 쿨타임 트래커 & 프리셋 편집기">
-                            🍁 스킬 쿨타임 & 프리셋
+                        <button class="hdr-btn" onclick="openMapleTrackerModal()" title="메이플 47+ 직업 스킬 쿨타임 & 스카디 음성 알리미 HUD 열기">
+                            🍁 쿨타임 HUD
                         </button>
                         <button class="hdr-btn" onclick="quickMapleCheck()" title="메이플 캐릭터 스펙 빠른 조회">
                             🔍 캐릭터 스펙
                         </button>
+                        <span class="hdr-badge badge-mode" id="mapleProcessHeaderBadge" style="background: rgba(255, 153, 0, 0.2); color: #ff9900; border: 1px solid rgba(255, 153, 0, 0.4);" title="MapleStory.exe 실행 감지 상태">🍁 메이플 대기</span>
                     </div>
                 `;
             } else if (agentId.startsWith('skadi')) {
                 toolbarHtml = `
                     <div class="agent-header-toolbar" id="agentToolbar">
+                        <button class="hdr-btn" onclick="openMapleTrackerModal()" title="메이플 47+ 직업 스킬 쿨타임 & 스카디 음성 알리미 HUD 열기">
+                            🍁 쿨타임 HUD
+                        </button>
                         <button class="hdr-btn" onclick="quickMorningBriefing()" title="오늘의 일정, 날씨, 뉴스 종합 모닝 브리핑">
                             🌅 오늘 브리핑
                         </button>
@@ -2881,8 +2970,22 @@
                 text = `[주식 시세 및 재무 지표 분석 요청]\n${text.replace('/stock ', '')}`;
             } else if (text.startsWith('/lol ')) {
                 text = `[롤 전적 및 챔피언 공략 분석 요청]\n${text.replace('/lol ', '')}`;
-            } else if (text.startsWith('/maple ')) {
-                text = `[메이플스토리 시세 및 캐릭터 공략 분석 요청]\n${text.replace('/maple ', '')}`;
+            } else if (text.startsWith('/maple ') || text === '/maple') {
+                const charQuery = text.replace('/maple', '').trim();
+                if (charQuery) {
+                    text = `[메이플스토리 넥슨 공식 캐릭터 분석 및 세팅 브리핑 요청]\n캐릭터 닉네임: [${charQuery}]\n1. 이 캐릭터의 직업, 레벨, 전투력 및 템셋팅/보스 공략 포인트를 친근하고 날카롭게 분석해줘.\n2. 5차/6차 핵심 스킬 쿨타임과 방어/극딜기 타이밍을 브리핑해줘.`;
+                    fetch(`${SERVER_URL}/api/maple/link`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ character_name: charQuery, auto_apply_preset: true })
+                    }).then(r => r.json()).then(d => {
+                        if (d.status === 'success' && d.matched_preset) {
+                            addSystemMessage(`🍁 캐릭터 <b>[${charQuery}]</b>의 <b>[${d.matched_preset}]</b> 스킬 쿨타임 프리셋이 자동 적용되었습니다.`);
+                        }
+                    }).catch(() => {});
+                } else {
+                    text = `[메이플스토리 직업 및 스킬 쿨타임 프리셋 안내]\n현재 시스템에 등록된 47+ 전 직업 스킬 쿨타임 감시 및 스카디 AI 음성 알리미 기능에 대해 소개해주고, 닉네임 연동 방법을 알려줘.`;
+                }
             } else if (text.startsWith('/chess ')) {
                 text = `[체스 수 분석 및 전술 힌트 요청]\n${text.replace('/chess ', '')}`;
             } else if (text.startsWith('/draw ')) {
@@ -4008,14 +4111,26 @@
                 const res = await fetch(`${SERVER_URL}/api/maple/link`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ character_name: name, api_key: apiKey || undefined })
+                    body: JSON.stringify({ character_name: name, api_key: apiKey || undefined, auto_apply_preset: true })
                 });
                 const data = await res.json();
                 if (data.status === 'success') {
                     const charData = data.data;
                     const worldName = charData.world ? `[${charData.world}] ` : '';
-                    statusEl.innerHTML = `<span style="color:#22c55e; font-weight:bold;">✨ ${worldName}${charData.name} (Lv.${charData.level} ${charData.job})</span><br><span style="color:#f59e0b;">⚔️ 전투력: ${charData.combat_power}</span>`;
-                    addSystemMessage(`🍁 <b>메이플스토리 연동 성공:</b> ${worldName}<b>${charData.name}</b> (Lv.${charData.level} ${charData.job}) / 전투력: ${charData.combat_power}`);
+                    const presetBadge = data.matched_preset ? `<br><span style="color:#38bdf8; font-size:11px;">⚡ 직업 프리셋: <b>${data.matched_preset}</b> 적용됨</span>` : '';
+                    statusEl.innerHTML = `<span style="color:#22c55e; font-weight:bold;">✨ ${worldName}${charData.name} (Lv.${charData.level} ${charData.job})</span><br><span style="color:#f59e0b;">⚔️ 전투력: ${charData.combat_power}</span>${presetBadge}`;
+                    addSystemMessage(`🍁 <b>메이플스토리 연동 성공:</b> ${worldName}<b>${charData.name}</b> (Lv.${charData.level} ${charData.job}) / 전투력: ${charData.combat_power}` + (data.matched_preset ? ` ➔ <b>[${data.matched_preset}]</b> 스킬 쿨타임 프리셋이 자동 세팅되었습니다!` : ''));
+                    
+                    if (typeof loadInAppPresetsList === 'function') {
+                        await loadInAppPresetsList();
+                        if (data.matched_preset) {
+                            const sel = document.getElementById('inAppPresetSelect');
+                            if (sel) sel.value = data.matched_preset;
+                        }
+                    }
+                    if (typeof loadInAppSkills === 'function') {
+                        await loadInAppSkills();
+                    }
                 } else {
                     statusEl.innerHTML = `<span style="color:#ef4444">${data.message}</span>`;
                     alert(data.message);
@@ -4424,10 +4539,15 @@
             if (modal && e.target === modal) {
                 closeAugmentModal();
             }
+            const mapleModal = document.getElementById('mapleTrackerModal');
+            if (mapleModal && e.target === mapleModal) {
+                closeMapleTrackerModal();
+            }
         });
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeAugmentModal();
+                closeMapleTrackerModal();
             }
         });
 
@@ -4707,6 +4827,410 @@
             messageInput.value = "/search 최신 롤 패치노트와 칼바람 아수라장 변경점";
             sendMessage();
         }
+
+        // =========================================================================
+        // 🍁 메이플스토리 47+ 직업 쿨타임 & 스카디 음성 알리미 HUD 모달 로직
+        // =========================================================================
+        let isMapleTrackerRunning = false;
+        let maplePollingTimer = null;
+
+        function getMapleCategoryBadge(cat) {
+            switch (cat) {
+                case 'defense':
+                    return `<span style="background: rgba(0, 242, 254, 0.15); border: 1px solid rgba(0, 242, 254, 0.4); color: #00f2fe; padding: 2px 5px; border-radius: 4px; font-size: 11px; font-weight: 600;">🛡️ 방어</span>`;
+                case 'burst':
+                    return `<span style="background: rgba(255, 77, 77, 0.15); border: 1px solid rgba(255, 77, 77, 0.4); color: #ff4d4d; padding: 2px 5px; border-radius: 4px; font-size: 11px; font-weight: 600;">🔥 극딜</span>`;
+                case 'bind':
+                    return `<span style="background: rgba(255, 215, 0, 0.15); border: 1px solid rgba(255, 215, 0, 0.4); color: #ffd700; padding: 2px 5px; border-radius: 4px; font-size: 11px; font-weight: 600;">⚡ 바인드</span>`;
+                case 'buff':
+                    return `<span style="background: rgba(121, 40, 202, 0.15); border: 1px solid rgba(121, 40, 202, 0.4); color: #c084fc; padding: 2px 5px; border-radius: 4px; font-size: 11px; font-weight: 600;">💫 버프</span>`;
+                case 'boss':
+                    return `<span style="background: rgba(255, 0, 128, 0.15); border: 1px solid rgba(255, 0, 128, 0.4); color: #ff0080; padding: 2px 5px; border-radius: 4px; font-size: 11px; font-weight: 600;">👾 보스</span>`;
+                default:
+                    return `<span style="background: rgba(255, 255, 255, 0.1); color: var(--text-muted); padding: 2px 5px; border-radius: 4px; font-size: 11px;">일반</span>`;
+            }
+        }
+
+        async function openMapleTrackerModal() {
+            const modal = document.getElementById('mapleTrackerModal');
+            if (!modal) return;
+            modal.style.display = 'flex';
+            await loadInAppPresetsList();
+            await loadInAppSkills();
+            await loadInAppVoiceVolume();
+            
+            if (maplePollingTimer) clearInterval(maplePollingTimer);
+            maplePollingTimer = setInterval(loadInAppSkills, 1000);
+        }
+
+        function closeMapleTrackerModal() {
+            const modal = document.getElementById('mapleTrackerModal');
+            if (modal) modal.style.display = 'none';
+            if (maplePollingTimer) {
+                clearInterval(maplePollingTimer);
+                maplePollingTimer = null;
+            }
+        }
+
+        async function loadInAppPresetsList() {
+            try {
+                let res = await fetch(`${SERVER_URL}/api/maple/tracker/presets/grouped`);
+                if (!res.ok) {
+                    res = await fetch(`${SERVER_URL}/api/maple/tracker/presets`);
+                    if (!res.ok) return;
+                    const data = await res.json();
+                    const select = document.getElementById('inAppPresetSelect');
+                    if (!select) return;
+                    const currentVal = select.value || data.current_preset;
+                    select.innerHTML = '';
+                    data.presets.forEach(p => {
+                        const opt = document.createElement('option');
+                        opt.value = p;
+                        opt.textContent = p;
+                        if (p === currentVal) opt.selected = true;
+                        select.appendChild(opt);
+                    });
+                    return;
+                }
+                const data = await res.json();
+                const select = document.getElementById('inAppPresetSelect');
+                if (!select) return;
+                const currentVal = select.value || data.current_preset;
+                select.innerHTML = '';
+
+                for (const [catName, presetList] of Object.entries(data.categories)) {
+                    const optGroup = document.createElement('optgroup');
+                    optGroup.label = catName;
+                    presetList.forEach(p => {
+                        const opt = document.createElement('option');
+                        opt.value = p;
+                        opt.textContent = p;
+                        if (p === currentVal) opt.selected = true;
+                        optGroup.appendChild(opt);
+                    });
+                    select.appendChild(optGroup);
+                }
+            } catch (e) {
+                console.warn('In-app presets list load error:', e);
+            }
+        }
+
+        async function loadInAppSkills() {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/maple/tracker/skills`);
+                if (!res.ok) return;
+                const data = await res.json();
+                isMapleTrackerRunning = data.is_running;
+
+                // 1. 헤더 & 모달 내 프로세스 감지 뱃지 갱신
+                const procBadge = document.getElementById('inAppMapleProcessBadge');
+                const hdrProcBadge = document.getElementById('mapleProcessHeaderBadge');
+                if (procBadge) {
+                    if (data.maple_process_detected) {
+                        procBadge.innerHTML = '🟢 MapleStory.exe 감지됨';
+                        procBadge.style.color = '#34d399';
+                        procBadge.style.background = 'rgba(52, 211, 153, 0.15)';
+                        procBadge.style.border = '1px solid rgba(52, 211, 153, 0.4)';
+                    } else {
+                        procBadge.innerHTML = '⚪ 메이플 대기 중 (자동 활성화)';
+                        procBadge.style.color = 'var(--text-muted)';
+                        procBadge.style.background = 'rgba(255, 255, 255, 0.06)';
+                        procBadge.style.border = '1px solid var(--border)';
+                    }
+                }
+                if (hdrProcBadge) {
+                    if (data.maple_process_detected) {
+                        hdrProcBadge.innerHTML = '🟢 메이플 실행 중';
+                        hdrProcBadge.style.color = '#34d399';
+                        hdrProcBadge.style.borderColor = 'rgba(52, 211, 153, 0.4)';
+                    } else {
+                        hdrProcBadge.innerHTML = '🍁 메이플 대기';
+                        hdrProcBadge.style.color = '#ff9900';
+                        hdrProcBadge.style.borderColor = 'rgba(255, 153, 0, 0.4)';
+                    }
+                }
+
+                // 2. 관리자 권한 뱃지
+                const adminBadge = document.getElementById('inAppMapleAdminBadge');
+                if (adminBadge) {
+                    if (data.is_admin) {
+                        adminBadge.innerHTML = '🛡️ 관리자 모드';
+                        adminBadge.style.color = '#34d399';
+                        adminBadge.style.borderColor = 'rgba(52, 211, 153, 0.4)';
+                    } else {
+                        adminBadge.innerHTML = '⚠️ 일반 모드 (관리자 실행 권장)';
+                        adminBadge.style.color = '#ff9900';
+                        adminBadge.style.borderColor = 'rgba(255, 153, 0, 0.4)';
+                    }
+                }
+
+                // 3. 트래커 토글 버튼 상태
+                const toggleBtn = document.getElementById('inAppTrackerToggleBtn');
+                if (toggleBtn) {
+                    if (isMapleTrackerRunning) {
+                        toggleBtn.className = 'hdr-btn active';
+                        toggleBtn.innerHTML = '⏹ 감시 중 (정지)';
+                        toggleBtn.style.background = '#22c55e';
+                        toggleBtn.style.color = '#fff';
+                    } else {
+                        toggleBtn.className = 'hdr-btn';
+                        toggleBtn.innerHTML = '▶ 감시 정지됨 (시작)';
+                        toggleBtn.style.background = '';
+                        toggleBtn.style.color = '';
+                    }
+                }
+
+                // 4. 모달이 열려 있을 때만 테이블 리렌더링
+                const modal = document.getElementById('mapleTrackerModal');
+                if (!modal || modal.style.display !== 'flex') return;
+
+                const tbody = document.getElementById('inAppSkillTbody');
+                if (!tbody) return;
+                tbody.innerHTML = '';
+
+                data.skills.forEach(sk => {
+                    const remSec = Math.max(0, (sk.remaining_sec || 0));
+                    const isCooling = (sk.state === "ON_COOLDOWN" || sk.state === "WARNED") && remSec > 0;
+                    const statusColor = isCooling ? "#f59e0b" : "#22c55e";
+                    const statusText = isCooling ? `${remSec.toFixed(1)}초 남음` : "READY (사용 가능)";
+                    const keyBadge = sk.key_bind ? `<span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 5px; border-radius: 4px; font-weight: 700; color: #38bdf8; font-family: monospace;">${sk.key_bind.toUpperCase()}</span>` : "-";
+                    const catBadge = getMapleCategoryBadge(sk.category || 'defense');
+
+                    const pct = sk.cooldown_sec > 0 ? Math.min(100, Math.max(0, ((sk.cooldown_sec - remSec) / sk.cooldown_sec) * 100)) : 100;
+                    const barColor = isCooling ? 'linear-gradient(90deg, #f59e0b, #ef4444)' : 'linear-gradient(90deg, #10b981, #22c55e)';
+
+                    const tr = document.createElement('tr');
+                    tr.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+                    tr.innerHTML = `
+                        <td style="padding: 7px 10px; font-weight: 600; color: var(--text-main);">${sk.name}</td>
+                        <td style="padding: 7px 10px;">${catBadge}</td>
+                        <td style="padding: 7px 10px;">${keyBadge}</td>
+                        <td style="padding: 7px 10px;">${sk.cooldown_sec}초</td>
+                        <td style="padding: 7px 10px;">${sk.warn_before}초 전</td>
+                        <td style="padding: 7px 10px; color: var(--text-muted); font-size: 11.5px;">"${sk.voice_text || ''}"</td>
+                        <td style="padding: 7px 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                                <span style="color: ${statusColor}; font-weight: 700; font-size: 11.5px;">${statusText}</span>
+                                <span style="font-size: 10.5px; color: var(--text-muted);">${Math.round(pct)}%</span>
+                            </div>
+                            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin-bottom: 5px;">
+                                <div style="width: ${pct}%; height: 100%; background: ${barColor};"></div>
+                            </div>
+                            <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+                                <button class="hdr-btn" style="padding: 2px 6px; font-size: 10.5px;" onclick="triggerInAppSkill('${sk.name}')" title="쿨타임 카운트다운 시작">⏱ 쿨타임</button>
+                                <button class="hdr-btn" style="padding: 2px 6px; font-size: 10.5px;" onclick="testInAppVoice('${sk.voice_text || sk.name + ' 쿨타임 5초 전'}')" title="스카디 음성 테스트">🔊</button>
+                                <button class="hdr-btn" style="padding: 2px 6px; font-size: 10.5px; color: #f87171;" onclick="deleteInAppSkill('${sk.name}')" title="스킬 삭제">🗑️</button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                console.warn('In-app skills load error:', e);
+            }
+        }
+
+        async function loadInAppMaplePreset() {
+            const select = document.getElementById('inAppPresetSelect');
+            const job = select ? select.value : '';
+            if (!job) return;
+            await fetch(`${SERVER_URL}/api/maple/tracker/presets/load/${encodeURIComponent(job)}`, { method: 'POST' });
+            addSystemMessage(`🍁 메이플 스킬 트래커에 <b>[${job}]</b> 직업/보스 프리셋이 적용되었습니다.`);
+            await loadInAppSkills();
+        }
+
+        async function saveInAppMaplePreset() {
+            const select = document.getElementById('inAppPresetSelect');
+            const cur = select ? select.value : '내 커스텀 프리셋';
+            const name = prompt('현재 스킬 구성을 저장할 프리셋 이름을 입력하세요:', cur);
+            if (!name || !name.trim()) return;
+
+            const res = await fetch(`${SERVER_URL}/api/maple/tracker/presets/save/${encodeURIComponent(name.trim())}`, { method: 'POST' });
+            if (res.ok) {
+                addSystemMessage(`🍁 <b>[${name.trim()}]</b> 프리셋이 성공적으로 저장되었습니다.`);
+                await loadInAppPresetsList();
+                if (select) select.value = name.trim();
+            }
+        }
+
+        async function deleteInAppMaplePreset() {
+            const select = document.getElementById('inAppPresetSelect');
+            const name = select ? select.value : '';
+            if (!name) return;
+            if (name === '공통 (기본)') {
+                alert('기본 프리셋은 삭제할 수 없습니다.');
+                return;
+            }
+            if (!confirm(`'${name}' 프리셋을 삭제하시겠습니까?`)) return;
+
+            const res = await fetch(`${SERVER_URL}/api/maple/tracker/presets/${encodeURIComponent(name)}`, { method: 'DELETE' });
+            if (res.ok) {
+                addSystemMessage(`🍁 <b>[${name}]</b> 프리셋이 삭제되었습니다.`);
+                await loadInAppPresetsList();
+                await loadInAppMaplePreset();
+            }
+        }
+
+        async function precacheInAppMapleVoices() {
+            addSystemMessage('스카디 AI 음성 모델(GPT-SoVITS)로 현재 스킬 대사 일괄 사전 생성을 요청합니다...');
+            try {
+                const res = await fetch(`${SERVER_URL}/api/maple/tracker/precache-all`, { method: 'POST' });
+                if (res.ok) {
+                    const data = await res.json();
+                    addSystemMessage(`✅ ${data.message}`);
+                    alert(data.message);
+                }
+            } catch (e) {
+                addSystemMessage('음성 사전 캐싱 요청 중 오류가 발생했습니다.');
+            }
+        }
+
+        async function addInAppSkill() {
+            const name = document.getElementById('inAppSkillName').value.trim();
+            const cat = document.getElementById('inAppSkillCat').value || 'defense';
+            const cd = parseFloat(document.getElementById('inAppSkillCd').value);
+            const warn = parseFloat(document.getElementById('inAppSkillWarn').value) || 5.0;
+            const key = document.getElementById('inAppSkillKey').value.trim().toLowerCase() || "shift";
+            const voice = document.getElementById('inAppSkillVoice').value.trim();
+
+            if (!name || isNaN(cd)) {
+                alert('스킬명과 쿨타임(초)을 정확히 입력해 주세요.');
+                return;
+            }
+
+            await fetch(`${SERVER_URL}/api/maple/tracker/skills/quick-add`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name,
+                    category: cat,
+                    cooldown_sec: cd,
+                    warn_before: warn,
+                    key_bind: key,
+                    voice_text: voice || `${name} 쿨 ${parseInt(warn)}초 남았어.`
+                })
+            });
+
+            document.getElementById('inAppSkillName').value = '';
+            document.getElementById('inAppSkillCd').value = '';
+            document.getElementById('inAppSkillVoice').value = '';
+            addSystemMessage(`🍁 '${name}' (${cd}초 / 단축키: ${key.toUpperCase()}) 스킬이 등록되었습니다.`);
+            await loadInAppSkills();
+        }
+
+        async function deleteInAppSkill(name) {
+            if (!confirm(`'${name}' 스킬을 삭제하시겠습니까?`)) return;
+            await fetch(`${SERVER_URL}/api/maple/tracker/skills/${encodeURIComponent(name)}`, { method: 'DELETE' });
+            addSystemMessage(`🍁 '${name}' 스킬이 삭제되었습니다.`);
+            await loadInAppSkills();
+        }
+
+        async function triggerInAppSkill(name) {
+            await fetch(`${SERVER_URL}/api/maple/tracker/trigger/${encodeURIComponent(name)}`, { method: 'POST' });
+            await loadInAppSkills();
+        }
+
+        async function testInAppVoice(text) {
+            await fetch(`${SERVER_URL}/api/maple/tracker/test-voice?message=${encodeURIComponent(text)}`, { method: 'POST' });
+        }
+
+        async function toggleInAppMapleTracker() {
+            if (isMapleTrackerRunning) {
+                await fetch(`${SERVER_URL}/api/maple/tracker/stop`, { method: 'POST' });
+                addSystemMessage('🍁 메이플 스킬 감시가 정지되었습니다.');
+            } else {
+                await fetch(`${SERVER_URL}/api/maple/tracker/start`, { method: 'POST' });
+                addSystemMessage('🍁 메이플 스킬 감시가 시작되었습니다. (단축키 감지 모드 가동 중)');
+            }
+            await loadInAppSkills();
+        }
+
+        async function loadInAppVoiceVolume() {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/maple/tracker/volume`);
+                if (res.ok) {
+                    const data = await res.json();
+                    const v = data.volume !== undefined ? data.volume : 100;
+                    const slider = document.getElementById('inAppMapleVoiceVol');
+                    const text = document.getElementById('inAppMapleVoiceVolText');
+                    if (slider) slider.value = v;
+                    if (text) text.textContent = `${v}%`;
+                }
+            } catch (e) {}
+        }
+
+        let inAppVolDebounce = null;
+        async function onInAppVoiceVolChange(val) {
+            const text = document.getElementById('inAppMapleVoiceVolText');
+            if (text) text.textContent = `${val}%`;
+            clearTimeout(inAppVolDebounce);
+            inAppVolDebounce = setTimeout(async () => {
+                try {
+                    await fetch(`${SERVER_URL}/api/maple/tracker/volume/${val}`, { method: 'POST' });
+                } catch (e) {}
+            }, 80);
+        }
+
+        async function linkMapleCharacterFromInApp() {
+            const input = document.getElementById('inAppMapleCharName');
+            const name = input ? input.value.trim() : '';
+            const resTag = document.getElementById('inAppMapleCharResult');
+            if (!name) {
+                alert('연동할 캐릭터 닉네임을 입력하세요.');
+                return;
+            }
+            if (resTag) resTag.innerHTML = '<span style="color:#60a5fa;">넥슨 조회 중...</span>';
+
+            try {
+                const apiKey = localStorage.getItem('nexonApiKey') || undefined;
+                const res = await fetch(`${SERVER_URL}/api/maple/link`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ character_name: name, api_key: apiKey, auto_apply_preset: true })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    const info = data.data;
+                    const worldStr = info.world ? `[${info.world}] ` : '';
+                    if (resTag) resTag.innerHTML = `<span style="color:#34d399; font-weight:bold;">✓ ${worldStr}${info.name} (Lv.${info.level} ${info.job}) 연동 완료</span>`;
+                    addSystemMessage(`🍁 <b>메이플 캐릭터 연동 완료:</b> ${worldStr}<b>${info.name}</b> (Lv.${info.level} ${info.job})` + (data.matched_preset ? ` ➔ <b>[${data.matched_preset}]</b> 프리셋 자동 적용됨` : ''));
+                    await loadInAppPresetsList();
+                    if (data.matched_preset) {
+                        const sel = document.getElementById('inAppPresetSelect');
+                        if (sel) sel.value = data.matched_preset;
+                    }
+                    await loadInAppSkills();
+                } else {
+                    if (resTag) resTag.innerHTML = `<span style="color:#f87171;">✗ ${data.message}</span>`;
+                    alert(data.message);
+                }
+            } catch (e) {
+                if (resTag) resTag.innerHTML = `<span style="color:#f87171;">통신 오류</span>`;
+                console.error(e);
+            }
+        }
+
+        // 주기적 프로세스 상태 확인 (헤더 뱃지 갱신)
+        setInterval(async () => {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/maple/tracker/skills`);
+                if (res.ok) {
+                    const data = await res.json();
+                    const hdrProcBadge = document.getElementById('mapleProcessHeaderBadge');
+                    if (hdrProcBadge) {
+                        if (data.maple_process_detected) {
+                            hdrProcBadge.innerHTML = '🟢 메이플 실행 중';
+                            hdrProcBadge.style.color = '#34d399';
+                            hdrProcBadge.style.borderColor = 'rgba(52, 211, 153, 0.4)';
+                        } else {
+                            hdrProcBadge.innerHTML = '🍁 메이플 대기';
+                            hdrProcBadge.style.color = '#ff9900';
+                            hdrProcBadge.style.borderColor = 'rgba(255, 153, 0, 0.4)';
+                        }
+                    }
+                }
+            } catch (e) {}
+        }, 4000);
     </script>
 </body>
 
