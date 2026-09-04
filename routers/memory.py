@@ -28,8 +28,13 @@ import signal
 from typing import List, Dict, Any, Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-import chromadb
-from chromadb.utils import embedding_functions
+try:
+    import chromadb
+    from chromadb.utils import embedding_functions
+    HAS_CHROMADB = True
+except ImportError:
+    chromadb = None
+    HAS_CHROMADB = False
 
 from config import MEMORY_DIR, API_KEYS
 import core.state as state
@@ -46,20 +51,43 @@ router = APIRouter(tags=["Memory & Knowledge & Admin"])
 # ==============================================================================
 # 1. ChromaDB 벡터 데이터베이스 초기화 (카테고리별 컬렉션 분리)
 # ==============================================================================
-CHROMA_DATA_DIR = os.path.join(str(MEMORY_DIR), "chroma_db")
-os.makedirs(CHROMA_DATA_DIR, exist_ok=True)
+class SafeCollection:
+    """ChromaDB 미설치 또는 로딩 실패 시 서버 크래시를 방지하는 폴백 컬렉션"""
+    def __init__(self, name: str):
+        self.name = name
+    def count(self):
+        return 0
+    def add(self, *args, **kwargs):
+        pass
+    def query(self, *args, **kwargs):
+        return {"documents": [[]], "metadatas": [[]], "distances": [[]]}
 
-# 영구 디스크 기반 ChromaDB 클라이언트 및 기본 임베딩 모델 로드
-chroma_client = chromadb.PersistentClient(path=CHROMA_DATA_DIR)
-default_ef = embedding_functions.DefaultEmbeddingFunction()
-
-# 도메인별 6대 지식 컬렉션 생성/연결
-collection_general = chroma_client.get_or_create_collection(name="general_knowledge", embedding_function=default_ef)
-collection_lol = chroma_client.get_or_create_collection(name="lol_knowledge", embedding_function=default_ef)
-collection_maple = chroma_client.get_or_create_collection(name="maple_knowledge", embedding_function=default_ef)
-collection_r6s = chroma_client.get_or_create_collection(name="r6s_knowledge", embedding_function=default_ef)
-collection_coding = chroma_client.get_or_create_collection(name="coding_knowledge", embedding_function=default_ef)
-collection_hacking = chroma_client.get_or_create_collection(name="hacking_knowledge", embedding_function=default_ef)
+if HAS_CHROMADB:
+    try:
+        CHROMA_DATA_DIR = os.path.join(str(MEMORY_DIR), "chroma_db")
+        os.makedirs(CHROMA_DATA_DIR, exist_ok=True)
+        chroma_client = chromadb.PersistentClient(path=CHROMA_DATA_DIR)
+        default_ef = embedding_functions.DefaultEmbeddingFunction()
+        collection_general = chroma_client.get_or_create_collection(name="general_knowledge", embedding_function=default_ef)
+        collection_lol = chroma_client.get_or_create_collection(name="lol_knowledge", embedding_function=default_ef)
+        collection_maple = chroma_client.get_or_create_collection(name="maple_knowledge", embedding_function=default_ef)
+        collection_r6s = chroma_client.get_or_create_collection(name="r6s_knowledge", embedding_function=default_ef)
+        collection_coding = chroma_client.get_or_create_collection(name="coding_knowledge", embedding_function=default_ef)
+        collection_hacking = chroma_client.get_or_create_collection(name="hacking_knowledge", embedding_function=default_ef)
+    except Exception:
+        collection_general = SafeCollection("general_knowledge")
+        collection_lol = SafeCollection("lol_knowledge")
+        collection_maple = SafeCollection("maple_knowledge")
+        collection_r6s = SafeCollection("r6s_knowledge")
+        collection_coding = SafeCollection("coding_knowledge")
+        collection_hacking = SafeCollection("hacking_knowledge")
+else:
+    collection_general = SafeCollection("general_knowledge")
+    collection_lol = SafeCollection("lol_knowledge")
+    collection_maple = SafeCollection("maple_knowledge")
+    collection_r6s = SafeCollection("r6s_knowledge")
+    collection_coding = SafeCollection("coding_knowledge")
+    collection_hacking = SafeCollection("hacking_knowledge")
 
 # ==============================================================================
 # 2. Pydantic 요청 스키마 정의

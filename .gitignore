@@ -24,6 +24,8 @@ mcp_servers.json
 # Logs, Cache & Temporary Files
 *.log
 *.vtt
+*.db
+data/
 .chroma/
 chroma_db/
 .webview_data/

@@ -17,6 +17,7 @@ from modules.daily_journal_writer import router as journal_router
 from modules.game_auto_coach import router as game_coach_router
 from modules.maple_skill_tracker import router as maple_tracker_router
 from modules.lol_ai_coach import router as lol_coach_router
+from modules.lol_minimap_tracker import router as lol_minimap_router
 from modules.jarvis_extension_router import extension_router
 
 all_extension_routers = [
@@ -28,7 +29,8 @@ all_extension_routers = [
     journal_router,
     game_coach_router,
     maple_tracker_router,
-    lol_coach_router
+    lol_coach_router,
+    lol_minimap_router
 ]
 
 __all__ = [
@@ -41,6 +43,7 @@ __all__ = [
     "game_coach_router",
     "maple_tracker_router",
     "lol_coach_router",
+    "lol_minimap_router",
     "extension_router",
     "all_extension_routers"
 ]
