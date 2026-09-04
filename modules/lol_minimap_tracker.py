@@ -38,6 +38,11 @@ try:
 except ImportError:
     np = None
 
+try:
+    import cv2
+except ImportError:
+    cv2 = None
+
 import ctypes
 from ctypes import wintypes
 
@@ -46,6 +51,28 @@ try:
     import mss
 except ImportError:
     mss = None
+
+# 모듈 싱글톤 인스턴스 사전 임포트 (매 프레임 동적 임포트 오버헤드 제거)
+try:
+    from modules.lol_gank_eta_predictor import gank_predictor
+except Exception:
+    gank_predictor = None
+
+try:
+    from modules.lol_vision_gap_checker import vision_gap_checker
+except Exception:
+    vision_gap_checker = None
+
+try:
+    from modules.lol_voice_alert_engine import voice_alert_engine
+except Exception:
+    voice_alert_engine = None
+
+try:
+    from modules.lol_snapshot_reviewer import snapshot_reviewer
+except Exception:
+    snapshot_reviewer = None
+
 
 
 # =============================================================================
@@ -151,7 +178,38 @@ def map_coordinate_to_zone(nx: float, ny: float) -> str:
         y1, y2 = z["y_range"]
         if x1 <= nx <= x2 and y1 <= ny <= y2:
             return z["name"]
-    return "협곡 기타 구역"
+# 소환사의 협곡 고정 구조물 (포탑, 억제기, 넥서스) 정규화 좌표 목록
+# - 적 포탑/억제기 아이콘이 챔피언으로 오탐지(False Positive)되는 것을 원천 차단합니다.
+STATIC_RED_STRUCTURES = [
+    # 탑 라인 포탑 (Top Lane Turrets)
+    (0.38, 0.18), (0.58, 0.19), (0.74, 0.19),
+    # 미드 라인 포탑 (Mid Lane Turrets)
+    (0.67, 0.42), (0.76, 0.32), (0.82, 0.25),
+    # 바텀 라인 포탑 (Bot Lane Turrets)
+    (0.90, 0.70), (0.89, 0.49), (0.89, 0.35),
+    # 레드 본진 억제기 & 넥서스 (Red Base & Nexus)
+    (0.86, 0.22), (0.88, 0.15), (0.92, 0.18), (0.83, 0.13),
+]
+
+STATIC_BLUE_STRUCTURES = [
+    # 바텀 라인 포탑 (Bot Lane Turrets)
+    (0.62, 0.82), (0.42, 0.81), (0.26, 0.81),
+    # 미드 라인 포탑 (Mid Lane Turrets)
+    (0.33, 0.58), (0.24, 0.68), (0.18, 0.75),
+    # 탑 라인 포탑 (Top Lane Turrets)
+    (0.10, 0.30), (0.11, 0.51), (0.11, 0.65),
+    # 블루 본진 억제기 & 넥서스 (Blue Base & Nexus)
+    (0.14, 0.78), (0.12, 0.85), (0.08, 0.82), (0.17, 0.87), (0.20, 0.80),
+]
+
+
+def is_static_structure(nx: float, ny: float, is_enemy: bool = True, threshold: float = 0.068) -> bool:
+    """미니맵 상의 고정 포탑/억제기/본진 아이콘 위치인지 검사합니다."""
+    structures = STATIC_RED_STRUCTURES if is_enemy else STATIC_BLUE_STRUCTURES
+    for sx, sy in structures:
+        if (nx - sx) ** 2 + (ny - sy) ** 2 < (threshold ** 2):
+            return True
+    return False
 
 
 class _POINT(ctypes.Structure):
@@ -487,40 +545,6 @@ class ModernDeepLeagueTracker:
         except Exception:
             return None
 
-# 소환사의 협곡 고정 구조물 (포탑, 억제기, 넥서스) 정규화 좌표 목록
-# - 적 포탑/억제기 아이콘이 챔피언으로 오탐지(False Positive)되는 것을 원천 차단합니다.
-STATIC_RED_STRUCTURES = [
-    # 탑 라인 포탑 (Top Lane Turrets)
-    (0.38, 0.18), (0.58, 0.19), (0.74, 0.19),
-    # 미드 라인 포탑 (Mid Lane Turrets)
-    (0.67, 0.42), (0.76, 0.32), (0.82, 0.25),
-    # 바텀 라인 포탑 (Bot Lane Turrets)
-    (0.90, 0.70), (0.89, 0.49), (0.89, 0.35),
-    # 레드 본진 억제기 & 넥서스 (Red Base & Nexus)
-    (0.86, 0.22), (0.88, 0.15), (0.92, 0.18), (0.83, 0.13),
-]
-
-STATIC_BLUE_STRUCTURES = [
-    # 바텀 라인 포탑 (Bot Lane Turrets)
-    (0.62, 0.82), (0.42, 0.81), (0.26, 0.81),
-    # 미드 라인 포탑 (Mid Lane Turrets)
-    (0.33, 0.58), (0.24, 0.68), (0.18, 0.75),
-    # 탑 라인 포탑 (Top Lane Turrets)
-    (0.10, 0.30), (0.11, 0.51), (0.11, 0.65),
-    # 블루 본진 억제기 & 넥서스 (Blue Base & Nexus)
-    (0.14, 0.78), (0.12, 0.85), (0.08, 0.82), (0.17, 0.87), (0.20, 0.80),
-]
-
-
-def is_static_structure(nx: float, ny: float, is_enemy: bool = True, threshold: float = 0.068) -> bool:
-    """미니맵 상의 고정 포탑/억제기/본진 아이콘 위치인지 검사합니다."""
-    structures = STATIC_RED_STRUCTURES if is_enemy else STATIC_BLUE_STRUCTURES
-    for sx, sy in structures:
-        if (nx - sx) ** 2 + (ny - sy) ** 2 < (threshold ** 2):
-            return True
-    return False
-
-
     def detect_champion_rings(
         self, bgra: np.ndarray
     ) -> Tuple[List[Tuple[float, float]], List[Tuple[float, float]]]:
@@ -645,64 +669,64 @@ def is_static_structure(nx: float, ny: float, is_enemy: bool = True, threshold: 
         new_alerts = self._analyze_tactical_threats(enemies, allies)
 
         # 🚀 4. 적 동선 벡터 예측 & 갱킹 도착 타이머 (ETA) 연동
-        try:
-            from modules.lol_gank_eta_predictor import gank_predictor
-            gank_alerts = gank_predictor.update_positions(enemies)
-            for ga in gank_alerts:
-                new_alerts.append({
-                    "type": "ETA_GANK",
-                    "priority": "HIGH",
-                    "message": ga["alert_message"],
-                    "timestamp": ga["timestamp"],
-                    "eta": int(ga["eta_seconds"]),
-                    "target": ga["target_lane"]
-                })
-        except Exception:
-            pass
+        if gank_predictor is not None:
+            try:
+                gank_alerts = gank_predictor.update_positions(enemies)
+                for ga in gank_alerts:
+                    new_alerts.append({
+                        "type": "ETA_GANK",
+                        "priority": "HIGH",
+                        "message": ga["alert_message"],
+                        "timestamp": ga["timestamp"],
+                        "eta": int(ga["eta_seconds"]),
+                        "target": ga["target_lane"]
+                    })
+            except Exception:
+                pass
 
         # 🚀 5. 오브젝트(용/바론) 1분 전 시야 공백 (Fog of War) 연동
-        try:
-            from modules.lol_vision_gap_checker import vision_gap_checker
-            vision_res = vision_gap_checker.analyze_pit_vision(bgra)
-            if vision_res.get("alerts"):
-                new_alerts.extend(vision_res["alerts"])
-        except Exception:
-            pass
+        if vision_gap_checker is not None:
+            try:
+                vision_res = vision_gap_checker.analyze_pit_vision(bgra)
+                if vision_res.get("alerts"):
+                    new_alerts.extend(vision_res["alerts"])
+            except Exception:
+                pass
 
         # 🚀 6. 스카디 인게임 음성 콜 & 전술 스냅샷 오답노트 자동 트리거
         if new_alerts:
             # 1) 스카디 음성 브리핑 자동 발화
-            try:
-                from modules.lol_voice_alert_engine import voice_alert_engine
-                for alt in new_alerts:
-                    ctx = {
-                        "lane": alt.get("lane", "라인"),
-                        "count": alt.get("count", len(enemies)),
-                        "zone": alt.get("zone", "협곡"),
-                        "eta": alt.get("eta", 7),
-                        "target": alt.get("target", "라인"),
-                        "pit": alt.get("pit", "오브젝트 둥지"),
-                        "message": alt.get("message", "")
-                    }
-                    voice_alert_engine.trigger_alert(alt["type"], ctx)
-            except Exception:
-                pass
+            if voice_alert_engine is not None:
+                try:
+                    for alt in new_alerts:
+                        ctx = {
+                            "lane": alt.get("lane", "라인"),
+                            "count": alt.get("count", len(enemies)),
+                            "zone": alt.get("zone", "협곡"),
+                            "eta": alt.get("eta", 7),
+                            "target": alt.get("target", "라인"),
+                            "pit": alt.get("pit", "오브젝트 둥지"),
+                            "message": alt.get("message", "")
+                        }
+                        voice_alert_engine.trigger_alert(alt["type"], ctx)
+                except Exception:
+                    pass
 
             # 2) CRITICAL / HIGH 위협 시 전술 스냅샷 자동 저장
-            try:
-                from modules.lol_snapshot_reviewer import snapshot_reviewer
-                critical_alerts = [a for a in new_alerts if a.get("priority") in ("CRITICAL", "HIGH")]
-                if critical_alerts:
-                    top_alert = critical_alerts[0]
-                    snapshot_reviewer.record_tactical_moment(
-                        event_type=top_alert["type"],
-                        enemies=enemies,
-                        allies=allies,
-                        raw_bgra=bgra,
-                        message=top_alert.get("message", "")
-                    )
-            except Exception:
-                pass
+            if snapshot_reviewer is not None:
+                try:
+                    critical_alerts = [a for a in new_alerts if a.get("priority") in ("CRITICAL", "HIGH")]
+                    if critical_alerts:
+                        top_alert = critical_alerts[0]
+                        snapshot_reviewer.record_tactical_moment(
+                            event_type=top_alert["type"],
+                            enemies=enemies,
+                            allies=allies,
+                            raw_bgra=bgra,
+                            message=top_alert.get("message", "")
+                        )
+                except Exception:
+                    pass
 
         t1 = time.time()
         process_ms = round((t1 - t0) * 1000, 2)
@@ -732,63 +756,80 @@ def is_static_structure(nx: float, ny: float, is_enemy: bool = True, threshold: 
     def _render_debug_image(
         self, bgra: np.ndarray, enemies: List[Dict[str, Any]], allies: List[Dict[str, Any]]
     ):
-        """관리자 대시보드 표시를 위한 실시간 레이더 뷰 오버레이 이미지를 생성합니다."""
+        """관리자 대시보드 표시를 위한 실시간 레이더 뷰 오버레이 이미지를 초고속(OpenCV SIMD) 생성합니다."""
         try:
-            mean_val = float(bgra.mean()) if bgra is not None else 0.0
-            h, w = (bgra.shape[0], bgra.shape[1]) if bgra is not None else (self.minimap_size, self.minimap_size)
+            if bgra is None:
+                return
+            h, w = bgra.shape[:2]
+            mean_val = float(bgra.mean())
 
-            # 1. 인게임 미니맵이 아직 어둡거나 대기 상태일 때: 사이버틱 전술 레이더 HUD 렌더링
-            if mean_val < 8.0:
-                img = Image.new("RGB", (w, h), color=(10, 15, 24))
-                draw = ImageDraw.Draw(img)
+            if cv2 is not None:
+                # 1. 대기 상태 (검은 화면 / 인게임 로딩 전)
+                if mean_val < 8.0:
+                    canvas = np.full((h, w, 3), (24, 15, 10), dtype=np.uint8)
+                    step = max(30, w // 8)
+                    for x in range(0, w, step):
+                        cv2.line(canvas, (x, 0), (x, h), (48, 30, 18), 1)
+                    for y in range(0, h, step):
+                        cv2.line(canvas, (0, y), (w, y), (48, 30, 18), 1)
+                    cx, cy = w // 2, h // 2
+                    for r_pct in [0.18, 0.32, 0.44]:
+                        r = int(w * r_pct)
+                        cv2.circle(canvas, (cx, cy), r, (255, 229, 0), 1)
+                    cv2.line(canvas, (cx, 15), (cx, h - 15), (255, 229, 0), 1)
+                    cv2.line(canvas, (15, cy), (w - 15, cy), (255, 229, 0), 1)
+                    cv2.putText(canvas, f"LoL Radar [{self.current_preset}]", (max(10, cx - 85), max(20, cy + 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.42, (255, 229, 0), 1, cv2.LINE_AA)
+                    cv2.putText(canvas, "STANDBY / WAITING", (max(10, cx - 70), h - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.38, (200, 160, 120), 1, cv2.LINE_AA)
+                else:
+                    # 2. 실제 인게임 미니맵 영상 오버레이
+                    canvas = bgra[:, :, :3].copy()
+                    # 적군: 붉은색 타겟 서클 (BGR: Red is (68, 23, 255))
+                    for e in enemies:
+                        x, y = int(e["x"]), int(e["y"])
+                        cv2.circle(canvas, (x, y), 13, (68, 23, 255), 2)
+                        cv2.putText(canvas, "ENEMY", (max(0, x - 18), max(12, y - 16)), cv2.FONT_HERSHEY_SIMPLEX, 0.38, (68, 23, 255), 1, cv2.LINE_AA)
+                    # 아군: 네온 시안색 서클 (BGR: Cyan is (255, 229, 0))
+                    for a in allies:
+                        x, y = int(a["x"]), int(a["y"])
+                        cv2.circle(canvas, (x, y), 13, (255, 229, 0), 2)
+                        cv2.putText(canvas, "ALLY", (max(0, x - 14), max(12, y - 16)), cv2.FONT_HERSHEY_SIMPLEX, 0.38, (255, 229, 0), 1, cv2.LINE_AA)
 
-                # 격자선 (Tactical Grid)
-                step = max(30, w // 8)
-                for x in range(0, w, step):
-                    draw.line([(x, 0), (x, h)], fill=(18, 30, 48), width=1)
-                for y in range(0, h, step):
-                    draw.line([(0, y), (w, y)], fill=(18, 30, 48), width=1)
-
-                # 레이더 동심원 (Concentric Range Rings)
-                cx, cy = w // 2, h // 2
-                for r_pct in [0.18, 0.32, 0.44]:
-                    r = int(w * r_pct)
-                    draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(0, 229, 255), width=1)
-
-                # 조준선 (Crosshair Reticle)
-                draw.line([(cx, 15), (cx, h - 15)], fill=(0, 229, 255), width=1)
-                draw.line([(15, cy), (w - 15, cy)], fill=(0, 229, 255), width=1)
-
-                # 대기 상태 텍스트 배지
-                badge_w, badge_h = int(w * 0.72), 34
-                bx1 = cx - badge_w // 2
-                by1 = cy - badge_h // 2
-                draw.rectangle([bx1, by1, bx1 + badge_w, by1 + badge_h], fill=(5, 10, 18), outline=(0, 229, 255), width=1)
-                draw.text((bx1 + 18, by1 + 10), f"LoL Tactical Radar [{self.current_preset}]", fill=(0, 229, 255))
-
-                # 하단 대기 안내 문구
-                draw.text((cx - 75, h - 28), "STANDBY / WAITING FOR MATCH", fill=(120, 160, 200))
+                success, buf = cv2.imencode(".jpg", canvas, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
+                if success:
+                    self.last_debug_image_b64 = base64.b64encode(buf.tobytes()).decode("utf-8")
             else:
-                # 2. 실제 인게임 미니맵 영상 오버레이
-                rgb_arr = bgra[:, :, [2, 1, 0]]
-                img = Image.fromarray(rgb_arr, mode="RGB")
-                draw = ImageDraw.Draw(img)
+                # PIL 폴백
+                if mean_val < 8.0:
+                    img = Image.new("RGB", (w, h), color=(10, 15, 24))
+                    draw = ImageDraw.Draw(img)
+                    step = max(30, w // 8)
+                    for x in range(0, w, step):
+                        draw.line([(x, 0), (x, h)], fill=(18, 30, 48), width=1)
+                    for y in range(0, h, step):
+                        draw.line([(0, y), (w, y)], fill=(18, 30, 48), width=1)
+                    cx, cy = w // 2, h // 2
+                    for r_pct in [0.18, 0.32, 0.44]:
+                        r = int(w * r_pct)
+                        draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(0, 229, 255), width=1)
+                    draw.line([(cx, 15), (cx, h - 15)], fill=(0, 229, 255), width=1)
+                    draw.line([(15, cy), (w - 15, cy)], fill=(0, 229, 255), width=1)
+                    draw.text((cx - 75, h - 28), "STANDBY / WAITING", fill=(120, 160, 200))
+                else:
+                    rgb_arr = bgra[:, :, [2, 1, 0]]
+                    img = Image.fromarray(rgb_arr, mode="RGB")
+                    draw = ImageDraw.Draw(img)
+                    for e in enemies:
+                        x, y = int(e["x"]), int(e["y"])
+                        draw.ellipse([x - 13, y - 13, x + 13, y + 13], outline="#ff1744", width=2)
+                        draw.text((x - 12, y - 24), "ENEMY", fill="#ff1744")
+                    for a in allies:
+                        x, y = int(a["x"]), int(a["y"])
+                        draw.ellipse([x - 13, y - 13, x + 13, y + 13], outline="#00e5ff", width=2)
+                        draw.text((x - 10, y - 24), "ALLY", fill="#00e5ff")
 
-                # 적군: 붉은색 타겟 서클
-                for e in enemies:
-                    x, y = int(e["x"]), int(e["y"])
-                    draw.ellipse([x - 13, y - 13, x + 13, y + 13], outline="#ff1744", width=2)
-                    draw.text((x - 12, y - 24), "ENEMY", fill="#ff1744")
-
-                # 아군: 네온 시안색 아군 서클
-                for a in allies:
-                    x, y = int(a["x"]), int(a["y"])
-                    draw.ellipse([x - 13, y - 13, x + 13, y + 13], outline="#00e5ff", width=2)
-                    draw.text((x - 10, y - 24), "ALLY", fill="#00e5ff")
-
-            buffer = io.BytesIO()
-            img.save(buffer, format="JPEG", quality=80)
-            self.last_debug_image_b64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
+                buffer = io.BytesIO()
+                img.save(buffer, format="JPEG", quality=80)
+                self.last_debug_image_b64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
         except Exception:
             pass
 

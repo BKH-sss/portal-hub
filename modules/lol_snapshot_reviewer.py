@@ -16,6 +16,7 @@ import os
 import io
 import time
 import json
+import threading
 from datetime import datetime
 from typing import Dict, Any, List, Optional
 from pathlib import Path
@@ -23,6 +24,11 @@ from pathlib import Path
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
 from PIL import Image, ImageDraw
+
+try:
+    import cv2
+except ImportError:
+    cv2 = None
 
 from config import MEMORY_DIR
 
@@ -58,7 +64,7 @@ class TacticalSnapshotReviewer:
         message: str
     ) -> Optional[Dict[str, Any]]:
         """
-        위협 발생 시점의 미니맵 영상을 JPEG 스냅샷으로 저장하고 메타데이터를 기록합니다.
+        위협 발생 시점의 미니맵 영상을 JPEG 스냅샷으로 저장하고 메타데이터를 비동기(Background Thread)로 즉시 기록합니다.
         """
         now = time.time()
         if (now - self.last_snapshot_time) < self.snapshot_cooldown:
@@ -72,25 +78,7 @@ class TacticalSnapshotReviewer:
         img_path = today_dir / f"{filename_base}.jpg"
         meta_path = today_dir / f"{filename_base}.json"
 
-        # 1. 이미지 저장 (적/아군 오버레이 드로잉)
-        try:
-            if raw_bgra is not None:
-                rgb_arr = raw_bgra[:, :, [2, 1, 0]]
-                img = Image.fromarray(rgb_arr, mode="RGB")
-                draw = ImageDraw.Draw(img)
-
-                for e in enemies:
-                    x, y = e.get("x", 0), e.get("y", 0)
-                    draw.ellipse([x - 12, y - 12, x + 12, y + 12], outline="#ff1744", width=2)
-                for a in allies:
-                    x, y = a.get("x", 0), a.get("y", 0)
-                    draw.ellipse([x - 12, y - 12, x + 12, y + 12], outline="#00e5ff", width=2)
-
-                img.save(str(img_path), format="JPEG", quality=85)
-        except Exception:
-            pass
-
-        # 2. 메타데이터 JSON 저장
+        # 메타데이터 사전 구성
         meta = {
             "timestamp": now,
             "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -101,14 +89,48 @@ class TacticalSnapshotReviewer:
             "allies_count": len(allies),
             "image_file": str(img_path.name)
         }
-
-        try:
-            with open(meta_path, "w", encoding="utf-8") as f:
-                json.dump(meta, f, ensure_ascii=False, indent=2)
-        except Exception:
-            pass
-
         self.current_session_events.append(meta)
+
+        # 백그라운드 비동기 디스크 저장 (스캔 루프 지연 0.0ms 보장)
+        def _save_worker(bgra_copy, enemies_copy, allies_copy, m_dict, i_path, m_path):
+            try:
+                if bgra_copy is not None:
+                    if cv2 is not None:
+                        canvas = bgra_copy[:, :, :3].copy()
+                        for e in enemies_copy:
+                            x, y = int(e.get("x", 0)), int(e.get("y", 0))
+                            cv2.circle(canvas, (x, y), 12, (68, 23, 255), 2)
+                        for a in allies_copy:
+                            x, y = int(a.get("x", 0)), int(a.get("y", 0))
+                            cv2.circle(canvas, (x, y), 12, (255, 229, 0), 2)
+                        cv2.imwrite(str(i_path), canvas, [int(cv2.IMWRITE_JPEG_QUALITY), 85])
+                    else:
+                        rgb_arr = bgra_copy[:, :, [2, 1, 0]]
+                        img = Image.fromarray(rgb_arr, mode="RGB")
+                        draw = ImageDraw.Draw(img)
+                        for e in enemies_copy:
+                            x, y = e.get("x", 0), e.get("y", 0)
+                            draw.ellipse([x - 12, y - 12, x + 12, y + 12], outline="#ff1744", width=2)
+                        for a in allies_copy:
+                            x, y = a.get("x", 0), a.get("y", 0)
+                            draw.ellipse([x - 12, y - 12, x + 12, y + 12], outline="#00e5ff", width=2)
+                        img.save(str(i_path), format="JPEG", quality=85)
+            except Exception:
+                pass
+
+            try:
+                with open(m_path, "w", encoding="utf-8") as f:
+                    json.dump(m_dict, f, ensure_ascii=False, indent=2)
+            except Exception:
+                pass
+
+        threading.Thread(
+            target=_save_worker,
+            args=(raw_bgra.copy() if raw_bgra is not None else None, enemies, allies, meta, img_path, meta_path),
+            daemon=True,
+            name="SnapshotSaveWorker"
+        ).start()
+
         return meta
 
     def generate_daily_review_markdown(self) -> str:
