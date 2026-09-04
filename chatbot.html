@@ -1640,6 +1640,53 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- 🎯 은월 귀참 캔슬(벽캔) 정밀 트레이너 인앱 패널 -->
+                <div style="background: rgba(25, 12, 18, 0.7); border: 1px solid rgba(255, 77, 77, 0.4); border-radius: 10px; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <span style="font-size: 13px; font-weight: 700; color: #ff4d4d;"><i class="fa-solid fa-crosshairs"></i> 🎯 은월 귀참 캔슬(벽캔) 정밀 트레이너</span>
+                            <span id="inAppCancelActiveBadge" style="font-size: 11px; padding: 2px 7px; border-radius: 4px; background: rgba(255,255,255,0.06); color: var(--text-muted);">대기 중</span>
+                            <span style="font-size: 11px; color: #fbcfe8; background: rgba(255, 77, 77, 0.15); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255, 77, 77, 0.3);">[F12] 토글</span>
+                        </div>
+                        <div style="display: flex; gap: 6px; align-items: center;">
+                            <button id="inAppCancelToggleBtn" class="hdr-btn" style="color: #ff4d4d; border-color: rgba(255, 77, 77, 0.4);" onclick="toggleInAppCancelTrainer()">▶ 캔슬 연습 시작 (F12)</button>
+                            <button class="hdr-btn" onclick="resetInAppCancelStats()">🔄 리셋</button>
+                        </div>
+                    </div>
+
+                    <!-- 4종 메트릭 -->
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+                        <div style="background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 10.5px; color: var(--text-muted);">최근 캔슬 (Ctrl ➔ A)</div>
+                            <div id="inAppCancelLastMs" style="font-size: 18px; font-weight: 800; font-family: monospace; color: #38bdf8;">-- ms</div>
+                            <div id="inAppCancelLastRating" style="font-size: 10.5px; font-weight: 700; color: var(--text-muted);">대기 중</div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 10.5px; color: var(--text-muted);">연속 퍼펙트 콤보</div>
+                            <div id="inAppCancelCombo" style="font-size: 18px; font-weight: 800; font-family: monospace; color: #ff9900;">0 COMBO</div>
+                            <div id="inAppCancelMaxCombo" style="font-size: 10px; color: var(--text-muted);">최고: 0</div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 10.5px; color: var(--text-muted);">초당 타수 (APS)</div>
+                            <div id="inAppCancelAps" style="font-size: 18px; font-weight: 800; font-family: monospace; color: #34d399;">0.0 APS</div>
+                            <div id="inAppCancelDpsGain" style="font-size: 10px; color: #34d399;">딜 상승: +0.0%</div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 6px; text-align: center;">
+                            <div style="font-size: 10.5px; color: var(--text-muted);">퍼펙트 성공률</div>
+                            <div id="inAppCancelAcc" style="font-size: 18px; font-weight: 800; font-family: monospace; color: #c084fc;">0.0%</div>
+                            <div id="inAppCancelCounts" style="font-size: 10px; color: var(--text-muted);">0 / 0 회</div>
+                        </div>
+                    </div>
+
+                    <!-- 최근 캔슬 타임라인 칩스 -->
+                    <div style="display: flex; align-items: center; gap: 6px; overflow-x: auto;">
+                        <span style="font-size: 10.5px; color: var(--text-muted); white-space: nowrap;">최근 기록:</span>
+                        <div id="inAppCancelChips" style="display: flex; gap: 4px; align-items: center;">
+                            <span style="font-size: 10.5px; color: var(--text-muted);">[Ctrl] ➔ [A]를 연속으로 눌러보세요.</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -5240,6 +5287,110 @@
                 }
             } catch (e) {}
         }
+
+        // 🎯 은월 귀참 캔슬 트레이너 인앱 JS 로직
+        async function toggleInAppCancelTrainer() {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/maple/cancel/toggle`, { method: 'POST' });
+                if (res.ok) {
+                    const data = await res.json();
+                    addSystemMessage(`🎯 ${data.message}` + (data.is_active ? ' (단축키 <b>[F12]</b>로 언제든 ON/OFF 가능)' : ''));
+                    pollInAppCancelStatus();
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function resetInAppCancelStats() {
+            try {
+                await fetch(`${SERVER_URL}/api/maple/cancel/reset`, { method: 'POST' });
+                addSystemMessage('🎯 은월 귀참 캔슬 연습 통계가 초기화되었습니다.');
+                pollInAppCancelStatus();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function pollInAppCancelStatus() {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/maple/cancel/status`);
+                if (!res.ok) return;
+                const result = await res.json();
+                const d = result.data;
+
+                const badge = document.getElementById('inAppCancelActiveBadge');
+                const btn = document.getElementById('inAppCancelToggleBtn');
+                if (badge) {
+                    if (d.is_active) {
+                        badge.innerHTML = `<span style="color:#34d399; font-weight:bold;">● 연습 중 (F12)</span>`;
+                    } else {
+                        badge.innerHTML = `<span style="color:var(--text-muted);">대기 중</span>`;
+                    }
+                }
+                if (btn) {
+                    if (d.is_active) {
+                        btn.style.color = '#34d399';
+                        btn.style.borderColor = 'rgba(52, 211, 153, 0.4)';
+                        btn.innerHTML = '⏹ 연습 정지 (F12)';
+                    } else {
+                        btn.style.color = '#ff4d4d';
+                        btn.style.borderColor = 'rgba(255, 77, 77, 0.4)';
+                        btn.innerHTML = '▶ 캔슬 연습 시작 (F12)';
+                    }
+                }
+
+                if (d.last_attempt) {
+                    const elMs = document.getElementById('inAppCancelLastMs');
+                    const elRating = document.getElementById('inAppCancelLastRating');
+                    if (elMs) elMs.innerText = `${d.last_attempt.delta_ms} ms`;
+                    if (elRating) {
+                        if (d.last_attempt.rating === 'PERFECT') {
+                            elRating.innerHTML = `<span style="color:#34d399;">✓ PERFECT!</span>`;
+                        } else if (d.last_attempt.rating === 'TOO_FAST') {
+                            elRating.innerHTML = `<span style="color:#f87171;">⚠️ FAST (너무 빠름)</span>`;
+                        } else {
+                            elRating.innerHTML = `<span style="color:#fbbf24;">🐢 SLOW (후딜 남음)</span>`;
+                        }
+                    }
+                }
+
+                const elCombo = document.getElementById('inAppCancelCombo');
+                const elMaxCombo = document.getElementById('inAppCancelMaxCombo');
+                if (elCombo) elCombo.innerText = `${d.current_combo} COMBO`;
+                if (elMaxCombo) elMaxCombo.innerText = `최고: ${d.max_combo}`;
+
+                const elAps = document.getElementById('inAppCancelAps');
+                const elDps = document.getElementById('inAppCancelDpsGain');
+                if (elAps) elAps.innerText = `${d.aps} APS`;
+                if (elDps) {
+                    elDps.innerText = `딜 상승: +${d.dps_gain_pct}%`;
+                    elDps.style.color = d.dps_gain_pct > 0 ? '#34d399' : 'var(--text-muted)';
+                }
+
+                const elAcc = document.getElementById('inAppCancelAcc');
+                const elCounts = document.getElementById('inAppCancelCounts');
+                if (elAcc) elAcc.innerText = `${d.accuracy}%`;
+                if (elCounts) elCounts.innerText = `${d.total_attempts}회 중 ${d.perfect_count}회 성공`;
+
+                const chips = document.getElementById('inAppCancelChips');
+                if (chips && d.recent_attempts && d.recent_attempts.length > 0) {
+                    chips.innerHTML = '';
+                    d.recent_attempts.slice().reverse().slice(0, 6).forEach(att => {
+                        const chip = document.createElement('span');
+                        let chipColor = '#34d399';
+                        if (att.rating === 'TOO_FAST') chipColor = '#f87171';
+                        else if (att.rating === 'SLOW') chipColor = '#fbbf24';
+                        chip.style.cssText = `background: rgba(255,255,255,0.06); border: 1px solid ${chipColor}; color: ${chipColor}; font-size: 10px; font-weight: bold; padding: 1px 5px; border-radius: 4px; font-family: monospace;`;
+                        chip.innerText = `${att.delta_ms}ms`;
+                        chips.appendChild(chip);
+                    });
+                }
+            } catch (e) {}
+        }
+
+        // 주기적 캔슬 상태 및 프로세스 확인
+        setInterval(pollInAppCancelStatus, 600);
 
         // 주기적 프로세스 상태 확인 (헤더 뱃지 갱신)
         setInterval(async () => {

@@ -465,7 +465,83 @@
             </table>
         </div>
 
-        <!-- 5-1. ⚔️ 리그 오브 레전드: Modern DeepLeague 미니맵 전술 레이더 패널 (NEW) -->
+        <!-- 5-1. 🎯 메이플스토리 은월 귀참 캔슬(벽캔/좌우캔/점캔) 정밀 트레이너 (NEW) -->
+        <div class="card" style="grid-column: span 12; border-color: rgba(255, 77, 77, 0.4); background: linear-gradient(180deg, rgba(25, 12, 18, 0.6) 0%, rgba(12, 12, 18, 0.8) 100%);">
+            <div class="card-header">
+                <span class="card-title" style="color: #ff4d4d; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <span><i class="fa-solid fa-crosshairs"></i> 은월 귀참 캔슬(벽캔/좌우캔) 정밀 트레이너</span>
+                    <span id="cancel-active-badge" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); padding: 2px 8px; border-radius: 4px; font-size: 11px;"><i class="fa-solid fa-circle-pause"></i> 대기 중</span>
+                    <span style="font-size: 11px; color: #fbcfe8; background: rgba(255, 77, 77, 0.15); border: 1px solid rgba(255, 77, 77, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 600;">⌨️ [F12] 언제든 원터치 토글</span>
+                </span>
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <select id="cancel-mode-select" class="form-input" style="width: 140px; font-size: 12px; font-weight: 600;" onchange="changeCancelMode(this.value)">
+                        <option value="wall">🧱 벽캔 모드 (기본)</option>
+                        <option value="lr">🔄 좌우캔 모드</option>
+                        <option value="jump">🦘 점캔 모드</option>
+                    </select>
+                    <button id="btn-cancel-toggle" class="btn-action" style="border-color: rgba(255, 77, 77, 0.4); color: #ff4d4d;" onclick="toggleCancelTrainer()"><i class="fa-solid fa-play"></i> 연습 모드 시작 (F12)</button>
+                    <button class="btn-action" onclick="resetCancelTrainerStats()" title="통계 초기화"><i class="fa-solid fa-rotate-right"></i> 리셋</button>
+                </div>
+            </div>
+
+            <!-- 캔슬 핵심 대시보드 4종 메트릭 -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 14px;">
+                <!-- 1. 최근 캔슬 판정 & ms -->
+                <div style="background: rgba(0,0,0,0.35); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">최근 캔슬 간격 (Ctrl ➔ A)</div>
+                    <div id="cancel-last-ms" style="font-size: 26px; font-weight: 800; font-family: monospace; color: var(--cyan-glow);">-- ms</div>
+                    <div id="cancel-last-rating" style="margin-top: 4px; font-size: 12px; font-weight: 700; color: var(--text-muted);">대기 중</div>
+                </div>
+
+                <!-- 2. 퍼펙트 콤보 -->
+                <div style="background: rgba(0,0,0,0.35); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">연속 퍼펙트 콤보</div>
+                    <div id="cancel-combo" style="font-size: 26px; font-weight: 800; font-family: monospace; color: #ff9900;">0 COMBO</div>
+                    <div id="cancel-max-combo" style="margin-top: 4px; font-size: 11px; color: var(--text-muted);">최고 기록: 0 COMBO</div>
+                </div>
+
+                <!-- 3. 초당 타수 (APS) & 딜 상승률 -->
+                <div style="background: rgba(0,0,0,0.35); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">초당 타수 (APS) &amp; 딜 증가</div>
+                    <div id="cancel-aps" style="font-size: 26px; font-weight: 800; font-family: monospace; color: var(--green-glow);">0.0 APS</div>
+                    <div id="cancel-dps-gain" style="margin-top: 4px; font-size: 11px; color: var(--green-glow);">예상 딜 상승: +0.0%</div>
+                </div>
+
+                <!-- 4. 퍼펙트 성공률 -->
+                <div style="background: rgba(0,0,0,0.35); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); text-align: center;">
+                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">퍼펙트 성공률</div>
+                    <div id="cancel-accuracy" style="font-size: 26px; font-weight: 800; font-family: monospace; color: #c084fc;">0.0%</div>
+                    <div id="cancel-counts" style="margin-top: 4px; font-size: 11px; color: var(--text-muted);">0 / 0 회 (완벽 0, 빠름 0, 느림 0)</div>
+                </div>
+            </div>
+
+            <!-- 비주얼 타이밍 게이지 바 -->
+            <div style="background: rgba(0,0,0,0.3); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">
+                    <span style="color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> 너무 빠름 (&lt;100ms)</span>
+                    <span style="color: #22c55e; font-weight: 700;"><i class="fa-solid fa-circle-check"></i> 최적 퍼펙트 구간 (100ms ~ 170ms)</span>
+                    <span style="color: #f59e0b;"><i class="fa-solid fa-hourglass-end"></i> 후딜 남음 (&gt;170ms)</span>
+                </div>
+                <div style="position: relative; width: 100%; height: 14px; background: rgba(255,255,255,0.08); border-radius: 7px; overflow: hidden; display: flex;">
+                    <div style="width: 33%; height: 100%; background: rgba(239, 68, 68, 0.4); border-right: 1px dashed rgba(255,255,255,0.2);"></div>
+                    <div style="width: 25%; height: 100%; background: rgba(34, 197, 94, 0.5); border-right: 1px dashed rgba(255,255,255,0.2);"></div>
+                    <div style="width: 42%; height: 100%; background: rgba(245, 158, 11, 0.35);"></div>
+                </div>
+                <div id="cancel-needle-container" style="position: relative; width: 100%; height: 12px; margin-top: 2px;">
+                    <div id="cancel-needle" style="position: absolute; left: 0%; transform: translateX(-50%); font-size: 10px; color: #fff; transition: left 0.1s ease-out; display: none;">▲</div>
+                </div>
+            </div>
+
+            <!-- 최근 캔슬 기록 칩스 -->
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">최근 캔슬 기록:</span>
+                <div id="cancel-recent-chips" style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+                    <span style="font-size: 11px; color: var(--text-muted);">연습을 시작하고 [Ctrl] ➔ [A]를 연속으로 눌러보세요.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5-2. ⚔️ 리그 오브 레전드: Modern DeepLeague 미니맵 전술 레이더 패널 (NEW) -->
         <div class="card" style="grid-column: span 12; border-color: rgba(0, 229, 255, 0.4);">
             <div class="card-header">
                 <span class="card-title" style="color: var(--cyan-glow);">
@@ -1416,15 +1492,151 @@
             }
         }
 
-        // 6. 초기 로드 및 주기적 실행 (메트릭 2초, 스킬 1초, 미니맵 1초)
+        // 🎯 은월 귀참 캔슬 정밀 트레이너 JS 로직
+        let isCancelTrainerActive = false;
+
+        async function toggleCancelTrainer() {
+            try {
+                const res = await fetch(`${API_BASE}/api/maple/cancel/toggle`, { method: 'POST' });
+                if (res.ok) {
+                    const data = await res.json();
+                    isCancelTrainerActive = data.is_active;
+                    appendLog('MAPLE', data.message);
+                    pollCancelTrainerStatus();
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function resetCancelTrainerStats() {
+            try {
+                await fetch(`${API_BASE}/api/maple/cancel/reset`, { method: 'POST' });
+                appendLog('MAPLE', '은월 귀참 캔슬 통계가 리셋되었습니다.');
+                pollCancelTrainerStatus();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function changeCancelMode(mode) {
+            try {
+                await fetch(`${API_BASE}/api/maple/cancel/config`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ key_primary: 'ctrl', key_cancel: 'a', mode: mode, optimal_min_ms: 100, optimal_max_ms: 170, sound_feedback: true })
+                });
+                appendLog('MAPLE', `캔슬 모드 변경: ${mode}`);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function pollCancelTrainerStatus() {
+            try {
+                const res = await fetch(`${API_BASE}/api/maple/cancel/status`);
+                if (!res.ok) return;
+                const result = await res.json();
+                const d = result.data;
+                isCancelTrainerActive = d.is_active;
+
+                // 1. 뱃지 & 토글 버튼
+                const badge = document.getElementById('cancel-active-badge');
+                const btn = document.getElementById('btn-cancel-toggle');
+                if (badge) {
+                    if (d.is_active) {
+                        badge.innerHTML = `<span style="background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); color: #22c55e; padding: 2px 8px; border-radius: 4px; font-weight: bold;"><i class="fa-solid fa-crosshairs"></i> 연습 중 (F12)</span>`;
+                    } else {
+                        badge.innerHTML = `<span style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); padding: 2px 8px; border-radius: 4px;"><i class="fa-solid fa-circle-pause"></i> 대기 중</span>`;
+                    }
+                }
+                if (btn) {
+                    if (d.is_active) {
+                        btn.style.background = 'rgba(34, 197, 94, 0.2)';
+                        btn.style.borderColor = '#22c55e';
+                        btn.style.color = '#22c55e';
+                        btn.innerHTML = `<i class="fa-solid fa-stop"></i> 연습 정지 (F12)`;
+                    } else {
+                        btn.style.background = '';
+                        btn.style.borderColor = 'rgba(255, 77, 77, 0.4)';
+                        btn.style.color = '#ff4d4d';
+                        btn.innerHTML = `<i class="fa-solid fa-play"></i> 연습 모드 시작 (F12)`;
+                    }
+                }
+
+                // 2. 메트릭
+                if (d.last_attempt) {
+                    const elMs = document.getElementById('cancel-last-ms');
+                    const elRating = document.getElementById('cancel-last-rating');
+                    if (elMs) elMs.innerText = `${d.last_attempt.delta_ms} ms`;
+                    if (elRating) {
+                        if (d.last_attempt.rating === 'PERFECT') {
+                            elRating.innerHTML = `<span style="color: #22c55e;"><i class="fa-solid fa-circle-check"></i> PERFECT (퍼펙트!)</span>`;
+                        } else if (d.last_attempt.rating === 'TOO_FAST') {
+                            elRating.innerHTML = `<span style="color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> TOO FAST (너무 빠름/씹힘)</span>`;
+                        } else {
+                            elRating.innerHTML = `<span style="color: #f59e0b;"><i class="fa-solid fa-hourglass-end"></i> SLOW (후딜 남음)</span>`;
+                        }
+                    }
+
+                    // 니들 게이지 위치 계산 (0ms ~ 300ms 범위를 0% ~ 100% 매핑)
+                    const needle = document.getElementById('cancel-needle');
+                    if (needle) {
+                        needle.style.display = 'block';
+                        const pct = Math.min(100, Math.max(0, (d.last_attempt.delta_ms / 300.0) * 100.0));
+                        needle.style.left = `${pct}%`;
+                    }
+                }
+
+                const elCombo = document.getElementById('cancel-combo');
+                const elMaxCombo = document.getElementById('cancel-max-combo');
+                if (elCombo) elCombo.innerText = `${d.current_combo} COMBO`;
+                if (elMaxCombo) elMaxCombo.innerText = `최고 기록: ${d.max_combo} COMBO`;
+
+                const elAps = document.getElementById('cancel-aps');
+                const elDps = document.getElementById('cancel-dps-gain');
+                if (elAps) elAps.innerText = `${d.aps} APS`;
+                if (elDps) {
+                    elDps.innerText = `예상 딜 상승: +${d.dps_gain_pct}%`;
+                    elDps.style.color = d.dps_gain_pct > 0 ? 'var(--green-glow)' : 'var(--text-muted)';
+                }
+
+                const elAcc = document.getElementById('cancel-accuracy');
+                const elCounts = document.getElementById('cancel-counts');
+                if (elAcc) elAcc.innerText = `${d.accuracy}%`;
+                if (elCounts) elCounts.innerText = `${d.total_attempts}회 중 ${d.perfect_count}회 성공 (빠름 ${d.fast_count}, 느림 ${d.slow_count})`;
+
+                // 최근 칩스
+                const chipsContainer = document.getElementById('cancel-recent-chips');
+                if (chipsContainer && d.recent_attempts && d.recent_attempts.length > 0) {
+                    chipsContainer.innerHTML = '';
+                    d.recent_attempts.slice().reverse().slice(0, 10).forEach(att => {
+                        const chip = document.createElement('span');
+                        let chipBg = 'rgba(34, 197, 94, 0.15)', chipBorder = 'rgba(34, 197, 94, 0.4)', chipColor = '#22c55e';
+                        if (att.rating === 'TOO_FAST') {
+                            chipBg = 'rgba(239, 68, 68, 0.15)'; chipBorder = 'rgba(239, 68, 68, 0.4)'; chipColor = '#ef4444';
+                        } else if (att.rating === 'SLOW') {
+                            chipBg = 'rgba(245, 158, 11, 0.15)'; chipBorder = 'rgba(245, 158, 11, 0.4)'; chipColor = '#f59e0b';
+                        }
+                        chip.style.cssText = `background: ${chipBg}; border: 1px solid ${chipBorder}; color: ${chipColor}; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 4px; font-family: monospace;`;
+                        chip.innerText = `${att.delta_ms}ms (${att.rating === 'PERFECT' ? 'PERFECT' : att.rating === 'TOO_FAST' ? 'FAST' : 'SLOW'})`;
+                        chipsContainer.appendChild(chip);
+                    });
+                }
+            } catch (e) {}
+        }
+
+        // 6. 초기 로드 및 주기적 실행 (메트릭 2초, 스킬 1초, 미니맵 1초, 캔슬 500ms)
         loadPresetsList();
         loadMapleStatus();
         loadVoiceVolume();
         initMinimapPresets();
         pollMinimapStatus();
+        pollCancelTrainerStatus();
         setInterval(updateMetrics, 2000);
         setInterval(loadSkills, 1000);
         setInterval(pollMinimapStatus, 1000);
+        setInterval(pollCancelTrainerStatus, 500);
         updateMetrics();
         loadSkills();
 

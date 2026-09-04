@@ -16,6 +16,7 @@ from modules.realtime_audio_streamer import router as audio_stream_router
 from modules.daily_journal_writer import router as journal_router
 from modules.game_auto_coach import router as game_coach_router
 from modules.maple_skill_tracker import router as maple_tracker_router
+from modules.maple_cancel_trainer import router as maple_cancel_router
 from modules.lol_ai_coach import router as lol_coach_router
 from modules.lol_minimap_tracker import router as lol_minimap_router
 from modules.lol_voice_alert_engine import router as lol_voice_router
@@ -34,6 +35,7 @@ all_extension_routers = [
     journal_router,
     game_coach_router,
     maple_tracker_router,
+    maple_cancel_router,
     lol_coach_router,
     lol_minimap_router,
     lol_voice_router,
