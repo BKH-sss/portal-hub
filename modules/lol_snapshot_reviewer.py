@@ -165,6 +165,17 @@ snapshot_reviewer = TacticalSnapshotReviewer()
 # =============================================================================
 # 🌐 3. REST API 엔드포인트
 # =============================================================================
+@router.get("/status", summary="전술 스냅샷 상태 조회")
+def get_snapshot_status():
+    """당일 저장된 전술 스냅샷 개수 및 저장 경로를 반환합니다."""
+    today_dir = snapshot_reviewer._get_today_dir()
+    count = len(list(today_dir.glob("*.json"))) if today_dir.exists() else 0
+    return {
+        "today_snapshots_count": count,
+        "storage_dir": str(today_dir)
+    }
+
+
 @router.get("/latest", summary="최근 기록된 전술 스냅샷 목록 조회")
 def get_latest_snapshots(limit: int = 10):
     """오늘 저장된 최근 미니맵 전술 스냅샷 메타데이터 목록을 반환합니다."""
