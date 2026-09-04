@@ -487,51 +487,92 @@ class ModernDeepLeagueTracker:
         except Exception:
             return None
 
+# 소환사의 협곡 고정 구조물 (포탑, 억제기, 넥서스) 정규화 좌표 목록
+# - 적 포탑/억제기 아이콘이 챔피언으로 오탐지(False Positive)되는 것을 원천 차단합니다.
+STATIC_RED_STRUCTURES = [
+    # 탑 라인 포탑 (Top Lane Turrets)
+    (0.38, 0.18), (0.58, 0.19), (0.74, 0.19),
+    # 미드 라인 포탑 (Mid Lane Turrets)
+    (0.67, 0.42), (0.76, 0.32), (0.82, 0.25),
+    # 바텀 라인 포탑 (Bot Lane Turrets)
+    (0.90, 0.70), (0.89, 0.49), (0.89, 0.35),
+    # 레드 본진 억제기 & 넥서스 (Red Base & Nexus)
+    (0.86, 0.22), (0.88, 0.15), (0.92, 0.18), (0.83, 0.13),
+]
+
+STATIC_BLUE_STRUCTURES = [
+    # 바텀 라인 포탑 (Bot Lane Turrets)
+    (0.62, 0.82), (0.42, 0.81), (0.26, 0.81),
+    # 미드 라인 포탑 (Mid Lane Turrets)
+    (0.33, 0.58), (0.24, 0.68), (0.18, 0.75),
+    # 탑 라인 포탑 (Top Lane Turrets)
+    (0.10, 0.30), (0.11, 0.51), (0.11, 0.65),
+    # 블루 본진 억제기 & 넥서스 (Blue Base & Nexus)
+    (0.14, 0.78), (0.12, 0.85), (0.08, 0.82), (0.17, 0.87), (0.20, 0.80),
+]
+
+
+def is_static_structure(nx: float, ny: float, is_enemy: bool = True, threshold: float = 0.068) -> bool:
+    """미니맵 상의 고정 포탑/억제기/본진 아이콘 위치인지 검사합니다."""
+    structures = STATIC_RED_STRUCTURES if is_enemy else STATIC_BLUE_STRUCTURES
+    for sx, sy in structures:
+        if (nx - sx) ** 2 + (ny - sy) ** 2 < (threshold ** 2):
+            return True
+    return False
+
+
     def detect_champion_rings(
         self, bgra: np.ndarray
     ) -> Tuple[List[Tuple[float, float]], List[Tuple[float, float]]]:
         """
-        초고속 NumPy 벡터 연산으로 챔피언 원형 외곽선(Ring)을 필터링합니다:
-        1. 적군(Enemy): 강렬한 빨간색(Red Ring) 테두리 추출
-           - R 채널이 높고, G/B 채널과의 명도 차이가 현저함
-        2. 아군(Ally): 시안색/푸른색(Cyan/Blue Ring) 테두리 추출
-           - B 채널이 높고, R 채널 대비 높음
+        초고속 NumPy 벡터 연산 및 구조물 필터링으로 실제 챔피언 원형 초상화만을 정밀 추출합니다:
+        1. 플레이 영역 마스크(Playable Area Mask): 상단 아군 체력바 및 하단 작업표시줄/외곽 테두리 제외
+        2. 고정 포탑/억제기 배제(Static Structure Filter): 고정된 빨간색 포탑/본진 아이콘 오탐지 제거
+        3. 적군(Enemy) / 아군(Ally) 색상 및 클러스터링
         """
         if np is None or bgra is None:
             return [], []
+
+        h, w = bgra.shape[:2]
+
+        # 1. 협곡 내부 플레이 영역 마스크 (상단 UI 체력바 및 하단 작업표시줄/테두리 영역 클리핑)
+        playable_mask = np.zeros((h, w), dtype=bool)
+        y_start, y_end = int(h * 0.12), int(h * 0.88)
+        x_start, x_end = int(w * 0.08), int(w * 0.94)
+        playable_mask[y_start:y_end, x_start:x_end] = True
 
         # 연산 시 언더플로우 방지를 위해 int16으로 슬라이싱
         b = bgra[:, :, 0].astype(np.int16)
         g = bgra[:, :, 1].astype(np.int16)
         r = bgra[:, :, 2].astype(np.int16)
 
-        # 1. 적군 마스크: R > 165 이며, R-G > 65, R-B > 65
-        enemy_mask = (r > 165) & ((r - g) > 65) & ((r - b) > 65)
+        # 2. 적군 마스크: R > 165 이며, R-G > 60, R-B > 60 (플레이 영역 한정)
+        enemy_mask = (r > 165) & ((r - g) > 60) & ((r - b) > 60) & playable_mask
 
-        # 2. 아군 마스크: B > 160 이며, B-R > 45, G > 80
-        ally_mask = (b > 160) & ((b - r) > 45) & (g > 80)
+        # 3. 아군 마스크: B > 160, G > 130 이며, B-R > 50 (플레이 영역 한정)
+        ally_mask = (b > 160) & (g > 130) & ((b - r) > 50) & playable_mask
 
-        # 챔피언 원형 아이콘 반지름(약 24px) 제곱값 = 576
-        enemy_coords = self._cluster_centroids(enemy_mask, min_pixels=12, radius_threshold_sq=576)
-        ally_coords = self._cluster_centroids(ally_mask, min_pixels=12, radius_threshold_sq=576)
+        # 챔피언 원형 아이콘 반지름(약 16px) 제곱값 = 256
+        enemy_coords = self._cluster_centroids(enemy_mask, w=w, h=h, is_enemy=True, min_pixels=5, radius_threshold_sq=256)
+        ally_coords = self._cluster_centroids(ally_mask, w=w, h=h, is_enemy=False, min_pixels=5, radius_threshold_sq=256)
 
         return enemy_coords, ally_coords
 
     def _cluster_centroids(
-        self, mask: np.ndarray, min_pixels: int = 12, radius_threshold_sq: int = 576
+        self, mask: np.ndarray, w: int, h: int, is_enemy: bool = True, min_pixels: int = 5, radius_threshold_sq: int = 256
     ) -> List[Tuple[float, float]]:
         """
-        초고속 센트로이드 클러스터링:
-        - sqrt 연산을 배제하고 dx*dx + dy*dy < radius_sq 거리 비교로 <0.3ms 에 수렴.
-        - 3픽셀 보폭(Stride) 서브샘플링으로 루프 순회 횟수를 88% 절감하면서도 중심점 오차 1px 미만 유지.
+        초고속 센트로이드 클러스터링 및 고정 포탑/억제기 필터링:
+        - 3픽셀 보폭 샘플링과 거리 비교로 챔피언 중심점을 계산합니다.
+        - 소환사의 협곡 고정 포탑/억제기/본진 좌표에 위치한 정적 아이콘은 챔피언 목록에서 엄격히 제외합니다.
         """
         y_indices, x_indices = np.where(mask)
         if len(x_indices) < min_pixels:
             return []
 
-        # 3픽셀 간격 샘플링 (연산 부하 극소화)
-        pts_x = x_indices[::3]
-        pts_y = y_indices[::3]
+        # 2픽셀 간격 샘플링
+        pts_x = x_indices[::2]
+        pts_y = y_indices[::2]
 
         clusters: List[List[float]] = []  # [cx, cy, count]
 
@@ -540,7 +581,6 @@ class ModernDeepLeagueTracker:
             for c in clusters:
                 dx = px - c[0]
                 dy = py - c[1]
-                # 제곱거리 비교 (math.hypot 대비 3배 이상 빠름)
                 if (dx * dx + dy * dy) < radius_threshold_sq:
                     count = c[2]
                     c[0] = (c[0] * count + px) / (count + 1)
@@ -551,8 +591,18 @@ class ModernDeepLeagueTracker:
             if not assigned:
                 clusters.append([float(px), float(py), 1.0])
 
-        # 유효한 크기(노이즈가 아닌 실제 챔피언 아이콘 크기)를 가진 클러스터만 추출
-        valid_centers = [(c[0], c[1]) for c in clusters if c[2] >= 4]
+        # 유효한 크기를 가지며 고정 구조물이 아닌 실제 챔피언 중심점만 추출
+        valid_centers: List[Tuple[float, float]] = []
+        for c in clusters:
+            if c[2] < 4.0:
+                continue
+            nx = c[0] / float(w)
+            ny = c[1] / float(h)
+            # 고정 포탑 및 억제기 좌표 배제
+            if is_static_structure(nx, ny, is_enemy=is_enemy):
+                continue
+            valid_centers.append((c[0], c[1]))
+
         # 한 팀당 최대 5명
         return valid_centers[:5]
 
