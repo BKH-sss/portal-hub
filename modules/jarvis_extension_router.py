@@ -28,6 +28,7 @@ from modules.realtime_audio_streamer import router as audio_stream_router
 from modules.daily_journal_writer import router as journal_router
 from modules.game_auto_coach import router as game_coach_router
 from modules.maple_skill_tracker import router as maple_tracker_router
+from modules.maple_cancel_trainer import router as maple_cancel_router
 from modules.lol_minimap_tracker import router as lol_minimap_router
 from modules.lol_voice_alert_engine import router as lol_voice_router
 from modules.lol_gank_eta_predictor import router as lol_eta_router
@@ -47,6 +48,7 @@ extension_router.include_router(audio_stream_router)
 extension_router.include_router(journal_router)
 extension_router.include_router(game_coach_router)
 extension_router.include_router(maple_tracker_router)
+extension_router.include_router(maple_cancel_router)
 extension_router.include_router(lol_minimap_router)
 extension_router.include_router(lol_voice_router)
 extension_router.include_router(lol_eta_router)

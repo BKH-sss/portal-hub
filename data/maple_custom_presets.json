@@ -87,21 +87,21 @@
     },
     {
       "name": "레이지 업라이징",
-      "category": "attack",
-      "cooldown_sec": 10.0,
-      "warn_before": 2.0,
+      "category": "defense",
+      "cooldown_sec": 7.0,
+      "warn_before": 3.0,
       "key_bind": "end",
       "voice_text": "레이지 업라이징 2초 남았어",
-      "slot_id": 2
+      "slot_id": 1
     },
     {
       "name": "극딜 시퀀스",
       "category": "burst",
-      "cooldown_sec": 120.0,
+      "cooldown_sec": 110.0,
       "warn_before": 5.0,
       "key_bind": "e",
       "voice_text": "극딜 5초전",
-      "slot_id": 3
+      "slot_id": 1
     },
     {
       "name": "에르다 노바",
@@ -115,11 +115,11 @@
     {
       "name": "소드 일루전",
       "category": "buff",
-      "cooldown_sec": 30.0,
+      "cooldown_sec": 25.0,
       "warn_before": 5.0,
       "key_bind": "w",
       "voice_text": "일루전 5초 남았어",
-      "slot_id": 5
+      "slot_id": 1
     },
     {
       "name": "인사이징",
@@ -129,6 +129,33 @@
       "key_bind": "q",
       "voice_text": "인사 5초뒤 끝나",
       "slot_id": 6
+    },
+    {
+      "name": "스피릿 칼리버",
+      "category": "defense",
+      "cooldown_sec": 338.0,
+      "warn_before": 5.0,
+      "key_bind": "r",
+      "voice_text": "6차 5초 전",
+      "slot_id": 1
+    },
+    {
+      "name": "크오솔",
+      "category": "defense",
+      "cooldown_sec": 224.0,
+      "warn_before": 5.0,
+      "key_bind": "f1",
+      "voice_text": "크오솔 5초 전",
+      "slot_id": 1
+    },
+    {
+      "name": "제네시스 무적",
+      "category": "defense",
+      "cooldown_sec": 110.0,
+      "warn_before": 5.0,
+      "key_bind": "x",
+      "voice_text": "제네 무적 5초 전",
+      "slot_id": 1
     }
   ],
   "팔라딘": [

@@ -157,8 +157,27 @@ class LoLVoiceAlertEngine:
         except Exception:
             return templates[0]
 
+    def speak_korean(self, text: str):
+        """임의의 한국어 문장을 비동기 음성으로 즉시 발화"""
+        if not self.is_enabled or self.volume <= 0:
+            return
+        now = time.time()
+        if (now - self.last_spoken_time) < 1.0:
+            return
+        try:
+            self.alert_queue.put_nowait({
+                "type": "DIRECT_SPEECH",
+                "text": text,
+                "timestamp": now
+            })
+        except queue.Full:
+            pass
+
     def _synthesize_and_play(self, item: Dict[str, Any]):
         """텍스트를 초고속 음성으로 합성하여 재생 (Edge-TTS 비동기 실행)"""
+        if not self.is_enabled or self.volume <= 0:
+            return
+
         text = item["text"]
         self.last_spoken_time = time.time()
 
@@ -181,9 +200,9 @@ class LoLVoiceAlertEngine:
             # ffplay가 있으면 즉시 무음/무창 재생, 없으면 powershell Media.SoundPlayer
             played = False
             try:
-                # ffplay 초고속 재생 시도 (-nodisp -autoexit)
+                # ffplay 초고속 재생 시도 (-nodisp -autoexit -volume 0..100)
                 p = subprocess.Popen(
-                    ["ffplay", "-nodisp", "-autoexit", "-loglevel", "quiet", tmp_path],
+                    ["ffplay", "-nodisp", "-autoexit", "-loglevel", "quiet", "-volume", str(int(self.volume)), tmp_path],
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL
                 )
@@ -194,7 +213,8 @@ class LoLVoiceAlertEngine:
 
             if not played:
                 # Windows 기본 PowerShell 사운드 백업
-                cmd = f"""powershell -c "$p = New-Object System.Windows.Media.MediaPlayer; $p.Open('{tmp_path}'); $p.Volume = {self.volume / 100.0}; $p.Play(); Start-Sleep -s 4" """
+                vol_ratio = max(0.0, min(1.0, self.volume / 100.0))
+                cmd = f"""powershell -c "$p = New-Object System.Windows.Media.MediaPlayer; $p.Open('{tmp_path}'); $p.Volume = {vol_ratio}; $p.Play(); Start-Sleep -s 4" """
                 subprocess.run(cmd, shell=True, capture_output=True)
 
             try:
@@ -239,12 +259,61 @@ def toggle_voice_alert(enable: bool):
     return {
         "status": "success",
         "enabled": voice_alert_engine.is_enabled,
+        "volume": voice_alert_engine.volume,
         "message": f"스카디 인게임 전술 음성 알림이 {'활성화' if enable else '비활성화'}되었습니다."
     }
 
 
+@router.post("/volume/{vol}", summary="스카디 LoL 음성 볼륨 조절 (0~100)")
+def set_voice_volume(vol: int):
+    """스카디 LoL 전술 음성 콜 볼륨을 0~100% 범위로 조절합니다."""
+    vol = max(0, min(100, int(vol)))
+    voice_alert_engine.volume = vol
+    return {
+        "status": "success",
+        "volume": voice_alert_engine.volume,
+        "message": f"스카디 LoL 전술 음성 볼륨이 {vol}%로 설정되었습니다."
+    }
+
+
+@router.post("/settings", summary="LoL 음성 알림 설정 일괄 변경")
+def update_voice_settings(req: VoiceSettingsRequest):
+    """음성 활성화 여부, 발화 에이전트, 볼륨을 일괄 업데이트합니다."""
+    if req.enabled is not None:
+        voice_alert_engine.is_enabled = req.enabled
+    if req.agent is not None:
+        voice_alert_engine.agent = req.agent
+    if req.volume is not None:
+        voice_alert_engine.volume = max(0, min(100, int(req.volume)))
+    return {
+        "status": "success",
+        "enabled": voice_alert_engine.is_enabled,
+        "agent": voice_alert_engine.agent,
+        "volume": voice_alert_engine.volume,
+        "message": "스카디 음성 설정이 성공적으로 저장되었습니다."
+    }
+
+
 @router.post("/test", summary="스카디 테스트 음성 발화")
-def test_voice_alert(alert_type: str = "DIVE_WARNING", lane: str = "바텀 라인"):
+def test_voice_alert(alert_type: str = "DIVE_WARNING", lane: str = "바텀 라인", custom_text: Optional[str] = None):
     """임의의 전술 상황을 시뮬레이션하여 스카디 목소리를 즉시 테스트합니다."""
-    voice_alert_engine.trigger_alert(alert_type, {"lane": lane, "count": 3, "zone": "강가", "eta": 7})
-    return {"status": "success", "message": f"[{alert_type}] 테스트 음성이 큐에 등록되었습니다."}
+    if custom_text:
+        text = custom_text
+    else:
+        text = voice_alert_engine._format_speech(alert_type, {"lane": lane, "count": 3, "zone": "강가", "eta": 7})
+        if not text:
+            text = "마스터, 스카디 전술 레이더 음성 정상 연결되었습니다. 위험 상황 발생 시 즉시 알려드릴게요."
+
+    # 테스트 발화는 쿨타임 무시하고 즉시 큐에 전달
+    voice_alert_engine.alert_queue.put({
+        "type": "TEST",
+        "text": text,
+        "timestamp": time.time()
+    })
+    return {
+        "status": "success",
+        "text": text,
+        "volume": voice_alert_engine.volume,
+        "enabled": voice_alert_engine.is_enabled,
+        "message": f"[{alert_type}] 테스트 음성이 재생 큐에 등록되었습니다: '{text}'"
+    }

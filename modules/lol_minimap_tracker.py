@@ -277,6 +277,57 @@ def get_lol_window_geometry() -> Tuple[Optional[int], Optional[Dict[str, Any]]]:
         return None, None
 
 
+def is_lol_foreground_active() -> bool:
+    """
+    현재 사용자가 롤 인게임 창(League of Legends (TM) Client / League of Legends.exe)을
+    포커스(활성창) 상태로 두고 있는지 0.00ms 초고속 검사합니다.
+    - 롤 화면이 활성화되지 않은 상태에서 바탕화면/작업표시줄 캡처 및 오탐지를 원천 차단합니다.
+    """
+    try:
+        import ctypes
+        user32 = ctypes.windll.user32
+
+        # WinSta0 / Default 데스크탑 바인딩 (서비스/백그라운드 스레드에서도 정확한 포그라운드 판별)
+        try:
+            hwinsta = user32.OpenWindowStationW('WinSta0', False, 0x0000037F)
+            if hwinsta:
+                user32.SetProcessWindowStation(hwinsta)
+            hdesk = user32.OpenDesktopW('Default', 0, False, 0x000001FF)
+            if hdesk:
+                user32.SetThreadDesktop(hdesk)
+        except Exception:
+            pass
+
+        fg_hwnd = user32.GetForegroundWindow()
+        if not fg_hwnd:
+            return False
+
+        # 1. 윈도우 타이틀 빠른 일치 검사
+        length = user32.GetWindowTextLengthW(fg_hwnd)
+        if length > 0:
+            buff = ctypes.create_unicode_buffer(length + 1)
+            user32.GetWindowTextW(fg_hwnd, buff, length + 1)
+            title = buff.value
+            if "League of Legends (TM) Client" in title or title == "League of Legends":
+                return True
+
+        # 2. 포그라운드 윈도우의 PID 프로세스명 검사 (League of Legends.exe)
+        pid = ctypes.c_ulong()
+        user32.GetWindowThreadProcessId(fg_hwnd, ctypes.byref(pid))
+        if pid.value > 0:
+            import psutil
+            try:
+                p = psutil.Process(pid.value)
+                pname = p.name().lower()
+                if pname == "league of legends.exe":
+                    return True
+            except Exception:
+                pass
+    except Exception:
+        pass
+    return False
+
+
 def is_lol_ingame_active() -> bool:
     """
     롤 인게임(소환사의 협곡 / 칼바람 등)이 실행 중인지 4계층 자동 판별:
@@ -339,6 +390,7 @@ class ModernDeepLeagueTracker:
         self.is_running: bool = False
         self.target_window_locked: bool = False
         self.target_window_info: Optional[str] = None
+        self.focus_filter_enabled: bool = True  # 🔒 롤 활성 창(포커스) 전용 감지 필터 (바탕화면/작업표시줄 캡처 원천 차단)
         self.worker_thread: Optional[threading.Thread] = None
         self.lock = threading.Lock()
         self._local = threading.local()  # 스레드별 mss 인스턴스 캐싱용
@@ -509,9 +561,21 @@ class ModernDeepLeagueTracker:
         """
         롤 인게임(League of Legends (TM) Client) 창만을 1:1 전용 타겟팅하여 초저지연 미니맵 캡처:
         - 게임 창의 실시간 좌표/해상도/모니터 위치를 추적하여 오직 해당 게임 창의 미니맵 영역만 캡처합니다.
-        - 게임이 최소화되었거나 인게임이 아닐 때는 바탕화면 캡처를 원천 차단하고 스탠바이 모드를 유지합니다.
+        - 포커스 필터(focus_filter_enabled) 활성화 시, 사용자가 롤 창을 활성화(포커스) 중일 때만 캡처하여
+          바탕화면, 웹 브라우저, 작업표시줄 등의 오탐지 및 화면 노출을 원천 차단합니다.
         """
         hwnd, geom = get_lol_window_geometry()
+        is_fg = is_lol_foreground_active()
+
+        # 🔒 포커스 필터 검사: 사용자가 롤 창을 포커스하고 있지 않으면 캡처 차단
+        if self.focus_filter_enabled and not is_fg:
+            with self.lock:
+                self.target_window_locked = False
+                if geom is not None:
+                    self.target_window_info = "대기 중 (롤 창 백그라운드/비활성)"
+                else:
+                    self.target_window_info = "대기 중 (롤 인게임 미감지)"
+            return None
 
         sct = self._get_thread_sct()
         if sct is None:
@@ -521,7 +585,7 @@ class ModernDeepLeagueTracker:
                 # 롤 인게임 창 1:1 타겟 락온 활성화
                 with self.lock:
                     self.target_window_locked = True
-                    self.target_window_info = f"{geom['game_w']}x{geom['game_h']} (X:{geom['game_x']}, Y:{geom['game_y']})"
+                    self.target_window_info = f"락온 완료: {geom['game_w']}x{geom['game_h']} (X:{geom['game_x']}, Y:{geom['game_y']})"
                     self.screen_width = geom["game_w"]
                     self.screen_height = geom["game_h"]
                     self.minimap_size = geom["minimap_size"]
@@ -539,7 +603,7 @@ class ModernDeepLeagueTracker:
             else:
                 with self.lock:
                     self.target_window_locked = False
-                    self.target_window_info = None
+                    self.target_window_info = "롤 인게임 창 미감지"
                 # 인게임 창이 활성화되지 않은 경우, 다른 프로그램이나 바탕화면 스캔을 방지하기 위해 None 반환
                 return None
         except Exception:
@@ -938,11 +1002,16 @@ class CalibrationRequest(BaseModel):
 @router.get("/status", summary="미니맵 트래커 현재 상태 및 감지 정보 조회")
 def get_minimap_status():
     """트래커 활성화 여부, 캡처 레이턴시, 감지된 적/아군 목록, 최근 전술 경고를 반환합니다."""
+    is_lol_act = is_lol_ingame_active()
+    is_lol_fg = is_lol_foreground_active()
     with minimap_tracker.lock:
         return {
             "is_running": minimap_tracker.is_running,
             "target_window_locked": minimap_tracker.target_window_locked,
             "target_window_info": minimap_tracker.target_window_info,
+            "is_lol_active": is_lol_act,
+            "is_lol_foreground": is_lol_fg,
+            "focus_filter_enabled": minimap_tracker.focus_filter_enabled,
             "current_preset": minimap_tracker.current_preset,
             "screen_res": f"{minimap_tracker.screen_width}x{minimap_tracker.screen_height}",
             "minimap_size": minimap_tracker.minimap_size,
@@ -954,6 +1023,17 @@ def get_minimap_status():
             "latency_ms": minimap_tracker.last_process_time_ms,
             "debug_image_b64": minimap_tracker.last_debug_image_b64,
         }
+
+
+@router.post("/focus-filter/{enable}", summary="포커스 필터(롤 활성창 전용 감지) ON/OFF 토글")
+def set_lol_focus_filter(enable: bool):
+    """롤 인게임 창이 활성화(포커스)된 상태일 때만 미니맵을 캡처하도록 제어합니다."""
+    minimap_tracker.focus_filter_enabled = enable
+    return {
+        "status": "success",
+        "focus_filter_enabled": minimap_tracker.focus_filter_enabled,
+        "message": f"롤 포커스 필터가 {'활성화(롤 창 포커스 시에만 캡처)' if enable else '비활성화(전체화면 캡처 허용)'}되었습니다."
+    }
 
 
 @router.get("/presets", summary="지원하는 모니터 해상도 프리셋 목록 조회")
@@ -1020,7 +1100,12 @@ def scan_single_frame():
     """즉시 1프레임을 캡처하여 적/아군 위치와 오버레이 디버그 이미지를 즉각 반환합니다."""
     bgra = minimap_tracker.capture_minimap_bgra()
     if bgra is None:
-        return {"status": "error", "message": "화면 캡처에 실패했습니다. (게임 화면 활성화 여부를 확인하세요)"}
+        if minimap_tracker.focus_filter_enabled and not is_lol_foreground_active():
+            return {
+                "status": "error",
+                "message": "롤 창(League of Legends)이 현재 활성화(포커스)되어 있지 않아 캡처가 대기 중입니다. 롤 게임 화면을 클릭 후 다시 시도하세요."
+            }
+        return {"status": "error", "message": "화면 캡처에 실패했습니다. (롤 인게임 창 실행 여부를 확인하세요)"}
     result = minimap_tracker.process_frame(bgra, make_debug_image=True)
     return {
         "status": "success",

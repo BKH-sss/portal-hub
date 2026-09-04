@@ -544,11 +544,19 @@
         <!-- 5-2. ⚔️ 리그 오브 레전드: Modern DeepLeague 미니맵 전술 레이더 패널 (NEW) -->
         <div class="card" style="grid-column: span 12; border-color: rgba(0, 229, 255, 0.4);">
             <div class="card-header">
-                <span class="card-title" style="color: var(--cyan-glow);">
-                    <i class="fa-solid fa-satellite-dish"></i> 리그 오브 레전드: Modern DeepLeague 미니맵 전술 레이더
-                </span>
-                <div style="display: flex; gap: 10px; align-items: center;">
+                <span class="card-title" style="color: var(--cyan-glow); display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <span><i class="fa-solid fa-satellite-dish"></i> 리그 오브 레전드: Modern DeepLeague 미니맵 전술 레이더</span>
                     <span id="lol-target-lock-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--cyan-glow);"><i class="fa-solid fa-crosshairs"></i> LoL 전용 창 탐색 중</span>
+                    <span id="lol-focus-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--cyan-glow); cursor: pointer;" onclick="toggleLoLFocusFilter()" title="클릭 시 포커스 필터(롤 활성창 전용 감지) ON/OFF 전환"><i class="fa-solid fa-bullseye"></i> 🔒 롤 전용 포커스: 켜짐</span>
+                </span>
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <!-- 🔊 스카디 LoL 음성 브리핑 볼륨 조절 -->
+                    <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);" title="스카디 LoL 전술 음성 브리핑 볼륨 조절 (0~100%)">
+                        <i id="lol-voice-vol-icon" class="fa-solid fa-volume-high" style="color: var(--cyan-glow); font-size: 13px; cursor: pointer;" onclick="toggleLoLVoiceMute()" title="음소거 토글"></i>
+                        <input type="range" id="lol-voice-vol-slider" min="0" max="100" value="100" style="width: 75px; accent-color: var(--cyan-glow); cursor: pointer;" oninput="onLoLVoiceVolumeChange(this.value)">
+                        <span id="lol-voice-vol-text" style="font-size: 11px; font-weight: 700; color: var(--cyan-glow); min-width: 32px; font-family: monospace;">100%</span>
+                    </div>
+                    <button class="btn-action" style="color: var(--cyan-glow); border-color: rgba(0, 242, 254, 0.4);" onclick="testLoLVoiceAlert()" title="스카디 LoL 전술 음성을 즉시 테스트 발화합니다"><i class="fa-solid fa-microphone-lines"></i> 음성 테스트</button>
                     <span id="lol-minimap-status-tag" style="font-size: 12px; color: var(--text-muted);">대기 중</span>
                     <button class="btn-action" onclick="scanMinimapNow()"><i class="fa-solid fa-eye"></i> 즉시 1회 스캔</button>
                     <button id="btn-minimap-toggle" class="btn-action" onclick="toggleMinimap()"><i class="fa-solid fa-play"></i> 미니맵 감시 시작</button>
@@ -1296,8 +1304,104 @@
             }
         }
 
-        // 4-1. ⚔️ LoL Modern DeepLeague 미니맵 전술 레이더 JS
+        // 4-1. ⚔️ LoL Modern DeepLeague 미니맵 전술 레이더 & 스카디 음성 JS
         let isMinimapTracking = false;
+        let lolVoiceVol = 100;
+        let lolVoiceLastVol = 100;
+        let lolFocusFilterEnabled = true;
+
+        async function onLoLVoiceVolumeChange(val) {
+            lolVoiceVol = parseInt(val) || 0;
+            const textEl = document.getElementById('lol-voice-vol-text');
+            const iconEl = document.getElementById('lol-voice-vol-icon');
+            if (textEl) textEl.innerText = `${lolVoiceVol}%`;
+            if (iconEl) {
+                if (lolVoiceVol === 0) {
+                    iconEl.className = 'fa-solid fa-volume-xmark';
+                    iconEl.style.color = 'var(--text-muted)';
+                } else if (lolVoiceVol < 50) {
+                    iconEl.className = 'fa-solid fa-volume-low';
+                    iconEl.style.color = 'var(--cyan-glow)';
+                } else {
+                    iconEl.className = 'fa-solid fa-volume-high';
+                    iconEl.style.color = 'var(--cyan-glow)';
+                }
+            }
+            try {
+                await fetch(`${API_BASE}/api/lol/voice/volume/${lolVoiceVol}`, { method: 'POST' });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function toggleLoLVoiceMute() {
+            const slider = document.getElementById('lol-voice-vol-slider');
+            if (lolVoiceVol > 0) {
+                lolVoiceLastVol = lolVoiceVol;
+                if (slider) slider.value = 0;
+                await onLoLVoiceVolumeChange(0);
+                appendLog('LOL_VOICE', '스카디 LoL 전술 음성이 음소거되었습니다.');
+            } else {
+                const restoreVal = lolVoiceLastVol > 0 ? lolVoiceLastVol : 100;
+                if (slider) slider.value = restoreVal;
+                await onLoLVoiceVolumeChange(restoreVal);
+                appendLog('LOL_VOICE', `스카디 LoL 전술 음성 볼륨이 ${restoreVal}%로 복원되었습니다.`);
+            }
+        }
+
+        async function testLoLVoiceAlert() {
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/voice/test`, { method: 'POST' });
+                const data = await res.json();
+                appendLog('LOL_VOICE', `스카디 전술 음성 테스트 발화 (볼륨: ${lolVoiceVol}%): "${data.text || data.message}"`);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function toggleLoLFocusFilter() {
+            const nextState = !lolFocusFilterEnabled;
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/minimap/focus-filter/${nextState}`, { method: 'POST' });
+                const data = await res.json();
+                lolFocusFilterEnabled = data.focus_filter_enabled;
+                const badge = document.getElementById('lol-focus-badge');
+                if (badge) {
+                    if (lolFocusFilterEnabled) {
+                        badge.innerHTML = '<i class="fa-solid fa-bullseye"></i> 🔒 롤 전용 포커스: 켜짐';
+                        badge.style.color = 'var(--cyan-glow)';
+                        badge.style.borderColor = 'rgba(0, 229, 255, 0.4)';
+                        badge.style.background = 'rgba(0, 229, 255, 0.1)';
+                    } else {
+                        badge.innerHTML = '<i class="fa-solid fa-unlock"></i> 🔓 포커스 해제 (전체화면)';
+                        badge.style.color = 'var(--orange-glow)';
+                        badge.style.borderColor = 'rgba(255, 153, 0, 0.4)';
+                        badge.style.background = 'rgba(255, 153, 0, 0.12)';
+                    }
+                }
+                appendLog('LOL', `롤 포커스 필터 ${lolFocusFilterEnabled ? '활성화 (롤 게임창 전용)' : '비활성화 (전체화면)'}`);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function initLoLVoiceStatus() {
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/voice/status`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (typeof data.volume === 'number') {
+                        lolVoiceVol = data.volume;
+                        const slider = document.getElementById('lol-voice-vol-slider');
+                        const textEl = document.getElementById('lol-voice-vol-text');
+                        if (slider) slider.value = lolVoiceVol;
+                        if (textEl) textEl.innerText = `${lolVoiceVol}%`;
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
 
         async function toggleMinimap() {
             const nextState = !isMinimapTracking;
@@ -1366,19 +1470,42 @@
                     }
                 }
 
-                // 1-1. LoL 전용 창 타겟 락온 배지 갱신
+                // 1-1. LoL 전용 창 타겟 락온 & 포커스 배지 갱신
                 const targetBadge = document.getElementById('lol-target-lock-badge');
                 if (targetBadge) {
-                    if (data.target_window_locked) {
-                        targetBadge.innerHTML = `<i class="fa-solid fa-crosshairs"></i> 🎯 롤 전용 창 락온 (${data.screen_res})`;
-                        targetBadge.style.color = 'var(--green-glow)';
-                        targetBadge.style.borderColor = 'var(--green-glow)';
-                        targetBadge.style.background = 'rgba(0, 255, 135, 0.15)';
+                    if (data.is_lol_active) {
+                        if (data.is_lol_foreground) {
+                            targetBadge.innerHTML = `<i class="fa-solid fa-crosshairs"></i> 🎯 롤 창 락온 (인게임 활성)`;
+                            targetBadge.style.color = 'var(--green-glow)';
+                            targetBadge.style.borderColor = 'var(--green-glow)';
+                            targetBadge.style.background = 'rgba(0, 255, 135, 0.15)';
+                        } else {
+                            targetBadge.innerHTML = `<i class="fa-solid fa-pause"></i> ⏳ 롤 백그라운드 (대기 중)`;
+                            targetBadge.style.color = 'var(--orange-glow)';
+                            targetBadge.style.borderColor = 'rgba(255, 153, 0, 0.4)';
+                            targetBadge.style.background = 'rgba(255, 153, 0, 0.12)';
+                        }
                     } else {
-                        targetBadge.innerHTML = '<i class="fa-solid fa-crosshairs"></i> 롤 인게임 창 탐색 중 (Standby)';
+                        targetBadge.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> 🔍 롤 인게임 창 탐색 중';
                         targetBadge.style.color = 'var(--cyan-glow)';
                         targetBadge.style.borderColor = 'rgba(0, 229, 255, 0.3)';
                         targetBadge.style.background = 'rgba(0, 229, 255, 0.1)';
+                    }
+                }
+
+                const focusBadge = document.getElementById('lol-focus-badge');
+                if (focusBadge && typeof data.focus_filter_enabled === 'boolean') {
+                    lolFocusFilterEnabled = data.focus_filter_enabled;
+                    if (lolFocusFilterEnabled) {
+                        focusBadge.innerHTML = '<i class="fa-solid fa-bullseye"></i> 🔒 롤 전용 포커스: 켜짐';
+                        focusBadge.style.color = 'var(--cyan-glow)';
+                        focusBadge.style.borderColor = 'rgba(0, 229, 255, 0.4)';
+                        focusBadge.style.background = 'rgba(0, 229, 255, 0.1)';
+                    } else {
+                        focusBadge.innerHTML = '<i class="fa-solid fa-unlock"></i> 🔓 포커스 해제 (전체화면)';
+                        focusBadge.style.color = 'var(--orange-glow)';
+                        focusBadge.style.borderColor = 'rgba(255, 153, 0, 0.4)';
+                        focusBadge.style.background = 'rgba(255, 153, 0, 0.12)';
                     }
                 }
 
@@ -1631,6 +1758,7 @@
         loadMapleStatus();
         loadVoiceVolume();
         initMinimapPresets();
+        initLoLVoiceStatus();
         pollMinimapStatus();
         pollCancelTrainerStatus();
         setInterval(updateMetrics, 2000);
