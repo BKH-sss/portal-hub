@@ -38,6 +38,9 @@ try:
 except ImportError:
     np = None
 
+import ctypes
+from ctypes import wintypes
+
 # 초저지연 스크린 캡처 라이브러리 임포트 (미설치 시 폴백 대비)
 try:
     import mss
@@ -151,11 +154,76 @@ def map_coordinate_to_zone(nx: float, ny: float) -> str:
     return "협곡 기타 구역"
 
 
+class _POINT(ctypes.Structure):
+    _fields_ = [('x', wintypes.LONG), ('y', wintypes.LONG)]
+
+
+def get_lol_window_geometry() -> Tuple[Optional[int], Optional[Dict[str, Any]]]:
+    """
+    롤 인게임 매치 창(League of Legends (TM) Client)의 실시간 HWND 및 창 좌표(Rect)를 조회합니다.
+    - 창이 존재하지 않거나 최소화(Iconic) 또는 비가시 상태인 경우 (None, None)을 반환합니다.
+    - 전체화면 / 테두리 없는 창모드 / 창모드 / 듀얼 모니터 이동 시에도 해당 게임 창의 위치를 1:1로 정확하게 추적합니다.
+    """
+    try:
+        import ctypes
+        user32 = ctypes.windll.user32
+
+        # WinSta0 데스크탑 바인딩
+        try:
+            hwinsta = user32.OpenWindowStationW('WinSta0', False, 0x0000037F)
+            if hwinsta:
+                user32.SetProcessWindowStation(hwinsta)
+            hdesk = user32.OpenDesktopW('Default', 0, False, 0x000001FF)
+            if hdesk:
+                user32.SetThreadDesktop(hdesk)
+        except Exception:
+            pass
+
+        hwnd = user32.FindWindowW(None, 'League of Legends (TM) Client')
+        if not hwnd:
+            hwnd = user32.FindWindowW('League of Legends (TM) Client', None)
+
+        if not hwnd or not user32.IsWindowVisible(hwnd) or user32.IsIconic(hwnd):
+            return None, None
+
+        rect = wintypes.RECT()
+        user32.GetClientRect(hwnd, ctypes.byref(rect))
+        pt = _POINT(0, 0)
+        user32.ClientToScreen(hwnd, ctypes.byref(pt))
+
+        gw = rect.right - rect.left
+        gh = rect.bottom - rect.top
+        gx = pt.x
+        gy = pt.y
+
+        if gw < 300 or gh < 300:
+            return None, None
+
+        # 미니맵 크기 및 ROI 자동 비례 계산 (표준 HUD 기준 높이의 약 26.85%)
+        scale = gh / 1080.0
+        msize = int(round(290 * scale))
+        roi_x = gx + gw - msize
+        roi_y = gy + gh - msize
+
+        return hwnd, {
+            "hwnd": hwnd,
+            "game_x": gx,
+            "game_y": gy,
+            "game_w": gw,
+            "game_h": gh,
+            "minimap_size": msize,
+            "roi_x": roi_x,
+            "roi_y": roi_y,
+        }
+    except Exception:
+        return None, None
+
+
 def is_lol_ingame_active() -> bool:
     """
     롤 인게임(소환사의 협곡 / 칼바람 등)이 실행 중인지 4계층 자동 판별:
     1) Riot Live Client Data API (https://127.0.0.1:2999/liveclientdata/gamestats) - 인게임 중 100% 정확
-    2) Windows API: 'League of Legends (TM) Client' 윈도우 창 검색
+    2) Windows API: 'League of Legends (TM) Client' 윈도우 창 검색 및 기하 정보 확인
     3) psutil: 'League of Legends.exe' 인게임 프로세스 실행 여부 (LeagueClient.exe는 제외)
     4) LCU API: /lol-gameflow/v1/gameflow-phase == 'InProgress'
     """
@@ -168,18 +236,10 @@ def is_lol_ingame_active() -> bool:
     except Exception:
         pass
 
-    # 2. Windows API (League of Legends (TM) Client 창 검색)
-    try:
-        import ctypes
-        user32 = ctypes.windll.user32
-        hwnd = user32.FindWindowW(None, 'League of Legends (TM) Client')
-        if hwnd and hwnd != 0:
-            return True
-        hwnd_class = user32.FindWindowW('League of Legends (TM) Client', None)
-        if hwnd_class and hwnd_class != 0:
-            return True
-    except Exception:
-        pass
+    # 2. Windows API (League of Legends (TM) Client 창 검증)
+    hwnd, geom = get_lol_window_geometry()
+    if hwnd and geom:
+        return True
 
     # 3. 프로세스 감시 (League of Legends.exe 인게임 바이너리만 감시)
     try:
@@ -211,6 +271,7 @@ def is_lol_ingame_active() -> bool:
 class ModernDeepLeagueTracker:
     """
     순수 CPU 100%, GPU 0.0% 부하의 초경량 실시간 미니맵 트래커입니다.
+    - 롤 인게임(League of Legends (TM) Client) 창만을 1:1 전용 타겟팅하여 해당 게임 화면만 감지합니다.
     - thread-local mss 인스턴스를 통해 프레임당 캡처 지연시간을 0.5ms 이하로 단축합니다.
     - NumPy 벡터화 링 마스크와 제곱거리 클러스터링으로 2~3ms 안에 챔피언 위치를 판독합니다.
     - 인게임 시작/종료 상시 자동 감지 라이프사이클 워커 내장
@@ -218,6 +279,8 @@ class ModernDeepLeagueTracker:
 
     def __init__(self):
         self.is_running: bool = False
+        self.target_window_locked: bool = False
+        self.target_window_info: Optional[str] = None
         self.worker_thread: Optional[threading.Thread] = None
         self.lock = threading.Lock()
         self._local = threading.local()  # 스레드별 mss 인스턴스 캐싱용
@@ -386,22 +449,41 @@ class ModernDeepLeagueTracker:
 
     def capture_minimap_bgra(self) -> Optional[np.ndarray]:
         """
-        초저지연(0.3~0.5ms) 화면 캡처:
-        - 중간 PIL 변환 없이 mss 메모리 버퍼에서 NumPy BGRA 배열로 0-copy 직렬화합니다.
+        롤 인게임(League of Legends (TM) Client) 창만을 1:1 전용 타겟팅하여 초저지연 미니맵 캡처:
+        - 게임 창의 실시간 좌표/해상도/모니터 위치를 추적하여 오직 해당 게임 창의 미니맵 영역만 캡처합니다.
+        - 게임이 최소화되었거나 인게임이 아닐 때는 바탕화면 캡처를 원천 차단하고 스탠바이 모드를 유지합니다.
         """
+        hwnd, geom = get_lol_window_geometry()
+
         sct = self._get_thread_sct()
         if sct is None:
             return None
         try:
-            monitor = {
-                "top": int(self.roi_y),
-                "left": int(self.roi_x),
-                "width": int(self.minimap_size),
-                "height": int(self.minimap_size),
-            }
-            sct_img = sct.grab(monitor)
-            # mss.ScreenShot -> (H, W, 4) uint8 BGRA 넘파이 배열
-            return np.asarray(sct_img, dtype=np.uint8)
+            if geom is not None:
+                # 롤 인게임 창 1:1 타겟 락온 활성화
+                with self.lock:
+                    self.target_window_locked = True
+                    self.target_window_info = f"{geom['game_w']}x{geom['game_h']} (X:{geom['game_x']}, Y:{geom['game_y']})"
+                    self.screen_width = geom["game_w"]
+                    self.screen_height = geom["game_h"]
+                    self.minimap_size = geom["minimap_size"]
+                    self.roi_x = geom["roi_x"]
+                    self.roi_y = geom["roi_y"]
+
+                monitor = {
+                    "top": int(geom["roi_y"]),
+                    "left": int(geom["roi_x"]),
+                    "width": int(geom["minimap_size"]),
+                    "height": int(geom["minimap_size"]),
+                }
+                sct_img = sct.grab(monitor)
+                return np.asarray(sct_img, dtype=np.uint8)
+            else:
+                with self.lock:
+                    self.target_window_locked = False
+                    self.target_window_info = None
+                # 인게임 창이 활성화되지 않은 경우, 다른 프로그램이나 바탕화면 스캔을 방지하기 위해 None 반환
+                return None
         except Exception:
             return None
 
@@ -768,6 +850,8 @@ def get_minimap_status():
     with minimap_tracker.lock:
         return {
             "is_running": minimap_tracker.is_running,
+            "target_window_locked": minimap_tracker.target_window_locked,
+            "target_window_info": minimap_tracker.target_window_info,
             "current_preset": minimap_tracker.current_preset,
             "screen_res": f"{minimap_tracker.screen_width}x{minimap_tracker.screen_height}",
             "minimap_size": minimap_tracker.minimap_size,

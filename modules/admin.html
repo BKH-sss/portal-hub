@@ -454,6 +454,7 @@
                     <i class="fa-solid fa-satellite-dish"></i> 리그 오브 레전드: Modern DeepLeague 미니맵 전술 레이더
                 </span>
                 <div style="display: flex; gap: 10px; align-items: center;">
+                    <span id="lol-target-lock-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--cyan-glow);"><i class="fa-solid fa-crosshairs"></i> LoL 전용 창 탐색 중</span>
                     <span id="lol-minimap-status-tag" style="font-size: 12px; color: var(--text-muted);">대기 중</span>
                     <button class="btn-action" onclick="scanMinimapNow()"><i class="fa-solid fa-eye"></i> 즉시 1회 스캔</button>
                     <button id="btn-minimap-toggle" class="btn-action" onclick="toggleMinimap()"><i class="fa-solid fa-play"></i> 미니맵 감시 시작</button>
@@ -1114,6 +1115,22 @@
                         btn.innerHTML = '<i class="fa-solid fa-play"></i> 미니맵 감시 시작';
                         statusTag.innerText = '대기 중 (인게임 자동 감지)';
                         statusTag.style.color = 'var(--text-muted)';
+                    }
+                }
+
+                // 1-1. LoL 전용 창 타겟 락온 배지 갱신
+                const targetBadge = document.getElementById('lol-target-lock-badge');
+                if (targetBadge) {
+                    if (data.target_window_locked) {
+                        targetBadge.innerHTML = `<i class="fa-solid fa-crosshairs"></i> 🎯 롤 전용 창 락온 (${data.screen_res})`;
+                        targetBadge.style.color = 'var(--green-glow)';
+                        targetBadge.style.borderColor = 'var(--green-glow)';
+                        targetBadge.style.background = 'rgba(0, 255, 135, 0.15)';
+                    } else {
+                        targetBadge.innerHTML = '<i class="fa-solid fa-crosshairs"></i> 롤 인게임 창 탐색 중 (Standby)';
+                        targetBadge.style.color = 'var(--cyan-glow)';
+                        targetBadge.style.borderColor = 'rgba(0, 229, 255, 0.3)';
+                        targetBadge.style.background = 'rgba(0, 229, 255, 0.1)';
                     }
                 }
 
