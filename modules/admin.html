@@ -395,6 +395,7 @@
                     <span><i class="fa-solid fa-maple-leaf"></i> 메이플스토리 47+ 직업 쿨타임 & 스카디 음성 브리핑</span>
                     <span id="maple-process-badge"></span>
                     <span id="admin-badge"></span>
+                    <span id="focus-filter-badge"></span>
                 </span>
                 <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                     <!-- 직업 & 보스 프리셋 셀렉터 -->
@@ -737,12 +738,14 @@
                     }
                 }
 
-                const adminBadge = document.getElementById('admin-badge');
-                if (adminBadge) {
-                    if (data.is_admin) {
-                        adminBadge.innerHTML = `<span style="background: rgba(0, 255, 135, 0.15); border: 1px solid rgba(0, 255, 135, 0.4); color: var(--green-glow); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;"><i class="fa-solid fa-shield-halved"></i> 관리자 권한 (인게임 100% 감지)</span>`;
+                const filterBadge = document.getElementById('focus-filter-badge');
+                if (filterBadge) {
+                    if (data.focus_filter_enabled) {
+                        const activeTxt = data.is_maple_active ? '메이플 포커스 중' : '대기 중';
+                        const activeColor = data.is_maple_active ? 'var(--green-glow)' : 'var(--cyan-glow)';
+                        filterBadge.innerHTML = `<span style="background: rgba(0, 229, 255, 0.12); border: 1px solid rgba(0, 229, 255, 0.35); color: ${activeColor}; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;" title="메이플 게임 창이 활성화되어 있을 때만 단축키를 감지합니다 (오작동 0% 방지)"><i class="fa-solid fa-crosshairs"></i> 포커스 필터 ON (${activeTxt})</span>`;
                     } else {
-                        adminBadge.innerHTML = `<span style="background: rgba(255, 153, 0, 0.15); border: 1px solid rgba(255, 153, 0, 0.4); color: var(--orange-glow); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;" title="메이플스토리 인게임 창이 활성화되어 있을 때 키를 감지하려면 관리자 권한으로 실행해야 합니다."><i class="fa-solid fa-triangle-exclamation"></i> 인게임 감지용: [JARVIS_관리자_실행.bat] 권장</span>`;
+                        filterBadge.innerHTML = `<span style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); padding: 2px 8px; border-radius: 4px; font-size: 11px;"><i class="fa-solid fa-crosshairs"></i> 포커스 필터 OFF</span>`;
                     }
                 }
 
