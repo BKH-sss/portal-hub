@@ -153,35 +153,50 @@ def map_coordinate_to_zone(nx: float, ny: float) -> str:
 
 def is_lol_ingame_active() -> bool:
     """
-    롤 인게임(소환사의 협곡 / 칼바람 등)이 실행 중인지 3계층 자동 판별
-    1) Windows API: 'League of Legends (TM) Client' 윈도우 창 검색 (0.01ms)
-    2) psutil: 'League of Legends.exe' 프로세스 실행 여부
-    3) LCU API: /lol-gameflow/v1/gameflow-phase == 'InProgress'
+    롤 인게임(소환사의 협곡 / 칼바람 등)이 실행 중인지 4계층 자동 판별:
+    1) Riot Live Client Data API (https://127.0.0.1:2999/liveclientdata/gamestats) - 인게임 중 100% 정확
+    2) Windows API: 'League of Legends (TM) Client' 윈도우 창 검색
+    3) psutil: 'League of Legends.exe' 인게임 프로세스 실행 여부 (LeagueClient.exe는 제외)
+    4) LCU API: /lol-gameflow/v1/gameflow-phase == 'InProgress'
     """
+    # 1. Live Client Data API (인게임 5v5 매치 가동 시 100% 응답)
+    try:
+        import requests
+        r = requests.get("https://127.0.0.1:2999/liveclientdata/gamestats", verify=False, timeout=0.2)
+        if r.status_code == 200:
+            return True
+    except Exception:
+        pass
+
+    # 2. Windows API (League of Legends (TM) Client 창 검색)
     try:
         import ctypes
-        hwnd = ctypes.windll.user32.FindWindowW(None, 'League of Legends (TM) Client')
+        user32 = ctypes.windll.user32
+        hwnd = user32.FindWindowW(None, 'League of Legends (TM) Client')
         if hwnd and hwnd != 0:
             return True
-        hwnd_class = ctypes.windll.user32.FindWindowW('League of Legends (TM) Client', None)
+        hwnd_class = user32.FindWindowW('League of Legends (TM) Client', None)
         if hwnd_class and hwnd_class != 0:
             return True
     except Exception:
         pass
 
+    # 3. 프로세스 감시 (League of Legends.exe 인게임 바이너리만 감시)
     try:
         import psutil
         for proc in psutil.process_iter(['name']):
             name = proc.info.get('name', '')
-            if name in ('League of Legends.exe', 'League of Legends (TM) Client', 'League of Legends (TM) Client.exe'):
+            if name == 'League of Legends.exe':
                 return True
     except Exception:
         pass
 
+    # 4. Riot LCU 게임플로우 Phase
     try:
-        from core.state import riot_lcu
-        status = riot_lcu.get_current_status()
-        if status.get("game_mode_raw") == "InProgress" or status.get("phase") == "InProgress":
+        from riot_lcu import RiotLCU
+        lcu = RiotLCU()
+        phase = lcu.request('GET', '/lol-gameflow/v1/gameflow-phase')
+        if phase == 'InProgress':
             return True
     except Exception:
         pass
@@ -291,6 +306,17 @@ class ModernDeepLeagueTracker:
         if mss is None:
             return None
         if not hasattr(self._local, "sct") or self._local.sct is None:
+            try:
+                import ctypes
+                user32 = ctypes.windll.user32
+                hwinsta = user32.OpenWindowStationW('WinSta0', False, 0x0000037F)
+                if hwinsta:
+                    user32.SetProcessWindowStation(hwinsta)
+                hdesk = user32.OpenDesktopW('Default', 0, False, 0x000001FF)
+                if hdesk:
+                    user32.SetThreadDesktop(hdesk)
+            except Exception:
+                pass
             self._local.sct = mss.mss()
         return self._local.sct
 
@@ -576,25 +602,60 @@ class ModernDeepLeagueTracker:
     ):
         """관리자 대시보드 표시를 위한 실시간 레이더 뷰 오버레이 이미지를 생성합니다."""
         try:
-            # BGRA -> RGB 변환
-            rgb_arr = bgra[:, :, [2, 1, 0]]
-            img = Image.fromarray(rgb_arr, mode="RGB")
-            draw = ImageDraw.Draw(img)
+            mean_val = float(bgra.mean()) if bgra is not None else 0.0
+            h, w = (bgra.shape[0], bgra.shape[1]) if bgra is not None else (self.minimap_size, self.minimap_size)
 
-            # 적군: 붉은색 타겟 서클
-            for e in enemies:
-                x, y = e["x"], e["y"]
-                draw.ellipse([x - 13, y - 13, x + 13, y + 13], outline="#ff1744", width=2)
-                draw.text((x - 12, y - 24), "ENEMY", fill="#ff1744")
+            # 1. 인게임 미니맵이 아직 어둡거나 대기 상태일 때: 사이버틱 전술 레이더 HUD 렌더링
+            if mean_val < 8.0:
+                img = Image.new("RGB", (w, h), color=(10, 15, 24))
+                draw = ImageDraw.Draw(img)
 
-            # 아군: 네온 시안색 아군 서클
-            for a in allies:
-                x, y = a["x"], a["y"]
-                draw.ellipse([x - 13, y - 13, x + 13, y + 13], outline="#00e5ff", width=2)
-                draw.text((x - 10, y - 24), "ALLY", fill="#00e5ff")
+                # 격자선 (Tactical Grid)
+                step = max(30, w // 8)
+                for x in range(0, w, step):
+                    draw.line([(x, 0), (x, h)], fill=(18, 30, 48), width=1)
+                for y in range(0, h, step):
+                    draw.line([(0, y), (w, y)], fill=(18, 30, 48), width=1)
+
+                # 레이더 동심원 (Concentric Range Rings)
+                cx, cy = w // 2, h // 2
+                for r_pct in [0.18, 0.32, 0.44]:
+                    r = int(w * r_pct)
+                    draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(0, 229, 255), width=1)
+
+                # 조준선 (Crosshair Reticle)
+                draw.line([(cx, 15), (cx, h - 15)], fill=(0, 229, 255), width=1)
+                draw.line([(15, cy), (w - 15, cy)], fill=(0, 229, 255), width=1)
+
+                # 대기 상태 텍스트 배지
+                badge_w, badge_h = int(w * 0.72), 34
+                bx1 = cx - badge_w // 2
+                by1 = cy - badge_h // 2
+                draw.rectangle([bx1, by1, bx1 + badge_w, by1 + badge_h], fill=(5, 10, 18), outline=(0, 229, 255), width=1)
+                draw.text((bx1 + 18, by1 + 10), f"LoL Tactical Radar [{self.current_preset}]", fill=(0, 229, 255))
+
+                # 하단 대기 안내 문구
+                draw.text((cx - 75, h - 28), "STANDBY / WAITING FOR MATCH", fill=(120, 160, 200))
+            else:
+                # 2. 실제 인게임 미니맵 영상 오버레이
+                rgb_arr = bgra[:, :, [2, 1, 0]]
+                img = Image.fromarray(rgb_arr, mode="RGB")
+                draw = ImageDraw.Draw(img)
+
+                # 적군: 붉은색 타겟 서클
+                for e in enemies:
+                    x, y = int(e["x"]), int(e["y"])
+                    draw.ellipse([x - 13, y - 13, x + 13, y + 13], outline="#ff1744", width=2)
+                    draw.text((x - 12, y - 24), "ENEMY", fill="#ff1744")
+
+                # 아군: 네온 시안색 아군 서클
+                for a in allies:
+                    x, y = int(a["x"]), int(a["y"])
+                    draw.ellipse([x - 13, y - 13, x + 13, y + 13], outline="#00e5ff", width=2)
+                    draw.text((x - 10, y - 24), "ALLY", fill="#00e5ff")
 
             buffer = io.BytesIO()
-            img.save(buffer, format="JPEG", quality=75)
+            img.save(buffer, format="JPEG", quality=80)
             self.last_debug_image_b64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
         except Exception:
             pass
