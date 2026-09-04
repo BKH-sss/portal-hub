@@ -392,15 +392,16 @@
         <div class="card" style="grid-column: span 12; border-color: rgba(255, 153, 0, 0.4);">
             <div class="card-header">
                 <span class="card-title" style="color: var(--orange-glow); display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                    <span><i class="fa-solid fa-maple-leaf"></i> 메이플스토리 스킬 쿨타임 & 스카디 음성 브리핑 설정</span>
+                    <span><i class="fa-solid fa-maple-leaf"></i> 메이플스토리 47+ 직업 쿨타임 & 스카디 음성 브리핑</span>
+                    <span id="maple-process-badge"></span>
                     <span id="admin-badge"></span>
                 </span>
                 <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                    <!-- 직업 프리셋 셀렉터 -->
-                    <select id="preset-select" class="form-input" style="width: 130px; font-weight: 600;">
-                        <!-- JS로 동적 렌더링 -->
+                    <!-- 직업 & 보스 프리셋 셀렉터 -->
+                    <select id="preset-select" class="form-input" style="width: 170px; font-weight: 600;">
+                        <!-- JS로 카테고리별 동적 렌더링 -->
                     </select>
-                    <button class="btn-action" onclick="loadJobPreset()" title="선택한 프리셋 스킬 목록을 불러옵니다"><i class="fa-solid fa-bolt"></i> 로드</button>
+                    <button class="btn-action" onclick="loadJobPreset()" title="선택한 직업/보스 프리셋 스킬 목록을 불러옵니다"><i class="fa-solid fa-bolt"></i> 로드</button>
                     <button class="btn-action" style="color: var(--green-glow); border-color: rgba(0, 255, 135, 0.4);" onclick="saveCurrentAsPreset()" title="현재 스킬 구성을 프리셋으로 저장합니다"><i class="fa-solid fa-floppy-disk"></i> 저장</button>
                     <button class="btn-action" style="color: var(--red-glow); border-color: rgba(255, 0, 85, 0.4);" onclick="deleteCurrentPreset()" title="선택된 프리셋을 삭제합니다"><i class="fa-solid fa-trash-can"></i> 삭제</button>
                     <button class="btn-action" onclick="addNewPresetPrompt()" title="새로운 직업/보스 프리셋을 추가합니다"><i class="fa-solid fa-plus"></i> 새 프리셋</button>
@@ -417,15 +418,30 @@
                 </div>
             </div>
 
+            <!-- 🍁 넥슨 캐릭터 연동 & 직업 자동 세팅 바 -->
+            <div style="display: flex; gap: 10px; align-items: center; background: rgba(0,0,0,0.25); padding: 8px 14px; border-radius: 8px; margin-bottom: 12px; border: 1px solid rgba(255,153,0,0.2); flex-wrap: wrap;">
+                <span style="font-size: 12px; color: var(--orange-glow); font-weight: 700;"><i class="fa-solid fa-user-astronaut"></i> 넥슨 캐릭터 닉네임 연동:</span>
+                <input type="text" id="maple-char-name-input" class="form-input" style="width: 170px; height: 30px; font-size: 12px;" placeholder="닉네임 (예: 타락파워전사)" onkeydown="if(event.key==='Enter') linkMapleCharacterFromAdmin()">
+                <button class="btn-action" style="padding: 3px 10px; font-size: 11px;" onclick="linkMapleCharacterFromAdmin()"><i class="fa-solid fa-link"></i> 연동 & 직업 프리셋 적용</button>
+                <span id="maple-char-info-tag" style="font-size: 12px; color: var(--text-muted); margin-left: auto;"></span>
+            </div>
+
             <!-- 스킬 등록 폼 -->
-            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 3fr auto; gap: 10px; align-items: center; background: rgba(0,0,0,0.25); padding: 14px; border-radius: 8px; margin-bottom: 14px;">
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 3fr auto; gap: 8px; align-items: center; background: rgba(0,0,0,0.25); padding: 12px; border-radius: 8px; margin-bottom: 14px;">
                 <input type="text" id="skill-name" class="form-input" placeholder="스킬명 (예: 제네시스 무적기)">
+                <select id="skill-cat" class="form-input" style="font-size: 12px;">
+                    <option value="defense">🛡️ 방어/무적</option>
+                    <option value="burst">🔥 극딜기</option>
+                    <option value="bind">⚡ 바인드</option>
+                    <option value="buff">💫 버프/준극</option>
+                    <option value="boss">👾 보스패턴</option>
+                </select>
                 <input type="number" id="skill-cd" class="form-input" placeholder="쿨타임 초 (예: 180)">
                 <input type="number" id="skill-warn" class="form-input" placeholder="몇 초 전 예고" value="5">
                 <input type="text" id="skill-key" class="form-input" placeholder="단축키 (예: shift, ctrl, s)" value="shift">
                 <input type="text" id="skill-voice" class="form-input" placeholder="스카디 음성 대사 (예: 방어 스킬 쿨 5초 남았어)">
                 <button class="btn-action" style="background: rgba(255, 153, 0, 0.2); border-color: var(--orange-glow); color: var(--orange-glow);" onclick="addSkill()">
-                    <i class="fa-solid fa-plus"></i> 스킬 등록
+                    <i class="fa-solid fa-plus"></i> 등록
                 </button>
             </div>
 
@@ -433,11 +449,12 @@
             <table class="skill-table">
                 <thead>
                     <tr>
-                        <th style="width: 22%;">스킬명</th>
+                        <th style="width: 20%;">스킬명</th>
+                        <th style="width: 10%;">분류</th>
                         <th style="width: 10%;">단축키</th>
-                        <th style="width: 12%;">총 쿨타임</th>
-                        <th style="width: 12%;">예고 타이밍</th>
-                        <th style="width: 24%;">스카디 발화 대사</th>
+                        <th style="width: 10%;">총 쿨타임</th>
+                        <th style="width: 10%;">예고 타이밍</th>
+                        <th style="width: 20%;">스카디 발화 대사</th>
                         <th style="width: 20%;">남은 시간 / 조작</th>
                     </tr>
                 </thead>
@@ -545,9 +562,21 @@
             </div>
             
             <input type="hidden" id="edit-original-name">
-            <div style="display: flex; flex-direction: column; gap: 6px;">
-                <label style="font-size: 12px; color: var(--text-muted);">스킬명</label>
-                <input type="text" id="edit-skill-name" class="form-input" placeholder="스킬명 (예: 제네시스 무적기)">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 12px; color: var(--text-muted);">스킬명</label>
+                    <input type="text" id="edit-skill-name" class="form-input" placeholder="스킬명 (예: 제네시스 무적기)">
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-size: 12px; color: var(--text-muted);">분류</label>
+                    <select id="edit-skill-cat" class="form-input" style="font-size: 12px;">
+                        <option value="defense">🛡️ 방어/무적</option>
+                        <option value="burst">🔥 극딜기</option>
+                        <option value="bind">⚡ 바인드</option>
+                        <option value="buff">💫 버프/준극</option>
+                        <option value="boss">👾 보스패턴</option>
+                    </select>
+                </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
@@ -657,7 +686,25 @@
             }
         }
 
-        // 3. 메이플 스킬 트래커 로드
+        // 3. 메이플 스킬 카테고리 배지 헬퍼
+        function getCategoryBadge(cat) {
+            switch (cat) {
+                case 'defense':
+                    return `<span style="background: rgba(0, 242, 254, 0.15); border: 1px solid rgba(0, 242, 254, 0.4); color: var(--cyan-glow); padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;"><i class="fa-solid fa-shield"></i> 무적/방어</span>`;
+                case 'burst':
+                    return `<span style="background: rgba(255, 77, 77, 0.15); border: 1px solid rgba(255, 77, 77, 0.4); color: #ff4d4d; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;"><i class="fa-solid fa-fire"></i> 극딜기</span>`;
+                case 'bind':
+                    return `<span style="background: rgba(255, 215, 0, 0.15); border: 1px solid rgba(255, 215, 0, 0.4); color: #ffd700; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;"><i class="fa-solid fa-bolt"></i> 바인드</span>`;
+                case 'buff':
+                    return `<span style="background: rgba(121, 40, 202, 0.15); border: 1px solid rgba(121, 40, 202, 0.4); color: #b784ff; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;"><i class="fa-solid fa-wand-magic-sparkles"></i> 버프</span>`;
+                case 'boss':
+                    return `<span style="background: rgba(255, 0, 128, 0.15); border: 1px solid rgba(255, 0, 128, 0.4); color: #ff0080; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;"><i class="fa-solid fa-skull"></i> 보스패턴</span>`;
+                default:
+                    return `<span style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: var(--text-muted); padding: 2px 6px; border-radius: 4px; font-size: 11px;">일반</span>`;
+            }
+        }
+
+        // 3-1. 메이플 스킬 트래커 로드
         async function loadSkills() {
             try {
                 const res = await fetch(`${API_BASE}/api/maple/tracker/skills`);
@@ -680,6 +727,16 @@
                     btn.innerHTML = `<i class="fa-solid fa-play"></i> 감시 정지됨 (클릭 시 시작)`;
                 }
 
+                // 프로세스 감지 배지
+                const procBadge = document.getElementById('maple-process-badge');
+                if (procBadge) {
+                    if (data.maple_process_detected) {
+                        procBadge.innerHTML = `<span style="background: rgba(0, 255, 135, 0.15); border: 1px solid rgba(0, 255, 135, 0.4); color: var(--green-glow); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;"><i class="fa-solid fa-circle-check"></i> MapleStory.exe 실행 중</span>`;
+                    } else {
+                        procBadge.innerHTML = `<span style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); padding: 2px 8px; border-radius: 4px; font-size: 11px;"><i class="fa-solid fa-circle-pause"></i> 메이플 대기 중 (자동 활성화)</span>`;
+                    }
+                }
+
                 const adminBadge = document.getElementById('admin-badge');
                 if (adminBadge) {
                     if (data.is_admin) {
@@ -693,26 +750,39 @@
                 tbody.innerHTML = '';
 
                 data.skills.forEach(sk => {
-                    const remSec = Math.ceil(sk.remaining_sec || 0);
+                    const remSec = Math.max(0, (sk.remaining_sec || 0));
                     const isCooling = (sk.state === "ON_COOLDOWN" || sk.state === "WARNED") && remSec > 0;
                     const statusColor = isCooling ? "var(--orange-glow)" : "var(--green-glow)";
-                    const statusText = isCooling ? `${remSec}초 남음` : "READY (사용 가능)";
+                    const statusText = isCooling ? `${remSec.toFixed(1)}초 남음` : "READY (사용 가능)";
                     const keyBadge = sk.key_bind ? `<span style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; font-weight: 700; color: var(--cyan-glow); font-family: monospace;">${sk.key_bind.toUpperCase()}</span>` : "-";
+                    const catBadge = getCategoryBadge(sk.category || 'defense');
+
+                    const pct = sk.cooldown_sec > 0 ? Math.min(100, Math.max(0, ((sk.cooldown_sec - remSec) / sk.cooldown_sec) * 100)) : 100;
+                    const barColor = isCooling ? 'linear-gradient(90deg, #ff9900, #ff5500)' : 'linear-gradient(90deg, #00b09b, var(--green-glow))';
 
                     const tr = document.createElement('tr');
                     const encodedVoice = encodeURIComponent(sk.voice_text || '');
                     tr.innerHTML = `
                         <td style="font-weight: 600;">${sk.name}</td>
+                        <td>${catBadge}</td>
                         <td>${keyBadge}</td>
                         <td>${sk.cooldown_sec}초</td>
                         <td>${sk.warn_before}초 전</td>
-                        <td style="color: var(--text-muted); font-size: 12px;">"${sk.voice_text}"</td>
+                        <td style="color: var(--text-muted); font-size: 12px;">"${sk.voice_text || ''}"</td>
                         <td>
-                            <span style="color: ${statusColor}; font-weight: 700; margin-right: 8px;">${statusText}</span>
-                            <button class="btn-action" style="padding: 4px 8px; font-size: 11px;" onclick="triggerSkill('${sk.name}')" title="쿨타임 카운트다운 시작"><i class="fa-solid fa-stopwatch"></i> 쿨타임 시작</button>
-                            <button class="btn-action" style="padding: 4px 8px; font-size: 11px;" onclick="testVoice('${sk.voice_text}')" title="음성 브리핑 테스트"><i class="fa-solid fa-volume-high"></i></button>
-                            <button class="btn-action" style="padding: 4px 8px; font-size: 11px; color: var(--cyan-glow); border-color: rgba(0, 242, 254, 0.4);" onclick="openEditModal('${sk.name}', ${sk.cooldown_sec}, ${sk.warn_before}, '${sk.key_bind || 'shift'}', '${encodedVoice}')" title="스킬 정보 편집"><i class="fa-solid fa-pen"></i></button>
-                            <button class="btn-action" style="padding: 4px 8px; font-size: 11px; color: var(--red-glow);" onclick="deleteSkill('${sk.name}')" title="스킬 삭제"><i class="fa-solid fa-trash"></i></button>
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                                <span style="color: ${statusColor}; font-weight: 700; font-size: 12px;">${statusText}</span>
+                                <span style="font-size: 10.5px; color: var(--text-muted);">${Math.round(pct)}%</span>
+                            </div>
+                            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; margin-bottom: 6px;">
+                                <div style="width: ${pct}%; height: 100%; background: ${barColor}; transition: width 0.1s linear;"></div>
+                            </div>
+                            <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+                                <button class="btn-action" style="padding: 3px 6px; font-size: 11px;" onclick="triggerSkill('${sk.name}')" title="쿨타임 카운트다운 시작"><i class="fa-solid fa-stopwatch"></i> 쿨타임</button>
+                                <button class="btn-action" style="padding: 3px 6px; font-size: 11px;" onclick="testVoice('${sk.voice_text || sk.name + ' 쿨타임 5초 전'}')" title="음성 브리핑 테스트"><i class="fa-solid fa-volume-high"></i></button>
+                                <button class="btn-action" style="padding: 3px 6px; font-size: 11px; color: var(--cyan-glow); border-color: rgba(0, 242, 254, 0.4);" onclick="openEditModal('${sk.name}', '${sk.category || 'defense'}', ${sk.cooldown_sec}, ${sk.warn_before}, '${sk.key_bind || 'shift'}', '${encodedVoice}')" title="스킬 정보 편집"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action" style="padding: 3px 6px; font-size: 11px; color: var(--red-glow);" onclick="deleteSkill('${sk.name}')" title="스킬 삭제"><i class="fa-solid fa-trash"></i></button>
+                            </div>
                         </td>
                     `;
                     tbody.appendChild(tr);
@@ -725,6 +795,7 @@
         // 스킬 빠른 추가
         async function addSkill() {
             const name = document.getElementById('skill-name').value.trim();
+            const cat = document.getElementById('skill-cat').value || 'defense';
             const cd = parseFloat(document.getElementById('skill-cd').value);
             const warn = parseFloat(document.getElementById('skill-warn').value) || 5.0;
             const key = document.getElementById('skill-key').value.trim().toLowerCase() || "shift";
@@ -740,7 +811,7 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     name: name,
-                    category: 'defense',
+                    category: cat,
                     cooldown_sec: cd,
                     warn_before: warn,
                     key_bind: key,
@@ -756,10 +827,12 @@
         }
 
         // 🍁 스킬 편집 모달 열기/닫기/저장
-        function openEditModal(name, cd, warn, key, encodedVoice) {
-            const voice = decodeURIComponent(encodedVoice);
+        function openEditModal(name, category, cd, warn, key, encodedVoice) {
+            const voice = decodeURIComponent(encodedVoice || '');
             document.getElementById('edit-original-name').value = name;
             document.getElementById('edit-skill-name').value = name;
+            const catEl = document.getElementById('edit-skill-cat');
+            if (catEl) catEl.value = category || 'defense';
             document.getElementById('edit-skill-cd').value = cd;
             document.getElementById('edit-skill-warn').value = warn;
             document.getElementById('edit-skill-key').value = key;
@@ -774,6 +847,8 @@
         async function saveEditedSkill() {
             const origName = document.getElementById('edit-original-name').value;
             const name = document.getElementById('edit-skill-name').value.trim();
+            const catEl = document.getElementById('edit-skill-cat');
+            const cat = catEl ? catEl.value : 'defense';
             const cd = parseFloat(document.getElementById('edit-skill-cd').value);
             const warn = parseFloat(document.getElementById('edit-skill-warn').value) || 5.0;
             const key = document.getElementById('edit-skill-key').value.trim().toLowerCase() || "shift";
@@ -791,7 +866,7 @@
                     original_name: origName,
                     item: {
                         name: name,
-                        category: 'defense',
+                        category: cat,
                         cooldown_sec: cd,
                         warn_before: warn,
                         key_bind: key,
@@ -818,22 +893,43 @@
             loadSkills();
         }
 
-        // 🌟 프리셋 목록 동적 로드
+        // 🌟 카테고리별 직업 및 보스 프리셋 목록 동적 로드
         async function loadPresetsList() {
             try {
-                const res = await fetch(`${API_BASE}/api/maple/tracker/presets`);
-                if (!res.ok) return;
+                let res = await fetch(`${API_BASE}/api/maple/tracker/presets/grouped`);
+                if (!res.ok) {
+                    res = await fetch(`${API_BASE}/api/maple/tracker/presets`);
+                    if (!res.ok) return;
+                    const data = await res.json();
+                    const select = document.getElementById('preset-select');
+                    const currentVal = select.value || data.current_preset;
+                    select.innerHTML = '';
+                    data.presets.forEach(p => {
+                        const opt = document.createElement('option');
+                        opt.value = p;
+                        opt.textContent = p;
+                        if (p === currentVal) opt.selected = true;
+                        select.appendChild(opt);
+                    });
+                    return;
+                }
                 const data = await res.json();
                 const select = document.getElementById('preset-select');
-                const currentVal = select.value;
+                const currentVal = select.value || data.current_preset;
                 select.innerHTML = '';
-                data.presets.forEach(p => {
-                    const opt = document.createElement('option');
-                    opt.value = p;
-                    opt.textContent = p;
-                    if (p === currentVal) opt.selected = true;
-                    select.appendChild(opt);
-                });
+
+                for (const [catName, presetList] of Object.entries(data.categories)) {
+                    const optGroup = document.createElement('optgroup');
+                    optGroup.label = catName;
+                    presetList.forEach(p => {
+                        const opt = document.createElement('option');
+                        opt.value = p;
+                        opt.textContent = p;
+                        if (p === currentVal) opt.selected = true;
+                        optGroup.appendChild(opt);
+                    });
+                    select.appendChild(optGroup);
+                }
             } catch (e) {
                 console.warn('Presets list error:', e);
             }
@@ -889,6 +985,48 @@
                 appendLog('MAPLE', `'${name.trim()}' 새 프리셋이 생성되었습니다.`);
                 await loadPresetsList();
                 document.getElementById('preset-select').value = name.trim();
+            }
+        }
+
+        // 🍁 넥슨 메이플 캐릭터 연동 & 직업 자동 매칭
+        async function linkMapleCharacterFromAdmin() {
+            const input = document.getElementById('maple-char-name-input');
+            const name = input ? input.value.trim() : '';
+            const infoTag = document.getElementById('maple-char-info-tag');
+            if (!name) {
+                alert('연동할 캐릭터 닉네임을 입력하세요.');
+                return;
+            }
+
+            if (infoTag) infoTag.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 넥슨 Open API 조회 중...';
+
+            try {
+                const res = await fetch(`${API_BASE}/api/maple/link`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ character_name: name, auto_apply_preset: true })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    if (infoTag) {
+                        const info = data.data;
+                        infoTag.innerHTML = `<span style="color: var(--green-glow); font-weight: 700;"><i class="fa-solid fa-check"></i> ${info.name} (Lv.${info.level} ${info.job}) 연동 완료</span>`;
+                    }
+                    appendLog('MAPLE', data.message + (data.matched_preset ? ` -> '${data.matched_preset}' 프리셋 자동 적용됨` : ''));
+                    await loadPresetsList();
+                    if (data.matched_preset) {
+                        const sel = document.getElementById('preset-select');
+                        if (sel) sel.value = data.matched_preset;
+                    }
+                    loadSkills();
+                } else {
+                    if (infoTag) infoTag.innerHTML = `<span style="color: var(--red-glow);"><i class="fa-solid fa-xmark"></i> ${data.message}</span>`;
+                    appendLog('ERR', `메이플 캐릭터 연동 실패: ${data.message}`);
+                    alert(data.message);
+                }
+            } catch (e) {
+                if (infoTag) infoTag.innerHTML = `<span style="color: var(--red-glow);"><i class="fa-solid fa-xmark"></i> 통신 오류</span>`;
+                console.error(e);
             }
         }
 
