@@ -71,6 +71,73 @@ ZONES = [
 ]
 
 
+# =============================================================================
+# 🖥️ 2-1. 주요 모니터 해상도별 미니맵 프리셋 (FHD, QHD, 4K, 울트라와이드 등)
+# =============================================================================
+RESOLUTION_PRESETS: Dict[str, Dict[str, Any]] = {
+    "FHD": {
+        "name": "FHD (1080p)",
+        "label": "FHD (1920x1080) - 표준 16:9",
+        "desc": "가장 대중적인 16:9 Full HD 게이밍 해상도",
+        "width": 1920,
+        "height": 1080,
+        "minimap_size": 290,
+        "roi_x": 1630,
+        "roi_y": 790,
+    },
+    "QHD": {
+        "name": "QHD (1440p / 2K)",
+        "label": "QHD (2560x1440) - 2K 16:9",
+        "desc": "고주사율 게이밍 모니터 표준 16:9 2K 해상도",
+        "width": 2560,
+        "height": 1440,
+        "minimap_size": 387,
+        "roi_x": 2173,
+        "roi_y": 1053,
+    },
+    "4K": {
+        "name": "4K UHD (2160p)",
+        "label": "4K UHD (3840x2160) - 4K 16:9",
+        "desc": "초고해상도 16:9 4K 프리미엄 게이밍 모니터",
+        "width": 3840,
+        "height": 2160,
+        "minimap_size": 580,
+        "roi_x": 3260,
+        "roi_y": 1580,
+    },
+    "WQHD": {
+        "name": "WQHD (3440x1440)",
+        "label": "WQHD (3440x1440) - 21:9 울트라와이드",
+        "desc": "21:9 시네마틱 와이드 게이밍 모니터",
+        "width": 3440,
+        "height": 1440,
+        "minimap_size": 387,
+        "roi_x": 3053,
+        "roi_y": 1053,
+    },
+    "WFHD": {
+        "name": "WFHD (2560x1080)",
+        "label": "WFHD (2560x1080) - 21:9 와이드 FHD",
+        "desc": "21:9 가성비 와이드 모니터",
+        "width": 2560,
+        "height": 1080,
+        "minimap_size": 290,
+        "roi_x": 2270,
+        "roi_y": 790,
+    },
+    "HD+": {
+        "name": "HD+ (1600x900)",
+        "label": "HD+ (1600x900) - 랩탑/서브모니터",
+        "desc": "게이밍 노트북 및 소형 보조 모니터",
+        "width": 1600,
+        "height": 900,
+        "minimap_size": 242,
+        "roi_x": 1358,
+        "roi_y": 658,
+    },
+}
+
+
 def map_coordinate_to_zone(nx: float, ny: float) -> str:
     """
     정규화된 (0.0 ~ 1.0) 미니맵 좌표를 소환사의 협곡 실제 구역 명칭으로 변환합니다.
@@ -79,7 +146,7 @@ def map_coordinate_to_zone(nx: float, ny: float) -> str:
     for z in ZONES:
         x1, x2 = z["x_range"]
         y1, y2 = z["y_range"]
-        if x1 <= nx <= x2 and y1 <= ny <= ny <= y2:
+        if x1 <= nx <= x2 and y1 <= ny <= y2:
             return z["name"]
     return "협곡 기타 구역"
 
@@ -101,6 +168,7 @@ class ModernDeepLeagueTracker:
         self._local = threading.local()  # 스레드별 mss 인스턴스 캐싱용
 
         # 1. 기본 모니터 및 미니맵 해상도 설정 (초기값: FHD 1920x1080 기준)
+        self.current_preset: str = "FHD"
         self.screen_width: int = 1920
         self.screen_height: int = 1080
         self.minimap_size: int = 290
@@ -139,15 +207,45 @@ class ModernDeepLeagueTracker:
             with mss.mss() as sct:
                 if len(sct.monitors) > 1:
                     primary = sct.monitors[1]
-                    self.screen_width = int(primary["width"])
-                    self.screen_height = int(primary["height"])
-                    # 해상도 비율에 따른 기본 미니맵 크기 자동 스케일링 (1080p: 290, 1440p: ~387, 4K: ~580)
-                    scale = self.screen_height / 1080.0
-                    self.minimap_size = int(290 * scale)
-                    self.roi_x = self.screen_width - self.minimap_size
-                    self.roi_y = self.screen_height - self.minimap_size
+                    w = int(primary["width"])
+                    h = int(primary["height"])
+                    
+                    # 알려진 프리셋과 완벽히 일치하는지 검사
+                    matched_key = None
+                    for key, p in RESOLUTION_PRESETS.items():
+                        if p["width"] == w and p["height"] == h:
+                            matched_key = key
+                            break
+                    
+                    if matched_key:
+                        self.apply_preset(matched_key)
+                    else:
+                        # 커스텀 해상도 스케일링
+                        self.screen_width = w
+                        self.screen_height = h
+                        self.current_preset = f"Custom ({w}x{h})"
+                        scale = h / 1080.0
+                        self.minimap_size = int(290 * scale)
+                        self.roi_x = self.screen_width - self.minimap_size
+                        self.roi_y = self.screen_height - self.minimap_size
         except Exception:
             pass
+
+    def apply_preset(self, preset_key: str) -> bool:
+        """FHD, QHD, 4K 등 사전 정의된 해상도 프리셋을 즉시 적용합니다."""
+        preset_key_upper = preset_key.upper()
+        if preset_key_upper not in RESOLUTION_PRESETS:
+            return False
+
+        p = RESOLUTION_PRESETS[preset_key_upper]
+        with self.lock:
+            self.current_preset = preset_key_upper
+            self.screen_width = p["width"]
+            self.screen_height = p["height"]
+            self.minimap_size = p["minimap_size"]
+            self.roi_x = p["roi_x"]
+            self.roi_y = p["roi_y"]
+        return True
 
     def calibrate(
         self,
@@ -159,10 +257,12 @@ class ModernDeepLeagueTracker:
     ):
         """사용자 지정 모니터 해상도 및 미니맵 크기/위치로 정밀 캘리브레이션합니다."""
         with self.lock:
+            self.current_preset = f"Custom ({width}x{height})"
             self.screen_width = width
             self.screen_height = height
             self.minimap_size = minimap_size
             self.roi_x = custom_x if custom_x is not None else (width - minimap_size)
+            self.roi_y = custom_y if custom_y is not None else (height - minimap_size)
             self.roi_y = custom_y if custom_y is not None else (height - minimap_size)
 
     def capture_minimap_bgra(self) -> Optional[np.ndarray]:
@@ -454,6 +554,7 @@ def get_minimap_status():
     with minimap_tracker.lock:
         return {
             "is_running": minimap_tracker.is_running,
+            "current_preset": minimap_tracker.current_preset,
             "screen_res": f"{minimap_tracker.screen_width}x{minimap_tracker.screen_height}",
             "minimap_size": minimap_tracker.minimap_size,
             "roi": {"x": minimap_tracker.roi_x, "y": minimap_tracker.roi_y},
@@ -464,6 +565,37 @@ def get_minimap_status():
             "latency_ms": minimap_tracker.last_process_time_ms,
             "debug_image_b64": minimap_tracker.last_debug_image_b64,
         }
+
+
+@router.get("/presets", summary="지원하는 모니터 해상도 프리셋 목록 조회")
+def get_resolution_presets():
+    """FHD, QHD, 4K, 울트라와이드 등 시스템이 지원하는 해상도 프리셋 사양을 반환합니다."""
+    return {
+        "status": "success",
+        "current_preset": minimap_tracker.current_preset,
+        "presets": RESOLUTION_PRESETS,
+    }
+
+
+@router.post("/apply-preset", summary="해상도 프리셋 원클릭 적용")
+def apply_resolution_preset(preset_name: str):
+    """
+    지정한 프리셋(FHD, QHD, 4K, WQHD, WFHD, HD+)을 즉시 활성화하여 미니맵 ROI를 보정합니다.
+    """
+    success = minimap_tracker.apply_preset(preset_name)
+    if not success:
+        return {
+            "status": "error",
+            "message": f"지원하지 않는 프리셋 키입니다: '{preset_name}'. 사용 가능: {list(RESOLUTION_PRESETS.keys())}",
+        }
+    return {
+        "status": "success",
+        "message": f"해상도 프리셋 '{preset_name.upper()}'이 성공적으로 적용되었습니다.",
+        "current_preset": minimap_tracker.current_preset,
+        "screen_res": f"{minimap_tracker.screen_width}x{minimap_tracker.screen_height}",
+        "minimap_size": minimap_tracker.minimap_size,
+        "roi": {"x": minimap_tracker.roi_x, "y": minimap_tracker.roi_y},
+    }
 
 
 @router.post("/toggle", summary="미니맵 트래킹 가동 및 정지 토글")

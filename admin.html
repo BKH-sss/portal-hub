@@ -447,6 +447,68 @@
             </table>
         </div>
 
+        <!-- 5-1. ⚔️ 리그 오브 레전드: Modern DeepLeague 미니맵 전술 레이더 패널 (NEW) -->
+        <div class="card" style="grid-column: span 12; border-color: rgba(0, 229, 255, 0.4);">
+            <div class="card-header">
+                <span class="card-title" style="color: var(--cyan-glow);">
+                    <i class="fa-solid fa-satellite-dish"></i> 리그 오브 레전드: Modern DeepLeague 미니맵 전술 레이더
+                </span>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <span id="lol-minimap-status-tag" style="font-size: 12px; color: var(--text-muted);">대기 중</span>
+                    <button class="btn-action" onclick="scanMinimapNow()"><i class="fa-solid fa-eye"></i> 즉시 1회 스캔</button>
+                    <button id="btn-minimap-toggle" class="btn-action" onclick="toggleMinimap()"><i class="fa-solid fa-play"></i> 미니맵 감시 시작</button>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; align-items: start;">
+                <!-- 미니맵 캡처 / 레이더 시각화 캔버스 -->
+                <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; text-align: center;">
+                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">실시간 미니맵 감지 뷰포트</div>
+                    <img id="minimap-preview" src="" alt="미니맵 스캔 대기 중" style="width: 100%; max-width: 260px; height: 260px; border-radius: 6px; object-fit: cover; background: #070b12; border: 1px dashed rgba(0,229,255,0.3); display: inline-block;">
+                    <div id="minimap-perf" style="font-size: 11px; color: var(--green-glow); margin-top: 6px;">스캔 지연: 0.0ms | GPU 부하: 0.0%</div>
+                </div>
+
+                <!-- 감지된 챔피언 및 전술 위협 알림 피드 -->
+                <div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                        <div style="background: rgba(255, 77, 77, 0.1); border: 1px solid rgba(255, 77, 77, 0.3); border-radius: 6px; padding: 10px;">
+                            <div style="font-size: 12px; color: #ff4d4d; font-weight: bold;"><i class="fa-solid fa-skull"></i> 포착된 적 챔피언</div>
+                            <div id="enemy-count" style="font-size: 20px; font-weight: 800; color: #fff; margin-top: 4px;">0 명</div>
+                            <div id="enemy-zones" style="font-size: 11px; color: #aaa; margin-top: 2px;">안개 속 미탐지</div>
+                        </div>
+                        <div style="background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 6px; padding: 10px;">
+                            <div style="font-size: 12px; color: var(--cyan-glow); font-weight: bold;"><i class="fa-solid fa-shield"></i> 포착된 아군 챔피언</div>
+                            <div id="ally-count" style="font-size: 20px; font-weight: 800; color: #fff; margin-top: 4px;">0 명</div>
+                            <div id="ally-zones" style="font-size: 11px; color: #aaa; margin-top: 2px;">-</div>
+                        </div>
+                    </div>
+
+                    <div style="font-size: 13px; font-weight: bold; color: var(--text-main); margin-bottom: 6px;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> 실시간 전술 위협 브리핑 피드
+                    </div>
+                    <div id="minimap-alerts-box" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 10px; height: 160px; overflow-y: auto; font-size: 12px;">
+                        <div style="color: var(--text-muted); text-align: center; padding-top: 60px;">새로운 위협 알림이 없습니다.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🖥️ 모니터 해상도 원클릭 프리셋 툴바 (FHD, QHD, 4K, 울트라와이드) -->
+            <div style="margin-top: 15px; padding: 10px 14px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                <span style="font-size: 12px; color: var(--cyan-glow); font-weight: 700;">
+                    <i class="fa-solid fa-display"></i> 해상도 프리셋:
+                </span>
+                <button id="btn-preset-FHD" class="btn-action" style="padding: 4px 10px; font-size: 11px;" onclick="applyResolutionPreset('FHD')" title="1920 x 1080 (표준 16:9)">FHD (1080p)</button>
+                <button id="btn-preset-QHD" class="btn-action" style="padding: 4px 10px; font-size: 11px;" onclick="applyResolutionPreset('QHD')" title="2560 x 1440 (2K 16:9)">QHD (1440p / 2K)</button>
+                <button id="btn-preset-4K" class="btn-action" style="padding: 4px 10px; font-size: 11px;" onclick="applyResolutionPreset('4K')" title="3840 x 2160 (4K UHD 16:9)">4K UHD (2160p)</button>
+                <button id="btn-preset-WQHD" class="btn-action" style="padding: 4px 10px; font-size: 11px;" onclick="applyResolutionPreset('WQHD')" title="3440 x 1440 (21:9 울트라와이드)">울트라와이드 (3440x1440)</button>
+                <button id="btn-preset-WFHD" class="btn-action" style="padding: 4px 10px; font-size: 11px;" onclick="applyResolutionPreset('WFHD')" title="2560 x 1080 (21:9 와이드 FHD)">와이드 FHD (2560x1080)</button>
+                <button id="btn-preset-HD+" class="btn-action" style="padding: 4px 10px; font-size: 11px;" onclick="applyResolutionPreset('HD+')" title="1600 x 900 (랩탑/서브 모니터)">노트북 HD+ (900p)</button>
+                <div style="margin-left: auto;">
+                    <span id="minimap-current-res" style="font-size: 11px; color: #fff; font-family: monospace; background: rgba(0, 229, 255, 0.15); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(0, 229, 255, 0.3);">현재: FHD (1920x1080)</span>
+                </div>
+            </div>
+        </div>
+
 
         <!-- 6. LLM 모델 라우팅 통계 차트 -->
         <div class="card" style="grid-column: span 6;">
@@ -984,13 +1046,163 @@
             }
         }
 
-        // 6. 초기 로드 및 주기적 실행 (메트릭 2초, 스킬 1초)
+        // 4-1. ⚔️ LoL Modern DeepLeague 미니맵 전술 레이더 JS
+        let isMinimapTracking = false;
+
+        async function toggleMinimap() {
+            isMinimapTracking = !isMinimapTracking;
+            const btn = document.getElementById('btn-minimap-toggle');
+            const statusTag = document.getElementById('lol-minimap-status-tag');
+            
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/minimap/toggle?enable=${isMinimapTracking}`, { method: 'POST' });
+                const data = await res.json();
+                if (isMinimapTracking) {
+                    btn.className = 'btn-action active';
+                    btn.innerHTML = '<i class="fa-solid fa-stop"></i> 감시 정지';
+                    statusTag.innerText = '실시간 감시 중 (0.25s)';
+                    statusTag.style.color = 'var(--green-glow)';
+                    appendLog('LOL', 'Modern DeepLeague 미니맵 실시간 전술 감시 시작!');
+                } else {
+                    btn.className = 'btn-action';
+                    btn.innerHTML = '<i class="fa-solid fa-play"></i> 미니맵 감시 시작';
+                    statusTag.innerText = '정지됨';
+                    statusTag.style.color = 'var(--text-muted)';
+                    appendLog('LOL', '미니맵 감시가 정지되었습니다.');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function scanMinimapNow() {
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/minimap/scan-now`);
+                const data = await res.json();
+                if (data.status === 'success') {
+                    updateMinimapUI(data.result, data.debug_image_b64);
+                    appendLog('LOL', `1회 스캔 완료: 적군 ${data.result.enemies.length}명 / 아군 ${data.result.allies.length}명 (${data.result.process_time_ms}ms)`);
+                } else {
+                    appendLog('LOL', `스캔 실패: ${data.message}`);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function pollMinimapStatus() {
+            if (!isMinimapTracking) return;
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/minimap/status`);
+                const data = await res.json();
+                
+                document.getElementById('enemy-count').innerText = `${data.last_enemies.length} 명`;
+                document.getElementById('ally-count').innerText = `${data.last_allies.length} 명`;
+                
+                // 구역 요약
+                const enemyZones = data.last_enemies.map(e => e.zone).filter((v, i, a) => a.indexOf(v) === i);
+                document.getElementById('enemy-zones').innerText = enemyZones.length ? enemyZones.join(', ') : '전장 안개(Fog) 속 미탐지';
+                
+                const allyZones = data.last_allies.map(a => a.zone).filter((v, i, a) => a.indexOf(v) === i);
+                document.getElementById('ally-zones').innerText = allyZones.length ? allyZones.join(', ') : '-';
+                
+                document.getElementById('minimap-perf').innerText = `스캔 지연: ${data.latency_ms}ms | GPU 부하: 0.0% | 총 ${data.total_frames} 프레임`;
+                
+                // 알림 렌더링
+                const alertBox = document.getElementById('minimap-alerts-box');
+                if (data.recent_alerts && data.recent_alerts.length > 0) {
+                    alertBox.innerHTML = data.recent_alerts.slice().reverse().map(a => `
+                        <div style="margin-bottom: 6px; padding: 6px 8px; border-radius: 4px; background: ${a.priority === 'CRITICAL' ? 'rgba(255,0,0,0.2)' : 'rgba(255,165,0,0.15)'}; border-left: 3px solid ${a.priority === 'CRITICAL' ? '#ff3333' : '#ff9900'};">
+                            <strong>${a.message}</strong>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function updateMinimapUI(result, b64Img) {
+            if (b64Img) {
+                document.getElementById('minimap-preview').src = `data:image/jpeg;base64,${b64Img}`;
+            }
+            document.getElementById('enemy-count').innerText = `${result.enemies.length} 명`;
+            document.getElementById('ally-count').innerText = `${result.allies.length} 명`;
+            
+            const enemyZones = result.enemies.map(e => e.zone).filter((v, i, a) => a.indexOf(v) === i);
+            document.getElementById('enemy-zones').innerText = enemyZones.length ? enemyZones.join(', ') : '전장 안개(Fog) 속 미탐지';
+            
+            document.getElementById('minimap-perf').innerText = `스캔 지연: ${result.process_time_ms}ms | GPU 부하: 0.0%`;
+        }
+
+        // 4-2. 🖥️ 해상도 프리셋 적용 및 동기화 JS
+        async function applyResolutionPreset(presetKey) {
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/minimap/apply-preset?preset_name=${encodeURIComponent(presetKey)}`, { method: 'POST' });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    updatePresetButtonsUI(data.current_preset, data.screen_res);
+                    appendLog('LOL', `해상도 프리셋 [${data.current_preset}] 적용 완료 (${data.screen_res})`);
+                    // 활성화 상태면 즉시 1회 스캔하여 새 뷰포트 갱신
+                    if (isMinimapTracking) {
+                        scanMinimapNow();
+                    }
+                } else {
+                    appendLog('LOL', `프리셋 적용 실패: ${data.message}`);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function updatePresetButtonsUI(activeKey, screenRes) {
+            const keys = ['FHD', 'QHD', '4K', 'WQHD', 'WFHD', 'HD+'];
+            keys.forEach(k => {
+                const btn = document.getElementById(`btn-preset-${k}`);
+                if (btn) {
+                    if (k === activeKey) {
+                        btn.style.background = 'rgba(0, 229, 255, 0.25)';
+                        btn.style.borderColor = 'var(--cyan-glow)';
+                        btn.style.color = '#fff';
+                        btn.style.fontWeight = '700';
+                    } else {
+                        btn.style.background = 'rgba(255, 255, 255, 0.05)';
+                        btn.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                        btn.style.color = 'var(--text-muted)';
+                        btn.style.fontWeight = 'normal';
+                    }
+                }
+            });
+            const resEl = document.getElementById('minimap-current-res');
+            if (resEl) {
+                resEl.innerText = `현재: ${activeKey} (${screenRes || ''})`;
+            }
+        }
+
+        async function initMinimapPresets() {
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/minimap/status`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.current_preset) {
+                        updatePresetButtonsUI(data.current_preset, data.screen_res);
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // 6. 초기 로드 및 주기적 실행 (메트릭 2초, 스킬 1초, 미니맵 1초)
         loadPresetsList();
         loadVoiceVolume();
+        initMinimapPresets();
         setInterval(updateMetrics, 2000);
         setInterval(loadSkills, 1000);
+        setInterval(pollMinimapStatus, 1000);
         updateMetrics();
         loadSkills();
+
     </script>
 </body>
 </html>
