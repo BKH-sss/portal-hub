@@ -1008,9 +1008,15 @@
                 });
                 const data = await res.json();
                 if (data.status === 'success') {
+                    const info = data.data;
+                    const imgHtml = info.image ? `<img src="${info.image}" style="width: 28px; height: 28px; object-fit: contain; vertical-align: middle; border-radius: 4px; background: rgba(255,255,255,0.06); margin-right: 6px; border: 1px solid rgba(255,255,255,0.15);">` : '';
+                    const worldStr = info.world ? `[${info.world}] ` : '';
+                    const guildStr = info.guild && info.guild !== '없음' ? ` (${info.guild})` : '';
+                    const combatStr = info.combat_power && info.combat_power !== '0' && info.combat_power !== '-' ? ` | ⚔️ ${info.combat_power}` : '';
+                    const lvlStr = info.level > 0 ? `Lv.${info.level} ` : '';
+                    
                     if (infoTag) {
-                        const info = data.data;
-                        infoTag.innerHTML = `<span style="color: var(--green-glow); font-weight: 700;"><i class="fa-solid fa-check"></i> ${info.name} (Lv.${info.level} ${info.job}) 연동 완료</span>`;
+                        infoTag.innerHTML = `<span style="color: var(--green-glow); font-weight: 700; display: inline-flex; align-items: center;">${imgHtml}<i class="fa-solid fa-check" style="margin-right: 4px;"></i> ${worldStr}${info.name} (${lvlStr}${info.job}${guildStr}${combatStr}) 연동 완료</span>`;
                     }
                     appendLog('MAPLE', data.message + (data.matched_preset ? ` -> '${data.matched_preset}' 프리셋 자동 적용됨` : ''));
                     await loadPresetsList();
@@ -1026,6 +1032,31 @@
                 }
             } catch (e) {
                 if (infoTag) infoTag.innerHTML = `<span style="color: var(--red-glow);"><i class="fa-solid fa-xmark"></i> 통신 오류</span>`;
+                console.error(e);
+            }
+        }
+
+        async function loadMapleStatus() {
+            try {
+                const res = await fetch(`${API_BASE}/api/maple/status`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.linked && data.character) {
+                        const info = data.character;
+                        const input = document.getElementById('maple-char-name-input');
+                        if (input && !input.value) input.value = info.name || '';
+                        const infoTag = document.getElementById('maple-char-info-tag');
+                        const imgHtml = info.image ? `<img src="${info.image}" style="width: 28px; height: 28px; object-fit: contain; vertical-align: middle; border-radius: 4px; background: rgba(255,255,255,0.06); margin-right: 6px; border: 1px solid rgba(255,255,255,0.15);">` : '';
+                        const worldStr = info.world ? `[${info.world}] ` : '';
+                        const guildStr = info.guild && info.guild !== '없음' ? ` (${info.guild})` : '';
+                        const combatStr = info.combat_power && info.combat_power !== '0' && info.combat_power !== '-' ? ` | ⚔️ ${info.combat_power}` : '';
+                        const lvlStr = info.level > 0 ? `Lv.${info.level} ` : '';
+                        if (infoTag) {
+                            infoTag.innerHTML = `<span style="color: var(--green-glow); font-weight: 700; display: inline-flex; align-items: center;">${imgHtml}<i class="fa-solid fa-check" style="margin-right: 4px;"></i> ${worldStr}${info.name} (${lvlStr}${info.job}${guildStr}${combatStr}) 연동 중</span>`;
+                        }
+                    }
+                }
+            } catch (e) {
                 console.error(e);
             }
         }
@@ -1384,6 +1415,7 @@
 
         // 6. 초기 로드 및 주기적 실행 (메트릭 2초, 스킬 1초, 미니맵 1초)
         loadPresetsList();
+        loadMapleStatus();
         loadVoiceVolume();
         initMinimapPresets();
         pollMinimapStatus();

@@ -389,9 +389,10 @@ JOB_PRESETS: Dict[str, List[Dict[str, Any]]] = {
         {"name": "극딜 (정령집속)", "category": "burst", "cooldown_sec": 120.0, "warn_before": 5.0, "key_bind": "1", "voice_text": "극딜 5초 전이야.", "slot_id": 4},
         {"name": "파쇄 연권", "category": "burst", "cooldown_sec": 120.0, "warn_before": 10.0, "key_bind": "r", "voice_text": "파쇄 연권 10초 전이야.", "slot_id": 5},
         {"name": "프리드의 가호", "category": "defense", "cooldown_sec": 360.0, "warn_before": 10.0, "key_bind": "f", "voice_text": "프리드 10초 전이야.", "slot_id": 6},
-        {"name": "제네시스 무적기", "category": "defense", "cooldown_sec": 120.0, "warn_before": 5.0, "key_bind": "x", "voice_text": "제네 무적 5초 전.", "slot_id": 7},
-        {"name": "준극딜", "category": "burst", "cooldown_sec": 60.0, "warn_before": 5.0, "key_bind": "w", "voice_text": "준극 5초 전이야.", "slot_id": 8},
-        {"name": "호선 투귀권", "category": "burst", "cooldown_sec": 360.0, "warn_before": 15.0, "key_bind": "6", "voice_text": "호선 투귀권 15초 전.", "slot_id": 9},
+        {"name": "크오솔 (공용극딜)", "category": "burst", "cooldown_sec": 240.0, "warn_before": 10.0, "key_bind": "f1", "voice_text": "크오솔 10초 전이야.", "slot_id": 7},
+        {"name": "제네시스 무적기", "category": "defense", "cooldown_sec": 120.0, "warn_before": 5.0, "key_bind": "x", "voice_text": "제네 무적 5초 전.", "slot_id": 8},
+        {"name": "준극딜", "category": "burst", "cooldown_sec": 60.0, "warn_before": 5.0, "key_bind": "w", "voice_text": "준극 5초 전이야.", "slot_id": 9},
+        {"name": "호선 투귀권", "category": "burst", "cooldown_sec": 360.0, "warn_before": 15.0, "key_bind": "6", "voice_text": "호선 투귀권 15초 전.", "slot_id": 10},
     ],
 
     # 9. 레지스탕스 & 데몬 & 제논

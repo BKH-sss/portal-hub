@@ -4855,6 +4855,7 @@
             const modal = document.getElementById('mapleTrackerModal');
             if (!modal) return;
             modal.style.display = 'flex';
+            await loadInAppMapleStatus();
             await loadInAppPresetsList();
             await loadInAppSkills();
             await loadInAppVoiceVolume();
@@ -5179,7 +5180,7 @@
                 alert('연동할 캐릭터 닉네임을 입력하세요.');
                 return;
             }
-            if (resTag) resTag.innerHTML = '<span style="color:#60a5fa;">넥슨 조회 중...</span>';
+            if (resTag) resTag.innerHTML = '<span style="color:#60a5fa;"><i class="fa-solid fa-spinner fa-spin"></i> 넥슨 조회 중...</span>';
 
             try {
                 const apiKey = localStorage.getItem('nexonApiKey') || undefined;
@@ -5191,9 +5192,14 @@
                 const data = await res.json();
                 if (data.status === 'success') {
                     const info = data.data;
+                    const imgHtml = info.image ? `<img src="${info.image}" style="width: 24px; height: 24px; object-fit: contain; vertical-align: middle; border-radius: 4px; background: rgba(255,255,255,0.06); margin-right: 5px; border: 1px solid rgba(255,255,255,0.15);">` : '';
                     const worldStr = info.world ? `[${info.world}] ` : '';
-                    if (resTag) resTag.innerHTML = `<span style="color:#34d399; font-weight:bold;">✓ ${worldStr}${info.name} (Lv.${info.level} ${info.job}) 연동 완료</span>`;
-                    addSystemMessage(`🍁 <b>메이플 캐릭터 연동 완료:</b> ${worldStr}<b>${info.name}</b> (Lv.${info.level} ${info.job})` + (data.matched_preset ? ` ➔ <b>[${data.matched_preset}]</b> 프리셋 자동 적용됨` : ''));
+                    const guildStr = info.guild && info.guild !== '없음' ? ` (${info.guild})` : '';
+                    const combatStr = info.combat_power && info.combat_power !== '0' && info.combat_power !== '-' ? ` | ⚔️ ${info.combat_power}` : '';
+                    const lvlStr = info.level > 0 ? `Lv.${info.level} ` : '';
+
+                    if (resTag) resTag.innerHTML = `<span style="color:#34d399; font-weight:bold; display:inline-flex; align-items:center;">${imgHtml}✓ ${worldStr}${info.name} (${lvlStr}${info.job}${guildStr}${combatStr}) 연동 완료</span>`;
+                    addSystemMessage(`🍁 <b>메이플 캐릭터 연동 완료:</b> ${worldStr}<b>${info.name}</b> (${lvlStr}${info.job}${guildStr}${combatStr})` + (data.matched_preset ? ` ➔ <b>[${data.matched_preset}]</b> 스킬 프리셋 자동 세팅됨` : ''));
                     await loadInAppPresetsList();
                     if (data.matched_preset) {
                         const sel = document.getElementById('inAppPresetSelect');
@@ -5208,6 +5214,29 @@
                 if (resTag) resTag.innerHTML = `<span style="color:#f87171;">통신 오류</span>`;
                 console.error(e);
             }
+        }
+
+        async function loadInAppMapleStatus() {
+            try {
+                const res = await fetch(`${SERVER_URL}/api/maple/status`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.linked && data.character) {
+                        const info = data.character;
+                        const input = document.getElementById('inAppMapleCharName');
+                        if (input && !input.value) input.value = info.name || '';
+                        const resTag = document.getElementById('inAppMapleCharResult');
+                        const imgHtml = info.image ? `<img src="${info.image}" style="width: 24px; height: 24px; object-fit: contain; vertical-align: middle; border-radius: 4px; background: rgba(255,255,255,0.06); margin-right: 5px; border: 1px solid rgba(255,255,255,0.15);">` : '';
+                        const worldStr = info.world ? `[${info.world}] ` : '';
+                        const guildStr = info.guild && info.guild !== '없음' ? ` (${info.guild})` : '';
+                        const combatStr = info.combat_power && info.combat_power !== '0' && info.combat_power !== '-' ? ` | ⚔️ ${info.combat_power}` : '';
+                        const lvlStr = info.level > 0 ? `Lv.${info.level} ` : '';
+                        if (resTag) {
+                            resTag.innerHTML = `<span style="color:#34d399; font-weight:bold; display:inline-flex; align-items:center;">${imgHtml}✓ ${worldStr}${info.name} (${lvlStr}${info.job}${guildStr}${combatStr}) 연동 중</span>`;
+                        }
+                    }
+                }
+            } catch (e) {}
         }
 
         // 주기적 프로세스 상태 확인 (헤더 뱃지 갱신)

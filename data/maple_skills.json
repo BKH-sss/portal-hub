@@ -1,56 +1,83 @@
 [
   {
-    "name": "권술:미생강변",
-    "category": "buff",
-    "cooldown_sec": 60.0,
+    "name": "정령의 화신",
+    "category": "defense",
+    "cooldown_sec": 106.0,
     "warn_before": 5.0,
-    "key_bind": "q",
-    "voice_text": "미생강변 5초 전이야.",
+    "key_bind": "end",
+    "voice_text": "정령의 화신 5초 전",
     "slot_id": 1
   },
   {
-    "name": "선기:태을선인",
-    "category": "buff",
-    "cooldown_sec": 100.0,
+    "name": "소혼장막",
+    "category": "defense",
+    "cooldown_sec": 74.0,
+    "warn_before": 5.0,
+    "key_bind": "del",
+    "voice_text": "소혼 재설치",
+    "slot_id": 1
+  },
+  {
+    "name": "연우격풍",
+    "category": "defense",
+    "cooldown_sec": 50.0,
+    "warn_before": 5.0,
+    "key_bind": "4",
+    "voice_text": "연우격풍 5초 전",
+    "slot_id": 1
+  },
+  {
+    "name": "극딜",
+    "category": "defense",
+    "cooldown_sec": 106.0,
+    "warn_before": 5.0,
+    "key_bind": "1",
+    "voice_text": "극딜 5초 전",
+    "slot_id": 1
+  },
+  {
+    "name": "프리드",
+    "category": "defense",
+    "cooldown_sec": 332.0,
+    "warn_before": 5.0,
+    "key_bind": "f",
+    "voice_text": "프리드 5초 전",
+    "slot_id": 1
+  },
+  {
+    "name": "크오솔",
+    "category": "defense",
+    "cooldown_sec": 219.0,
+    "warn_before": 5.0,
+    "key_bind": "f1",
+    "voice_text": "스인미 크오솔 5초 전",
+    "slot_id": 1
+  },
+  {
+    "name": "제네무적",
+    "category": "defense",
+    "cooldown_sec": 106.0,
+    "warn_before": 5.0,
+    "key_bind": "x",
+    "voice_text": "제네 무적 5초 전",
+    "slot_id": 1
+  },
+  {
+    "name": "준극딜",
+    "category": "defense",
+    "cooldown_sec": 50.0,
     "warn_before": 5.0,
     "key_bind": "w",
-    "voice_text": "태을선인 5초 전.",
-    "slot_id": 2
+    "voice_text": "준극 5초 전",
+    "slot_id": 1
   },
   {
-    "name": "산령소환",
-    "category": "burst",
-    "cooldown_sec": 180.0,
-    "warn_before": 10.0,
-    "key_bind": "e",
-    "voice_text": "산령소환 10초 전이야.",
-    "slot_id": 3
-  },
-  {
-    "name": "선기:극대 분신난무",
-    "category": "burst",
-    "cooldown_sec": 180.0,
+    "name": "파쇄 연권",
+    "category": "defense",
+    "cooldown_sec": 106.0,
     "warn_before": 10.0,
     "key_bind": "r",
-    "voice_text": "분신난무 극딜 10초 전이야.",
-    "slot_id": 4
-  },
-  {
-    "name": "선기:괴력난신 (무적)",
-    "category": "defense",
-    "cooldown_sec": 180.0,
-    "warn_before": 10.0,
-    "key_bind": "shift",
-    "voice_text": "괴력난신 10초 전이야.",
-    "slot_id": 5
-  },
-  {
-    "name": "선기:파천황",
-    "category": "burst",
-    "cooldown_sec": 360.0,
-    "warn_before": 15.0,
-    "key_bind": "6",
-    "voice_text": "선기 파천황 15초 전.",
-    "slot_id": 6
+    "voice_text": "파쇄 연권 10초 전",
+    "slot_id": 1
   }
 ]
