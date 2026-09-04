@@ -151,6 +151,45 @@ def map_coordinate_to_zone(nx: float, ny: float) -> str:
     return "협곡 기타 구역"
 
 
+def is_lol_ingame_active() -> bool:
+    """
+    롤 인게임(소환사의 협곡 / 칼바람 등)이 실행 중인지 3계층 자동 판별
+    1) Windows API: 'League of Legends (TM) Client' 윈도우 창 검색 (0.01ms)
+    2) psutil: 'League of Legends.exe' 프로세스 실행 여부
+    3) LCU API: /lol-gameflow/v1/gameflow-phase == 'InProgress'
+    """
+    try:
+        import ctypes
+        hwnd = ctypes.windll.user32.FindWindowW(None, 'League of Legends (TM) Client')
+        if hwnd and hwnd != 0:
+            return True
+        hwnd_class = ctypes.windll.user32.FindWindowW('League of Legends (TM) Client', None)
+        if hwnd_class and hwnd_class != 0:
+            return True
+    except Exception:
+        pass
+
+    try:
+        import psutil
+        for proc in psutil.process_iter(['name']):
+            name = proc.info.get('name', '')
+            if name in ('League of Legends.exe', 'League of Legends (TM) Client', 'League of Legends (TM) Client.exe'):
+                return True
+    except Exception:
+        pass
+
+    try:
+        from core.state import riot_lcu
+        status = riot_lcu.get_current_status()
+        if status.get("game_mode_raw") == "InProgress" or status.get("phase") == "InProgress":
+            return True
+    except Exception:
+        pass
+
+    return False
+
+
+
 # =============================================================================
 # 👁️ 3. Modern DeepLeague 비전 트래커 엔진 (코어 클래스)
 # =============================================================================
@@ -159,6 +198,7 @@ class ModernDeepLeagueTracker:
     순수 CPU 100%, GPU 0.0% 부하의 초경량 실시간 미니맵 트래커입니다.
     - thread-local mss 인스턴스를 통해 프레임당 캡처 지연시간을 0.5ms 이하로 단축합니다.
     - NumPy 벡터화 링 마스크와 제곱거리 클러스터링으로 2~3ms 안에 챔피언 위치를 판독합니다.
+    - 인게임 시작/종료 상시 자동 감지 라이프사이클 워커 내장
     """
 
     def __init__(self):
@@ -185,11 +225,66 @@ class ModernDeepLeagueTracker:
         self.recent_alerts: List[Dict[str, Any]] = []
         self.alert_cooldowns: Dict[str, float] = {}  # 중복 알림 방지용 쿨타임 (알림키 -> 타임스탬프)
 
-        # 4. 성능 관측 지표
+        # 4. 성능 관측 지표 및 뷰포트 기본 플레이스홀더
         self.total_frames_processed: int = 0
         self.last_process_time_ms: float = 0.0
         self.last_debug_image_b64: Optional[str] = None
         self.last_raw_bgra: Optional[np.ndarray] = None
+        self._generate_initial_placeholder()
+
+        # 5. 상시 인게임 자동 시작/종료 라이프사이클 감시자 가동
+        self._start_auto_lifecycle_watcher()
+
+    def _generate_initial_placeholder(self):
+        """초기 대시보드 로딩 시 깨진 이미지 방지를 위한 사이버틱 레이더 뷰포트 기본 이미지 생성"""
+        try:
+            img = Image.new("RGB", (260, 260), color=(10, 15, 26))
+            draw = ImageDraw.Draw(img)
+            for r in [40, 80, 110]:
+                draw.ellipse([130 - r, 130 - r, 130 + r, 130 + r], outline="#00e5ff", width=1)
+            draw.line([(130, 10), (130, 250)], fill="#00e5ff", width=1)
+            draw.line([(10, 130), (250, 130)], fill="#00e5ff", width=1)
+            draw.text((70, 120), "LoL Radar Standby", fill="#00e5ff")
+            buffer = io.BytesIO()
+            img.save(buffer, format="JPEG", quality=80)
+            self.last_debug_image_b64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
+        except Exception:
+            pass
+
+    def _start_auto_lifecycle_watcher(self):
+        """인게임 감지 시 자동 시작, 게임 종료 시 자동 정지하는 상시 감시자"""
+        def _watcher():
+            was_ingame = False
+            while True:
+                try:
+                    is_ingame = is_lol_ingame_active()
+                    if is_ingame and not was_ingame:
+                        self._auto_detect_resolution()
+                        if not self.is_running:
+                            self.start_tracking()
+                            print(f"[LoL Minimap Auto] 인게임 감지! 미니맵 전술 레이더 자동 시작 (해상도: {self.current_preset})")
+                            try:
+                                from modules.lol_voice_alert_engine import voice_alert_engine
+                                voice_alert_engine.speak_korean("소환사의 협곡 인게임이 시작되었어! 미니맵 전술 레이더를 자동으로 켤게.")
+                            except Exception:
+                                pass
+                        was_ingame = True
+                    elif not is_ingame and was_ingame:
+                        if self.is_running:
+                            self.stop_tracking()
+                            print("[LoL Minimap Auto] 인게임 종료 감지! 미니맵 전술 레이더 자동 대기 모드 전환")
+                            try:
+                                from modules.lol_voice_alert_engine import voice_alert_engine
+                                voice_alert_engine.speak_korean("게임이 끝났네! 미니맵 감시를 대기 모드로 전환할게.")
+                            except Exception:
+                                pass
+                        was_ingame = False
+                except Exception:
+                    pass
+                time.sleep(1.5)
+
+        t = threading.Thread(target=_watcher, daemon=True, name="ModernDeepLeague-AutoLifeCycle")
+        t.start()
 
     def _get_thread_sct(self) -> Optional[Any]:
         """스레드별 mss 인스턴스를 재사용하여 매 프레임 생성/파괴 오버헤드를 완전 제거합니다."""
@@ -210,7 +305,6 @@ class ModernDeepLeagueTracker:
                     w = int(primary["width"])
                     h = int(primary["height"])
                     
-                    # 알려진 프리셋과 완벽히 일치하는지 검사
                     matched_key = None
                     for key, p in RESOLUTION_PRESETS.items():
                         if p["width"] == w and p["height"] == h:
@@ -220,7 +314,6 @@ class ModernDeepLeagueTracker:
                     if matched_key:
                         self.apply_preset(matched_key)
                     else:
-                        # 커스텀 해상도 스케일링
                         self.screen_width = w
                         self.screen_height = h
                         self.current_preset = f"Custom ({w}x{h})"
@@ -577,8 +670,8 @@ class ModernDeepLeagueTracker:
             while self.is_running:
                 bgra = self.capture_minimap_bgra()
                 if bgra is not None:
-                    # 매 1초(4프레임 중 1회) 또는 경고 발생 시에만 디버그 이미지 인코딩하여 CPU 추가 절감
-                    should_render = (self.total_frames_processed % 4 == 0)
+                    # 매 2프레임(0.5초)마다 또는 최초 프레임 시 디버그 이미지 인코딩하여 뷰포트 프리뷰 유지
+                    should_render = (self.total_frames_processed % 2 == 0) or (self.last_debug_image_b64 is None)
                     self.process_frame(bgra, make_debug_image=should_render)
                 time.sleep(self.scan_interval)
 

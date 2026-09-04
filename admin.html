@@ -464,7 +464,7 @@
                 <!-- 미니맵 캡처 / 레이더 시각화 캔버스 -->
                 <div style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; text-align: center;">
                     <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">실시간 미니맵 감지 뷰포트</div>
-                    <img id="minimap-preview" src="" alt="미니맵 스캔 대기 중" style="width: 100%; max-width: 260px; height: 260px; border-radius: 6px; object-fit: cover; background: #070b12; border: 1px dashed rgba(0,229,255,0.3); display: inline-block;">
+                    <img id="minimap-preview" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'><rect width='260' height='260' fill='%23070b12'/><circle cx='130' cy='130' r='100' stroke='rgba(0,229,255,0.3)' stroke-width='1.5' fill='none' stroke-dasharray='4,4'/><circle cx='130' cy='130' r='60' stroke='rgba(0,229,255,0.4)' stroke-width='1.5' fill='none'/><circle cx='130' cy='130' r='20' stroke='rgba(0,229,255,0.6)' stroke-width='1.5' fill='none'/><line x1='130' y1='10' x2='130' y2='250' stroke='rgba(0,229,255,0.2)' stroke-width='1'/><line x1='10' y1='130' x2='250' y2='130' stroke='rgba(0,229,255,0.2)' stroke-width='1'/><text x='130' y='135' font-family='sans-serif' font-size='11' fill='%2300e5ff' text-anchor='middle' font-weight='bold'>RADAR STANDBY</text></svg>" alt="미니맵 스캔 뷰포트" style="width: 100%; max-width: 260px; height: 260px; border-radius: 6px; object-fit: cover; background: #070b12; border: 1px solid rgba(0,229,255,0.4); display: inline-block;">
                     <div id="minimap-perf" style="font-size: 11px; color: var(--green-glow); margin-top: 6px;">스캔 지연: 0.0ms | GPU 부하: 0.0%</div>
                 </div>
 
@@ -1050,13 +1050,14 @@
         let isMinimapTracking = false;
 
         async function toggleMinimap() {
-            isMinimapTracking = !isMinimapTracking;
+            const nextState = !isMinimapTracking;
             const btn = document.getElementById('btn-minimap-toggle');
             const statusTag = document.getElementById('lol-minimap-status-tag');
             
             try {
-                const res = await fetch(`${API_BASE}/api/lol/minimap/toggle?enable=${isMinimapTracking}`, { method: 'POST' });
+                const res = await fetch(`${API_BASE}/api/lol/minimap/toggle?enable=${nextState}`, { method: 'POST' });
                 const data = await res.json();
+                isMinimapTracking = nextState;
                 if (isMinimapTracking) {
                     btn.className = 'btn-action active';
                     btn.innerHTML = '<i class="fa-solid fa-stop"></i> 감시 정지';
@@ -1066,10 +1067,11 @@
                 } else {
                     btn.className = 'btn-action';
                     btn.innerHTML = '<i class="fa-solid fa-play"></i> 미니맵 감시 시작';
-                    statusTag.innerText = '정지됨';
+                    statusTag.innerText = '대기 중 (인게임 자동 감지)';
                     statusTag.style.color = 'var(--text-muted)';
                     appendLog('LOL', '미니맵 감시가 정지되었습니다.');
                 }
+                pollMinimapStatus();
             } catch (e) {
                 console.error(e);
             }
@@ -1091,11 +1093,42 @@
         }
 
         async function pollMinimapStatus() {
-            if (!isMinimapTracking) return;
             try {
                 const res = await fetch(`${API_BASE}/api/lol/minimap/status`);
+                if (!res.ok) return;
                 const data = await res.json();
                 
+                // 1. 트래킹 상태 동기화 (자동 시작/종료 감지 반영)
+                if (data.is_running !== isMinimapTracking) {
+                    isMinimapTracking = data.is_running;
+                    const btn = document.getElementById('btn-minimap-toggle');
+                    const statusTag = document.getElementById('lol-minimap-status-tag');
+                    if (isMinimapTracking) {
+                        btn.className = 'btn-action active';
+                        btn.innerHTML = '<i class="fa-solid fa-stop"></i> 감시 정지';
+                        statusTag.innerText = '실시간 감시 중 (0.25s)';
+                        statusTag.style.color = 'var(--green-glow)';
+                    } else {
+                        btn.className = 'btn-action';
+                        btn.innerHTML = '<i class="fa-solid fa-play"></i> 미니맵 감시 시작';
+                        statusTag.innerText = '대기 중 (인게임 자동 감지)';
+                        statusTag.style.color = 'var(--text-muted)';
+                    }
+                }
+
+                // 2. 디버그 뷰포트 실시간 이미지 갱신
+                const previewImg = document.getElementById('minimap-preview');
+                if (previewImg && data.debug_image_b64) {
+                    previewImg.src = `data:image/jpeg;base64,${data.debug_image_b64}`;
+                    previewImg.style.borderStyle = 'solid';
+                }
+
+                // 3. 해상도 프리셋 UI 동기화
+                if (data.current_preset) {
+                    updatePresetButtonsUI(data.current_preset, data.screen_res);
+                }
+
+                // 4. 감지된 챔피언 및 구역 업데이트
                 document.getElementById('enemy-count').innerText = `${data.last_enemies.length} 명`;
                 document.getElementById('ally-count').innerText = `${data.last_allies.length} 명`;
                 
@@ -1108,7 +1141,7 @@
                 
                 document.getElementById('minimap-perf').innerText = `스캔 지연: ${data.latency_ms}ms | GPU 부하: 0.0% | 총 ${data.total_frames} 프레임`;
                 
-                // 알림 렌더링
+                // 5. 알림 렌더링
                 const alertBox = document.getElementById('minimap-alerts-box');
                 if (data.recent_alerts && data.recent_alerts.length > 0) {
                     alertBox.innerHTML = data.recent_alerts.slice().reverse().map(a => `
@@ -1197,6 +1230,7 @@
         loadPresetsList();
         loadVoiceVolume();
         initMinimapPresets();
+        pollMinimapStatus();
         setInterval(updateMetrics, 2000);
         setInterval(loadSkills, 1000);
         setInterval(pollMinimapStatus, 1000);
