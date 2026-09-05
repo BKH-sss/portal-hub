@@ -69,6 +69,8 @@ async def generate_artwork(req: GenerateRequest):
     if res.get("success"):
         file_name = res.get("file_name")
         res["image_url"] = f"/api/painter/image/{file_name}"
+        # JSON 직렬화를 위해 binary image_bytes 필드 제거
+        res.pop("image_bytes", None)
     return res
 
 

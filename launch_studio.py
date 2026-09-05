@@ -1,4 +1,4 @@
-﻿"""
+"""
 launch_studio.py
 스카디 AI 화가 스튜디오 전용 런처
 - JARVIS 백엔드 서버(포트 8000)를 독립 백그라운드 프로세스로 안전 가동
@@ -68,7 +68,7 @@ def main():
         env["PYTHONIOENCODING"] = "utf-8"
 
         subprocess.Popen(
-            [py_exe, "-m", "uvicorn", "brain_server:app", "--host", "0.0.0.0", "--port", "8000"],
+            [py_exe, "-c", "import uvicorn; uvicorn.run('brain_server:app', host='0.0.0.0', port=8000)"],
             cwd=PROJECT_ROOT,
             creationflags=creation_flags,
             stdin=subprocess.DEVNULL,

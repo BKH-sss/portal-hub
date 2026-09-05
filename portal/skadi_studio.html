@@ -1071,6 +1071,12 @@
                     })
                 });
 
+                if (!res.ok) {
+                    const errText = await res.text();
+                    alert(`서버 응답 오류 (HTTP ${res.status}):\n${errText}`);
+                    return;
+                }
+
                 const data = await res.json();
                 if (data.success && data.image_url) {
                     const fullUrl = data.image_url.startsWith('http') ? data.image_url : `${API_BASE}${data.image_url}`;
