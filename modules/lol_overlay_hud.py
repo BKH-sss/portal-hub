@@ -228,7 +228,9 @@ OVERLAY_HTML = """<!DOCTYPE html>
     </div>
 
     <script>
-        const API_BASE = window.location.origin;
+        const API_BASE = (window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null' || !window.location.protocol.startsWith('http'))
+            ? 'http://127.0.0.1:8000'
+            : window.location.origin;
 
         async function pollOverlayData() {
             try {

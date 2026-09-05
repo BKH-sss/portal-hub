@@ -2722,5 +2722,25 @@
       "voice_text": "달빛으로 거미줄 지워.",
       "slot_id": 4
     }
+  ],
+  "은월(사냥)": [
+    {
+      "name": "야누스",
+      "category": "defense",
+      "cooldown_sec": 50.0,
+      "warn_before": 5.0,
+      "key_bind": "end",
+      "voice_text": "야누스 쿨 5초 남았어.",
+      "slot_id": 1
+    },
+    {
+      "name": "소혼장막",
+      "category": "burst",
+      "cooldown_sec": 70.0,
+      "warn_before": 5.0,
+      "key_bind": "end",
+      "voice_text": "소혼장막 쿨 5초 남았어.",
+      "slot_id": 1
+    }
   ]
 }
