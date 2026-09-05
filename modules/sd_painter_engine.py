@@ -190,9 +190,11 @@ class SkadiPainterEngine:
         sampler_name: Optional[str] = None,
         seed: int = -1,
         enable_adetailer: bool = True,
-        enable_hires: bool = True
+        enable_hires: bool = False,
+        init_image: Optional[str] = None,
+        denoising_strength: Optional[float] = 0.65
     ) -> Dict[str, Any]:
-        """S급 화질 옵션과 ADetailer / Hires.fix가 결합된 REST API 요청 페이로드 조립"""
+        """S급 화질 옵션과 ADetailer / Hires.fix / img2img가 결합된 REST API 요청 페이로드 조립"""
         preset = STYLE_PRESETS.get(style, STYLE_PRESETS["watercolor"])
 
         # 1. 한국어 스마트 번역 및 프롬프트 조립
@@ -219,13 +221,21 @@ class SkadiPainterEngine:
             "tiling": False,
         }
 
-        # 1. 고해상도 복원 (Hires.fix / 4x-UltraSharp)
-        if enable_hires:
-            payload["enable_hr"] = True
-            payload["hr_scale"] = 1.5
-            payload["hr_upscaler"] = "4x-UltraSharp"
-            payload["hr_second_pass_steps"] = 15
-            payload["denoising_strength"] = 0.35
+        # 1. img2img (참조 사진이 등록된 경우)
+        if init_image:
+            clean_b64 = init_image
+            if "," in clean_b64:
+                clean_b64 = clean_b64.split(",", 1)[1]
+            payload["init_images"] = [clean_b64]
+            payload["denoising_strength"] = float(denoising_strength if denoising_strength is not None else 0.65)
+        else:
+            # txt2img 일 때 고해상도 복원 (Hires.fix / 4x-UltraSharp)
+            if enable_hires:
+                payload["enable_hr"] = True
+                payload["hr_scale"] = 1.5
+                payload["hr_upscaler"] = "4x-UltraSharp"
+                payload["hr_second_pass_steps"] = 15
+                payload["denoising_strength"] = 0.35
 
         # 2. ADetailer (얼굴 및 손 2차 정밀 복원기)
         if enable_adetailer:
@@ -267,9 +277,11 @@ class SkadiPainterEngine:
         cfg_scale: Optional[float] = None,
         seed: int = -1,
         enable_adetailer: bool = True,
-        enable_hires: bool = True
+        enable_hires: bool = False,
+        init_image: Optional[str] = None,
+        denoising_strength: Optional[float] = 0.65
     ) -> Dict[str, Any]:
-        """비동기 S급 이미지 렌더링 실행 및 이미지 파일 저장"""
+        """비동기 S급 이미지 렌더링 실행 (txt2img / img2img 자동 전환) 및 이미지 파일 저장"""
         start_t = time.time()
 
         # 1. 서버 온라인 체크
@@ -292,13 +304,16 @@ class SkadiPainterEngine:
             cfg_scale=cfg_scale,
             seed=seed,
             enable_adetailer=enable_adetailer,
-            enable_hires=enable_hires
+            enable_hires=enable_hires,
+            init_image=init_image,
+            denoising_strength=denoising_strength
         )
 
-        # 3. WebUI API 호출
+        # 3. WebUI API 호출 (img2img vs txt2img 엔드포인트 자동 분기)
+        endpoint = "/sdapi/v1/img2img" if init_image else "/sdapi/v1/txt2img"
         try:
             async with httpx.AsyncClient(timeout=300.0) as client:
-                r = await client.post(f"{self.api_url}/sdapi/v1/txt2img", json=payload)
+                r = await client.post(f"{self.api_url}{endpoint}", json=payload)
                 if r.status_code != 200:
                     return {
                         "success": False,

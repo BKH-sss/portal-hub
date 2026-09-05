@@ -33,6 +33,8 @@ class GenerateRequest(BaseModel):
     seed: int = -1
     enable_adetailer: bool = True
     enable_hires: bool = False
+    init_image: Optional[str] = None
+    denoising_strength: Optional[float] = 0.65
 
 
 @router.get("/status")
@@ -49,7 +51,7 @@ async def get_painter_status():
 
 @router.post("/generate")
 async def generate_artwork(req: GenerateRequest):
-    """S급 AI 이미지 렌더링 요청"""
+    """S급 AI 이미지 렌더링 요청 (txt2img & img2img 지원)"""
     res = await engine.generate_image_async(
         prompt=req.prompt,
         style=req.style,
@@ -60,7 +62,9 @@ async def generate_artwork(req: GenerateRequest):
         cfg_scale=req.cfg_scale,
         seed=req.seed,
         enable_adetailer=req.enable_adetailer,
-        enable_hires=req.enable_hires
+        enable_hires=req.enable_hires,
+        init_image=req.init_image,
+        denoising_strength=req.denoising_strength
     )
     if res.get("success"):
         file_name = res.get("file_name")

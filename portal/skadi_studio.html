@@ -331,6 +331,149 @@
             cursor: pointer;
         }
 
+        /* Image Upload Box & img2img Panel */
+        .image-upload-box {
+            border: 2px dashed rgba(129, 140, 248, 0.35);
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: var(--radius-md);
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-upload-box:hover, .image-upload-box.dragover {
+            border-color: #818cf8;
+            background: rgba(30, 41, 59, 0.85);
+            box-shadow: 0 0 16px rgba(99, 102, 241, 0.25);
+        }
+
+        .upload-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-sub);
+            font-size: 12px;
+            pointer-events: none;
+        }
+
+        .upload-content i {
+            font-size: 26px;
+            color: #818cf8;
+            margin-bottom: 2px;
+        }
+
+        .upload-content b {
+            color: #f8fafc;
+            font-size: 13px;
+        }
+
+        .image-preview-container {
+            display: none;
+            position: relative;
+            align-items: center;
+            gap: 12px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(129, 140, 248, 0.4);
+            border-radius: var(--radius-md);
+            padding: 10px 12px;
+        }
+
+        .preview-thumb {
+            width: 58px;
+            height: 58px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+        }
+
+        .preview-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 12px;
+            min-width: 0;
+        }
+
+        .preview-info .file-name {
+            font-weight: 700;
+            color: #f8fafc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .preview-info .img2img-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        .btn-remove-img {
+            background: rgba(239, 68, 68, 0.18);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-remove-img:hover {
+            background: rgba(239, 68, 68, 0.35);
+            color: #fff;
+        }
+
+        /* Denoising Slider */
+        .denoise-slider-container {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 8px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 10px 12px;
+        }
+
+        .denoise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .denoise-val {
+            font-weight: 800;
+            color: #38bdf8;
+            font-family: monospace;
+        }
+
+        .denoise-slider {
+            width: 100%;
+            accent-color: #818cf8;
+            cursor: pointer;
+            height: 6px;
+        }
+
+        .denoise-desc {
+            font-size: 11px;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+
         /* Generate Button */
         .btn-generate {
             background: var(--primary-gradient);
@@ -598,10 +741,51 @@
                 </div>
             </div>
 
-            <!-- 3. Aspect Ratio Selection -->
+            <!-- 3. Reference Image Upload (img2img) -->
+            <div class="image-upload-section">
+                <div class="section-title">
+                    <i class="fa-solid fa-image"></i> 3. 참조/변환할 사진 추가 (선택 · img2img)
+                </div>
+                
+                <input type="file" id="file-input-img" accept="image/*" style="display: none;" onchange="handleImageFileSelect(this)">
+                
+                <div class="image-upload-box" id="upload-dropzone" onclick="document.getElementById('file-input-img').click()">
+                    <div class="upload-content">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span><b>클릭하여 사진 추가</b> 또는 여기에 이미지 드래그 & 드롭</span>
+                        <span>클립보드 이미지 붙여넣기(Ctrl + V) 지원</span>
+                    </div>
+                </div>
+
+                <div class="image-preview-container" id="image-preview-container">
+                    <img id="ref-image-thumb" class="preview-thumb" src="" alt="참조 이미지">
+                    <div class="preview-info">
+                        <div class="file-name" id="ref-image-name">image.png</div>
+                        <div class="img2img-tag">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> 사진 기반 화풍 변환 모드
+                        </div>
+                    </div>
+                    <button class="btn-remove-img" onclick="clearSelectedImage(event)" title="참조 사진 제거">
+                        <i class="fa-solid fa-trash-can"></i> 삭제
+                    </button>
+                </div>
+
+                <div class="denoise-slider-container" id="denoise-container">
+                    <div class="denoise-header">
+                        <span>변형 강도 (디노이징)</span>
+                        <span class="denoise-val" id="denoise-val-text">0.65</span>
+                    </div>
+                    <input type="range" id="denoise-slider" class="denoise-slider" min="0.10" max="0.95" step="0.05" value="0.65" oninput="updateDenoiseVal(this.value)">
+                    <div class="denoise-desc" id="denoise-desc-text">
+                        ✨ 0.65: 원본 구도를 유지하며 자연스러운 AI 화풍 변환 (추천)
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Aspect Ratio Selection -->
             <div>
                 <div class="section-title">
-                    <i class="fa-solid fa-crop-simple"></i> 3. 화면 비율
+                    <i class="fa-solid fa-crop-simple"></i> 4. 화면 비율
                 </div>
                 <div class="ratio-grid">
                     <button class="ratio-btn active" data-w="896" data-h="1152" onclick="selectRatio(896, 1152, this)">
@@ -619,10 +803,10 @@
                 </div>
             </div>
 
-            <!-- 4. S-Tier Quality Options -->
+            <!-- 5. S-Tier Quality Options -->
             <div>
                 <div class="section-title">
-                    <i class="fa-solid fa-shield-halved"></i> 4. S급 화질 디테일 옵션
+                    <i class="fa-solid fa-shield-halved"></i> 5. S급 화질 디테일 옵션
                 </div>
                 <div class="options-grid">
                     <label class="opt-checkbox">
@@ -702,6 +886,7 @@
         let currentWidth = 896;
         let currentHeight = 1152;
         let lastPrompt = "";
+        let selectedImageBase64 = null;
 
         // 상태 확인 및 GPU 배지 동기화
         async function checkServerStatus() {
@@ -729,6 +914,105 @@
             }
         }
 
+        // 🖼️ 참조 사진 업로드 및 관리 함수
+        function handleImageFileSelect(input) {
+            if (input.files && input.files[0]) {
+                processUploadedFile(input.files[0]);
+            }
+        }
+
+        function processUploadedFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('이미지 파일(PNG, JPG, WEBP 등)만 등록 가능합니다.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                selectedImageBase64 = e.target.result;
+                
+                // UI 업데이트
+                document.getElementById('upload-dropzone').style.display = 'none';
+                const previewContainer = document.getElementById('image-preview-container');
+                previewContainer.style.display = 'flex';
+                document.getElementById('ref-image-thumb').src = selectedImageBase64;
+                document.getElementById('ref-image-name').innerText = file.name || 'uploaded_image.png';
+                document.getElementById('denoise-container').style.display = 'flex';
+
+                // 렌더링 버튼 텍스트 변경
+                document.getElementById('btn-render').innerHTML = 
+                    `<i class="fa-solid fa-wand-magic-sparkles"></i> 사진 기반 AI 변환 렌더링 시작`;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearSelectedImage(e) {
+            if (e) e.stopPropagation();
+            selectedImageBase64 = null;
+            document.getElementById('file-input-img').value = '';
+            document.getElementById('upload-dropzone').style.display = 'block';
+            document.getElementById('image-preview-container').style.display = 'none';
+            document.getElementById('denoise-container').style.display = 'none';
+            document.getElementById('btn-render').innerHTML = 
+                `<i class="fa-solid fa-bolt"></i> RTX 4080 SUPER 렌더링 시작`;
+        }
+
+        function updateDenoiseVal(val) {
+            const num = parseFloat(val);
+            document.getElementById('denoise-val-text').innerText = num.toFixed(2);
+            const desc = document.getElementById('denoise-desc-text');
+            if (num <= 0.35) {
+                desc.innerText = `✨ ${num.toFixed(2)}: 원본 형태와 얼굴을 거의 그대로 유지 (미세 리터칭)`;
+            } else if (num <= 0.70) {
+                desc.innerText = `✨ ${num.toFixed(2)}: 원본 구도를 유지하며 자연스러운 AI 화풍 변환 (추천)`;
+            } else {
+                desc.innerText = `✨ ${num.toFixed(2)}: 원본 구도만 참고하여 새롭게 파격적 재창작 (강한 변화)`;
+            }
+        }
+
+        // 드래그 앤 드롭 및 클립보드(Ctrl+V) 리스너 등록
+        function initDragAndPaste() {
+            const dropzone = document.getElementById('upload-dropzone');
+            if (!dropzone) return;
+
+            ['dragenter', 'dragover'].forEach(name => {
+                dropzone.addEventListener(name, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.add('dragover');
+                });
+            });
+
+            ['dragleave', 'drop'].forEach(name => {
+                dropzone.addEventListener(name, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.remove('dragover');
+                });
+            });
+
+            dropzone.addEventListener('drop', (e) => {
+                if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    processUploadedFile(e.dataTransfer.files[0]);
+                }
+            });
+
+            // 전역 클립보드 붙여넣기 (Ctrl + V) 지원
+            window.addEventListener('paste', (e) => {
+                const items = e.clipboardData && e.clipboardData.items;
+                if (!items) return;
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].type.indexOf('image') !== -1) {
+                        const file = items[i].getAsFile();
+                        if (file) {
+                            processUploadedFile(file);
+                            break;
+                        }
+                    }
+                }
+            });
+        }
+
         // 화풍 선택
         function selectStyle(styleKey, el) {
             currentStyle = styleKey;
@@ -752,8 +1036,8 @@
         // 렌더링 요청
         async function startGeneration() {
             const prompt = document.getElementById('prompt-input').value.trim();
-            if (!prompt) {
-                alert('그림 설명을 입력해주세요!');
+            if (!prompt && !selectedImageBase64) {
+                alert('그림 설명(프롬프트) 또는 참조 사진을 입력해주세요!');
                 document.getElementById('prompt-input').focus();
                 return;
             }
@@ -761,6 +1045,7 @@
             lastPrompt = prompt;
             const enableAdetailer = document.getElementById('opt-adetailer').checked;
             const enableHires = document.getElementById('opt-hires').checked;
+            const denoiseVal = parseFloat(document.getElementById('denoise-slider').value) || 0.65;
 
             const btn = document.getElementById('btn-render');
             const loading = document.getElementById('render-loading');
@@ -780,7 +1065,9 @@
                         width: currentWidth,
                         height: currentHeight,
                         enable_adetailer: enableAdetailer,
-                        enable_hires: enableHires
+                        enable_hires: enableHires,
+                        init_image: selectedImageBase64,
+                        denoising_strength: denoiseVal
                     })
                 });
 
@@ -791,9 +1078,10 @@
                     img.src = fullUrl + '?t=' + Date.now();
                     img.style.display = 'block';
 
+                    const modeText = selectedImageBase64 ? '사진 변환' : '텍스트 생성';
                     const elapsed = ((Date.now() - startT) / 1000).toFixed(1);
                     document.getElementById('img-meta').innerHTML = 
-                        `<i class="fa-solid fa-check-circle" style="color: #10b981;"></i> 렌더링 완료 (${elapsed}초) | ${data.width}x${data.height} | 시드: ${data.seed || 'Auto'}`;
+                        `<i class="fa-solid fa-check-circle" style="color: #10b981;"></i> ${modeText} 완료 (${elapsed}초) | ${data.width}x${data.height} | 시드: ${data.seed || 'Auto'}`;
 
                     loadGallery();
                 } else {
@@ -883,6 +1171,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             checkServerStatus();
             loadGallery();
+            initDragAndPaste();
             setInterval(checkServerStatus, 5000);
         });
     </script>
