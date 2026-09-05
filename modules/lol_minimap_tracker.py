@@ -193,17 +193,6 @@ RESOLUTION_PRESETS: Dict[str, Dict[str, Any]] = {
     },
 }
 
-
-def map_coordinate_to_zone(nx: float, ny: float) -> str:
-    """
-    정규화된 (0.0 ~ 1.0) 미니맵 좌표를 소환사의 협곡 실제 구역 명칭으로 변환합니다.
-    - 용/바론 둥지 등 승패를 가르는 특수 오브젝트 구역을 최우선으로 검사합니다.
-    """
-    for z in ZONES:
-        x1, x2 = z["x_range"]
-        y1, y2 = z["y_range"]
-        if x1 <= nx <= x2 and y1 <= ny <= y2:
-            return z["name"]
 # 소환사의 협곡 고정 구조물 (포탑, 억제기, 넥서스) 정규화 좌표 목록
 # - 적 포탑/억제기 아이콘이 챔피언으로 오탐지(False Positive)되는 것을 원천 차단합니다.
 STATIC_RED_STRUCTURES = [
