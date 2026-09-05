@@ -97,6 +97,16 @@ except ImportError:
         AugmentEngine = None
         logger.warning("lol_ai_coach 모듈을 찾을 수 없습니다.")
 
+# 📊 3개년 자산성장성 & 부채비율 120% 이하 주식 퀀트 엔진 로드
+try:
+    import stock_engine
+except ImportError:
+    try:
+        from modules import stock_engine
+    except ImportError:
+        stock_engine = None
+        logger.warning("stock_engine 모듈을 찾을 수 없습니다.")
+
 
 # ------------------------------------------------------------
 # 2. 설정 파일 로드 및 관리
@@ -540,6 +550,101 @@ async def morning_briefing_task():
 
 
 # ------------------------------------------------------------
+# 2-3. 24시간 실시간 증시 장 마감 정기 브리핑 스케줄러
+# ------------------------------------------------------------
+last_kr_stock_date = ""
+last_us_stock_date = ""
+
+@tasks.loop(minutes=1)
+async def daily_stock_briefing_task():
+    """
+    24시간 실시간 증시 장 마감 브리핑 스케줄러:
+    1. 국내 주식: 평일(월~금) 15:40 KST -> #국내-주식 채널 자동 전송
+    2. 미국 주식: 평일(화~토) 06:30 KST -> #미국-주식 채널 자동 전송
+    """
+    global last_kr_stock_date, last_us_stock_date
+    if not stock_engine:
+        return
+
+    now = datetime.datetime.now()
+    today_str = now.strftime("%Y-%m-%d")
+
+    # 1. 국내 증시 (월~금 오후 3시 40분)
+    if now.weekday() < 5 and now.hour == 15 and now.minute >= 40 and last_kr_stock_date != today_str:
+        last_kr_stock_date = today_str
+        logger.info(f"📈 [국내 증시 장 마감] {today_str} 국내 주식 3개년 성장주 TOP 10 자동 브리핑을 발송합니다...")
+        try:
+            kr_data = stock_engine.get_daily_growth_top_ranking('KR', top_n=10)
+            if kr_data:
+                kr_embed = discord.Embed(
+                    title=f"🔔 [{today_str}] 국내 증시 장 마감 3개년 성장성 & 당일 모멘텀 TOP 10",
+                    description="🛡️ **회계 검증**: 대차대조표 부채비율 **120% 이하** & 3개년 자산 증가율 **양수(+)**\n⚡ **데일리 랭킹**: 당일 주가 모멘텀(등락률) 순 실시간 정렬",
+                    color=0x3498db
+                )
+                for i, itm in enumerate(kr_data, 1):
+                    chg = f"+{itm['change_pct']}%" if itm['change_pct'] >= 0 else f"{itm['change_pct']}%"
+                    field_name = f"{i}. {itm['name']} ({itm['symbol']}) • ₩{itm['price']:,.0f} ({chg})"
+                    field_val = (
+                        f"• 📈 **3개년 자산성장**: `+{itm['asset_growth_3y']}%` ({itm['past_assets_fmt']} ➔ {itm['recent_assets_fmt']})\n"
+                        f"• 🛡️ **정규 부채비율**: `{itm['debt_ratio']}%` (총부채 {itm['liabilities_fmt']} / 자본 {itm['equity_fmt']})"
+                    )
+                    kr_embed.add_field(name=field_name, value=field_val, inline=False)
+                kr_embed.set_footer(text=f"기준일자: {today_str} • 스카디 퀀트 장 마감 정기 브리핑")
+
+                stock_channels_cfg = config_data.get("stock_channels", {})
+                target_id = stock_channels_cfg.get("kr")
+                
+                for guild in bot.guilds:
+                    ch = guild.get_channel(target_id) if target_id else None
+                    if not ch:
+                        for c in guild.text_channels:
+                            if "국내" in c.name and "주식" in c.name:
+                                ch = c
+                                break
+                    if ch:
+                        await ch.send(content=f"📊 **[스카디 퀀트] {today_str} 국내 증시 장 마감 리포트**가 도착했다, 마스터!", embed=kr_embed)
+        except Exception as e:
+            logger.error(f"국내 주식 정기 브리핑 발송 오류: {e}")
+
+    # 2. 미국 증시 (화~토 오전 6시 30분, 미국 뉴욕 월~금 장 마감 후)
+    if (1 <= now.weekday() <= 5) and now.hour == 6 and now.minute >= 30 and last_us_stock_date != today_str:
+        last_us_stock_date = today_str
+        logger.info(f"🇺🇸 [미국 증시 장 마감] {today_str} 미국 주식 3개년 성장주 TOP 10 자동 브리핑을 발송합니다...")
+        try:
+            us_data = stock_engine.get_daily_growth_top_ranking('US', top_n=10)
+            if us_data:
+                us_embed = discord.Embed(
+                    title=f"🔔 [{today_str}] 미국 증시 뉴욕 장 마감 3개년 성장성 & 당일 모멘텀 TOP 10",
+                    description="🛡️ **회계 검증**: 대차대조표 부채비율 **120% 이하** & 3개년 자산 증가율 **양수(+)**\n⚡ **데일리 랭킹**: 당일 주가 모멘텀(등락률) 순 실시간 정렬",
+                    color=0x2ecc71
+                )
+                for i, itm in enumerate(us_data, 1):
+                    chg = f"+{itm['change_pct']}%" if itm['change_pct'] >= 0 else f"{itm['change_pct']}%"
+                    field_name = f"{i}. {itm['name']} ({itm['symbol']}) • ${itm['price']:,.2f} ({chg})"
+                    field_val = (
+                        f"• 📈 **3개년 자산성장**: `+{itm['asset_growth_3y']}%` ({itm['past_assets_fmt']} ➔ {itm['recent_assets_fmt']})\n"
+                        f"• 🛡️ **정규 부채비율**: `{itm['debt_ratio']}%` (총부채 {itm['liabilities_fmt']} / 자본 {itm['equity_fmt']})"
+                    )
+                    us_embed.add_field(name=field_name, value=field_val, inline=False)
+                us_embed.set_footer(text=f"기준일자: {today_str} • 스카디 퀀트 뉴욕 장 마감 정기 브리핑")
+
+                stock_channels_cfg = config_data.get("stock_channels", {})
+                target_id = stock_channels_cfg.get("us")
+
+                for guild in bot.guilds:
+                    ch = guild.get_channel(target_id) if target_id else None
+                    if not ch:
+                        for c in guild.text_channels:
+                            if "미국" in c.name and "주식" in c.name:
+                                ch = c
+                                break
+                    if ch:
+                        await ch.send(content=f"📊 **[스카디 퀀트] {today_str} 미국 증시 뉴욕 장 마감 리포트**가 도착했다, 마스터!", embed=us_embed)
+        except Exception as e:
+            logger.error(f"미국 주식 정기 브리핑 발송 오류: {e}")
+
+
+# ------------------------------------------------------------
 # 3. 디스코드 봇 클라이언트 초기화
 # ------------------------------------------------------------
 intents = discord.Intents.default()
@@ -763,6 +868,11 @@ async def on_ready():
     if not morning_briefing_task.is_running():
         morning_briefing_task.start()
         logger.info("🌅 모닝 브리핑 백그라운드 스케줄러 활성화 완료 (평일 08:00 KST)")
+
+    # 24시간 실시간 장 마감 주식 브리핑 백그라운드 태스크 시작
+    if not daily_stock_briefing_task.is_running():
+        daily_stock_briefing_task.start()
+        logger.info("📈 24시간 장 마감 주식 브리핑 스케줄러 활성화 완료 (국내 15:40 / 미국 06:30 KST)")
 
     # Render 클라우드 헬스체크 서버 자동 시작
     if os.environ.get("PORT"):
@@ -1131,6 +1241,16 @@ async def cmd_help(ctx: commands.Context):
             f"• **할일 완료**: `{prefix}할일완료 <ID>` (완료 토글)\n"
             f"• **캘린더 연동**: `{prefix}캘린더연동` (구글/삼성 캘린더 실시간 동기화 iCal 가이드)\n"
             f"• **모닝 브리핑**: `{prefix}브리핑` (날씨 + 뉴스 + 오늘 스케줄)"
+        ),
+        inline=False
+    )
+    embed.add_field(
+        name="📊 주식 퀀트 & 3개년 성장성 리포트 (국내/미국)",
+        value=(
+            f"• **통합 브리핑**: `{prefix}주식` (국내 & 미국 3개년 성장성 TOP 5)\n"
+            f"• **미국 주식 TOP 10**: `{prefix}주식 미국` (부채비율 120% 이하 + 당일 모멘텀 순)\n"
+            f"• **국내 주식 TOP 10**: `{prefix}주식 국내` (부채비율 120% 이하 + 당일 모멘텀 순)\n"
+            f"• **개별 종목 정밀 진단**: `{prefix}주식 삼성전자` 또는 `{prefix}주식 NVDA`"
         ),
         inline=False
     )
@@ -1832,6 +1952,135 @@ async def cmd_system_diag(ctx: commands.Context):
     embed.set_footer(text="JARVIS Observability & System Controller")
 
     await ctx.send(embed=embed)
+
+
+# ------------------------------------------------------------
+# 5-1. 주식 퀀트 리포트 명령어 (국내/미국 3개년 성장성 + 부채비율 120% 이하 + 데일리 모멘텀)
+# ------------------------------------------------------------
+@bot.command(name="주식", aliases=["주식리포트", "성장주", "주식순위", "stock", "미국주식", "국내주식", "해외주식"])
+async def cmd_stock_report(ctx: commands.Context, *, query: Optional[str] = None):
+    """국내/미국 주식 3개년 성장성 TOP 리포트 및 개별 종목 정밀 팩폭 진단"""
+    if not stock_engine:
+        await ctx.send("⚠️ `stock_engine` 모듈을 불러올 수 없어 주식 분석을 수행할 수 없습니다.")
+        return
+
+    async with ctx.typing():
+        q = (query or "").strip().lower()
+
+        # 1. 미국 주식 데일리 성장성 & 모멘텀 TOP 10
+        if q in ["미국", "미국주식", "us", "usa", "해외", "해외주식"]:
+            report_data = stock_engine.generate_daily_ranking_report_markdown(market="US", top_n=10)
+            if report_data["success"]:
+                embed = discord.Embed(
+                    title=f"🔔 [미국 증시] 3개년 성장성 & 당일 모멘텀 TOP 10",
+                    description=(
+                        "🛡️ **회계 검증 기준**: 대차대조표 부채비율(총부채/총자본) **120% 이하** & 3개년 총자산 증가율 **양수(+)**\n"
+                        "⚡ **데일리 랭킹 기준**: 위 안전 조건을 통과한 우량 기업 중 **당일 주가 모멘텀(등락률)** 상위 정렬"
+                    ),
+                    color=0x2ecc71
+                )
+                for i, itm in enumerate(report_data["items"], 1):
+                    chg_sign = "+" if itm["change_pct"] >= 0 else ""
+                    field_name = f"{i}. {itm['name']} ({itm['symbol']}) • ${itm['price']:,.2f} ({chg_sign}{itm['change_pct']}%)"
+                    field_val = (
+                        f"• 📈 **3개년 자산성장률**: `+{itm['asset_growth_3y']}%` ({itm['past_assets_fmt']} ➔ {itm['recent_assets_fmt']})\n"
+                        f"• 🛡️ **정규 부채비율**: `{itm['debt_ratio']}%` (총부채 {itm['liabilities_fmt']} / 자본 {itm['equity_fmt']})"
+                    )
+                    embed.add_field(name=field_name, value=field_val, inline=False)
+                embed.set_footer(text=f"기준일자: {report_data['today_str']} • 스카디 퀀트 데일리 실시간 스크리닝")
+                await ctx.send(embed=embed)
+            else:
+                await ctx.send(report_data["message"])
+            return
+
+        # 2. 국내(한국) 주식 데일리 성장성 & 모멘텀 TOP 10
+        if q in ["국내", "국내주식", "한국", "한국주식", "kr", "korea", "코스피", "코스닥"]:
+            report_data = stock_engine.generate_daily_ranking_report_markdown(market="KR", top_n=10)
+            if report_data["success"]:
+                embed = discord.Embed(
+                    title=f"🔔 [국내 증시] 3개년 성장성 & 당일 모멘텀 TOP 10",
+                    description=(
+                        "🛡️ **회계 검증 기준**: 대차대조표 부채비율(총부채/총자본) **120% 이하** & 3개년 총자산 증가율 **양수(+)**\n"
+                        "⚡ **데일리 랭킹 기준**: 위 안전 조건을 통과한 우량 기업 중 **당일 주가 모멘텀(등락률)** 상위 정렬"
+                    ),
+                    color=0x3498db
+                )
+                for i, itm in enumerate(report_data["items"], 1):
+                    chg_sign = "+" if itm["change_pct"] >= 0 else ""
+                    field_name = f"{i}. {itm['name']} ({itm['symbol']}) • ₩{itm['price']:,.0f} ({chg_sign}{itm['change_pct']}%)"
+                    field_val = (
+                        f"• 📈 **3개년 자산성장률**: `+{itm['asset_growth_3y']}%` ({itm['past_assets_fmt']} ➔ {itm['recent_assets_fmt']})\n"
+                        f"• 🛡️ **정규 부채비율**: `{itm['debt_ratio']}%` (총부채 {itm['liabilities_fmt']} / 자본 {itm['equity_fmt']})"
+                    )
+                    embed.add_field(name=field_name, value=field_val, inline=False)
+                embed.set_footer(text=f"기준일자: {report_data['today_str']} • 스카디 퀀트 데일리 실시간 스크리닝")
+                await ctx.send(embed=embed)
+            else:
+                await ctx.send(report_data["message"])
+            return
+
+        # 3. 개별 종목 정밀 진단
+        if q and q not in ["리포트", "순위", "랭킹", "top"]:
+            res = stock_engine.generate_skadi_stock_report(query)
+            if res["success"]:
+                if res.get("type") == "guide":
+                    await ctx.send(res["message"])
+                else:
+                    m = res["metrics"]
+                    curr_sym = "₩" if m["currency"] == "KRW" else "$"
+                    price_str = f"{curr_sym}{m['current_price']:,.0f}" if m["currency"] == "KRW" else f"{curr_sym}{m['current_price']:,.2f}"
+                    chg_color = 0xe74c3c if m["change_pct"] >= 0 else 0x3498db
+                    chg_sign = "+" if m["change_pct"] >= 0 else ""
+
+                    embed = discord.Embed(
+                        title=f"📊 스카디의 팩폭 종목 진단 • {m['name']} ({res['ticker']})",
+                        description=f"**현재가**: `{price_str}` ({chg_sign}{m['change_pct']}%)\n**안전/수급 상태**: `{' | '.join(stock_engine.analyze_safety_tier(m))}`",
+                        color=chg_color
+                    )
+                    embed.add_field(
+                        name="📈 기술적 지표",
+                        value=f"• RSI(14일): `{m['rsi']}`\n• 20일 이동평균선: `{curr_sym}{m['ma20']:,}`\n• 60일 이동평균선: `{curr_sym}{m['ma60']:,}`",
+                        inline=True
+                    )
+                    embed.add_field(
+                        name="🛡️ 펀더멘털 & 밸류에이션",
+                        value=f"• 3개년 자산증가율: `+{m['asset_growth_3y']}%`\n• 공식 부채비율: `{m['debt_ratio']}%`\n• 배당수익률: `{m['dividend_yield']}%` | PER: `{m['pe']}` | PBR: `{m['pbr']}`",
+                        inline=True
+                    )
+                    embed.set_footer(text="스카디 퀀트 안전 기초 투자 가이드")
+                    await ctx.send(embed=embed)
+            else:
+                await ctx.send(res.get("message", "종목 조회 실패"))
+            return
+
+        # 4. 파라미터가 없거나 '!주식'만 입력한 경우 -> 미국 & 국내 통합 하이라이트 요약 브리핑
+        us_data = stock_engine.get_daily_growth_top_ranking(market="US", top_n=5)
+        kr_data = stock_engine.get_daily_growth_top_ranking(market="KR", top_n=5)
+        today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+
+        embed = discord.Embed(
+            title=f"🔔 [{today_str}] 국내 & 미국 3개년 성장성 + 데일리 모멘텀 TOP 5",
+            description=(
+                "🛡️ **부채비율 120% 이하 엄격 필터링** + 📈 **3개년 총자산 성장 기업** 중 **당일 주도주** 실시간 추출\n"
+                "💡 *자세히 보기: `!주식 미국`, `!주식 국내`, `!주식 [종목명]`*"
+            ),
+            color=0xf39c12
+        )
+
+        us_lines = []
+        for i, itm in enumerate(us_data, 1):
+            chg_sign = "+" if itm["change_pct"] >= 0 else ""
+            us_lines.append(f"**{i}. {itm['name']}** (`{itm['symbol']}`) : **{chg_sign}{itm['change_pct']}%** | 3Y성장 `+{itm['asset_growth_3y']}%` | 부채 `{itm['debt_ratio']}%`")
+        embed.add_field(name="🇺🇸 미국 증시 주도 성장주 TOP 5", value="\n".join(us_lines) if us_lines else "집계 중", inline=False)
+
+        kr_lines = []
+        for i, itm in enumerate(kr_data, 1):
+            chg_sign = "+" if itm["change_pct"] >= 0 else ""
+            kr_lines.append(f"**{i}. {itm['name']}** (`{itm['symbol']}`) : **{chg_sign}{itm['change_pct']}%** | 3Y성장 `+{itm['asset_growth_3y']}%` | 부채 `{itm['debt_ratio']}%`")
+        embed.add_field(name="🇰🇷 국내 증시 주도 성장주 TOP 5", value="\n".join(kr_lines) if kr_lines else "집계 중", inline=False)
+
+        embed.set_footer(text="스카디 퀀트 • 매일 장 마감 시황에 따라 순위가 실시간 재산출됩니다.")
+        await ctx.send(embed=embed)
 
 
 # ------------------------------------------------------------
