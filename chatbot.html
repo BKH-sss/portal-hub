@@ -1641,12 +1641,17 @@
                     </table>
                 </div>
 
-                <!-- 🎯 은월 귀참 캔슬(벽캔) 정밀 트레이너 인앱 패널 -->
+                <!-- 🎯 은월 귀참 캔슬(벽캔/좌우캔/점캔) 정밀 트레이너 인앱 패널 -->
                 <div style="background: rgba(25, 12, 18, 0.7); border: 1px solid rgba(255, 77, 77, 0.4); border-radius: 10px; padding: 12px 16px; display: flex; flex-direction: column; gap: 10px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                         <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                            <span style="font-size: 13px; font-weight: 700; color: #ff4d4d;"><i class="fa-solid fa-crosshairs"></i> 🎯 은월 귀참 캔슬(벽캔) 정밀 트레이너</span>
+                            <span style="font-size: 13px; font-weight: 700; color: #ff4d4d;"><i class="fa-solid fa-crosshairs"></i> 🎯 은월 귀참 캔슬 정밀 트레이너</span>
                             <span id="inAppCancelActiveBadge" style="font-size: 11px; padding: 2px 7px; border-radius: 4px; background: rgba(255,255,255,0.06); color: var(--text-muted);">대기 중</span>
+                            <select id="inAppCancelMode" style="padding: 2px 8px; font-size: 11px; border-radius: 4px; background: var(--bg-input); color: #ff9900; border: 1px solid rgba(255,153,0,0.3); font-weight: 600;" onchange="changeInAppCancelMode(this.value)" title="캔슬 훈련 모드 선택">
+                                <option value="wall">🧱 벽캔 (100~170ms)</option>
+                                <option value="lr">↔️ 좌우캔 (110~180ms)</option>
+                                <option value="jump">🦘 점캔 (120~200ms)</option>
+                            </select>
                             <span style="font-size: 11px; color: #fbcfe8; background: rgba(255, 77, 77, 0.15); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255, 77, 77, 0.3);">[F12] 토글</span>
                         </div>
                         <div style="display: flex; gap: 6px; align-items: center;">
@@ -4903,6 +4908,7 @@
             const modal = document.getElementById('mapleTrackerModal');
             if (!modal) return;
             modal.style.display = 'flex';
+            await restoreInAppPreferences();
             await loadInAppMapleStatus();
             await loadInAppPresetsList();
             await loadInAppSkills();
@@ -4999,34 +5005,70 @@
                     }
                 }
 
-                // 2. 관리자 권한 뱃지
+                // 2. 포커스 필터 & 자율 활성화 뱃지
+                const engineState = data.engine_state || (data.is_running ? (data.is_maple_active ? 'ACTIVE' : (data.maple_process_detected ? 'WAIT_FOCUS' : 'WAIT_PROCESS')) : 'STOPPED');
                 const focusBadge = document.getElementById('inAppMapleFocusBadge');
                 if (focusBadge) {
                     if (data.focus_filter_enabled) {
-                        const activeTxt = data.is_maple_active ? '메이플 포커스' : '대기';
-                        const activeColor = data.is_maple_active ? '#34d399' : '#38bdf8';
-                        focusBadge.innerHTML = `🎯 포커스 필터 (${activeTxt})`;
-                        focusBadge.style.color = activeColor;
-                        focusBadge.style.borderColor = data.is_maple_active ? 'rgba(52, 211, 153, 0.4)' : 'rgba(56, 189, 248, 0.4)';
+                        if (data.is_maple_active) {
+                            focusBadge.innerHTML = '🎯 <b>메이플 포커스 중 (감시 활성)</b>';
+                            focusBadge.style.color = '#34d399';
+                            focusBadge.style.borderColor = 'rgba(52, 211, 153, 0.6)';
+                            focusBadge.style.background = 'rgba(52, 211, 153, 0.18)';
+                            focusBadge.style.boxShadow = '0 0 8px rgba(52, 211, 153, 0.3)';
+                        } else if (data.is_maple_running || data.maple_process_detected) {
+                            focusBadge.innerHTML = '⌖ <b>포커스 대기 중 (클릭 시 자동 감시)</b>';
+                            focusBadge.style.color = '#fbbf24';
+                            focusBadge.style.borderColor = 'rgba(251, 191, 36, 0.4)';
+                            focusBadge.style.background = 'rgba(251, 191, 36, 0.12)';
+                            focusBadge.style.boxShadow = 'none';
+                        } else {
+                            focusBadge.innerHTML = '⌖ 포커스 필터 ON (메이플 대기)';
+                            focusBadge.style.color = '#38bdf8';
+                            focusBadge.style.borderColor = 'rgba(56, 189, 248, 0.35)';
+                            focusBadge.style.background = 'rgba(0, 229, 255, 0.12)';
+                            focusBadge.style.boxShadow = 'none';
+                        }
                     } else {
-                        focusBadge.innerHTML = '🎯 포커스 필터 OFF';
+                        focusBadge.innerHTML = '🎯 포커스 필터 OFF (전체화면)';
                         focusBadge.style.color = 'var(--text-muted)';
+                        focusBadge.style.borderColor = 'var(--border)';
+                        focusBadge.style.background = 'rgba(255, 255, 255, 0.06)';
+                        focusBadge.style.boxShadow = 'none';
                     }
                 }
 
                 // 3. 트래커 토글 버튼 상태
                 const toggleBtn = document.getElementById('inAppTrackerToggleBtn');
                 if (toggleBtn) {
-                    if (isMapleTrackerRunning) {
+                    if (engineState === 'ACTIVE') {
                         toggleBtn.className = 'hdr-btn active';
-                        toggleBtn.innerHTML = '⏹ 감시 중 (정지)';
-                        toggleBtn.style.background = '#22c55e';
+                        toggleBtn.innerHTML = '<i class="fa-solid fa-circle-dot"></i> 감시 가동 중 (메이플 포커스)';
+                        toggleBtn.style.background = 'rgba(34, 197, 94, 0.9)';
                         toggleBtn.style.color = '#fff';
+                        toggleBtn.style.borderColor = '#22c55e';
+                        toggleBtn.style.boxShadow = '0 0 10px rgba(34, 197, 94, 0.4)';
+                    } else if (engineState === 'WAIT_FOCUS') {
+                        toggleBtn.className = 'hdr-btn';
+                        toggleBtn.innerHTML = '<i class="fa-solid fa-crosshairs"></i> 자동 감시 대기 (포커스 시 즉시 작동)';
+                        toggleBtn.style.background = 'rgba(0, 242, 254, 0.15)';
+                        toggleBtn.style.color = '#00f2fe';
+                        toggleBtn.style.borderColor = 'rgba(0, 242, 254, 0.5)';
+                        toggleBtn.style.boxShadow = 'none';
+                    } else if (engineState === 'WAIT_PROCESS') {
+                        toggleBtn.className = 'hdr-btn';
+                        toggleBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> 자동 대기 중 (메이플 켜지면 자동 작동)';
+                        toggleBtn.style.background = 'rgba(255, 255, 255, 0.06)';
+                        toggleBtn.style.color = '#38bdf8';
+                        toggleBtn.style.borderColor = 'rgba(56, 189, 248, 0.3)';
+                        toggleBtn.style.boxShadow = 'none';
                     } else {
                         toggleBtn.className = 'hdr-btn';
-                        toggleBtn.innerHTML = '▶ 감시 정지됨 (시작)';
-                        toggleBtn.style.background = '';
-                        toggleBtn.style.color = '';
+                        toggleBtn.innerHTML = '▶ 수동 정지됨 (클릭 시 자동 재개)';
+                        toggleBtn.style.background = 'rgba(239, 68, 68, 0.15)';
+                        toggleBtn.style.color = '#ef4444';
+                        toggleBtn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+                        toggleBtn.style.boxShadow = 'none';
                     }
                 }
 
@@ -5080,10 +5122,95 @@
             }
         }
 
+        function saveInAppPreference(key, val) {
+            try {
+                localStorage.setItem(`pref_${key}`, JSON.stringify(val));
+                fetch(`${SERVER_URL}/api/system/preferences`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ preferences: { [key]: val } })
+                }).catch(() => {});
+            } catch (e) {}
+        }
+
+        function getLocalInAppPreference(key, defaultVal) {
+            try {
+                const item = localStorage.getItem(`pref_${key}`);
+                if (item !== null) return JSON.parse(item);
+            } catch (e) {}
+            return defaultVal;
+        }
+
+        async function restoreInAppPreferences() {
+            // 1. 0ms 로컬 캐시 즉각 복원
+            const locPreset = getLocalInAppPreference('maple_preset', null);
+            if (locPreset) {
+                const sel = document.getElementById('inAppPresetSelect');
+                if (sel) sel.value = locPreset;
+            }
+            const locVol = getLocalInAppPreference('maple_voice_volume', null);
+            if (locVol !== null) {
+                const slider = document.getElementById('inAppMapleVoiceVol');
+                const text = document.getElementById('inAppMapleVoiceVolText');
+                if (slider) slider.value = locVol;
+                if (text) text.textContent = `${locVol}%`;
+            }
+            const locChar = getLocalInAppPreference('maple_char_name', null);
+            if (locChar) {
+                const charInput = document.getElementById('inAppMapleCharName');
+                if (charInput && !charInput.value) charInput.value = locChar;
+            }
+            const locCancel = getLocalInAppPreference('maple_cancel_mode', null);
+            if (locCancel) {
+                const cancelSel = document.getElementById('inAppCancelMode');
+                if (cancelSel) cancelSel.value = locCancel;
+            }
+
+            // 2. 백엔드 영구 설정 동기화
+            try {
+                const res = await fetch(`${SERVER_URL}/api/system/preferences`);
+                if (res.ok) {
+                    const data = await res.json();
+                    const prefs = data.preferences || {};
+                    if (prefs.maple_preset) {
+                        const sel = document.getElementById('inAppPresetSelect');
+                        if (sel) sel.value = prefs.maple_preset;
+                    }
+                    if (typeof prefs.maple_voice_volume === 'number') {
+                        const slider = document.getElementById('inAppMapleVoiceVol');
+                        const text = document.getElementById('inAppMapleVoiceVolText');
+                        if (slider) slider.value = prefs.maple_voice_volume;
+                        if (text) text.textContent = `${prefs.maple_voice_volume}%`;
+                    }
+                    if (prefs.maple_char_name) {
+                        const charInput = document.getElementById('inAppMapleCharName');
+                        if (charInput && !charInput.value) charInput.value = prefs.maple_char_name;
+                    }
+                    if (prefs.maple_cancel_mode) {
+                        const cancelSel = document.getElementById('inAppCancelMode');
+                        if (cancelSel) cancelSel.value = prefs.maple_cancel_mode;
+                    }
+                }
+            } catch (e) {}
+        }
+
+        async function changeInAppCancelMode(mode) {
+            try {
+                saveInAppPreference('maple_cancel_mode', mode);
+                await fetch(`${SERVER_URL}/api/maple/cancel/config`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode: mode })
+                });
+                addSystemMessage(`🎯 은월 귀참 캔슬 모드가 <b>[${mode === 'wall' ? '벽캔 (100~170ms)' : mode === 'lr' ? '좌우캔 (110~180ms)' : '점캔 (120~200ms)'}]</b>(으)로 변경되었습니다.`);
+            } catch (e) {}
+        }
+
         async function loadInAppMaplePreset() {
             const select = document.getElementById('inAppPresetSelect');
             const job = select ? select.value : '';
             if (!job) return;
+            saveInAppPreference('maple_preset', job);
             await fetch(`${SERVER_URL}/api/maple/tracker/presets/load/${encodeURIComponent(job)}`, { method: 'POST' });
             addSystemMessage(`🍁 메이플 스킬 트래커에 <b>[${job}]</b> 직업/보스 프리셋이 적용되었습니다.`);
             await loadInAppSkills();
@@ -5098,6 +5225,7 @@
             const res = await fetch(`${SERVER_URL}/api/maple/tracker/presets/save/${encodeURIComponent(name.trim())}`, { method: 'POST' });
             if (res.ok) {
                 addSystemMessage(`🍁 <b>[${name.trim()}]</b> 프리셋이 성공적으로 저장되었습니다.`);
+                saveInAppPreference('maple_preset', name.trim());
                 await loadInAppPresetsList();
                 if (select) select.value = name.trim();
             }
@@ -5187,15 +5315,22 @@
         async function toggleInAppMapleTracker() {
             if (isMapleTrackerRunning) {
                 await fetch(`${SERVER_URL}/api/maple/tracker/stop`, { method: 'POST' });
-                addSystemMessage('🍁 메이플 스킬 감시가 정지되었습니다.');
+                addSystemMessage('🍁 메이플 스킬 감시가 수동 정지되었습니다.');
             } else {
                 await fetch(`${SERVER_URL}/api/maple/tracker/start`, { method: 'POST' });
-                addSystemMessage('🍁 메이플 스킬 감시가 시작되었습니다. (단축키 감지 모드 가동 중)');
+                addSystemMessage('🍁 메이플 스킬 감시가 시작되었습니다. (메이플 실행 & 포커스 시 자동 가동)');
             }
             await loadInAppSkills();
         }
 
         async function loadInAppVoiceVolume() {
+            const locVol = getLocalInAppPreference('maple_voice_volume', null);
+            if (locVol !== null) {
+                const slider = document.getElementById('inAppMapleVoiceVol');
+                const text = document.getElementById('inAppMapleVoiceVolText');
+                if (slider) slider.value = locVol;
+                if (text) text.textContent = `${locVol}%`;
+            }
             try {
                 const res = await fetch(`${SERVER_URL}/api/maple/tracker/volume`);
                 if (res.ok) {
@@ -5213,6 +5348,7 @@
         async function onInAppVoiceVolChange(val) {
             const text = document.getElementById('inAppMapleVoiceVolText');
             if (text) text.textContent = `${val}%`;
+            saveInAppPreference('maple_voice_volume', parseInt(val));
             clearTimeout(inAppVolDebounce);
             inAppVolDebounce = setTimeout(async () => {
                 try {
@@ -5229,6 +5365,7 @@
                 alert('연동할 캐릭터 닉네임을 입력하세요.');
                 return;
             }
+            saveInAppPreference('maple_char_name', name);
             if (resTag) resTag.innerHTML = '<span style="color:#60a5fa;"><i class="fa-solid fa-spinner fa-spin"></i> 넥슨 조회 중...</span>';
 
             try {
@@ -5253,6 +5390,7 @@
                     if (data.matched_preset) {
                         const sel = document.getElementById('inAppPresetSelect');
                         if (sel) sel.value = data.matched_preset;
+                        saveInAppPreference('maple_preset', data.matched_preset);
                     }
                     await loadInAppSkills();
                 } else {
