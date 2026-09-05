@@ -824,23 +824,51 @@ async def send_split_messages(destination, text: str, reference_msg: Optional[di
         await asyncio.sleep(0.3)
 
 
-async def start_render_health_server():
-    """Render Web Service 무료 티어 유지를 위한 경량 헬스체크 웹 서버"""
-    port = int(os.environ.get("PORT", 10000))
+def start_render_health_server_thread():
+    """Render Web Service 무료 티어 15분 절전 방지 및 포트 바인딩 헬스체크 서버"""
+    port_str = os.environ.get("PORT")
+    if not port_str:
+        return
     try:
-        from aiohttp import web
-        async def health_handle(request):
-            return web.Response(text="🌊 Skadi Discord Bot is Healthy & Online 24/7!")
-        app = web.Application()
-        app.router.add_get("/", health_handle)
-        app.router.add_get("/health", health_handle)
-        runner = web.AppRunner(app)
-        await runner.setup()
-        site = web.TCPSite(runner, "0.0.0.0", port)
-        await site.start()
-        logger.info(f"🌐 Render 헬스체크 웹 서버 가동 완료 (Port: {port})")
+        port = int(port_str)
+        import threading
+        from http.server import HTTPServer, BaseHTTPRequestHandler
+
+        class HealthHandler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                self.send_response(200)
+                self.send_header('Content-type', 'text/plain; charset=utf-8')
+                self.end_headers()
+                self.wfile.write("🌊 Skadi Discord Bot is Healthy & Online 24/7!".encode('utf-8'))
+
+            def log_message(self, format, *args):
+                pass
+
+        def _serve():
+            try:
+                server = HTTPServer(('0.0.0.0', port), HealthHandler)
+                logger.info(f"🌐 Render 헬스체크 웹 서버 즉시 가동 완료 (Port: {port})")
+                server.serve_forever()
+            except Exception as e:
+                logger.warning(f"Render 헬스체크 서버 오류: {e}")
+
+        th = threading.Thread(target=_serve, daemon=True)
+        th.start()
     except Exception as e:
         logger.warning(f"Render 헬스체크 서버 시작 실패: {e}")
+
+
+@tasks.loop(minutes=10)
+async def keep_alive_task():
+    """Render 15분 절전 방지를 위한 자동 Keep-Alive 핑"""
+    render_url = os.environ.get("RENDER_EXTERNAL_URL")
+    if render_url:
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                r = await client.get(f"{render_url}/health")
+                logger.info(f"🔄 Render Keep-Alive 핑 성공: {r.status_code}")
+        except Exception as e:
+            logger.debug(f"Render Keep-Alive 핑: {e}")
 
 
 # ------------------------------------------------------------
@@ -874,9 +902,10 @@ async def on_ready():
         daily_stock_briefing_task.start()
         logger.info("📈 24시간 장 마감 주식 브리핑 스케줄러 활성화 완료 (국내 15:40 / 미국 06:30 KST)")
 
-    # Render 클라우드 헬스체크 서버 자동 시작
-    if os.environ.get("PORT"):
-        asyncio.create_task(start_render_health_server())
+    # Render 클라우드 Keep-Alive 절전 방지 태스크 시작
+    if os.environ.get("RENDER_EXTERNAL_URL") and not keep_alive_task.is_running():
+        keep_alive_task.start()
+        logger.info("🔄 Render Keep-Alive 스케줄러 활성화 완료 (10분 주기)")
 
 
 @bot.event
@@ -2157,6 +2186,9 @@ def main():
         print("\n💡 나중에 discord_config.json 파일의 'bot_token' 에 토큰을 입력하고 다시 실행해주세요.")
         safe_input("\n종료하려면 Enter를 누르세요...")
         sys.exit(1)
+
+    # Render 클라우드 배포 시 포트 바인딩 헬스체크 웹 서버 즉시 가동
+    start_render_health_server_thread()
 
     logger.info("🌊 스카디 디스코드 챗봇을 24/7 무중단 모드로 시작합니다...")
     
