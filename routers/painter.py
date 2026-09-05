@@ -17,9 +17,27 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from modules.sd_painter_engine import SkadiPainterEngine, OUTPUT_DIR, STYLE_PRESETS
+from modules.prompt_crafter import SkadiPromptCrafter
 
 router = APIRouter(prefix="/api/painter", tags=["painter"])
 engine = SkadiPainterEngine()
+
+
+class EnhancePromptRequest(BaseModel):
+    prompt: Optional[str] = ""
+    style: str = "watercolor"
+    mode: str = "expand"  # "expand" or "random_idea"
+
+
+@router.post("/enhance-prompt")
+async def enhance_prompt_api(req: EnhancePromptRequest):
+    """AI 프롬프트 자동 마법 생성 / 확장 API"""
+    res = await SkadiPromptCrafter.enhance_prompt_async(
+        user_text=req.prompt or "",
+        style=req.style,
+        mode=req.mode
+    )
+    return res
 
 
 class GenerateRequest(BaseModel):
