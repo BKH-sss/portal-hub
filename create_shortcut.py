@@ -28,6 +28,7 @@ def create_all_desktop_shortcuts():
         (jarvis_target, "J.A.R.V.I.S Assistant", "J.A.R.V.I.S AI Assistant Desktop App"),
         ("AI_스튜디오_실행.bat", "스카디 AI 화가 스튜디오", "스카디 AI 화가 스튜디오 (RTX 4080 SUPER SDXL)"),
         ("포털_실행.bat", "4차 산업 포털 (ERECHTHEION)", "4차 산업 실시간 인텔리전스 & 스포츠 포털"),
+        ("서버_끄기.bat", "AI 서버 및 스튜디오 종료", "모든 AI 백엔드 서버 및 WebUI 프로세스 완전 종료"),
     ]
     
     for target, name, desc in shortcuts:
