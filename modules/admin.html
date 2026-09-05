@@ -953,38 +953,63 @@
                 isTrackerRunning = data.is_running;
 
                 const btn = document.getElementById('btn-tracker-toggle');
-                if (isTrackerRunning) {
-                    btn.className = "btn-action active";
-                    btn.style.borderColor = "var(--green-glow)";
-                    btn.style.color = "var(--green-glow)";
-                    btn.style.background = "rgba(0, 255, 135, 0.15)";
-                    btn.innerHTML = `<i class="fa-solid fa-circle-dot"></i> 감시 중 (클릭 시 정지)`;
-                } else {
-                    btn.className = "btn-action";
-                    btn.style.borderColor = "rgba(255, 0, 85, 0.4)";
-                    btn.style.color = "var(--red-glow)";
-                    btn.style.background = "rgba(255, 0, 85, 0.08)";
-                    btn.innerHTML = `<i class="fa-solid fa-play"></i> 감시 정지됨 (클릭 시 시작)`;
+                const engineState = data.engine_state || (data.is_running ? (data.is_maple_active ? 'ACTIVE' : (data.maple_process_detected ? 'WAIT_FOCUS' : 'WAIT_PROCESS')) : 'STOPPED');
+
+                if (btn) {
+                    if (engineState === 'ACTIVE') {
+                        btn.className = "btn-action active";
+                        btn.style.borderColor = "var(--green-glow)";
+                        btn.style.color = "var(--green-glow)";
+                        btn.style.background = "rgba(0, 255, 135, 0.18)";
+                        btn.style.boxShadow = "0 0 10px rgba(0, 255, 135, 0.25)";
+                        btn.innerHTML = `<i class="fa-solid fa-circle-dot"></i> 감시 가동 중 (메이플 포커스)`;
+                    } else if (engineState === 'WAIT_FOCUS') {
+                        btn.className = "btn-action";
+                        btn.style.borderColor = "var(--cyan-glow)";
+                        btn.style.color = "var(--cyan-glow)";
+                        btn.style.background = "rgba(0, 242, 254, 0.12)";
+                        btn.style.boxShadow = "none";
+                        btn.innerHTML = `<i class="fa-solid fa-crosshairs"></i> 자동 감시 대기 (포커스 시 즉시 작동)`;
+                    } else if (engineState === 'WAIT_PROCESS') {
+                        btn.className = "btn-action";
+                        btn.style.borderColor = "rgba(0, 242, 254, 0.3)";
+                        btn.style.color = "var(--cyan-glow)";
+                        btn.style.background = "rgba(0, 242, 254, 0.06)";
+                        btn.style.boxShadow = "none";
+                        btn.innerHTML = `<i class="fa-solid fa-bolt"></i> 자동 대기 중 (메이플 켜지면 자동 가동)`;
+                    } else {
+                        btn.className = "btn-action";
+                        btn.style.borderColor = "rgba(255, 0, 85, 0.4)";
+                        btn.style.color = "var(--red-glow)";
+                        btn.style.background = "rgba(255, 0, 85, 0.08)";
+                        btn.style.boxShadow = "none";
+                        btn.innerHTML = `<i class="fa-solid fa-play"></i> 수동 정지됨 (클릭 시 자동 재개)`;
+                    }
                 }
 
                 // 프로세스 감지 배지
                 const procBadge = document.getElementById('maple-process-badge');
                 if (procBadge) {
-                    if (data.maple_process_detected) {
+                    if (data.is_maple_running || data.maple_process_detected) {
                         procBadge.innerHTML = `<span style="background: rgba(0, 255, 135, 0.15); border: 1px solid rgba(0, 255, 135, 0.4); color: var(--green-glow); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;"><i class="fa-solid fa-circle-check"></i> MapleStory.exe 실행 중</span>`;
                     } else {
-                        procBadge.innerHTML = `<span style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); padding: 2px 8px; border-radius: 4px; font-size: 11px;"><i class="fa-solid fa-circle-pause"></i> 메이플 대기 중 (자동 활성화)</span>`;
+                        procBadge.innerHTML = `<span style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); padding: 2px 8px; border-radius: 4px; font-size: 11px;"><i class="fa-solid fa-circle-pause"></i> 메이플 대기 중 (실행 시 자동 활성화)</span>`;
                     }
                 }
 
+                // 포커스 필터 배지
                 const filterBadge = document.getElementById('focus-filter-badge');
                 if (filterBadge) {
                     if (data.focus_filter_enabled) {
-                        const activeTxt = data.is_maple_active ? '메이플 포커스 중' : '대기 중';
-                        const activeColor = data.is_maple_active ? 'var(--green-glow)' : 'var(--cyan-glow)';
-                        filterBadge.innerHTML = `<span style="background: rgba(0, 229, 255, 0.12); border: 1px solid rgba(0, 229, 255, 0.35); color: ${activeColor}; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;" title="메이플 게임 창이 활성화되어 있을 때만 단축키를 감지합니다 (오작동 0% 방지)"><i class="fa-solid fa-crosshairs"></i> 포커스 필터 ON (${activeTxt})</span>`;
+                        if (data.is_maple_active) {
+                            filterBadge.innerHTML = `<span style="background: rgba(0, 255, 135, 0.18); border: 1px solid var(--green-glow); color: var(--green-glow); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; box-shadow: 0 0 10px rgba(0,255,135,0.25);" title="메이플 게임 창이 포커스되어 단축키 감지 및 스카디 음성 브리핑이 실시간 가동 중입니다."><i class="fa-solid fa-bullseye"></i> 🎯 메이플 포커스 중 (감시 활성)</span>`;
+                        } else if (data.is_maple_running || data.maple_process_detected) {
+                            filterBadge.innerHTML = `<span style="background: rgba(255, 204, 0, 0.12); border: 1px solid rgba(255, 204, 0, 0.4); color: #ffcc00; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;" title="메이플이 백그라운드 상태입니다. 메이플 게임 창을 클릭하면 0ms로 즉시 감시가 시작됩니다."><i class="fa-solid fa-crosshairs"></i> ⌖ 포커스 대기 중 (클릭 시 자동 감시)</span>`;
+                        } else {
+                            filterBadge.innerHTML = `<span style="background: rgba(0, 229, 255, 0.12); border: 1px solid rgba(0, 229, 255, 0.35); color: var(--cyan-glow); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;" title="메이플 실행 시 자동으로 포커스 감시가 켜집니다."><i class="fa-solid fa-crosshairs"></i> ⌖ 포커스 필터 ON (메이플 대기)</span>`;
+                        }
                     } else {
-                        filterBadge.innerHTML = `<span style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); padding: 2px 8px; border-radius: 4px; font-size: 11px;"><i class="fa-solid fa-crosshairs"></i> 포커스 필터 OFF</span>`;
+                        filterBadge.innerHTML = `<span style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); padding: 2px 8px; border-radius: 4px; font-size: 11px;"><i class="fa-solid fa-crosshairs"></i> 포커스 필터 OFF (전체화면)</span>`;
                     }
                 }
 
@@ -1307,10 +1332,10 @@
         async function toggleTracker() {
             if (isTrackerRunning) {
                 await fetch(`${API_BASE}/api/maple/tracker/stop`, { method: 'POST' });
-                appendLog('MAPLE', '스킬 감시가 정지되었습니다.');
+                appendLog('MAPLE', '스킬 감시가 수동 정지되었습니다.');
             } else {
                 await fetch(`${API_BASE}/api/maple/tracker/start`, { method: 'POST' });
-                appendLog('MAPLE', '스킬 감시가 시작되었습니다. (우측 하단 퀵슬롯 모니터링 중)');
+                appendLog('MAPLE', '스킬 감시가 시작되었습니다. (메이플 실행 & 포커스 시 즉시 자동 활성화)');
             }
             loadSkills();
         }

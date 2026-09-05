@@ -165,6 +165,15 @@ class MapleCancelTrainer:
                 if not self.is_active:
                     break
 
+                # 🔒 포커스 필터: 메이플 활성창일 때만 캔슬 판정 (타 창에서 Ctrl+A 오작동 0% 방지)
+                try:
+                    from modules.maple_skill_tracker import maple_watcher
+                    if not maple_watcher.is_maple_active_window():
+                        time.sleep(0.04)
+                        continue
+                except Exception:
+                    pass
+
                 # 2. 귀참 (Primary Key: Ctrl) 입력 감지
                 primary_pressed = is_vkey_down(self.key_primary)
                 if primary_pressed and not self._primary_key_down:
