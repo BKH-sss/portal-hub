@@ -693,10 +693,41 @@
     </main>
 
     <script>
+        // 🌐 글로벌 백엔드 서버 URL 설정 (file:/// 로 열든 웹으로 접속하든 100% 자동 연결)
+        const API_BASE = (window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null')
+            ? 'http://127.0.0.1:8000'
+            : window.location.origin;
+
         let currentStyle = "watercolor";
         let currentWidth = 896;
         let currentHeight = 1152;
         let lastPrompt = "";
+
+        // 상태 확인 및 GPU 배지 동기화
+        async function checkServerStatus() {
+            const badge = document.getElementById('gpu-status');
+            try {
+                const res = await fetch(`${API_BASE}/api/painter/status`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.status === 'online') {
+                        badge.innerHTML = `<div class="gpu-dot"></div><span>RTX 4080 SUPER 연결됨</span>`;
+                        badge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+                        badge.style.background = 'rgba(16, 185, 129, 0.1)';
+                    } else {
+                        badge.innerHTML = `<div class="gpu-dot" style="background: #f59e0b; box-shadow: 0 0 10px #f59e0b;"></div><span style="color: #f59e0b;">WebUI Forge 연결 대기중 (포트 7860)</span>`;
+                        badge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+                        badge.style.background = 'rgba(245, 158, 11, 0.1)';
+                    }
+                }
+            } catch (e) {
+                if (badge) {
+                    badge.innerHTML = `<div class="gpu-dot" style="background: #ef4444; box-shadow: 0 0 10px #ef4444;"></div><span style="color: #f87171;">백엔드 서버 오프라인 (포트 8000)</span>`;
+                    badge.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+                    badge.style.background = 'rgba(239, 68, 68, 0.1)';
+                }
+            }
+        }
 
         // 화풍 선택
         function selectStyle(styleKey, el) {
@@ -740,7 +771,7 @@
             const startT = Date.now();
 
             try {
-                const res = await fetch('/api/painter/generate', {
+                const res = await fetch(`${API_BASE}/api/painter/generate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -755,8 +786,9 @@
 
                 const data = await res.json();
                 if (data.success && data.image_url) {
+                    const fullUrl = data.image_url.startsWith('http') ? data.image_url : `${API_BASE}${data.image_url}`;
                     const img = document.getElementById('current-image');
-                    img.src = data.image_url + '?t=' + Date.now();
+                    img.src = fullUrl + '?t=' + Date.now();
                     img.style.display = 'block';
 
                     const elapsed = ((Date.now() - startT) / 1000).toFixed(1);
@@ -768,7 +800,7 @@
                     alert('생성 실패: ' + (data.error || '오류가 발생했습니다.'));
                 }
             } catch (err) {
-                alert('통신 오류: ' + err.message);
+                alert('통신 오류: 백엔드 서버(' + API_BASE + ')에 연결할 수 없습니다.\n' + err.message);
             } finally {
                 btn.disabled = false;
                 loading.style.display = 'none';
@@ -778,28 +810,42 @@
         // 갤러리 로드
         async function loadGallery() {
             try {
-                const res = await fetch('/api/painter/gallery');
+                const res = await fetch(`${API_BASE}/api/painter/gallery`);
                 const data = await res.json();
                 const grid = document.getElementById('gallery-grid');
                 grid.innerHTML = '';
 
                 if (data.images && data.images.length > 0) {
+                    // 첫 이미지 캔버스 자동 프리뷰
+                    const firstImg = data.images[0];
+                    const firstUrl = firstImg.url.startsWith('http') ? firstImg.url : `${API_BASE}${firstImg.url}`;
+                    const mainImg = document.getElementById('current-image');
+                    if (mainImg && !mainImg.src.includes('http')) {
+                        mainImg.src = firstUrl;
+                        document.getElementById('img-meta').innerHTML = 
+                            `<i class="fa-solid fa-image"></i> ${firstImg.file_name} (${firstImg.size_kb} KB)`;
+                    }
+
                     data.images.forEach(img => {
                         const item = document.createElement('div');
                         item.className = 'gallery-item';
                         item.title = `${img.file_name} (${img.size_kb} KB)`;
-                        item.innerHTML = `<img src="${img.url}" loading="lazy">`;
+                        const fullUrl = img.url.startsWith('http') ? img.url : `${API_BASE}${img.url}`;
+                        item.innerHTML = `<img src="${fullUrl}" loading="lazy">`;
                         item.onclick = () => {
                             const mainImg = document.getElementById('current-image');
-                            mainImg.src = img.url;
+                            mainImg.src = fullUrl;
                             document.getElementById('img-meta').innerHTML = 
                                 `<i class="fa-solid fa-image"></i> ${img.file_name} (${img.size_kb} KB, ${img.created_at})`;
                         };
                         grid.appendChild(item);
                     });
+                } else {
+                    showEmptyCanvas();
                 }
             } catch (err) {
                 console.error('Gallery load err:', err);
+                showEmptyCanvas();
             }
         }
 
@@ -821,18 +867,23 @@
         }
 
         function showEmptyCanvas() {
-            document.getElementById('canvas-content').innerHTML = `
-                <div class="canvas-empty">
-                    <i class="fa-solid fa-paintbrush"></i>
-                    <h3>아직 생성된 일러스트가 없습니다</h3>
-                    <p>왼쪽에서 프롬프트를 입력하고 렌더링 버튼을 눌러보세요!</p>
-                </div>
-            `;
+            const content = document.getElementById('canvas-content');
+            if (content) {
+                content.innerHTML = `
+                    <div class="canvas-empty">
+                        <i class="fa-solid fa-paintbrush"></i>
+                        <h3>아직 생성된 일러스트가 없습니다</h3>
+                        <p>왼쪽에서 프롬프트를 입력하고 렌더링 버튼을 눌러보세요!</p>
+                    </div>
+                `;
+            }
         }
 
         // 초기화
         window.addEventListener('DOMContentLoaded', () => {
+            checkServerStatus();
             loadGallery();
+            setInterval(checkServerStatus, 5000);
         });
     </script>
 </body>
