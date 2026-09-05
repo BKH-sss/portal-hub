@@ -918,10 +918,12 @@ class SkadiChessUI {
         this.blackTime = 600;
 
         // 흑/백 플레이어 사이드 및 AI 자율 대전 전용 상태
-        this.playerSide = 'w'; // 'w': 유저 백, 'b': 유저 흑, 'auto': AI vs AI 자율 대전
+        this.gameMode = 'user'; // 'user': AI 대 유저, 'auto': AI 대 AI
+        this.playerColor = 'w'; // 'w': 백, 'b': 흑
+        this.playerSide = 'w'; // 실전 적용 사이드 ('w', 'b', 'auto_w', 'auto_b')
         this.isSelfPlaying = false;
         this.selfPlayTimer = null;
-        this.selfPlayDelay = 600; // 자율 대전 기본 딜레이 (ms)
+        this.selfPlayDelay = 300; // 자율 대전 기본 딜레이 (ms)
 
         this.initDOM();
         this.bindEvents();
@@ -945,8 +947,13 @@ class SkadiChessUI {
         this.btnToggleSelfPlayEl = document.getElementById('btnToggleSelfPlay');
         this.currentTacticNameEl = document.getElementById('currentTacticName');
         this.tacticSourceBadgeEl = document.getElementById('tacticSourceBadge');
-        this.btnCrawlTacticsEl = document.getElementById('btnCrawlTactics');
-        this.btnFreshOpeningEl = document.getElementById('btnFreshOpening');
+        this.gameModeSelectEl = document.getElementById('gameModeSelect');
+        this.playerColorSelectEl = document.getElementById('playerColorSelect');
+        this.boardThemeSelectEl = document.getElementById('boardThemeSelect');
+        this.topPlayerNameEl = document.getElementById('topPlayerName');
+        this.bottomPlayerNameEl = document.getElementById('bottomPlayerName');
+        this.topAvatarEl = document.getElementById('topAvatar');
+        this.bottomAvatarEl = document.getElementById('bottomAvatar');
         this.aiLevelTextEl = document.getElementById('aiLevelText');
         this.aiExpTextEl = document.getElementById('aiExpText');
         this.aiLevelBarEl = document.getElementById('aiLevelBar');
@@ -1048,6 +1055,37 @@ class SkadiChessUI {
         }
     }
 
+    updatePlayerSide() {
+        if (this.gameMode === 'auto') {
+            this.playerSide = this.playerColor === 'b' ? 'auto_b' : 'auto_w';
+        } else {
+            this.playerSide = this.playerColor;
+        }
+    }
+
+    applyBoardTheme(theme) {
+        const root = document.documentElement;
+        switch (theme) {
+            case 'wood':
+                root.style.setProperty('--board-light', '#F0D9B5');
+                root.style.setProperty('--board-dark', '#B58863');
+                break;
+            case 'blue':
+                root.style.setProperty('--board-light', '#DEE3E6');
+                root.style.setProperty('--board-dark', '#8CA2AD');
+                break;
+            case 'dark':
+                root.style.setProperty('--board-light', '#52525B');
+                root.style.setProperty('--board-dark', '#27272A');
+                break;
+            case 'green':
+            default:
+                root.style.setProperty('--board-light', '#EBECD0');
+                root.style.setProperty('--board-dark', '#779556');
+                break;
+        }
+    }
+
     bindEvents() {
         document.getElementById('btnRestart').addEventListener('click', () => this.startNewGame());
         document.getElementById('btnUndo').addEventListener('click', () => this.undoMove());
@@ -1065,31 +1103,43 @@ class SkadiChessUI {
         if (btnReplayExit) btnReplayExit.addEventListener('click', () => this.exitReplay());
         document.getElementById('btnHint').addEventListener('click', () => this.showHint());
         
-        // 전술 크롤링 갱신 버튼 이벤트
-        if (this.btnCrawlTacticsEl) {
-            this.btnCrawlTacticsEl.addEventListener('click', () => this.crawlTacticsDB());
-        }
-
-        // 실시간 구글 검색으로 새 전략 즉시 장착
-        if (this.btnFreshOpeningEl) {
-            this.btnFreshOpeningEl.addEventListener('click', async () => {
-                this.btnFreshOpeningEl.innerText = "🌐 탐색 중...";
-                await this.fetchNewTacticOpening(true);
-                this.btnFreshOpeningEl.innerText = "⚡ 새 전략 검색";
-            });
-        }
-
-        // 흑/백 플레이 진영 및 AI vs AI 자율 대전 선택 이벤트
-        const sideSelect = document.getElementById('sideSelect');
-        if (sideSelect) {
-            sideSelect.addEventListener('change', (e) => {
-                this.playerSide = e.target.value;
+        // 1. 게임 모드 선택 이벤트 (AI 대 유저 / AI 대 AI 2종)
+        if (this.gameModeSelectEl) {
+            this.gameModeSelectEl.addEventListener('change', (e) => {
+                this.gameMode = e.target.value;
+                this.updatePlayerSide();
                 if (this.aiControlPanelEl) {
-                    this.aiControlPanelEl.style.display = this.playerSide.startsWith('auto') ? 'block' : 'none';
+                    this.aiControlPanelEl.style.display = this.gameMode === 'auto' ? 'flex' : 'none';
                 }
                 this.stopSelfPlay();
                 this.startNewGame();
             });
+        }
+
+        // 2. 진영 색상 선택 이벤트 (⚪ 백 / ⚫ 흑)
+        if (this.playerColorSelectEl) {
+            this.playerColorSelectEl.addEventListener('change', (e) => {
+                this.playerColor = e.target.value;
+                this.updatePlayerSide();
+                this.stopSelfPlay();
+                this.startNewGame();
+            });
+        }
+
+        // 3. 체스판 테마 색상 변경 이벤트
+        if (this.boardThemeSelectEl) {
+            const savedTheme = localStorage.getItem('skadi_board_theme') || 'green';
+            this.boardThemeSelectEl.value = savedTheme;
+            this.applyBoardTheme(savedTheme);
+
+            this.boardThemeSelectEl.addEventListener('change', (e) => {
+                const theme = e.target.value;
+                this.applyBoardTheme(theme);
+                localStorage.setItem('skadi_board_theme', theme);
+            });
+        } else {
+            const savedTheme = localStorage.getItem('skadi_board_theme') || 'green';
+            this.applyBoardTheme(savedTheme);
         }
 
         // AI 자율 대전 전용 토글 및 속도 바인딩
@@ -1277,9 +1327,15 @@ class SkadiChessUI {
             this.stopSelfPlay();
         } else {
             this.isSelfPlaying = true;
+            this.selfPlayRoundCount = this.selfPlayRoundCount || 0;
             if (this.btnToggleSelfPlayEl) this.btnToggleSelfPlayEl.innerText = "🛑 AI 자율 대전 정지";
+            const roundBadge = document.getElementById('selfPlayRoundBadge');
+            if (roundBadge) {
+                roundBadge.innerText = `진행중 (${this.selfPlayRoundCount + 1}판째)`;
+                roundBadge.style.background = '#16a34a';
+            }
             const starter = this.playerSide === 'auto_b' ? '흑 AI 선공' : '백 AI 선공';
-            this.setSkadiSpeech(`🤖 AI vs AI (${starter}) 자율 딥러닝 섀도우 복싱 대전을 개시한다!`, "normal");
+            this.setSkadiSpeech(`🤖 AI vs AI (${starter}) [${this.currentTactic ? this.currentTactic.name : '정석'}] 자율 딥러닝 시뮬레이션을 개시한다!`, "normal");
             
             // 흑 AI 선공이고 첫 수 시작 시 턴을 'b'로 지정
             if (this.playerSide === 'auto_b' && this.game.moveHistory.length === 0) {
@@ -1297,6 +1353,11 @@ class SkadiChessUI {
         }
         if (this.btnToggleSelfPlayEl) {
             this.btnToggleSelfPlayEl.innerText = "⚡ AI 자율 대전 시작";
+        }
+        const roundBadge = document.getElementById('selfPlayRoundBadge');
+        if (roundBadge) {
+            roundBadge.innerText = this.selfPlayRoundCount ? `${this.selfPlayRoundCount}회 완료` : "대기중";
+            roundBadge.style.background = '#1d4ed8';
         }
     }
 
@@ -1334,6 +1395,10 @@ class SkadiChessUI {
      * 자율 대전 기보 데이터를 B: 드라이브 영구 DB 또는 브라우저 로컬 저장소로 덤프
      */
     async saveSelfPlayLogToDrive() {
+        this.selfPlayRoundCount = (this.selfPlayRoundCount || 0) + 1;
+        const roundBadge = document.getElementById('selfPlayRoundBadge');
+        if (roundBadge) roundBadge.innerText = `${this.selfPlayRoundCount}판 훈련 완료`;
+
         try {
             const res = await fetch('http://localhost:8000/api/chess/save-log', {
                 method: 'POST',
@@ -1348,12 +1413,12 @@ class SkadiChessUI {
 
             if (res.ok) {
                 const data = await res.json();
-                const logMsg = `💾 B: 드라이브 자율 학습 DB에 대전 기보(${this.game.moveHistory.length}수) 덤프 완료! 섀도우 복싱 데이터가 기록되었다.`;
+                const logMsg = `💾 B: 드라이브 자율 학습 DB에 대전 기보(${this.game.moveHistory.length}수) 덤프 완료! (${this.selfPlayRoundCount}판 누적)`;
                 this.setSkadiSpeech(logMsg, "win");
-                this.persona.speak("자율 학습 대전 기보를 B: 드라이브 딥러닝 데이터베이스에 영구 기록했다!");
                 
                 // 강화 학습 경험치 부여 및 지능 레벨업 처리
                 await this.trainEvolution(this.game.winner);
+                this.checkAndTriggerNextSelfPlay();
                 return;
             }
         } catch (err) {
@@ -1372,10 +1437,31 @@ class SkadiChessUI {
             localStorage.setItem('skadi_chess_logs', JSON.stringify(existingLogs));
         } catch (e) {}
 
-        const logMsg = `💾 24시간 클라우드 DB에 대전 기보(${this.game.moveHistory.length}수) 기록 완료!`;
+        const logMsg = `💾 24시간 클라우드 DB에 대전 기보(${this.game.moveHistory.length}수) 기록 완료! (${this.selfPlayRoundCount}판 누적)`;
         this.setSkadiSpeech(logMsg, "win");
-        this.persona.speak("자율 학습 대전 기보를 성공적으로 기록했다!");
         await this.trainEvolution(this.game.winner);
+        this.checkAndTriggerNextSelfPlay();
+    }
+
+    /**
+     * 무한 연속 훈련 모드 활성화 시 다음 판 자동 시작
+     */
+    checkAndTriggerNextSelfPlay() {
+        const chkInfinite = document.getElementById('chkInfiniteTraining');
+        const isInfinite = chkInfinite ? chkInfinite.checked : true;
+
+        if (isInfinite && this.playerSide && this.playerSide.startsWith('auto')) {
+            const nextMsg = `🔁 무한 훈련 가동: 1.2초 후 새로운 오프닝 전술로 [${this.selfPlayRoundCount + 1}번째 시뮬레이션] 자동 개시!`;
+            this.setSkadiSpeech(nextMsg, "normal");
+
+            setTimeout(async () => {
+                if (this.playerSide && this.playerSide.startsWith('auto')) {
+                    await this.fetchNewTacticOpening();
+                    this.startNewGame();
+                    this.toggleSelfPlay();
+                }
+            }, 1200);
+        }
     }
 
     renderBoard() {
@@ -1467,7 +1553,7 @@ class SkadiChessUI {
 
     handleSquareClick(r, c) {
         if (this.isReplayMode) return;
-        if (this.game.isGameOver || this.playerSide === 'auto') return;
+        if (this.game.isGameOver || this.gameMode === 'auto' || this.playerSide.startsWith('auto')) return;
         if (this.game.turn !== this.playerSide) return; // 내 진영 턴이 아닐 때는 조작 제한
 
         const piece = this.game.getPiece(r, c);
@@ -1559,10 +1645,44 @@ class SkadiChessUI {
         this.updateHistory();
         this.updateCapturedPieces();
         this.updateEvalBar();
+        this.updatePlayerInfoUI();
+
+        // 실시간 턴 표시 타이머 활성화 동기화
+        if (this.whiteTimerEl && this.blackTimerEl) {
+            if (this.game.turn === 'w') {
+                this.whiteTimerEl.classList.add('active');
+                this.blackTimerEl.classList.remove('active');
+            } else {
+                this.blackTimerEl.classList.add('active');
+                this.whiteTimerEl.classList.remove('active');
+            }
+        }
 
         if (this.game.isGameOver && !this.reviewShown) {
             this.reviewShown = true;
             setTimeout(() => this.showGameReview(), 1500);
+        }
+    }
+
+    updatePlayerInfoUI() {
+        if (!this.topPlayerNameEl || !this.bottomPlayerNameEl) return;
+        if (this.gameMode === 'auto') {
+            this.topPlayerNameEl.innerText = "스카디 (Black AI)";
+            this.bottomPlayerNameEl.innerText = "스카디 (White AI)";
+            if (this.topAvatarEl) this.topAvatarEl.innerText = "🤖";
+            if (this.bottomAvatarEl) this.bottomAvatarEl.innerText = "🤖";
+        } else {
+            if (this.playerColor === 'w') {
+                this.topPlayerNameEl.innerText = "스카디 코치 (Black)";
+                this.bottomPlayerNameEl.innerText = "마스터 (White · You)";
+                if (this.topAvatarEl) this.topAvatarEl.innerText = "🤖";
+                if (this.bottomAvatarEl) this.bottomAvatarEl.innerText = "😎";
+            } else {
+                this.topPlayerNameEl.innerText = "스카디 코치 (White)";
+                this.bottomPlayerNameEl.innerText = "마스터 (Black · You)";
+                if (this.topAvatarEl) this.topAvatarEl.innerText = "🤖";
+                if (this.bottomAvatarEl) this.bottomAvatarEl.innerText = "😎";
+            }
         }
     }
 
@@ -1581,9 +1701,19 @@ class SkadiChessUI {
         document.getElementById('statBlunder').innerText = Math.floor(Math.random() * 4);
 
         const msgEl = document.getElementById('reviewMessage');
-        if (this.game.winner === 'w') msgEl.innerText = "마스터(White)의 승리입니다! 훌륭한 전술이 돋보였습니다.";
-        else if (this.game.winner === 'b') msgEl.innerText = "스카디(Black)의 승리입니다! 빈틈없는 방어와 역습이 훌륭했습니다.";
-        else msgEl.innerText = "무승부(Draw)입니다. 치열한 접전이었습니다!";
+        if (this.game.winner === 'w') {
+            const winnerText = (this.gameMode === 'auto')
+                ? "백(White AI)의 승리입니다!"
+                : (this.playerColor === 'w' ? "마스터(White)의 승리입니다! 훌륭한 전술이 돋보였습니다." : "스카디(White)의 승리입니다! 빈틈없는 수읽기가 돋보였습니다.");
+            msgEl.innerText = winnerText;
+        } else if (this.game.winner === 'b') {
+            const winnerText = (this.gameMode === 'auto')
+                ? "흑(Black AI)의 승리입니다!"
+                : (this.playerColor === 'b' ? "마스터(Black)의 승리입니다! 훌륭한 역습이 돋보였습니다." : "스카디(Black)의 승리입니다! 빈틈없는 방어와 역습이 훌륭했습니다.");
+            msgEl.innerText = winnerText;
+        } else {
+            msgEl.innerText = "무승부(Draw)입니다. 치열한 접전이었습니다!";
+        }
 
         reviewModal.style.display = 'flex';
         

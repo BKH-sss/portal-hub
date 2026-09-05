@@ -23,6 +23,7 @@ from routers.memory import router as memory_router
 from routers.vision import router as vision_router
 from routers.chess import router as chess_router
 from routers.websocket import router as websocket_router
+from routers.painter import router as painter_router
 
 __all__ = [
     "portal_router",
@@ -34,4 +35,5 @@ __all__ = [
     "vision_router",
     "chess_router",
     "websocket_router",
+    "painter_router",
 ]

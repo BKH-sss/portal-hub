@@ -1,4 +1,4 @@
-﻿"""
+"""
 modules/sd_painter_engine.py
 ------------------------------------------------------------
 스카디(Skadi) 챗봇 전용 S급 AI 화가(Painter) 렌더링 엔진 모듈.
@@ -81,11 +81,84 @@ STYLE_PRESETS = {
 }
 
 
+KO_TO_EN_TAGS = {
+    "명일방주": "arknights",
+    "스카디": "skadi (arknights)",
+    "원신": "genshin impact",
+    "라이덴 쇼군": "raiden shogun (genshin impact)",
+    "라이덴": "raiden shogun (genshin impact)",
+    "나히다": "nahida (genshin impact)",
+    "푸리나": "furina (genshin impact)",
+    "은발": "silver hair",
+    "백발": "white hair",
+    "금발": "blonde hair",
+    "흑발": "black hair",
+    "적발": "red hair",
+    "벽발": "blue hair",
+    "갈색머리": "brown hair",
+    "분홍머리": "pink hair",
+    "보라머리": "purple hair",
+    "적안": "red eyes",
+    "붉은 눈": "red eyes",
+    "붉은눈": "red eyes",
+    "청안": "blue eyes",
+    "푸른 눈": "blue eyes",
+    "푸른눈": "blue eyes",
+    "녹안": "green eyes",
+    "초록 눈": "green eyes",
+    "금안": "yellow eyes",
+    "고양이귀": "cat ears",
+    "여우귀": "fox ears",
+    "토끼귀": "rabbit ears",
+    "무녀": "miko, shrine maiden",
+    "기모노": "kimono",
+    "한복": "hanbok",
+    "메이드": "maid",
+    "교복": "school uniform",
+    "정장": "suit",
+    "드레스": "dress",
+    "갑옷": "armor",
+    "수영복": "swimsuit, bikini",
+    "바니걸": "bunny suit",
+    "소녀": "1girl, solo",
+    "소년": "1boy, solo",
+    "여성": "1girl, solo",
+    "남성": "1boy, solo",
+    "마법사": "mage, wizard",
+    "기사": "knight",
+    "벚꽃": "cherry blossoms, falling petals",
+    "밤하늘": "night sky, starry sky",
+    "달": "moon",
+    "보름달": "full moon",
+    "바다": "ocean, beach",
+    "해변": "beach, sandy beach",
+    "석양": "sunset, golden hour",
+    "노을": "sunset, twilight",
+    "설원": "snow, snowy landscape",
+    "눈": "snow",
+    "비": "rain, wet",
+    "신사": "shrine",
+    "도서관": "library",
+    "사이버펑크": "cyberpunk, neon glow",
+    "네온": "neon lights",
+    "수채화": "watercolor (medium)",
+    "수채화풍": "watercolor (medium)",
+}
+
+
 class SkadiPainterEngine:
     """스카디 AI 화가 렌더링 코어 엔진"""
 
     def __init__(self, api_url: Optional[str] = None):
         self.api_url = (api_url or SD_API_URL).rstrip("/")
+
+    @staticmethod
+    def translate_korean_prompt(prompt: str) -> str:
+        """한국어 키워드를 Danbooru / SDXL 마스터 영문 태그로 스마트 치환 및 보강"""
+        translated = prompt
+        for ko, en in KO_TO_EN_TAGS.items():
+            translated = re.sub(re.escape(ko), en, translated, flags=re.IGNORECASE)
+        return translated
 
     async def check_health(self) -> Dict[str, Any]:
         """WebUI Forge / SD API 서버 가동 여부 및 활성 모델 확인"""
@@ -122,9 +195,9 @@ class SkadiPainterEngine:
         """S급 화질 옵션과 ADetailer / Hires.fix가 결합된 REST API 요청 페이로드 조립"""
         preset = STYLE_PRESETS.get(style, STYLE_PRESETS["watercolor"])
 
-        # 프롬프트 조립
-        clean_prompt = raw_prompt.strip()
-        final_prompt = f"{preset['positive_prefix']}{clean_prompt}{preset['positive_suffix']}"
+        # 1. 한국어 스마트 번역 및 프롬프트 조립
+        translated_prompt = self.translate_korean_prompt(raw_prompt.strip())
+        final_prompt = f"{preset['positive_prefix']}{translated_prompt}{preset['positive_suffix']}"
         final_neg = f"{S_TIER_NEGATIVE_PROMPT}, {negative_prompt.strip()}" if negative_prompt else S_TIER_NEGATIVE_PROMPT
 
         actual_steps = steps or preset["steps"]

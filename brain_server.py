@@ -56,7 +56,8 @@ from routers import (
     memory_router,
     vision_router,
     chess_router,
-    websocket_router
+    websocket_router,
+    painter_router
 )
 
 # 🚀 3. 차세대 JARVIS 확장 모듈 스위트 (OS 제어, 메이플 스킬 트래커, 캘린더, MCP 등)
@@ -93,6 +94,7 @@ app.include_router(vision_router)     # 👁️ PC 화면 공유 & 비전 감시
 app.include_router(chess_router)      # ♟️ 체스 AI 자율 대전 & 기보
 app.include_router(websocket_router)  # ⚡ 실시간 웹소켓 통신
 app.include_router(asr_router)        # 🎙️ 로컬 음성 인식 (Whisper ASR)
+app.include_router(painter_router)    # 🎨 스카디 S급 AI 화가 스튜디오 (RTX 4080 SUPER)
 
 # 🚀 차세대 JARVIS 확장 모듈 스위트 8대 라우터 일괄 마운트
 for ext_router in all_extension_routers:
@@ -180,6 +182,7 @@ async def on_server_startup():
     print("🚀 [JARVIS Brain Server 3.5] 차세대 모듈 확장 스위트 가동 완료!")
     print("   • 포털 메인:    http://127.0.0.1:8000/portal")
     print("   • AI 챗봇:      http://127.0.0.1:8000/chatbot.html")
+    print("   • AI 화가:      http://127.0.0.1:8000/skadi_studio.html")
     print("   • 외신(ORBIS):   http://127.0.0.1:8000/global/")
     print("   • 관리자 HUD:   http://127.0.0.1:8000/admin")
     print("   • API 문서:     http://127.0.0.1:8000/docs (Swagger UI)")

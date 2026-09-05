@@ -167,6 +167,22 @@
                         <svg id="moonIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
                     </button>
 
+                    <!-- 스카디 AI 화가 스튜디오 이동 버튼 -->
+                    <a href="skadi_studio.html" 
+                       title="스카디 AI 화가 스튜디오 (RTX 4080 SUPER S급 일러스트 생성)"
+                       class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-600/10 to-pink-600/10 hover:from-purple-600/20 hover:to-pink-600/20 border border-purple-500/30 text-purple-600 dark:text-purple-300 text-xs font-bold transition shadow-sm">
+                        <span>🎨 AI 화가 스튜디오</span>
+                        <svg class="w-3 h-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </a>
+
+                    <!-- 스카디 체스 게임 이동 버튼 -->
+                    <a href="skadi_chess.html" 
+                       title="스카디 AI 봇과 실시간 체스 대전 (24시간 무중단 플레이)"
+                       class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600/10 to-teal-600/10 hover:from-emerald-600/20 hover:to-teal-600/20 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 text-xs font-bold transition shadow-sm">
+                        <span>♟️ 스카디 체스</span>
+                        <svg class="w-3 h-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </a>
+
                     <!-- 해외 외신 포털 이동 버튼 -->
                     <a href="global/" 
                        title="로이터, 블룸버그, BBC 등 실시간 외신 전문 포털(ORBIS)로 이동"
@@ -934,53 +950,113 @@
             fetchWeatherOnly(city);
         }
 
-        // 데이터 페칭: 종합 오버뷰 (로컬 서버 API 우선 -> 깃허브 페이지 정적 JSON -> 라이브 브라우저 API 순차 폴백)
+        // ==========================================
+        // 데이터 페칭 & 즉시 렌더링 (Stale-While-Revalidate 초고속 패턴)
+        // ==========================================
         let staticPortalData = null;
 
-        async function fetchOverview() {
-            // 1. 백엔드 서버(FastAPI)가 있는 경우 우선 시도
+        // 1. 초기 즉시 캐시 렌더링 (0ms perceived delay)
+        function loadInitialSnapshot() {
             try {
-                const res = await fetch(`/api/portal/overview?city=${encodeURIComponent(currentCity)}&category=${currentCategory}`);
+                const cachedStr = localStorage.getItem('portal_snapshot_data');
+                if (cachedStr) {
+                    const cached = JSON.parse(cachedStr);
+                    if (cached) {
+                        staticPortalData = cached;
+                        if (cached.soccer) renderSoccer(cached.soccer);
+                        if (cached.mu_standing && cached.mu_standing.badge_text) {
+                            const sEl = document.getElementById('muStandingText');
+                            if (sEl) sEl.textContent = cached.mu_standing.badge_text;
+                        }
+                        if (cached.weather && (cached.weather[currentCity] || cached.weather['서울'])) {
+                            renderWeather(cached.weather[currentCity] || cached.weather['서울']);
+                        }
+                        if (cached.news && (cached.news[currentCategory] || cached.news['all'])) {
+                            renderNews(cached.news[currentCategory] || cached.news['all']);
+                        }
+                        return true;
+                    }
+                }
+            } catch (e) {}
+
+            // 로컬 스토리지 캐시가 전혀 없는 첫 방문자라도 즉시 기본 맨유 경기 렌더링 (스켈레톤 지연 제거)
+            renderSoccer(DEFAULT_MANUTD_FALLBACK);
+            return false;
+        }
+
+        // 2. data/portal_data.json 정적 파일 로드 (GitHub Pages & 로컬 공통 초고속 로드)
+        async function fetchStaticPortalData() {
+            const pathsToTry = ['data/portal_data.json', '../data/portal_data.json', '/portal-hub/data/portal_data.json'];
+            for (const p of pathsToTry) {
+                try {
+                    const res = await fetch(p + '?t=' + Math.floor(Date.now() / 60000));
+                    if (res.ok) {
+                        const json = await res.json();
+                        if (json && (json.soccer || json.news || json.weather)) {
+                            staticPortalData = json;
+                            localStorage.setItem('portal_snapshot_data', JSON.stringify(json));
+                            if (json.soccer) renderSoccer(json.soccer);
+                            if (json.mu_standing && json.mu_standing.badge_text) {
+                                const sEl = document.getElementById('muStandingText');
+                                if (sEl) sEl.textContent = json.mu_standing.badge_text;
+                            }
+                            if (json.weather && (json.weather[currentCity] || json.weather['서울'])) {
+                                renderWeather(json.weather[currentCity] || json.weather['서울']);
+                            }
+                            if (json.news && (json.news[currentCategory] || json.news['all'])) {
+                                renderNews(json.news[currentCategory] || json.news['all']);
+                            }
+                            return true;
+                        }
+                    }
+                } catch (e) {}
+            }
+            return false;
+        }
+
+        // 3. 백엔드(FastAPI) 또는 실시간 API 비동기 백그라운드 최신화
+        async function revalidateLiveData() {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 2500);
+                const res = await fetch(`/api/portal/overview?city=${encodeURIComponent(currentCity)}&category=${currentCategory}`, {
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
                 if (res.ok) {
                     const data = await res.json();
-                    if (data.soccer) renderSoccer(data.soccer);
-                    if (data.weather) renderWeather(data.weather);
-                    if (data.news) renderNews(data.news);
-                    return;
+                    if (data && data.success) {
+                        if (data.soccer) renderSoccer(data.soccer);
+                        if (data.weather) renderWeather(data.weather);
+                        if (data.news) renderNews(data.news);
+
+                        if (!staticPortalData) staticPortalData = {};
+                        if (data.soccer) staticPortalData.soccer = data.soccer;
+                        if (data.weather) {
+                            if (!staticPortalData.weather) staticPortalData.weather = {};
+                            staticPortalData.weather[currentCity] = data.weather;
+                        }
+                        if (data.news) {
+                            if (!staticPortalData.news) staticPortalData.news = {};
+                            staticPortalData.news[currentCategory] = data.news;
+                        }
+                        localStorage.setItem('portal_snapshot_data', JSON.stringify(staticPortalData));
+                        return;
+                    }
                 }
             } catch (err) {
-                // 로컬 서버가 없는 깃허브 페이지 환경 진입
+                // FastAPI 백엔드가 없거나 타임아웃된 환경 (GitHub Pages 등)
             }
 
-            // 2. 깃허브 페이지 환경: data/portal_data.json 정적 캐시 로드
-            try {
-                if (!staticPortalData) {
-                    const resJson = await fetch('data/portal_data.json');
-                    if (resJson.ok) {
-                        staticPortalData = await resJson.json();
-                    }
-                }
-                if (staticPortalData) {
-                    if (staticPortalData.soccer) renderSoccer(staticPortalData.soccer);
-                    if (staticPortalData.mu_standing && staticPortalData.mu_standing.badge_text) {
-                        const sEl = document.getElementById('muStandingText');
-                        if (sEl) sEl.textContent = staticPortalData.mu_standing.badge_text;
-                    }
-                    if (staticPortalData.weather && staticPortalData.weather[currentCity]) {
-                        renderWeather(staticPortalData.weather[currentCity]);
-                    } else if (staticPortalData.weather && staticPortalData.weather['서울']) {
-                        renderWeather(staticPortalData.weather['서울']);
-                    }
-                    if (staticPortalData.news && staticPortalData.news[currentCategory]) {
-                        renderNews(staticPortalData.news[currentCategory]);
-                    }
-                }
-            } catch (jsonErr) {
-                console.warn('portal_data.json fallback load failed:', jsonErr);
-            }
-
-            // 3. 실시간 날씨는 Open-Meteo 공개 CORS API로 브라우저가 직접 최신화
+            // GitHub Pages 환경에서는 브라우저가 직접 Open-Meteo 실시간 기상 정보 갱신
             fetchWeatherDirect(currentCity);
+        }
+
+        async function fetchOverview() {
+            // 1) 정적 캐시 JSON 고속 로드
+            await fetchStaticPortalData();
+            // 2) 라이브 데이터 백그라운드 최신화
+            revalidateLiveData();
         }
 
         async function fetchSoccerOnly() {
@@ -992,9 +1068,8 @@
         async function fetchWeatherOnly(city) {
             if (staticPortalData && staticPortalData.weather && staticPortalData.weather[city]) {
                 renderWeather(staticPortalData.weather[city]);
-            } else {
-                fetchWeatherDirect(city);
             }
+            fetchWeatherDirect(city);
         }
 
         async function fetchWeatherDirect(city) {
@@ -1076,21 +1151,30 @@
                     const allNews = staticPortalData.news['all'] || [];
                     const filtered = allNews.filter(n => (n.title && n.title.toLowerCase().includes(qLower)) || (n.desc && n.desc.toLowerCase().includes(qLower)));
                     renderNews(filtered.length > 0 ? filtered : allNews);
-                } else {
-                    renderNews(staticPortalData.news[category] || staticPortalData.news['all']);
+                    return;
+                } else if (staticPortalData.news[category]) {
+                    renderNews(staticPortalData.news[category]);
                 }
-                return;
             }
 
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 2500);
                 let url = `/api/portal/news?category=${category}&limit=25`;
                 if (query) url += `&q=${encodeURIComponent(query)}`;
-                const res = await fetch(url);
-                const data = await res.json();
-                renderNews(data);
-            } catch (e) {
-                console.error(e);
-            }
+                const res = await fetch(url, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.length > 0) {
+                        renderNews(data);
+                        if (!staticPortalData) staticPortalData = {};
+                        if (!staticPortalData.news) staticPortalData.news = {};
+                        staticPortalData.news[category] = data;
+                        localStorage.setItem('portal_snapshot_data', JSON.stringify(staticPortalData));
+                    }
+                }
+            } catch (e) {}
         }
 
         function refreshData(isManual = false) {
@@ -1222,10 +1306,11 @@
             applyHeroWallpaper(currentWallpaperIndex);
         }
 
-        // 초기 구동
+        // 초기 구동 (0초 즉시 스냅샷 렌더링 + 백그라운드 최신화)
         window.addEventListener('DOMContentLoaded', () => {
             initTheme();
             initHeroWallpaper();
+            loadInitialSnapshot();
             fetchOverview();
         });
     </script>

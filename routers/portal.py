@@ -67,9 +67,16 @@ def get_portal_overview_api(city: str = "서울", category: str = "all"):
     를 단 1회의 HTTP 요청으로 취합하여 프론트엔드로 전달합니다.
     """
     try:
-        weather_data = news_service.get_weather_and_air(city)
-        soccer_data = news_service.get_soccer_matches()
-        news_data = news_service.get_4th_industry_news(category=category, limit=20)
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            fut_weather = executor.submit(news_service.get_weather_and_air, city)
+            fut_soccer = executor.submit(news_service.get_soccer_matches)
+            fut_news = executor.submit(news_service.get_4th_industry_news, category, None, 20)
+
+            weather_data = fut_weather.result()
+            soccer_data = fut_soccer.result()
+            news_data = fut_news.result()
+
         return {
             "success": True,
             "weather": weather_data,
@@ -126,3 +133,15 @@ def get_stock_report_api(req: StockQueryRequest):
         return result
     except Exception as e:
         return {"success": False, "message": f"주식 분석 중 오류 발생: {str(e)}"}
+
+@router.get("/api/stock/top-growth", summary="3개년 성장성 & 부채비율 120% 이하 데일리 TOP 랭킹")
+def get_top_growth_api(market: str = "US", top_n: int = 10):
+    """
+    공식 대차대조표 부채비율 120% 이하 & 3개년 총자산 증가 우량주 중
+    당일 주가 모멘텀(등락률) 상위 실시간 랭킹 리포트를 반환합니다.
+    """
+    try:
+        result = stock_engine.generate_daily_ranking_report_markdown(market=market, top_n=top_n)
+        return result
+    except Exception as e:
+        return {"success": False, "message": f"랭킹 집계 중 오류 발생: {str(e)}"}

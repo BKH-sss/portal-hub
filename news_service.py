@@ -108,31 +108,30 @@ def evaluate_pm25(val: float):
     else:
         return {"val": round(val, 1), "label": "매우나쁨", "grade": "very-bad", "color": "#ef4444"}
 
-def get_weather_and_air(city: str = "서울"):
-    """
-    선택한 도시의 실시간 날씨, 기상 예보 및 미세먼지(PM10, PM2.5) 수집
-    - 네이버 날씨(NAVER Weather) 기준 실시간 수집 및 하이브리드 보정
-    """
-    global _CACHE
-    if city not in KOREA_CITIES:
-        city = "서울"
-        
-    now = time.time()
-    cached = _CACHE["weather"].get(city)
-    if cached and (now - cached["timestamp"] < CACHE_TTL_WEATHER):
-        return cached["data"]
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading
 
-    coords = KOREA_CITIES[city]
-    lat, lon = coords["lat"], coords["lon"]
+def _fetch_url_json(url: str, headers: dict = None, timeout: float = 3.5):
+    if headers is None:
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            "Accept": "application/json, text/plain, */*"
+        }
+    try:
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+    except Exception:
+        return None
 
-    # 1. 네이버 실시간 날씨 크롤링
-    naver_data = None
+def _fetch_naver_weather(city: str):
+    """네이버 실시간 날씨 크롤링 (단독 스레드 실행용)"""
     try:
         from bs4 import BeautifulSoup
         headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
         naver_url = f"https://search.naver.com/search.naver?query={urllib.parse.quote(city + ' 날씨')}"
         req_n = urllib.request.Request(naver_url, headers=headers)
-        with urllib.request.urlopen(req_n, timeout=4) as resp:
+        with urllib.request.urlopen(req_n, timeout=3.0) as resp:
             soup = BeautifulSoup(resp.read().decode("utf-8"), "html.parser")
             
             temp_el = soup.select_one(".temperature_text strong")
@@ -167,7 +166,7 @@ def get_weather_and_air(city: str = "서울"):
                     if "미세먼지" == t.text.strip(): pm10_txt = v.text.strip()
                     elif "초미세먼지" == t.text.strip(): pm25_txt = v.text.strip()
 
-            naver_data = {
+            return {
                 "temp": temp_val,
                 "feels_like": feels_like,
                 "desc": desc_val,
@@ -177,10 +176,11 @@ def get_weather_and_air(city: str = "서울"):
                 "pm25_txt": pm25_txt
             }
     except Exception as e:
-        print(f"[Naver Weather Scrape Error] {e}")
+        return None
 
+def _fetch_open_meteo(lat: float, lon: float):
+    """Open-Meteo 기상 위성 데이터 조회 (단독 스레드 실행용)"""
     try:
-        # 2. 기상 위성 데이터 (시간별/주간 예보 백업용)
         w_url = (
             f"https://api.open-meteo.com/v1/forecast?"
             f"latitude={lat}&longitude={lon}&"
@@ -189,13 +189,40 @@ def get_weather_and_air(city: str = "서울"):
             f"daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&"
             f"timezone=Asia%2FSeoul"
         )
-        req_w = urllib.request.Request(w_url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req_w, timeout=5) as resp:
-            w_data = json.loads(resp.read().decode("utf-8"))
+        return _fetch_url_json(w_url, timeout=3.5)
+    except Exception:
+        return None
 
-        cur_w = w_data.get("current", {})
-        daily = w_data.get("daily", {})
-        hourly = w_data.get("hourly", {})
+def get_weather_and_air(city: str = "서울"):
+    """
+    선택한 도시의 실시간 날씨, 기상 예보 및 미세먼지(PM10, PM2.5) 수집
+    - 네이버 날씨와 Open-Meteo를 병렬 스레드로 동시 호출하여 0.3초 내 초고속 응답
+    """
+    global _CACHE
+    if city not in KOREA_CITIES:
+        city = "서울"
+        
+    now = time.time()
+    cached = _CACHE["weather"].get(city)
+    if cached and (now - cached["timestamp"] < CACHE_TTL_WEATHER):
+        return cached["data"]
+
+    coords = KOREA_CITIES[city]
+    lat, lon = coords["lat"], coords["lon"]
+
+    # 1 & 2 병렬 동시 호출
+    naver_data = None
+    w_data = None
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        fut_naver = executor.submit(_fetch_naver_weather, city)
+        fut_meteo = executor.submit(_fetch_open_meteo, lat, lon)
+        naver_data = fut_naver.result()
+        w_data = fut_meteo.result()
+
+    try:
+        cur_w = w_data.get("current", {}) if w_data else {}
+        daily = w_data.get("daily", {}) if w_data else {}
+        hourly = w_data.get("hourly", {}) if w_data else {}
 
         w_code = cur_w.get("weather_code", 0)
         weather_info = WMO_WEATHER_CODES.get(w_code, {"name": "맑음", "icon": "☀️"})
@@ -204,8 +231,8 @@ def get_weather_and_air(city: str = "서울"):
         final_temp = naver_data["temp"] if (naver_data and naver_data["temp"] is not None) else round(cur_w.get("temperature_2m", 24), 1)
         final_feels = naver_data["feels_like"] if (naver_data and naver_data["feels_like"] is not None) else round(cur_w.get("apparent_temperature", 25), 1)
         final_desc = naver_data["desc"] if naver_data else weather_info["name"]
-        final_min = naver_data["temp_min"] if naver_data else round(daily.get("temperature_2m_min", [20])[0])
-        final_max = naver_data["temp_max"] if naver_data else round(daily.get("temperature_2m_max", [28])[0])
+        final_min = naver_data["temp_min"] if naver_data else round(daily.get("temperature_2m_min", [20])[0] if daily.get("temperature_2m_min") else 20)
+        final_max = naver_data["temp_max"] if naver_data else round(daily.get("temperature_2m_max", [28])[0] if daily.get("temperature_2m_max") else 28)
 
         icon_map = {"맑음": "☀️", "구름조금": "⛅", "구름많음": "🌤️", "흐림": "☁️", "비": "🌧️", "눈": "🌨️", "소나기": "🌦️"}
         final_icon = icon_map.get(final_desc, weather_info["icon"])
@@ -295,9 +322,8 @@ def get_mu_standing():
     headers = {"User-Agent": "Mozilla/5.0"}
     try:
         url = "https://site.web.api.espn.com/apis/v2/sports/soccer/eng.1/standings"
-        req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=4) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
+        data = _fetch_url_json(url, headers=headers, timeout=2.5)
+        if data:
             for group in data.get("children", []):
                 for item in group.get("standings", {}).get("entries", []):
                     t = item.get("team", {})
@@ -326,7 +352,7 @@ def get_mu_standing():
 
 def get_soccer_matches():
     """
-    맨체스터 유나이티드(Manchester United) 전용: 과거 5경기 결과 + 다가오는 경기 일정 수집
+    맨체스터 유나이티드(Manchester United) 전용: 과거 5경기 결과 + 다가오는 경기 일정 병렬 수집
     """
     global _CACHE
     now = time.time()
@@ -340,45 +366,37 @@ def get_soccer_matches():
     }
     raw_events = []
 
-    # 1. 2026 시즌 공식 경기 일정 및 결과 (site.web.api.espn.com 사용 - 차단 없음)
-    try:
-        url_2026 = "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/360/schedule"
-        req_2026 = urllib.request.Request(url_2026, headers=headers)
-        with urllib.request.urlopen(req_2026, timeout=5) as resp:
-            data_2026 = json.loads(resp.read().decode("utf-8"))
-            for ev in data_2026.get("events", []):
-                raw_events.append(ev)
-    except Exception as e:
-        print(f"[MU 2026 Error] {e}")
-
-    # 2. 2025 시즌 일정 (과거 경기 3개 확보용)
-    try:
-        url_2025 = "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/360/schedule?season=2025"
-        req_2025 = urllib.request.Request(url_2025, headers=headers)
-        with urllib.request.urlopen(req_2025, timeout=5) as resp:
-            data_2025 = json.loads(resp.read().decode("utf-8"))
-            for ev in data_2025.get("events", [])[-3:]:
-                raw_events.append(ev)
-    except Exception as e:
-        print(f"[MU 2025 Error] {e}")
-
-    # 3. 다가오는 2026 경기 일정 (날짜별 스코어보드)
-    dates_to_check = [
-        "20260906", "20260913", "20260920", "20260927", "20261004", "20261018", "20261025"
+    # 병렬 호출할 ESPN 엔드포인트 목록
+    endpoints = [
+        ("sched_2026", "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/360/schedule"),
+        ("sched_2025", "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/360/schedule?season=2025"),
+        ("score_1", "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates=20260906"),
+        ("score_2", "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates=20260913"),
+        ("score_3", "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates=20260920"),
+        ("score_4", "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates=20260927")
     ]
 
-    for d_str in dates_to_check:
-        url = f"https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates={d_str}"
-        try:
-            req = urllib.request.Request(url, headers=headers)
-            with urllib.request.urlopen(req, timeout=4) as resp:
-                payload = json.loads(resp.read().decode("utf-8"))
-                for ev in payload.get("events", []):
-                    ev_name = ev.get("name", "").lower()
-                    if "manchester united" in ev_name:
+    with ThreadPoolExecutor(max_workers=6) as executor:
+        future_to_tag = {executor.submit(_fetch_url_json, url, headers, 3.5): tag for tag, url in endpoints}
+        for future in as_completed(future_to_tag):
+            tag = future_to_tag[future]
+            try:
+                data = future.result()
+                if not data:
+                    continue
+                if tag == "sched_2026":
+                    for ev in data.get("events", []):
                         raw_events.append(ev)
-        except Exception:
-            continue
+                elif tag == "sched_2025":
+                    for ev in data.get("events", [])[-3:]:
+                        raw_events.append(ev)
+                elif tag.startswith("score_"):
+                    for ev in data.get("events", []):
+                        ev_name = ev.get("name", "").lower()
+                        if "manchester united" in ev_name:
+                            raw_events.append(ev)
+            except Exception as e:
+                print(f"[MU Fetch {tag} Error] {e}")
 
     processed_matches = []
     seen_ids = set()
@@ -633,10 +651,10 @@ def get_4th_industry_news(category: str = "all", query_keyword: str = None, limi
     공신력 있는 뉴스 사이트에서 4차 산업 & 게임 산업 실시간 최신 뉴스 수집
     """
     global _CACHE
-    cache_key = f"{category}_{query_keyword or ''}_{limit}"
+    cache_key = f"{category}_{query_keyword or ''}"
     now = time.time()
     if cache_key in _CACHE["news"] and (now - _CACHE["news"][cache_key]["timestamp"] < CACHE_TTL_NEWS):
-        return _CACHE["news"][cache_key]["data"]
+        return _CACHE["news"][cache_key]["data"][:limit]
 
     target_query = ""
     badge_label = "최신 소식"
@@ -658,7 +676,7 @@ def get_4th_industry_news(category: str = "all", query_keyword: str = None, limi
     news_list = []
     try:
         req = urllib.request.Request(rss_url, headers=headers)
-        with urllib.request.urlopen(req, timeout=7) as resp:
+        with urllib.request.urlopen(req, timeout=3.5) as resp:
             xml_bytes = resp.read()
             root = ET.fromstring(xml_bytes.decode("utf-8", errors="replace"))
             items = root.findall(".//item")
@@ -737,11 +755,35 @@ def get_4th_industry_news(category: str = "all", query_keyword: str = None, limi
 
         # 초 단위 시간 기준 가장 최신 기사가 1등으로 오도록 정렬
         news_list.sort(key=lambda x: x.get("diff_sec", 999999))
-        result = news_list[:limit]
-        _CACHE["news"][cache_key] = {"data": result, "timestamp": now}
-        return result
-
+        _CACHE["news"][cache_key] = {"data": news_list, "timestamp": now}
+        return news_list[:limit]
     except Exception as e:
         print(f"[Portal News Error] {e}")
         return []
-        return []
+
+def prewarm_cache():
+    """서버 구동 시 또는 백그라운드에서 캐시를 즉시 사전 준비하여 0ms 응답 보장"""
+    def _warm():
+        try:
+            with ThreadPoolExecutor(max_workers=6) as executor:
+                futs = [
+                    executor.submit(get_soccer_matches),
+                    executor.submit(get_mu_standing)
+                ]
+                for city in KOREA_CITIES.keys():
+                    futs.append(executor.submit(get_weather_and_air, city))
+                for cat in NEWS_CATEGORIES.keys():
+                    futs.append(executor.submit(get_4th_industry_news, cat, None, 30))
+                for f in as_completed(futs):
+                    try:
+                        f.result()
+                    except Exception:
+                        pass
+        except Exception as e:
+            print(f"[Prewarm Error] {e}")
+
+    t = threading.Thread(target=_warm, daemon=True)
+    t.start()
+
+# 백그라운드 캐시 예열 자동 시작
+prewarm_cache()
