@@ -742,6 +742,138 @@
             }
         });
 
+        // =====================================================================
+        // 💾 사용자 환경설정 영구 보존 & 0ms 자동 복원 엔진
+        // =====================================================================
+        let userPreferences = {};
+
+        async function saveUserPreference(key, value) {
+            userPreferences[key] = value;
+            try {
+                localStorage.setItem(`jarvis_pref_${key}`, JSON.stringify(value));
+                await fetch(`${API_BASE}/api/system/preferences`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ preferences: { [key]: value } })
+                });
+            } catch (e) {}
+        }
+
+        function getLocalPreference(key, defaultVal) {
+            try {
+                const item = localStorage.getItem(`jarvis_pref_${key}`);
+                if (item !== null) return JSON.parse(item);
+            } catch (e) {}
+            return defaultVal;
+        }
+
+        async function initMasterVolume() {
+            try {
+                const res = await fetch(`${API_BASE}/api/system/volume`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (typeof data.level === 'number') {
+                        const slider = document.getElementById('vol-slider');
+                        const text = document.getElementById('vol-text');
+                        if (slider) slider.value = data.level;
+                        if (text) text.innerText = `${data.level}%`;
+                    }
+                }
+            } catch (e) {}
+        }
+
+        async function restoreAllUserPreferences() {
+            // 1. 클라이언트 로컬 캐시 즉시 0ms 1차 반영
+            const localMasterVol = getLocalPreference('master_volume', null);
+            if (localMasterVol !== null) {
+                const slider = document.getElementById('vol-slider');
+                const text = document.getElementById('vol-text');
+                if (slider) slider.value = localMasterVol;
+                if (text) text.innerText = `${localMasterVol}%`;
+            }
+
+            const localMapleVol = getLocalPreference('maple_voice_volume', null);
+            if (localMapleVol !== null) {
+                updateVolumeUI(localMapleVol);
+            }
+
+            const localLoLVol = getLocalPreference('lol_voice_volume', null);
+            if (localLoLVol !== null) {
+                lolVoiceVol = localLoLVol;
+                const lolSlider = document.getElementById('lol-voice-vol-slider');
+                const lolText = document.getElementById('lol-voice-vol-text');
+                if (lolSlider) lolSlider.value = localLoLVol;
+                if (lolText) lolText.innerText = `${localLoLVol}%`;
+            }
+
+            const localResPreset = getLocalPreference('lol_resolution_preset', null);
+            if (localResPreset) {
+                updatePresetButtonsUI(localResPreset);
+            }
+
+            // 2. 서버 영구 저장소에서 최신 설정 동기화
+            try {
+                const res = await fetch(`${API_BASE}/api/system/preferences`);
+                if (res.ok) {
+                    const data = await res.json();
+                    const prefs = data.preferences || {};
+                    userPreferences = prefs;
+
+                    // 1) 마스터 볼륨
+                    if (typeof prefs.master_volume === 'number') {
+                        const slider = document.getElementById('vol-slider');
+                        const text = document.getElementById('vol-text');
+                        if (slider) slider.value = prefs.master_volume;
+                        if (text) text.innerText = `${prefs.master_volume}%`;
+                    }
+
+                    // 2) 메이플 음성 볼륨
+                    if (typeof prefs.maple_voice_volume === 'number') {
+                        updateVolumeUI(prefs.maple_voice_volume);
+                    }
+
+                    // 3) LoL 음성 볼륨
+                    if (typeof prefs.lol_voice_volume === 'number') {
+                        lolVoiceVol = prefs.lol_voice_volume;
+                        const lolSlider = document.getElementById('lol-voice-vol-slider');
+                        const lolText = document.getElementById('lol-voice-vol-text');
+                        if (lolSlider) lolSlider.value = lolVoiceVol;
+                        if (lolText) lolText.innerText = `${lolVoiceVol}%`;
+                    }
+
+                    // 4) LoL 해상도 프리셋
+                    if (prefs.lol_resolution_preset) {
+                        applyResolutionPreset(prefs.lol_resolution_preset);
+                    }
+
+                    // 5) 메이플 캐릭터 이름
+                    if (prefs.maple_char_name) {
+                        const charInput = document.getElementById('maple-char-name-input');
+                        if (charInput && !charInput.value) {
+                            charInput.value = prefs.maple_char_name;
+                        }
+                    }
+
+                    // 6) 메이플 직업 프리셋
+                    if (prefs.maple_preset) {
+                        const sel = document.getElementById('preset-select');
+                        if (sel) {
+                            sel.value = prefs.maple_preset;
+                            loadJobPreset();
+                        }
+                    }
+
+                    // 7) 은월 캔슬 모드
+                    if (prefs.maple_cancel_mode) {
+                        const cancelSel = document.getElementById('cancel-mode-select');
+                        if (cancelSel) cancelSel.value = prefs.maple_cancel_mode;
+                    }
+                }
+            } catch (e) {
+                console.warn('Preferences load error:', e);
+            }
+        }
+
         // 2. 실시간 시스템 메트릭 갱신
         async function updateMetrics() {
             try {
@@ -1049,6 +1181,7 @@
         async function loadJobPreset() {
             const job = document.getElementById('preset-select').value;
             if (!job) return;
+            saveUserPreference('maple_preset', job);
             await fetch(`${API_BASE}/api/maple/tracker/presets/load/${encodeURIComponent(job)}`, { method: 'POST' });
             appendLog('MAPLE', `'${job}' 직업 프리셋이 적용되었습니다.`);
             loadSkills();
@@ -1233,20 +1366,39 @@
 
         // 5. OS 컨트롤
         async function setVolume(val) {
-            document.getElementById('vol-text').innerText = `${val}%`;
-            await fetch(`${API_BASE}/api/system/volume/set`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ level: parseInt(val) })
-            });
+            val = Math.max(0, Math.min(100, parseInt(val) || 0));
+            const text = document.getElementById('vol-text');
+            const slider = document.getElementById('vol-slider');
+            if (text) text.innerText = `${val}%`;
+            if (slider) slider.value = val;
+            saveUserPreference('master_volume', val);
+            try {
+                await fetch(`${API_BASE}/api/system/volume/set`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ level: val })
+                });
+            } catch (e) {
+                console.error(e);
+            }
         }
 
         async function mediaAction(action) {
-            await fetch(`${API_BASE}/api/system/media/${action}`, { method: 'POST' });
+            try {
+                await fetch(`${API_BASE}/api/system/media/${action}`, { method: 'POST' });
+                appendLog('SYS', `미디어 제어: ${action}`);
+            } catch (e) {
+                console.error(e);
+            }
         }
 
         async function lockScreen() {
-            await fetch(`${API_BASE}/api/system/action/lock`, { method: 'POST' });
+            try {
+                await fetch(`${API_BASE}/api/system/action/lock`, { method: 'POST' });
+                appendLog('SYS', '화면 잠금 실행');
+            } catch (e) {
+                console.error(e);
+            }
         }
 
         function appendLog(type, message) {
@@ -1303,6 +1455,7 @@
             const v = parseInt(val) || 0;
             updateVolumeUI(v);
             localStorage.setItem('maple_voice_vol', v);
+            saveUserPreference('maple_voice_volume', v);
             if (v > 0) prevVolume = v;
 
             clearTimeout(volDebounceTimer);
@@ -1350,6 +1503,7 @@
                     iconEl.style.color = 'var(--cyan-glow)';
                 }
             }
+            saveUserPreference('lol_voice_volume', lolVoiceVol);
             try {
                 await fetch(`${API_BASE}/api/lol/voice/volume/${lolVoiceVol}`, { method: 'POST' });
             } catch (e) {
@@ -1567,6 +1721,7 @@
         // 4-2. 🖥️ 해상도 프리셋 적용 및 동기화 JS
         async function applyResolutionPreset(presetKey) {
             try {
+                saveUserPreference('lol_resolution_preset', presetKey);
                 const res = await fetch(`${API_BASE}/api/lol/minimap/apply-preset?preset_name=${encodeURIComponent(presetKey)}`, { method: 'POST' });
                 const data = await res.json();
                 if (data.status === 'success') {
@@ -1650,6 +1805,7 @@
         }
 
         async function changeCancelMode(mode) {
+            saveUserPreference('maple_cancel_mode', mode);
             try {
                 await fetch(`${API_BASE}/api/maple/cancel/config`, {
                     method: 'POST',
@@ -1756,7 +1912,10 @@
             } catch (e) {}
         }
 
-        // 6. 초기 로드 및 주기적 실행 (메트릭 2초, 스킬 1초, 미니맵 1초, 캔슬 500ms)
+        // 6. 초기 로드 및 주기적 실행 (0ms 즉시 복원 & 메트릭 초기화)
+        updateMetrics();
+        initMasterVolume();
+        restoreAllUserPreferences();
         loadPresetsList();
         loadMapleStatus();
         loadVoiceVolume();
@@ -1764,12 +1923,12 @@
         initLoLVoiceStatus();
         pollMinimapStatus();
         pollCancelTrainerStatus();
+        loadSkills();
+
         setInterval(updateMetrics, 2000);
         setInterval(loadSkills, 1000);
         setInterval(pollMinimapStatus, 1000);
         setInterval(pollCancelTrainerStatus, 500);
-        updateMetrics();
-        loadSkills();
 
     </script>
 </body>
