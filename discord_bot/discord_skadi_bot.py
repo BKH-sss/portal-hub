@@ -105,7 +105,15 @@ except ImportError:
         from modules import stock_engine
     except ImportError:
         stock_engine = None
-        logger.warning("stock_engine 모듈을 찾을 수 없습니다.")
+# 🎨 S급 AI 화가(Painter) 렌더링 엔진 로드
+try:
+    from modules.sd_painter_engine import painter_engine, SkadiPainterEngine
+except ImportError:
+    try:
+        from sd_painter_engine import painter_engine, SkadiPainterEngine
+    except ImportError:
+        painter_engine = None
+        logger.warning("sd_painter_engine 모듈을 찾을 수 없습니다.")
 
 
 # ------------------------------------------------------------
@@ -1204,12 +1212,78 @@ async def on_message(message: discord.Message):
         except Exception:
             pass
 
+    # 🎨 [스카디 화가] AI 그림 태그 [SDDRAW:...] 감지 시 렌더링 및 디스코드 자동 전송
+    sd_match = re.search(r'\[SDDRAW:\s*(.*?)\]', response_text)
+    if sd_match and painter_engine:
+        raw_sd_prompt = sd_match.group(1).strip()
+        style_choice = "watercolor" if any(w in user_query for w in ["수채화", "물감", "동양화", "라이덴"]) else "anime_s_tier"
+        asyncio.create_task(_render_and_upload_art(message.channel, raw_sd_prompt, style_choice, message.author))
+
     await send_split_messages(message.channel, full_output, reference_msg=message)
+
+
+async def _render_and_upload_art(channel, prompt: str, style: str = "watercolor", author: Optional[discord.User] = None):
+    """S급 AI 화가 이미지 렌더링 및 디스코드 채널 업로드 공통 비동기 헬퍼"""
+    if not painter_engine:
+        return
+    noti = None
+    try:
+        noti = await channel.send(f"🎨 마스터, 요청한 그림을 화폭에 담는 중이야... (스타일: `{style}` | 잠시만 기다려줘...)")
+        res = await painter_engine.generate_image_async(
+            prompt=prompt,
+            style=style,
+            width=896,
+            height=1152,
+            enable_adetailer=True,
+            enable_hires=True
+        )
+        if noti:
+            try:
+                await noti.delete()
+            except Exception:
+                pass
+
+        if res["success"]:
+            img_file = discord.File(res["file_path"], filename=res["file_name"])
+            embed = discord.Embed(
+                title="✨ 스카디 화가의 S급 명작 완성",
+                description=f"🎨 **화풍**: `{res['style']}` | ⏱️ **렌더링**: `{res['elapsed']}s`\n📝 **프롬프트**: `{res['prompt'][:120]}...`",
+                color=0x9b59b6
+            )
+            embed.set_image(url=f"attachment://{res['file_name']}")
+            embed.set_footer(text="스카디 AI 화가 스튜디오 • WebUI Forge & RTX 4080 SUPER 가속")
+            await channel.send(embed=embed, file=img_file)
+        else:
+            await channel.send(f"⚠️ {res.get('error', '그림 생성 실패')}")
+    except Exception as e:
+        if noti:
+            try:
+                await noti.delete()
+            except Exception:
+                pass
+        logger.error(f"화가 렌더링 오류: {e}")
 
 
 # ------------------------------------------------------------
 # 5. 디스코드 명령어 (Prefix Commands)
 # ------------------------------------------------------------
+@bot.command(name="그림", aliases=["그려줘", "draw", "화가", "sd"])
+async def cmd_draw(ctx: commands.Context, *, prompt: str = ""):
+    """스카디 S급 AI 화가 그림 렌더링 명령어"""
+    if not prompt:
+        await ctx.send("🎨 마스터, 어떤 그림을 그려줄까?\n• 예시: `!그림 라이덴 쇼군 수채화 스타일` 또는 `!그림 스카디 해변가 일러스트`")
+        return
+
+    # 화풍 자동 감지
+    style = "watercolor" if any(w in prompt for w in ["수채화", "물감", "동양화", "라이덴"]) else "anime_s_tier"
+    if any(w in prompt for w in ["실사", "반실사", "3d", "cg", "언리얼"]):
+        style = "semi_realistic"
+    elif any(w in prompt for w in ["사이버펑크", "sf", "네온"]):
+        style = "cyberpunk"
+
+    await _render_and_upload_art(ctx.channel, prompt, style=style, author=ctx.author)
+
+
 @bot.command(name="도움말", aliases=["help", "명령어"])
 async def cmd_help(ctx: commands.Context):
     """스카디 디스코드 봇 도움말"""
