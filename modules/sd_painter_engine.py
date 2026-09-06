@@ -175,6 +175,44 @@ class SkadiPainterEngine:
             translated = re.sub(re.escape(ko), en, translated, flags=re.IGNORECASE)
         return translated
 
+    async def get_current_checkpoint(self) -> str:
+        """현재 WebUI Forge에 활성화된 체크포인트 모델명 조회"""
+        try:
+            async with httpx.AsyncClient(timeout=3.0) as client:
+                r = await client.get(f"{self.api_url}/sdapi/v1/options")
+                if r.status_code == 200:
+                    return r.json().get("sd_model_checkpoint", "")
+        except Exception:
+            pass
+        return ""
+
+    async def switch_checkpoint(self, target_keyword: str) -> bool:
+        """지정된 키워드(예: 'RealVisXL', 'animagine')가 포함된 모델로 자동 전환"""
+        try:
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                # 1. 사용 가능한 모델 목록 확인
+                r = await client.get(f"{self.api_url}/sdapi/v1/sd-models")
+                if r.status_code == 200:
+                    models = r.json()
+                    matched_title = None
+                    for m in models:
+                        t = m.get("title", "")
+                        fn = m.get("filename", "")
+                        mn = m.get("model_name", "")
+                        if target_keyword.lower() in t.lower() or target_keyword.lower() in fn.lower() or target_keyword.lower() in mn.lower():
+                            matched_title = t or mn or fn
+                            break
+                    
+                    if matched_title:
+                        curr = await self.get_current_checkpoint()
+                        if curr == matched_title or (target_keyword.lower() in curr.lower()):
+                            return True
+                        opt_res = await client.post(f"{self.api_url}/sdapi/v1/options", json={"sd_model_checkpoint": matched_title})
+                        return opt_res.status_code == 200
+        except Exception as e:
+            logger.warning(f"모델 체크포인트 전환 실패 ({target_keyword}): {e}")
+        return False
+
     async def check_health(self) -> Dict[str, Any]:
         """WebUI Forge / SD API 서버 가동 여부 및 활성 모델 확인"""
         try:
@@ -183,11 +221,13 @@ class SkadiPainterEngine:
                 if r.status_code == 200:
                     models = r.json()
                     model_names = [m.get("model_name") or m.get("title", "") for m in models]
+                    curr_model = await self.get_current_checkpoint()
                     return {
                         "online": True,
                         "url": self.api_url,
                         "model_count": len(models),
-                        "models": model_names
+                        "models": model_names,
+                        "current_model": curr_model
                     }
         except Exception as e:
             pass
@@ -308,7 +348,13 @@ class SkadiPainterEngine:
                 "elapsed": round(time.time() - start_t, 2)
             }
 
-        # 2. 페이로드 생성
+        # 2. 화풍에 따른 베이스 모델 자동 전환 (극실사 -> RealVisXL, 애니/수채화 -> Animagine XL)
+        if style == "photorealistic":
+            await self.switch_checkpoint("RealVisXL")
+        else:
+            await self.switch_checkpoint("animagine")
+
+        # 3. 페이로드 생성
         payload = self.build_s_tier_payload(
             raw_prompt=prompt,
             style=style,

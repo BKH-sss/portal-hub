@@ -773,6 +773,10 @@
         </a>
 
         <div class="nav-actions">
+            <div class="gpu-badge" id="active-model-badge" style="border-color: rgba(147, 51, 234, 0.4); background: rgba(147, 51, 234, 0.1);">
+                <i class="fa-solid fa-brain" style="color: #c084fc;"></i>
+                <span id="active-model-text" style="color: #d8b4fe;">Animagine XL (일러스트)</span>
+            </div>
             <div class="gpu-badge" id="gpu-status">
                 <div class="gpu-dot"></div>
                 <span>RTX 4080 SUPER 연결됨</span>
@@ -1023,6 +1027,16 @@
                         badge.innerHTML = `<div class="gpu-dot"></div><span>RTX 4080 SUPER 연결됨</span>`;
                         badge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
                         badge.style.background = 'rgba(16, 185, 129, 0.1)';
+
+                        const mText = document.getElementById('active-model-text');
+                        if (mText && data.health && data.health.current_model) {
+                            const cur = data.health.current_model.toLowerCase();
+                            if (cur.includes('realvis')) {
+                                mText.innerText = 'RealVisXL (100% 극실사 인간)';
+                            } else {
+                                mText.innerText = 'Animagine XL (일러스트/애니)';
+                            }
+                        }
                     } else {
                         badge.innerHTML = `<div class="gpu-dot" style="background: #f59e0b; box-shadow: 0 0 10px #f59e0b;"></div><span style="color: #f59e0b;">WebUI Forge 연결 대기중 (포트 7860)</span>`;
                         badge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
