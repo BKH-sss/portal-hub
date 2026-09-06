@@ -1,4 +1,4 @@
-﻿"""
+"""
 modules/prompt_crafter.py
 ------------------------------------------------------------
 스카디 AI 화가 전용 지능형 프롬프트 마법 생성기 (Prompt Crafter & Expander)
@@ -97,7 +97,16 @@ SEMANTIC_TAG_DICT = {
     "우주": ["deep space", "nebula", "colorful galaxy", "space station", "floating stardust"],
     "성": ["fantasy castle", "gothic palace", "stained glass windows", "chandeliers"],
     "카페": ["cozy cafe", "wooden interior", "warm light", "coffee cup on table"],
-    "정원": ["flower garden", "rose garden", "fountain", "blooming flora"],
+    # 구도 / 포즈 / 전신
+    "전신": ["full body", "standing", "full body shot", "wide shot", "feet visible", "shoes visible"],
+    "전신샷": ["full body", "standing", "full body shot", "wide shot", "feet visible", "shoes visible"],
+    "서있는": ["standing", "full body", "standing pose"],
+    "앉아있는": ["sitting", "sitting down", "crossed legs"],
+    "누워있는": ["lying down", "on back", "relaxed pose"],
+    "상반신": ["upper body", "cowboy shot", "portrait"],
+    "얼굴클로즈업": ["close-up", "face focus", "detailed face"],
+    "구두": ["high heels", "leather shoes", "black shoes"],
+    "부츠": ["boots", "leather boots", "knee boots", "thigh boots"],
     # 분위기 / 구도
     "미소": ["gentle smile", "looking at viewer", "blush"],
     "우아함": ["elegant pose", "graceful", "poetic atmosphere"],

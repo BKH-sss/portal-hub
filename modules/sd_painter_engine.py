@@ -143,6 +143,13 @@ KO_TO_EN_TAGS = {
     "네온": "neon lights",
     "수채화": "watercolor (medium)",
     "수채화풍": "watercolor (medium)",
+    "전신": "full body, standing, wide shot, shoes",
+    "전신샷": "full body, standing, wide shot, shoes",
+    "서있는": "standing, full body",
+    "앉아있는": "sitting down",
+    "상반신": "upper body, cowboy shot",
+    "부츠": "boots",
+    "구두": "shoes, high heels",
 }
 
 
