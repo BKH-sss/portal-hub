@@ -179,8 +179,20 @@ class SkadiPromptCrafter:
             tags.extend(["official anime art", "key visual", "vibrant colors", "clean sharp lines", "cinematic lighting", "masterpiece", "best quality"])
         elif style == "semi_realistic":
             tags.extend(["semi-realistic", "3d render style", "unreal engine 5", "subsurface scattering", "ray tracing", "volumetric light", "photorealistic lighting", "masterpiece"])
+        elif style == "photorealistic":
+            tags.extend(["raw photo", "photorealistic", "8k uhd", "dslr", "soft lighting", "film grain", "realistic skin texture", "natural skin pores", "masterpiece", "professional photography"])
         elif style == "cyberpunk":
             tags.extend(["cyberpunk", "neon glow", "futuristic", "high contrast", "night atmosphere", "cinematic shot", "masterpiece"])
+
+        # 3. 화면 비율 지능형 추천 (전신/인물 -> 세로형, 풍경/거리 -> 가로형)
+        suggested_ratio = None
+        landscape_keywords = ["풍경", "배경", "거리", "바다", "해변", "신사", "성", "도서관", "우주", "도시", "landscape", "scenery", "scenic", "wide angle", "wide shot", "nature", "cityscape", "galaxy"]
+        portrait_keywords = ["전신", "전신샷", "서있는", "인물", "초상화", "드레스", "무녀", "메이드", "기모노", "수영복", "비키니", "full body", "portrait", "standing", "1girl", "1boy"]
+
+        if any(k in cleaned or k in lower_input for k in landscape_keywords):
+            suggested_ratio = {"width": 1152, "height": 896, "label": "가로형 (풍경/배경)"}
+        elif any(k in cleaned or k in lower_input for k in portrait_keywords):
+            suggested_ratio = {"width": 896, "height": 1152, "label": "세로형 (인물/전신)"}
 
         # 중복 제거 (순서 보존)
         seen = set()
@@ -200,7 +212,8 @@ class SkadiPromptCrafter:
             "enhanced_prompt": final_prompt,
             "korean_description": korean_desc,
             "tags_count": len(unique_tags),
-            "style": style
+            "style": style,
+            "suggested_ratio": suggested_ratio
         }
 
     @classmethod

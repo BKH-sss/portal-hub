@@ -70,6 +70,14 @@ STYLE_PRESETS = {
         "cfg_scale": 6.0,
         "sampler": "DPM++ SDE Karras",
     },
+    "photorealistic": {
+        "name": "극실사 / 8K DSLR 사진 (포토리얼)",
+        "positive_prefix": "raw photo, (photorealistic:1.3), 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT4, realistic skin texture, detailed eyes, natural skin pores, ",
+        "positive_suffix": ", professional photography, 35mm photograph, masterpiece, sharp focus, cinematic atmosphere",
+        "steps": 32,
+        "cfg_scale": 6.5,
+        "sampler": "DPM++ 2M Karras",
+    },
     "cyberpunk": {
         "name": "사이버펑크 / 네온 SF 스타일",
         "positive_prefix": "masterpiece, best quality, cyberpunk aesthetic, neon glow, holographic interface, reflective wet surface, futuristic city lights, cinematic atmosphere, ",

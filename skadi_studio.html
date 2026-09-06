@@ -812,6 +812,10 @@
                     <div class="name">🌟 3D 반실사</div>
                     <div class="desc">언리얼 5 시네마틱 질감</div>
                 </div>
+                <div class="preset-chip" data-style="photorealistic" onclick="selectStyle('photorealistic', this)">
+                    <div class="name">📸 8K 극실사</div>
+                    <div class="desc">DSLR 카메라 사진 질감</div>
+                </div>
                 <div class="preset-chip" data-style="cyberpunk" onclick="selectStyle('cyberpunk', this)">
                     <div class="name">🌃 사이버펑크</div>
                     <div class="desc">네온 시티 & SF 홀로그램</div>
@@ -835,7 +839,7 @@
                 </div>
 
                 <div class="prompt-input-wrapper">
-                    <textarea id="prompt-input" class="prompt-textarea" placeholder="예: 벚꽃 잎이 날리는 밤하늘 아래 서 있는 은발의 무녀, 푸른 눈동자, 신비로운 분위기"></textarea>
+                    <textarea id="prompt-input" class="prompt-textarea" placeholder="예: 벚꽃 잎이 날리는 밤하늘 아래 서 있는 은발의 무녀, 푸른 눈동자, 신비로운 분위기" oninput="checkPromptAutoRatio(this.value)"></textarea>
                     <div id="magic-loading-indicator" class="magic-loading" style="display: none;">
                         <i class="fa-solid fa-spinner fa-spin"></i>
                         <span>AI가 S급 프롬프트로 마법 변환 중...</span>
@@ -852,6 +856,7 @@
                     <span class="sample-tag" onclick="setPrompt('은발 붉은눈 고양이귀 소녀, 사이버펑크 네온 비 내리는 거리')">🌃 사이버 고양이귀</span>
                     <span class="sample-tag" onclick="setPrompt('푸른 바다 앞 백사장에 서 있는 청순한 소녀, 석양 노을')">🌅 석양 바닷가</span>
                     <span class="sample-tag" onclick="setPrompt('흑발 금안의 신비로운 마법사, 판타지 고대 도서관')">✨ 판타지 마법사</span>
+                    <span class="sample-tag" onclick="setPrompt('화려한 드레스를 입은 은발의 귀족 여성, 전신샷, 8k 극실사')">📸 극실사 전신</span>
                 </div>
             </div>
 
@@ -867,7 +872,7 @@
                     <div class="upload-content">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
                         <span><b>클릭하여 사진 추가</b> 또는 여기에 이미지 드래그 & 드롭</span>
-                        <span>클립보드 이미지 붙여넣기(Ctrl + V) 지원</span>
+                        <span>클립보드 이미지 붙여넣기(Ctrl + V) 지원 (비율 자동 감지)</span>
                     </div>
                 </div>
 
@@ -898,19 +903,24 @@
 
             <!-- 4. Aspect Ratio Selection -->
             <div>
-                <div class="section-title">
-                    <i class="fa-solid fa-crop-simple"></i> 4. 화면 비율
+                <div class="prompt-header-row" style="margin-bottom: 8px;">
+                    <div class="section-title">
+                        <i class="fa-solid fa-crop-simple"></i> 4. 화면 비율
+                    </div>
+                    <span id="auto-ratio-badge" style="display: none; font-size: 11px; color: #38bdf8; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 4px; padding: 2px 8px;">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> <span id="auto-ratio-text">스마트 비율 자동 맞춤</span>
+                    </span>
                 </div>
                 <div class="ratio-grid">
-                    <button class="ratio-btn active" data-w="896" data-h="1152" onclick="selectRatio(896, 1152, this)">
+                    <button class="ratio-btn active" id="ratio-btn-portrait" data-w="896" data-h="1152" onclick="selectRatio(896, 1152, this)">
                         <i class="fa-solid fa-mobile-screen"></i>
-                        <span>세로형 (인물)</span>
+                        <span>세로형 (인물/전신)</span>
                     </button>
-                    <button class="ratio-btn" data-w="1152" data-h="896" onclick="selectRatio(1152, 896, this)">
+                    <button class="ratio-btn" id="ratio-btn-landscape" data-w="1152" data-h="896" onclick="selectRatio(1152, 896, this)">
                         <i class="fa-solid fa-desktop"></i>
-                        <span>가로형 (배경)</span>
+                        <span>가로형 (배경/풍경)</span>
                     </button>
-                    <button class="ratio-btn" data-w="1024" data-h="1024" onclick="selectRatio(1024, 1024, this)">
+                    <button class="ratio-btn" id="ratio-btn-square" data-w="1024" data-h="1024" onclick="selectRatio(1024, 1024, this)">
                         <i class="fa-regular fa-square"></i>
                         <span>정사각형 (SNS)</span>
                     </button>
@@ -1056,6 +1066,28 @@
                 // 렌더링 버튼 텍스트 변경
                 document.getElementById('btn-render').innerHTML = 
                     `<i class="fa-solid fa-wand-magic-sparkles"></i> 사진 기반 AI 변환 렌더링 시작`;
+
+                // 📐 이미지 실제 해상도/비율 자동 감지 및 최적 SDXL 비율 선택
+                const tempImg = new Image();
+                tempImg.onload = function() {
+                    const aspect = tempImg.width / tempImg.height;
+                    let targetBtnId = 'ratio-btn-square';
+                    let tw = 1024, th = 1024;
+                    let label = '정사각형 1:1';
+                    if (aspect < 0.85) {
+                        targetBtnId = 'ratio-btn-portrait';
+                        tw = 896; th = 1152;
+                        label = '세로형 (인물)';
+                    } else if (aspect > 1.15) {
+                        targetBtnId = 'ratio-btn-landscape';
+                        tw = 1152; th = 896;
+                        label = '가로형 (배경)';
+                    }
+                    const btn = document.getElementById(targetBtnId);
+                    if (btn) selectRatio(tw, th, btn);
+                    showAutoRatioBadge(`사진 비율 자동 감지: ${tempImg.width}x${tempImg.height} ➔ ${label}`);
+                };
+                tempImg.src = selectedImageBase64;
             };
             reader.readAsDataURL(file);
         }
@@ -1069,6 +1101,8 @@
             document.getElementById('denoise-container').style.display = 'none';
             document.getElementById('btn-render').innerHTML = 
                 `<i class="fa-solid fa-bolt"></i> RTX 4080 SUPER 렌더링 시작`;
+            const autoBadge = document.getElementById('auto-ratio-badge');
+            if (autoBadge) autoBadge.style.display = 'none';
         }
 
         function updateDenoiseVal(val) {
@@ -1081,6 +1115,38 @@
                 desc.innerText = `✨ ${num.toFixed(2)}: 원본 구도를 유지하며 자연스러운 AI 화풍 변환 (추천)`;
             } else {
                 desc.innerText = `✨ ${num.toFixed(2)}: 원본 구도만 참고하여 새롭게 파격적 재창작 (강한 변화)`;
+            }
+        }
+
+        // 📐 비율 자동 맞춤 배지 표시 함수
+        function showAutoRatioBadge(text) {
+            const badge = document.getElementById('auto-ratio-badge');
+            const txt = document.getElementById('auto-ratio-text');
+            if (badge && txt) {
+                txt.innerText = text;
+                badge.style.display = 'inline-flex';
+            }
+        }
+
+        // 텍스트 입력 시 실시간 비율 추천 감지
+        function checkPromptAutoRatio(text) {
+            if (!text) return;
+            const lower = text.toLowerCase();
+            const landscapeKws = ["풍경", "배경", "거리", "바다", "해변", "신사", "성", "도서관", "우주", "도시", "landscape", "scenery", "scenic", "wide angle", "wide shot", "cityscape"];
+            const portraitKws = ["전신", "전신샷", "서있는", "인물", "초상화", "드레스", "무녀", "메이드", "기모노", "수영복", "비키니", "full body", "portrait", "standing"];
+
+            if (landscapeKws.some(k => text.includes(k) || lower.includes(k))) {
+                const btn = document.getElementById('ratio-btn-landscape');
+                if (btn && currentWidth !== 1152) {
+                    selectRatio(1152, 896, btn);
+                    showAutoRatioBadge('배경/풍경 감지 ➔ 가로형 자동 선택');
+                }
+            } else if (portraitKws.some(k => text.includes(k) || lower.includes(k))) {
+                const btn = document.getElementById('ratio-btn-portrait');
+                if (btn && currentWidth !== 896) {
+                    selectRatio(896, 1152, btn);
+                    showAutoRatioBadge('전신/인물 감지 ➔ 세로형 자동 선택');
+                }
             }
         }
 
@@ -1147,6 +1213,7 @@
             document.getElementById('prompt-input').value = text;
             const badge = document.getElementById('prompt-feedback-badge');
             if (badge) badge.style.display = 'none';
+            checkPromptAutoRatio(text);
         }
 
         // ✨ AI 프롬프트 마법봉 확장 및 랜덤 아이디어 추천
@@ -1183,6 +1250,15 @@
                         inputEl.value = data.enhanced_prompt;
                         lastPrompt = data.enhanced_prompt;
                         
+                        // 자동 비율 제안 적용
+                        if (data.suggested_ratio) {
+                            const sr = data.suggested_ratio;
+                            let targetBtnId = sr.width > sr.height ? 'ratio-btn-landscape' : (sr.width < sr.height ? 'ratio-btn-portrait' : 'ratio-btn-square');
+                            const btn = document.getElementById(targetBtnId);
+                            if (btn) selectRatio(sr.width, sr.height, btn);
+                            showAutoRatioBadge(`✨ ${sr.label} 자동 선택`);
+                        }
+
                         if (badgeEl && badgeText) {
                             badgeText.innerText = data.korean_description || `✨ AI 최적화 완료 (${data.tags_count || 0}개 태그 조합)`;
                             badgeEl.style.display = 'flex';
