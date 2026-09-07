@@ -51,6 +51,7 @@ JARVIS-Assistant/
 │   ├── modules/lol_overlay_hud.py        # 🖥️ 인게임 반투명 플로팅 오버레이 HUD (/overlay)
 │   ├── modules/lol_vision_gap_checker.py # 🐉 오브젝트(용/바론) 1분 전 시야 공백(Fog) 선제 감지기
 │   ├── modules/lol_snapshot_reviewer.py  # 📸 위협 순간 미니맵 스냅샷 & 협곡 오답노트 복기 엔진
+│   ├── modules/lol_enemy_behavior_tracker.py # 🧠 실시간 적 행동 및 의도(FSM) 추론 독립 모듈
 │   ├── modules/lol_ai_coach.py           # 🏆 칼바람 199종 증강체 추천 & 실시간 AI 코치
 │   ├── modules/maple_skill_tracker.py    # 🍁 메이플 우측 하단 퀵슬롯 감시 & 5초 전 스카디 음성 알리미
 │   ├── modules/system_os_controller.py   # 💻 CPU/RAM/GPU(4080 Super) 모니터링 & OS/볼륨/미디어 제어
