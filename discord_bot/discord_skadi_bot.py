@@ -29,6 +29,13 @@ from collections import deque
 import discord
 from discord.ext import commands, tasks
 
+# 한국 표준시 (KST: UTC+9) 고정 타임존 객체 (서버 환경 UTC 불일치 완벽 방지)
+KST = datetime.timezone(datetime.timedelta(hours=9))
+
+def get_now_kst() -> datetime.datetime:
+    """서버 OS 타임존(UTC 등)과 무관하게 항상 정확한 대한민국 표준시(KST) 반환"""
+    return datetime.datetime.now(KST)
+
 # ------------------------------------------------------------
 # 1. 환경 및 경로 설정 (루트 디렉토리 및 모듈 참조)
 # ------------------------------------------------------------
@@ -431,8 +438,8 @@ async def generate_morning_briefing_content() -> discord.Embed:
     weather_data = await fetch_weather_and_dust()
     topic_title, search_query = extract_recent_topic()
     
-    from smart_search import search_duckduckgo
-    news_results = await search_duckduckgo(search_query, max_results=3)
+    from smart_search import search_news_rss, search_duckduckgo
+    news_results = await search_news_rss(search_query, max_results=3)
 
     news_lines = []
     if news_results:
@@ -445,7 +452,8 @@ async def generate_morning_briefing_content() -> discord.Embed:
     else:
         news_lines.append("> 최신 뉴스 데이터를 집계 중입니다.")
 
-    now_str = datetime.datetime.now().strftime("%Y년 %m월 %d일 (%a)")
+    now_kst = get_now_kst()
+    now_str = now_kst.strftime("%Y년 %m월 %d일 (%a)")
 
     embed = discord.Embed(
         title=f"🌊 스카디의 모닝 브리핑 • {now_str}",
@@ -472,7 +480,7 @@ async def generate_morning_briefing_content() -> discord.Embed:
     # 📅 오늘의 스케줄 & 할 일(Todo) 연동
     if ScheduleManager:
         try:
-            today_date = datetime.datetime.now().strftime("%Y-%m-%d")
+            today_date = now_kst.strftime("%Y-%m-%d")
             today_items = ScheduleManager.get_items(target_date=today_date, include_completed=False)
             pending_todos = ScheduleManager.get_items(only_todos=True, include_completed=False)
 
@@ -499,21 +507,21 @@ async def generate_morning_briefing_content() -> discord.Embed:
         except Exception as se:
             logger.warning(f"스케줄 브리핑 조회 오류: {se}")
 
-    embed.set_footer(text="스카디 자율 모닝 브리핑 • 평일(월~금) 오전 8:00 자동 전송")
+    embed.set_footer(text="스카디 자율 모닝 브리핑 • 평일(월~금) 오전 8:00 KST 자동 전송")
     return embed
 
 
 @tasks.loop(minutes=1)
 async def morning_briefing_task():
-    """평일(월~금) 오전 8시 모닝 브리핑 자동 전송 백그라운드 태스크"""
+    """평일(월~금) 대한민국 표준시(KST) 오전 8시 모닝 브리핑 자동 전송 백그라운드 태스크"""
     global last_briefing_date
-    now = datetime.datetime.now()
+    now = get_now_kst()
     today_str = now.strftime("%Y-%m-%d")
 
-    # 평일 (월=0 ~ 금=4, 주말 5,6 제외) & 오전 8시 도달 시 정각 0ms 오차 없이 1회 발송
+    # 평일 (월=0 ~ 금=4, 주말 5,6 제외) & KST 기준 오전 8시 도달 시 정각 0ms 오차 없이 1회 발송
     if now.weekday() < 5 and now.hour == 8 and last_briefing_date != today_str:
         last_briefing_date = today_str
-        logger.info(f"🌅 [모닝 브리핑] 평일 오전 8시 정기 모닝 브리핑 발송을 시작합니다... ({today_str})")
+        logger.info(f"🌅 [모닝 브리핑] 평일 오전 8시(KST) 정기 모닝 브리핑 발송을 시작합니다... ({today_str})")
 
         try:
             embed = await generate_morning_briefing_content()
@@ -574,10 +582,10 @@ async def daily_stock_briefing_task():
     if not stock_engine:
         return
 
-    now = datetime.datetime.now()
+    now = get_now_kst()
     today_str = now.strftime("%Y-%m-%d")
 
-    # 1. 국내 증시 (월~금 오후 3시 40분)
+    # 1. 국내 증시 (월~금 오후 3시 40분 KST)
     if now.weekday() < 5 and now.hour == 15 and now.minute >= 40 and last_kr_stock_date != today_str:
         last_kr_stock_date = today_str
         logger.info(f"📈 [국내 증시 장 마감] {today_str} 국내 주식 3개년 성장주 TOP 10 자동 브리핑을 발송합니다...")
@@ -1723,7 +1731,7 @@ async def cmd_schedule_list(ctx: commands.Context, target_date: Optional[str] = 
         await ctx.send("미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
         return
 
-    query_date = target_date or datetime.datetime.now().strftime("%Y-%m-%d")
+    query_date = target_date or get_now_kst().strftime("%Y-%m-%d")
     items = ScheduleManager.get_items(target_date=query_date, include_completed=True)
     
     events = [it for it in items if not it.get("is_todo")]
@@ -1890,7 +1898,7 @@ async def cmd_add_todo(ctx: commands.Context, *, content: str):
 
     priority = 3 if "[긴급]" in content or "[중요]" in content else 2
     clean_title = content.replace("[긴급]", "").replace("[중요]", "").strip()
-    today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+    today_str = get_now_kst().strftime("%Y-%m-%d")
 
     try:
         req = ScheduleCreateRequest(
@@ -2159,7 +2167,7 @@ async def cmd_stock_report(ctx: commands.Context, *, query: Optional[str] = None
         # 4. 파라미터가 없거나 '!주식'만 입력한 경우 -> 미국 & 국내 통합 하이라이트 요약 브리핑
         us_data = stock_engine.get_daily_growth_top_ranking(market="US", top_n=5)
         kr_data = stock_engine.get_daily_growth_top_ranking(market="KR", top_n=5)
-        today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+        today_str = get_now_kst().strftime("%Y-%m-%d")
 
         embed = discord.Embed(
             title=f"🔔 [{today_str}] 국내 & 미국 3개년 성장성 + 데일리 모멘텀 TOP 5",

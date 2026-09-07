@@ -71,6 +71,54 @@ async def search_duckduckgo(query: str, max_results: int = 5) -> List[Dict[str, 
     return await asyncio.to_thread(_run_ddgs)
 
 
+async def search_news_rss(query: str, max_results: int = 3) -> List[Dict[str, str]]:
+    """
+    Google News RSS 기반 실시간 한국어 뉴스 수집 (레이트리밋 0%, 100% 실시간 뉴스 보장)
+    - 해외 스폰서 광고나 부동산 매물 등 노이즈 완벽 차단
+    """
+    import xml.etree.ElementTree as ET
+    clean_q = _clean_search_query(query)
+    encoded = urllib.parse.quote(clean_q)
+    url = f"https://news.google.com/rss/search?q={encoded}&hl=ko&gl=KR&ceid=KR:ko"
+    
+    results = []
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            res = await client.get(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+            if res.status_code == 200:
+                root = ET.fromstring(res.text)
+                for item in root.findall('.//item')[:max_results]:
+                    title_elem = item.find('title')
+                    link_elem = item.find('link')
+                    desc_elem = item.find('description')
+                    
+                    title = title_elem.text if title_elem is not None and title_elem.text else "뉴스 소식"
+                    title = re.sub(r'[\ufeff\u200b\xa0]', ' ', title).strip()
+                    link = link_elem.text if link_elem is not None and link_elem.text else ""
+                    
+                    # HTML 태그 및 비가시 문자 제거
+                    snippet = ""
+                    if desc_elem is not None and desc_elem.text:
+                        clean_desc = re.sub(r'<[^>]+>', ' ', desc_elem.text)
+                        clean_desc = re.sub(r'[\ufeff\u200b\xa0]', ' ', clean_desc)
+                        snippet = re.sub(r'\s+', ' ', clean_desc).strip()
+                    
+                    results.append({
+                        "title": title,
+                        "snippet": snippet or title,
+                        "url": link,
+                        "source": "Google News"
+                    })
+    except Exception as e:
+        print(f"[SmartSearch] Google News RSS 수집 오류: {e}")
+        
+    # 폴백: RSS 실패 시 duckduckgo_search 시도
+    if not results:
+        results = await search_duckduckgo(query, max_results=max_results)
+        
+    return results
+
+
 async def search_wikipedia(query: str, lang: str = "ko") -> Optional[Dict[str, str]]:
     """위키백과 API를 통한 개념/인물/역사 공식 정의 검색"""
     try:

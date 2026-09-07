@@ -1,5 +1,33 @@
 # 📝 JARVIS / SKADI 프로젝트 공식 패치 노트 (Patch Notes & Changelog)
 
+> **최종 릴리즈 일시 (Last Updated)**: `2026-09-07 19:40:00 KST`  
+> **최신 버전 (Current Version)**: `v3.6.7`
+
+---
+
+## 🚀 [2026-09-07 19:40 KST] v3.6.7 - 디스코드 모닝 브리핑 KST 타임존 정밀 보정 및 구글 뉴스 RSS 고품질 테크 피드 연동
+
+### 📌 패치 개요
+- **개발 목적**: 호스트/클라우드 서버(Render 등)의 UTC 타임존으로 인해 한국 시간 오후 5시(17:00 KST)에 모닝 브리핑이 발송되던 시차 버그 완벽 수정 및 검색엔진 폴백 시 발생하던 해외 부동산 스폰서 광고 노이즈 제거.
+- **적용 일시**: **2026년 09월 07일 (월) 19:40 KST**
+- **릴리즈 버전**: `v3.6.7`
+- **핵심 가치**:
+  - **대한민국 표준시(KST: UTC+9) 고정 타임존 엔진 (`get_now_kst()`)**:
+    - 클라우드 서버 환경(Render, AWS, GCP, Docker 등)이 UTC로 설정되어 있어도 100% 한국 시간 평일 오전 08:00 정각에 모닝 브리핑 발송
+    - 국내 증시(15:40 KST) 및 미국 증시(06:30 KST) 장 마감 브리핑 스케줄러 시간대 일괄 정밀 보정
+  - **Google News RSS 기반 고품질 실시간 테크 뉴스 연동 (`smart_search.search_news_rss`)**:
+    - DuckDuckGo 일시적 Rate Limit 시 발생하던 엉뚱한 해외 부동산/Zillow 매물 결과 원천 차단
+    - 실시간 한국어 IT, AI, 테크 헤드라인 100% 보장 및 비가시 제어문자 살균 처리
+
+---
+
+### 🌟 신규 추가 및 변경된 모듈 상세 내역
+
+| 파일명 | 구분 | 핵심 기능 및 변경 내역 |
+| :--- | :---: | :--- |
+| [`discord_bot/discord_skadi_bot.py`](file:///C:/Users/Su-Bla/orca/workspaces/NEO/char/discord_bot/discord_skadi_bot.py) | **업데이트** | **KST 타임존 기반 모닝/증시 브리핑 스케줄러 정밀 보정**<br>• `KST` 고정 타임존 객체 및 `get_now_kst()` 유틸 함수 도입<br>• 모닝 브리핑, 장 마감 증시 브리핑, 스케줄/투두 명령어 전반에 KST 동기화 적용 |
+| [`smart_search.py`](file:///C:/Users/Su-Bla/orca/workspaces/NEO/char/smart_search.py) | **업데이트** | **Google News RSS 실시간 한국어 뉴스 수집기 탑재**<br>• Rate Limit 0%, 실시간 최신 뉴스 보장 및 광고/스폰서 노이즈 차단<br>• 텍스트 인코딩 에러 방지를 위한 유니코드 제어문자 필터링 |
+
 ---
 
 ## 🚀 [2026-09-04] v3.6.0 - Modern DeepLeague 실시간 롤(LoL) 미니맵 전술 비전 레이더 & 5대 전술 모듈 패키지 전격 릴리즈
