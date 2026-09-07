@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>칼바람 증강체(증바람) UI 프리뷰 - YOUR.GG 스타일 오버레이</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        body {
+            background: #090c12 radial-gradient(circle at center, #131b2a 0%, #06090f 100%);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 24px;
+        }
+
+        /* 상단 테스트 컨트롤 패널 */
+        .preview-header {
+            width: 100%;
+            max-width: 1200px;
+            background: rgba(18, 26, 40, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 12px;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #00e5ff;
+        }
+
+        .badge-mute {
+            background: rgba(0, 255, 136, 0.15);
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.4);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11.5px;
+            font-weight: 700;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-preset {
+            background: rgba(255, 255, 255, 0.08);
+            color: #c9d1d9;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-preset:hover {
+            background: rgba(0, 229, 255, 0.2);
+            border-color: #00e5ff;
+            color: #fff;
+        }
+
+        .btn-preset.active {
+            background: #00e5ff;
+            color: #000;
+            border-color: #00e5ff;
+            font-weight: 800;
+        }
+
+        /* 인게임 증강체 3-카드 컨테이너 */
+        .stage-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            position: relative;
+        }
+
+        /* 단일 카드 열 (상단 오버레이 + 하단 인게임 카드 바디) */
+        .augment-column {
+            flex: 1;
+            max-width: 370px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        /* 🌟 1. 상단 오버레이 배너 (Image 6 완벽 복제) */
+        .overlay-banner {
+            width: 100%;
+            height: 52px;
+            background: rgba(13, 17, 23, 0.94);
+            backdrop-filter: blur(10px);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            padding: 4px 12px 4px 6px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* 1순위 추천 카드 하이라이트 */
+        .overlay-banner.recommended {
+            border: 1.5px solid #ffd700 !important;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5), inset 0 0 10px rgba(255, 215, 0, 0.2);
+            animation: pulse-gold 2s infinite alternate;
+        }
+
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+            100% { box-shadow: 0 0 32px rgba(255, 215, 0, 0.7); }
+        }
+
+        /* 티어 박스 배지 */
+        .tier-badge {
+            width: 42px;
+            height: 42px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 900;
+            margin-right: 12px;
+            flex-shrink: 0;
+            letter-spacing: -1px;
+            font-family: "Arial Black", Impact, sans-serif;
+        }
+
+        .tier-S { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #000; box-shadow: 0 0 14px rgba(255, 215, 0, 0.8); border: 1px solid #fff; }
+        .tier-A { background: #00e5ff; color: #000; box-shadow: 0 0 10px rgba(0, 229, 255, 0.6); }
+        .tier-B { background: #ff6d00; color: #fff; box-shadow: 0 0 10px rgba(255, 109, 0, 0.6); }
+        .tier-C { background: #00c853; color: #000; box-shadow: 0 0 10px rgba(0, 200, 83, 0.6); }
+        .tier-D { background: #37474f; color: #cfd8dc; border: 1px solid #546e7a; }
+
+        .banner-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .banner-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2px;
+        }
+
+        .banner-name {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #f0f6fc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .badge-rec-star {
+            font-size: 11px;
+            font-weight: 800;
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.16);
+            border: 1px solid rgba(255, 215, 0, 0.45);
+            padding: 2px 7px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-left: 6px;
+        }
+
+        .banner-meta {
+            font-size: 12px;
+            color: #8b949e;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .score-val {
+            color: #00e5ff;
+            font-weight: 700;
+        }
+
+        /* 🎮 2. 하단 실제 롤 증강체 카드 모형 (Image 6 형태) */
+        .ingame-card-mock {
+            width: 100%;
+            height: 480px;
+            background: linear-gradient(180deg, #10161f 0%, #090e15 100%);
+            border: 2px solid #5b4a36;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            position: relative;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8), 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-inner-frame {
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .card-icon-frame {
+            width: 130px;
+            height: 130px;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 55px;
+            margin-bottom: 28px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #f1f3f5;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .card-tag {
+            font-size: 12px;
+            color: #d4af37;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            padding: 2px 10px;
+            border-radius: 4px;
+            margin-bottom: 22px;
+            background: rgba(212, 175, 55, 0.08);
+        }
+
+        .card-desc {
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: #c0c6cc;
+            text-align: center;
+            margin-bottom: auto;
+        }
+
+        .card-gold {
+            font-size: 13px;
+            color: #ffd700;
+            margin-top: 15px;
+        }
+
+        /* 하단 안내 */
+        .footer-note {
+            margin-top: 35px;
+            color: #8b949e;
+            font-size: 13px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 상단 프리뷰 바 -->
+    <div class="preview-header">
+        <div class="header-title">
+            <span>🏆 JARVIS LoL 칼바람 증강체 오버레이 HUD</span>
+            <span class="badge-mute">🔇 음성 없음 (순수 UI 모드)</span>
+        </div>
+        <div class="btn-group">
+            <button class="btn-preset active" onclick="loadPreset('image6')">6번 캡처 원본 (브라이어)</button>
+            <button class="btn-preset" onclick="loadPreset('tank')">탱커 조합 (말파이트)</button>
+            <button class="btn-preset" onclick="loadPreset('adc')">원딜 조합 (이즈리얼)</button>
+        </div>
+    </div>
+
+    <!-- 3개 카드 영역 -->
+    <div class="stage-container" id="cardsContainer">
+        <!-- JS로 동적 렌더링 -->
+    </div>
+
+    <div class="footer-note">
+        💡 <b>실제 인게임 적용 방식</b>: 롤 클라이언트 상단 <code>5.5vh</code> 위치에 상단 배너만 투명하게 얹어지며, 마우스 클릭은 게임 안으로 그대로 통과됩니다.
+    </div>
+
+    <script>
+        const PRESETS = {
+            image6: {
+                champion: "브라이어",
+                cards: [
+                    {
+                        tier: "C",
+                        name: "굶주린 히드라 업그레이드",
+                        score: "66.7",
+                        pref: "선호도 보통",
+                        rec: false,
+                        icon: "⚔️",
+                        tag: "피해량",
+                        desc: "적에게 스킬 적중 시 쪼개기 효과가 발동됩니다. 굶주린 히드라의 생명력 흡수가 20% 수치로 증가합니다.",
+                        gold: "500골드를 획득합니다."
+                    },
+                    {
+                        tier: "D",
+                        name: "감쇠 광선",
+                        score: "50.5",
+                        pref: "선호도 보통",
+                        rec: false,
+                        icon: "🛡️",
+                        tag: "보조",
+                        desc: "기본 공격 시 대상의 입히는 피해량과 크기를 15% 감소시킵니다. (적중 시 디버프 부여)",
+                        gold: ""
+                    },
+                    {
+                        tier: "B",
+                        name: "화염 낙인",
+                        score: "76.7",
+                        pref: "선호도 보통",
+                        rec: true,
+                        icon: "🔥",
+                        tag: "피해량",
+                        desc: "기본 공격 시 무한히 중첩되는 화상 효과를 적용해 지속적으로 마법 피해를 입힙니다.",
+                        gold: ""
+                    }
+                ]
+            },
+            tank: {
+                champion: "말파이트",
+                cards: [
+                    {
+                        tier: "S",
+                        name: "거인의 용기",
+                        score: "94.2",
+                        pref: "선호도 매우 높음",
+                        rec: true,
+                        icon: "🗿",
+                        tag: "생존력",
+                        desc: "적 챔피언을 이동 불가 상태로 만들면 최대 체력의 25%에 해당하는 보호막을 획득합니다.",
+                        gold: ""
+                    },
+                    {
+                        tier: "A",
+                        name: "강철의 심장 강화",
+                        score: "85.0",
+                        pref: "선호도 높음",
+                        rec: false,
+                        icon: "❤️",
+                        tag: "체력",
+                        desc: "강철의 심장 충전 피해량이 2배로 증가하며 영구 체력 획득량이 100% 증가합니다.",
+                        gold: ""
+                    },
+                    {
+                        tier: "D",
+                        name: "치명적인 일격",
+                        score: "44.1",
+                        pref: "선호도 낮음",
+                        rec: false,
+                        icon: "🏹",
+                        tag: "치명타",
+                        desc: "원거리 기본 공격의 치명타 확률이 증가합니다.",
+                        gold: ""
+                    }
+                ]
+            },
+            adc: {
+                champion: "이즈리얼",
+                cards: [
+                    {
+                        tier: "A",
+                        name: "되풀이",
+                        score: "86.4",
+                        pref: "선호도 높음",
+                        rec: false,
+                        icon: "⚡",
+                        tag: "스킬 가속",
+                        desc: "스킬 가속 60을 얻습니다. 스킬 사용 시 기본 공격 사거리가 증가합니다.",
+                        gold: ""
+                    },
+                    {
+                        tier: "S",
+                        name: "초월 의식",
+                        score: "96.5",
+                        pref: "선호도 매우 높음",
+                        rec: true,
+                        icon: "🔮",
+                        tag: "처치 관여",
+                        desc: "처치 관여 시 적 챔피언이 정수를 남깁니다. 정수 습득 시 모든 기본 스킬 쿨다운이 즉시 초기화됩니다.",
+                        gold: ""
+                    },
+                    {
+                        tier: "C",
+                        name: "불굴의 방패",
+                        score: "61.2",
+                        pref: "선호도 보통",
+                        rec: false,
+                        icon: "🛡️",
+                        tag: "방어력",
+                        desc: "체력이 30% 이하로 떨어지면 4초간 받는 피해량이 20% 감소합니다.",
+                        gold: ""
+                    }
+                ]
+            }
+        };
+
+        function loadPreset(key) {
+            document.querySelectorAll(".btn-preset").forEach(btn => btn.classList.remove("active"));
+            event.target.classList.add("active");
+
+            const data = PRESETS[key];
+            const container = document.getElementById("cardsContainer");
+            container.innerHTML = "";
+
+            data.cards.forEach(c => {
+                const col = document.createElement("div");
+                col.className = "augment-column";
+
+                const recClass = c.rec ? " recommended" : "";
+                const recStar = c.rec ? `<span class="badge-rec-star">★ 1순위 추천</span>` : "";
+
+                col.innerHTML = `
+                    <!-- 1. 상단 오버레이 배너 -->
+                    <div class="overlay-banner${recClass}">
+                        <div class="tier-badge tier-${c.tier}">${c.tier}</div>
+                        <div class="banner-info">
+                            <div class="banner-title-row">
+                                <span class="banner-name">${c.name}</span>
+                                ${recStar}
+                            </div>
+                            <div class="banner-meta">
+                                <span>증강 점수 <span class="score-val">${c.score}</span></span>
+                                <span>•</span>
+                                <span>${c.pref}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. 하단 인게임 카드 모형 -->
+                    <div class="ingame-card-mock">
+                        <div class="card-inner-frame"></div>
+                        <div class="card-icon-frame">${c.icon}</div>
+                        <div class="card-title">${c.name}</div>
+                        <div class="card-tag">${c.tag}</div>
+                        <div class="card-desc">${c.desc}</div>
+                        ${c.gold ? `<div class="card-gold">${c.gold}</div>` : ""}
+                    </div>
+                `;
+                container.appendChild(col);
+            });
+        }
+
+        // 초기 로딩 (Image 6)
+        loadPreset("image6");
+    </script>
+</body>
+</html>
