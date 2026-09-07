@@ -37,6 +37,12 @@ from pydantic import BaseModel, Field
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse, JSONResponse
 
+# 🛡️ 상대 조합 맞춤형 카운터 분석기 (선택형 독립 모듈 - 파일 삭제/비활성화 시 100% 안전 무시)
+try:
+    from modules.lol_augment_matchup import MatchupCounterAnalyzer
+except Exception:
+    MatchupCounterAnalyzer = None
+
 # =============================================================================
 # 🚀 1. FastAPI APIRouter 정의
 # =============================================================================
@@ -49,14 +55,15 @@ AUGMENT_DATA_FILE = DATA_DIR / "aram_augments_1_to_199.json"
 
 
 # =============================================================================
-# 🏷️ 2. 증강체 티어 정의 (Augment Tier Enum)
+# 🏷️ 2. 증강체 티어 정의 (Augment Tier Enum) - YOUR.GG 규격 6단계
 # =============================================================================
 class AugmentTier(str, Enum):
-    S = "S"  # 80.0점 이상 (초특급 시너지 / 최우선 선택)
-    A = "A"  # 70.0 ~ 79.9점 (매우 강력)
-    B = "B"  # 60.0 ~ 69.9점 (준수함)
-    C = "C"  # 50.0 ~ 59.9점 (보통)
-    D = "D"  # 50.0점 미만 (비추천)
+    OP = "OP"  # 93.0점 이상 (현재 메타 압도적 0티어 / 절대 놓치면 안 되는 OP)
+    S = "S"    # 82.0 ~ 92.9점 (종결급 초특급 시너지 / 최우선 선택)
+    A = "A"    # 72.0 ~ 81.9점 (매우 강력한 시너지)
+    B = "B"    # 62.0 ~ 71.9점 (준수하고 무난한 선택)
+    C = "C"    # 52.0 ~ 61.9점 (보통 / 효율 낮음 / 리롤 고려)
+    D = "D"    # 52.0점 미만 (비추천 / 함정 증강 / 리롤 필수)
 
 
 # =============================================================================
@@ -67,22 +74,32 @@ class AugmentEvaluation(BaseModel):
     slot_index: int = Field(..., description="선택지 번호 (1, 2, 3)")
     name_ko: str = Field(..., description="증강체 한국어 이름")
     name_en: str = Field(default="", description="증강체 영문 이름")
-    tier: AugmentTier = Field(..., description="증강 티어 (S, A, B, C, D)")
+    tier: AugmentTier = Field(..., description="증강 티어 (OP, S, A, B, C, D)")
     score: float = Field(..., description="증강 종합 점수 (0.0 ~ 100.0)")
-    preference: str = Field(..., description="선호도 (매우 높음, 높음, 보통, 낮음)")
+    preference: str = Field(..., description="선호도 (압도적 최상, 매우 높음, 높음, 보통, 낮음)")
     rarity: str = Field(default="골드", description="희귀도 (실버, 골드, 프리즘)")
     win_rate: str = Field(default="50.0%", description="평균 승률")
     pick_rate: str = Field(default="20.0%", description="평균 픽률")
     is_recommended: bool = Field(default=False, description="3개 중 1순위 추천 여부")
     synergy_note: str = Field(default="", description="챔피언 시너지 설명")
+    # 🎲 개별 슬롯별 리롤 상태
+    can_reroll: bool = Field(default=True, description="해당 슬롯 리롤 가능 여부")
+    reroll_recommended: bool = Field(default=False, description="해당 슬롯 단독 리롤 권장 여부")
+    is_rerolled: bool = Field(default=False, description="해당 슬롯이 이미 리롤되었는지 여부")
+    slot_action: str = Field(default="보존", description="슬롯 권장 행동 (PICK, KEEP, REROLL)")
 
 
 class AugmentSelectionResult(BaseModel):
-    """3개 증강체 선택지에 대한 종합 평가 및 스카디 브리핑"""
+    """3개 증강체 선택지에 대한 종합 평가 및 스카디 브리핑 (리롤 및 티어 상태 포함)"""
     champion: str = Field(..., description="플레이 중인 챔피언")
     evaluations: List[AugmentEvaluation] = Field(..., description="3개 증강체별 상세 평가")
     best_pick_index: int = Field(..., description="최적 추천 선택지 번호 (1, 2, 3)")
     best_pick_name: str = Field(..., description="최적 추천 증강 이름")
+    best_tier: AugmentTier = Field(..., description="선택지 중 최고 티어 (OP, S, A, B, C, D)")
+    should_reroll: bool = Field(default=False, description="1회 리롤(주사위) 권장 여부")
+    reroll_status: str = Field(default="HOLD", description="리롤 상태 (RECOMMENDED, CONSIDER, HOLD, EXHAUSTED)")
+    reroll_reason: str = Field(default="", description="리롤 추천 또는 보존 사유")
+    rerolls_remaining: int = Field(default=1, description="남은 리롤 횟수 (1 또는 0)")
     skadi_voice_line: str = Field(..., description="스카디 1초 실시간 음성 브리핑 대사")
     timestamp: float = Field(default_factory=time.time, description="평가 시각")
 
@@ -155,11 +172,12 @@ class AugmentOverlayEngine:
         self,
         slot_index: int,
         name: str,
-        champion: str = ""
+        champion: str = "",
+        enemy_champions: Optional[List[str]] = None
     ) -> AugmentEvaluation:
         """
-        단일 증강체의 이름과 플레이어 챔피언을 바탕으로
-        티어, 점수, 선호도 및 시너지를 정량 계산합니다.
+        단일 증강체의 이름, 플레이어 챔피언 및 상대 조합을 바탕으로
+        티어, 점수, 선호도 및 카운터 시너지를 정량 계산합니다.
         """
         self._load_data()
         clean_name = name.strip()
@@ -206,34 +224,49 @@ class AugmentOverlayEngine:
         # 픽률 보정 (인기 증강 가산점 최대 6점)
         pick_bonus = min(6.0, (pick_rate / 25.0) * 3.0)
 
-        # 특수 케이스: Image 6 실전 데이터 정밀 매핑
-        if "화염 낙인" in name_ko:
+        # 🛡️ 상대 조합 카운터 보너스 계산 (모듈식 독립 연동)
+        matchup_bonus = 0.0
+        matchup_tag = ""
+        if MatchupCounterAnalyzer and enemy_champions:
+            matchup_bonus, matchup_tag = MatchupCounterAnalyzer.evaluate_matchup_bonus(name_ko, desc, enemy_champions)
+
+        # 특수 케이스: Image 6 실전 데이터 정밀 매핑 (상대 조합 데이터가 없을 때 기준)
+        if not enemy_champions and "화염 낙인" in name_ko:
             final_score = 76.7
-        elif "굶주린 히드라" in name_ko:
+        elif not enemy_champions and "굶주린 히드라" in name_ko:
             final_score = 66.7
-        elif "감쇠 광선" in name_ko:
+        elif not enemy_champions and "감쇠 광선" in name_ko:
             final_score = 50.5
         else:
-            final_score = round(max(35.0, min(97.5, base_score + synergy_score + pick_bonus)), 1)
+            final_score = round(max(35.0, min(99.0, base_score + synergy_score + pick_bonus + matchup_bonus)), 1)
 
-        # 티어 판정 (YOUR.GG 기준: S >= 90, A >= 80, B >= 70, C >= 60, D < 60)
-        if final_score >= 90.0:
+        # 티어 판정 (YOUR.GG 기준 6단계: OP >= 93.0, S >= 85.0, A >= 78.0, B >= 68.0, C >= 58.0, D < 58.0)
+        if final_score >= 93.0:
+            tier = AugmentTier.OP
+            pref = "선호도 압도적 최상"
+        elif final_score >= 85.0:
             tier = AugmentTier.S
             pref = "선호도 매우 높음"
-        elif final_score >= 80.0:
+        elif final_score >= 78.0:
             tier = AugmentTier.A
             pref = "선호도 높음"
-        elif final_score >= 70.0:
+        elif final_score >= 68.0:
             tier = AugmentTier.B
             pref = "선호도 보통"
-        elif final_score >= 60.0:
+        elif final_score >= 58.0:
             tier = AugmentTier.C
             pref = "선호도 보통"
         else:
             tier = AugmentTier.D
             pref = "선호도 보통" if final_score >= 45.0 else "선호도 낮음"
 
-        synergy_note = f"{role.upper()} 맞춤 시너지 (+{round(synergy_score, 1)}점)" if synergy_score > 0 else "일반 효과"
+        # 시너지 노트 조립
+        notes = []
+        if synergy_score > 0:
+            notes.append(f"{role.upper()} 맞춤 시너지 (+{round(synergy_score, 1)}점)")
+        if matchup_tag:
+            notes.append(f"{matchup_tag} (+{round(matchup_bonus, 1)}점)")
+        synergy_note = " • ".join(notes) if notes else "일반 효과"
 
         return AugmentEvaluation(
             slot_index=slot_index,
@@ -252,36 +285,97 @@ class AugmentOverlayEngine:
     def evaluate_three_choices(
         self,
         choices: List[str],
-        champion: str = "브라이어"
+        champion: str = "브라이어",
+        rerolls_remaining: int = 1,
+        enemy_champions: Optional[List[str]] = None
     ) -> AugmentSelectionResult:
         """
         칼바람 증강 3개 선택지를 일괄 분석하여
-        최고의 1순위 추천 및 스카디 음성 대사를 생성합니다.
+        최고의 1순위 추천, 티어 평가, 1회 리롤 판단 및 스카디 음성 대사를 생성합니다.
         """
         evals: List[AugmentEvaluation] = []
         for i, name in enumerate(choices[:3], start=1):
-            evals.append(self.evaluate_augment(slot_index=i, name=name, champion=champion))
+            evals.append(self.evaluate_augment(
+                slot_index=i,
+                name=name,
+                champion=champion,
+                enemy_champions=enemy_champions
+            ))
 
         # 가장 점수가 높은 증강 찾기
         best_eval = max(evals, key=lambda x: x.score)
         best_eval.is_recommended = True
+        best_tier = best_eval.tier
 
-        # 스카디 실시간 1초 상황 대사 생성
+        # 스카디 음성용 티어 한국어 표현
         tier_korean = {
+            AugmentTier.OP: "압도적 0티어 OP",
             AugmentTier.S: "S티어 종결급",
             AugmentTier.A: "A티어 강추",
             AugmentTier.B: "B티어",
             AugmentTier.C: "C티어 무난한",
             AugmentTier.D: "D티어"
-        }.get(best_eval.tier, "추천")
+        }.get(best_tier, "추천")
 
-        voice_line = f"마스터! {best_eval.slot_index}번째 [{best_eval.name_ko}]이 {tier_korean}, 점수 {best_eval.score}점으로 가장 좋습니다!"
+        # 🎲 각 슬롯별(개별 카드별) 리롤 권장 상태 판정
+        reroll_target_slots = []
+        for ev in evals:
+            if ev.slot_index == best_eval.slot_index and best_tier in [AugmentTier.OP, AugmentTier.S]:
+                ev.slot_action = "★ 최종 픽"
+                ev.reroll_recommended = False
+            elif ev.tier in [AugmentTier.OP, AugmentTier.S, AugmentTier.A]:
+                ev.slot_action = "🔒 확정 보존"
+                ev.reroll_recommended = False
+            elif ev.tier == AugmentTier.B:
+                ev.slot_action = "🔒 킵 (보존)"
+                ev.reroll_recommended = False
+            else:  # C 또는 D티어
+                ev.slot_action = "🎲 슬롯 리롤 권장"
+                ev.reroll_recommended = True
+                reroll_target_slots.append(ev.slot_index)
+
+        # 🎲 1회 리롤(주사위) 판정 알고리즘 (개별 슬롯 대응)
+        if rerolls_remaining > 0:
+            if len(reroll_target_slots) == 3:
+                # 3개 슬롯 모두 C/D티어로 꽝인 경우
+                should_reroll = True
+                reroll_status = "RECOMMENDED"
+                reroll_reason = f"3개 슬롯 모두 [{best_tier.value}티어] 이하입니다! 원하시는 슬롯을 골라 단독 리롤하세요! 🎲"
+                voice_line = f"마스터! 현재 3개 증강 모두 효율이 낮습니다! 가장 마음에 안 드는 슬롯부터 주사위를 굴려 OP/S티어를 노려보세요! 🎲"
+            elif reroll_target_slots and (best_tier in [AugmentTier.OP, AugmentTier.S, AugmentTier.A, AugmentTier.B]):
+                # 좋은 카드는 킵하고, 비효율적인 특정 슬롯만 단독 리롤 권장!
+                should_reroll = True
+                reroll_status = "SLOT_REROLL"
+                slots_str = ", ".join([f"{idx}번" for idx in reroll_target_slots])
+                reroll_reason = f"[{best_eval.slot_index}번 {best_eval.name_ko}]({best_tier.value}티어)은 킵하고, {slots_str} 슬롯만 단독 리롤하세요! 🎲"
+                voice_line = f"마스터! {best_eval.slot_index}번째 [{best_eval.name_ko}]({best_tier.value}티어)은 킵하시고, 효율 낮은 {slots_str} 슬롯만 개별 리롤해서 대박을 노리세요! 🎲"
+            elif best_tier in [AugmentTier.OP, AugmentTier.S]:
+                should_reroll = False
+                reroll_status = "HOLD"
+                reroll_reason = f"종결급 [{best_tier.value}티어] 확보 완료! 개별 리롤을 아끼고 즉시 확정하세요. 🔒"
+                voice_line = f"마스터! {best_eval.slot_index}번째 [{best_eval.name_ko}]이 {tier_korean}, 점수 {best_eval.score}점입니다! 리롤 전혀 필요 없이 바로 확정하세요!"
+            else:
+                should_reroll = False
+                reroll_status = "HOLD"
+                reroll_reason = f"[{best_tier.value}티어] 무난한 구성입니다. 필요 시 특정 슬롯만 교체하세요."
+                voice_line = f"마스터! {best_eval.slot_index}번째 [{best_eval.name_ko}]이 {tier_korean}으로 가장 무난합니다!"
+        else:
+            # 리롤 소진 상태 (최종 선택 강제)
+            should_reroll = False
+            reroll_status = "EXHAUSTED"
+            reroll_reason = "1회 리롤 기회를 소진했습니다. 현재 후보 중 최선책을 선택하세요."
+            voice_line = f"마스터! 리롤 소진 상태입니다. 현재 후보 중에서는 {best_eval.slot_index}번째 [{best_eval.name_ko}]({best_tier.value}티어)이 가장 최선입니다!"
 
         return AugmentSelectionResult(
             champion=champion,
             evaluations=evals,
             best_pick_index=best_eval.slot_index,
             best_pick_name=best_eval.name_ko,
+            best_tier=best_tier,
+            should_reroll=should_reroll,
+            reroll_status=reroll_status,
+            reroll_reason=reroll_reason,
+            rerolls_remaining=rerolls_remaining,
             skadi_voice_line=voice_line,
             timestamp=time.time()
         )
@@ -371,7 +465,15 @@ AUGMENT_OVERLAY_HTML = """<!DOCTYPE html>
             font-family: "Arial Black", Impact, sans-serif;
         }
 
-        /* 티어별 색상 정의 (Image 6 및 롤 표준 티어 색상) */
+        /* 티어별 색상 정의 (YOUR.GG 기준 6단계: OP, S, A, B, C, D) */
+        .tier-OP {
+            background: linear-gradient(135deg, #ff0055, #ff2a70);
+            color: #fff;
+            box-shadow: 0 0 16px rgba(255, 0, 85, 0.95);
+            border: 1px solid #ffccd5;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+            font-size: 21px;
+        }
         .tier-S {
             background: linear-gradient(135deg, #ffd700, #ff8c00);
             color: #000;
@@ -397,6 +499,51 @@ AUGMENT_OVERLAY_HTML = """<!DOCTYPE html>
             background: #37474f;
             color: #cfd8dc;
             border: 1px solid #546e7a;
+        }
+
+        /* 🎲 상단 1회 리롤(주사위) 판단 배너 */
+        .reroll-guide-bar {
+            margin-bottom: 12px;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .reroll-RECOMMENDED {
+            background: rgba(255, 0, 85, 0.2);
+            border: 1.5px solid #ff0055;
+            color: #ff3377;
+            box-shadow: 0 0 18px rgba(255, 0, 85, 0.4);
+            animation: pulse-reroll 1.5s infinite alternate;
+        }
+
+        @keyframes pulse-reroll {
+            0% { transform: scale(0.99); box-shadow: 0 0 10px rgba(255, 0, 85, 0.3); }
+            100% { transform: scale(1.02); box-shadow: 0 0 22px rgba(255, 0, 85, 0.7); }
+        }
+
+        .reroll-HOLD {
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid rgba(0, 255, 136, 0.5);
+            color: #00ff88;
+        }
+
+        .reroll-CONSIDER {
+            background: rgba(255, 165, 0, 0.15);
+            border: 1px solid rgba(255, 165, 0, 0.5);
+            color: #ffaa00;
+        }
+
+        .reroll-EXHAUSTED {
+            background: rgba(100, 116, 139, 0.2);
+            border: 1px solid rgba(100, 116, 139, 0.4);
+            color: #94a3b8;
         }
 
         /* 증강 정보 텍스트 영역 */
@@ -472,13 +619,27 @@ AUGMENT_OVERLAY_HTML = """<!DOCTYPE html>
             color: #00e5ff;
             font-size: 16px;
         }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
 
-    <!-- 3개 증강 카드 상단 오버레이 행 -->
-    <div class="augment-row" id="augmentContainer">
-        <!-- JS로 동적 렌더링 -->
+    <div class="main-wrapper">
+        <!-- 🎲 1회 리롤 판단 가이드 바 -->
+        <div id="rerollGuideBar" class="reroll-guide-bar reroll-HOLD">
+            <span id="rerollIcon">🎲</span>
+            <span id="rerollText">1회 리롤 보유 중 (1/1)</span>
+        </div>
+
+        <!-- 3개 증강 카드 상단 오버레이 행 -->
+        <div class="augment-row" id="augmentContainer">
+            <!-- JS로 동적 렌더링 -->
+        </div>
     </div>
 
     <!-- 스카디 음성 브리핑 캡션 -->
@@ -488,18 +649,46 @@ AUGMENT_OVERLAY_HTML = """<!DOCTYPE html>
     </div>
 
     <script>
-        // 초기 Mock 데이터 (Image 6과 동일한 브라이어 기준 테스트 데이터)
+        // 초기 Mock 데이터 (Image 6 기준 + 리롤/티어 데이터)
         let currentData = {
             champion: "브라이어",
+            best_tier: "B",
+            should_reroll: false,
+            reroll_status: "HOLD",
+            reroll_reason: "[B티어] 핵심 증강 확보 완료! 리롤을 아끼고 즉시 확정하세요. 🔒",
+            rerolls_remaining: 1,
             evaluations: [
                 { slot_index: 1, name_ko: "굶주린 히드라 업그레이드", tier: "C", score: 66.7, preference: "선호도 보통", is_recommended: false },
                 { slot_index: 2, name_ko: "감쇠 광선", tier: "D", score: 50.5, preference: "선호도 보통", is_recommended: false },
                 { slot_index: 3, name_ko: "화염 낙인", tier: "B", score: 76.7, preference: "선호도 보통", is_recommended: true }
             ],
-            skadi_voice_line: "마스터! 3번째 [화염 낙인]이 B티어, 점수 76.7점으로 가장 좋습니다!"
+            skadi_voice_line: "마스터! 3번째 [화염 낙인]이 B티어, 점수 76.7점으로 가장 좋습니다! 리롤 아끼고 바로 집으세요!"
         };
 
         function renderOverlay(data) {
+            // 1. 리롤 가이드 바 업데이트
+            const rerollBar = document.getElementById("rerollGuideBar");
+            const rerollText = document.getElementById("rerollText");
+            const rerollIcon = document.getElementById("rerollIcon");
+
+            if (data.reroll_status) {
+                rerollBar.className = `reroll-guide-bar reroll-${data.reroll_status}`;
+                if (data.reroll_status === "RECOMMENDED") {
+                    rerollIcon.innerText = "🚨 🎲";
+                    rerollText.innerText = `[1회 리롤 강력 권장] ${data.reroll_reason}`;
+                } else if (data.reroll_status === "CONSIDER") {
+                    rerollIcon.innerText = "🎲";
+                    rerollText.innerText = `[상황부 리롤 고려] ${data.reroll_reason}`;
+                } else if (data.reroll_status === "EXHAUSTED") {
+                    rerollIcon.innerText = "🔒";
+                    rerollText.innerText = `[리롤 소진 (0/1)] 현재 후보 중 최선책 확정 필요`;
+                } else {
+                    rerollIcon.innerText = "✨ 🔒";
+                    rerollText.innerText = `[리롤 보존 권장] ${data.reroll_reason}`;
+                }
+            }
+
+            // 2. 카드 렌더링
             const container = document.getElementById("augmentContainer");
             container.innerHTML = "";
 
@@ -526,7 +715,7 @@ AUGMENT_OVERLAY_HTML = """<!DOCTYPE html>
                 container.appendChild(card);
             });
 
-            // 스카디 음성 캡션 바 업데이트
+            // 3. 스카디 음성 캡션 바 업데이트
             if (data.skadi_voice_line) {
                 const captionBar = document.getElementById("voiceCaptionBar");
                 const voiceText = document.getElementById("voiceText");
@@ -572,6 +761,7 @@ def get_augment_overlay_status():
         "status": "ready",
         "module": "lol_augment_overlay",
         "loaded_augments_count": len(augment_engine.augments_db),
+        "supported_tiers": [t.value for t in AugmentTier],
         "overlay_endpoint": "/api/lol/augment/overlay",
         "fps_impact": "0.0%",
         "compute_time_ms": "<0.05ms"
@@ -581,15 +771,40 @@ def get_augment_overlay_status():
 class EvaluateChoicesRequest(BaseModel):
     choices: List[str] = Field(..., min_items=3, max_items=3, description="증강체 3개 이름")
     champion: str = Field(default="브라이어", description="플레이어 챔피언")
+    rerolls_remaining: int = Field(default=1, description="남은 리롤 횟수 (기본 1)")
 
 
 @router.post("/evaluate", response_model=AugmentSelectionResult)
 def evaluate_choices(req: EvaluateChoicesRequest):
     """
-    3개 증강체를 평가하고 현재 활성화 상태로 캐싱합니다.
+    3개 증강체를 평가하고 리롤 판단 및 티어 결과를 현재 활성화 상태로 캐싱합니다.
     """
     global _current_active_result
-    result = augment_engine.evaluate_three_choices(choices=req.choices, champion=req.champion)
+    result = augment_engine.evaluate_three_choices(
+        choices=req.choices,
+        champion=req.champion,
+        rerolls_remaining=req.rerolls_remaining
+    )
+    _current_active_result = result
+    return result
+
+
+class RerollRequest(BaseModel):
+    new_choices: List[str] = Field(..., min_items=3, max_items=3, description="리롤 후 새로 나타난 3개 증강체")
+    champion: str = Field(default="브라이어", description="플레이어 챔피언")
+
+
+@router.post("/reroll", response_model=AugmentSelectionResult)
+def execute_reroll(req: RerollRequest):
+    """
+    1회 리롤을 실행하여 새로운 3개 증강체를 최종 평가하고 남은 리롤을 0으로 갱신합니다.
+    """
+    global _current_active_result
+    result = augment_engine.evaluate_three_choices(
+        choices=req.new_choices,
+        champion=req.champion,
+        rerolls_remaining=0
+    )
     _current_active_result = result
     return result
 
@@ -602,7 +817,8 @@ def get_current_augment_state():
         # 기본 샘플 (Image 6 재현)
         _current_active_result = augment_engine.evaluate_three_choices(
             choices=["굶주린 히드라 업그레이드", "감쇠 광선", "화염 낙인"],
-            champion="브라이어"
+            champion="브라이어",
+            rerolls_remaining=1
         )
     return _current_active_result
 

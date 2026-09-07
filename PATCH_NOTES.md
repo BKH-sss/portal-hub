@@ -2,6 +2,91 @@
 
 ---
 
+## 🚀 [2026-09-07] v3.6.6 - 네이티브 100% 클릭 투과 투명 HUD 런처 및 상대 조합 카운터 독립 모듈 탑재
+
+### 📌 패치 개요
+- **개발 목적**: 브라우저 창을 켤 필요 없이, 게임 플레이에 절대 방해되지 않는 **100% 마우스 클릭 투과(Click-Through) 네이티브 투명 HUD 윈도우** 및 **언제든 탈부착이 용이한 상대 조합(탱커/포킹/암살자) 카운터 독립 모듈** 구현.
+- **적용 일자**: **2026년 09월 07일 (월)**
+- **릴리즈 버전**: `v3.6.6`
+- **핵심 가치**:
+  - **100% 무간섭 마우스 클릭 투과 (`WS_EX_TRANSPARENT | WS_EX_LAYERED | WS_EX_NOACTIVATE`)**:
+    - 오버레이 위에 마우스를 클릭해도 롤 게임 안으로 100% 통과하여 챔피언 이동 및 스킬 시전 방해 0%
+    - 포커스를 뺏지 않아(`WS_EX_NOACTIVATE`) 알트탭이나 키보드 씹힘 현상 원천 차단
+    - 롤 클라이언트 창(`RiotWindowClass`) 감지 시 상단 5.5% 위치에 1:1 자동 정렬
+  - **단독 런처 탑재 (`run_augment_overlay.bat`)**:
+    - 추가 pip 패키지 설치 없이 Python 내장 `tkinter` + `ctypes`로 15MB 경량 구동, GPU 부하 0.0%
+    - 단축키 `F9`로 인게임 중 언제든 즉시 보이기 / 숨기기 토글
+  - **상대 조합 카운터 가중치 독립 모듈 ([`modules/lol_augment_matchup.py`](file:///C:/Users/Su-Bla/orca/workspaces/NEO/char/modules/lol_augment_matchup.py))**:
+    - 상대 탱커 2인 이상 ➔ 체력 비례/관통 증강 보너스 (+10~16점) 및 `[🛡️ 탱커 카운터]` 태그
+    - 상대 포킹 2인 이상 ➔ 돌진/보호막/재생 증강 보너스 (+8~14점) 및 `[🎯 포킹 대항]` 태그
+    - 완벽히 분리된 모듈형 설계로, 필요 없을 시 파일 삭제나 옵션 해제만으로 에러 없이 1초 만에 비활성화 가능
+
+---
+
+### 🌟 신규 추가 및 변경된 모듈 상세 내역
+
+| 파일명 | 구분 | 핵심 기능 및 변경 내역 |
+| :--- | :---: | :--- |
+| [`modules/lol_augment_native_window.py`](file:///C:/Users/Su-Bla/orca/workspaces/NEO/char/modules/lol_augment_native_window.py) | **신규 (독립)** | **Win32 100% 클릭 투과 네이티브 인게임 투명 HUD**<br>• `WS_EX_TRANSPARENT` 기반 롤 게임 내 100% 마우스 통과<br>• 6단계 티어 배지([OP]~[D]) 및 슬롯별 단독 리롤 상태 캔버스 렌더링<br>• 롤 창 자동 위치 추적 및 `F9` 키 표시/숨김 토글 지원 |
+| [`run_augment_overlay.bat`](file:///C:/Users/Su-Bla/orca/workspaces/NEO/char/run_augment_overlay.bat) | **신규 (런처)** | **원클릭 네이티브 증강체 오버레이 실행 런처**<br>• 브라우저 없이 데스크탑에서 바로 오버레이 가동<br>• 안티치트(Vanguard) 안전 읽기 전용 GDI/Desktop 창 구동 |
+| [`modules/lol_augment_matchup.py`](file:///C:/Users/Su-Bla/orca/workspaces/NEO/char/modules/lol_augment_matchup.py) | **신규 (독립)** | **상대 조합 맞춤형 카운터 분석기 (탈부착 모듈)**<br>• 탱커/포킹/암살자 군집 판별 및 증강 키워드 매칭 가산점 산출<br>• 삭제나 비활성화가 간편한 완전 격리 모듈 아키텍처 적용 |
+
+---
+
+## 🚀 [2026-09-07] v3.6.5 - 개별 슬롯별 단독 리롤(Per-Slot Individual Reroll) 엔진 및 실시간 UI 탑재
+
+### 📌 패치 개요
+- **개발 목적**: 실제 아레나/칼바람 증강의 룰에 따라 3장을 통째로 바꾸는 것이 아닌, **원하는 개별 카드 슬롯만 단독으로 주사위를 굴리고 유효 카드는 킵(보존)하는 정밀 리롤 시스템** 구축.
+- **적용 일자**: **2026년 09월 07일 (월)**
+- **릴리즈 버전**: `v3.6.5`
+- **핵심 가치**:
+  - **슬롯별 개별 상태 판정 (`slot_action`, `reroll_recommended`)**:
+    - 예: 3번 화염 낙인(`B티어`) ➔ `[🔒 킵 (보존)]`
+    - 예: 1번 히드라(`C티어`), 2번 감쇠광선(`D티어`) ➔ `[🎲 단독 리롤 권장]`
+  - **스카디 실시간 핀포인트 음성 브리핑**:
+    - *"마스터! 3번째 [화염 낙인]은 킵하시고, 효율 낮은 1번, 2번 슬롯만 개별 리롤해서 대박을 노리세요! 🎲"*
+  - **프리뷰 및 오버레이 개별 리롤 인터랙션 (`preview_augment_overlay.html`)**:
+    - 카드 하단에 `[🎲 N번 슬롯만 단독 리롤]` 버튼 배치
+    - 클릭 시 해당 슬롯만 단독 교체되고 나머지 2개 슬롯은 그대로 유지되는 실전 시뮬레이션 지원
+
+---
+
+### 🌟 신규 추가 및 변경된 모듈 상세 내역
+
+| 파일명 | 구분 | 핵심 기능 및 변경 내역 |
+| :--- | :---: | :--- |
+| [`modules/lol_augment_overlay.py`](file:///C:/Users/Su-Bla/orca/workspaces/NEO/char/modules/lol_augment_overlay.py) | **업데이트** | **슬롯별 개별 리롤 판정 로직 및 모델 탑재**<br>• `can_reroll`, `reroll_recommended`, `slot_action` 필드 추가<br>• 슬롯 타깃팅 리롤 판단 (`SLOT_REROLL`) 및 맞춤형 스카디 음성 라인 생성 |
+| [`preview_augment_overlay.html`](file:///C:/Users/Su-Bla/orca/workspaces/NEO/char/preview_augment_overlay.html) | **업데이트** | **개별 슬롯 리롤 버튼 & 실시간 교체 UI 완성**<br>• 각 카드 하단 `[🎲 N번 슬롯만 단독 리롤]` 인터랙티브 버튼 탑재<br>• 단독 슬롯 교체 시 나머지 카드 보존 및 즉각적인 티어/추천 재산출 연동 |
+
+---
+
+## 🚀 [2026-09-07] v3.6.4 - YOUR.GG 규격 6단계 티어([OP] 추가) & 1회 리롤(주사위) 전술 판단 엔진 탑재
+
+### 📌 패치 개요
+- **개발 목적**: 칼바람 아수라장(증바람) 및 아레나의 핵심 메커니즘인 **1회 새로고침(주사위/리롤)**을 감안하여, 3개가 모두 함정일 때 억지 선택을 방지하는 **기대값 기반 리롤 판단 엔진** 구축 및 최상위 **[OP 티어]** 추가.
+- **적용 일자**: **2026년 09월 07일 (월)**
+- **릴리즈 버전**: `v3.6.4`
+- **핵심 가치**:
+  - **YOUR.GG 규격 6단계 티어 시스템 완성**: `[OP]` (마젠타 네온), `[S]` (골드), `[A]` (시안), `[B]` (오렌지), `[C]` (그린), `[D]` (슬레이트).
+  - **1회 리롤 전술 판단 엔진 (`Reroll Decision Engine`)**:
+    - 최고 티어가 C/D티어일 때 🚨 `[1회 리롤 강력 권장]` 펄스 배너 표출 및 스카디 음성 지시
+    - OP/S티어 등장 시 🔒 `[리롤 보존 확정]` 안내
+    - 리롤 소진 시 (`rerolls_remaining = 0`) 최종 선택 강제 모드 전환
+  - **인게임 오버레이 & 프리뷰 (`preview_augment_overlay.html`) 연동**:
+    - 상단 리롤 가이드 배너 실시간 렌더링
+    - `🎲 1회 리롤 굴리기 (시뮬레이션)` 버튼으로 1/1 ➔ 0/1 상태 전환 및 OP티어 교체 연출 검증 가능
+
+---
+
+### 🌟 신규 추가 및 변경된 모듈 상세 내역
+
+| 파일명 | 구분 | 핵심 기능 및 변경 내역 |
+| :--- | :---: | :--- |
+| [`modules/lol_augment_overlay.py`](file:///C:/Users/Su-Bla/orca/workspaces/NEO/char/modules/lol_augment_overlay.py) | **업데이트** | **6단계 티어([OP] 추가) & 리롤 전술 엔진 확장**<br>• `AugmentTier.OP` 추가 및 점수 임계치 정밀 교정<br>• `should_reroll`, `reroll_status`, `reroll_reason`, `rerolls_remaining` 모델 탑재<br>• 리롤 안내 바 및 `/api/lol/augment/reroll` 엔드포인트 지원 |
+| [`preview_augment_overlay.html`](file:///C:/Users/Su-Bla/orca/workspaces/NEO/char/preview_augment_overlay.html) | **업데이트** | **OP티어 배지 & 리롤 시뮬레이션 UI 완성**<br>• 마젠타 네온 글로우 `.tier-OP` 배지 CSS 추가<br>• 상단 `[🎲 1회 리롤 판단 가이드 바]` 인터랙티브 연동<br>• OP티어 프리셋 및 1회 리롤 실행 시뮬레이션 버튼 탑재 |
+
+---
+
 ## 🚀 [2026-09-07] v3.6.3 - 칼바람 증강체(증바람) 실시간 티어 배지 & 인게임 3-카드 투명 오버레이 HUD 모듈 추가
 
 ### 📌 패치 개요

@@ -147,11 +147,136 @@
             font-family: "Arial Black", Impact, sans-serif;
         }
 
+        /* 티어별 색상 정의 (YOUR.GG 기준 6단계: OP, S, A, B, C, D) */
+        .tier-OP { background: linear-gradient(135deg, #ff0055, #ff2a70); color: #fff; box-shadow: 0 0 16px rgba(255, 0, 85, 0.95); border: 1.5px solid #ffccd5; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); font-size: 21px; }
         .tier-S { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #000; box-shadow: 0 0 14px rgba(255, 215, 0, 0.8); border: 1px solid #fff; }
         .tier-A { background: #00e5ff; color: #000; box-shadow: 0 0 10px rgba(0, 229, 255, 0.6); }
         .tier-B { background: #ff6d00; color: #fff; box-shadow: 0 0 10px rgba(255, 109, 0, 0.6); }
         .tier-C { background: #00c853; color: #000; box-shadow: 0 0 10px rgba(0, 200, 83, 0.6); }
         .tier-D { background: #37474f; color: #cfd8dc; border: 1px solid #546e7a; }
+
+        /* 🎲 1회 리롤(주사위) 판단 가이드 바 */
+        .reroll-guide-bar {
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 22px;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .reroll-RECOMMENDED {
+            background: rgba(255, 0, 85, 0.18);
+            border: 1.5px solid #ff0055;
+            color: #ff3377;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.35);
+            animation: pulse-reroll 1.5s infinite alternate;
+        }
+
+        @keyframes pulse-reroll {
+            0% { transform: scale(0.995); box-shadow: 0 0 10px rgba(255, 0, 85, 0.3); }
+            100% { transform: scale(1.01); box-shadow: 0 0 24px rgba(255, 0, 85, 0.7); }
+        }
+
+        .reroll-HOLD {
+            background: rgba(0, 255, 136, 0.12);
+            border: 1px solid rgba(0, 255, 136, 0.45);
+            color: #00ff88;
+        }
+
+        .reroll-CONSIDER {
+            background: rgba(255, 165, 0, 0.12);
+            border: 1px solid rgba(255, 165, 0, 0.45);
+            color: #ffaa00;
+        }
+
+        .reroll-EXHAUSTED {
+            background: rgba(100, 116, 139, 0.15);
+            border: 1px solid rgba(100, 116, 139, 0.35);
+            color: #94a3b8;
+        }
+
+        .reroll-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+
+        /* 🎲 개별 슬롯 배지 및 버튼 스타일 */
+        .slot-index-badge {
+            font-size: 10px;
+            font-weight: 700;
+            color: #8b949e;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 1px 5px;
+            border-radius: 3px;
+            margin-right: 6px;
+        }
+
+        .badge-slot-reroll {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: #ff3377;
+            background: rgba(255, 0, 85, 0.2);
+            border: 1px solid #ff0055;
+            padding: 2px 6px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-left: 6px;
+            animation: pulse-reroll 1.5s infinite alternate;
+        }
+
+        .badge-slot-keep {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.12);
+            border: 1px solid rgba(0, 255, 136, 0.35);
+            padding: 2px 6px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-left: 6px;
+        }
+
+        .btn-slot-reroll {
+            width: 100%;
+            background: rgba(255, 0, 85, 0.12);
+            color: #ff5588;
+            border: 1px solid rgba(255, 0, 85, 0.4);
+            border-radius: 8px;
+            padding: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .btn-slot-reroll:hover {
+            background: #ff0055;
+            color: #fff;
+            border-color: #ff0055;
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.6);
+        }
+
+        .btn-slot-reroll.disabled {
+            opacity: 0.35;
+            pointer-events: none;
+            border-color: #555;
+            color: #888;
+        }
 
         .banner-info {
             display: flex;
@@ -288,9 +413,24 @@
             <span class="badge-mute">🔇 음성 없음 (순수 UI 모드)</span>
         </div>
         <div class="btn-group">
-            <button class="btn-preset active" onclick="loadPreset('image6')">6번 캡처 원본 (브라이어)</button>
+            <button class="btn-preset active" onclick="loadPreset('image6')">6번 원본 (B티어)</button>
+            <button class="btn-preset" onclick="loadPreset('op_tier')">🔥 OP/S티어 출현 (리롤 보존)</button>
+            <button class="btn-preset" onclick="loadPreset('reroll_needed')">💀 C/D 꽝 조합 (리롤 강력 권장)</button>
             <button class="btn-preset" onclick="loadPreset('tank')">탱커 조합 (말파이트)</button>
             <button class="btn-preset" onclick="loadPreset('adc')">원딜 조합 (이즈리얼)</button>
+        </div>
+    </div>
+
+    <!-- 🎲 1회 리롤(주사위) 판단 안내 배너 -->
+    <div class="reroll-guide-bar reroll-HOLD" id="rerollGuideBar">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span id="rerollIcon" style="font-size: 20px;">🔒</span>
+            <span id="rerollTitle">[리롤 보존 권장]</span>
+            <span id="rerollReason" style="font-weight: 500; color: #c9d1d9;">B티어 핵심 증강 확보 완료</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="reroll-badge" id="rerollCountBadge">주사위(리롤): 1 / 1 남음</span>
+            <button id="btnExecuteReroll" class="btn-preset" style="padding: 4px 12px; font-size: 12px; background: rgba(255, 0, 85, 0.2); border-color: #ff0055; color: #ff3377; font-weight: 700;" onclick="simulateRerollClick()">🎲 1회 리롤 굴리기</button>
         </div>
     </div>
 
@@ -304,38 +444,50 @@
     </div>
 
     <script>
+        let currentRerolls = 1;
+        let currentActiveKey = "image6";
+
         const PRESETS = {
             image6: {
                 champion: "브라이어",
+                reroll_status: "SLOT_REROLL",
+                reroll_title: "[개별 슬롯 리롤 추천]",
+                reroll_reason: "3번 화염 낙인(B티어)은 킵하고, 1번 또는 2번 슬롯만 단독 리롤하세요! 🎲",
                 cards: [
                     {
+                        slot: 1,
                         tier: "C",
                         name: "굶주린 히드라 업그레이드",
                         score: "66.7",
                         pref: "선호도 보통",
                         rec: false,
+                        reroll_rec: true,
                         icon: "⚔️",
                         tag: "피해량",
                         desc: "적에게 스킬 적중 시 쪼개기 효과가 발동됩니다. 굶주린 히드라의 생명력 흡수가 20% 수치로 증가합니다.",
                         gold: "500골드를 획득합니다."
                     },
                     {
+                        slot: 2,
                         tier: "D",
                         name: "감쇠 광선",
                         score: "50.5",
                         pref: "선호도 보통",
                         rec: false,
+                        reroll_rec: true,
                         icon: "🛡️",
                         tag: "보조",
                         desc: "기본 공격 시 대상의 입히는 피해량과 크기를 15% 감소시킵니다. (적중 시 디버프 부여)",
                         gold: ""
                     },
                     {
+                        slot: 3,
                         tier: "B",
                         name: "화염 낙인",
                         score: "76.7",
                         pref: "선호도 보통",
                         rec: true,
+                        reroll_rec: false,
                         icon: "🔥",
                         tag: "피해량",
                         desc: "기본 공격 시 무한히 중첩되는 화상 효과를 적용해 지속적으로 마법 피해를 입힙니다.",
@@ -343,37 +495,140 @@
                     }
                 ]
             },
-            tank: {
-                champion: "말파이트",
+            op_tier: {
+                champion: "브라이어",
+                reroll_status: "HOLD",
+                reroll_title: "[즉시 확정 & 리롤 절대 보존]",
+                reroll_reason: "압도적 [OP티어] 양손잡이 출현! 모든 슬롯 리롤 불필요 🔒",
                 cards: [
                     {
+                        slot: 1,
+                        tier: "OP",
+                        name: "양손잡이",
+                        score: "98.5",
+                        pref: "선호도 압도적 최상",
+                        rec: true,
+                        reroll_rec: false,
+                        icon: "⚡",
+                        tag: "공격 속도 / 온힛",
+                        desc: "공격 속도가 100% 증가하고 모든 공격 시 쪼개기 피해와 추가 적중 피해가 적용됩니다.",
+                        gold: ""
+                    },
+                    {
+                        slot: 2,
                         tier: "S",
                         name: "거인의 용기",
-                        score: "94.2",
+                        score: "91.2",
                         pref: "선호도 매우 높음",
-                        rec: true,
+                        rec: false,
+                        reroll_rec: false,
                         icon: "🗿",
                         tag: "생존력",
                         desc: "적 챔피언을 이동 불가 상태로 만들면 최대 체력의 25%에 해당하는 보호막을 획득합니다.",
                         gold: ""
                     },
                     {
+                        slot: 3,
+                        tier: "C",
+                        name: "불굴의 의지",
+                        score: "62.4",
+                        pref: "선호도 보통",
+                        rec: false,
+                        reroll_rec: false,
+                        icon: "🛡️",
+                        tag: "방어력",
+                        desc: "강인함이 20% 증가하며 군중 제어 효과를 받을 때 이동 속도가 증가합니다.",
+                        gold: ""
+                    }
+                ]
+            },
+            reroll_needed: {
+                champion: "브라이어",
+                reroll_status: "RECOMMENDED",
+                reroll_title: "[🚨 전 슬롯 꽝: 1회 리롤 강력 권장]",
+                reroll_reason: "3개 슬롯 모두 D/C티어 함정입니다! 가장 마음에 안 드는 슬롯부터 리롤하세요! 🎲",
+                cards: [
+                    {
+                        slot: 1,
+                        tier: "D",
+                        name: "감쇠 광선",
+                        score: "50.5",
+                        pref: "선호도 보통",
+                        rec: false,
+                        reroll_rec: true,
+                        icon: "🛡️",
+                        tag: "보조",
+                        desc: "기본 공격 시 대상의 피해량과 크기를 15% 감소시킵니다.",
+                        gold: ""
+                    },
+                    {
+                        slot: 2,
+                        tier: "D",
+                        name: "치명적인 일격",
+                        score: "44.1",
+                        pref: "선호도 낮음",
+                        rec: false,
+                        reroll_rec: true,
+                        icon: "🏹",
+                        tag: "치명타",
+                        desc: "원거리 기본 공격의 치명타 확률이 증가합니다. (브라이어 무효)",
+                        gold: ""
+                    },
+                    {
+                        slot: 3,
+                        tier: "C",
+                        name: "바람걸음",
+                        score: "59.0",
+                        pref: "선호도 보통",
+                        rec: true,
+                        reroll_rec: true,
+                        icon: "💨",
+                        tag: "이동 속도",
+                        desc: "비전투 시 이동 속도가 약간 증가합니다.",
+                        gold: ""
+                    }
+                ]
+            },
+            tank: {
+                champion: "말파이트",
+                reroll_status: "HOLD",
+                reroll_title: "[1번 슬롯 최종 픽 확정]",
+                reroll_reason: "종결급 [S티어] 거인의 용기 확보 완료! 즉시 확정 추천 🔒",
+                cards: [
+                    {
+                        slot: 1,
+                        tier: "S",
+                        name: "거인의 용기",
+                        score: "94.2",
+                        pref: "선호도 매우 높음",
+                        rec: true,
+                        reroll_rec: false,
+                        icon: "🗿",
+                        tag: "생존력",
+                        desc: "적 챔피언을 이동 불가 상태로 만들면 최대 체력의 25%에 해당하는 보호막을 획득합니다.",
+                        gold: ""
+                    },
+                    {
+                        slot: 2,
                         tier: "A",
                         name: "강철의 심장 강화",
                         score: "85.0",
                         pref: "선호도 높음",
                         rec: false,
+                        reroll_rec: false,
                         icon: "❤️",
                         tag: "체력",
                         desc: "강철의 심장 충전 피해량이 2배로 증가하며 영구 체력 획득량이 100% 증가합니다.",
                         gold: ""
                     },
                     {
+                        slot: 3,
                         tier: "D",
                         name: "치명적인 일격",
                         score: "44.1",
                         pref: "선호도 낮음",
                         rec: false,
+                        reroll_rec: true,
                         icon: "🏹",
                         tag: "치명타",
                         desc: "원거리 기본 공격의 치명타 확률이 증가합니다.",
@@ -383,35 +638,44 @@
             },
             adc: {
                 champion: "이즈리얼",
+                reroll_status: "HOLD",
+                reroll_title: "[2번 슬롯 즉시 확정]",
+                reroll_reason: "종결 [S티어] 초월 의식 96.5점 확보! 리롤 아끼기 🔒",
                 cards: [
                     {
+                        slot: 1,
                         tier: "A",
                         name: "되풀이",
                         score: "86.4",
                         pref: "선호도 높음",
                         rec: false,
+                        reroll_rec: false,
                         icon: "⚡",
                         tag: "스킬 가속",
                         desc: "스킬 가속 60을 얻습니다. 스킬 사용 시 기본 공격 사거리가 증가합니다.",
                         gold: ""
                     },
                     {
+                        slot: 2,
                         tier: "S",
                         name: "초월 의식",
                         score: "96.5",
                         pref: "선호도 매우 높음",
                         rec: true,
+                        reroll_rec: false,
                         icon: "🔮",
                         tag: "처치 관여",
                         desc: "처치 관여 시 적 챔피언이 정수를 남깁니다. 정수 습득 시 모든 기본 스킬 쿨다운이 즉시 초기화됩니다.",
                         gold: ""
                     },
                     {
+                        slot: 3,
                         tier: "C",
                         name: "불굴의 방패",
                         score: "61.2",
                         pref: "선호도 보통",
                         rec: false,
+                        reroll_rec: true,
                         icon: "🛡️",
                         tag: "방어력",
                         desc: "체력이 30% 이하로 떨어지면 4초간 받는 피해량이 20% 감소합니다.",
@@ -421,20 +685,57 @@
             }
         };
 
-        function loadPreset(key) {
-            document.querySelectorAll(".btn-preset").forEach(btn => btn.classList.remove("active"));
-            event.target.classList.add("active");
+        function updateRerollBar(status, title, reason) {
+            const bar = document.getElementById("rerollGuideBar");
+            const icon = document.getElementById("rerollIcon");
+            const titleEl = document.getElementById("rerollTitle");
+            const reasonEl = document.getElementById("rerollReason");
+            const badgeEl = document.getElementById("rerollCountBadge");
+            const btnEl = document.getElementById("btnExecuteReroll");
 
-            const data = PRESETS[key];
+            bar.className = `reroll-guide-bar reroll-${status}`;
+            titleEl.innerText = title;
+            reasonEl.innerText = reason;
+            badgeEl.innerText = `주사위(리롤): ${currentRerolls} / 1 남음`;
+
+            if (currentRerolls <= 0) {
+                bar.className = "reroll-guide-bar reroll-EXHAUSTED";
+                icon.innerText = "🔒";
+                titleEl.innerText = "[리롤 기회 소진]";
+                btnEl.style.opacity = "0.4";
+                btnEl.style.pointerEvents = "none";
+                btnEl.innerText = "🚫 리롤 소진됨";
+            } else {
+                btnEl.style.opacity = "1";
+                btnEl.style.pointerEvents = "auto";
+                btnEl.innerText = "🎲 전체 리롤";
+                icon.innerText = status === "RECOMMENDED" || status === "SLOT_REROLL" ? "🚨 🎲" : "🔒";
+            }
+        }
+
+        function renderCards() {
+            const data = PRESETS[currentActiveKey];
+            updateRerollBar(data.reroll_status, data.reroll_title, data.reroll_reason);
+
             const container = document.getElementById("cardsContainer");
             container.innerHTML = "";
 
-            data.cards.forEach(c => {
+            data.cards.forEach((c, idx) => {
                 const col = document.createElement("div");
                 col.className = "augment-column";
 
                 const recClass = c.rec ? " recommended" : "";
-                const recStar = c.rec ? `<span class="badge-rec-star">★ 1순위 추천</span>` : "";
+                
+                let actionBadge = "";
+                if (c.rec) {
+                    actionBadge = `<span class="badge-rec-star">★ 1순위 추천</span>`;
+                } else if (c.reroll_rec) {
+                    actionBadge = `<span class="badge-slot-reroll">🎲 단독 리롤 권장</span>`;
+                } else {
+                    actionBadge = `<span class="badge-slot-keep">🔒 킵 (보존)</span>`;
+                }
+
+                const rerollBtnDisabled = currentRerolls <= 0 ? " disabled" : "";
 
                 col.innerHTML = `
                     <!-- 1. 상단 오버레이 배너 -->
@@ -442,8 +743,11 @@
                         <div class="tier-badge tier-${c.tier}">${c.tier}</div>
                         <div class="banner-info">
                             <div class="banner-title-row">
-                                <span class="banner-name">${c.name}</span>
-                                ${recStar}
+                                <span style="display: flex; align-items: center;">
+                                    <span class="slot-index-badge">${idx + 1}번</span>
+                                    <span class="banner-name">${c.name}</span>
+                                </span>
+                                ${actionBadge}
                             </div>
                             <div class="banner-meta">
                                 <span>증강 점수 <span class="score-val">${c.score}</span></span>
@@ -462,9 +766,73 @@
                         <div class="card-desc">${c.desc}</div>
                         ${c.gold ? `<div class="card-gold">${c.gold}</div>` : ""}
                     </div>
+
+                    <!-- 3. 개별 카드 단독 리롤 버튼 -->
+                    <button class="btn-slot-reroll${rerollBtnDisabled}" onclick="rerollSingleSlot(${idx})">
+                        🎲 ${idx + 1}번 슬롯만 단독 리롤
+                    </button>
                 `;
                 container.appendChild(col);
             });
+        }
+
+        function loadPreset(key) {
+            currentActiveKey = key;
+            document.querySelectorAll(".btn-preset").forEach(btn => {
+                if (btn.id !== "btnExecuteReroll") btn.classList.remove("active");
+            });
+            if (event && event.target && event.target.id !== "btnExecuteReroll") {
+                event.target.classList.add("active");
+            }
+            renderCards();
+        }
+
+        // 🎲 개별 슬롯 단독 리롤 실행 함수
+        function rerollSingleSlot(slotIdx) {
+            if (currentRerolls <= 0) {
+                alert("남은 리롤 기회가 없습니다! (0/1)");
+                return;
+            }
+
+            currentRerolls = 0;
+            const data = PRESETS[currentActiveKey];
+
+            // 해당 슬롯만 단독으로 OP티어 양손잡이로 교체
+            data.cards[slotIdx] = {
+                slot: slotIdx + 1,
+                tier: "OP",
+                name: "양손잡이 (리롤 대박!)",
+                score: "98.5",
+                pref: "선호도 압도적 최상",
+                rec: true,
+                reroll_rec: false,
+                icon: "⚡",
+                tag: "공격 속도 / 온힛",
+                desc: "공격 속도가 100% 증가하고 모든 공격 시 쪼개기 피해와 추가 적중 피해가 적용됩니다.",
+                gold: ""
+            };
+
+            // 다른 슬롯들의 rec 해제
+            data.cards.forEach((c, i) => {
+                if (i !== slotIdx) {
+                    c.rec = false;
+                    c.reroll_rec = false;
+                }
+            });
+
+            data.reroll_status = "EXHAUSTED";
+            data.reroll_title = `[${slotIdx + 1}번 슬롯 단독 리롤 대성공!]`;
+            data.reroll_reason = `다른 슬롯은 유지되고, ${slotIdx + 1}번 슬롯에 [OP티어 양손잡이] 등장! 즉시 확정하세요!`;
+
+            renderCards();
+        }
+
+        // 전체 리롤 시뮬레이션
+        function simulateRerollClick() {
+            if (currentRerolls <= 0) return;
+            currentRerolls = 0;
+            loadPreset("op_tier");
+            updateRerollBar("EXHAUSTED", "[전체 리롤 성공! OP티어 등장]", "1회 리롤 소모 완료 (0/1). OP티어 양손잡이를 즉시 선택하세요!");
         }
 
         // 초기 로딩 (Image 6)
