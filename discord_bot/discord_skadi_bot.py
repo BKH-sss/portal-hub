@@ -189,40 +189,44 @@ if not google_calendar_engine:
 # 🎴 199종 롤 칼바람 증강 & 코치 엔진 로드
 try:
     from modules.lol_ai_coach import AugmentEngine, AramMayhemCoach, RiftChallengerCoach
-except ImportError:
+except Exception:
     try:
         from lol_ai_coach import AugmentEngine, AramMayhemCoach, RiftChallengerCoach
-    except ImportError:
+    except Exception as _e:
         AugmentEngine = None
-        logger.warning("lol_ai_coach 모듈을 찾을 수 없습니다.")
+        AramMayhemCoach = None
+        RiftChallengerCoach = None
+        logger.warning(f"lol_ai_coach 모듈 로드 건너뜀: {_e}")
 
 # 📊 3개년 자산성장성 & 부채비율 120% 이하 주식 퀀트 엔진 로드
 try:
     import stock_engine
-except ImportError:
+except Exception:
     try:
         from modules import stock_engine
-    except ImportError:
+    except Exception as _e:
         stock_engine = None
+        logger.warning(f"stock_engine 모듈 로드 건너뜀: {_e}")
+
 # 🎨 S급 AI 화가(Painter) 렌더링 엔진 로드
 try:
     from modules.sd_painter_engine import painter_engine, SkadiPainterEngine
-except ImportError:
+except Exception:
     try:
         from sd_painter_engine import painter_engine, SkadiPainterEngine
-    except ImportError:
+    except Exception as _e:
         painter_engine = None
-        logger.warning("sd_painter_engine 모듈을 찾을 수 없습니다.")
+        logger.warning(f"sd_painter_engine 모듈 로드 건너뜀: {_e}")
 
 # 💌 1:1 개인챗(DM) 알잘딱깔센 자율 케어 & 리마인더 엔진 로드
 try:
     from discord_bot.skadi_personal_care import skadi_care_engine
-except ImportError:
+except Exception:
     try:
         from skadi_personal_care import skadi_care_engine
-    except ImportError:
+    except Exception as _e:
         skadi_care_engine = None
-        logger.warning("skadi_personal_care 모듈을 찾을 수 없습니다.")
+        logger.warning(f"skadi_personal_care 모듈 로드 건너뜀: {_e}")
 
 
 # ------------------------------------------------------------

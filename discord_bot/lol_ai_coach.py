@@ -14,10 +14,21 @@ lol_ai_coach.py
 """
 
 import os
+import io
+import base64
 import json
 import time
+import logging
 from pathlib import Path
 from typing import Dict, List, Any, Optional
+
+try:
+    from PIL import Image, ImageGrab
+except ImportError:
+    Image = None
+    ImageGrab = None
+
+logger = logging.getLogger("LoLAICoach")
 
 try:
     from fastapi import APIRouter, HTTPException
@@ -26,10 +37,13 @@ try:
 except ImportError:
     HAS_FASTAPI = False
     class DummyRouter:
+        def __init__(self, *args, **kwargs): pass
         def get(self, *args, **kwargs): return lambda f: f
         def post(self, *args, **kwargs): return lambda f: f
         def put(self, *args, **kwargs): return lambda f: f
         def delete(self, *args, **kwargs): return lambda f: f
+        def patch(self, *args, **kwargs): return lambda f: f
+        def include_router(self, *args, **kwargs): pass
     APIRouter = DummyRouter
     class HTTPException(Exception):
         def __init__(self, status_code: int, detail: str = ""):
@@ -45,7 +59,7 @@ except ImportError:
     def Field(default=None, **kwargs):
         return default
 
-router = APIRouter(prefix="/api/lol/coach", tags=["LoL AI Coach & ARAM Mayhem"]) if HAS_FASTAPI else None
+router = APIRouter(prefix="/api/lol/coach", tags=["LoL AI Coach & ARAM Mayhem"])
 
 MODULE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = MODULE_DIR.parent
@@ -125,8 +139,11 @@ class AugmentEngine:
         if not q: return None
         if q in cls._name_map:
             return cls._name_map[q]
+        q_clean = q.replace(" ", "")
         for item in cls._augments_list:
-            if q in item.get("name_ko", "").lower() or q in item.get("name_en", "").lower():
+            ko = item.get("name_ko", "").lower()
+            en = item.get("name_en", "").lower()
+            if q in ko or q in en or q_clean in ko.replace(" ", "") or q_clean in en.replace(" ", ""):
                 return item
         return None
 
@@ -143,9 +160,7 @@ class AugmentEngine:
                 q in item.get("description", "").lower() or 
                 q in item.get("rarity", "").lower()):
                 results.append(item)
-                if len(results) >= limit:
-                    break
-        return results
+        return results[:limit]
 
     @classmethod
     def recommend_best(cls, choices: List[str], champion_name: str = "", role: str = "auto") -> Dict[str, Any]:
@@ -174,7 +189,11 @@ class AugmentEngine:
             }
         target_role = role.lower()
         if target_role == "auto" or not target_role:
-            target_role = cls.CHAMPION_ROLES.get(champion_name.strip(), "adc")
+            c_guide = ChampionGuideEngine.get_champion(champion_name.strip()) if champion_name else None
+            if c_guide and c_guide.get("role"):
+                target_role = c_guide["role"]
+            else:
+                target_role = cls.CHAMPION_ROLES.get(champion_name.strip(), "adc")
 
         scored = []
         for aug in matched:
@@ -222,10 +241,19 @@ class AugmentEngine:
 
         desc = aug.get("description", "").lower()
         name = aug.get("name_ko", "").lower()
+        champ_clean = champion.strip().lower()
         target_kws = cls.ROLE_KEYWORDS.get(role, [])
 
         synergy_hits = sum(1 for kw in target_kws if kw in desc or kw in name)
         score += synergy_hits * 8.0
+
+        # 브라이어 / 마이 / 잭스 / 볼리베어 / 신짜오 / 워윅 등 평타 챔피언 특별 0티어 시너지 판정
+        on_hit_fighters = ["브라이어", "마스터 이", "잭스", "볼리베어", "신 짜오", "워윅", "이렐리아", "야스오", "요네"]
+        if any(f in champ_clean for f in on_hit_fighters):
+            if "신비한 주먹" in name or ("기본 공격" in desc and "재사용 대기시간" in desc):
+                score += 55.0  # W 공속 시너지로 영구 무한 Q 스턴 + W 피흡 0티어 종결
+            elif "양손잡이" in name or "선혈포식" in name or "끝없는 학살" in name:
+                score += 35.0
 
         rank = aug.get("rank", 999)
         if rank <= 20: score += 15.0
@@ -236,8 +264,16 @@ class AugmentEngine:
     def _build_voice_reason(cls, aug: Dict[str, Any], champion: str, role: str) -> str:
         name = aug.get("name_ko", "")
         desc = aug.get("description", "")
+        champ_clean = champion.strip()
+
+        if "신비한 주먹" in name or ("기본 공격" in desc and "재사용 대기시간" in desc):
+            return f"W 폭발적인 공속으로 평타 칠 때마다 Q 스턴이랑 W 피흡 쿨이 1.25초씩 깎여서 영구 무한 스턴+무한 피흡 무쌍이 가능해! 🩸"
+        if "양손잡이" in name:
+            return f"공속 20% 증가에 평타 칠 때마다 40% 온힛 화살이 나가서 피흡과 평타 DPS가 2배로 폭발해!"
+        if "차원 이동" in name or "차원이동" in name:
+            return "소환사 주문으로 적진이나 아군을 차원 이동시켜 생존 및 어그로 핑퐁에 좋아."
         if "스킬 가속" in desc or "되풀이" in name or "축소 엔진" in name:
-            return f"스킬 쿨타임이 급감해서 {champion or '마스터의'} 스킬 난사를 무한으로 돌릴 수 있어."
+            return f"스킬 쿨타임이 급감해서 {champ_clean or '마스터의'} 스킬 난사를 무한으로 돌릴 수 있어."
         if "치명타" in desc or "보석 건틀릿" in name:
             return "스킬에 치명타가 터져서 폭발적인 폭딜을 꽂아 넣을 수 있어."
         if "거인" in name or "체력" in desc or "강철" in name:
@@ -253,9 +289,43 @@ class AugmentEngine:
 
 
 class AramMayhemCoach:
-    """칼바람 골드, 힐팩 리젠, 눈덩이 실시간 보이스 오더 엔진"""
+    """칼바람 골드, 힐팩 리젠, 눈덩이, 3/7/11/15 레벨 증강 선택 실시간 보이스 오더 엔진"""
     _last_relic_time: float = 0.0
     _relic_warning_sent: bool = True
+    AUGMENT_LEVELS = [3, 7, 11, 15]
+
+    @classmethod
+    def check_level_augment_timing(cls, level: int, champion_name: str = "") -> Dict[str, Any]:
+        """
+        3 / 7 / 11 / 15 레벨 도달 시 해당 레벨 증강 선택 타이밍 감지 및 1티어 추천 생성
+        """
+        if level not in cls.AUGMENT_LEVELS:
+            return {"is_augment_level": False, "level": level}
+            
+        champ_guide = ChampionGuideEngine.get_champion(champion_name) if champion_name else None
+        top_augments = champ_guide.get("augments", ["되풀이", "유레카", "거인"]) if champ_guide else ["되풀이", "유레카", "보석 건틀릿"]
+        champ_type = champ_guide.get("type", "딜러/올라운더") if champ_guide else "챔피언"
+
+        stage_names = {
+            3: "1차 증강 (Lv.3)",
+            7: "2차 증강 (Lv.7)",
+            11: "3차 증강 (Lv.11)",
+            15: "4차 최종 증강 (Lv.15)"
+        }
+        stage_name = stage_names.get(level, f"Lv.{level} 증강")
+        
+        voice_script = f"마스터! 레벨 {level} 달성! 지금 [{stage_name}] 선택할 시간이야! {champion_name}한테는 {', '.join(top_augments[:2])} 같은 증강이 1티어니까 선택지에 뜨면 무조건 집어! 🎴🩸"
+        
+        return {
+            "is_augment_level": True,
+            "level": level,
+            "stage_name": stage_name,
+            "champion": champion_name,
+            "champion_type": champ_type,
+            "top_augments": top_augments,
+            "voice_script": voice_script,
+            "action": "open_augment_modal"
+        }
 
     @classmethod
     def check_gold_timing(cls, current_gold: int) -> Optional[str]:
@@ -575,15 +645,21 @@ class AramAugmentVisionEngine:
 
     @classmethod
     async def detect_augments_from_screen(cls, champion_name: str = "") -> Dict[str, Any]:
+        """
+        현재 PC 화면(롤 인게임 아수라장 증강 선택 화면)을 캡처하고,
+        화면에 떠 있는 3개의 증강 카드를 비전/OCR로 인식하여 실시간 1티어 추천 결과를 반환합니다.
+        """
         AugmentEngine.load_data()
         detected_names = []
         vision_method = "ocr"
 
+        # 1. 화면 캡처 수행
         try:
             screenshot, b64_img = cls.capture_screen_base64(resize_width=1280)
         except Exception as e:
             return {"status": "error", "message": f"화면 캡처 실패: {e}"}
 
+        # 2. Gemini 2.5 Flash Vision API 호출
         api_key = os.getenv("GEMINI_API_KEY")
         if api_key:
             try:
@@ -616,6 +692,7 @@ class AramAugmentVisionEngine:
             except Exception as ex:
                 logger.warning(f"Gemini Vision 증강 감지 실패: {ex}")
 
+        # 3. EasyOCR 로컬 처리 시도 (Gemini Vision 미사용 또는 부족 시)
         if len(detected_names) < 3:
             try:
                 import easyocr
@@ -637,10 +714,12 @@ class AramAugmentVisionEngine:
             except Exception as e:
                 logger.debug(f"EasyOCR 감지 패스: {e}")
 
+        # 4. 감지된 증강이 없거나 데모 시뮬레이션용 기본값 fallback
         if not detected_names:
             detected_names = ["신비한 주먹", "양손잡이", "차원 이동"]
             vision_method = "auto-synergy-fallback"
 
+        # 5. 3개 증강체에 대한 브라이어 / 챔피언 최고 효율 분석
         eval_result = AugmentEngine.recommend_best(detected_names, champion_name=champion_name)
         best_aug = eval_result.get("recommended", {})
         best_name = best_aug.get("name_ko", "추천 증강")

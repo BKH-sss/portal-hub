@@ -24,10 +24,13 @@ try:
 except ImportError:
     HAS_FASTAPI = False
     class DummyRouter:
+        def __init__(self, *args, **kwargs): pass
         def get(self, *args, **kwargs): return lambda f: f
         def post(self, *args, **kwargs): return lambda f: f
         def put(self, *args, **kwargs): return lambda f: f
         def delete(self, *args, **kwargs): return lambda f: f
+        def patch(self, *args, **kwargs): return lambda f: f
+        def include_router(self, *args, **kwargs): pass
     APIRouter = DummyRouter
     class HTTPException(Exception):
         def __init__(self, status_code: int, detail: str = ""):
@@ -46,7 +49,7 @@ except ImportError:
 # =============================================================================
 # 🚀 1. FastAPI APIRouter 및 DB 경로 설정
 # =============================================================================
-router = APIRouter(prefix="/api/schedule", tags=["Schedule & Tasks"]) if HAS_FASTAPI else None
+router = APIRouter(prefix="/api/schedule", tags=["Schedule & Tasks"])
 
 # 데이터베이스 저장 디렉토리 및 파일 경로
 MODULE_DIR = Path(__file__).resolve().parent
