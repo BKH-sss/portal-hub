@@ -84,25 +84,79 @@ except ImportError:
     memory_engine = None
     logger.warning("skadi_memory_engine 모듈을 찾을 수 없어 기본 대화 모드로 동작합니다.")
 
-# 📅 캘린더 & 할 일 매니저 엔진 로드
-try:
-    from modules.schedule_manager import ScheduleManager, ScheduleCreateRequest
-except ImportError:
+# 📅 캘린더 & 할 일 매니저 엔진 로드 (4단계 철통 안전 로드)
+ScheduleManager = None
+ScheduleCreateRequest = None
+for _imp in [
+    lambda: __import__("modules.schedule_manager", fromlist=["ScheduleManager", "ScheduleCreateRequest"]),
+    lambda: __import__("discord_bot.schedule_manager", fromlist=["ScheduleManager", "ScheduleCreateRequest"]),
+    lambda: __import__("schedule_manager", fromlist=["ScheduleManager", "ScheduleCreateRequest"]),
+]:
     try:
-        from schedule_manager import ScheduleManager, ScheduleCreateRequest
-    except ImportError:
-        ScheduleManager = None
-        logger.warning("schedule_manager 모듈을 찾을 수 없습니다.")
+        _mod = _imp()
+        ScheduleManager = getattr(_mod, "ScheduleManager", None)
+        ScheduleCreateRequest = getattr(_mod, "ScheduleCreateRequest", None)
+        if ScheduleManager:
+            break
+    except Exception:
+        continue
 
-# 📅 구글 캘린더 연동 및 10분 전 사전 알림 엔진 로드
-try:
-    from modules.google_calendar_engine import google_calendar_engine, GoogleCalendarEngine
-except ImportError:
+if ScheduleManager is None:
     try:
-        from google_calendar_engine import google_calendar_engine, GoogleCalendarEngine
-    except ImportError:
-        google_calendar_engine = None
-        logger.warning("google_calendar_engine 모듈을 찾을 수 없습니다.")
+        import importlib.util
+        for _p in [CURRENT_DIR / "schedule_manager.py", PROJECT_ROOT / "modules" / "schedule_manager.py"]:
+            if _p.exists():
+                _spec = importlib.util.spec_from_file_location("direct_schedule_manager", str(_p))
+                if _spec and _spec.loader:
+                    _mod = importlib.util.module_from_spec(_spec)
+                    _spec.loader.exec_module(_mod)
+                    ScheduleManager = getattr(_mod, "ScheduleManager", None)
+                    ScheduleCreateRequest = getattr(_mod, "ScheduleCreateRequest", None)
+                    if ScheduleManager:
+                        logger.info(f"📅 ScheduleManager 직접 파일 로드 성공: {_p}")
+                        break
+    except Exception as _e:
+        logger.error(f"ScheduleManager 직접 파일 로드 실패: {_e}")
+
+if not ScheduleManager:
+    logger.warning("schedule_manager 모듈을 찾을 수 없습니다.")
+
+# 📅 구글 캘린더 연동 및 10분 전 사전 알림 엔진 로드 (4단계 철통 안전 로드)
+google_calendar_engine = None
+GoogleCalendarEngine = None
+for _imp in [
+    lambda: __import__("modules.google_calendar_engine", fromlist=["google_calendar_engine", "GoogleCalendarEngine"]),
+    lambda: __import__("discord_bot.google_calendar_engine", fromlist=["google_calendar_engine", "GoogleCalendarEngine"]),
+    lambda: __import__("google_calendar_engine", fromlist=["google_calendar_engine", "GoogleCalendarEngine"]),
+]:
+    try:
+        _mod = _imp()
+        google_calendar_engine = getattr(_mod, "google_calendar_engine", None)
+        GoogleCalendarEngine = getattr(_mod, "GoogleCalendarEngine", None)
+        if google_calendar_engine:
+            break
+    except Exception:
+        continue
+
+if google_calendar_engine is None:
+    try:
+        import importlib.util
+        for _p in [CURRENT_DIR / "google_calendar_engine.py", PROJECT_ROOT / "modules" / "google_calendar_engine.py"]:
+            if _p.exists():
+                _spec = importlib.util.spec_from_file_location("direct_google_calendar_engine", str(_p))
+                if _spec and _spec.loader:
+                    _mod = importlib.util.module_from_spec(_spec)
+                    _spec.loader.exec_module(_mod)
+                    google_calendar_engine = getattr(_mod, "google_calendar_engine", None)
+                    GoogleCalendarEngine = getattr(_mod, "GoogleCalendarEngine", None)
+                    if google_calendar_engine:
+                        logger.info(f"📅 google_calendar_engine 직접 파일 로드 성공: {_p}")
+                        break
+    except Exception as _e:
+        logger.error(f"google_calendar_engine 직접 파일 로드 실패: {_e}")
+
+if not google_calendar_engine:
+    logger.warning("google_calendar_engine 모듈을 찾을 수 없습니다.")
 
 # 🎴 199종 롤 칼바람 증강 & 코치 엔진 로드
 try:
@@ -1261,6 +1315,8 @@ async def on_message(message: discord.Message):
                     pass
             ok, resp_msg, data = google_calendar_engine.format_schedule_query_response(user_query, ScheduleManager)
             if ok:
+                if is_dm:
+                    resp_msg = f"🛡️ **[마스터 1:1 개인 DM 보안 인증 완료]** 🔒\n{resp_msg}"
                 await message.reply(resp_msg)
                 return
 
@@ -2048,23 +2104,54 @@ async def cmd_memories(ctx: commands.Context):
 # ------------------------------------------------------------
 @bot.command(name="일정", aliases=["일정목록", "스케줄", "schedule"])
 async def cmd_schedule_list(ctx: commands.Context, *, query: Optional[str] = None):
-    """오늘, 내일 또는 특정 시간(예: !일정 13시 or !일정 내일 or !일정 2026-09-08) 일정 조회"""
-    if not ScheduleManager:
-        await ctx.send("미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
-        return
+    """오늘, 내일 또는 특정 시간(예: !일정 13시 or !일정 내일 or !일정 오늘) 일정 조회"""
+    is_dm = isinstance(ctx.channel, discord.DMChannel)
+
+    # 🛡️ 1. 개인 DM 보안 검증 (마스터 보안 인증)
+    if is_dm and skadi_care_engine:
+        master_id = skadi_care_engine.get_master_id()
+        if master_id is None:
+            skadi_care_engine.register_master(ctx.author.id, ctx.author.name)
+            logger.info(f"👑 개인 DM 발신자({ctx.author.id}, {ctx.author.name})를 마스터로 보안 등록했습니다.")
+        elif master_id != ctx.author.id:
+            await ctx.send("🔒 **[보안 접근 제한]** 마스터의 개인 구글 캘린더 및 일정 데이터는 비공개 보안 항목이야. 마스터 본인 계정으로만 확인할 수 있어.")
+            return
 
     try:
         await ctx.message.add_reaction("📅")
     except Exception:
         pass
 
+    # 최신 구글 캘린더 iCal 동기화 보장
+    ical_url = config_data.get("google_calendar_ical_url") or os.environ.get("GOOGLE_CALENDAR_ICAL_URL")
+    if ical_url and ScheduleManager and hasattr(ScheduleManager, "sync_from_google_calendar_ical"):
+        try:
+            ScheduleManager.sync_from_google_calendar_ical(ical_url)
+        except Exception:
+            pass
+
+    q_raw = (query or "").strip()
+    if not q_raw or q_raw in ["오늘", "today", "오늘 일정", "스케줄", "일정", "목록"]:
+        q_text = "오늘 일정 알려줘"
+    elif q_raw in ["내일", "tomorrow", "내일 일정"]:
+        q_text = "내일 일정 알려줘"
+    elif "일정" not in q_raw and "스케줄" not in q_raw:
+        q_text = f"{q_raw} 일정 알려줘"
+    else:
+        q_text = q_raw
+
     if google_calendar_engine:
-        q_text = query or "오늘 일정 알려줘"
         ok, msg, data = google_calendar_engine.format_schedule_query_response(q_text, ScheduleManager)
+        if is_dm:
+            msg = f"🛡️ **[마스터 1:1 개인 DM 보안 인증 완료]** 🔒\n{msg}"
         await ctx.send(msg)
         return
 
-    query_date = query or get_now_kst().strftime("%Y-%m-%d")
+    if not ScheduleManager:
+        await ctx.send("미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
+        return
+
+    query_date = get_now_kst().strftime("%Y-%m-%d")
     items = ScheduleManager.get_items(target_date=query_date, include_completed=True)
     events = [it for it in items if not it.get("is_todo")]
     todos = [it for it in items if it.get("is_todo")]
@@ -2095,6 +2182,18 @@ async def cmd_schedule_list(ctx: commands.Context, *, query: Optional[str] = Non
 
     embed.set_footer(text="추가: !일정추가 오늘 13:00 회의 | 삭제: !일정삭제 ID")
     await ctx.send(embed=embed)
+
+
+@bot.command(name="오늘", aliases=["today", "오늘일정"])
+async def cmd_today_alias(ctx: commands.Context, *, sub_query: Optional[str] = None):
+    """오늘 일정 즉시 조회 (!오늘 또는 !오늘 일정)"""
+    await cmd_schedule_list(ctx, query="오늘")
+
+
+@bot.command(name="내일", aliases=["tomorrow", "내일일정"])
+async def cmd_tomorrow_alias(ctx: commands.Context, *, sub_query: Optional[str] = None):
+    """내일 일정 즉시 조회 (!내일 또는 !내일 일정)"""
+    await cmd_schedule_list(ctx, query="내일")
 
 
 @bot.command(name="일정추가", aliases=["add_schedule", "스케줄추가"])

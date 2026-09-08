@@ -374,6 +374,22 @@ class GoogleCalendarEngine:
         # -------------------------------------------------------------
         # Case C: 날짜 전체 일정을 물어본 경우 ("오늘 일정 알려줘", "내일 일정 확인")
         # -------------------------------------------------------------
+        # 진행 중인 주요 태스크(Todo)도 함께 조회하여 모닝 브리핑과 동일한 알잘딱깔센 지원
+        todos = []
+        if schedule_manager_ref and hasattr(schedule_manager_ref, "get_items"):
+            try:
+                todos = schedule_manager_ref.get_items(only_todos=True, include_completed=False)
+            except Exception:
+                todos = []
+
+        todo_lines = []
+        if todos:
+            todo_lines.append("\n**📋 진행 중인 주요 태스크:**")
+            for td in todos[:4]:
+                p_mark = "🔥" if td.get("priority", 2) == 3 else "⚡"
+                todo_lines.append(f"• {p_mark} {td['title']}")
+        todo_section = "\n".join(todo_lines)
+
         if events:
             lines = []
             for ev in events:
@@ -383,17 +399,21 @@ class GoogleCalendarEngine:
 
             msg = (
                 f"📅 **마스터, {date_display}({target_date_str}) 구글 캘린더 일정 브리핑이야:** 🌊\n\n"
-                + "\n".join(lines) + "\n\n"
+                + "\n".join(lines)
+                + (f"\n{todo_section}" if todo_section else "")
+                + "\n\n"
                 f"💡 *모든 일정은 시작 **10분 전**에 마스터의 개인 DM으로 알잘딱깔센하게 미리 안내해줄게!* ✨"
             )
-            return True, msg, {"title": f"📅 구글 캘린더 • {date_display} 일정 목록", "events": events}
+            return True, msg, {"title": f"📅 구글 캘린더 • {date_display} 일정 목록", "events": events, "todos": todos}
         else:
             msg = (
                 f"📅 **마스터, {date_display}({target_date_str})에는 등록된 구글 캘린더 일정이 하나도 없어.** ✨\n"
-                f"일정 걱정 없이 여유롭고 자유로운 하루를 보내도 좋아.\n\n"
+                f"일정 걱정 없이 여유롭고 자유로운 하루를 보내도 좋아."
+                + (f"\n{todo_section}" if todo_section else "")
+                + "\n\n"
                 f"💡 *새로운 일정이 생기면 `\"오늘 13시에 회의 일정 추가해줘\"`처럼 언제든 말해줘!*"
             )
-            return True, msg, {"title": f"📅 구글 캘린더 • {date_display} (비어있음)", "events": []}
+            return True, msg, {"title": f"📅 구글 캘린더 • {date_display} (비어있음)", "events": [], "todos": todos}
 
     # -------------------------------------------------------------------------
     # 6. 자연어 일정 추가 처리
