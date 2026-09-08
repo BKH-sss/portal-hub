@@ -53,6 +53,7 @@ STYLE_PRESETS = {
         "steps": 28,
         "cfg_scale": 6.5,
         "sampler": "Euler a",
+        "extra_neg": "photo, photorealistic, realism, 3d",
     },
     "anime_s_tier": {
         "name": "S급 애니메이션 / 게임 키비주얼 (애니마진/포니)",
@@ -61,6 +62,7 @@ STYLE_PRESETS = {
         "steps": 30,
         "cfg_scale": 7.0,
         "sampler": "DPM++ 2M Karras",
+        "extra_neg": "photorealistic, realism, 3d render",
     },
     "semi_realistic": {
         "name": "반실사 / AAA급 3D 시네마틱 (언리얼 5 질감)",
@@ -69,14 +71,16 @@ STYLE_PRESETS = {
         "steps": 32,
         "cfg_scale": 6.0,
         "sampler": "DPM++ SDE Karras",
+        "extra_neg": "flat color, 2d, anime, cartoon, sketch",
     },
     "photorealistic": {
         "name": "극실사 / 8K DSLR 사진 (포토리얼)",
-        "positive_prefix": "raw photo, (photorealistic:1.3), 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT4, realistic skin texture, detailed eyes, natural skin pores, ",
-        "positive_suffix": ", professional photography, 35mm photograph, masterpiece, sharp focus, cinematic atmosphere",
+        "positive_prefix": "raw photo, (photorealistic:1.35), 8k uhd, dslr, soft studio lighting, professional portrait, film grain, Fujifilm XT4, realistic skin texture, natural pores, detailed expressive eyes, ultra-fine details, ",
+        "positive_suffix": ", professional photography, 35mm photograph, masterpiece, sharp focus, cinematic depth of field, real human",
         "steps": 32,
         "cfg_scale": 6.5,
         "sampler": "DPM++ 2M Karras",
+        "extra_neg": "(anime, illustration, cartoon, drawing, painting, 3d, doll, plastic skin, render, cgi, sketch:1.3), porcelain skin, doll face",
     },
     "cyberpunk": {
         "name": "사이버펑크 / 네온 SF 스타일",
@@ -85,6 +89,7 @@ STYLE_PRESETS = {
         "steps": 28,
         "cfg_scale": 7.0,
         "sampler": "Euler a",
+        "extra_neg": "watercolor, traditional, lowres",
     }
 }
 
@@ -255,7 +260,13 @@ class SkadiPainterEngine:
         # 1. 한국어 스마트 번역 및 프롬프트 조립
         translated_prompt = self.translate_korean_prompt(raw_prompt.strip())
         final_prompt = f"{preset['positive_prefix']}{translated_prompt}{preset['positive_suffix']}"
-        final_neg = f"{S_TIER_NEGATIVE_PROMPT}, {negative_prompt.strip()}" if negative_prompt else S_TIER_NEGATIVE_PROMPT
+        
+        neg_parts = [S_TIER_NEGATIVE_PROMPT]
+        if preset.get("extra_neg"):
+            neg_parts.append(preset["extra_neg"])
+        if negative_prompt and negative_prompt.strip():
+            neg_parts.append(negative_prompt.strip())
+        final_neg = ", ".join(neg_parts)
 
         actual_steps = steps or preset["steps"]
         actual_cfg = cfg_scale or preset["cfg_scale"]
@@ -294,6 +305,21 @@ class SkadiPainterEngine:
 
         # 2. ADetailer (얼굴 및 손 2차 정밀 복원기)
         if enable_adetailer:
+            if style == "photorealistic":
+                ad_face_prompt = "raw photo, (photorealistic:1.3), 8k uhd, dslr, ultra-detailed face, natural skin texture, realistic pores, detailed expressive eyes, real human face"
+                ad_face_neg = "(anime, cartoon, 3d, doll, plastic skin, render, drawing:1.3), bad eyes, blurry, ugly face"
+                ad_face_denoise = 0.42 if init_image else 0.35
+                ad_hand_prompt = "raw photo, photorealistic, realistic skin, ultra-detailed hands, five fingers"
+                ad_hand_neg = "bad hands, extra fingers, missing fingers, cartoon, 3d, doll"
+                ad_hand_denoise = 0.40 if init_image else 0.35
+            else:
+                ad_face_prompt = "masterpiece, best quality, ultra-detailed face, expressive eyes, perfect anatomy"
+                ad_face_neg = "ugly, deformed face, bad eyes, blurry"
+                ad_face_denoise = 0.35
+                ad_hand_prompt = "masterpiece, best quality, ultra-detailed hands, five fingers"
+                ad_hand_neg = "bad hands, extra fingers, missing fingers"
+                ad_hand_denoise = 0.35
+
             payload["alwayson_scripts"] = {
                 "ADetailer": {
                     "args": [
@@ -301,19 +327,19 @@ class SkadiPainterEngine:
                         False,
                         {
                             "ad_model": "face_yolov8n.pt",
-                            "ad_prompt": "masterpiece, ultra-detailed face, expressive eyes, perfect anatomy",
-                            "ad_negative_prompt": "ugly, deformed face, bad eyes",
+                            "ad_prompt": ad_face_prompt,
+                            "ad_negative_prompt": ad_face_neg,
                             "ad_confidence": 0.3,
                             "ad_mask_blur": 4,
-                            "ad_denoising_strength": 0.35,
+                            "ad_denoising_strength": ad_face_denoise,
                         },
                         {
                             "ad_model": "hand_yolov8n.pt",
-                            "ad_prompt": "masterpiece, ultra-detailed hands, five fingers",
-                            "ad_negative_prompt": "bad hands, extra fingers, missing fingers",
+                            "ad_prompt": ad_hand_prompt,
+                            "ad_negative_prompt": ad_hand_neg,
                             "ad_confidence": 0.3,
                             "ad_mask_blur": 4,
-                            "ad_denoising_strength": 0.35,
+                            "ad_denoising_strength": ad_hand_denoise,
                         }
                     ]
                 }

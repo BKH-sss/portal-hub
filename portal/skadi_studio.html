@@ -1147,12 +1147,20 @@
             const num = parseFloat(val);
             document.getElementById('denoise-val-text').innerText = num.toFixed(2);
             const desc = document.getElementById('denoise-desc-text');
-            if (num <= 0.35) {
-                desc.innerText = `✨ ${num.toFixed(2)}: 원본 형태와 얼굴을 거의 그대로 유지 (미세 리터칭)`;
-            } else if (num <= 0.70) {
-                desc.innerText = `✨ ${num.toFixed(2)}: 원본 구도를 유지하며 자연스러운 AI 화풍 변환 (추천)`;
+            if (currentStyle === 'photorealistic' && selectedImageBase64) {
+                if (num < 0.65) {
+                    desc.innerText = `⚠️ ${num.toFixed(2)}: 2D 애니 원본 만화선/비율이 남아 인형처럼 합성될 수 있습니다. (0.75 추천)`;
+                } else {
+                    desc.innerText = `✨ ${num.toFixed(2)}: 2D 만화선을 지우고 실제 사람 피부/이목구비로 100% 극실사 재창작 (강력 추천)`;
+                }
             } else {
-                desc.innerText = `✨ ${num.toFixed(2)}: 원본 구도만 참고하여 새롭게 파격적 재창작 (강한 변화)`;
+                if (num <= 0.35) {
+                    desc.innerText = `✨ ${num.toFixed(2)}: 원본 형태와 얼굴을 거의 그대로 유지 (미세 리터칭)`;
+                } else if (num <= 0.70) {
+                    desc.innerText = `✨ ${num.toFixed(2)}: 원본 구도를 유지하며 자연스러운 AI 화풍 변환 (추천)`;
+                } else {
+                    desc.innerText = `✨ ${num.toFixed(2)}: 원본 구도만 참고하여 새롭게 파격적 재창작 (강한 변화)`;
+                }
             }
         }
 
@@ -1236,6 +1244,23 @@
             currentStyle = styleKey;
             document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
             el.classList.add('active');
+
+            const mText = document.getElementById('active-model-text');
+            if (mText) {
+                if (styleKey === 'photorealistic') {
+                    mText.innerText = 'RealVisXL (100% 극실사 인간)';
+                } else {
+                    mText.innerText = 'Animagine XL (일러스트/애니)';
+                }
+            }
+
+            const slider = document.getElementById('denoise-slider');
+            if (slider && selectedImageBase64) {
+                if (styleKey === 'photorealistic' && parseFloat(slider.value) < 0.70) {
+                    slider.value = 0.75;
+                }
+                updateDenoiseVal(slider.value);
+            }
         }
 
         // 비율 선택
