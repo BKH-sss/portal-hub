@@ -23,7 +23,7 @@ import datetime
 import asyncio
 import logging
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Tuple, Union
 from collections import deque
 
 import discord
@@ -1205,6 +1205,170 @@ async def on_ready():
             logger.info("💌 1:1 개인챗(DM) 알잘딱깔센 감성 케어 스케줄러 활성화 완료 (08:00, 12:30, 18:30, 23:00 KST)")
 
 
+async def _reply_or_send(dest: Any, content: Optional[str] = None, embed: Optional[discord.Embed] = None):
+    """Message 또는 Context 객체에 안전하게 답장(reply) 혹은 전송(send) 수행"""
+    try:
+        if hasattr(dest, "reply"):
+            if embed:
+                return await dest.reply(content=content, embed=embed)
+            return await dest.reply(content)
+        elif hasattr(dest, "send"):
+            if embed:
+                return await dest.send(content=content, embed=embed)
+            return await dest.send(content)
+    except Exception:
+        ch = getattr(dest, "channel", None)
+        if ch and hasattr(ch, "send"):
+            if embed:
+                return await ch.send(content=content, embed=embed)
+            return await ch.send(content)
+
+
+def detect_schedule_intent(text: str) -> Tuple[bool, Optional[str], str]:
+    """
+    자연어 메시지에서 일정 관련 의도(intent)를 지능적으로 분석.
+    반환값: (is_matched: bool, query_text: Optional[str], intent_type: 'add' | 'query' | 'none')
+    - 오탐 방지: 날씨, 기분, 메뉴/음식, 단순 감정 등은 일정이 명시되지 않은 한 제외
+    """
+    clean = text.strip().lower()
+
+    # 1. 예외 필터 (오탐 방지: 날씨, 기분, 음식/식사, 단순 감정 등)
+    # 단, 문장 안에 '일정', '스케줄', '캘린더'가 명시되어 있다면 예외 필터를 타지 않음
+    false_positive_words = ['날씨', '기분', '먹지', '먹을까', '밥', '점심 뭐', '저녁 뭐', '메뉴', '노래', '심심', '피곤', '안녕', '반가워', '고마워']
+    if any(w in clean for w in false_positive_words) and not any(k in clean for k in ['일정', '스케줄', '캘린더']):
+        return False, None, 'none'
+
+    # 2. 일정 추가 의도 감지
+    add_keywords = ['추가', '등록', '잡아줘', '넣어줘', '기록해줘', '기록']
+    sched_nouns = ['일정', '스케줄', '캘린더', '약속', '예약']
+    if any(k in clean for k in sched_nouns) and any(k in clean for k in add_keywords):
+        return True, text, 'add'
+
+    # 3. 특정 시간대 질의 (예: 13시 일정, 13시에 뭐 있어, 오후 2시 스케줄)
+    time_pattern = r'(?:\d{1,2}시|\d{1,2}:\d{2}|오전\s*\d{1,2}시|오후\s*\d{1,2}시)'
+    if re.search(time_pattern, clean):
+        if any(k in clean for k in ['일정', '스케줄', '캘린더', '시간표', '약속', '뭐 있어', '뭐있어', '뭐 있지', '뭐있지', '확인', '알려줘', '보고', '체크']):
+            return True, text, 'query'
+
+    # 4. 상대 날짜 + 일정 질의 (예: 오늘 일정, 내일 스케줄, 오늘 뭐 있어, 내일 뭐해)
+    date_pattern = r'(?:오늘|내일|모레|글피|이번주|주간)'
+    if re.search(date_pattern, clean):
+        if any(k in clean for k in ['일정', '스케줄', '캘린더', '시간표', '할일', '할 일', '투두', '약속']):
+            return True, text, 'query'
+        if any(k in clean for k in ['뭐 있어', '뭐있어', '뭐 있지', '뭐있지', '뭐해', '뭐 해']):
+            return True, text, 'query'
+
+    # 5. 일반 일정 질의 키워드 (예: 일정 알려줘, 스케줄 확인, 캘린더 보여줘)
+    if any(k in clean for k in ['일정', '스케줄', '캘린더']):
+        if any(k in clean for k in ['알려줘', '뭐야', '확인', '보고', '체크', '보여줘', '조회', '어때', '목록', '리스트', '있어', '있나']):
+            return True, text, 'query'
+
+    return False, None, 'none'
+
+
+async def resolve_schedule_query(destination: Any, query: Optional[str] = None) -> bool:
+    """
+    명령어(!일정, !오늘, !내일) 및 자연어("13시 일정 알려줘", "오늘 뭐 있어?")가 공유하는
+    통합 일정/캘린더 조회 핵심 처리 함수.
+    
+    1. 마스터 1:1 개인 DM 보안 인증 검증
+    2. Google Calendar iCal 최신 동기화 보장
+    3. 질의 텍스트 정규화
+    4. Google Calendar Engine 조회 및 서식화 (Morning Briefing 스타일)
+    5. 모듈 부재 시 SQLite ScheduleManager 대체 폴백
+    """
+    channel = getattr(destination, "channel", None)
+    is_dm = isinstance(channel, discord.DMChannel)
+    author = getattr(destination, "author", None)
+
+    # 🛡️ 1. 개인 DM 보안 검증 (마스터 보안 인증)
+    if is_dm and skadi_care_engine and author:
+        master_id = skadi_care_engine.get_master_id()
+        if master_id is None:
+            skadi_care_engine.register_master(author.id, author.name)
+            logger.info(f"👑 개인 DM 발신자({author.id}, {author.name})를 마스터로 보안 등록했습니다.")
+        elif master_id != author.id:
+            security_msg = "🔒 **[보안 접근 제한]** 마스터의 개인 구글 캘린더 및 일정 데이터는 비공개 보안 항목이야. 마스터 본인 계정으로만 확인할 수 있어."
+            await _reply_or_send(destination, security_msg)
+            return False
+
+    # 2. 리액션 표시
+    try:
+        msg_obj = getattr(destination, "message", destination)
+        if hasattr(msg_obj, "add_reaction"):
+            await msg_obj.add_reaction("📅")
+    except Exception:
+        pass
+
+    # 3. 최신 구글 캘린더 iCal 동기화 보장
+    ical_url = config_data.get("google_calendar_ical_url") or os.environ.get("GOOGLE_CALENDAR_ICAL_URL")
+    if ical_url and ScheduleManager and hasattr(ScheduleManager, "sync_from_google_calendar_ical"):
+        try:
+            ScheduleManager.sync_from_google_calendar_ical(ical_url)
+        except Exception as e:
+            logger.warning(f"⚠️ [iCal 동기화 경고] {e}")
+
+    # 4. 질의 텍스트 정규화
+    q_raw = (query or "").strip()
+    if not q_raw or q_raw in ["오늘", "today", "오늘 일정", "스케줄", "일정", "목록"]:
+        q_text = "오늘 일정 알려줘"
+    elif q_raw in ["내일", "tomorrow", "내일 일정"]:
+        q_text = "내일 일정 알려줘"
+    elif "일정" not in q_raw and "스케줄" not in q_raw:
+        q_text = f"{q_raw} 일정 알려줘"
+    else:
+        q_text = q_raw
+
+    # 5. Google Calendar Engine 서식화 응답
+    if google_calendar_engine:
+        ok, resp_msg, data = google_calendar_engine.format_schedule_query_response(q_text, ScheduleManager)
+        if ok:
+            if is_dm:
+                resp_msg = f"🛡️ **[마스터 1:1 개인 DM 보안 인증 완료]** 🔒\n{resp_msg}"
+            await _reply_or_send(destination, resp_msg)
+            return True
+
+    # 6. SQLite ScheduleManager 직접 조회 폴백
+    if not ScheduleManager:
+        await _reply_or_send(destination, "미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
+        return False
+
+    query_date = get_now_kst().strftime("%Y-%m-%d")
+    items = ScheduleManager.get_items(target_date=query_date, include_completed=True)
+    events = [it for it in items if not it.get("is_todo")]
+    todos = [it for it in items if it.get("is_todo")]
+
+    embed = discord.Embed(
+        title=f"📅 스카디 스케줄러 • [{query_date}]",
+        description="마스터의 소중한 일정과 할 일들을 정리해뒀어.",
+        color=0x3498db
+    )
+    if is_dm:
+        embed.description = "🛡️ **[마스터 1:1 개인 DM 보안 인증 완료]** 🔒\n" + embed.description
+
+    if events:
+        lines = []
+        for ev in events:
+            time_part = ev['start_time'].split(' ')[1] if ' ' in ev['start_time'] else '종일'
+            memo = f" ({ev['description']})" if ev.get('description') else ""
+            lines.append(f"• `[ID:{ev['id']}]` `[{time_part}]` **{ev['title']}**{memo}")
+        embed.add_field(name="📌 등록된 일정", value="\n".join(lines), inline=False)
+    else:
+        embed.add_field(name="📌 등록된 일정", value="예정된 일정이 없어. 자유로운 시간이야, 마스터.", inline=False)
+
+    if todos:
+        t_lines = []
+        for td in todos:
+            status_icon = "✅" if td.get("is_completed") else "⬜"
+            p_icon = "🔥" if td.get("priority") == 3 else ("⚡" if td.get("priority") == 2 else "🌱")
+            t_lines.append(f"{status_icon} `[ID:{td['id']}]` {p_icon} **{td['title']}**")
+        embed.add_field(name="📝 오늘 등록된 할 일", value="\n".join(t_lines), inline=False)
+
+    embed.set_footer(text="추가: !일정추가 오늘 13:00 회의 | 삭제: !일정삭제 ID")
+    await _reply_or_send(destination, embed=embed)
+    return True
+
+
 @bot.event
 async def on_message(message: discord.Message):
     # 1. 봇 자신의 메시지는 무시
@@ -1293,9 +1457,13 @@ async def on_message(message: discord.Message):
             await message.reply(embed=aljal_embed)
             return
 
-        # 3) 자연어 구글 캘린더 일정 추가 (예: "13시에 회의 일정 추가해줘", "내일 15시 치과 예약 등록해줘", "14:00 미팅 추가")
-        is_add_sched = any(k in clean_lower for k in ["일정", "스케줄", "캘린더"]) and any(k in clean_lower for k in ["추가", "등록", "잡아줘", "넣어줘", "기록"])
-        if is_add_sched and google_calendar_engine:
+    # ------------------------------------------------------------
+    # 3-0-1. 자연어 일정/캘린더 의도 분류 및 전용 라우팅 (Gemini 폴백 완벽 방지)
+    # ------------------------------------------------------------
+    has_sched_intent, sched_q, intent_type = detect_schedule_intent(user_query)
+    if has_sched_intent:
+        if intent_type == 'add' and google_calendar_engine:
+            logger.info(f"[자연어 라우팅] 일정 추가 의도 감지: '{user_query}' -> google_calendar_engine.add_schedule_from_text 호출")
             try:
                 await message.add_reaction("📅")
             except Exception:
@@ -1304,33 +1472,16 @@ async def on_message(message: discord.Message):
             if ok:
                 await message.reply(resp_msg)
                 return
-
-        # 4) 자연어 구글 캘린더 일정 조회 (예: "13시 일정 알려줘", "오늘 일정 뭐야", "내일 일정 확인", "일정 알려줘", "스케줄 알려줘")
-        is_query_sched = (
-            any(k in clean_lower for k in ["일정", "스케줄", "캘린더"]) and
-            any(k in clean_lower for k in ["알려줘", "뭐야", "뭐있어", "뭐 있어", "확인", "보고", "체크", "있어?", "있나", "보여줘", "조회", "어때"])
-        ) or any(k in clean_lower for k in ["오늘 뭐해", "내일 뭐해", "오늘 뭐 있지", "내일 뭐 있지"])
-
-        if is_query_sched and google_calendar_engine:
-            try:
-                await message.add_reaction("📅")
-            except Exception:
-                pass
-            # ical URL 동기화 보장 (구글 캘린더 최신 일정 반영)
-            ical_url = config_data.get("google_calendar_ical_url") or os.environ.get("GOOGLE_CALENDAR_ICAL_URL")
-            if ical_url and ScheduleManager and hasattr(ScheduleManager, "sync_from_google_calendar_ical"):
-                try:
-                    ScheduleManager.sync_from_google_calendar_ical(ical_url)
-                except Exception:
-                    pass
-            ok, resp_msg, data = google_calendar_engine.format_schedule_query_response(user_query, ScheduleManager)
-            if ok:
-                if is_dm:
-                    resp_msg = f"🛡️ **[마스터 1:1 개인 DM 보안 인증 완료]** 🔒\n{resp_msg}"
-                await message.reply(resp_msg)
+        elif intent_type == 'query':
+            logger.info(f"[자연어 라우팅] 일정 의도 감지: '{user_query}' -> resolve_schedule_query 호출")
+            handled = await resolve_schedule_query(message, sched_q or user_query)
+            if handled:
                 return
 
-        # 5) 자연어 일반 타이머/리마인더 등록 (예: "10분 뒤에 물 마시라고 알려줘")
+    # ------------------------------------------------------------
+    # 3-0-2. 자연어 일반 타이머/리마인더 등록 (예: "10분 뒤에 물 마시라고 알려줘")
+    # ------------------------------------------------------------
+    if skadi_care_engine:
         if any(k in clean_lower for k in ["알려줘", "리마인드", "기억해줘", "깨워줘", "말해줘", "알람"]) and any(k in clean_lower for k in ["분 뒤", "분뒤", "분 후", "분후", "시간 뒤", "시간뒤", "시간 후", "시간후", "시 에", "시에", "시 반"]):
             try:
                 await message.add_reaction("⏰")
@@ -1519,6 +1670,9 @@ async def on_message(message: discord.Message):
         else:
             await message.reply("마스터, 나는 지금 음성 채널에 들어가 있지 않아.")
         return
+
+    # [자연어 라우팅] 일정 의도 없음 -> Gemini AI Brain 폴백
+    logger.info(f"[자연어 라우팅] 일정 의도 없음 ('{user_query}') -> Gemini AI Brain 폴백")
 
     # 채널별 대화 큐 가져오기
     history = get_channel_history(message.channel.id)
@@ -2115,95 +2269,19 @@ async def cmd_memories(ctx: commands.Context):
 @bot.command(name="일정", aliases=["일정목록", "스케줄", "schedule"])
 async def cmd_schedule_list(ctx: commands.Context, *, query: Optional[str] = None):
     """오늘, 내일 또는 특정 시간(예: !일정 13시 or !일정 내일 or !일정 오늘) 일정 조회"""
-    is_dm = isinstance(ctx.channel, discord.DMChannel)
-
-    # 🛡️ 1. 개인 DM 보안 검증 (마스터 보안 인증)
-    if is_dm and skadi_care_engine:
-        master_id = skadi_care_engine.get_master_id()
-        if master_id is None:
-            skadi_care_engine.register_master(ctx.author.id, ctx.author.name)
-            logger.info(f"👑 개인 DM 발신자({ctx.author.id}, {ctx.author.name})를 마스터로 보안 등록했습니다.")
-        elif master_id != ctx.author.id:
-            await ctx.send("🔒 **[보안 접근 제한]** 마스터의 개인 구글 캘린더 및 일정 데이터는 비공개 보안 항목이야. 마스터 본인 계정으로만 확인할 수 있어.")
-            return
-
-    try:
-        await ctx.message.add_reaction("📅")
-    except Exception:
-        pass
-
-    # 최신 구글 캘린더 iCal 동기화 보장
-    ical_url = config_data.get("google_calendar_ical_url") or os.environ.get("GOOGLE_CALENDAR_ICAL_URL")
-    if ical_url and ScheduleManager and hasattr(ScheduleManager, "sync_from_google_calendar_ical"):
-        try:
-            ScheduleManager.sync_from_google_calendar_ical(ical_url)
-        except Exception:
-            pass
-
-    q_raw = (query or "").strip()
-    if not q_raw or q_raw in ["오늘", "today", "오늘 일정", "스케줄", "일정", "목록"]:
-        q_text = "오늘 일정 알려줘"
-    elif q_raw in ["내일", "tomorrow", "내일 일정"]:
-        q_text = "내일 일정 알려줘"
-    elif "일정" not in q_raw and "스케줄" not in q_raw:
-        q_text = f"{q_raw} 일정 알려줘"
-    else:
-        q_text = q_raw
-
-    if google_calendar_engine:
-        ok, msg, data = google_calendar_engine.format_schedule_query_response(q_text, ScheduleManager)
-        if is_dm:
-            msg = f"🛡️ **[마스터 1:1 개인 DM 보안 인증 완료]** 🔒\n{msg}"
-        await ctx.send(msg)
-        return
-
-    if not ScheduleManager:
-        await ctx.send("미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
-        return
-
-    query_date = get_now_kst().strftime("%Y-%m-%d")
-    items = ScheduleManager.get_items(target_date=query_date, include_completed=True)
-    events = [it for it in items if not it.get("is_todo")]
-    todos = [it for it in items if it.get("is_todo")]
-
-    embed = discord.Embed(
-        title=f"📅 스카디 스케줄러 • [{query_date}]",
-        description="마스터의 소중한 일정과 할 일들을 정리해뒀어.",
-        color=0x3498db
-    )
-
-    if events:
-        lines = []
-        for ev in events:
-            time_part = ev['start_time'].split(' ')[1] if ' ' in ev['start_time'] else '종일'
-            memo = f" ({ev['description']})" if ev.get('description') else ""
-            lines.append(f"• `[ID:{ev['id']}]` `[{time_part}]` **{ev['title']}**{memo}")
-        embed.add_field(name="📌 등록된 일정", value="\n".join(lines), inline=False)
-    else:
-        embed.add_field(name="📌 등록된 일정", value="예정된 일정이 없어. 자유로운 시간이야, 마스터.", inline=False)
-
-    if todos:
-        t_lines = []
-        for td in todos:
-            status_icon = "✅" if td.get("is_completed") else "⬜"
-            p_icon = "🔥" if td.get("priority") == 3 else ("⚡" if td.get("priority") == 2 else "🌱")
-            t_lines.append(f"{status_icon} `[ID:{td['id']}]` {p_icon} **{td['title']}**")
-        embed.add_field(name="📝 오늘 등록된 할 일", value="\n".join(t_lines), inline=False)
-
-    embed.set_footer(text="추가: !일정추가 오늘 13:00 회의 | 삭제: !일정삭제 ID")
-    await ctx.send(embed=embed)
+    await resolve_schedule_query(ctx, query)
 
 
 @bot.command(name="오늘", aliases=["today", "오늘일정"])
 async def cmd_today_alias(ctx: commands.Context, *, sub_query: Optional[str] = None):
     """오늘 일정 즉시 조회 (!오늘 또는 !오늘 일정)"""
-    await cmd_schedule_list(ctx, query="오늘")
+    await resolve_schedule_query(ctx, "오늘")
 
 
 @bot.command(name="내일", aliases=["tomorrow", "내일일정"])
 async def cmd_tomorrow_alias(ctx: commands.Context, *, sub_query: Optional[str] = None):
     """내일 일정 즉시 조회 (!내일 또는 !내일 일정)"""
-    await cmd_schedule_list(ctx, query="내일")
+    await resolve_schedule_query(ctx, "내일")
 
 
 @bot.command(name="일정추가", aliases=["add_schedule", "스케줄추가"])
