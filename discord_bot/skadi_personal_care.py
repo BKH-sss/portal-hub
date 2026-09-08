@@ -103,10 +103,28 @@ class SkadiPersonalCareEngine:
     # 마스터 등록 및 조회
     # -------------------------------------------------------------------------
     def get_master_id(self) -> Optional[int]:
+        # 1. 환경변수 MASTER_DISCORD_ID 우선 (고정 보안 식별자, DB 초기화/재배포 시 하이재킹 방지)
+        env_master = os.environ.get("MASTER_DISCORD_ID")
+        if env_master:
+            try:
+                return int(env_master.strip())
+            except ValueError:
+                pass
+        # 2. config 설정 확인
         return self.config.get("master_user_id")
 
     def register_master(self, user_id: int, username: str) -> str:
-        """마스터를 등록하고 저장"""
+        """마스터를 등록하고 저장 (환경변수 MASTER_DISCORD_ID 고정값이 설정되어 있으면 수정 차단)"""
+        env_master = os.environ.get("MASTER_DISCORD_ID")
+        if env_master:
+            try:
+                fixed_id = int(env_master.strip())
+                if fixed_id != user_id:
+                    logger.warning(f"⚠️ [보안 차단] 환경변수(MASTER_DISCORD_ID={fixed_id})로 고정되어 있어 {username}({user_id})의 마스터 등록이 거부되었습니다.")
+                    return "🔒 보안 정책에 의해 마스터 ID가 환경변수로 고정되어 있어 변경할 수 없어."
+            except ValueError:
+                pass
+
         self.config["master_user_id"] = user_id
         self.config["master_username"] = username
         self.config["dm_care_enabled"] = True
