@@ -37,10 +37,13 @@ try:
 except ImportError:
     HAS_FASTAPI = False
     class DummyRouter:
+        def __init__(self, *args, **kwargs): pass
         def get(self, *args, **kwargs): return lambda f: f
         def post(self, *args, **kwargs): return lambda f: f
         def put(self, *args, **kwargs): return lambda f: f
         def delete(self, *args, **kwargs): return lambda f: f
+        def patch(self, *args, **kwargs): return lambda f: f
+        def include_router(self, *args, **kwargs): pass
     APIRouter = DummyRouter
     class HTTPException(Exception):
         def __init__(self, status_code: int, detail: str = ""):
@@ -56,7 +59,7 @@ except ImportError:
     def Field(default=None, **kwargs):
         return default
 
-router = APIRouter(prefix="/api/lol/coach", tags=["LoL AI Coach & ARAM Mayhem"]) if HAS_FASTAPI else None
+router = APIRouter(prefix="/api/lol/coach", tags=["LoL AI Coach & ARAM Mayhem"])
 
 MODULE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = MODULE_DIR.parent
