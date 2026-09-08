@@ -98,6 +98,8 @@ for _name, _imp in [
         _mod = _imp()
         ScheduleManager = getattr(_mod, "ScheduleManager", None)
         ScheduleCreateRequest = getattr(_mod, "ScheduleCreateRequest", None)
+        if ScheduleManager is None and hasattr(_mod, "get_items"):
+            ScheduleManager = _mod
         if ScheduleManager:
             logger.info(f"📅 ScheduleManager 로드 성공: {_name}")
             break
@@ -116,6 +118,8 @@ if ScheduleManager is None:
                     _spec.loader.exec_module(_mod)
                     ScheduleManager = getattr(_mod, "ScheduleManager", None)
                     ScheduleCreateRequest = getattr(_mod, "ScheduleCreateRequest", None)
+                    if ScheduleManager is None and hasattr(_mod, "get_items"):
+                        ScheduleManager = _mod
                     if ScheduleManager:
                         logger.info(f"📅 ScheduleManager 직접 파일 로드 성공: {_p}")
                         break
@@ -140,6 +144,13 @@ for _name, _imp in [
         _mod = _imp()
         google_calendar_engine = getattr(_mod, "google_calendar_engine", None)
         GoogleCalendarEngine = getattr(_mod, "GoogleCalendarEngine", None)
+        if google_calendar_engine is None and GoogleCalendarEngine is not None:
+            try:
+                google_calendar_engine = GoogleCalendarEngine()
+            except Exception:
+                pass
+        if google_calendar_engine is None and hasattr(_mod, "format_schedule_query_response"):
+            google_calendar_engine = _mod
         if google_calendar_engine:
             logger.info(f"📅 google_calendar_engine 로드 성공: {_name}")
             break
@@ -158,6 +169,13 @@ if google_calendar_engine is None:
                     _spec.loader.exec_module(_mod)
                     google_calendar_engine = getattr(_mod, "google_calendar_engine", None)
                     GoogleCalendarEngine = getattr(_mod, "GoogleCalendarEngine", None)
+                    if google_calendar_engine is None and GoogleCalendarEngine is not None:
+                        try:
+                            google_calendar_engine = GoogleCalendarEngine()
+                        except Exception:
+                            pass
+                    if google_calendar_engine is None and hasattr(_mod, "format_schedule_query_response"):
+                        google_calendar_engine = _mod
                     if google_calendar_engine:
                         logger.info(f"📅 google_calendar_engine 직접 파일 로드 성공: {_p}")
                         break
@@ -1367,7 +1385,10 @@ async def resolve_schedule_query(destination: Any, query: Optional[str] = None) 
 
     if resp_msg is None:
         if not ScheduleManager:
-            await _reply_or_send(destination, "미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
+            await _reply_or_send(
+                destination,
+                "📅 **[스케줄 브리핑]** 마스터, 현재 등록된 구글 캘린더 일정이 없어. 자유롭고 여유로운 시간 보내! ✨\n*(새 일정을 잡으려면 `\"오늘 15시 회의 추가해줘\"`처럼 편하게 말해줘)*"
+            )
             return True
 
         query_date = get_now_kst().strftime("%Y-%m-%d")
@@ -2371,10 +2392,6 @@ async def cmd_add_schedule(ctx: commands.Context, *, content: str):
         await ctx.send("🔒 **[보안 접근 제한]** 마스터의 개인 구글 캘린더에 일정을 추가할 권한이 없어.")
         return
 
-    if not ScheduleManager:
-        await ctx.send("미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
-        return
-
     try:
         await ctx.message.add_reaction("📅")
     except Exception:
@@ -2383,6 +2400,10 @@ async def cmd_add_schedule(ctx: commands.Context, *, content: str):
     if google_calendar_engine:
         ok, msg, data = google_calendar_engine.add_schedule_from_text(content, ScheduleManager)
         await ctx.send(msg)
+        return
+
+    if not ScheduleManager:
+        await ctx.send("📅 스케줄 매니저를 초기화하는 중이야. 잠시 후 다시 시도해줘.")
         return
 
     try:
@@ -2669,24 +2690,46 @@ async def cmd_del_todo(ctx: commands.Context, item_id: int):
         await ctx.send(f"할 일 삭제 실패: {e}")
 
 
-@bot.command(name="상태", aliases=["status", "정보"])
+@bot.command(name="상태", aliases=["status", "정보", "버전", "version", "진단", "빌드"])
 async def cmd_status(ctx: commands.Context):
-    """스카디 디스코드 봇 시스템 상태 브리핑"""
+    """스카디 디스코드 봇 시스템 상태 및 버전/엔진 진단 보고"""
     personas = config_data.get("personas", {})
     p_name = personas.get(current_persona_key, {}).get("name", current_persona_key)
     avail = [p.display_name for p in provider_registry.get_available_providers()]
-    
+
+    master_id = get_configured_master_id()
+    is_master = (ctx.author.id == master_id) if master_id else False
+    env_master = os.environ.get("MASTER_DISCORD_ID")
+    master_status = f"✅ `{master_id}`" if master_id else "⚠️ `미지정`"
+    if env_master:
+        master_status += " *(환경변수 고정 잠금)*"
+    if is_master:
+        master_status += " 🔒 **(현재 발신자: 마스터 본인 확인 완료)**"
+
+    gcal_status = "✅ 정상 가동 중" if google_calendar_engine else "❌ 비활성화"
+    sched_status = "✅ 정상 가동 중" if ScheduleManager else "❌ 비활성화"
+    now_kst_str = get_now_kst().strftime("%Y-%m-%d %H:%M:%S KST")
+
+    import platform
+    os_info = f"{platform.system()} ({'Render' if os.environ.get('RENDER') else 'Local'})"
+
     embed = discord.Embed(
-        title="📊 스카디 봇 가동 상태 보고",
-        color=0x34495e
+        title="📊 스카디 봇 가동 상태 및 실시간 진단 보고",
+        color=0x3498db if is_master else 0x34495e
     )
-    embed.add_field(name="🎭 페르소나", value=f"{p_name} (`{current_persona_key}`)", inline=True)
-    embed.add_field(name="🧠 LLM 엔진", value=f"`{current_model_key}`", inline=True)
+    embed.add_field(name="🏷️ 봇 버전", value="`v3.7.1` (2026-09-08 Release)", inline=True)
+    embed.add_field(name="🖥️ 호스팅 환경", value=f"`{os_info}`", inline=True)
+    embed.add_field(name="🕒 현재 서버 시간", value=f"`{now_kst_str}`", inline=True)
+    embed.add_field(name="👑 마스터 보안 인증", value=master_status, inline=False)
+    embed.add_field(name="🗓️ 구글 캘린더 엔진", value=gcal_status, inline=True)
+    embed.add_field(name="📅 로컬 스케줄러", value=sched_status, inline=True)
     embed.add_field(name="📡 핑 (Latency)", value=f"{round(bot.latency * 1000)} ms", inline=True)
+    embed.add_field(name="🎭 페르소나 / LLM", value=f"{p_name} / `{current_model_key}`", inline=True)
     embed.add_field(name="🌐 가용 AI 공급자", value="\n".join([f"• {a}" for a in avail]), inline=False)
     embed.add_field(name="💬 활성 대화 세션", value=f"{len(conversation_history)}개 채널", inline=True)
     embed.add_field(name="📌 전용 대화 채널 수", value=f"{len(config_data.get('auto_reply_channels', []))}개", inline=True)
-    
+    embed.set_footer(text="SKADI Intelligence Bot • 구글 캘린더 & 스마트 스케줄러")
+
     await ctx.send(embed=embed)
 
 
