@@ -217,7 +217,16 @@ class SkadiPersonalCareEngine:
         self._save_data()
 
         time_display = target_dt.strftime("%H시 %M분")
-        return True, f"알겠어, 마스터. 잊지 않고 **[{time_display}]**에 개인챗으로 살며시 알려줄게.\n> 📝 **알림 내용**: {content}"
+        date_display = target_dt.strftime("%m월 %d일 ") if target_dt.date() != now.date() else "오늘 "
+        confirm_text = (
+            f"⏰ **마스터, 알림 예약 확실하게 확인했어! (알잘딱깔센 접수)**\n"
+            f"마스터가 부탁한 내용을 잊지 않고 스카디의 기억에 새겨뒀어.\n\n"
+            f"• ⏱️ **알림 예정 시각**: `{date_display}{time_display} KST`\n"
+            f"• 📝 **메모 내용**: `{content}`\n"
+            f"• 🔑 **알림 코드**: `{rem_id}`\n\n"
+            f"💡 *정해진 시각이 되면 개인챗(DM)으로 조용히 귓속말해줄게. (취소 필요 시: `!알림삭제 {rem_id}`)*"
+        )
+        return True, confirm_text
 
     def list_reminders(self) -> List[Dict[str, Any]]:
         return self.config.get("custom_reminders", [])

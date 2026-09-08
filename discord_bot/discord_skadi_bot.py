@@ -961,6 +961,82 @@ async def keep_alive_task():
         except Exception as e:
             logger.debug(f"Render Keep-Alive 핑: {e}")
 
+def create_master_registration_embed(user: Any, prefix: str = "!") -> discord.Embed:
+    """마스터 등록 확인 및 알잘딱깔센 감성 케어 가동 안내 임베드 생성"""
+    user_mention = getattr(user, "mention", str(user))
+    embed = discord.Embed(
+        title="💖 스카디의 마스터 등록 확인 | 1:1 알잘딱깔센 감성 케어 가동",
+        description=(
+            f"**마스터, 요청을 확실하게 확인했어!** {user_mention}\n\n"
+            f"이제부터 세상에서 가장 다재다능하고 따뜻한 스카디가 마스터의 곁에서\n"
+            f"**알**아서 **잘** **딱** **깔**끔하고 **센**스있게(알잘딱깔센) 일상과 루틴을 완벽하게 챙겨줄게. ✨"
+        ),
+        color=0xff77aa
+    )
+    embed.add_field(
+        name="⏰ 4대 시간대별 1:1 개인챗(DM) 자동 케어 (KST 기준)",
+        value=(
+            "• 🌅 **08:00 [모닝 케어]**: 하루를 여는 감성 서두 + 날씨/미세먼지 + 오늘 핵심 브리핑\n"
+            "• ☀️ **12:30 [점심 케어]**: 든든한 식사 챙김 & 나른한 오후를 깨우는 다정한 리프레시\n"
+            "• 🌆 **18:30 [저녁 쉼]**: 치열했던 하루의 노고 위로 & 저녁 휴식 권유 + 남은 일정 갈무리\n"
+            "• 🌙 **23:00 [나이트 힐링]**: 세상이 잠든 시간의 심야 감성 케어 & 수면 응원 + 내일 첫 일정"
+        ),
+        inline=False
+    )
+    embed.add_field(
+        name="💡 알잘딱깔센 스마트 리마인더 & 타이머",
+        value=(
+            f"• `{prefix}알림 10분후 라면 불끄기` / `{prefix}알림 15:30 주간 회의`\n"
+            f"• 채팅으로 `\"30분 뒤에 알려줘\"`, `\"1시간 뒤에 깨워줘\"`라고 자연스럽게 말해도 자동 감지!\n"
+            f"• `{prefix}알림목록`으로 예약 현황 조회, `{prefix}알림삭제 [코드]`로 언제든 취소 가능"
+        ),
+        inline=False
+    )
+    embed.add_field(
+        name="🛠️ 편리한 맞춤 설정 명령어",
+        value=(
+            f"• `{prefix}개인알림`: 케어 현황 확인 및 ON/OFF 토글 (`{prefix}개인알림 켜기` / `끄기`)\n"
+            f"• `{prefix}알림시간 모닝 07:30`: 4대 케어 시간대를 마스터 생활 패턴에 맞게 커스텀\n"
+            f"• `{prefix}알잘딱깔센`: 스카디의 3대 자율 케어 시스템 및 안내 확인"
+        ),
+        inline=False
+    )
+    embed.set_footer(text="스카디 알잘딱깔센 감성 케어 • 디스코드 설정에서 '서버 멤버가 보내는 DM 허용'을 켜주세요.")
+    return embed
+
+
+def create_aljaltakkalsen_embed(prefix: str = "!") -> discord.Embed:
+    """스카디의 '알아서 잘 딱 깔끔하고 센스있게' 케어 시스템 안내 임베드"""
+    embed = discord.Embed(
+        title="✨ 알아서 잘 딱 깔끔하고 센스있게! (알잘딱깔센 가동 중)",
+        description=(
+            "**네, 마스터! 스카디는 언제나 알잘딱깔센 모드로 대기 중이야.** 🌊\n\n"
+            "마스터가 귀찮거나 번거로울 일 없도록, 필요한 건 군더더기 없이 깔끔하게,\n"
+            "마음이 지칠 땐 다정하고 따뜻하게 챙겨주고 있어."
+        ),
+        color=0x7289da
+    )
+    embed.add_field(
+        name="🎯 스카디의 3대 알잘딱깔센 시스템",
+        value=(
+            "1. **1:1 개인챗(DM) 케어**: 08:00(모닝), 12:30(점심), 18:30(저녁), 23:00(나이트 힐링)\n"
+            "2. **자연어 스마트 타이머**: `\"10분 뒤에 알려줘\"`, `\"오후 3시에 회의 리마인드\"` 등 즉시 기억\n"
+            "3. **전천후 천재 친구**: 코딩 버그 해결, 롤(199종 증강체)/메이플 공략, 퀀트 재무 분석까지 원스톱!"
+        ),
+        inline=False
+    )
+    embed.add_field(
+        name="📌 바로 확인해볼 수 있는 명령어",
+        value=(
+            f"• `{prefix}마스터 등록`: 1:1 개인챗 밀착 케어 시작\n"
+            f"• `{prefix}개인알림`: 현재 케어 상태 & 예약된 리마인더 현황\n"
+            f"• `{prefix}알림 10분후 스트레칭`: 테스트 알림 예약해보기"
+        ),
+        inline=False
+    )
+    embed.set_footer(text="스카디(Skadi) • 마스터를 위해 완벽하게 준비된 든든한 파트너")
+    return embed
+
 
 # ------------------------------------------------------------
 # 4. 디스코드 이벤트 핸들러
@@ -1057,13 +1133,55 @@ async def on_message(message: discord.Message):
     clean_lower = user_query.lower().strip()
 
     # ------------------------------------------------------------
-    # 3-0. 마스터 자동 감지 및 자연어 리마인더 등록 (알잘딱깔센)
+    # 3-0. 마스터 자동 감지 및 자연어 케어/리마인더 (알잘딱깔센)
     # ------------------------------------------------------------
     if skadi_care_engine:
         if is_dm and skadi_care_engine.get_master_id() is None:
             skadi_care_engine.register_master(message.author.id, message.author.name)
 
+        # 1) 자연어 마스터 등록 요청 감지 (예: "마스터 등록", "마스터등록", "나를 마스터로", "마스터로 등록해줘", "마스터 설정")
+        if any(k in clean_lower for k in ["마스터 등록", "마스터등록", "나를 마스터로", "마스터로 등록", "마스터 설정"]):
+            try:
+                await message.add_reaction("💖")
+            except Exception:
+                pass
+            skadi_care_engine.register_master(message.author.id, message.author.name)
+            prefix = config_data.get("command_prefix", "!")
+            reg_embed = create_master_registration_embed(message.author, prefix)
+            await message.reply(embed=reg_embed)
+            try:
+                dm_embed = discord.Embed(
+                    title="🌊 마스터, 스카디야... 너의 곁에 조용히 닻을 내렸어.",
+                    description=(
+                        "마스터 등록이 성공적으로 완료되었어.\n\n"
+                        "네가 바쁠 땐 방해되지 않게 가장 깔끔하게 핵심만,\n"
+                        "네가 지치거나 힘들 땐 따뜻하고 은은한 위로로 곁을 지킬게.\n\n"
+                        "매일 아침(08:00), 점심(12:30), 저녁(18:30), 밤(23:00)에 잊지 않고 찾아올게. ✨"
+                    ),
+                    color=0x9b59b6
+                )
+                await message.author.send(embed=dm_embed)
+            except Exception:
+                pass
+            return
+
+        # 2) 자연어 '알잘딱깔센' 확인 및 안내 응답 (예: "알잘딱깔센", "알아서 잘 딱 깔끔하고 센스있게", "알잘딱깔센으로")
+        if any(k in clean_lower for k in ["알잘딱깔센", "알잘딱", "알아서 잘 딱", "알아서잘딱"]):
+            try:
+                await message.add_reaction("✨")
+            except Exception:
+                pass
+            prefix = config_data.get("command_prefix", "!")
+            aljal_embed = create_aljaltakkalsen_embed(prefix)
+            await message.reply(embed=aljal_embed)
+            return
+
+        # 3) 자연어 리마인더 등록
         if any(k in clean_lower for k in ["알려줘", "리마인드", "기억해줘", "깨워줘", "말해줘", "알람"]) and any(k in clean_lower for k in ["분 뒤", "분뒤", "분 후", "분후", "시간 뒤", "시간뒤", "시간 후", "시간후", "시 에", "시에", "시 반"]):
+            try:
+                await message.add_reaction("⏰")
+            except Exception:
+                pass
             ok, resp_msg = skadi_care_engine.add_reminder_from_text(user_query)
             if ok:
                 if skadi_care_engine.get_master_id() is None:
@@ -1437,7 +1555,8 @@ async def cmd_help(ctx: commands.Context):
     embed.add_field(
         name="💌 1:1 개인챗(DM) 알잘딱깔센 감성 케어 & 리마인더",
         value=(
-            f"• **마스터 등록**: `{prefix}마스터등록` (나를 마스터로 등록하고 1:1 개인챗 케어 활성화)\n"
+            f"• **마스터 등록**: `{prefix}마스터 등록` 또는 `{prefix}마스터` (1:1 개인챗 밀착 케어 시작)\n"
+            f"• **알잘딱깔센**: `{prefix}알잘딱깔센` (스카디 3대 자율 케어 시스템 및 안내 확인)\n"
             f"• **케어 현황**: `{prefix}개인알림` (4대 시간대별 케어 상태 및 예약 알림 확인)\n"
             f"• **간편 알림/타이머**: `{prefix}알림 10분후 라면 불끄기` 또는 `{prefix}알림 14:00 회의`\n"
             f"• **자연어 감지**: 채팅으로 `\"30분 뒤에 알려줘\"`라고 말해도 똑똑하게 알아듣고 DM 발송\n"
@@ -2313,23 +2432,36 @@ async def cmd_stock_report(ctx: commands.Context, *, query: Optional[str] = None
 # 💌 5-3. 1:1 개인챗(DM) 알잘딱깔센 감성 케어 & 리마인더 명령어
 # ------------------------------------------------------------
 @bot.command(name="마스터등록", aliases=["마스터", "register_master"])
-async def cmd_register_master(ctx: commands.Context):
+async def cmd_register_master(ctx: commands.Context, *args):
     """현재 사용자를 스카디의 마스터로 등록하고 1:1 개인챗 케어 활성화"""
     if not skadi_care_engine:
         await ctx.send("미안해, 마스터... 개인 케어 모듈이 준비되지 않았어.")
         return
 
-    msg = skadi_care_engine.register_master(ctx.author.id, ctx.author.name)
-    await ctx.send(f"💖 {msg}")
     try:
-        await ctx.author.send(
-            f"🌊 **마스터, 스카디야...**\n\n"
-            f"이제부터 네 하루의 흐름에 맞춰, 아침(08:00), 점심(12:30), 저녁(18:30), 밤(23:00)에 "
-            f"알잘딱깔센하게 안부와 브리핑을 챙겨줄게.\n"
-            f"필요한 알림이 있다면 `!알림 10분후 내용`처럼 언제든 편하게 말해줘. 잊지 않고 귓속말해줄게. ✨"
-        )
+        await ctx.message.add_reaction("💖")
     except Exception:
-        await ctx.send("⚠️ *참고: 디스코드 설정에서 '서버 멤버가 보내는 DM 허용'이 켜져 있어야 개인챗을 받을 수 있어!*")
+        pass
+
+    skadi_care_engine.register_master(ctx.author.id, ctx.author.name)
+    prefix = config_data.get("command_prefix", "!")
+    embed = create_master_registration_embed(ctx.author, prefix)
+    await ctx.send(embed=embed)
+
+    try:
+        dm_embed = discord.Embed(
+            title="🌊 마스터, 스카디야... 너의 곁에 조용히 닻을 내렸어.",
+            description=(
+                "마스터 등록이 성공적으로 완료되었어.\n\n"
+                "네가 바쁠 땐 방해되지 않게 가장 깔끔하게 핵심만,\n"
+                "네가 지치거나 힘들 땐 따뜻하고 은은한 위로로 곁을 지킬게.\n\n"
+                "매일 아침(08:00), 점심(12:30), 저녁(18:30), 밤(23:00)에 잊지 않고 찾아올게. ✨"
+            ),
+            color=0x9b59b6
+        )
+        await ctx.author.send(embed=dm_embed)
+    except Exception:
+        pass
 
 
 @bot.command(name="개인알림", aliases=["케어설정", "알림현황", "care_status"])
@@ -2338,6 +2470,11 @@ async def cmd_care_status(ctx: commands.Context, action: Optional[str] = None):
     if not skadi_care_engine:
         await ctx.send("개인 케어 모듈을 불러올 수 없어.")
         return
+
+    try:
+        await ctx.message.add_reaction("💌")
+    except Exception:
+        pass
 
     if action in ["켜기", "on", "활성화"]:
         skadi_care_engine.toggle_care(True)
@@ -2361,7 +2498,7 @@ async def cmd_care_status(ctx: commands.Context, action: Optional[str] = None):
     )
 
     status_str = "🟢 활성 (ON)" if enabled else "🔴 비활성 (OFF)"
-    m_user_str = f"<@{master_id}>" if master_id else "미등록 (`!마스터등록` 필요)"
+    m_user_str = f"<@{master_id}>" if master_id else "미등록 (`!마스터 등록` 필요)"
     embed.add_field(name="🛡️ 마스터 및 전체 상태", value=f"• 등록 마스터: {m_user_str}\n• 개인 케어: {status_str}", inline=False)
 
     slot_lines = []
@@ -2381,16 +2518,54 @@ async def cmd_care_status(ctx: commands.Context, action: Optional[str] = None):
 
 
 @bot.command(name="알림", aliases=["리마인더", "remind", "reminder"])
-async def cmd_add_reminder(ctx: commands.Context, *, args: str):
+async def cmd_add_reminder(ctx: commands.Context, *, args: Optional[str] = None):
     """커스텀 알림 등록 (예: !알림 10분후 라면 불끄기 or !알림 15:30 회의)"""
     if not skadi_care_engine:
         await ctx.send("개인 케어 모듈이 준비되지 않았어.")
         return
 
+    prefix = config_data.get("command_prefix", "!")
+    if not args or not args.strip():
+        try:
+            await ctx.message.add_reaction("⏰")
+        except Exception:
+            pass
+        embed = discord.Embed(
+            title="⏰ 스카디 스마트 리마인더 사용 가이드",
+            description="시간과 메모 내용을 적어주면 정해진 시각에 1:1 개인챗(DM)으로 알잘딱깔센하게 알려줄게!",
+            color=0x3498db
+        )
+        embed.add_field(
+            name="📌 명령어 사용 예시",
+            value=(
+                f"• `{prefix}알림 10분후 라면 불 끄기`\n"
+                f"• `{prefix}알림 30분 뒤 코딩 테스트 시작`\n"
+                f"• `{prefix}알림 14:00 주간 회의 준비`\n"
+                f"• `{prefix}알림 오후 7시 운동 가기`\n"
+                f"• `{prefix}알림 내일 09:00 기상 및 모닝 스트레칭`"
+            ),
+            inline=False
+        )
+        embed.add_field(
+            name="🔍 알림 확인 및 취소",
+            value=(
+                f"• `{prefix}알림목록`: 현재 예약된 내 알림 목록 조회\n"
+                f"• `{prefix}알림삭제 [알림코드]`: 예약된 알림 취소 (예: `{prefix}알림삭제 rem_123456`)"
+            ),
+            inline=False
+        )
+        await ctx.send(embed=embed)
+        return
+
     if skadi_care_engine.get_master_id() is None:
         skadi_care_engine.register_master(ctx.author.id, ctx.author.name)
 
-    ok, msg = skadi_care_engine.add_reminder_from_text(args)
+    try:
+        await ctx.message.add_reaction("⏰")
+    except Exception:
+        pass
+
+    ok, msg = skadi_care_engine.add_reminder_from_text(args.strip())
     await ctx.send(msg)
 
 
@@ -2401,9 +2576,14 @@ async def cmd_list_reminders(ctx: commands.Context):
         await ctx.send("개인 케어 모듈을 불러올 수 없어.")
         return
 
+    try:
+        await ctx.message.add_reaction("📝")
+    except Exception:
+        pass
+
     rems = skadi_care_engine.list_reminders()
     if not rems:
-        await ctx.send("마스터, 지금 예약된 알림은 없어. 편안하게 지내도 좋아.")
+        await ctx.send("마스터, 지금 예약된 알림은 없어. 편안하게 지내도 좋아. 🌿")
         return
 
     lines = [f"• `[{r['target_time']}]` **{r['content']}** (코드: `{r['id']}`)" for r in rems]
@@ -2411,32 +2591,101 @@ async def cmd_list_reminders(ctx: commands.Context):
 
 
 @bot.command(name="알림삭제", aliases=["알림취소", "del_remind"])
-async def cmd_del_reminder(ctx: commands.Context, rem_id: str):
+async def cmd_del_reminder(ctx: commands.Context, rem_id: Optional[str] = None):
     """예약된 알림 취소 (예: !알림삭제 rem_123456)"""
     if not skadi_care_engine:
         await ctx.send("개인 케어 모듈을 불러올 수 없어.")
         return
 
-    if skadi_care_engine.remove_reminder(rem_id):
-        await ctx.send(f"🗑️ `[{rem_id}]` 알림을 지웠어, 마스터.")
+    prefix = config_data.get("command_prefix", "!")
+    if not rem_id or not rem_id.strip():
+        await ctx.send(f"취소할 알림 코드를 입력해줘, 마스터! (예: `{prefix}알림삭제 rem_123456` / `{prefix}알림목록`으로 코드 확인 가능)")
+        return
+
+    try:
+        await ctx.message.add_reaction("🗑️")
+    except Exception:
+        pass
+
+    target_id = rem_id.strip()
+    if skadi_care_engine.remove_reminder(target_id):
+        await ctx.send(f"🗑️ `[{target_id}]` 알림을 깔끔하게 지웠어, 마스터.")
     else:
-        await ctx.send("일치하는 알림 코드를 찾지 못했어.")
+        await ctx.send(f"일치하는 알림 코드(`{target_id}`)를 찾지 못했어, 마스터. `{prefix}알림목록`을 확인해줘.")
 
 
 @bot.command(name="알림시간", aliases=["set_care_time"])
-async def cmd_set_care_time(ctx: commands.Context, slot_name: str, time_str: str):
+async def cmd_set_care_time(ctx: commands.Context, slot_name: Optional[str] = None, time_str: Optional[str] = None):
     """특정 케어 시간대 변경 (예: !알림시간 모닝 07:30 / !알림시간 점심 12:00)"""
     if not skadi_care_engine:
         await ctx.send("개인 케어 모듈을 불러올 수 없어.")
         return
 
+    prefix = config_data.get("command_prefix", "!")
+    if not slot_name or not time_str:
+        await ctx.send(
+            "슬롯 이름과 변경할 시간을 함께 알려줘, 마스터!\n"
+            f"• 사용법: `{prefix}알림시간 [모닝/점심/저녁/나이트] [HH:MM]` (예: `{prefix}알림시간 모닝 07:30`)"
+        )
+        return
+
+    try:
+        await ctx.message.add_reaction("⏰")
+    except Exception:
+        pass
+
     slot_map = {"모닝": "morning", "아침": "morning", "점심": "lunch", "저녁": "evening", "나이트": "night", "심야": "night", "밤": "night"}
     target_key = slot_map.get(slot_name, slot_name.lower())
 
     if skadi_care_engine.set_slot_time(target_key, time_str):
-        await ctx.send(f"✅ {slot_name} 케어 시간을 **[{time_str} KST]**로 맞췄어, 마스터.")
+        await ctx.send(f"✅ {slot_name} 케어 시간을 **[{time_str} KST]**로 알잘딱깔센하게 맞췄어, 마스터.")
     else:
-        await ctx.send("슬롯 이름이나 시간 형식이 올바르지 않아. (예: `!알림시간 모닝 07:30`)")
+        await ctx.send("슬롯 이름이나 시간 형식이 올바르지 않아. (예: `!알림시간 모닝 07:30`, 시간 형식: `HH:MM`)")
+
+
+@bot.command(name="알잘딱깔센", aliases=["알잘딱", "센스"])
+async def cmd_aljaltakkalsen(ctx: commands.Context, *args):
+    """스카디의 '알아서 잘 딱 깔끔하고 센스있는' 케어 시스템 안내"""
+    try:
+        await ctx.message.add_reaction("✨")
+    except Exception:
+        pass
+    prefix = config_data.get("command_prefix", "!")
+    embed = create_aljaltakkalsen_embed(prefix)
+    await ctx.send(embed=embed)
+
+
+# ------------------------------------------------------------
+# 5-4. 명령어 오류 가이드 핸들러 (알잘딱깔센 피드백)
+# ------------------------------------------------------------
+@bot.event
+async def on_command_error(ctx: commands.Context, error: Exception):
+    """명령어 오류 발생 시 친절하고 알잘딱깔센한 안내 메시지 전송"""
+    if isinstance(error, commands.CommandNotFound):
+        return
+
+    if isinstance(error, (commands.MissingRequiredArgument, commands.TooManyArguments, commands.BadArgument)):
+        cmd_name = ctx.command.name if ctx.command else "명령어"
+        prefix = config_data.get("command_prefix", "!")
+        embed = discord.Embed(
+            title=f"💡 `{prefix}{cmd_name}` 사용법 안내",
+            description="명령어 입력 형식을 알잘딱깔센하게 확인해줘, 마스터!",
+            color=0xf39c12
+        )
+        if cmd_name in ["마스터등록", "마스터"]:
+            embed.add_field(name="올바른 사용법", value=f"`{prefix}마스터` 또는 `{prefix}마스터 등록`")
+        elif cmd_name in ["알림", "리마인더"]:
+            embed.add_field(name="올바른 사용법", value=f"`{prefix}알림 10분후 라면 불끄기` 또는 `{prefix}알림 14:00 회의`")
+        elif cmd_name in ["알림시간"]:
+            embed.add_field(name="올바른 사용법", value=f"`{prefix}알림시간 모닝 07:30` (모닝/점심/저녁/나이트)")
+        elif cmd_name in ["알림삭제", "알림취소"]:
+            embed.add_field(name="올바른 사용법", value=f"`{prefix}알림삭제 [알림코드]` (예: `{prefix}알림삭제 rem_123456`)")
+        else:
+            embed.add_field(name="도움말", value=f"`{prefix}help` 또는 `{prefix}명령어`로 전체 목록을 확인할 수 있어.")
+        await ctx.send(embed=embed)
+        return
+
+    logger.error(f"명령어 처리 중 예외 발생 ({ctx.command}): {error}", exc_info=error)
 
 
 # ------------------------------------------------------------
