@@ -1229,20 +1229,7 @@ async def on_message(message: discord.Message):
             await message.reply(embed=aljal_embed)
             return
 
-        # 3) 자연어 리마인더 등록
-        if any(k in clean_lower for k in ["알려줘", "리마인드", "기억해줘", "깨워줘", "말해줘", "알람"]) and any(k in clean_lower for k in ["분 뒤", "분뒤", "분 후", "분후", "시간 뒤", "시간뒤", "시간 후", "시간후", "시 에", "시에", "시 반"]):
-            try:
-                await message.add_reaction("⏰")
-            except Exception:
-                pass
-            ok, resp_msg = skadi_care_engine.add_reminder_from_text(user_query)
-            if ok:
-                if skadi_care_engine.get_master_id() is None:
-                    skadi_care_engine.register_master(message.author.id, message.author.name)
-                await message.reply(resp_msg)
-                return
-
-        # 4) 자연어 구글 캘린더 일정 추가 (예: "13시에 회의 일정 추가해줘", "내일 15시 치과 예약 등록해줘", "14:00 미팅 추가")
+        # 3) 자연어 구글 캘린더 일정 추가 (예: "13시에 회의 일정 추가해줘", "내일 15시 치과 예약 등록해줘", "14:00 미팅 추가")
         is_add_sched = any(k in clean_lower for k in ["일정", "스케줄", "캘린더"]) and any(k in clean_lower for k in ["추가", "등록", "잡아줘", "넣어줘", "기록"])
         if is_add_sched and google_calendar_engine:
             try:
@@ -1254,7 +1241,7 @@ async def on_message(message: discord.Message):
                 await message.reply(resp_msg)
                 return
 
-        # 5) 자연어 구글 캘린더 일정 조회 (예: "13시 일정 알려줘", "오늘 일정 뭐야", "내일 일정 확인", "일정 알려줘", "스케줄 알려줘")
+        # 4) 자연어 구글 캘린더 일정 조회 (예: "13시 일정 알려줘", "오늘 일정 뭐야", "내일 일정 확인", "일정 알려줘", "스케줄 알려줘")
         is_query_sched = (
             any(k in clean_lower for k in ["일정", "스케줄", "캘린더"]) and
             any(k in clean_lower for k in ["알려줘", "뭐야", "뭐있어", "뭐 있어", "확인", "보고", "체크", "있어?", "있나", "보여줘", "조회", "어때"])
@@ -1265,8 +1252,28 @@ async def on_message(message: discord.Message):
                 await message.add_reaction("📅")
             except Exception:
                 pass
+            # ical URL 동기화 보장 (구글 캘린더 최신 일정 반영)
+            ical_url = config_data.get("google_calendar_ical_url") or os.environ.get("GOOGLE_CALENDAR_ICAL_URL")
+            if ical_url and ScheduleManager and hasattr(ScheduleManager, "sync_from_google_calendar_ical"):
+                try:
+                    ScheduleManager.sync_from_google_calendar_ical(ical_url)
+                except Exception:
+                    pass
             ok, resp_msg, data = google_calendar_engine.format_schedule_query_response(user_query, ScheduleManager)
             if ok:
+                await message.reply(resp_msg)
+                return
+
+        # 5) 자연어 일반 타이머/리마인더 등록 (예: "10분 뒤에 물 마시라고 알려줘")
+        if any(k in clean_lower for k in ["알려줘", "리마인드", "기억해줘", "깨워줘", "말해줘", "알람"]) and any(k in clean_lower for k in ["분 뒤", "분뒤", "분 후", "분후", "시간 뒤", "시간뒤", "시간 후", "시간후", "시 에", "시에", "시 반"]):
+            try:
+                await message.add_reaction("⏰")
+            except Exception:
+                pass
+            ok, resp_msg = skadi_care_engine.add_reminder_from_text(user_query)
+            if ok:
+                if skadi_care_engine.get_master_id() is None:
+                    skadi_care_engine.register_master(message.author.id, message.author.name)
                 await message.reply(resp_msg)
                 return
 

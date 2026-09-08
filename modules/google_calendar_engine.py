@@ -294,6 +294,20 @@ class GoogleCalendarEngine:
         items = []
         if schedule_manager_ref:
             try:
+                # 구글 캘린더 iCal URL이 설정되어 있을 경우 최신 일정 자동 동기화
+                ical_url = os.environ.get("GOOGLE_CALENDAR_ICAL_URL", "")
+                if not ical_url:
+                    try:
+                        from config import GOOGLE_CALENDAR_ICAL_URL
+                        ical_url = GOOGLE_CALENDAR_ICAL_URL
+                    except Exception:
+                        pass
+                if ical_url and hasattr(schedule_manager_ref, "sync_from_google_calendar_ical"):
+                    try:
+                        schedule_manager_ref.sync_from_google_calendar_ical(ical_url)
+                    except Exception:
+                        pass
+
                 items = schedule_manager_ref.get_items(target_date=target_date_str, include_completed=False)
             except Exception as e:
                 logger.warning(f"스케줄 로드 오류: {e}")
