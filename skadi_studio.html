@@ -802,6 +802,9 @@
                 <div class="gpu-dot"></div>
                 <span>RTX 4080 SUPER 연결됨</span>
             </div>
+            <a href="image_to_prompt.html" class="nav-btn" style="border-color: rgba(168, 85, 247, 0.45); color: #e9d5ff; background: rgba(168, 85, 247, 0.12);" title="사진을 올리면 고화질 SDXL 프롬프트로 역분석">
+                <i class="fa-solid fa-wand-magic-sparkles" style="color: #c084fc;"></i> 🔍 프롬프트 추출기
+            </a>
             <a href="http://127.0.0.1:7860" target="_blank" class="nav-btn" title="WebUI Forge 원본 열기">
                 <i class="fa-solid fa-sliders"></i> Forge 전문가 모드
             </a>
@@ -1544,11 +1547,49 @@
             }
         }
 
+        // 📥 이미지 프롬프트 추출기에서 전달된 데이터 자동 수신 및 적용
+        function checkTransferredPrompt() {
+            const prompt = sessionStorage.getItem('transfer_painter_prompt');
+            const style = sessionStorage.getItem('transfer_painter_style');
+            const w = sessionStorage.getItem('transfer_painter_w');
+            const h = sessionStorage.getItem('transfer_painter_h');
+
+            if (prompt) {
+                document.getElementById('prompt-input').value = prompt;
+                lastPrompt = prompt;
+                sessionStorage.removeItem('transfer_painter_prompt');
+
+                if (style) {
+                    const chip = document.querySelector(`.preset-chip[data-style="${style}"]`);
+                    if (chip) selectStyle(style, chip);
+                    sessionStorage.removeItem('transfer_painter_style');
+                }
+
+                if (w && h) {
+                    const nw = parseInt(w);
+                    const nh = parseInt(h);
+                    let targetBtnId = nw > nh ? 'ratio-btn-landscape' : (nw < nh ? 'ratio-btn-portrait' : 'ratio-btn-square');
+                    const btn = document.getElementById(targetBtnId);
+                    if (btn) selectRatio(nw, nh, btn);
+                    sessionStorage.removeItem('transfer_painter_w');
+                    sessionStorage.removeItem('transfer_painter_h');
+                }
+
+                const badge = document.getElementById('prompt-feedback-badge');
+                const badgeText = document.getElementById('prompt-feedback-text');
+                if (badge && badgeText) {
+                    badgeText.innerText = '✨ 추출된 이미지 프롬프트가 자동 적용되었습니다!';
+                    badge.style.display = 'flex';
+                }
+            }
+        }
+
         // 초기화
         window.addEventListener('DOMContentLoaded', () => {
             checkServerStatus();
             loadGallery();
             initDragAndPaste();
+            checkTransferredPrompt();
             setInterval(checkServerStatus, 5000);
         });
     </script>

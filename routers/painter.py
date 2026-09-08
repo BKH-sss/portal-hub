@@ -18,6 +18,7 @@ from pydantic import BaseModel
 
 from modules.sd_painter_engine import SkadiPainterEngine, OUTPUT_DIR, STYLE_PRESETS
 from modules.prompt_crafter import SkadiPromptCrafter
+from modules.image_to_prompt_engine import image_to_prompt_engine
 
 router = APIRouter(prefix="/api/painter", tags=["painter"])
 engine = SkadiPainterEngine()
@@ -113,6 +114,28 @@ async def upscale_image(req: UpscaleRequest):
     )
     if not res.get("success"):
         raise HTTPException(status_code=500, detail=res.get("error", "업스케일 실패"))
+    return res
+
+
+class ImageToPromptRequest(BaseModel):
+    image_base64: Optional[str] = None
+    image_url: Optional[str] = None
+    mode: str = "master"  # "master", "photorealistic", "danbooru", "remix"
+
+
+@router.post("/image-to-prompt")
+async def extract_prompt_from_image(req: ImageToPromptRequest):
+    """업로드된 이미지를 AI(Gemini Vision)로 역분석하여 S급 SDXL 프롬프트 및 메타데이터 추출"""
+    img_src = req.image_base64 or req.image_url or ""
+    if not img_src:
+        raise HTTPException(status_code=400, detail="분석할 이미지 데이터(URL 또는 Base64)가 필요합니다.")
+
+    res = await image_to_prompt_engine.analyze_image_async(
+        image_base64_or_path=img_src,
+        mode=req.mode
+    )
+    if not res.get("success"):
+        raise HTTPException(status_code=500, detail=res.get("error", "이미지 프롬프트 추출 실패"))
     return res
 
 
