@@ -437,6 +437,97 @@ class SkadiPainterEngine:
                 "elapsed": round(time.time() - start_t, 2)
             }
 
+    async def upscale_image_async(
+        self,
+        image_base64_or_path: str,
+        scale: float = 2.0,
+        upscaler_name: str = "4x-UltraSharp"
+    ) -> Dict[str, Any]:
+        """4x-UltraSharp / DAT 딥러닝 신경망을 통한 원클릭 초고화질 2K/4K 업스케일"""
+        start_t = time.time()
+        
+        # 1. Base64 데이터 준비
+        clean_b64 = image_base64_or_path
+        if clean_b64.startswith("http://") or clean_b64.startswith("https://") or clean_b64.startswith("/api/painter/image/"):
+            # URL에서 로컬 파일명 추출 시도
+            fname = clean_b64.split("/")[-1].split("?")[0]
+            local_p = OUTPUT_DIR / fname
+            if local_p.exists():
+                with open(local_p, "rb") as f:
+                    clean_b64 = base64.b64encode(f.read()).decode("utf-8")
+        elif os.path.exists(clean_b64):
+            with open(clean_b64, "rb") as f:
+                clean_b64 = base64.b64encode(f.read()).decode("utf-8")
+        elif "," in clean_b64:
+            clean_b64 = clean_b64.split(",", 1)[1]
+
+        payload = {
+            "image": clean_b64,
+            "upscaling_resize": float(scale),
+            "upscaler_1": upscaler_name,
+            "upscaling_crop": False,
+            "gfpgan_visibility": 0.0,
+            "codeformer_visibility": 0.0,
+            "codeformer_weight": 0.0,
+        }
+
+        try:
+            async with httpx.AsyncClient(timeout=180.0) as client:
+                r = await client.post(f"{self.api_url}/sdapi/v1/extra-single-image", json=payload)
+                if r.status_code != 200:
+                    return {
+                        "success": False,
+                        "error": f"WebUI 업스케일 오류 (HTTP {r.status_code}): {r.text[:200]}",
+                        "elapsed": round(time.time() - start_t, 2)
+                    }
+
+                result_json = r.json()
+                b64_out = result_json.get("image", "")
+                if not b64_out:
+                    return {
+                        "success": False,
+                        "error": "업스케일된 이미지 데이터를 수신하지 못했습니다.",
+                        "elapsed": round(time.time() - start_t, 2)
+                    }
+
+                img_bytes = base64.b64decode(b64_out)
+                now_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                file_name = f"skadi_upscaled_{now_str}_{int(scale)}x.png"
+                file_path = OUTPUT_DIR / file_name
+
+                with open(file_path, "wb") as f:
+                    f.write(img_bytes)
+
+                w, h = 0, 0
+                try:
+                    from PIL import Image
+                    with Image.open(io.BytesIO(img_bytes)) as pil_img:
+                        w, h = pil_img.size
+                except Exception:
+                    pass
+
+                elapsed = round(time.time() - start_t, 2)
+                logger.info(f"✨ [스카디 화가] 4K AI 업스케일 완료 ({elapsed}초) -> {file_path}")
+
+                return {
+                    "success": True,
+                    "file_path": str(file_path),
+                    "file_name": file_name,
+                    "image_url": f"/api/painter/image/{file_name}",
+                    "width": w,
+                    "height": h,
+                    "scale": scale,
+                    "upscaler": upscaler_name,
+                    "elapsed": elapsed
+                }
+        except Exception as e:
+            logger.error(f"업스케일 예외 발생: {e}")
+            return {
+                "success": False,
+                "error": f"업스케일 처리 중 오류 발생: {e}",
+                "elapsed": round(time.time() - start_t, 2)
+            }
+
 
 # 싱글톤 인스턴스
 painter_engine = SkadiPainterEngine()

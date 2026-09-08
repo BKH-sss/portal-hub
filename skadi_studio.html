@@ -143,6 +143,27 @@
             border-color: rgba(255, 255, 255, 0.2);
         }
 
+        .btn-upscale {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(59, 130, 246, 0.25) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.55);
+            color: #e9d5ff;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-upscale:hover:not(:disabled) {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.45) 0%, rgba(59, 130, 246, 0.45) 100%);
+            border-color: #c084fc;
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+        }
+
+        .btn-upscale:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         /* Main Workspace Layout */
         .workspace {
             display: grid;
@@ -979,6 +1000,9 @@
                         <i class="fa-solid fa-image"></i> 최근 생성된 일러스트 (Animagine XL 3.1)
                     </div>
                     <div class="action-btns">
+                        <button class="nav-btn btn-upscale" id="btn-upscale" onclick="upscaleCurrentImage(2)" title="현재 일러스트를 4x-UltraSharp 딥러닝 신경망으로 2배(4K급) 초고화질 확대">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> 🔍 4K 초고화질 업스케일
+                        </button>
                         <button class="nav-btn" onclick="downloadCurrentImage()">
                             <i class="fa-solid fa-download"></i> 원본 다운로드
                         </button>
@@ -1399,6 +1423,69 @@
             } catch (err) {
                 console.error('Gallery load err:', err);
                 showEmptyCanvas();
+            }
+        }
+
+        // 🔍 4K AI 초고화질 업스케일 실행
+        async function upscaleCurrentImage(scale = 2) {
+            const img = document.getElementById('current-image');
+            if (!img || !img.src || img.src.includes('data:image/svg')) {
+                alert('업스케일할 이미지가 없습니다. 먼저 그림을 생성하거나 갤러리에서 선택해주세요!');
+                return;
+            }
+
+            const btn = document.getElementById('btn-upscale');
+            const loading = document.getElementById('render-loading');
+            const loadingTitle = document.getElementById('loading-title');
+            const loadingDesc = document.getElementById('loading-desc');
+
+            if (btn) btn.disabled = true;
+            if (loading) {
+                loadingTitle.innerText = '🔍 4x-UltraSharp 4K 초고화질 업스케일 중...';
+                loadingDesc.innerText = '딥러닝 초해상화 신경망으로 디테일 복원 및 초고화질 렌더링 중입니다 (약 3~5초)';
+                loading.style.display = 'flex';
+            }
+
+            const startT = Date.now();
+            try {
+                const res = await fetch(`${API_BASE}/api/painter/upscale`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        image_url: img.src,
+                        scale: scale,
+                        upscaler: '4x-UltraSharp'
+                    })
+                });
+
+                if (!res.ok) {
+                    const errText = await res.text();
+                    alert(`업스케일 서버 오류 (HTTP ${res.status}):\n${errText}`);
+                    return;
+                }
+
+                const data = await res.json();
+                if (data.success && data.image_url) {
+                    const fullUrl = data.image_url.startsWith('http') ? data.image_url : `${API_BASE}${data.image_url}`;
+                    img.src = fullUrl + '?t=' + Date.now();
+                    
+                    const elapsed = ((Date.now() - startT) / 1000).toFixed(1);
+                    document.getElementById('img-meta').innerHTML = 
+                        `<i class="fa-solid fa-check-circle" style="color: #a855f7;"></i> 4K AI 업스케일 완료 (${elapsed}초) | ${data.width}x${data.height} (${data.upscaler || '4x-UltraSharp'})`;
+                    
+                    await loadGallery();
+                } else {
+                    alert('업스케일 실패: ' + (data.error || '오류가 발생했습니다.'));
+                }
+            } catch (err) {
+                alert('업스케일 통신 오류: ' + err.message);
+            } finally {
+                if (btn) btn.disabled = false;
+                if (loading) {
+                    loading.style.display = 'none';
+                    loadingTitle.innerText = 'RTX 4080 SUPER로 렌더링 중...';
+                    loadingDesc.innerText = '초당 100+ 텐서 연산으로 고화질 일러스트를 그리는 중입니다 (약 3~6초)';
+                }
             }
         }
 

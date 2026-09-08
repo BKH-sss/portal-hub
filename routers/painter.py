@@ -55,6 +55,13 @@ class GenerateRequest(BaseModel):
     denoising_strength: Optional[float] = 0.65
 
 
+class UpscaleRequest(BaseModel):
+    image_url: Optional[str] = None
+    image_base64: Optional[str] = None
+    scale: float = 2.0
+    upscaler: str = "4x-UltraSharp"
+
+
 @router.get("/status")
 async def get_painter_status():
     """WebUI Forge 연결 상태 및 모델 정보 확인"""
@@ -89,6 +96,23 @@ async def generate_artwork(req: GenerateRequest):
         res["image_url"] = f"/api/painter/image/{file_name}"
         # JSON 직렬화를 위해 binary image_bytes 필드 제거
         res.pop("image_bytes", None)
+    return res
+
+
+@router.post("/upscale")
+async def upscale_image(req: UpscaleRequest):
+    """지정된 이미지를 4x-UltraSharp 등 AI 초해상화 모델로 2배/4배 업스케일"""
+    img_src = req.image_base64 or req.image_url or ""
+    if not img_src:
+        raise HTTPException(status_code=400, detail="업스케일할 이미지 데이터(URL 또는 Base64)가 필요합니다.")
+
+    res = await engine.upscale_image_async(
+        image_base64_or_path=img_src,
+        scale=req.scale,
+        upscaler_name=req.upscaler
+    )
+    if not res.get("success"):
+        raise HTTPException(status_code=500, detail=res.get("error", "업스케일 실패"))
     return res
 
 
