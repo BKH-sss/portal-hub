@@ -94,6 +94,16 @@ except ImportError:
         ScheduleManager = None
         logger.warning("schedule_manager 모듈을 찾을 수 없습니다.")
 
+# 📅 구글 캘린더 연동 및 10분 전 사전 알림 엔진 로드
+try:
+    from modules.google_calendar_engine import google_calendar_engine, GoogleCalendarEngine
+except ImportError:
+    try:
+        from google_calendar_engine import google_calendar_engine, GoogleCalendarEngine
+    except ImportError:
+        google_calendar_engine = None
+        logger.warning("google_calendar_engine 모듈을 찾을 수 없습니다.")
+
 # 🎴 199종 롤 칼바람 증강 & 코치 엔진 로드
 try:
     from modules.lol_ai_coach import AugmentEngine, AramMayhemCoach, RiftChallengerCoach
@@ -722,6 +732,33 @@ async def personal_dm_care_task():
             except Exception as se:
                 logger.error(f"개인챗 DM 발송 실패: {se}")
 
+        # 🔔 [구글 캘린더] 일정 시작 10분 전 사전 알림 체크 (알잘딱깔센 DM 알림)
+        if google_calendar_engine and ScheduleManager:
+            try:
+                gcal_alerts = google_calendar_engine.check_10m_prior_alerts(ScheduleManager, get_now_kst())
+                for al in gcal_alerts:
+                    al_embed = discord.Embed(
+                        title="⏰ [구글 캘린더] 일정 시작 10분 전 사전 알림",
+                        description=(
+                            f"**마스터, {al['minutes_left']}분 뒤에 예정된 일정이 있어!** 🌊\n\n"
+                            f"• 📌 **일정 제목**: **{al['title']}**\n"
+                            f"• ⏰ **시작 시각**: `오늘 {al['time_display']} KST`\n"
+                            + (f"• 📝 **메모**: {al['description']}\n" if al.get('description') else "")
+                            + f"\n💡 *잊지 않고 여유 있게 준비할 수 있도록 10분 전에 알잘딱깔센하게 챙겨줬어.* ✨"
+                        ),
+                        color=0xf1c40f
+                    )
+                    if al.get("gcal_url"):
+                        al_embed.add_field(
+                            name="📱 구글 캘린더",
+                            value=f"[🔗 구글 캘린더에서 확인하기]({al['gcal_url']})",
+                            inline=False
+                        )
+                    await user.send(embed=al_embed)
+                    logger.info(f"⏰ [10분 전 알림 발송 완료] 마스터({user.name})에게 '{al['title']}' ({al['time_display']})")
+            except Exception as ge:
+                logger.error(f"구글 캘린더 10분 전 사전 알림 발송 오류: {ge}")
+
     except Exception as e:
         logger.error(f"개인챗 케어 태스크 오류: {e}")
 
@@ -792,7 +829,23 @@ def build_system_prompt() -> str:
         "3. 사족이나 해설 없이, 처음부터 끝까지 스카디의 한국어 대사만 깔끔하게 출력해라."
     )
 
-    return base_prompt + memory_prompt + current_time_str + companion_rule + korean_rule
+    # 구글 캘린더 및 오늘의 일정 실시간 주입 (환각 방지)
+    schedule_prompt = ""
+    if ScheduleManager:
+        try:
+            today_str = get_now_kst().strftime("%Y-%m-%d")
+            today_items = ScheduleManager.get_items(target_date=today_str, include_completed=False)
+            events = [it for it in today_items if not it.get("is_todo")]
+            if events:
+                e_lines = [f"- {e['start_time'].split(' ')[1] if ' ' in e['start_time'] else '종일'}: {e['title']}" for e in events]
+                schedule_prompt = f"\n\n[오늘({today_str}) 구글 캘린더 등록 일정]\n" + "\n".join(e_lines)
+            else:
+                schedule_prompt = f"\n\n[오늘({today_str}) 구글 캘린더 등록 일정: 없음 (자유 시간)]"
+            schedule_prompt += "\n* 마스터가 일정이나 스케줄을 물어보면 반드시 위의 등록된 구글 캘린더 팩트에 기반하여 정확하게 대답하라. 없는 일정을 멋대로 지어내거나 모호한 감성 대사로 둘러대지 마라."
+        except Exception:
+            pass
+
+    return base_prompt + memory_prompt + current_time_str + schedule_prompt + companion_rule + korean_rule
 
 
 def sanitize_korean_response(text: str) -> str:
@@ -1186,6 +1239,34 @@ async def on_message(message: discord.Message):
             if ok:
                 if skadi_care_engine.get_master_id() is None:
                     skadi_care_engine.register_master(message.author.id, message.author.name)
+                await message.reply(resp_msg)
+                return
+
+        # 4) 자연어 구글 캘린더 일정 추가 (예: "13시에 회의 일정 추가해줘", "내일 15시 치과 예약 등록해줘", "14:00 미팅 추가")
+        is_add_sched = any(k in clean_lower for k in ["일정", "스케줄", "캘린더"]) and any(k in clean_lower for k in ["추가", "등록", "잡아줘", "넣어줘", "기록"])
+        if is_add_sched and google_calendar_engine:
+            try:
+                await message.add_reaction("📅")
+            except Exception:
+                pass
+            ok, resp_msg, data = google_calendar_engine.add_schedule_from_text(user_query, ScheduleManager)
+            if ok:
+                await message.reply(resp_msg)
+                return
+
+        # 5) 자연어 구글 캘린더 일정 조회 (예: "13시 일정 알려줘", "오늘 일정 뭐야", "내일 일정 확인", "일정 알려줘", "스케줄 알려줘")
+        is_query_sched = (
+            any(k in clean_lower for k in ["일정", "스케줄", "캘린더"]) and
+            any(k in clean_lower for k in ["알려줘", "뭐야", "뭐있어", "뭐 있어", "확인", "보고", "체크", "있어?", "있나", "보여줘", "조회", "어때"])
+        ) or any(k in clean_lower for k in ["오늘 뭐해", "내일 뭐해", "오늘 뭐 있지", "내일 뭐 있지"])
+
+        if is_query_sched and google_calendar_engine:
+            try:
+                await message.add_reaction("📅")
+            except Exception:
+                pass
+            ok, resp_msg, data = google_calendar_engine.format_schedule_query_response(user_query, ScheduleManager)
+            if ok:
                 await message.reply(resp_msg)
                 return
 
@@ -1959,15 +2040,25 @@ async def cmd_memories(ctx: commands.Context):
 # 📅 5-1. 스마트 캘린더 & 할 일(Todo) 관리 명령어
 # ------------------------------------------------------------
 @bot.command(name="일정", aliases=["일정목록", "스케줄", "schedule"])
-async def cmd_schedule_list(ctx: commands.Context, target_date: Optional[str] = None):
-    """오늘 또는 지정일(YYYY-MM-DD)의 일정 목록 조회"""
+async def cmd_schedule_list(ctx: commands.Context, *, query: Optional[str] = None):
+    """오늘, 내일 또는 특정 시간(예: !일정 13시 or !일정 내일 or !일정 2026-09-08) 일정 조회"""
     if not ScheduleManager:
         await ctx.send("미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
         return
 
-    query_date = target_date or get_now_kst().strftime("%Y-%m-%d")
+    try:
+        await ctx.message.add_reaction("📅")
+    except Exception:
+        pass
+
+    if google_calendar_engine:
+        q_text = query or "오늘 일정 알려줘"
+        ok, msg, data = google_calendar_engine.format_schedule_query_response(q_text, ScheduleManager)
+        await ctx.send(msg)
+        return
+
+    query_date = query or get_now_kst().strftime("%Y-%m-%d")
     items = ScheduleManager.get_items(target_date=query_date, include_completed=True)
-    
     events = [it for it in items if not it.get("is_todo")]
     todos = [it for it in items if it.get("is_todo")]
 
@@ -1995,18 +2086,31 @@ async def cmd_schedule_list(ctx: commands.Context, target_date: Optional[str] = 
             t_lines.append(f"{status_icon} `[ID:{td['id']}]` {p_icon} **{td['title']}**")
         embed.add_field(name="📝 오늘 등록된 할 일", value="\n".join(t_lines), inline=False)
 
-    embed.set_footer(text="추가: !일정추가 YYYY-MM-DD HH:MM 제목 | 삭제: !일정삭제 ID")
+    embed.set_footer(text="추가: !일정추가 오늘 13:00 회의 | 삭제: !일정삭제 ID")
     await ctx.send(embed=embed)
 
 
 @bot.command(name="일정추가", aliases=["add_schedule", "스케줄추가"])
-async def cmd_add_schedule(ctx: commands.Context, time_str: str, *, title: str):
-    """일정 등록 (예: !일정추가 2026-09-03 15:00 팀 회의 or !일정추가 2026-09-03 생일파티)"""
+async def cmd_add_schedule(ctx: commands.Context, *, content: str):
+    """일정 등록 (예: !일정추가 오늘 13:00 팀 회의 or !일정추가 내일 15시 치과 예약)"""
     if not ScheduleManager:
         await ctx.send("미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
         return
 
     try:
+        await ctx.message.add_reaction("📅")
+    except Exception:
+        pass
+
+    if google_calendar_engine:
+        ok, msg, data = google_calendar_engine.add_schedule_from_text(content, ScheduleManager)
+        await ctx.send(msg)
+        return
+
+    try:
+        parts = content.strip().split(maxsplit=1)
+        time_str = parts[0]
+        title = parts[1] if len(parts) > 1 else "마스터 일정"
         req = ScheduleCreateRequest(
             title=title.strip(),
             start_time=time_str.strip(),
@@ -2015,7 +2119,7 @@ async def cmd_add_schedule(ctx: commands.Context, time_str: str, *, title: str):
         )
         res = ScheduleManager.add_item(req)
         gcal_url = ScheduleManager.generate_google_calendar_url(title, time_str)
-        
+
         embed = discord.Embed(
             title="✨ 새로운 일정 등록 완료",
             description=f"마스터, 캘린더에 일정을 기록했어!\n\n> 📅 **일시**: `{time_str}`\n> 📌 **제목**: **{title}**\n> 🆔 **ID**: `{res['id']}`",
@@ -2031,7 +2135,84 @@ async def cmd_add_schedule(ctx: commands.Context, time_str: str, *, title: str):
         await ctx.send(f"앗... 일정을 등록하는 도중 오류가 발생했어: {e}\n형식: `!일정추가 YYYY-MM-DD [HH:MM] 일정제목`")
 
 
-@bot.command(name="캘린더연동", aliases=["구글캘린더", "삼성캘린더", "calendar_sync", "ical"])
+@bot.command(name="구글캘린더", aliases=["google_calendar", "gcal"])
+async def cmd_google_calendar(ctx: commands.Context, action: Optional[str] = None, *, url: Optional[str] = None):
+    """구글 캘린더 연동 및 실시간 동기화 (예: !구글캘린더 연동 [iCal주소] or !구글캘린더 동기화)"""
+    prefix = config_data.get("command_prefix", "!")
+    try:
+        await ctx.message.add_reaction("📅")
+    except Exception:
+        pass
+
+    if action in ["연동", "등록", "sync_set"] and url:
+        clean_url = url.strip().strip("<>").strip('"').strip("'")
+        if not clean_url.startswith("http"):
+            await ctx.send("올바른 iCal (.ics) 웹 주소를 입력해줘, 마스터! (예: `https://calendar.google.com/calendar/ical/.../basic.ics`)")
+            return
+
+        config_data["google_calendar_ical_url"] = clean_url
+        save_config(config_data)
+
+        if ScheduleManager:
+            res = ScheduleManager.sync_from_google_calendar_ical(clean_url)
+            await ctx.send(f"✅ 구글 캘린더 iCal 연동이 완료되었어, 마스터!\n> 📊 {res.get('message', '동기화 완료')}\n💡 이제 구글 캘린더 일정이 실시간 반영되며, 시작 10분 전에 잊지 않고 귓속말해줄게.")
+        else:
+            await ctx.send("✅ 구글 캘린더 주소를 저장했어, 마스터.")
+        return
+
+    if action in ["동기화", "새로고침", "sync"]:
+        ical_url = config_data.get("google_calendar_ical_url") or os.environ.get("GOOGLE_CALENDAR_ICAL_URL")
+        if not ical_url:
+            await ctx.send(f"아직 연동된 구글 캘린더 iCal 주소가 없어. `{prefix}구글캘린더 연동 [iCal주소]`로 먼저 등록해줘!")
+            return
+        if ScheduleManager:
+            res = ScheduleManager.sync_from_google_calendar_ical(ical_url)
+            await ctx.send(f"🔄 **구글 캘린더 동기화 완료!**\n> 📊 {res.get('message', '동기화 완료')}")
+        return
+
+    # 기본 안내 임베드
+    host = os.environ.get("BASE_URL", "http://127.0.0.1:8000")
+    ical_url = f"{host}/api/schedule/calendar.ics"
+    saved_ical = config_data.get("google_calendar_ical_url") or "미등록 (`!구글캘린더 연동 [URL]` 필요)"
+    masked_ical = saved_ical[:40] + "..." if len(saved_ical) > 40 else saved_ical
+
+    embed = discord.Embed(
+        title="📅 스카디 구글 캘린더(Google Calendar) 양방향 연동",
+        description=(
+            "스카디는 **구글 캘린더와 완벽하게 연동**되어 마스터의 일정을 스마트하게 관리해줘.\n\n"
+            "• 🗣️ **자연어 일정 조회**: `\"13시 일정 알려줘\"`, `\"오늘 일정 뭐야\"`\n"
+            "• ➕ **자연어 일정 추가**: `\"오늘 13시에 회의 일정 추가해줘\"`\n"
+            "• ⏰ **10분 전 사전 알림**: 모든 구글 캘린더 일정 시작 10분 전 1:1 개인 DM 발송!"
+        ),
+        color=0x4285f4
+    )
+    embed.add_field(
+        name="🔗 등록된 마스터의 구글 캘린더 iCal",
+        value=f"`{masked_ical}`",
+        inline=False
+    )
+    embed.add_field(
+        name="📥 1. 마스터의 구글 캘린더 가져오기 (동기화)",
+        value=(
+            f"1. 구글 캘린더 웹 ➔ 설정 ➔ 내 캘린더 ➔ 'iCal 형식의 비공개 주소' 복사\n"
+            f"2. 디스코드에서 `{prefix}구글캘린더 연동 [복사한주소]` 입력\n"
+            f"➔ *구글 캘린더의 모든 일정이 스카디에게 자동 동기화되고 10분 전에 알림이 옵니다.*"
+        ),
+        inline=False
+    )
+    embed.add_field(
+        name="📤 2. 스카디 일정을 스마트폰 구글 캘린더로 내보내기",
+        value=(
+            f"• 스카디 iCal 구독 주소: `{ical_url}`\n"
+            f"• 구글 캘린더 좌측 [+] 클릭 ➔ 'URL로 추가' ➔ 위 주소 붙여넣기"
+        ),
+        inline=False
+    )
+    embed.set_footer(text="구글 캘린더 • 알잘딱깔센 10분 전 사전 알림 탑재")
+    await ctx.send(embed=embed)
+
+
+@bot.command(name="캘린더연동", aliases=["삼성캘린더", "calendar_sync", "ical"])
 async def cmd_calendar_sync(ctx: commands.Context):
     """구글 및 삼성 캘린더 실시간 자동 동기화 가이드 & iCal 피드 링크"""
     host = os.environ.get("BASE_URL", "http://127.0.0.1:8000")
