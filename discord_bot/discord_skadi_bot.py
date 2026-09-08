@@ -2690,7 +2690,7 @@ async def cmd_del_todo(ctx: commands.Context, item_id: int):
         await ctx.send(f"할 일 삭제 실패: {e}")
 
 
-@bot.command(name="상태", aliases=["status", "정보", "버전", "version", "진단", "빌드"])
+@bot.command(name="상태", aliases=["status", "정보", "버전", "version", "봇상태", "빌드"])
 async def cmd_status(ctx: commands.Context):
     """스카디 디스코드 봇 시스템 상태 및 버전/엔진 진단 보고"""
     personas = config_data.get("personas", {})
