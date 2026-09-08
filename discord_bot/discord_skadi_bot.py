@@ -87,19 +87,23 @@ except ImportError:
 # 📅 캘린더 & 할 일 매니저 엔진 로드 (4단계 철통 안전 로드)
 ScheduleManager = None
 ScheduleCreateRequest = None
-for _imp in [
-    lambda: __import__("modules.schedule_manager", fromlist=["ScheduleManager", "ScheduleCreateRequest"]),
-    lambda: __import__("discord_bot.schedule_manager", fromlist=["ScheduleManager", "ScheduleCreateRequest"]),
-    lambda: __import__("schedule_manager", fromlist=["ScheduleManager", "ScheduleCreateRequest"]),
+_load_errors = []
+
+for _name, _imp in [
+    ("modules.schedule_manager", lambda: __import__("modules.schedule_manager", fromlist=["ScheduleManager", "ScheduleCreateRequest"])),
+    ("discord_bot.schedule_manager", lambda: __import__("discord_bot.schedule_manager", fromlist=["ScheduleManager", "ScheduleCreateRequest"])),
+    ("schedule_manager", lambda: __import__("schedule_manager", fromlist=["ScheduleManager", "ScheduleCreateRequest"])),
 ]:
     try:
         _mod = _imp()
         ScheduleManager = getattr(_mod, "ScheduleManager", None)
         ScheduleCreateRequest = getattr(_mod, "ScheduleCreateRequest", None)
         if ScheduleManager:
+            logger.info(f"📅 ScheduleManager 로드 성공: {_name}")
             break
-    except Exception:
-        continue
+    except Exception as _e:
+        _load_errors.append(f"{_name}: {type(_e).__name__} - {_e}")
+        logger.debug(f"[{_name} 로드 시도 실패]: {_e}")
 
 if ScheduleManager is None:
     try:
@@ -116,27 +120,32 @@ if ScheduleManager is None:
                         logger.info(f"📅 ScheduleManager 직접 파일 로드 성공: {_p}")
                         break
     except Exception as _e:
-        logger.error(f"ScheduleManager 직접 파일 로드 실패: {_e}")
+        _load_errors.append(f"direct_file: {type(_e).__name__} - {_e}")
+        logger.error(f"ScheduleManager 직접 파일 로드 실패: {_e}", exc_info=True)
 
 if not ScheduleManager:
-    logger.warning("schedule_manager 모듈을 찾을 수 없습니다.")
+    logger.error(f"❌ schedule_manager 모든 단계 로드 최종 실패! 상세 이력: {'; '.join(_load_errors)}")
 
 # 📅 구글 캘린더 연동 및 10분 전 사전 알림 엔진 로드 (4단계 철통 안전 로드)
 google_calendar_engine = None
 GoogleCalendarEngine = None
-for _imp in [
-    lambda: __import__("modules.google_calendar_engine", fromlist=["google_calendar_engine", "GoogleCalendarEngine"]),
-    lambda: __import__("discord_bot.google_calendar_engine", fromlist=["google_calendar_engine", "GoogleCalendarEngine"]),
-    lambda: __import__("google_calendar_engine", fromlist=["google_calendar_engine", "GoogleCalendarEngine"]),
+_gcal_errors = []
+
+for _name, _imp in [
+    ("modules.google_calendar_engine", lambda: __import__("modules.google_calendar_engine", fromlist=["google_calendar_engine", "GoogleCalendarEngine"])),
+    ("discord_bot.google_calendar_engine", lambda: __import__("discord_bot.google_calendar_engine", fromlist=["google_calendar_engine", "GoogleCalendarEngine"])),
+    ("google_calendar_engine", lambda: __import__("google_calendar_engine", fromlist=["google_calendar_engine", "GoogleCalendarEngine"])),
 ]:
     try:
         _mod = _imp()
         google_calendar_engine = getattr(_mod, "google_calendar_engine", None)
         GoogleCalendarEngine = getattr(_mod, "GoogleCalendarEngine", None)
         if google_calendar_engine:
+            logger.info(f"📅 google_calendar_engine 로드 성공: {_name}")
             break
-    except Exception:
-        continue
+    except Exception as _e:
+        _gcal_errors.append(f"{_name}: {type(_e).__name__} - {_e}")
+        logger.debug(f"[{_name} 로드 시도 실패]: {_e}")
 
 if google_calendar_engine is None:
     try:
@@ -153,10 +162,11 @@ if google_calendar_engine is None:
                         logger.info(f"📅 google_calendar_engine 직접 파일 로드 성공: {_p}")
                         break
     except Exception as _e:
-        logger.error(f"google_calendar_engine 직접 파일 로드 실패: {_e}")
+        _gcal_errors.append(f"direct_file: {type(_e).__name__} - {_e}")
+        logger.error(f"google_calendar_engine 직접 파일 로드 실패: {_e}", exc_info=True)
 
 if not google_calendar_engine:
-    logger.warning("google_calendar_engine 모듈을 찾을 수 없습니다.")
+    logger.error(f"❌ google_calendar_engine 모든 단계 로드 최종 실패! 상세 이력: {'; '.join(_gcal_errors)}")
 
 # 🎴 199종 롤 칼바람 증강 & 코치 엔진 로드
 try:
