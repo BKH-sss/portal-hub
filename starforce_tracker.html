@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메이플스토리 스타포스 대시보드 - 노작 장비 가격 설정</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-base: #0a0d14;
+            --bg-surface: #121722;
+            --bg-card: #182030;
+            --bg-card-hover: #202b40;
+            --bg-inner: #0f131c;
+            --modal-bg: #141722;
+            --modal-card: #1c2230;
+            --modal-border: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(255, 153, 0, 0.4);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --accent-orange: #ff9900;
+            --accent-orange-glow: rgba(255, 153, 0, 0.25);
+            --accent-purple: #a855f7;
+            --accent-cyan: #38bdf8;
+            --color-success: #22c55e;
+            --color-fail: #f59e0b;
+            --color-destroy: #ef4444;
+            --color-chance: #3b82f6;
+            --gold: #fbbf24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 15% 10%, rgba(255, 153, 0, 0.07) 0%, transparent 45%),
+                radial-gradient(circle at 85% 90%, rgba(168, 85, 247, 0.08) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        /* Top Navigation Header */
+        header {
+            background: rgba(18, 23, 34, 0.88);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #ff9900, #ea580c);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            box-shadow: 0 4px 14px var(--accent-orange-glow);
+        }
+
+        .logo-title {
+            font-size: 19px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #fff, #ffedd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-sub {
+            font-size: 12px;
+            color: var(--accent-orange);
+            font-weight: 600;
+            margin-top: 1px;
+        }
+
+        /* Search & Filter Control Bar */
+        .search-panel {
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .inputs-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-box {
+            display: flex;
+            align-items: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 7px 12px;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .input-box:focus-within {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 2px rgba(255, 153, 0, 0.2);
+        }
+
+        .input-box i {
+            color: var(--text-dim);
+            font-size: 13px;
+        }
+
+        .input-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-main);
+            font-size: 13px;
+        }
+
+        /* Mode Switcher */
+        .mode-switcher {
+            display: flex;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3px;
+            gap: 4px;
+        }
+
+        .mode-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 12.5px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, rgba(255, 153, 0, 0.2), rgba(255, 153, 0, 0.35));
+            color: #ffb74d;
+            border: 1px solid rgba(255, 153, 0, 0.4);
+        }
+
+        .special-filter-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            padding: 7px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fca5a5;
+        }
+
+        .special-filter-toggle.active {
+            background: rgba(34, 197, 94, 0.12);
+            border-color: rgba(34, 197, 94, 0.35);
+            color: #86efac;
+        }
+
+        .special-filter-toggle input {
+            cursor: pointer;
+            accent-color: #22c55e;
+            width: 15px;
+            height: 15px;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff9900, #e65100);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(255, 153, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(255, 153, 0, 0.45);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .btn-clean-setting {
+            background: linear-gradient(135deg, #334155, #1e293b);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #e2e8f0;
+        }
+        .btn-clean-setting:hover {
+            border-color: var(--accent-orange);
+            color: #ffedd5;
+        }
+
+        .btn-help {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 13px;
+            padding: 4px 6px;
+            border-radius: 4px;
+        }
+        .btn-help:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Overview AI Luck Banner */
+        .ai-banner {
+            background: linear-gradient(135deg, rgba(28, 35, 51, 0.9), rgba(18, 23, 34, 0.95));
+            border: 1px solid rgba(255, 153, 0, 0.25);
+            border-radius: 14px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .banner-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .luck-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            background: rgba(255, 153, 0, 0.15);
+            color: var(--accent-orange);
+            border: 1px solid rgba(255, 153, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        .ai-text {
+            font-size: 14px;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        /* Grand Cost & Stats Metric Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .metric-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .metric-card.highlight {
+            border-color: rgba(251, 191, 36, 0.4);
+            background: linear-gradient(145deg, rgba(24, 32, 48, 0.9), rgba(18, 23, 34, 0.95));
+        }
+
+        .metric-card.highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gold);
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .metric-value {
+            font-size: 22px;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .metric-sub {
+            font-size: 12px;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        /* Tab Navigation */
+        .tab-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 12px;
+            margin-top: 6px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 15px;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .tab-btn.active {
+            color: #fff;
+            background: var(--accent-orange);
+            box-shadow: 0 4px 14px var(--accent-orange-glow);
+        }
+
+        .tab-badge {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Item Sessions Grid (모아보기) */
+        .sessions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .item-session-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .item-session-card:hover {
+            border-color: rgba(255, 255, 255, 0.16);
+        }
+
+        .item-session-header {
+            padding: 16px 20px;
+            background: var(--bg-card);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .item-session-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .item-icon-tag {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: rgba(255, 153, 0, 0.15);
+            color: var(--accent-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            border: 1px solid rgba(255, 153, 0, 0.3);
+        }
+
+        .item-name-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .item-meta-tags {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 3px;
+        }
+
+        .tag-pill {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.07);
+            color: var(--text-muted);
+        }
+
+        .tag-pill.world {
+            background: rgba(56, 189, 248, 0.12);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+        }
+
+        .tag-pill.destroy-tag {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .item-session-stats-summary {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .session-stat-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+        }
+
+        .session-stat-label {
+            font-size: 11px;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        .session-stat-val {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-main);
+        }
+
+        .star-goal-badge {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--gold);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Starforce Journey Trail */
+        .item-journey-container {
+            padding: 14px 20px;
+            background: var(--bg-inner);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .journey-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .journey-trail {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            max-height: 120px;
+            overflow-y: auto;
+            padding: 4px 0;
+        }
+
+        .step-node {
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .step-success {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .step-fail-drop {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .step-fail-stay {
+            background: rgba(148, 163, 184, 0.15);
+            color: #cbd5e1;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        .step-destroy {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Collapsible Log Section inside Card */
+        .item-log-collapse {
+            display: none;
+            padding: 16px 20px;
+            background: var(--bg-surface);
+        }
+
+        .item-log-collapse.open {
+            display: block;
+        }
+
+        /* Detailed History Table View */
+        .table-panel {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table-filter-bar {
+            padding: 14px 20px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .filter-pills {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-btn {
+            background: var(--bg-inner);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: rgba(255, 153, 0, 0.15);
+            color: var(--accent-orange);
+            border-color: rgba(255, 153, 0, 0.4);
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .history-table th {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px 16px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .history-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text-main);
+            vertical-align: middle;
+        }
+
+        .history-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge-res {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 700;
+        }
+
+        .badge-success { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+        .badge-fail { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .badge-destroy { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+        .star-trans {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+
+        /* Charts Tab Layout */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+        }
+
+        .chart-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .chart-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-wrap {
+            position: relative;
+            height: 280px;
+            width: 100%;
+        }
+
+        /* Load More Button */
+        .load-more-bar {
+            text-align: center;
+            margin-top: 14px;
+        }
+
+        /* ================================================================= */
+        /* Chuchu.gg 스타일 노작 장비 가격 설정 모달 */
+        /* ================================================================= */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .clean-modal-box {
+            background: #141722;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            max-width: 640px;
+            width: 92%;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+        }
+
+        .clean-modal-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--modal-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .clean-modal-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .clean-modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .clean-modal-close:hover { color: #fff; }
+
+        .clean-search-bar {
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--modal-border);
+            background: #10131d;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .clean-search-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 13.5px;
+        }
+
+        .clean-count-header {
+            padding: 10px 24px 6px;
+            font-size: 12px;
+            color: var(--text-dim);
+            font-weight: 600;
+        }
+
+        .clean-items-scroll-list {
+            padding: 10px 24px 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .clean-item-row {
+            background: #1b202c;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            transition: all 0.2s;
+        }
+
+        .clean-item-row:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: #202634;
+        }
+
+        .clean-item-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .clean-item-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            background: #11141c;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--accent-orange);
+        }
+
+        .clean-item-name {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .clean-item-sub {
+            font-size: 11.5px;
+            color: var(--text-dim);
+            margin-top: 2px;
+        }
+
+        .clean-item-default {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .clean-item-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .clean-price-input-wrap {
+            display: flex;
+            align-items: center;
+            background: #0f121a;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            padding: 6px 12px;
+            gap: 6px;
+        }
+
+        .clean-price-input-wrap:focus-within {
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 2px rgba(255, 153, 0, 0.2);
+        }
+
+        .clean-price-number-input {
+            width: 130px;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 13.5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .clean-price-unit {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .clean-reset-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .clean-reset-btn:hover {
+            color: var(--accent-orange);
+            transform: rotate(-45deg);
+        }
+
+        /* Generic Modal */
+        .modal-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-highlight);
+            border-radius: 14px;
+            max-width: 520px;
+            width: 90%;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .charts-grid { grid-template-columns: 1fr; }
+            .header-left .logo-sub { display: none; }
+            .container { padding: 16px; }
+            .clean-price-number-input { width: 90px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <div class="logo-icon"><i class="fa-solid fa-star"></i></div>
+            <div>
+                <div class="logo-title">메이플 스타포스 대시보드</div>
+                <div class="logo-sub">Chuchu.gg 스타일 노작 장비 가격 & 장비별 모아보기</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <button class="btn-action btn-clean-setting" onclick="openCleanModal()">
+                <i class="fa-solid fa-sliders"></i> 노작 장비 가격 설정
+            </button>
+            <button class="btn-action btn-secondary" onclick="loadSampleData()">
+                <i class="fa-solid fa-flask"></i> 22성 샘플 로드
+            </button>
+        </div>
+    </header>
+
+    <!-- Search & Filter Bar -->
+    <div class="search-panel">
+        <div class="inputs-group">
+            <!-- Period Mode Switcher (전체 기간 기본 vs 날짜 지정) -->
+            <div class="mode-switcher">
+                <button class="mode-btn active" id="btnModeAll" onclick="setPeriodMode('all')">
+                    <i class="fa-solid fa-globe"></i> 전체 기간 (누적 전체)
+                </button>
+                <button class="mode-btn" id="btnModeDate" onclick="setPeriodMode('date')">
+                    <i class="fa-solid fa-calendar-day"></i> 특정 날짜 지정
+                </button>
+            </div>
+
+            <!-- Specific Date Picker (Hidden in 'all' mode) -->
+            <div class="input-box" id="dateInputBox" style="display: none;">
+                <i class="fa-solid fa-calendar-days"></i>
+                <input type="date" id="searchDate">
+            </div>
+
+            <!-- API Key Input -->
+            <div class="input-box" style="min-width: 260px;">
+                <i class="fa-solid fa-key"></i>
+                <input type="password" id="nexonApiKey" placeholder="넥슨 Open API Key (live_...)" style="width: 100%;" onchange="saveApiKey(this.value)">
+                <button class="btn-help" onclick="openApiKeyModal()" title="API Key 발급 가이드"><i class="fa-regular fa-circle-question"></i></button>
+            </div>
+
+            <!-- Special World Filter Toggle -->
+            <label class="special-filter-toggle active" id="specialToggleLabel" title="버닝, 챌린저스 월드의 강화 기록을 분석에서 제외합니다.">
+                <input type="checkbox" id="excludeSpecialCheckbox" checked onchange="toggleSpecialWorldFilter()">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>스페셜 월드 제외</span>
+                <span id="excludedCountBadge" style="font-size: 11px; color: #fca5a5; margin-left: 2px;"></span>
+            </label>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-action btn-primary" onclick="fetchRealStarforceData()">
+                <i class="fa-solid fa-magnifying-glass"></i> <span id="searchBtnText">전체 누적 기록 조회</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- AI Luck Banner -->
+        <div class="ai-banner">
+            <div class="banner-info">
+                <div class="luck-badge" id="luckGradeBadge">👑 비틱 판별 대기중</div>
+                <div class="ai-text" id="aiCommentText">
+                    스타포스 강화 데이터를 로딩 중입니다... 상단의 <b>[22성 샘플 로드]</b> 버튼을 누르시면 즉시 테스트하실 수 있습니다.
+                </div>
+            </div>
+            <div style="text-align: right; min-width: 130px;">
+                <div style="font-size: 11.5px; color: var(--text-dim);" id="periodSpanText">조회 범위: 전체 기간</div>
+                <div style="font-size: 26px; font-weight: 900; color: #fbbf24; font-family: 'JetBrains Mono';" id="luckScore">- 점</div>
+            </div>
+        </div>
+
+        <!-- Grand Cost & Metrics Grid -->
+        <div class="metrics-grid">
+            <div class="metric-card highlight">
+                <div class="metric-label">
+                    <span>총 소모 비용 (메소 + 노작값)</span>
+                    <i class="fa-solid fa-wallet" style="color: var(--gold);"></i>
+                </div>
+                <div class="metric-value" id="grandTotalCost" style="color: #fde047;">0 메소</div>
+                <div class="metric-sub" id="grandTotalSub">순수 메소 + 스페어 복구비용 합산</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">
+                    <span>순수 강화 소모 메소</span>
+                    <i class="fa-solid fa-coins" style="color: #f59e0b;"></i>
+                </div>
+                <div class="metric-value" id="pureMesoCost">0 메소</div>
+                <div class="metric-sub" id="pureMesoSub">총 0회 시도</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">
+                    <span>파괴 횟수 및 노작 스페어 손실</span>
+                    <i class="fa-solid fa-burst" style="color: #ef4444;"></i>
+                </div>
+                <div class="metric-value" id="destroyMetrics" style="color: #f87171;">0회 (0 메소)</div>
+                <div class="metric-sub" id="destroySub">파괴율: 0.0%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">
+                    <span>전체 성공률 / 스타캐치</span>
+                    <i class="fa-solid fa-bullseye" style="color: #22c55e;"></i>
+                </div>
+                <div class="metric-value" id="successRate">0.0%</div>
+                <div class="metric-sub" id="starcatchSub">스타캐치 적중률: 0.0%</div>
+            </div>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('sessions')">
+                <i class="fa-solid fa-boxes-stacked"></i> 강화내역 모아보기 (장비별 세션)
+                <span class="tab-badge" id="sessionCountBadge">0</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('history')">
+                <i class="fa-solid fa-list-check"></i> 전체 상세내역 (타임라인)
+                <span class="tab-badge" id="historyCountBadge">0</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('charts')">
+                <i class="fa-solid fa-chart-pie"></i> 통계 & 구간 차트
+            </button>
+        </div>
+
+        <!-- TAB 1: 강화내역 모아보기 (장비별 세션 카드) -->
+        <div id="tab-sessions" class="tab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                <div style="font-size: 13.5px; color: var(--text-muted);">
+                    💡 상단 <b>[노작 장비 가격 설정]</b>에서 단가를 수정하시면 파괴 시 스페어 복구비용과 총 소모 비용이 실시간으로 동기화됩니다.
+                </div>
+                <div class="input-box" style="padding: 5px 10px;">
+                    <i class="fa-solid fa-filter"></i>
+                    <input type="text" id="sessionSearchInput" placeholder="장비명 검색..." oninput="filterSessionCards()" style="width: 140px;">
+                </div>
+            </div>
+            <div class="sessions-container" id="sessionsListContainer">
+                <!-- Javascript will render item session cards dynamically -->
+            </div>
+        </div>
+
+        <!-- TAB 2: 전체 상세내역 테이블 -->
+        <div id="tab-history" class="tab-content" style="display: none;">
+            <div class="table-panel">
+                <div class="table-filter-bar">
+                    <div class="filter-pills">
+                        <button class="filter-btn active" onclick="filterHistory('all')">전체</button>
+                        <button class="filter-btn" onclick="filterHistory('성공')">성공만</button>
+                        <button class="filter-btn" onclick="filterHistory('하락')">실패(하락)</button>
+                        <button class="filter-btn" onclick="filterHistory('유지')">실패(유지)</button>
+                        <button class="filter-btn" onclick="filterHistory('파괴')">💥 파괴만</button>
+                    </div>
+                    <div class="input-box" style="padding: 5px 10px;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="historySearchInput" placeholder="아이템명 검색..." oninput="applyHistoryFilters()" style="width: 160px;">
+                    </div>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>일시</th>
+                                <th>월드/캐릭터</th>
+                                <th>강화 대상 장비</th>
+                                <th>성급 변화</th>
+                                <th>강화 결과</th>
+                                <th>스타캐치</th>
+                                <th>파괴방지</th>
+                                <th>소모 메소</th>
+                                <th>노작 손실</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody">
+                            <!-- Javascript renders history rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: 통계 & 구간 차트 -->
+        <div id="tab-charts" class="tab-content" style="display: none;">
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-title"><i class="fa-solid fa-chart-pie" style="color: var(--accent-orange);"></i> 강화 결과 비율</div>
+                    <div class="chart-wrap">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-title"><i class="fa-solid fa-chart-column" style="color: var(--accent-cyan);"></i> 스타포스 구간별 성공 / 실패 / 파괴</div>
+                    <div class="chart-wrap">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More Pagination Button (When next_cursor exists) -->
+        <div class="load-more-bar" id="loadMoreSection" style="display: none;">
+            <button class="btn-action btn-secondary" onclick="fetchNextPageData()" style="padding: 10px 24px; font-size: 14px;">
+                <i class="fa-solid fa-angles-down"></i> 이전 강화 기록 1,000건 더 불러오기 (누적 합산)
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- Chuchu.gg 스타일 노작 장비 가격 설정 모달 -->
+    <!-- ================================================================= -->
+    <div class="modal-overlay" id="cleanModal" onclick="closeCleanModal(event)">
+        <div class="clean-modal-box" onclick="event.stopPropagation()">
+            <div class="clean-modal-header">
+                <div class="clean-modal-title">노작 장비 가격 설정</div>
+                <button class="clean-modal-close" onclick="closeCleanModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="clean-search-bar">
+                <i class="fa-solid fa-magnifying-glass" style="color: var(--text-dim);"></i>
+                <input type="text" class="clean-search-input" id="cleanModalSearchInput" placeholder="아이템 검색..." oninput="filterCleanModalItems()">
+            </div>
+
+            <div class="clean-count-header" id="cleanModalCount">23개 항목</div>
+
+            <div class="clean-items-scroll-list" id="cleanItemsList">
+                <!-- Javascript dynamically renders all 23 items -->
+            </div>
+        </div>
+    </div>
+
+    <!-- API Key Help Modal -->
+    <div class="modal-overlay" id="apiKeyModal" onclick="closeApiKeyModal(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-title" style="color: #fff; font-weight: 800; display: flex; justify-content: space-between; align-items: center;">
+                <span><i class="fa-solid fa-key" style="color: var(--accent-orange);"></i> 넥슨 Open API Key 발급 방법</span>
+                <i class="fa-solid fa-xmark" style="cursor: pointer;" onclick="closeApiKeyModal()"></i>
+            </div>
+            <div style="font-size: 13.5px; color: #cbd5e1; line-height: 1.6;">
+                <p>넥슨 오픈 API의 스타포스 강화 기록 조회는 <b>계정 본인의 '서비스 API 키'</b>가 필요합니다.</p>
+                <ol style="padding-left: 20px; margin: 10px 0;">
+                    <li><a href="https://openapi.nexon.com" target="_blank" style="color: #38bdf8; font-weight: 700;">넥슨 오픈 API 개발자 센터 (openapi.nexon.com)</a>에 접속하여 넥슨 계정으로 로그인합니다.</li>
+                    <li>상단 메뉴의 <b>[내 애플리케이션]</b> ➔ <b>[애플리케이션 등록]</b>을 누릅니다.</li>
+                    <li>애플리케이션 이름을 입력하고 <b>'서비스 API 키 (Live Key)'</b>를 발급받습니다.</li>
+                    <li>발급된 키(<code>live_...</code> 로 시작하는 문자열)를 복사하여 상단 입력창에 붙여넣으시면 됩니다.</li>
+                </ol>
+                <p style="color: #fbbf24; font-size: 12.5px; margin-top: 10px;">
+                    ✨ <b>API 키 없이 테스트하고 싶으신가요?</b><br>
+                    우측 상단의 <b>[22성 샘플 로드]</b> 버튼을 누르면 즉시 시뮬레이션 데이터를 체험하실 수 있습니다!
+                </p>
+            </div>
+            <div style="text-align: right;">
+                <button class="btn-action btn-primary" onclick="closeApiKeyModal()">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+        const API_BASE = (window.location.protocol === 'file:' || !window.location.host) ? 'http://127.0.0.1:8000' : '';
+        
+        // Chuchu.gg 기준 23개 프리셋 정의
+        const PRESET_CLEAN_ITEMS = [
+            { id: "gold_clover", name: "골든 클로버 벨트", level: 140, category: "벨트", defaultPrice: 500000, defaultLabel: "50만 메소", icon: "fa-ring", iconColor: "#eab308", keywords: ["골든 클로버", "골클벨"] },
+            { id: "daybreak", name: "데이브레이크 펜던트", level: 140, category: "펜던트", defaultPrice: 10000000, defaultLabel: "1000만 메소", icon: "fa-gem", iconColor: "#f59e0b", keywords: ["데이브레이크", "데브펜"] },
+            { id: "dominator", name: "도미네이터 펜던트", level: 140, category: "펜던트", defaultPrice: 1400000000, defaultLabel: "14억 메소", icon: "fa-gem", iconColor: "#a855f7", keywords: ["도미네이터", "도미"] },
+            { id: "meister_ring", name: "마이스터링", level: 140, category: "반지", defaultPrice: 30000000, defaultLabel: "3000만 메소", icon: "fa-ring", iconColor: "#38bdf8", keywords: ["마이스터링", "마이링"] },
+            { id: "twilight_mark", name: "트와일라이트 마크", level: 140, category: "얼굴장식", defaultPrice: 1000000, defaultLabel: "100만 메소", icon: "fa-mask", iconColor: "#94a3b8", keywords: ["트와일라이트", "트왈마"] },
+            { id: "guardian_angel_ring", name: "가디언 엔젤 링", level: 160, category: "반지", defaultPrice: 1000000, defaultLabel: "100만 메소", icon: "fa-ring", iconColor: "#22c55e", keywords: ["가디언 엔젤", "가엔링"] },
+            { id: "source_of_pain", name: "고통의 근원", level: 160, category: "펜던트", defaultPrice: 5300000000, defaultLabel: "53억 메소", icon: "fa-gem", iconColor: "#4ade80", keywords: ["고통의 근원", "고근"] },
+            { id: "rouge_control", name: "루즈 컨트롤 머신 마크", level: 160, category: "얼굴장식", defaultPrice: 1500000000, defaultLabel: "15억 메소", icon: "fa-mask", iconColor: "#fb7185", keywords: ["루즈 컨트롤", "루컨마"] },
+            { id: "magic_eyepatch", name: "마력이 깃든 안대", level: 160, category: "눈장식", defaultPrice: 3700000000, defaultLabel: "37억 메소", icon: "fa-glasses", iconColor: "#ef4444", keywords: ["마력이 깃든 안대", "마깃안"] },
+            { id: "estella", name: "에스텔라 이어링", level: 160, category: "귀고리", defaultPrice: 1000000, defaultLabel: "100만 메소", icon: "fa-ear-listen", iconColor: "#facc15", keywords: ["에스텔라", "에텔마"] },
+            { id: "giant_fear", name: "거대한 공포", level: 200, category: "반지", defaultPrice: 4500000000, defaultLabel: "45억 메소", icon: "fa-ring", iconColor: "#c084fc", keywords: ["거대한 공포", "거공"] },
+            { id: "dreamy_belt", name: "몽환의 벨트", level: 200, category: "벨트", defaultPrice: 4000000000, defaultLabel: "40억 메소", icon: "fa-ring", iconColor: "#fb923c", keywords: ["몽환의 벨트", "몽벨"] },
+            { id: "astra_sub", name: "아스트라 보조", level: 200, category: "44개 장비", defaultPrice: 1000000000, defaultLabel: "10억 메소", icon: "fa-shield", iconColor: "#38bdf8", keywords: ["아스트라", "보조무기"] },
+            { id: "arcane", name: "아케인", level: 200, category: "30개 장비", defaultPrice: 5000000, defaultLabel: "500만 메소", icon: "fa-shoe-prints", iconColor: "#60a5fa", keywords: ["아케인", "아케인셰이드"] },
+            { id: "commander_force", name: "커맨더 포스 이어링", level: 200, category: "귀고리", defaultPrice: 1400000000, defaultLabel: "14억 메소", icon: "fa-ear-listen", iconColor: "#94a3b8", keywords: ["커맨더 포스", "커포링"] },
+            { id: "under_control", name: "컴플리트 언더컨트롤", level: 200, category: "기계 심장", defaultPrice: 15000000000, defaultLabel: "150억 메소", icon: "fa-heart", iconColor: "#f43f5e", keywords: ["언더컨트롤", "컴플리트"] },
+            { id: "bloody_soul", name: "굶주리는 핏빛 원혼", level: 250, category: "눈장식", defaultPrice: 90000000000, defaultLabel: "900억 메소", icon: "fa-ghost", iconColor: "#dc2626", keywords: ["굶주리는 핏빛 원혼", "핏빛 원혼"] },
+            { id: "origin_whisper", name: "근원의 속삭임", level: 250, category: "반지", defaultPrice: 50000000000, defaultLabel: "500억 메소", icon: "fa-ring", iconColor: "#a855f7", keywords: ["근원의 속삭임", "근속"] },
+            { id: "destiny_weapon", name: "데티 무기", level: 250, category: "36개 장비", defaultPrice: 10000000000, defaultLabel: "100억 메소", icon: "fa-wand-magic-sparkles", iconColor: "#38bdf8", keywords: ["데티", "제네시스", "데스티니"] },
+            { id: "ether_hat_armor", name: "에테 모상하견", level: 250, category: "20개 장비 (모자/상의/하의/견장)", defaultPrice: 30000000, defaultLabel: "3000만 메소", icon: "fa-hat-wizard", iconColor: "#facc15", keywords: ["에테르넬", "헬름", "아머", "팬츠", "숄더", "모자", "상의", "하의", "견장"] },
+            { id: "ether_acc_cape", name: "에테 장신망", level: 250, category: "15개 장비 (장갑/신발/망토)", defaultPrice: 1200000000, defaultLabel: "12억 메소", icon: "fa-mitten", iconColor: "#fb923c", keywords: ["에테르넬", "부츠", "글러브", "케이프", "신발", "장갑", "망토"] },
+            { id: "oath_of_death", name: "죽음의 맹세", level: 250, category: "펜던트", defaultPrice: 70000000000, defaultLabel: "700억 메소", icon: "fa-skull", iconColor: "#2dd4bf", keywords: ["죽음의 맹세", "죽맹"] },
+            { id: "ecstatic_nightmare", name: "황홀한 악몽", level: 250, category: "반지", defaultPrice: 50000000000, defaultLabel: "500억 메소", icon: "fa-sun", iconColor: "#f59e0b", keywords: ["황홀한 악몽", "황악"] }
+        ];
+
+        let periodMode = 'all';        // 'all': 전체 기간, 'date': 특정 날짜
+        let rawHistoryData = [];       // 원본 강화 기록
+        let filteredHistoryData = [];  // 스페셜 월드 제외 필터 적용 기록
+        let nextCursor = null;         // 커서
+        let pieChartInstance = null;
+        let barChartInstance = null;
+
+        // 커스텀 노작 가격 저장소 (아이템 ID 또는 아이템명 -> 메소)
+        let customCleanPrices = JSON.parse(localStorage.getItem('maple_chuchu_clean_prices') || '{}');
+
+        // 저장된 API Key 복원
+        const savedApiKey = localStorage.getItem('maple_nexon_api_key') || '';
+        if (savedApiKey) {
+            document.getElementById('nexonApiKey').value = savedApiKey;
+        }
+
+        function saveApiKey(val) {
+            localStorage.setItem('maple_nexon_api_key', (val || '').trim());
+        }
+
+        function openApiKeyModal() { document.getElementById('apiKeyModal').style.display = 'flex'; }
+        function closeApiKeyModal() { document.getElementById('apiKeyModal').style.display = 'none'; }
+
+        // 노작 장비 가격 모달 열기/닫기
+        function openCleanModal() {
+            renderCleanModalItems();
+            document.getElementById('cleanModal').style.display = 'flex';
+        }
+
+        function closeCleanModal() {
+            document.getElementById('cleanModal').style.display = 'none';
+        }
+
+        // 특정 아이템의 현재 설정된 노작 가격 가져오기
+        function getItemCleanPrice(itemObj) {
+            if (customCleanPrices[itemObj.id] !== undefined) return customCleanPrices[itemObj.id];
+            return itemObj.defaultPrice;
+        }
+
+        // 아이템명으로부터 매칭되는 노작 가격 산출
+        function resolveCleanPriceForName(targetName) {
+            if (!targetName) return 0;
+            const name = targetName.trim();
+
+            // 1. 커스텀 단가 직접 등록 여부
+            if (customCleanPrices[name] !== undefined) return customCleanPrices[name];
+
+            // 2. 에테르넬 구분
+            if (name.includes('에테르넬')) {
+                if (name.includes('부츠') || name.includes('신발') || name.includes('글러브') || name.includes('장갑') || name.includes('케이프') || name.includes('망토')) {
+                    const preset = PRESET_CLEAN_ITEMS.find(p => p.id === 'ether_acc_cape');
+                    return getItemCleanPrice(preset);
+                } else {
+                    const preset = PRESET_CLEAN_ITEMS.find(p => p.id === 'ether_hat_armor');
+                    return getItemCleanPrice(preset);
+                }
+            }
+
+            // 3. 23개 프리셋 키워드 매칭
+            for (const preset of PRESET_CLEAN_ITEMS) {
+                for (const kw of preset.keywords) {
+                    if (name.includes(kw)) {
+                        return getItemCleanPrice(preset);
+                    }
+                }
+            }
+
+            return 0;
+        }
+
+        // 노작 설정 모달 렌더링
+        function renderCleanModalItems() {
+            const query = (document.getElementById('cleanModalSearchInput').value || '').trim().toLowerCase();
+            const listEl = document.getElementById('cleanItemsList');
+            
+            const filtered = PRESET_CLEAN_ITEMS.filter(it => {
+                return it.name.toLowerCase().includes(query) || it.category.toLowerCase().includes(query);
+            });
+
+            document.getElementById('cleanModalCount').textContent = `${filtered.length}개 항목`;
+
+            listEl.innerHTML = filtered.map(it => {
+                const curVal = getItemCleanPrice(it);
+                const formattedVal = curVal.toLocaleString();
+
+                return `
+                    <div class="clean-item-row" data-id="${it.id}">
+                        <div class="clean-item-left">
+                            <div class="clean-item-icon" style="color: ${it.iconColor};">
+                                <i class="fa-solid ${it.icon}"></i>
+                            </div>
+                            <div>
+                                <div class="clean-item-name">${it.name}</div>
+                                <div class="clean-item-sub">Lv.${it.level} · ${it.category}</div>
+                                <div class="clean-item-default">기본값 ${it.defaultLabel}</div>
+                            </div>
+                        </div>
+                        <div class="clean-item-right">
+                            <div class="clean-price-input-wrap">
+                                <input type="text" class="clean-price-number-input" value="${formattedVal}" 
+                                       oninput="handleCleanPriceInput(this, '${it.id}')" 
+                                       onblur="finalizeCleanPriceInput(this, '${it.id}')">
+                                <span class="clean-price-unit">메소</span>
+                            </div>
+                            <button class="clean-reset-btn" title="기본값으로 초기화" onclick="resetCleanPrice('${it.id}')">
+                                <i class="fa-solid fa-rotate-left"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterCleanModalItems() {
+            renderCleanModalItems();
+        }
+
+        function handleCleanPriceInput(inputEl, id) {
+            const raw = inputEl.value.replace(/[^0-9]/g, '');
+            const num = parseInt(raw, 10) || 0;
+            customCleanPrices[id] = num;
+            localStorage.setItem('maple_chuchu_clean_prices', JSON.stringify(customCleanPrices));
+            recalculateAndRender();
+        }
+
+        function finalizeCleanPriceInput(inputEl, id) {
+            const raw = inputEl.value.replace(/[^0-9]/g, '');
+            const num = parseInt(raw, 10) || 0;
+            inputEl.value = num.toLocaleString();
+            customCleanPrices[id] = num;
+            localStorage.setItem('maple_chuchu_clean_prices', JSON.stringify(customCleanPrices));
+            recalculateAndRender();
+        }
+
+        function resetCleanPrice(id) {
+            delete customCleanPrices[id];
+            localStorage.setItem('maple_chuchu_clean_prices', JSON.stringify(customCleanPrices));
+            renderCleanModalItems();
+            recalculateAndRender();
+        }
+
+        // 기간 모드 전환 (전체 기간 vs 날짜 지정)
+        function setPeriodMode(mode) {
+            periodMode = mode;
+            document.getElementById('btnModeAll').classList.toggle('active', mode === 'all');
+            document.getElementById('btnModeDate').classList.toggle('active', mode === 'date');
+            document.getElementById('dateInputBox').style.display = mode === 'date' ? 'flex' : 'none';
+            document.getElementById('searchBtnText').textContent = mode === 'all' ? '전체 누적 기록 조회' : '선택 날짜 기록 조회';
+        }
+
+        // 스페셜 월드 여부 판별
+        function isSpecialWorld(world) {
+            if (!world) return false;
+            const w = world.toLowerCase();
+            return w.includes('버닝') || w.includes('챌린저스') || w.includes('burning') || w.includes('challenger') || w.includes('테스트');
+        }
+
+        // 메소 포맷터
+        function formatMeso(cost) {
+            if (!cost || cost <= 0) return '0 메소';
+            if (cost >= 1000000000000) {
+                const jo = Math.floor(cost / 1000000000000);
+                const uk = Math.floor((cost % 1000000000000) / 100000000);
+                return uk > 0 ? `${jo}조 ${uk.toLocaleString()}억 메소` : `${jo}조 메소`;
+            } else if (cost >= 100000000) {
+                const uk = Math.floor(cost / 100000000);
+                const man = Math.floor((cost % 100000000) / 10000);
+                return man > 0 ? `${uk.toLocaleString()}억 ${man.toLocaleString()}만 메소` : `${uk.toLocaleString()}억 메소`;
+            } else if (cost >= 10000) {
+                return `${Math.floor(cost / 10000).toLocaleString()}만 메소`;
+            }
+            return `${cost.toLocaleString()} 메소`;
+        }
+
+        // 날짜 초기화 (최근 일자)
+        const today = new Date();
+        document.getElementById('searchDate').value = today.toISOString().split('T')[0];
+
+        // 탭 전환
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('onclick').includes(tabId));
+            });
+            document.getElementById('tab-sessions').style.display = tabId === 'sessions' ? 'block' : 'none';
+            document.getElementById('tab-history').style.display = tabId === 'history' ? 'block' : 'none';
+            document.getElementById('tab-charts').style.display = tabId === 'charts' ? 'block' : 'none';
+        }
+
+        // 스페셜 월드 체크박스 토글
+        function toggleSpecialWorldFilter() {
+            const cb = document.getElementById('excludeSpecialCheckbox');
+            const label = document.getElementById('specialToggleLabel');
+            label.classList.toggle('active', cb.checked);
+            recalculateAndRender();
+        }
+
+        // 클라이언트 샘플 데이터 생성기 (22성 180회 시뮬레이션)
+        function generateClientSampleData() {
+            const items = [
+                { name: "에테르넬 나이트부츠", level: 250, baseCost: 78000000, world: "스카니아" },
+                { name: "에테르넬 나이트숄더", level: 250, baseCost: 78000000, world: "스카니아" },
+                { name: "마력이 깃든 안대", level: 160, baseCost: 31000000, world: "루나" },
+                { name: "루즈 컨트롤 머신 마크", level: 160, baseCost: 31000000, world: "엘리시움" },
+                { name: "커맨더 포스 이어링", level: 160, baseCost: 31000000, world: "스카니아" },
+                { name: "아케인셰이드 투구", level: 200, baseCost: 52000000, world: "크로아" },
+                { name: "아케인셰이드 나이트숄더", level: 200, baseCost: 52000000, world: "오로라" },
+                { name: "파프니르 이글아이", level: 150, baseCost: 15000000, world: "버닝2" },
+                { name: "하이네스 워리어헬름", level: 150, baseCost: 15000000, world: "챌린저스" }
+            ];
+
+            const history = [];
+            let baseTime = new Date(Date.now() - 30 * 24 * 3600 * 1000);
+
+            items.forEach((it, idx) => {
+                let curStar = 12 + (idx % 4);
+                const targetGoal = (it.world.includes('버닝') || it.world.includes('챌린저스')) ? 17 : 22;
+                const tries = 20 + Math.floor(Math.random() * 16);
+
+                for (let i = 0; i < tries; i++) {
+                    baseTime = new Date(baseTime.getTime() + (Math.floor(Math.random() * 180) + 10) * 60000);
+                    
+                    let succP = 0.30;
+                    let destP = 0.028;
+                    if (curStar < 15) { succP = 0.45; destP = 0.0; }
+                    else if (curStar === 15 || curStar === 16) { succP = 0.30; destP = 0.021; }
+                    else if (curStar >= 20) { succP = 0.30; destP = 0.07; }
+
+                    const roll = Math.random();
+                    const starcatch = Math.random() < 0.85 ? "성공" : "실패";
+                    const cost = Math.floor(it.baseCost * (1 + (curStar * 0.15)));
+                    let res = "실패(하락)";
+                    let nextStar = curStar;
+
+                    if (roll < succP) {
+                        res = "성공";
+                        nextStar = curStar + 1;
+                    } else if (roll < succP + destP) {
+                        res = "파괴";
+                        nextStar = 12;
+                    } else {
+                        res = (curStar >= 16 && curStar !== 20) ? "실패(하락)" : "실패(유지)";
+                        nextStar = res.includes("하락") ? Math.max(10, curStar - 1) : curStar;
+                    }
+
+                    history.push({
+                        id: `sf_${history.length + 1}`,
+                        item_upgrade_result: res,
+                        before_starforce_count: curStar,
+                        after_starforce_count: (res === "성공") ? nextStar : curStar,
+                        starcatch_result: starcatch,
+                        destroy_defence: (curStar === 15 || curStar === 16) && Math.random() < 0.4 ? "적용" : "미적용",
+                        chance_time: "미적용",
+                        target_item: it.name,
+                        item_level: it.level,
+                        world_name: it.world,
+                        character_name: `${it.world}용사${Math.floor(Math.random() * 90) + 10}`,
+                        cost: cost,
+                        date_create: baseTime.toISOString()
+                    });
+
+                    curStar = nextStar;
+                    if (curStar >= targetGoal) break;
+                }
+            });
+
+            history.reverse();
+            return history;
+        }
+
+        // 샘플 데이터 로드
+        async function loadSampleData() {
+            nextCursor = null;
+            document.getElementById('loadMoreSection').style.display = 'none';
+
+            try {
+                if (API_BASE) {
+                    const res = await fetch(`${API_BASE}/api/maple/starforce/sample?exclude_special=false`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        rawHistoryData = data.history || [];
+                        recalculateAndRender();
+                        return;
+                    }
+                }
+            } catch (e) {}
+
+            rawHistoryData = generateClientSampleData();
+            recalculateAndRender();
+        }
+
+        // 실시간 넥슨 데이터 조회 (전체 기간 기본 vs 날짜 지정)
+        async function fetchRealStarforceData(isLoadMore = false) {
+            const apiKeyInput = document.getElementById('nexonApiKey');
+            const apiKey = (apiKeyInput.value || '').trim();
+            const date = (periodMode === 'date') ? document.getElementById('searchDate').value : '';
+            const excludeSpecial = document.getElementById('excludeSpecialCheckbox').checked;
+
+            if (!apiKey) {
+                openApiKeyModal();
+                return;
+            }
+
+            saveApiKey(apiKey);
+
+            let url = `${API_BASE}/api/maple/starforce/history?exclude_special=${excludeSpecial}&api_key=${encodeURIComponent(apiKey)}&count=1000`;
+            if (date) url += `&date=${encodeURIComponent(date)}`;
+            if (isLoadMore && nextCursor) url += `&cursor=${encodeURIComponent(nextCursor)}`;
+
+            try {
+                const res = await fetch(url);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        const newLogs = data.history || [];
+                        nextCursor = data.next_cursor || null;
+
+                        if (isLoadMore) {
+                            rawHistoryData = rawHistoryData.concat(newLogs);
+                        } else {
+                            rawHistoryData = newLogs;
+                        }
+
+                        if (rawHistoryData.length === 0) {
+                            alert(date ? `해당 날짜(${date})에는 스타포스 강화 기록이 없습니다.` : '조회된 최근 스타포스 강화 기록이 없습니다.');
+                        }
+
+                        document.getElementById('loadMoreSection').style.display = nextCursor ? 'block' : 'none';
+                        recalculateAndRender();
+                        return;
+                    } else {
+                        alert('조회 실패: ' + (data.message || '넥슨 API 오류'));
+                        return;
+                    }
+                }
+            } catch (e) {
+                // 브라우저 직결 시도
+                try {
+                    let directUrl = `https://open.api.nexon.com/maplestory/v1/history/starforce?count=1000`;
+                    if (date) directUrl += `&date=${encodeURIComponent(date)}`;
+                    if (isLoadMore && nextCursor) directUrl += `&cursor=${encodeURIComponent(nextCursor)}`;
+
+                    const dRes = await fetch(directUrl, { headers: { "x-nxopen-api-key": apiKey } });
+                    if (dRes.ok) {
+                        const dData = await dRes.json();
+                        const newLogs = dData.starforce_history || [];
+                        nextCursor = dData.next_cursor || null;
+
+                        if (isLoadMore) {
+                            rawHistoryData = rawHistoryData.concat(newLogs);
+                        } else {
+                            rawHistoryData = newLogs;
+                        }
+
+                        if (rawHistoryData.length === 0) {
+                            alert(date ? `해당 날짜(${date})에는 스타포스 강화 기록이 없습니다.` : '조회된 최근 스타포스 강화 기록이 없습니다.');
+                        }
+
+                        document.getElementById('loadMoreSection').style.display = nextCursor ? 'block' : 'none';
+                        recalculateAndRender();
+                        return;
+                    } else {
+                        const errJson = await dRes.json().catch(() => ({}));
+                        const errMsg = errJson.error ? errJson.error.message : 'API 키를 다시 확인해주세요.';
+                        alert('넥슨 API 조회 오류: ' + errMsg);
+                        return;
+                    }
+                } catch (de) {}
+                alert('서버 통신 실패: 인터넷 연결 또는 API 키를 확인해주세요.');
+            }
+        }
+
+        function fetchNextPageData() {
+            fetchRealStarforceData(true);
+        }
+
+        // 스페셜 월드 제외 및 노작 가격 반영 실시간 재계산
+        function recalculateAndRender() {
+            const excludeSpecial = document.getElementById('excludeSpecialCheckbox').checked;
+            
+            let excludedCount = 0;
+            filteredHistoryData = [];
+
+            rawHistoryData.forEach(h => {
+                if (excludeSpecial && isSpecialWorld(h.world_name)) {
+                    excludedCount++;
+                } else {
+                    filteredHistoryData.push(h);
+                }
+            });
+
+            // 제외 배지 갱신
+            const badge = document.getElementById('excludedCountBadge');
+            badge.textContent = (excludeSpecial && excludedCount > 0) ? `(${excludedCount}건 제외됨)` : '';
+
+            // 조회 기간 범위 문자열 생성
+            let spanText = '조회 범위: 전체 기간';
+            if (filteredHistoryData.length > 0) {
+                const dates = filteredHistoryData.map(h => (h.date_create || '').substring(0, 10)).filter(Boolean);
+                if (dates.length > 0) {
+                    const minDate = dates[dates.length - 1];
+                    const maxDate = dates[0];
+                    spanText = (minDate === maxDate) ? `조회 날짜: ${maxDate}` : `기간: ${minDate} ~ ${maxDate}`;
+                }
+            }
+            document.getElementById('periodSpanText').textContent = spanText;
+
+            // 통계 및 세션 집계
+            let totalAttempts = filteredHistoryData.length;
+            let successCount = 0, failCount = 0, destroyCount = 0;
+            let totalMesoCost = 0, totalCleanCost = 0;
+            let starcatchSuccess = 0, starcatchTotal = 0;
+
+            const itemSessionsMap = {};
+            const tierStatsMap = {};
+
+            filteredHistoryData.forEach(h => {
+                const cost = h.cost || 0;
+                totalMesoCost += cost;
+                const res = h.item_upgrade_result || '';
+                const beforeStar = h.before_starforce_count || 0;
+                const afterStar = h.after_starforce_count || (res.includes('성공') ? beforeStar + 1 : beforeStar);
+                const itemName = h.target_item || '미확인 장비';
+                const sc = h.starcatch_result;
+
+                if (sc === '성공' || sc === '실패') {
+                    starcatchTotal++;
+                    if (sc === '성공') starcatchSuccess++;
+                }
+
+                // 티어별 집계
+                const tierKey = `${beforeStar}★ ➔ ${beforeStar + 1}★`;
+                if (!tierStatsMap[tierKey]) {
+                    tierStatsMap[tierKey] = { tier: beforeStar, attempts: 0, success: 0, fail: 0, destroy: 0 };
+                }
+                tierStatsMap[tierKey].attempts++;
+
+                // 장비 세션별 집계
+                if (!itemSessionsMap[itemName]) {
+                    const cleanPrice = resolveCleanPriceForName(itemName);
+                    itemSessionsMap[itemName] = {
+                        itemName: itemName,
+                        itemLevel: h.item_level || 0,
+                        worldName: h.world_name || '본서버',
+                        attempts: 0,
+                        success: 0,
+                        fail: 0,
+                        destroy: 0,
+                        mesoCost: 0,
+                        cleanPrice: cleanPrice,
+                        cleanCost: 0,
+                        grandCost: 0,
+                        startStar: beforeStar,
+                        maxStar: beforeStar,
+                        finalStar: afterStar,
+                        history: [],
+                        journey: []
+                    };
+                }
+
+                const sess = itemSessionsMap[itemName];
+                sess.attempts++;
+                sess.mesoCost += cost;
+                sess.history.push(h);
+                sess.journey.push({
+                    from: beforeStar,
+                    to: afterStar,
+                    result: res,
+                    cost: cost,
+                    starcatch: sc,
+                    time: h.date_create
+                });
+
+                if (res.includes('성공')) {
+                    successCount++;
+                    tierStatsMap[tierKey].success++;
+                    sess.success++;
+                    sess.maxStar = Math.max(sess.maxStar, afterStar);
+                    sess.finalStar = afterStar;
+                } else if (res.includes('파괴')) {
+                    destroyCount++;
+                    tierStatsMap[tierKey].destroy++;
+                    sess.destroy++;
+                    sess.finalStar = 12;
+                } else {
+                    failCount++;
+                    tierStatsMap[tierKey].fail++;
+                    sess.fail++;
+                    sess.finalStar = afterStar;
+                }
+            });
+
+            // 장비별 노작 비용 및 최종 비용 계산
+            const sessionsList = Object.values(itemSessionsMap).map(sess => {
+                sess.cleanPrice = resolveCleanPriceForName(sess.itemName);
+                sess.cleanCost = sess.destroy * sess.cleanPrice;
+                sess.grandCost = sess.mesoCost + sess.cleanCost;
+                totalCleanCost += sess.cleanCost;
+                return sess;
+            });
+
+            // 정렬 (총 비용 내림차순)
+            sessionsList.sort((a, b) => b.grandCost - a.grandCost);
+
+            const totalGrandCost = totalMesoCost + totalCleanCost;
+            const successRate = totalAttempts > 0 ? ((successCount / totalAttempts) * 100).toFixed(1) : 0;
+            const destroyRate = totalAttempts > 0 ? ((destroyCount / totalAttempts) * 100).toFixed(2) : 0;
+            const starcatchRate = starcatchTotal > 0 ? ((starcatchSuccess / starcatchTotal) * 100).toFixed(1) : 0;
+
+            // 운빨 점수 계산
+            let baseScore = 50.0;
+            if (totalAttempts >= 10) {
+                const expectedDest = totalAttempts * 0.015;
+                baseScore += (expectedDest - destroyCount) * 8.0;
+            }
+            const luckScore = Math.max(1, Math.min(99, Math.round(baseScore)));
+            let luckGrade = "⚖️ 평범 (정규 확률 수렴)";
+            let aiComment = "메이플스토리 공식 스타포스 기댓값과 거의 일치하는 정상 범주의 통계입니다.";
+
+            if (luckScore >= 80) {
+                luckGrade = "👑 초특급 비틱 (신의 손)";
+                aiComment = "확률을 거스른 압도적인 비틱입니다! 파괴를 거의 피해 가며 노작 장비값과 수백억 메소를 대폭 절약하셨습니다.";
+            } else if (luckScore >= 60) {
+                luckGrade = "✨ 상위권 (이득 구간)";
+                aiComment = "전반적으로 운이 좋은 편입니다. 파괴 횟수가 적어 스페어 지출을 최소화하고 목표 성급에 도달했습니다.";
+            } else if (luckScore <= 35) {
+                luckGrade = "🌧️ 소폭 억까 (주의)";
+                aiComment = "평균보다 파괴 횟수가 많아 노작 장비 스페어 비용 지출이 컸습니다. 오늘은 강화를 쉬어가는 것을 권장합니다.";
+            } else if (luckScore <= 20) {
+                luckGrade = "💀 대참사 (극악의 억까)";
+                aiComment = "스카디 긴급 경보! 극악의 억까로 인해 장비가 연쇄 파괴되어 막대한 노작 비용이 증발했습니다!";
+            }
+
+            // 렌더링 적용
+            document.getElementById('luckGradeBadge').textContent = luckGrade;
+            document.getElementById('aiCommentText').textContent = aiComment;
+            document.getElementById('luckScore').textContent = `${luckScore}점`;
+
+            document.getElementById('grandTotalCost').textContent = formatMeso(totalGrandCost);
+            document.getElementById('grandTotalSub').textContent = `순수 메소 (${formatMeso(totalMesoCost)}) + 스페어 복구비 (${formatMeso(totalCleanCost)})`;
+
+            document.getElementById('pureMesoCost').textContent = formatMeso(totalMesoCost);
+            document.getElementById('pureMesoSub').textContent = `총 ${totalAttempts.toLocaleString()}회 시도 (성공 ${successCount}회 / 실패 ${failCount}회)`;
+
+            document.getElementById('destroyMetrics').textContent = `${destroyCount}회 (${formatMeso(totalCleanCost)})`;
+            document.getElementById('destroySub').textContent = `파괴율: ${destroyRate}% (스페어 ${destroyCount}개 소모)`;
+
+            document.getElementById('successRate').textContent = `${successRate}%`;
+            document.getElementById('starcatchSub').textContent = `스타캐치 적중률: ${starcatchRate}%`;
+
+            document.getElementById('sessionCountBadge').textContent = sessionsList.length;
+            document.getElementById('historyCountBadge').textContent = filteredHistoryData.length;
+
+            renderSessionCards(sessionsList);
+            applyHistoryFilters();
+            renderCharts(successCount, failCount, destroyCount, tierStatsMap);
+        }
+
+        // 장비별 모아보기 카드 렌더링
+        function renderSessionCards(sessions) {
+            const container = document.getElementById('sessionsListContainer');
+            if (!sessions || sessions.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 40px;">조회된 장비 강화 내역이 없습니다.</div>';
+                return;
+            }
+
+            container.innerHTML = sessions.map((sess, idx) => {
+                // 스타포스 궤적 노드
+                const journeyHtml = sess.journey.slice(-40).map(step => {
+                    let nodeClass = 'step-fail-stay';
+                    let icon = '•';
+                    if (step.result.includes('성공')) { nodeClass = 'step-success'; icon = '▲'; }
+                    else if (step.result.includes('하락')) { nodeClass = 'step-fail-drop'; icon = '▼'; }
+                    else if (step.result.includes('파괴')) { nodeClass = 'step-destroy'; icon = '💥 파괴'; }
+
+                    return `<span class="step-node ${nodeClass}">${step.from}★ ➔ ${step.to}★ ${icon}</span>`;
+                }).join('');
+
+                return `
+                    <div class="item-session-card" data-item-name="${sess.itemName}">
+                        <!-- Card Header -->
+                        <div class="item-session-header" onclick="toggleItemLog('log_${idx}')">
+                            <div class="item-session-title">
+                                <div class="item-icon-tag"><i class="fa-solid fa-shield-halved"></i></div>
+                                <div>
+                                    <div class="item-name-text">${sess.itemName}</div>
+                                    <div class="item-meta-tags">
+                                        <span class="tag-pill">Lv.${sess.itemLevel || 200}</span>
+                                        <span class="tag-pill world">${sess.worldName}</span>
+                                        ${sess.destroy > 0 ? `<span class="tag-pill destroy-tag">💥 파괴 ${sess.destroy}회 (스페어 ${formatMeso(sess.cleanCost)})</span>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-session-stats-summary">
+                                <div class="session-stat-box" onclick="event.stopPropagation(); openCleanModal();" style="cursor: pointer;" title="클릭하여 노작 단가 설정">
+                                    <span class="session-stat-label">노작 단가</span>
+                                    <span class="session-stat-val" style="color: #67e8f9;"><i class="fa-solid fa-gear" style="font-size: 11px;"></i> ${formatMeso(sess.cleanPrice)}</span>
+                                </div>
+                                <div class="session-stat-box">
+                                    <span class="session-stat-label">강화 시도</span>
+                                    <span class="session-stat-val">${sess.attempts}회 <small style="color: #4ade80;">(성공 ${sess.success})</small></span>
+                                </div>
+                                <div class="session-stat-box">
+                                    <span class="session-stat-label">총 소모액 (장비값 포함)</span>
+                                    <span class="session-stat-val" style="color: #fde047;">${formatMeso(sess.grandCost)}</span>
+                                </div>
+                                <div class="star-goal-badge">
+                                    <span>${sess.startStar}★ ➔ ${sess.maxStar}★</span>
+                                    ${sess.maxStar >= 22 ? '<i class="fa-solid fa-crown" style="color: #fbbf24;"></i>' : ''}
+                                </div>
+                                <i class="fa-solid fa-chevron-down" id="icon_log_${idx}" style="color: var(--text-dim); transition: transform 0.2s;"></i>
+                            </div>
+                        </div>
+
+                        <!-- Starforce Journey Trail -->
+                        <div class="item-journey-container">
+                            <div class="journey-label">
+                                <span><i class="fa-solid fa-route"></i> 스타포스 강화 궤적 (진행도)</span>
+                                <span style="font-size: 11px; color: var(--text-dim);">시작 ${sess.startStar}★ ➔ 최고 ${sess.maxStar}★ ➔ 최종 ${sess.finalStar}★</span>
+                            </div>
+                            <div class="journey-trail">${journeyHtml}</div>
+                        </div>
+
+                        <!-- Collapsible Detailed Log Table -->
+                        <div class="item-log-collapse" id="log_${idx}">
+                            <div style="font-weight: 700; font-size: 13px; margin-bottom: 10px; color: #fff;">
+                                📜 ${sess.itemName} 세부 강화 로그 (${sess.history.length}건)
+                            </div>
+                            <table class="history-table" style="font-size: 12px;">
+                                <thead>
+                                    <tr>
+                                        <th>시간</th>
+                                        <th>성급 변화</th>
+                                        <th>결과</th>
+                                        <th>스타캐치</th>
+                                        <th>파괴방지</th>
+                                        <th>소모 메소</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${sess.history.map(h => {
+                                        let badge = 'badge-fail';
+                                        if (h.item_upgrade_result.includes('성공')) badge = 'badge-success';
+                                        else if (h.item_upgrade_result.includes('파괴')) badge = 'badge-destroy';
+                                        return `
+                                            <tr>
+                                                <td style="color: var(--text-dim);">${h.date_create ? h.date_create.substring(5, 16).replace('T', ' ') : '-'}</td>
+                                                <td class="star-trans">${h.before_starforce_count}★ ➔ ${h.after_starforce_count}★</td>
+                                                <td><span class="badge-res ${badge}">${h.item_upgrade_result}</span></td>
+                                                <td>${h.starcatch_result === '성공' ? '<i class="fa-solid fa-check" style="color: #4ade80;"></i>' : '-'}</td>
+                                                <td>${h.destroy_defence === '적용' ? '<span style="color: #38bdf8;">방어</span>' : '-'}</td>
+                                                <td style="color: #fbbf24;">${(h.cost / 10000).toLocaleString()}만 메소</td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 세션 상세 로그 아코디언 토글
+        function toggleItemLog(collapseId) {
+            const el = document.getElementById(collapseId);
+            const icon = document.getElementById('icon_' + collapseId);
+            if (el) {
+                const isOpen = el.classList.toggle('open');
+                if (icon) icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        }
+
+        // 세션 카드 검색 필터
+        function filterSessionCards() {
+            const query = document.getElementById('sessionSearchInput').value.trim().toLowerCase();
+            document.querySelectorAll('.item-session-card').forEach(card => {
+                const name = card.getAttribute('data-item-name').toLowerCase();
+                card.style.display = name.includes(query) ? 'block' : 'none';
+            });
+        }
+
+        // 상세 테이블 필터링
+        let currentHistoryType = 'all';
+
+        function filterHistory(type) {
+            currentHistoryType = type;
+            document.querySelectorAll('.table-filter-bar .filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.includes(type === 'all' ? '전체' : type));
+            });
+            applyHistoryFilters();
+        }
+
+        function applyHistoryFilters() {
+            const query = document.getElementById('historySearchInput').value.trim().toLowerCase();
+            const tbody = document.getElementById('historyTableBody');
+
+            let filtered = filteredHistoryData;
+            if (currentHistoryType !== 'all') {
+                filtered = filtered.filter(h => (h.item_upgrade_result || '').includes(currentHistoryType));
+            }
+            if (query) {
+                filtered = filtered.filter(h => (h.target_item || '').toLowerCase().includes(query));
+            }
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 30px;">조건에 맞는 기록이 없습니다.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.slice(0, 100).map(h => {
+                let badgeClass = 'badge-fail';
+                if (h.item_upgrade_result.includes('성공')) badgeClass = 'badge-success';
+                else if (h.item_upgrade_result.includes('파괴')) badgeClass = 'badge-destroy';
+
+                const timeStr = h.date_create ? h.date_create.replace('T', ' ').substring(5, 19) : '-';
+                const cleanPrice = resolveCleanPriceForName(h.target_item);
+                const destroyLoss = h.item_upgrade_result.includes('파괴') ? formatMeso(cleanPrice) : '-';
+
+                return `
+                    <tr>
+                        <td style="color: var(--text-dim);">${timeStr}</td>
+                        <td><span class="tag-pill world">${h.world_name || '본서버'}</span> ${h.character_name || ''}</td>
+                        <td style="font-weight: 700;">${h.target_item || '-'}</td>
+                        <td class="star-trans">${h.before_starforce_count}★ ➔ ${h.after_starforce_count}★</td>
+                        <td><span class="badge-res ${badgeClass}">${h.item_upgrade_result}</span></td>
+                        <td>${h.starcatch_result === '성공' ? '<i class="fa-solid fa-check" style="color: #4ade80;"></i>' : '-'}</td>
+                        <td>${h.destroy_defence === '적용' ? '<span style="color: #38bdf8; font-weight: 600;">방어</span>' : '-'}</td>
+                        <td style="color: #fbbf24; font-weight: 600;">${(h.cost / 10000).toLocaleString()}만</td>
+                        <td style="color: #f87171; font-weight: 600;">${destroyLoss}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // 차트 렌더링
+        function renderCharts(succ, fail, dest, tierMap) {
+            // 도넛 파이 차트
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            if (pieChartInstance) pieChartInstance.destroy();
+            pieChartInstance = new Chart(pieCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['성공', '실패(유지/하락)', '파괴'],
+                    datasets: [{
+                        data: [succ, fail, dest],
+                        backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#cbd5e1' } }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            // 구간별 바 차트
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            if (barChartInstance) barChartInstance.destroy();
+
+            const labels = Object.keys(tierMap).sort((a, b) => tierMap[a].tier - tierMap[b].tier);
+            const succData = labels.map(k => tierMap[k].success);
+            const failData = labels.map(k => tierMap[k].fail);
+            const destData = labels.map(k => tierMap[k].destroy);
+
+            barChartInstance = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: '성공', data: succData, backgroundColor: '#22c55e', borderRadius: 4 },
+                        { label: '실패', data: failData, backgroundColor: '#f59e0b', borderRadius: 4 },
+                        { label: '파괴', data: destData, backgroundColor: '#ef4444', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, ticks: { color: '#94a3b8' }, grid: { display: false } },
+                        y: { stacked: true, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#cbd5e1' } }
+                    }
+                }
+            });
+        }
+
+        // 초기 자동 로드
+        window.addEventListener('DOMContentLoaded', loadSampleData);
+    </script>
+</body>
+</html>

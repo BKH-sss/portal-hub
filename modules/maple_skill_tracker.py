@@ -832,34 +832,38 @@ class MapleSkillWatcher:
         self._start_auto_lifecycle_watcher()
         self.start()                      # 백그라운드 리스너 루프 상시 시작 (포커스 필터로 안전 대기)
 
+    VALID_MAPLE_EXES = {"maplestory.exe", "maplestory2.exe", "maplestory_test.exe"}
+    NON_MAPLE_EXES = {
+        "chrome.exe", "msedge.exe", "whale.exe", "firefox.exe", "brave.exe",
+        "opera.exe", "orca.exe", "code.exe", "discord.exe", "explorer.exe",
+        "python.exe", "pythonw.exe", "cmd.exe", "powershell.exe", "windowsterminal.exe",
+        "notepad.exe", "devenv.exe", "slack.exe", "kakaotalk.exe", "taskmgr.exe"
+    }
+
     def _start_auto_lifecycle_watcher(self):
-        """메이플스토리 프로세스(MapleStory.exe) 실행 및 포커스 상태 상시 자동 감시 스레드"""
+        """메이플스토리 프로세스(MapleStory.exe) 실행 여부 엄격 감시 스레드"""
         def _lifecycle_loop():
             while True:
                 try:
-                    time.sleep(0.5)
-                    # 1. 메이플 프로세스 PID 실시간 갱신 (모든 Maple 변종 프로세스 감지)
+                    time.sleep(1.0)
                     pids = set()
                     if psutil:
                         for p in psutil.process_iter(['pid', 'name']):
                             try:
-                                pname = (p.info.get('name') or '').lower()
-                                if 'maple' in pname:
+                                pname = (p.info.get('name') or '').lower().strip()
+                                if pname in self.VALID_MAPLE_EXES:
                                     pids.add(p.info['pid'])
                             except (psutil.NoSuchProcess, psutil.AccessDenied, Exception):
                                 pass
                     self.maple_pids = pids
 
-                    if not self.auto_manage:
-                        continue
-
-                    running = len(self.maple_pids) > 0
-                    if running and not self.is_running:
-                        self.target_window_locked = True
-                        self.start()
-                        print("[🍁 Maple Auto] 메이플스토리 실행 감지! 스킬 쿨타임 & 음성 브리핑 자동 가동")
-                    elif not running and self.is_running and self.target_window_locked:
-                        self.target_window_locked = False
+                    # 메이플이 꺼져 있으면 기존 진행 중이던 쿨타임과 음성 즉각 리셋
+                    if len(self.maple_pids) == 0:
+                        for sk in self.skills:
+                            if sk.state != "READY":
+                                sk.state = "READY"
+                                sk.cooldown_end_time = 0.0
+                                sk.is_key_down = False
                 except Exception:
                     pass
 
@@ -867,31 +871,46 @@ class MapleSkillWatcher:
         t.start()
 
     def is_maple_active_window(self) -> bool:
-        """현재 사용자가 메이플스토리 게임 창을 포커스(활성화)하고 있는지 0.00ms 초고속 검사"""
+        """현재 사용자가 메이플스토리 '게임 창'을 직접 활성화(포커스)하고 있는지 엄격하게 검증"""
         if not self.focus_filter_enabled:
-            return True
+            return len(self.maple_pids) > 0
+
+        # 메이플 프로세스 자체가 안 켜져 있으면 무조건 False
+        if len(self.maple_pids) == 0 and not self.is_maple_running():
+            return False
+
         try:
             user32 = ctypes.windll.user32
             hwnd = user32.GetForegroundWindow()
             if not hwnd:
                 return False
 
-            # 1. 활성 윈도우의 PID가 메이플 프로세스 PID인지 O(1) 초고속 확인
+            # 1. 활성 윈도우의 PID 확인
             pid = ctypes.c_ulong()
             user32.GetWindowThreadProcessId(hwnd, ctypes.byref(pid))
-            if self.maple_pids and pid.value in self.maple_pids:
-                return True
+            cur_pid = pid.value
+            if not cur_pid:
+                return False
 
-            # 2. 보조 윈도우 타이틀 및 클래스명 검사
-            length = user32.GetWindowTextLengthW(hwnd)
-            if length > 0:
-                buff = ctypes.create_unicode_buffer(length + 1)
-                user32.GetWindowTextW(hwnd, buff, length + 1)
-                title = buff.value.lower()
-                if "maplestory" in title or "메이플스토리" in title or "maple" in title:
-                    if pid.value:
-                        self.maple_pids.add(pid.value)
+            # 2. 프로세스 이름 확인 (psutil) - 브라우저/에디터 등은 즉시 차단
+            if psutil:
+                try:
+                    proc = psutil.Process(cur_pid)
+                    pname = proc.name().lower().strip()
+                    if pname in self.NON_MAPLE_EXES:
+                        return False
+                    if pname in self.VALID_MAPLE_EXES:
+                        return True
+                except (psutil.NoSuchProcess, psutil.AccessDenied, Exception):
+                    pass
+
+            # 3. 윈도우 클래스명 확인 (MapleStoryClass, StartUpClass)
+            class_buff = ctypes.create_unicode_buffer(256)
+            if user32.GetClassNameW(hwnd, class_buff, 256) > 0:
+                cname = class_buff.value.strip()
+                if cname in ["MapleStoryClass", "StartUpClass"]:
                     return True
+
         except Exception:
             pass
         return False
@@ -1084,20 +1103,27 @@ class MapleSkillWatcher:
                 return
 
     def is_maple_running(self) -> bool:
-        """메이플스토리 프로세스 실행 여부 확인"""
+        """메이플스토리 프로세스(MapleStory.exe) 실행 여부 엄격 확인"""
         if self.maple_pids:
             return True
-        if not psutil:
-            return True
+        if psutil:
+            try:
+                for p in psutil.process_iter(['pid', 'name']):
+                    try:
+                        pname = (p.info.get('name') or '').lower().strip()
+                        if pname in self.VALID_MAPLE_EXES:
+                            self.maple_pids.add(p.info['pid'])
+                            return True
+                    except (psutil.NoSuchProcess, psutil.AccessDenied):
+                        continue
+            except Exception:
+                pass
         try:
-            for p in psutil.process_iter(['pid', 'name']):
-                try:
-                    pname = (p.info.get('name') or '').lower()
-                    if 'maple' in pname:
-                        self.maple_pids.add(p.info['pid'])
-                        return True
-                except (psutil.NoSuchProcess, psutil.AccessDenied):
-                    continue
+            user32 = ctypes.windll.user32
+            h1 = user32.FindWindowW("MapleStoryClass", None)
+            h2 = user32.FindWindowW("StartUpClass", None)
+            if h1 or h2:
+                return True
         except Exception:
             pass
         return False
@@ -1163,7 +1189,7 @@ class MapleSkillWatcher:
                 pass
 
     def _run_loop(self):
-        """0.05초 초고속 핫키 감지 & 쿨타임 타이머 루프 (포커스 필터 적용)"""
+        """0.05초 초고속 핫키 감지 & 쿨타임 타이머 루프 (포커스 필터 엄격 적용)"""
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
 
@@ -1174,20 +1200,23 @@ class MapleSkillWatcher:
                 if not self.is_running:
                     break
 
-                # 🔒 포커스 필터: 현재 활성화된 전면 창이 메이플스토리인지 검사
+                # 🔒 메이플 게임 활성창인지 엄격 검사
                 is_maple_active = self.is_maple_active_window()
 
-                # 1. 단축키 입력 감지 (Windows GetAsyncKeyState 기반, 0ms 레이턴시)
+                # 1. 단축키 입력 감지 (메이플 활성창일 때만 감지!)
                 for sk in self.skills:
                     if not self.is_running:
                         break
+                    if not is_maple_active:
+                        sk.is_key_down = False
+                        continue
+
                     if sk.key_bind:
                         pressed = is_key_pressed(sk.key_bind)
 
                         if pressed and not sk.is_key_down:
                             sk.is_key_down = True
-                            # 메이플 활성창일 때만 쿨타임 트리거 (오작동 0% 방지)
-                            if is_maple_active and sk.state == "READY" and self.is_running:
+                            if sk.state == "READY" and self.is_running:
                                 sk.state = "ON_COOLDOWN"
                                 sk.last_used_time = current_time
                                 sk.cooldown_end_time = current_time + sk.cooldown_sec
@@ -1196,27 +1225,34 @@ class MapleSkillWatcher:
                         elif not pressed and sk.is_key_down:
                             sk.is_key_down = False
 
-                # 2. 쿨타임 카운트다운 및 음성 알림 발화
-                for sk in self.skills:
-                    if not self.is_running:
-                        break
-                    if sk.state == "ON_COOLDOWN":
-                        rem = sk.cooldown_end_time - current_time
+                # 2. 쿨타임 카운트다운 및 음성 알림 발화 (메이플 게임이 실제로 실행 중일 때만 발화!)
+                if self.is_maple_running():
+                    for sk in self.skills:
+                        if not self.is_running:
+                            break
+                        if sk.state == "ON_COOLDOWN":
+                            rem = sk.cooldown_end_time - current_time
 
-                        # ① N초 전 사전 브리핑 발화
-                        if rem <= sk.warn_before:
-                            sk.state = "WARNED"
-                            if self.is_running and sk.voice_text:
-                                loop.run_until_complete(SkadiVoiceAnnouncer.speak_text(sk.voice_text))
+                            # ① N초 전 사전 브리핑 발화
+                            if rem <= sk.warn_before:
+                                sk.state = "WARNED"
+                                if self.is_running and sk.voice_text:
+                                    loop.run_until_complete(SkadiVoiceAnnouncer.speak_text(sk.voice_text))
 
-                    elif sk.state == "WARNED":
-                        rem = sk.cooldown_end_time - current_time
+                        elif sk.state == "WARNED":
+                            rem = sk.cooldown_end_time - current_time
 
-                        # ② 쿨타임 완료 발화
-                        if rem <= 0:
+                            # ② 쿨타임 완료 발화
+                            if rem <= 0:
+                                sk.state = "READY"
+                                if self.is_running:
+                                    loop.run_until_complete(SkadiVoiceAnnouncer.speak_text(f"{sk.name} 준비 완료!"))
+                else:
+                    # 메이플이 안 켜져 있으면 진행 중이던 쿨타임도 즉시 리셋
+                    for sk in self.skills:
+                        if sk.state != "READY":
                             sk.state = "READY"
-                            if self.is_running:
-                                loop.run_until_complete(SkadiVoiceAnnouncer.speak_text(f"{sk.name} 준비 완료!"))
+                            sk.cooldown_end_time = 0.0
 
                 time.sleep(0.05)
             except Exception:
@@ -1242,10 +1278,28 @@ async def get_status():
     return maple_watcher.get_engine_status()
 
 
-@router.post("/focus-filter/{enable}", summary="포커스 필터(활성창 전용 감지) ON/OFF 토글")
-async def set_focus_filter(enable: bool):
-    maple_watcher.focus_filter_enabled = enable
-    status_str = "활성화(메이플 창 포커스 시에만 단축키 감지)" if enable else "비활성화(모든 창에서 단축키 감지)"
+@router.get("/focus-filter/toggle", summary="메이플 포커스 필터 원클릭 토글 (GET)")
+@router.post("/focus-filter/toggle", summary="메이플 포커스 필터 원클릭 토글 (POST)")
+def toggle_maple_focus_filter_api():
+    maple_watcher.focus_filter_enabled = not maple_watcher.focus_filter_enabled
+    status_str = "활성화(메이플 창 포커스 시에만 단축키 감지)" if maple_watcher.focus_filter_enabled else "비활성화(모든 창에서 단축키 감지)"
+    return {
+        "status": "success",
+        "focus_filter_enabled": maple_watcher.focus_filter_enabled,
+        "message": f"메이플 포커스 필터가 {status_str}되었습니다."
+    }
+
+
+@router.get("/focus-filter/set/{enable}", summary="포커스 필터 ON/OFF 설정 (GET)")
+@router.post("/focus-filter/set/{enable}", summary="포커스 필터 ON/OFF 설정 (POST)")
+@router.get("/focus-filter/{enable}", summary="포커스 필터 ON/OFF 설정 (GET 별칭)")
+@router.post("/focus-filter/{enable}", summary="포커스 필터 ON/OFF 설정 (POST 별칭)")
+async def set_focus_filter(enable: str):
+    if enable.lower() in ("toggle", "switch"):
+        return toggle_maple_focus_filter_api()
+    is_true = enable.lower() in ("true", "1", "on", "yes", "enable")
+    maple_watcher.focus_filter_enabled = is_true
+    status_str = "활성화(메이플 창 포커스 시에만 단축키 감지)" if is_true else "비활성화(모든 창에서 단축키 감지)"
     return {
         "status": "success",
         "focus_filter_enabled": maple_watcher.focus_filter_enabled,

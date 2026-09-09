@@ -326,6 +326,13 @@ class ScheduleManager:
 
 
     @staticmethod
+    def _mask_url(url: str) -> str:
+        """민감한 URL 로그 마스킹 (앞 15자만 노출하고 나머지는 *** 처리)"""
+        if not url:
+            return ""
+        return url[:15] + "***" if len(url) > 15 else "***"
+
+    @staticmethod
     def sync_from_google_calendar_ical(ical_url: str) -> Dict[str, Any]:
         """
         🌐 외부 구글 캘린더 iCal (basic.ics) URL을 읽어와서 로컬 schedule.db에 자동 동기화
@@ -340,7 +347,8 @@ class ScheduleManager:
             with urllib.request.urlopen(req, timeout=10.0) as resp:
                 content = resp.read().decode('utf-8', errors='replace')
         except Exception as e:
-            return {"status": "error", "message": f"구글 캘린더 iCal 다운로드 실패: {e}"}
+            masked = ScheduleManager._mask_url(ical_url)
+            return {"status": "error", "message": f"구글 캘린더 iCal 다운로드 실패 ({masked})"}
 
         events = re.findall(r'BEGIN:VEVENT(.*?)END:VEVENT', content, flags=re.DOTALL)
         synced_count = 0

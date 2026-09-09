@@ -181,3 +181,26 @@ def get_maple_status():
         "current_preset": maple_watcher.current_preset_name,
         "tracker_running": maple_watcher.is_running
     }
+
+@router.get("/api/maple/starforce/history", summary="메이플스토리 스타포스 강화 히스토리 & 통계 조회")
+def get_starforce_history(
+    date: Optional[str] = None,
+    count: int = 1000,
+    cursor: Optional[str] = None,
+    api_key: Optional[str] = None,
+    exclude_special: bool = True
+):
+    """
+    넥슨 공식 Open API로부터 계정의 최근 스타포스 강화 기록을 가져와
+    성공/실패/파괴율, 누적 메소, 노작 장비 손실액, 운빨 지수(Luck Score), 구간별 통계를 계산하여 반환합니다.
+    (스페셜 월드인 버닝/챌린저스 월드 기록 제외 옵션 지원)
+    """
+    return nexon_api.get_starforce_history(count=count, date=date, cursor=cursor, api_key=api_key, exclude_special_worlds=exclude_special)
+
+@router.get("/api/maple/starforce/sample", summary="스타포스 히스토리 테스트용 22성 시뮬레이션 샘플 데이터")
+def get_starforce_sample(exclude_special: bool = True):
+    """
+    API 키 없이도 즉시 UI 및 통계 기능을 테스트할 수 있도록
+    22성 트라이 180여 건의 실감나는 샘플 강화 데이터를 생성하여 반환합니다.
+    """
+    return nexon_api.generate_sample_starforce_data(exclude_special_worlds=exclude_special)

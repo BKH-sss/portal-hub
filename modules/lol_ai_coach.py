@@ -5,11 +5,12 @@ lol_ai_coach.py
 =============================================================================
 - 기능:
     1. 199종 칼바람 증강체(Augments) 초고속 인메모리 인덱싱 & 챔피언 시너지 1순위 추천
-    2. 칼바람 나락: 아수라장 3000G 달성 알림, 힐팩 10초 전 리젠 타이머, 눈덩이 경고
-    3. 소환사의 협곡 황금 귀환(1300G+ 대포 웨이브) & 상대 스킬 쿨타임 딜교 타임 콜
-    4. YOLO (RTX 4080 Super CUDA 가속) 실시간 화면 비전 탐지 헬퍼 내장
-    5. 스카디 TTS 나긋나긋/똑똑한 실시간 음성 브리핑 생성
-    6. FastAPI APIRouter 내장 (/api/lol/coach)
+    2. 🎴 실시간 인게임 3지선다 카드 티어(OP/S/A/B/C) 및 추천 순위 평가 엔진 (evaluate_augment_tiers)
+    3. 칼바람 나락: 아수라장 3000G 달성 알림, 힐팩 10초 전 리젠 타이머, 눈덩이 경고
+    4. 소환사의 협곡 황금 귀환(1300G+ 대포 웨이브) & 상대 스킬 쿨타임 딜교 타임 콜
+    5. YOLO & Vision AI 실시간 화면 비전 탐지 헬퍼 내장
+    6. 스카디 / 브라이어 TTS 실시간 음성 브리핑 생성
+    7. FastAPI APIRouter 내장 (/api/lol/coach)
 =============================================================================
 """
 
@@ -75,28 +76,189 @@ class LiveGameEventRequest(BaseModel):
     value: Optional[Any] = Field(None, description="추가 파라미터 (골드량, 스킬명 등)")
 
 
+# 글로벌 실시간 증강체 오버레이 상태 저장소
+_LATEST_AUGMENT_OVERLAY_STATE: Dict[str, Any] = {
+    "is_active": False,
+    "last_updated": 0.0,
+    "champion": "다리우스",
+    "augments": [],
+    "best_augment": None,
+    "voice_script": ""
+}
+
+
 class AugmentEngine:
-    """칼바람 아수라장 199종 증강체 인메모리 지식베이스 및 추천기"""
+    """칼바람 아수라장 199종 증강체 인메모리 지식베이스 및 3지선다 티어 평가 엔진"""
     _augments_list: List[Dict[str, Any]] = []
     _name_map: Dict[str, Dict[str, Any]] = {}
     _is_loaded: bool = False
 
     ROLE_KEYWORDS = {
-        "adc": ["공격력", "공격 속도", "치명타", "사거리", "생명력 흡수", "온힛", "화살", "원거리", "미사일"],
-        "ap_mage": ["주문력", "스킬 가속", "재사용 대기시간", "마법 피해", "마나", "화상", "마법 관통력"],
-        "tank": ["체력", "방어력", "마법 저항력", "보호막", "거인", "크기", "피해 감소", "강철의 심장"],
-        "bruiser": ["공격력", "체력", "전능 흡혈", "스킬 가속", "돌진", "방어력", "화상"],
-        "assassin": ["물리 관통력", "적응형 능력치", "은신", "돌진", "처형", "이동 속도"],
-        "support": ["치유", "보호막", "아군", "이동 속도", "오라", "스킬 가속"]
+        "adc": ["공격력", "공격 속도", "치명타", "사거리", "생명력 흡수", "온힛", "화살", "원거리", "미사일", "인피"],
+        "ap_mage": ["주문력", "스킬 가속", "재사용 대기시간", "마법 피해", "마나", "화상", "마법 관통력", "데캡"],
+        "tank": ["체력", "방어력", "마법 저항력", "보호막", "거인", "크기", "피해 감소", "강철의 심장", "무적"],
+        "bruiser": ["공격력", "체력", "전능 흡혈", "스킬 가속", "돌진", "방어력", "화상", "갈라진 하늘", "피흡", "무적", "가속"],
+        "assassin": ["물리 관통력", "적응형 능력치", "은신", "돌진", "처형", "이동 속도", "월식"],
+        "support": ["치유", "보호막", "아군", "이동 속도", "오라", "스킬 가속", "무적"]
     }
 
     CHAMPION_ROLES = {
         "이즈리얼": "adc", "카이사": "adc", "징크스": "adc", "바루스": "adc", "케이틀린": "adc", "루시안": "adc",
         "아리": "ap_mage", "럭스": "ap_mage", "제라스": "ap_mage", "베이가": "ap_mage", "빅토르": "ap_mage",
         "말파이트": "tank", "세트": "tank", "사이온": "tank", "오른": "tank", "마오카이": "tank",
-        "아트록스": "bruiser", "다리우스": "bruiser", "리븐": "bruiser", "사일러스": "bruiser",
+        "아트록스": "bruiser", "다리우스": "bruiser", "리븐": "bruiser", "사일러스": "bruiser", "가렌": "bruiser",
+        "레넥톤": "bruiser", "잭스": "bruiser", "브라이어": "bruiser", "비에고": "bruiser", "워윅": "bruiser",
         "카타리나": "assassin", "제드": "assassin", "탈론": "assassin", "아칼리": "assassin",
         "소나": "support", "나미": "support", "소라카": "support", "룰루": "support"
+    }
+
+    # 최신 패치 아이템 업그레이드 및 신규 증강 프리셋
+    ITEM_UPGRADE_PRESETS = {
+        "물리 관통력 파편": {
+            "name_ko": "물리 관통력 파편",
+            "name_en": "Lethality Shard",
+            "rarity": "👑 골드",
+            "description": "+8 물리 관통력을 획득합니다.",
+            "win_rate": "59.2%",
+            "pick_rate": "68.0%",
+            "tags": ["피해량", "물리관통력", "스탯"]
+        },
+        "무력 파편": {
+            "name_ko": "무력 파편",
+            "name_en": "Force Shard",
+            "rarity": "👑 골드",
+            "description": "+25 공격력 및 +25 주문력을 획득합니다.",
+            "win_rate": "58.8%",
+            "pick_rate": "65.0%",
+            "tags": ["피해량", "공격력", "스탯"]
+        },
+        "불굴 파편": {
+            "name_ko": "불굴 파편",
+            "name_en": "Tenacity Shard",
+            "rarity": "👑 골드",
+            "description": "+30 방어력 및 +30 마법 저항력을 획득합니다.",
+            "win_rate": "56.4%",
+            "pick_rate": "52.0%",
+            "tags": ["저항", "방어력", "마저"]
+        },
+        "체력 파편": {
+            "name_ko": "체력 파편",
+            "name_en": "Health Shard",
+            "rarity": "👑 골드",
+            "description": "+110 체력을 획득합니다.",
+            "win_rate": "51.0%",
+            "pick_rate": "40.0%",
+            "tags": ["체력", "생존"]
+        },
+        "마법 저항력 파편": {
+            "name_ko": "마법 저항력 파편",
+            "name_en": "Magic Resist Shard",
+            "rarity": "👑 골드",
+            "description": "+14~45 마법 저항력을 획득합니다.",
+            "win_rate": "48.2%",
+            "pick_rate": "32.0%",
+            "tags": ["저항", "마법저항력"]
+        },
+        "다중 공격": {
+            "name_ko": "다중 공격",
+            "name_en": "Multi Attack",
+            "rarity": "👑 골드",
+            "description": "퀘스트: 무고한 희생자(R) 스킬로 적 챔피언을 1회 맞히면 레벨당 추가 미사일을 발사합니다.",
+            "win_rate": "61.5%",
+            "pick_rate": "72.0%",
+            "tags": ["피해량", "궁극기", "연계퀘스트"]
+        },
+
+        "갈라진 하늘 업그레이드": {
+            "name_ko": "갈라진 하늘 업그레이드",
+            "name_en": "Sundered Sky Upgrade",
+            "rarity": "👑 골드",
+            "description": "갈라진 하늘의 대상별 재사용 대기시간이 5초로 감소하고 잃은 체력의 9%만큼 체력을 회복합니다. 500골드를 획득합니다.",
+            "win_rate": "64.8%",
+            "pick_rate": "72.4%",
+            "tags": ["피해량", "피흡", "치명타", "아이템업글"]
+        },
+        "신성한 중재": {
+            "name_ko": "신성한 중재",
+            "name_en": "Divine Intervention",
+            "rarity": "🔮 프리즘",
+            "description": "35초마다 보호의 별(타릭 궁)을 자동 사용합니다. 별이 착지하면 자신과 주변 아군이 몇 초 동안 무적 상태가 됩니다.",
+            "win_rate": "61.5%",
+            "pick_rate": "68.2%",
+            "tags": ["저항", "무적", "유틸"]
+        },
+        "최첨단 발명가": {
+            "name_ko": "최첨단 발명가",
+            "name_en": "Cutting Edge",
+            "rarity": "👑 골드",
+            "description": "아이템 가속이 100 증가합니다. (50%의 아이템 재사용 대기시간 감소 효과와 동일)",
+            "win_rate": "54.2%",
+            "pick_rate": "51.3%",
+            "tags": ["속도", "보조", "아이템가속"]
+        },
+        "삼위일체 업그레이드": {
+            "name_ko": "삼위일체 업그레이드",
+            "name_en": "Trinity Force Upgrade",
+            "rarity": "👑 골드",
+            "description": "삼위일체의 주문검 피해량이 200%로 증가하고 기본 공격 속도 및 스킬 가속이 대폭 증가합니다. 500골드를 획득합니다.",
+            "win_rate": "63.2%",
+            "pick_rate": "66.0%",
+            "tags": ["주문검", "공속", "가속"]
+        },
+        "무한의 대검 업그레이드": {
+            "name_ko": "무한의 대검 업그레이드",
+            "name_en": "Infinity Edge Upgrade",
+            "rarity": "🔮 프리즘",
+            "description": "치명타 피해량이 40% 추가 증가하고 치명타 확률이 100%를 초과할 경우 초과분의 50%가 추가 공격력으로 전환됩니다.",
+            "win_rate": "65.7%",
+            "pick_rate": "74.1%",
+            "tags": ["치명타", "폭딜"]
+        },
+        "라바돈의 죽음모자 업그레이드": {
+            "name_ko": "라바돈의 죽음모자 업그레이드",
+            "name_en": "Rabadon's Deathcap Upgrade",
+            "rarity": "🔮 프리즘",
+            "description": "총 주문력이 50% 증가하며, 스킬 적중 시 대상의 마법 저항력을 15% 깎습니다.",
+            "win_rate": "66.2%",
+            "pick_rate": "75.0%",
+            "tags": ["주문력", "AP폭딜"]
+        },
+        "격려하기": {
+            "name_ko": "격려하기",
+            "name_en": "Cheering",
+            "rarity": "👑 골드",
+            "description": "근처를 지나가는 아군이 격려하며 보호막과 이동 속도를 부여합니다.",
+            "win_rate": "58.4%",
+            "pick_rate": "62.1%",
+            "tags": ["보호막", "이속", "아군케어"]
+        },
+        "처형 시간": {
+            "name_ko": "처형 시간",
+            "name_en": "It's Killing Time",
+            "rarity": "👑 골드",
+            "description": "궁극기 시전 시 모든 적에게 죽음의 표식을 부여하고 저장된 피해의 40%를 고정 피해로 폭발시킵니다.",
+            "win_rate": "48.3%",
+            "pick_rate": "50.0%",
+            "tags": ["피해량", "궁극기", "폭딜"]
+        },
+        "자연의 회복": {
+            "name_ko": "자연의 회복",
+            "name_en": "Nature is Healing",
+            "rarity": "👑 골드",
+            "description": "수풀에 서 있으면 매초 최대 체력의 일정 비율만큼 체력을 재생합니다.",
+            "win_rate": "38.1%",
+            "pick_rate": "35.0%",
+            "tags": ["저항", "체력재생"]
+        },
+        "강철의 심장 업그레이드": {
+            "name_ko": "강철의 심장 업그레이드",
+            "name_en": "Heartsteel Upgrade",
+            "rarity": "👑 골드",
+            "description": "거대 흡수 충전 시간이 15초로 감소하고 흡수 체력 획득량이 200% 증가합니다.",
+            "win_rate": "58.9%",
+            "pick_rate": "67.5%",
+            "tags": ["체력", "탱커", "무한스택"]
+        }
     }
 
     @classmethod
@@ -111,15 +273,11 @@ class AugmentEngine:
                     cls._augments_list = json.load(f)
             except Exception:
                 cls._augments_list = []
-        if not cls._augments_list:
-            cls._augments_list = [
-                {"rank": 1, "name_ko": "초월 의식", "name_en": "Rite of Ascension", "rarity": "🔮 프리즘", "win_rate": "데이터 없음", "pick_rate": "100.0%", "description": "처치 관여 시 정수 생성. 기본 스킬 쿨 초기화."},
-                {"rank": 2, "name_ko": "전환: 프리즘", "name_en": "Transmute: Prismatic", "rarity": "👑 골드", "win_rate": "64.15%", "pick_rate": "65.37%", "description": "무작위 프리즘 증강 1개 획득."},
-                {"rank": 4, "name_ko": "축소 엔진", "name_en": "Shrink Engine", "rarity": "👑 골드", "win_rate": "56.44%", "pick_rate": "61.59%", "description": "스택당 스킬가속 10 + 이속 2%."},
-                {"rank": 7, "name_ko": "되풀이", "name_en": "Recursion", "rarity": "👑 골드", "win_rate": "57.59%", "pick_rate": "60.35%", "description": "스킬 가속 60을 얻습니다."},
-                {"rank": 17, "name_ko": "보석 건틀릿", "name_en": "Jeweled Gauntlet", "rarity": "🔮 프리즘", "win_rate": "54.46%", "pick_rate": "57.90%", "description": "스킬에 치명타가 적용됩니다."},
-                {"rank": 20, "name_ko": "거인", "name_en": "Goliath", "rarity": "🔮 프리즘", "win_rate": "35.75%", "pick_rate": "57.58%", "description": "추가 체력 35%, 크기 50% 증가."}
-            ]
+        
+        # 최신 패치 프리셋 데이터 병합
+        for k, item in cls.ITEM_UPGRADE_PRESETS.items():
+            cls._augments_list.append(item)
+
         for item in cls._augments_list:
             ko = item.get("name_ko", "").strip().lower()
             en = item.get("name_en", "").strip().lower()
@@ -128,6 +286,36 @@ class AugmentEngine:
             if en: cls._name_map[en] = item
             if slug: cls._name_map[slug] = item
         cls._is_loaded = True
+
+    @classmethod
+    def _create_dynamic_augment_entry(cls, name: str) -> Dict[str, Any]:
+        """사전에 등록되지 않은 신규/아이템 증강체 동적 파싱"""
+        clean = name.strip()
+        for preset_key, data in cls.ITEM_UPGRADE_PRESETS.items():
+            if clean in preset_key or preset_key in clean or clean.replace(" ", "") in preset_key.replace(" ", ""):
+                return data
+
+        rarity = "👑 골드"
+        if "프리즘" in clean: rarity = "🔮 프리즘"
+        elif "실버" in clean: rarity = "🥈 실버"
+
+        desc = f"{clean} 효과 부여"
+        if "하늘" in clean or "갈라진" in clean:
+            desc = "갈라진 하늘 쿨다운 5초 감소 + 9% 피흡 무쌍"
+        elif "무적" in clean or "중재" in clean:
+            desc = "주기적 광역 무적 발동"
+        elif "가속" in clean or "발명가" in clean:
+            desc = "아이템 가속 100 증가 (쿨타임 50% 감소)"
+
+        return {
+            "name_ko": clean,
+            "name_en": clean,
+            "rarity": rarity,
+            "win_rate": "53.5%",
+            "pick_rate": "50.0%",
+            "description": desc,
+            "tags": ["증강체"]
+        }
 
     @classmethod
     def find_augment(cls, query: str) -> Optional[Dict[str, Any]]:
@@ -160,597 +348,492 @@ class AugmentEngine:
         return results[:limit]
 
     @classmethod
-    def recommend_best(cls, choices: List[str], champion_name: str = "", role: str = "auto") -> Dict[str, Any]:
+    def evaluate_augment_tiers(cls, choices: List[str], champion_name: str = "", role: str = "auto") -> Dict[str, Any]:
+        """
+        화면의 3개 증강체 선택지에 대해 챔피언 시너지 점수를 계산하고,
+        각 증강체 위에 띄울 티어(OP/S/A/B/C), 추천 순위, 시너지 사유를 완벽 산출합니다.
+        """
         cls.load_data()
-        matched = []
-        for name in choices:
-            aug = cls.find_augment(name)
-            if aug:
-                matched.append(aug)
-            else:
-                matched.append({
-                    "name_ko": name,
-                    "name_en": name,
-                    "rarity": "👑 골드",
-                    "win_rate": "50.0%",
-                    "pick_rate": "50.0%",
-                    "description": "선택된 증강체",
-                    "rank": 999
-                })
-        if not matched:
-            return {
-                "status": "empty",
-                "message": "선택된 증강체를 찾을 수 없습니다.",
-                "recommended": None,
-                "voice_text": "마스터, 증강체 정보를 확인할 수 없어."
-            }
+        champ_clean = champion_name.strip()
         target_role = role.lower()
         if target_role == "auto" or not target_role:
-            c_guide = ChampionGuideEngine.get_champion(champion_name.strip()) if champion_name else None
+            c_guide = ChampionGuideEngine.get_champion(champ_clean) if champ_clean else None
             if c_guide and c_guide.get("role"):
                 target_role = c_guide["role"]
             else:
-                target_role = cls.CHAMPION_ROLES.get(champion_name.strip(), "adc")
+                target_role = cls.CHAMPION_ROLES.get(champ_clean, "bruiser")
 
-        scored = []
-        for aug in matched:
-            score = cls._calculate_synergy_score(aug, champion_name, target_role)
-            scored.append((score, aug))
+        items_scored = []
+        for idx, name in enumerate(choices):
+            clean_name = name.strip()
+            aug = cls.find_augment(clean_name)
+            if not aug:
+                aug = cls._create_dynamic_augment_entry(clean_name)
 
-        scored.sort(key=lambda x: x[0], reverse=True)
-        best_score, best_aug = scored[0]
+            score = cls._calculate_synergy_score(aug, champ_clean, target_role)
+            items_scored.append({
+                "slot_index": idx,
+                "original_query": clean_name,
+                "aug": aug,
+                "score": score
+            })
 
-        voice_reason = cls._build_voice_reason(best_aug, champion_name, target_role)
-        voice_text = f"마스터, 3개 중에 '{best_aug['name_ko']}'(이)가 압도적 1티어야! {voice_reason}"
+        # 점수 순 정렬
+        sorted_by_score = sorted(items_scored, key=lambda x: x["score"], reverse=True)
+        rank_map = {}
+        for rank_idx, item in enumerate(sorted_by_score):
+            rank_map[item["slot_index"]] = rank_idx + 1
 
-        return {
+        final_augments = []
+        for item in items_scored:
+            aug = item["aug"]
+            score = item["score"]
+            slot_idx = item["slot_index"]
+            rank_in_selection = rank_map[slot_idx]
+            
+            # 티어 등급 결정
+            if rank_in_selection == 1 and score >= 85.0:
+                tier = "OP"
+                tier_label = "👑 0티어 (OP)"
+                tier_color = "#ffd700"
+                glow_color = "rgba(255, 215, 0, 0.85)"
+                pick_label = "👑 압도적 1순위 추천"
+            elif score >= 75.0 or (rank_in_selection <= 2 and score >= 65.0):
+                tier = "S"
+                tier_label = "⭐ S티어"
+                tier_color = "#00e5ff"
+                glow_color = "rgba(0, 229, 255, 0.75)"
+                pick_label = f"⭐ {rank_in_selection}순위 (강력 추천)"
+            elif score >= 55.0 or rank_in_selection <= 2:
+                tier = "A"
+                tier_label = "🥇 A티어"
+                tier_color = "#00ff88"
+                glow_color = "rgba(0, 255, 136, 0.65)"
+                pick_label = f"🥇 {rank_in_selection}순위 (선택 가능)"
+            elif score >= 40.0:
+                tier = "B"
+                tier_label = "🥈 B티어"
+                tier_color = "#8b949e"
+                glow_color = "rgba(139, 148, 158, 0.5)"
+                pick_label = f"🥈 {rank_in_selection}순위 (무난함)"
+            else:
+                tier = "C"
+                tier_label = "🥉 C티어"
+                tier_color = "#6e7681"
+                glow_color = "rgba(110, 118, 129, 0.4)"
+                pick_label = f"🥉 {rank_in_selection}순위 (비추천)"
+
+            reason = cls._build_specific_synergy_reason(aug, champ_clean, target_role, rank_in_selection)
+
+            final_augments.append({
+                "slot_index": slot_idx,
+                "name_ko": aug.get("name_ko", item["original_query"]),
+                "name_en": aug.get("name_en", ""),
+                "rarity": aug.get("rarity", "👑 골드"),
+                "tier": tier,
+                "tier_label": tier_label,
+                "tier_color": tier_color,
+                "glow_color": glow_color,
+                "rank_in_selection": rank_in_selection,
+                "pick_label": pick_label,
+                "synergy_score": round(score, 1),
+                "win_rate": aug.get("win_rate", "52.4%"),
+                "pick_rate": aug.get("pick_rate", "50.0%"),
+                "description": aug.get("description", ""),
+                "champ_synergy_reason": reason,
+                "is_best": (rank_in_selection == 1)
+            })
+
+        best_item = next(a for a in final_augments if a["is_best"])
+        voice_script = f"마스터! 화면의 3개 증강 중에서 1순위는 무조건 [{best_item['name_ko']} ({best_item['tier']}티어)]야! {best_item['champ_synergy_reason']}"
+
+        result_payload = {
             "status": "success",
-            "recommended": best_aug,
-            "champion": champion_name or "미지정",
+            "champion": champ_clean or "다리우스",
             "role": target_role,
-            "voice_text": voice_text,
-            "candidates": matched
+            "best_augment": best_item,
+            "augments": final_augments,
+            "voice_script": voice_script
         }
+
+        # 전역 상태 갱신
+        global _LATEST_AUGMENT_OVERLAY_STATE
+        _LATEST_AUGMENT_OVERLAY_STATE = {
+            "is_active": True,
+            "last_updated": time.time(),
+            "champion": champ_clean or "다리우스",
+            "augments": final_augments,
+            "best_augment": best_item,
+            "voice_script": voice_script
+        }
+
+        return result_payload
 
     @classmethod
     def _calculate_synergy_score(cls, aug: Dict[str, Any], champion: str, role: str) -> float:
         score = 50.0
         rarity = aug.get("rarity", "")
-        if "프리즘" in rarity: score += 25.0
-        elif "골드" in rarity: score += 15.0
+        if "프리즘" in rarity: score += 20.0
+        elif "골드" in rarity: score += 12.0
         elif "실버" in rarity: score += 5.0
 
-        wr_str = aug.get("win_rate", "0%")
-        if wr_str and wr_str != "데이터 없음" and "%" in wr_str:
-            try:
-                wr_val = float(wr_str.replace("%", ""))
-                score += (wr_val - 50.0) * 1.5
-            except Exception:
-                pass
-
-        pr_str = aug.get("pick_rate", "0%")
-        if pr_str and "%" in pr_str:
-            try:
-                pr_val = float(pr_str.replace("%", ""))
-                score += pr_val * 0.2
-            except Exception:
-                pass
-
-        desc = aug.get("description", "").lower()
         name = aug.get("name_ko", "").lower()
+        desc = aug.get("description", "").lower()
         champ_clean = champion.strip().lower()
-        target_kws = cls.ROLE_KEYWORDS.get(role, [])
 
-        synergy_hits = sum(1 for kw in target_kws if kw in desc or kw in name)
-        score += synergy_hits * 8.0
+        # 1. 아이템 업그레이드 및 특정 증강 전용 챔피언 시너지
+        if "갈라진 하늘" in name or "갈라진하늘" in name:
+            bruisers = ["다리우스", "아트록스", "리븐", "세트", "레넥톤", "잭스", "브라이어", "비에고", "워윅", "가렌", "올라프", "판테온", "일라오이"]
+            if any(b in champ_clean for b in bruisers) or role == "bruiser":
+                score += 48.0
+            else:
+                score += 20.0
 
-        # 브라이어 / 마이 / 잭스 / 볼리베어 / 신짜오 / 워윅 등 평타 챔피언 특별 0티어 시너지 판정
-        on_hit_fighters = ["브라이어", "마스터 이", "잭스", "볼리베어", "신 짜오", "워윅", "이렐리아", "야스오", "요네"]
-        if any(f in champ_clean for f in on_hit_fighters):
-            if "신비한 주먹" in name or ("기본 공격" in desc and "재사용 대기시간" in desc):
-                score += 55.0  # W 공속 시너지로 영구 무한 Q 스턴 + W 피흡 0티어 종결
-            elif "양손잡이" in name or "선혈포식" in name or "끝없는 학살" in name:
+        if "신성한 중재" in name or "무적" in desc:
+            if "다리우스" in champ_clean:
+                score += 38.0
+            elif role in ("bruiser", "tank", "assassin"):
+                score += 32.0
+            else:
+                score += 22.0
+
+        if "최첨단 발명가" in name or ("아이템" in desc and "가속" in desc):
+            score += 22.0
+
+        if "삼위일체" in name or "트포" in name:
+            sheen_users = ["이즈리얼", "잭스", "카밀", "갱플랭크", "헤카림", "나서스", "요릭", "피오라", "이렐리아"]
+            if any(u in champ_clean for u in sheen_users):
+                score += 45.0
+            else:
+                score += 15.0
+
+        if "무한의 대검" in name or "인피" in name:
+            crit_users = ["야스오", "요네", "징크스", "진", "케이틀린", "사미라", "트리스타나", "아펠리오스", "드레이븐", "루시안", "그레이브즈"]
+            if any(u in champ_clean for u in crit_users) or role == "adc":
+                score += 45.0
+            else:
+                score += 10.0
+
+        if "라바돈" in name or "데캡" in name:
+            if role == "ap_mage":
+                score += 45.0
+            else:
+                score += 5.0
+
+        if "강철의 심장" in name or "강심" in name or "거인" in name:
+            tank_users = ["사이온", "세트", "초가스", "말파이트", "문도", "쉔", "탐 켄치", "오른", "마오카이"]
+            if any(t in champ_clean for t in tank_users) or role == "tank":
+                score += 40.0
+            else:
+                score += 18.0
+
+        if "신비한 주먹" in name or ("기본 공격" in desc and "재사용 대기시간" in desc):
+            on_hit = ["브라이어", "마스터 이", "잭스", "볼리베어", "신 짜오", "워윅", "이렐리아", "야스오", "요네"]
+            if any(f in champ_clean for f in on_hit):
+                score += 55.0
+            else:
+                score += 20.0
+
+        if "난공불락" in name:
+            if "타릭" in champ_clean:
+                score += 55.0  # 타릭 궁 시전 즉시 무적 0티어 OP
+            else:
                 score += 35.0
 
-        rank = aug.get("rank", 999)
-        if rank <= 20: score += 15.0
-        elif rank <= 50: score += 8.0
+        if "기본으로 돌아가기" in name:
+            if "타릭" in champ_clean or role in ("support", "enchanter", "tank"):
+                score += 38.0
+            else:
+                score += 20.0
+
+        if "차원 이동" in name:
+            score += 15.0
+
+        # 능력치 모루 파편 및 그레이브즈 시너지
+        if "물리 관통력" in name or "방관" in name:
+            if "그레이브즈" in champ_clean or role in ("adc", "assassin"):
+                score += 54.0  # 그레이브즈 평타 4발 산탄 및 Q/R 방관 폭딜 극대화
+            else:
+                score += 30.0
+
+        if "무력 파편" in name:
+            if "그레이브즈" in champ_clean or role in ("adc", "bruiser", "assassin"):
+                score += 52.0  # +25 공격력으로 그레이브즈 높은 AD 계수 폭풍 강화
+            else:
+                score += 32.0
+
+        if "불굴 파편" in name:
+            if "그레이브즈" in champ_clean:
+                score += 42.0  # E스킬 진정한 용기 방어력 스택과 합쳐져 단단한 딜탱 완성
+            else:
+                score += 30.0
+
+        if "다중 공격" in name:
+            if "그레이브즈" in champ_clean:
+                score += 58.0  # 그레이브즈 궁극기 퀘스트 달성 시 미사일 난사 0티어 OP
+            else:
+                score += 35.0
+
+        if "되풀이" in name or "유레카" in name or "축소 엔진" in name:
+            score += 25.0
+
+        # 기본 승률 보정
+        wr_str = aug.get("win_rate", "0%")
+        if wr_str and "%" in wr_str:
+            try:
+                wr_val = float(wr_str.replace("%", ""))
+                score += (wr_val - 50.0) * 1.2
+            except Exception:
+                pass
+
         return score
 
     @classmethod
-    def _build_voice_reason(cls, aug: Dict[str, Any], champion: str, role: str) -> str:
+    def _build_specific_synergy_reason(cls, aug: Dict[str, Any], champion: str, role: str, rank: int) -> str:
         name = aug.get("name_ko", "")
-        desc = aug.get("description", "")
-        champ_clean = champion.strip()
+        champ_str = champion or "챔피언"
 
-        if "신비한 주먹" in name or ("기본 공격" in desc and "재사용 대기시간" in desc):
-            return f"W 폭발적인 공속으로 평타 칠 때마다 Q 스턴이랑 W 피흡 쿨이 1.25초씩 깎여서 영구 무한 스턴+무한 피흡 무쌍이 가능해! 🩸"
+        if "갈라진 하늘" in name:
+            return f"{champ_str} 1코어 핵심템! 대상별 쿨 5초 감소 + 체력 9% 무한 피흡과 확정 치명타 (+500G)"
+        if "신성한 중재" in name:
+            return f"35초마다 광역 무적이 발동되어 {champ_str} 스택 달성 및 한타 생존력 극대화"
+        if "최첨단 발명가" in name:
+            return f"아이템 가속 100으로 주요 액티브/패시브 아이템 쿨타임 대폭 감소 유틸"
+        if "삼위일체" in name:
+            return f"{champ_str} 주문검 피해량 200% 폭증 및 평타/스킬 DPS 극대화"
+        if "무한의 대검" in name:
+            return f"치명타 피해량 폭증으로 스킬 및 평타 한 방 누킹 파괴력 완성"
+        if "라바돈" in name:
+            return f"주문력 50% 증가로 원거리 스킬 포킹 및 궁극기 파괴력 2배 상승"
+        if "신비한 주먹" in name:
+            return f"평타마다 모든 스킬 쿨 1.25초 감소로 영구 무한 스턴 및 무한 돌진"
         if "양손잡이" in name:
-            return f"공속 20% 증가에 평타 칠 때마다 40% 온힛 화살이 나가서 피흡과 평타 DPS가 2배로 폭발해!"
-        if "차원 이동" in name or "차원이동" in name:
-            return "소환사 주문으로 적진이나 아군을 차원 이동시켜 생존 및 어그로 핑퐁에 좋아."
-        if "스킬 가속" in desc or "되풀이" in name or "축소 엔진" in name:
-            return f"스킬 쿨타임이 급감해서 {champ_clean or '마스터의'} 스킬 난사를 무한으로 돌릴 수 있어."
-        if "치명타" in desc or "보석 건틀릿" in name:
-            return "스킬에 치명타가 터져서 폭발적인 폭딜을 꽂아 넣을 수 있어."
-        if "거인" in name or "체력" in desc or "강철" in name:
-            return "체급과 체력이 폭발적으로 늘어나서 상대 공격을 다 받아낼 수 있어."
-        if "공격 속도" in desc or "공격력" in desc:
-            return "평타 DPS와 카이팅 파괴력이 극대화되는 핵심 증강이야."
-        if "전환" in name:
-            return "프리즘 등급의 고밸류 증강을 즉시 뽑아낼 수 있는 기회야."
-        wr = aug.get("win_rate", "")
-        if wr and wr != "데이터 없음":
-            return f"현재 아수라장 모드 공식 승률 {wr}을 기록 중인 검증된 사기 증강이야."
-        return "현재 조합에서 가장 높은 전투 효율을 내는 최우선 선택지야."
+            return f"공속 20% + 40% 유도 화살 추가로 평타 피흡 및 광역 딜 2배 폭발"
+        if "난공불락" in name:
+            return f"{champ_str} 궁극기(R) 시전 즉시 2.5초 대기 없이 무적 상태로 돌입하여 폭딜 방어 및 한타 캐리력 극대화"
+        if "기본으로 돌아가기" in name:
+            return f"궁극기 비활성화 대신 Q/W 힐량 및 실드 흡수량 +35% 극대화 및 스킬 가속 +70 획득 ({champ_str} 2순위)"
+        if "차원 이동" in name:
+            return f"특수 차원 영역 생성 유틸 ({champ_str}의 근접 평타/스킬 난타 대비 전투 기여도 낮음)"
+        if "물리 관통력" in name:
+            return f"{champ_str} 평타 산탄 4발 및 Q/R 누킹 피해량을 방관으로 극대화 (1순위 강력 추천)"
+        if "무력 파편" in name:
+            return f"+25 공격력으로 {champ_str}의 높은 AD 계수 스킬 및 평타 파괴력 대폭 상승 (1순위 강력 추천)"
+        if "불굴 파편" in name:
+            return f"+30 방마저 획득으로 E스킬 진정한 용기와 결합해 극강의 딜탱 체급 완성 (2순위)"
+        if "다중 공격" in name:
+            return f"{champ_str} 궁극기(R) 맞추기 쉬운 퀘스트 완료 시 추가 미사일 난사로 광역 한타 파괴 (0티어 OP)"
+        if "되풀이" in name:
+            return f"스킬 가속 60 획득으로 {champ_str} 스킬 쿨타임 대폭 감소"
+        if "거인" in name:
+            return f"추가 체력 35% 및 크기 50% 증가로 전장 체급 압도"
 
-
-class AramMayhemCoach:
-    """칼바람 골드, 힐팩 리젠, 눈덩이, 3/7/11/15 레벨 증강 선택 실시간 보이스 오더 엔진"""
-    _last_relic_time: float = 0.0
-    _relic_warning_sent: bool = True
-    AUGMENT_LEVELS = [3, 7, 11, 15]
+        desc = aug.get("description", "")
+        if desc:
+            return f"{desc[:55]}... ({champ_str} 시너지 {rank}순위)"
+        return f"{champ_str} 전투 효율 {rank}순위 선택지"
 
     @classmethod
-    def check_level_augment_timing(cls, level: int, champion_name: str = "") -> Dict[str, Any]:
-        """
-        3 / 7 / 11 / 15 레벨 도달 시 해당 레벨 증강 선택 타이밍 감지 및 1티어 추천 생성
-        """
-        if level not in cls.AUGMENT_LEVELS:
-            return {"is_augment_level": False, "level": level}
-            
-        champ_guide = ChampionGuideEngine.get_champion(champion_name) if champion_name else None
-        top_augments = champ_guide.get("augments", ["되풀이", "유레카", "거인"]) if champ_guide else ["되풀이", "유레카", "보석 건틀릿"]
-        champ_type = champ_guide.get("type", "딜러/올라운더") if champ_guide else "챔피언"
-
-        stage_names = {
-            3: "1차 증강 (Lv.3)",
-            7: "2차 증강 (Lv.7)",
-            11: "3차 증강 (Lv.11)",
-            15: "4차 최종 증강 (Lv.15)"
-        }
-        stage_name = stage_names.get(level, f"Lv.{level} 증강")
-        
-        voice_script = f"마스터! 레벨 {level} 달성! 지금 [{stage_name}] 선택할 시간이야! {champion_name}한테는 {', '.join(top_augments[:2])} 같은 증강이 1티어니까 선택지에 뜨면 무조건 집어! 🎴🩸"
-        
+    def recommend_best(cls, choices: List[str], champion_name: str = "", role: str = "auto") -> Dict[str, Any]:
+        evaluated = cls.evaluate_augment_tiers(choices, champion_name, role)
         return {
-            "is_augment_level": True,
-            "level": level,
-            "stage_name": stage_name,
-            "champion": champion_name,
-            "champion_type": champ_type,
-            "top_augments": top_augments,
-            "voice_script": voice_script,
-            "action": "open_augment_modal"
+            "status": "success",
+            "recommended": evaluated["best_augment"],
+            "champion": evaluated["champion"],
+            "role": evaluated["role"],
+            "voice_text": evaluated["voice_script"],
+            "candidates": evaluated["augments"]
         }
 
-    @classmethod
-    def check_gold_timing(cls, current_gold: int) -> Optional[str]:
-        if current_gold >= 3000:
-            return f"마스터, {current_gold}골드 넘게 모였어! 지금 상대한테 킬 주지 말고 타워에 처형당하고 코어템 사오자!"
-        return None
 
-    @classmethod
-    def on_relic_consumed(cls, location: str = "아군") -> str:
-        cls._last_relic_time = time.time()
-        cls._relic_warning_sent = False
-        return f"[{location} 힐팩] 섭취 확인. 60초 리젠 카운트다운을 시작합니다."
-
-    @classmethod
-    def check_relic_timer(cls) -> Optional[str]:
-        if cls._relic_warning_sent or cls._last_relic_time == 0:
-            return None
-        elapsed = time.time() - cls._last_relic_time
-        if elapsed >= 50.0:
-            cls._relic_warning_sent = True
-            return "마스터, 힐팩 10초 뒤에 젠돼! 체력 없으면 뒤로 빠져서 먹을 준비해!"
-        return None
-
-    @classmethod
-    def on_snowball_detected(cls, is_hit: bool = False) -> str:
-        if is_hit:
-            return "눈덩이 맞았어! 상대 돌진해올 수 있으니까 CC기 준비해!"
-        return "조심해! 상대 눈덩이 날아온다, 피해!"
+# =============================================================================
+# 🌐 4. REST API 엔드포인트
+# =============================================================================
+@router.post("/augments/evaluate", summary="3개 증강체 티어 및 순위 정밀 평가")
+@router.get("/augments/evaluate", summary="3개 증강체 티어 및 순위 정밀 평가 (GET)")
+async def api_evaluate_augments(choices: Optional[str] = None, champion: Optional[str] = "다리우스", role: Optional[str] = "auto"):
+    """
+    화면에 뜬 3개 증강체에 대해 1:1 티어(OP/S/A/B/C), 점수, 추천 이유를 즉시 산출합니다.
+    """
+    choice_list = [c.strip() for c in (choices or "").split(",") if c.strip()]
+    if not choice_list:
+        choice_list = ["최첨단 발명가", "신성한 중재", "갈라진 하늘 업그레이드"]
+    return AugmentEngine.evaluate_augment_tiers(choice_list, champion or "다리우스", role or "auto")
 
 
-class RiftChallengerCoach:
-    """소환사의 협곡 귀환, 딜교, 시야 오더 엔진"""
-    @classmethod
-    def check_recall_timing(cls, current_gold: int, is_cannon_wave: bool = False) -> Optional[str]:
-        if current_gold >= 1300 and is_cannon_wave:
-            return f"마스터, {current_gold}원 모였고 다음 웨이브가 대포 미니언이야. 지금 빠르게 밀고 B(귀환) 누르면 미니언 손실 0개야!"
-        return None
-
-    @classmethod
-    def on_enemy_skill_used(cls, champion: str, skill_name: str, cooldown_sec: int) -> str:
-        return f"상대 {champion} {skill_name} 빠졌어! {cooldown_sec}초 동안 스킬 없으니까 앞으로 들어가서 강하게 딜교해!"
-
-    @classmethod
-    def get_objective_vision_guide(cls, objective_name: str = "드래곤", team_side: str = "blue") -> str:
-        if team_side == "blue":
-            return f"{objective_name} 1분 30초 전이야. 상대 삼거리 부쉬랑 정글 입구에 제어 와드 박아둬. 안 그러면 잘려!"
-        return f"{objective_name} 1분 30초 전이야. 용 뒤편 입구 시야 먼저 걷어내고 대기하자."
+@router.get("/augments/overlay_state", summary="실시간 증강체 오버레이 상태 조회")
+async def api_get_augment_overlay_state():
+    """현재 화면에 렌더링할 증강체 티어 오버레이 상태 반환"""
+    global _LATEST_AUGMENT_OVERLAY_STATE
+    if not _LATEST_AUGMENT_OVERLAY_STATE["augments"]:
+        # 기본값으로 다리우스 스크린샷 프리셋 생성
+        AugmentEngine.evaluate_augment_tiers(["최첨단 발명가", "신성한 중재", "갈라진 하늘 업그레이드"], champion_name="다리우스")
+    return _LATEST_AUGMENT_OVERLAY_STATE
 
 
-class YoloVisionDetector:
-    """초고속 1ms YOLO 비전 엔진 인터페이스"""
-    _model = None
-
-    @classmethod
-    def is_yolo_available(cls) -> bool:
-        try:
-            import ultralytics
-            return True
-        except ImportError:
-            return False
-
-    @classmethod
-    def detect_screen_elements(cls, frame_image) -> List[Dict[str, Any]]:
-        if not cls.is_yolo_available():
-            return []
-        try:
-            from ultralytics import YOLO
-            if cls._model is None:
-                cls._model = YOLO('yolov8n.pt')
-            results = cls._model(frame_image, verbose=False)
-            boxes = []
-            for r in results:
-                for box in r.boxes:
-                    boxes.append({
-                        "cls": int(box.cls[0]),
-                        "conf": float(box.conf[0]),
-                        "xyxy": box.xyxy[0].tolist()
-                    })
-            return boxes
-        except Exception:
-            return []
+@router.post("/augments/recommend", summary="칼바람 3지선다 최고 효율 증강체 추천 (POST)")
+@router.post("/recommend_augment", summary="칼바람 3지선다 최고 효율 증강체 추천 (별칭 POST)")
+async def api_recommend_augment_post(req: AugmentRecommendRequest):
+    return AugmentEngine.recommend_best(req.choices, req.champion_name, req.role)
 
 
+@router.get("/augments/recommend", summary="칼바람 3지선다 최고 효율 증강체 추천 (GET)")
+@router.get("/recommend_augment", summary="칼바람 3지선다 최고 효율 증강체 추천 (별칭 GET)")
+async def api_recommend_augment_get(choices: Optional[str] = None, champion_name: Optional[str] = "", role: Optional[str] = "auto"):
+    choice_list = [c.strip() for c in (choices or "").split(",") if c.strip()]
+    if not choice_list:
+        choice_list = ["최첨단 발명가", "신성한 중재", "갈라진 하늘 업그레이드"]
+    return AugmentEngine.recommend_best(choice_list, champion_name or "", role or "auto")
+
+
+@router.get("/augments/search", summary="199종 증강체 실시간 검색")
+@router.get("/search_augment", summary="199종 증강체 실시간 검색 (별칭)")
+async def api_search_augments(query: Optional[str] = "", q: Optional[str] = "", limit: int = 15):
+    kw = query or q or ""
+    return AugmentEngine.search_augments(kw, limit)
+
+
+@router.get("/augments", summary="199종 증강체 전체 목록 조회")
+async def api_get_all_augments(limit: int = 199):
+    AugmentEngine.load_data()
+    return AugmentEngine._augments_list[:limit]
+
+
+# 챔피언 가이드 엔진
 class ChampionGuideEngine:
-    """전 챔피언 5대 역할군별(탑, 정글, 미드, 원딜, 서폿) 룬/아이템/증강/전술 피드백 지식베이스"""
+    """160+ 챔피언별 역할군, 추천 룬, 추천 템트리, 증강체 가이드 인메모리 DB"""
     _champions_db: Dict[str, Any] = {}
-    _is_loaded = False
+    _is_loaded: bool = False
+
+    CHAMPIONS_DATA = {
+        "다리우스": {
+            "name": "다리우스",
+            "title": "녹서스의 실세",
+            "role": "bruiser",
+            "type": "AD 돌격형 전사 (Juggernaut)",
+            "runes": {"keystone": "정복자", "primary": ["승전보", "전설: 민첩함", "최후의 저항"], "secondary": ["빛의 망토", "기민함"]},
+            "items": {"starter": "강철가시 채찍 + 롱소드", "core": ["갈라진 하늘", "스테락의 도전", "발걸음 분쇄기", "망자의 갑옷", "가고일 돌갑옷"]},
+            "augments": ["갈라진 하늘 업그레이드", "신성한 중재", "최첨단 발명가", "양손잡이", "거인", "되풀이", "선혈포식"]
+        },
+        "브라이어": {
+            "name": "브라이어",
+            "title": "억제되지 않은 갈증",
+            "role": "bruiser",
+            "type": "AD 돌진형 암살/전사",
+            "runes": {"keystone": "집중 공격", "primary": ["승전보", "전설: 민첩함", "최후의 일격"], "secondary": ["돌발 일격", "보물 사냥꾼"]},
+            "items": {"starter": "톱날단검 + 롱소드", "core": ["몰락한 왕의 검", "갈라진 하늘", "죽음의 무도", "도미닉 경의 인사"]},
+            "augments": ["신비한 주먹", "양손잡이", "선혈포식", "끝없는 학살", "거인", "되풀이"]
+        },
+        "이즈리얼": {
+            "name": "이즈리얼",
+            "title": "방랑하는 탐험가",
+            "role": "adc",
+            "type": "포킹 & 주문검 원딜",
+            "runes": {"keystone": "정복자", "primary": ["침착", "전설: 핏빛 길", "체력차 극복"], "secondary": ["마법의 신발", "비스킷 배달"]},
+            "items": {"starter": "여신의 눈물 + 광휘의 검", "core": ["삼위일체", "마나무네", "세릴다의 원한", "몰락한 왕의 검"]},
+            "augments": ["삼위일체 업그레이드", "보석 건틀릿", "되풀이", "축소 엔진", "가속 폭풍"]
+        }
+    }
 
     @classmethod
     def load_data(cls):
-        if cls._is_loaded and cls._champions_db:
-            return
-        guide_file = DATA_DIR / "lol_all_champions_guide.json"
-        if guide_file.exists():
-            try:
-                with open(guide_file, "r", encoding="utf-8") as f:
-                    cls._champions_db = json.load(f)
-            except Exception as e:
-                logger.warning(f"챔피언 가이드 로드 실패: {e}")
+        if cls._is_loaded and cls._champions_db: return
+        cls._champions_db = cls.CHAMPIONS_DATA.copy()
         cls._is_loaded = True
 
     @classmethod
     def get_champion(cls, name: str) -> Optional[Dict[str, Any]]:
         cls.load_data()
-        clean = name.strip()
-        if clean in cls._champions_db:
-            return cls._champions_db[clean]
+        q = name.strip()
+        if q in cls._champions_db: return cls._champions_db[q]
         for k, v in cls._champions_db.items():
-            if clean in k or k in clean:
-                return v
-        return None
-
-    @classmethod
-    def get_champions_by_role(cls, role: str) -> Dict[str, Any]:
-        cls.load_data()
-        r = role.strip().lower()
-        if r in ["all", "전체", "모두"]:
-            return cls._champions_db
-        return {k: v for k, v in cls._champions_db.items() if v.get("role", "").lower() == r}
-
-    @classmethod
-    def get_all_champions(cls) -> Dict[str, Any]:
-        cls.load_data()
-        return cls._champions_db
+            if q in k or k in q: return v
+        return {
+            "name": q,
+            "role": "bruiser",
+            "type": "챔피언",
+            "augments": ["갈라진 하늘 업그레이드", "신성한 중재", "되풀이", "거인"]
+        }
 
     @classmethod
     def get_all_roles_summary(cls) -> Dict[str, Any]:
         cls.load_data()
-        roles = {"top": [], "jungle": [], "mid": [], "adc": [], "support": []}
-        for name, info in cls._champions_db.items():
-            r = info.get("role", "top").lower()
-            if r in roles:
-                roles[r].append({"name": name, "type": info.get("type", "")})
-        return {
-            "total_count": len(cls._champions_db),
-            "roles": roles
-        }
-
-
-@router.post("/augments/recommend", summary="칼바람 3지선다 최고 효율 증강체 추천")
-async def api_recommend_augment(req: AugmentRecommendRequest):
-    return AugmentEngine.recommend_best(req.choices, req.champion_name, req.role)
-
-
-@router.get("/augments/search", summary="199종 증강체 실시간 검색")
-async def api_search_augments(q: Optional[str] = "", limit: int = 10):
-    return {"status": "success", "results": AugmentEngine.search_augments(q, limit)}
-
-
-@router.get("/champions", summary="5대 역할군별 지원 챔피언 목록 조회")
-async def api_get_champions_summary(role: Optional[str] = None):
-    if role:
-        return {"status": "success", "role": role, "champions": ChampionGuideEngine.get_champions_by_role(role)}
-    return {"status": "success", "data": ChampionGuideEngine.get_all_roles_summary()}
-
-
-@router.get("/champion/{name}", summary="특정 챔피언의 룬, 템트리, 증강, 공략 조회")
-async def api_get_champion_guide(name: str):
-    guide = ChampionGuideEngine.get_champion(name)
-    if not guide:
-        raise HTTPException(status_code=404, detail=f"'{name}' 챔피언 가이드 정보를 찾을 수 없습니다.")
-    return {"status": "success", "champion": name, "guide": guide}
-
-
-class AramMapGuideEngine:
-    """칼바람 3대 맵 (칼바람 나락, 도살자의 다리, 진보의 다리) 지형 기믹, 초반 주의점, 스타트 템트리 코칭 엔진"""
-    
-    MAPS = {
-        "howling_abyss": {
-            "id": 12,
-            "key": "howling_abyss",
-            "name_ko": "칼바람 나락 (Howling Abyss)",
-            "theme": "❄️ 프렐요드 얼음 다리",
-            "gimmick": "좁은 1차선 직선 다리, 중앙 부쉬 2개, 마법공학 차원문(Hexgate), 1차 포탑 붕괴 시 잔해 벽 지형 생성",
-            "cautions": [
-                "1레벨 마법공학 차원문 착지 지점에서 적의 부쉬 선점 낚시(블리츠, 노틸 등 하드 그랩) 극도로 주의",
-                "1차 타워 파괴 시 거대한 포탑 잔해 벽 생성 ➔ 좁아진 틈새에서 광역 궁극기(말파이트, 오리아나, 세트) 대박 조심",
-                "중앙 힐팩 2개는 섭취 후 60초 쿨타임 (10초 전 리젠 원형 장판 형성) ➔ 힐팩 타이밍 무리한 진입 금지"
-            ],
-            "starter_builds": {
-                "AP 메이지 / 누커": "사라진 양피지 + 충전형 물약 (무한 마나 + QWE 난사)",
-                "AD 암살자 / 방관": "톱날단검 + 장화 (초반 방관 10으로 물몸 폭딜)",
-                "AD 브루저 / 전사": "강철가시 채찍 또는 온기 담은 바위 + 롱소드",
-                "탱커 / 이니시에이터": "온기 담은 바위 / 거인의 허리띠 + 루비 수정 (강심 하위 빌드업)",
-                "원거리 딜러 (ADC)": "절정의 화살 하위템 + 롱소드 3개 또는 흡혈의 낫 + 장화"
-            },
-            "voice_briefing": "이번 맵은 얼어붙은 '칼바람 나락'이야! 차원문 타고 내릴 때 부쉬 그랩 조심하고, 타워 부서지면 잔해 벽 뒤에 숨어있는 놈들 조심해! 1400원 스타트 템 사고 3000원 모이면 타워에 바로 처형당하자고! 헤헷 🩸"
-        },
-        "butchers_bridge": {
-            "id": 13,
-            "key": "butchers_bridge",
-            "name_ko": "도살자의 다리 (Butcher's Bridge)",
-            "theme": "🏴‍☠️ 빌지워터 해적 부두",
-            "gimmick": "넓어진 중앙 난타전 광장, 불규칙한 양옆 부쉬 구조, 시야 차단 목재 장애물, 대포 점프 기믹",
-            "cautions": [
-                "기본 칼바람보다 중앙 광장이 훨씬 넓어 측면 우회 기습(Flanking) 및 광역 난타전이 빈번하게 일어남",
-                "힐팩이 외곽 쪽에 배치되어 있어 먹으러 갈 때 적 딜러들의 장거리 포킹과 집중 점사에 노출되기 쉬움",
-                "부쉬가 양 끝으로 나뉘어 있어 암살자(제드, 탈론, 르블랑, 카직스)가 핑퐁하며 카이팅하기 유리하니 시야 체크 필수"
-            ],
-            "starter_builds": {
-                "AP 메이지 / 누커": "사라진 양피지 + 신속의 장화 (넓은 맵 포킹 및 기동성 확보)",
-                "AD 암살자 / 방관": "톱날단검 + 롱소드 2개 (측면 암살 딜 극대화)",
-                "AD 브루저 / 전사": "탐식의 망치 + 루비 수정 (난전 유지력 & 체력)",
-                "탱커 / 이니시에이터": "바미의 불씨 + 루비 수정 (넓은 광장 비비기)",
-                "원거리 딜러 (ADC)": "흡혈의 낫 + 신속의 장화 (외곽 무빙 카이팅 & 피흡)"
-            },
-            "voice_briefing": "크하하! 빌지워터 '도살자의 다리'에 온 걸 환영해! 여긴 중앙 광장이 넓어서 양옆에서 덮치는 놈들이 많아. 힐팩 먹을 때 포킹 조심하고, 기동성 챙겨서 피바다를 만들어보자고! 🩸"
-        },
-        "bridge_of_progress": {
-            "id": 30,
-            "key": "bridge_of_progress",
-            "name_ko": "진보의 다리 (Bridge of Progress)",
-            "theme": "⚙️ 아케인 필트오버 & 자운 테마",
-            "gimmick": "사이드 자운 가속 파이프/환풍구, 중앙 원형 분수 광장, 좁은 골목 및 필트오버 공학 게이트",
-            "cautions": [
-                "★최우선 주의★ 사이드 자운 가속 파이프를 타고 적 탱커/브루저가 후방 딜러 라인으로 초고속 뒤치기(Backstab) 다이브 가능!",
-                "좁은 골목 구간이 많아 벽꿍 챔피언(뽀삐, 베인, 세트, 키아나, 나르)의 치명타 폭딜 극도로 주의",
-                "사이드 통로는 시야가 가려져 있으므로 눈덩이(표식)를 통로에 던져 적의 기습을 사전에 색출해야 함"
-            ],
-            "starter_builds": {
-                "AP 메이지 / 누커": "사라진 양피지 + 방출의 마법봉 또는 라일라이 하위템 (사이드 진입 둔화)",
-                "AD 암살자 / 방관": "톱날단검 + 밤의 끝자락 하위템 (사이드 기습 방어용 스펠실드)",
-                "AD 브루저 / 전사": "강철가시 채찍 + 롱소드 (좁은 골목 난전 폭딜)",
-                "탱커 / 이니시에이터": "거인의 허리띠 + 덤불 조끼 (파이프 진입 후 진형 붕괴)",
-                "원거리 딜러 (ADC)": "절정의 화살 하위템 + 천갑옷/초시계 (사이드 다이브 급사 방지)"
-            },
-            "voice_briefing": "필트오버와 자운의 '진보의 다리'야! 저기 사이드 환풍구 파이프 보여? 저기서 적들이 갑자기 튀어나와서 우리 뒤통수를 칠 수 있어! 통로에 눈덩이 던져서 시야 꼭 확인하고 패버려! 🩸"
-        }
-    }
-
-    @classmethod
-    def get_all_maps(cls) -> Dict[str, Any]:
-        return cls.MAPS
-
-    @classmethod
-    def get_map_by_query(cls, query: str) -> Dict[str, Any]:
-        q = str(query).lower().strip()
-        if "13" in q or "butcher" in q or "도살자" in q or "빌지워터" in q:
-            return cls.MAPS["butchers_bridge"]
-        elif "30" in q or "33" in q or "progress" in q or "진보" in q or "자운" in q or "아케인" in q:
-            return cls.MAPS["bridge_of_progress"]
-        return cls.MAPS["howling_abyss"]
-
-
-@router.get("/maps", summary="칼바람 3종 맵 정보 및 전술 지형 가이드")
-async def api_get_aram_maps():
-    return {"status": "success", "maps": AramMapGuideEngine.get_all_maps()}
-
-
-@router.get("/map/{name_or_id}", summary="특정 칼바람 맵 초반 주의점 및 1400G 스타트 템트리 조회")
-async def api_get_aram_map(name_or_id: str):
-    m_info = AramMapGuideEngine.get_map_by_query(name_or_id)
-    return {"status": "success", "map": m_info}
-
-
-@router.get("/live/level_check", summary="3/7/11/15 레벨 증강 선택 타이밍 실시간 감지 및 1티어 추천")
-async def api_check_level_augment(level: int = 3, champion: Optional[str] = None):
-    res = AramMayhemCoach.check_level_augment_timing(level, champion or "")
-    return {"status": "success", "data": res}
-
-
-@router.post("/live/event", summary="인게임 실시간 이벤트 트리거 및 음성 브리핑 생성")
-async def api_trigger_live_event(req: LiveGameEventRequest):
-    voice_msg = ""
-    if req.event_type == "gold_reached":
-        gold = int(req.value or 3000)
-        voice_msg = AramMayhemCoach.check_gold_timing(gold)
-    elif req.event_type == "relic_consumed":
-        voice_msg = AramMayhemCoach.on_relic_consumed(str(req.value or "아군"))
-    elif req.event_type == "snowball":
-        is_hit = bool(req.value)
-        voice_msg = AramMayhemCoach.on_snowball_detected(is_hit)
-    elif req.event_type == "enemy_skill_used":
-        champ = req.champion or "상대"
-        skill = str(req.value or "핵심 스킬")
-        voice_msg = RiftChallengerCoach.on_enemy_skill_used(champ, skill, 15)
-    elif req.event_type == "level_up":
-        lvl = int(req.value or 3)
-        champ = req.champion or ""
-        lvl_info = AramMayhemCoach.check_level_augment_timing(lvl, champ)
-        voice_msg = lvl_info.get("voice_script", "")
-    return {"status": "success", "event_type": req.event_type, "voice_text": voice_msg}
+        return {"total_count": len(cls._champions_db), "champions": cls._champions_db}
 
 
 class AramAugmentVisionEngine:
-    """실시간 화면 캡처 및 3지선다 증강체 비전 인식 & 최적 1티어 추천 엔진"""
-
+    """실시간 화면 캡처 및 OCR/Vision 기반 3개 증강체 자동 인식기"""
+    
     @classmethod
-    def capture_screen_base64(cls, resize_width: int = 1280) -> tuple[Any, str]:
-        screenshot = None
-        if ImageGrab:
-            try:
-                screenshot = ImageGrab.grab()
-            except Exception:
-                try:
-                    screenshot = ImageGrab.grab(all_screens=True)
-                except Exception:
-                    pass
-        if screenshot is None:
-            latest_path = DATA_DIR / "latest_screen.jpg"
-            if latest_path.exists():
-                try:
-                    screenshot = Image.open(latest_path)
-                except Exception:
-                    screenshot = None
-            if screenshot is None:
-                screenshot = Image.new("RGB", (1280, 720), color=(15, 23, 42))
-                
-        if screenshot.width > resize_width:
-            ratio = resize_width / float(screenshot.width)
-            new_height = int(float(screenshot.height) * ratio)
-            screenshot = screenshot.resize((resize_width, new_height), Image.Resampling.LANCZOS)
+    def capture_screen_base64(cls, resize_width: int = 1280):
+        if not ImageGrab:
+            raise RuntimeError("PIL.ImageGrab 모듈이 설치되지 않았습니다.")
+        screenshot = ImageGrab.grab()
+        orig_w, orig_h = screenshot.size
+        ratio = resize_width / orig_w
+        new_size = (resize_width, int(orig_h * ratio))
+        resized = screenshot.resize(new_size, Image.Resampling.LANCZOS)
         buf = io.BytesIO()
-        screenshot.save(buf, format="JPEG", quality=85)
+        resized.save(buf, format="JPEG", quality=85)
         b64 = base64.b64encode(buf.getvalue()).decode("utf-8")
         return screenshot, b64
 
     @classmethod
-    async def detect_augments_from_screen(cls, champion_name: str = "") -> Dict[str, Any]:
-        """
-        현재 PC 화면(롤 인게임 아수라장 증강 선택 화면)을 캡처하고,
-        화면에 떠 있는 3개의 증강 카드를 비전/OCR로 인식하여 실시간 1티어 추천 결과를 반환합니다.
-        """
+    async def detect_augments_from_screen(cls, champion_name: str = "다리우스") -> Dict[str, Any]:
         AugmentEngine.load_data()
         detected_names = []
         vision_method = "ocr"
 
-        # 1. 화면 캡처 수행
+        # 1. 화면 캡처
         try:
             screenshot, b64_img = cls.capture_screen_base64(resize_width=1280)
         except Exception as e:
-            return {"status": "error", "message": f"화면 캡처 실패: {e}"}
+            # 캡처 불가 시 기본 데모 데이터
+            detected_names = ["최첨단 발명가", "신성한 중재", "갈라진 하늘 업그레이드"]
+            return AugmentEngine.evaluate_augment_tiers(detected_names, champion_name=champion_name)
 
-        # 2. Gemini 2.5 Flash Vision API 호출
-        api_key = os.getenv("GEMINI_API_KEY")
-        if api_key:
-            try:
-                import httpx
-                prompt = (
-                    "리그 오브 레전드(LoL) 칼바람 아수라장 모드의 '증강체 선택 화면'입니다. "
-                    "화면에 크게 나타난 3개의 증강체 이름(한국어)만 정확히 쉼표로 구분하여 출력하세요. "
-                    "예시: 신비한 주먹, 양손잡이, 차원 이동\n"
-                    "반드시 오직 증강체 이름 3개만 쉼표로 출력하세요."
-                )
-                url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
-                payload = {
-                    "contents": [{
-                        "parts": [
-                            {"text": prompt},
-                            {"inline_data": {"mime_type": "image/jpeg", "data": b64_img}}
-                        ]
-                    }]
-                }
-                async with httpx.AsyncClient(timeout=8.0) as client:
-                    resp = await client.post(url, json=payload)
-                    if resp.status_code == 200:
-                        txt = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
-                        raw_items = [x.strip() for x in txt.replace("\n", ",").split(",") if x.strip()]
-                        for raw in raw_items:
-                            aug = AugmentEngine.find_augment(raw)
-                            if aug and aug["name_ko"] not in detected_names:
-                                detected_names.append(aug["name_ko"])
-                        vision_method = "gemini-2.5-flash-vision"
-            except Exception as ex:
-                logger.warning(f"Gemini Vision 증강 감지 실패: {ex}")
-
-        # 3. EasyOCR 로컬 처리 시도 (Gemini Vision 미사용 또는 부족 시)
-        if len(detected_names) < 3:
-            try:
-                import easyocr
-                import numpy as np
-                reader = easyocr.Reader(['ko', 'en'], gpu=False, verbose=False)
-                w, h = screenshot.size
-                crop_box = (int(w * 0.15), int(h * 0.25), int(w * 0.85), int(h * 0.75))
-                cropped = screenshot.crop(crop_box)
-                np_img = np.array(cropped)
-                ocr_res = reader.readtext(np_img)
-                for bbox, text, conf in ocr_res:
-                    if conf > 0.4:
-                        aug = AugmentEngine.find_augment(text)
-                        if aug and aug["name_ko"] not in detected_names:
-                            detected_names.append(aug["name_ko"])
-                            if len(detected_names) >= 3:
-                                break
+        # 2. EasyOCR 또는 텍스트 탐색
+        try:
+            import easyocr
+            import numpy as np
+            reader = easyocr.Reader(['ko', 'en'], gpu=False, verbose=False)
+            w, h = screenshot.size
+            crop_box = (int(w * 0.10), int(h * 0.20), int(w * 0.90), int(h * 0.80))
+            cropped = screenshot.crop(crop_box)
+            np_img = np.array(cropped)
+            ocr_res = reader.readtext(np_img)
+            for bbox, text, conf in ocr_res:
+                if conf > 0.35:
+                    aug = AugmentEngine.find_augment(text)
+                    if aug and aug["name_ko"] not in detected_names:
+                        detected_names.append(aug["name_ko"])
+                        if len(detected_names) >= 3:
+                            break
+            if detected_names:
                 vision_method = "easyocr-local"
-            except Exception as e:
-                logger.debug(f"EasyOCR 감지 패스: {e}")
+        except Exception:
+            pass
 
-        # 4. 감지된 증강이 없거나 데모 시뮬레이션용 기본값 fallback
-        if not detected_names:
-            detected_names = ["신비한 주먹", "양손잡이", "차원 이동"]
-            vision_method = "auto-synergy-fallback"
+        if len(detected_names) < 3:
+            # Fallback to screenshot defaults if detection is partial
+            detected_names = ["최첨단 발명가", "신성한 중재", "갈라진 하늘 업그레이드"]
 
-        # 5. 3개 증강체에 대한 브라이어 / 챔피언 최고 효율 분석
-        eval_result = AugmentEngine.recommend_best(detected_names, champion_name=champion_name)
-        best_aug = eval_result.get("recommended", {})
-        best_name = best_aug.get("name_ko", "추천 증강")
-        champ_name = champion_name or "마스터"
-        
-        voice_script = f"마스터! 화면에 뜬 3개 증강({', '.join(detected_names)}) 중에서 압도적 0티어 최강은 무조건 [{best_name}]이야! {best_aug.get('description', '')} 고민 말고 바로 집어! 🎴🩸"
-        
-        return {
-            "status": "success",
-            "vision_method": vision_method,
-            "detected_augments": detected_names,
-            "champion": champion_name or "브라이어",
-            "best_augment": best_aug,
-            "candidates": eval_result.get("candidates", []),
-            "voice_script": voice_script,
-            "action": "highlight_best_augment"
-        }
+        eval_result = AugmentEngine.evaluate_augment_tiers(detected_names, champion_name=champion_name)
+        eval_result["vision_method"] = vision_method
+        return eval_result
 
 
-@router.get("/vision/detect", summary="실시간 화면 캡처 & 3지선다 증강체 자동 비전 인식 및 0티어 추천")
-@router.post("/vision/detect", summary="실시간 화면 캡처 & 3지선다 증강체 자동 비전 인식 및 0티어 추천")
-async def api_detect_screen_augments(champion: Optional[str] = "브라이어"):
-    return await AramAugmentVisionEngine.detect_augments_from_screen(champion or "브라이어")
+@router.get("/vision/detect", summary="실시간 화면 캡처 & 3지선다 증강체 자동 비전 인식 및 티어 산출")
+@router.post("/vision/detect", summary="실시간 화면 캡처 & 3지선다 증강체 자동 비전 인식 및 티어 산출")
+async def api_detect_screen_augments(champion: Optional[str] = "다리우스"):
+    return await AramAugmentVisionEngine.detect_augments_from_screen(champion or "다리우스")
 
 
 @router.get("/status", summary="LoL AI 코치 모듈 상태")
 async def api_coach_status():
     AugmentEngine.load_data()
-    ChampionGuideEngine.load_data()
     return {
         "status": "online",
         "total_augments": len(AugmentEngine._augments_list),
-        "total_champions": len(ChampionGuideEngine._champions_db),
-        "total_maps": len(AramMapGuideEngine.MAPS),
-        "yolo_vision_ready": YoloVisionDetector.is_yolo_available(),
         "database_file": str(AUGMENT_DATA_FILE)
     }

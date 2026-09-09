@@ -292,10 +292,21 @@ def get_lol_window_geometry() -> Tuple[Optional[int], Optional[Dict[str, Any]]]:
         return None, None
 
 
-def is_lol_foreground_active() -> bool:
+NON_LOL_EXES = {
+    "chrome.exe", "msedge.exe", "whale.exe", "firefox.exe", "brave.exe",
+    "opera.exe", "orca.exe", "code.exe", "discord.exe", "explorer.exe",
+    "python.exe", "pythonw.exe", "cmd.exe", "powershell.exe", "windowsterminal.exe",
+    "notepad.exe", "devenv.exe", "slack.exe", "kakaotalk.exe", "taskmgr.exe"
+}
+VALID_LOL_EXES = {
+    "league of legends.exe", "leagueclientux.exe", "leagueclient.exe", "riotclientux.exe"
+}
+
+
+def is_lol_foreground_active(include_client_lobby: bool = True) -> bool:
     """
-    현재 사용자가 롤 인게임 창(League of Legends (TM) Client / League of Legends.exe)을
-    포커스(활성창) 상태로 두고 있는지 0.00ms 초고속 검사합니다.
+    현재 사용자가 롤 인게임 창(League of Legends (TM) Client / League of Legends.exe) 또는
+    롤 클라이언트 창(LeagueClientUx.exe)을 포커스(활성창) 상태로 두고 있는지 0.00ms 초고속 검사합니다.
     - 롤 화면이 활성화되지 않은 상태에서 바탕화면/작업표시줄 캡처 및 오탐지를 원천 차단합니다.
     """
     try:
@@ -317,27 +328,39 @@ def is_lol_foreground_active() -> bool:
         if not fg_hwnd:
             return False
 
-        # 1. 윈도우 타이틀 빠른 일치 검사
-        length = user32.GetWindowTextLengthW(fg_hwnd)
-        if length > 0:
-            buff = ctypes.create_unicode_buffer(length + 1)
-            user32.GetWindowTextW(fg_hwnd, buff, length + 1)
-            title = buff.value
-            if "League of Legends (TM) Client" in title or title == "League of Legends":
-                return True
-
-        # 2. 포그라운드 윈도우의 PID 프로세스명 검사 (League of Legends.exe)
+        # 1. 포그라운드 윈도우의 PID 프로세스명 검사 (psutil) - 가장 엄격하고 정확함
         pid = ctypes.c_ulong()
         user32.GetWindowThreadProcessId(fg_hwnd, ctypes.byref(pid))
         if pid.value > 0:
             import psutil
             try:
                 p = psutil.Process(pid.value)
-                pname = p.name().lower()
+                pname = p.name().lower().strip()
+                if pname in NON_LOL_EXES:
+                    return False
                 if pname == "league of legends.exe":
+                    return True
+                if include_client_lobby and pname in ("leagueclientux.exe", "leagueclient.exe", "riotclientux.exe"):
                     return True
             except Exception:
                 pass
+
+        # 2. 윈도우 클래스명 검사 (RiotWindowClass)
+        class_buff = ctypes.create_unicode_buffer(256)
+        if user32.GetClassNameW(fg_hwnd, class_buff, 256) > 0:
+            cname = class_buff.value.strip()
+            if cname == "RiotWindowClass":
+                return True
+
+        # 3. 윈도우 타이틀 빠른 일치 검사
+        length = user32.GetWindowTextLengthW(fg_hwnd)
+        if length > 0:
+            buff = ctypes.create_unicode_buffer(length + 1)
+            user32.GetWindowTextW(fg_hwnd, buff, length + 1)
+            title = buff.value.strip()
+            if title == "League of Legends (TM) Client" or (include_client_lobby and title == "League of Legends"):
+                return True
+
     except Exception:
         pass
     return False

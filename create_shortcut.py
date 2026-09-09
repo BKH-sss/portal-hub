@@ -1,12 +1,17 @@
 import os
 import sys
+import subprocess
+
+if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if sys.stderr and hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 
 def create_desktop_shortcut(target_exe_or_bat, shortcut_name="J.A.R.V.I.S Assistant"):
     curr_dir = os.path.dirname(os.path.abspath(__file__))
     ico_path = os.path.join(curr_dir, "app_icon.ico")
     target_path = os.path.join(curr_dir, target_exe_or_bat)
     
-    import subprocess
     ps_cmd = f"""
     $WshShell = New-Object -comObject WScript.Shell
     $DesktopPath = [System.Environment]::GetFolderPath('Desktop')
@@ -17,7 +22,7 @@ def create_desktop_shortcut(target_exe_or_bat, shortcut_name="J.A.R.V.I.S Assist
     $Shortcut.Description = "J.A.R.V.I.S AI Assistant Desktop App"
     $Shortcut.Save()
     """
-    subprocess.run(["powershell", "-Command", ps_cmd], check=True)
+    subprocess.run(["powershell", "-NoProfile", "-Command", ps_cmd], check=True)
     print(f"Desktop shortcut created successfully -> {target_path}")
 
 def create_all_desktop_shortcuts():

@@ -395,7 +395,7 @@
                     <span><i class="fa-solid fa-maple-leaf"></i> 메이플스토리 47+ 직업 쿨타임 & 스카디 음성 브리핑</span>
                     <span id="maple-process-badge"></span>
                     <span id="admin-badge"></span>
-                    <span id="focus-filter-badge"></span>
+                    <span id="focus-filter-badge" onclick="toggleMapleFocusFilter()" style="cursor: pointer;" title="클릭 시 포커스 필터(메이플 전용/전체화면) ON/OFF 전환"></span>
                 </span>
                 <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                     <!-- 직업 & 보스 프리셋 셀렉터 -->
@@ -427,21 +427,21 @@
                 <span id="maple-char-info-tag" style="font-size: 12px; color: var(--text-muted); margin-left: auto;"></span>
             </div>
 
-            <!-- 스킬 등록 폼 -->
-            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 3fr auto; gap: 8px; align-items: center; background: rgba(0,0,0,0.25); padding: 12px; border-radius: 8px; margin-bottom: 14px;">
-                <input type="text" id="skill-name" class="form-input" placeholder="스킬명 (예: 제네시스 무적기)">
-                <select id="skill-cat" class="form-input" style="font-size: 12px;">
-                    <option value="defense">🛡️ 방어/무적</option>
-                    <option value="burst">🔥 극딜기</option>
+            <!-- 스킬 등록 폼 (테이블 컬럼과 1:1 완벽 정렬 & 오버플로우 방지) -->
+            <div style="display: grid; grid-template-columns: minmax(0, 20%) minmax(0, 10%) minmax(0, 10%) minmax(0, 10%) minmax(0, 10%) minmax(0, 24%) minmax(0, 16%); gap: 8px; align-items: center; background: rgba(0,0,0,0.25); padding: 10px 12px; border-radius: 8px; margin-bottom: 14px; box-sizing: border-box; width: 100%;">
+                <input type="text" id="skill-name" class="form-input" placeholder="스킬명 (예: 제네시스)" style="width: 100%; min-width: 0; box-sizing: border-box;">
+                <select id="skill-cat" class="form-input" style="width: 100%; min-width: 0; box-sizing: border-box; font-size: 12px; padding: 4px 2px;">
+                    <option value="defense">🛡️ 방어</option>
+                    <option value="burst">🔥 극딜</option>
                     <option value="bind">⚡ 바인드</option>
-                    <option value="buff">💫 버프/준극</option>
-                    <option value="boss">👾 보스패턴</option>
+                    <option value="buff">💫 버프</option>
+                    <option value="boss">👾 보스</option>
                 </select>
-                <input type="number" id="skill-cd" class="form-input" placeholder="쿨타임 초 (예: 180)">
-                <input type="number" id="skill-warn" class="form-input" placeholder="몇 초 전 예고" value="5">
-                <input type="text" id="skill-key" class="form-input" placeholder="단축키 (예: shift, ctrl, s)" value="shift">
-                <input type="text" id="skill-voice" class="form-input" placeholder="스카디 음성 대사 (예: 방어 스킬 쿨 5초 남았어)">
-                <button class="btn-action" style="background: rgba(255, 153, 0, 0.2); border-color: var(--orange-glow); color: var(--orange-glow);" onclick="addSkill()">
+                <input type="text" id="skill-key" class="form-input" placeholder="단축키" value="shift" style="width: 100%; min-width: 0; box-sizing: border-box; text-align: center;">
+                <input type="number" id="skill-cd" class="form-input" placeholder="쿨타임 초" style="width: 100%; min-width: 0; box-sizing: border-box;">
+                <input type="number" id="skill-warn" class="form-input" placeholder="예고 초" value="5" style="width: 100%; min-width: 0; box-sizing: border-box;">
+                <input type="text" id="skill-voice" class="form-input" placeholder="스카디 음성 대사 (예: 방어 스킬 쿨 5초 남았어)" style="width: 100%; min-width: 0; box-sizing: border-box;">
+                <button class="btn-action" style="width: 100%; min-width: 0; box-sizing: border-box; justify-content: center; background: rgba(255, 153, 0, 0.2); border-color: var(--orange-glow); color: var(--orange-glow); padding: 6px 8px; white-space: nowrap;" onclick="addSkill()">
                     <i class="fa-solid fa-plus"></i> 등록
                 </button>
             </div>
@@ -550,8 +550,10 @@
                     <span id="lol-focus-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--cyan-glow); cursor: pointer;" onclick="toggleLoLFocusFilter()" title="클릭 시 포커스 필터(롤 활성창 전용 감지) ON/OFF 전환"><i class="fa-solid fa-bullseye"></i> 🔒 롤 전용 포커스: 켜짐</span>
                     <span id="lol-map-mode-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 242, 254, 0.12); border: 1px solid rgba(0, 242, 254, 0.35); color: var(--cyan-glow); cursor: pointer;" onclick="cycleLoLMapMode()" title="클릭 시 맵 모드 강제 전환 [AUTO ➔ ARAM ➔ CLASSIC]"><i class="fa-solid fa-map-location-dot"></i> 🗺️ [AUTO] 소환사의 협곡</span>
                     <span id="lol-validator-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 255, 135, 0.1); border: 1px solid rgba(0, 255, 135, 0.3); color: var(--green-glow);" title="다계층 전술 검증기: 칼바람/협곡 오탐지 브리핑 100% 원천 차단"><i class="fa-solid fa-shield-halved"></i> 🛡️ AI 검증: 100% 무오류</span>
+                    <span id="lol-autopilot-badge" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(192, 132, 252, 0.15); border: 1px solid rgba(192, 132, 252, 0.35); color: #c084fc; cursor: pointer;" onclick="toggleAutopilotService()" title="클릭 시 전자동 인게임 오토파일럿 활성화/비활성화 토글"><i class="fa-solid fa-robot"></i> 🤖 오토파일럿: ON</span>
                 </span>
                 <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <button class="btn-action" style="color: #00ff88; border-color: rgba(0, 255, 136, 0.4);" onclick="launchOverlayPopup()" title="롤 인게임 화면 위에 띄울 수 있는 초경량 반투명 올인원 HUD를 실행합니다"><i class="fa-solid fa-arrow-up-right-from-square"></i> 🖥️ 플로팅 HUD 실행</button>
                     <button id="btn-run-scenarios" class="btn-action" style="color: #c084fc; border-color: rgba(192, 132, 252, 0.4);" onclick="runTacticalTestSuite()" title="20가지 인게임 전술 시나리오(칼바람/협곡) 자가 검증 일괄 실행"><i class="fa-solid fa-vial-circle-check"></i> 🧪 20종 시나리오 검증</button>
                     <!-- 🔊 스카디 LoL 음성 브리핑 볼륨 조절 -->
                     <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);" title="스카디 LoL 전술 음성 브리핑 볼륨 조절 (0~100%)">
@@ -612,6 +614,74 @@
                 <button id="btn-preset-HD+" class="btn-action" style="padding: 4px 10px; font-size: 11px;" onclick="applyResolutionPreset('HD+')" title="1600 x 900 (랩탑/서브 모니터)">노트북 HD+ (900p)</button>
                 <div style="margin-left: auto;">
                     <span id="minimap-current-res" style="font-size: 11px; color: #fff; font-family: monospace; background: rgba(0, 229, 255, 0.15); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(0, 229, 255, 0.3);">현재: FHD (1920x1080)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5-3. 🎲 칼바람 나락(ARAM): 199종 증강체(Augments) 실시간 추천 & 검색 패널 (NEW) -->
+        <div class="card" style="grid-column: span 12; border-color: rgba(192, 132, 252, 0.4); background: linear-gradient(180deg, rgba(20, 15, 30, 0.7) 0%, rgba(12, 12, 18, 0.85) 100%);">
+            <div class="card-header">
+                <span class="card-title" style="color: #c084fc; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <span><i class="fa-solid fa-dice-d20"></i> 칼바람 나락(ARAM): 199종 증강체 실시간 추천 &amp; 검색기</span>
+                    <span style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(192, 132, 252, 0.15); border: 1px solid rgba(192, 132, 252, 0.35); color: #c084fc;"><i class="fa-solid fa-database"></i> 199종 DB 로드 완료</span>
+                    <span style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 255, 135, 0.1); border: 1px solid rgba(0, 255, 135, 0.3); color: var(--green-glow);"><i class="fa-solid fa-wand-magic-sparkles"></i> 챔피언 역할군 시너지 가중치 적용</span>
+                </span>
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <button class="btn-action" style="color: #c084fc; border-color: rgba(192, 132, 252, 0.4);" onclick="loadAllAugmentsList()"><i class="fa-solid fa-list-ul"></i> 전체 199종 보기</button>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <!-- 좌측: 3지선다 1순위 추천기 -->
+                <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px;">
+                    <div style="font-size: 12px; font-weight: 700; color: #c084fc; margin-bottom: 10px;">
+                        <i class="fa-solid fa-trophy"></i> 3지선다 증강체 1순위 추천
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+                        <input type="text" id="admin-aug-choice1" class="form-input" placeholder="증강 1 (예: 거인)" onkeydown="if(event.key==='Enter') recommendAdminAugment()">
+                        <input type="text" id="admin-aug-choice2" class="form-input" placeholder="증강 2 (예: 보석 건틀릿)" onkeydown="if(event.key==='Enter') recommendAdminAugment()">
+                        <input type="text" id="admin-aug-choice3" class="form-input" placeholder="증강 3 (예: 되풀이)" onkeydown="if(event.key==='Enter') recommendAdminAugment()">
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px;">
+                        <select id="admin-aug-role" class="form-input" style="width: 140px; font-size: 12px;">
+                            <option value="auto">🎯 역할: 자동 감지</option>
+                            <option value="adc">🏹 원거리 딜러 (ADC)</option>
+                            <option value="ap_mage">🧙 AP 메이지 / 마법사</option>
+                            <option value="tank">🛡️ 탱커 (체력/방어)</option>
+                            <option value="bruiser">⚔️ 브루저 / 전사</option>
+                            <option value="assassin">🗡️ 암살자 (물관/기동)</option>
+                            <option value="support">💖 서포터 (힐/실드)</option>
+                        </select>
+                        <input type="text" id="admin-aug-champ" class="form-input" style="flex: 1;" placeholder="플레이 챔피언 (예: 이즈리얼, 아리)" onkeydown="if(event.key==='Enter') recommendAdminAugment()">
+                        <button class="btn-action" style="background: rgba(192, 132, 252, 0.2); border-color: #c084fc; color: #c084fc; font-weight: 700;" onclick="recommendAdminAugment()">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> 1순위 추천
+                        </button>
+                    </div>
+
+                    <!-- 추천 결과 카드 -->
+                    <div id="admin-aug-result-box" style="background: rgba(192, 132, 252, 0.08); border: 1px solid rgba(192, 132, 252, 0.3); border-radius: 8px; padding: 12px; display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 11px; color: #8b949e; font-weight: 700;">추천 결과</span>
+                            <span id="admin-aug-result-badge" style="font-size: 10px; padding: 1px 6px; border-radius: 4px; background: rgba(0, 255, 136, 0.2); color: #00ff88; font-weight: 700;">1순위 시너지</span>
+                        </div>
+                        <div id="admin-aug-result-name" style="font-size: 16px; font-weight: 800; color: #00e5ff; margin-bottom: 4px;">-</div>
+                        <div id="admin-aug-result-meta" style="font-size: 11px; color: #ffd700; margin-bottom: 6px;">등급: -- | 승률: -- | 픽률: --</div>
+                        <div id="admin-aug-result-desc" style="font-size: 11.5px; color: #e6edf3; line-height: 1.5; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 6px;"></div>
+                        <div id="admin-aug-result-reason" style="font-size: 11px; color: #a5d6a7; margin-top: 6px; font-weight: 600;"></div>
+                    </div>
+                </div>
+
+                <!-- 우측: 199종 증강체 실시간 검색기 -->
+                <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px; display: flex; flex-direction: column;">
+                    <div style="font-size: 12px; font-weight: 700; color: #c084fc; margin-bottom: 8px;">
+                        <i class="fa-solid fa-magnifying-glass"></i> 199종 증강체 사전 검색
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <input type="text" id="admin-aug-search-input" class="form-input" style="width: 100%;" placeholder="증강체 이름, 효과, 등급 검색 (예: 프리즘, 치명타, 흡혈)..." oninput="searchAdminAugments(this.value)">
+                    </div>
+                    <div id="admin-aug-search-results" style="flex: 1; max-height: 190px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding-right: 4px;">
+                        <!-- JS로 동적 렌더링 -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -1086,14 +1156,14 @@
                 if (filterBadge) {
                     if (data.focus_filter_enabled) {
                         if (data.is_maple_active) {
-                            filterBadge.innerHTML = `<span style="background: rgba(0, 255, 135, 0.18); border: 1px solid var(--green-glow); color: var(--green-glow); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; box-shadow: 0 0 10px rgba(0,255,135,0.25);" title="메이플 게임 창이 포커스되어 단축키 감지 및 스카디 음성 브리핑이 실시간 가동 중입니다."><i class="fa-solid fa-bullseye"></i> 🎯 메이플 포커스 중 (감시 활성)</span>`;
+                            filterBadge.innerHTML = `<span style="background: rgba(0, 255, 135, 0.18); border: 1px solid var(--green-glow); color: var(--green-glow); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; box-shadow: 0 0 10px rgba(0,255,135,0.25); cursor: pointer;" title="메이플 게임 창이 포커스되어 단축키 감지 및 스카디 음성 브리핑이 실시간 가동 중입니다. (클릭 시 전체화면 상시 모드로 전환)"><i class="fa-solid fa-bullseye"></i> 🎯 메이플 포커스 중 (감시 활성)</span>`;
                         } else if (data.is_maple_running || data.maple_process_detected) {
-                            filterBadge.innerHTML = `<span style="background: rgba(255, 204, 0, 0.12); border: 1px solid rgba(255, 204, 0, 0.4); color: #ffcc00; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;" title="메이플이 백그라운드 상태입니다. 메이플 게임 창을 클릭하면 0ms로 즉시 감시가 시작됩니다."><i class="fa-solid fa-crosshairs"></i> ⌖ 포커스 대기 중 (클릭 시 자동 감시)</span>`;
+                            filterBadge.innerHTML = `<span style="background: rgba(255, 204, 0, 0.15); border: 1px solid rgba(255, 204, 0, 0.5); color: #ffcc00; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer;" title="메이플이 백그라운드 상태입니다. 메이플 창을 클릭하면 즉시 감시되며, 이 배지를 클릭하면 전체화면 상시 감시로 전환됩니다."><i class="fa-solid fa-crosshairs"></i> ⌖ 메이플 백그라운드 대기 (클릭 시 전체화면 전환)</span>`;
                         } else {
-                            filterBadge.innerHTML = `<span style="background: rgba(0, 229, 255, 0.12); border: 1px solid rgba(0, 229, 255, 0.35); color: var(--cyan-glow); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;" title="메이플 실행 시 자동으로 포커스 감시가 켜집니다."><i class="fa-solid fa-crosshairs"></i> ⌖ 포커스 필터 ON (메이플 대기)</span>`;
+                            filterBadge.innerHTML = `<span style="background: rgba(0, 229, 255, 0.12); border: 1px solid rgba(0, 229, 255, 0.35); color: var(--cyan-glow); padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer;" title="메이플 실행 시 자동으로 포커스 감시가 켜집니다. (클릭 시 전체화면 상시 모드로 전환)"><i class="fa-solid fa-crosshairs"></i> ⌖ 포커스 필터: ON (클릭 시 전체화면)</span>`;
                         }
                     } else {
-                        filterBadge.innerHTML = `<span style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); padding: 2px 8px; border-radius: 4px; font-size: 11px;"><i class="fa-solid fa-crosshairs"></i> 포커스 필터 OFF (전체화면)</span>`;
+                        filterBadge.innerHTML = `<span style="background: rgba(192, 132, 252, 0.2); border: 1px solid rgba(192, 132, 252, 0.5); color: #c084fc; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; cursor: pointer;" title="포커스 필터가 꺼져 있어 어디서든 단축키를 감지합니다. (클릭 시 메이플 전용 포커스 모드로 전환)"><i class="fa-solid fa-unlock"></i> 🔓 포커스 필터: OFF (전체화면 상시 감시)</span>`;
                     }
                 }
 
@@ -1422,6 +1492,17 @@
                 appendLog('MAPLE', '스킬 감시가 시작되었습니다. (메이플 실행 & 포커스 시 즉시 자동 활성화)');
             }
             loadSkills();
+        }
+
+        async function toggleMapleFocusFilter() {
+            try {
+                const res = await fetch(`${API_BASE}/api/maple/tracker/focus-filter/toggle`, { method: 'POST' });
+                const data = await res.json();
+                appendLog('MAPLE', data.message || `메이플 포커스 필터 전환 완료: ${data.focus_filter_enabled ? 'ON' : 'OFF'}`);
+                loadSkills();
+            } catch (e) {
+                console.error(e);
+            }
         }
 
         async function triggerSkill(name) {
@@ -1827,6 +1908,119 @@
             document.getElementById('minimap-perf').innerText = `스캔 지연: ${result.process_time_ms}ms | GPU 부하: 0.0%`;
         }
 
+        async function toggleMinimap() {
+            isMinimapTracking = !isMinimapTracking;
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/minimap/toggle?enable=${isMinimapTracking}`, { method: 'POST' });
+                const data = await res.json();
+                const btn = document.getElementById('btn-minimap-toggle');
+                if (btn) {
+                    if (isMinimapTracking) {
+                        btn.innerHTML = '<i class="fa-solid fa-stop"></i> 미니맵 감시 정지';
+                        btn.style.background = 'rgba(255, 0, 85, 0.2)';
+                        btn.style.borderColor = 'var(--red-glow)';
+                        btn.style.color = 'var(--red-glow)';
+                    } else {
+                        btn.innerHTML = '<i class="fa-solid fa-play"></i> 미니맵 감시 시작';
+                        btn.style.background = '';
+                        btn.style.borderColor = '';
+                        btn.style.color = '';
+                    }
+                }
+                appendLog('LOL', data.message || `미니맵 감시 ${isMinimapTracking ? '시작' : '정지'}`);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function scanMinimapNow() {
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/minimap/scan-now`);
+                const data = await res.json();
+                if (data.status === 'success' && data.result) {
+                    updateMinimapUI(data.result, data.debug_image_b64);
+                    appendLog('LOL', `미니맵 즉시 스캔 완료: 적 ${data.result.enemies.length}명, 아군 ${data.result.allies.length}명 포착`);
+                } else {
+                    appendLog('LOL', `미니맵 스캔 대기: ${data.message || '롤 창 비활성'}`);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function pollMinimapStatus() {
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/minimap/status`);
+                if (!res.ok) return;
+                const data = await res.json();
+                
+                isMinimapTracking = data.is_running;
+                const btn = document.getElementById('btn-minimap-toggle');
+                const tag = document.getElementById('lol-minimap-status-tag');
+                if (tag) {
+                    tag.innerText = data.is_running ? '감시 가동 중' : (data.is_lol_active ? '인게임 감지됨' : '대기 중');
+                    tag.style.color = data.is_running ? 'var(--green-glow)' : 'var(--text-muted)';
+                }
+                if (btn) {
+                    if (data.is_running) {
+                        btn.innerHTML = '<i class="fa-solid fa-stop"></i> 미니맵 감시 정지';
+                        btn.style.background = 'rgba(255, 0, 85, 0.2)';
+                        btn.style.borderColor = 'var(--red-glow)';
+                        btn.style.color = 'var(--red-glow)';
+                    } else {
+                        btn.innerHTML = '<i class="fa-solid fa-play"></i> 미니맵 감시 시작';
+                        btn.style.background = '';
+                        btn.style.borderColor = '';
+                        btn.style.color = '';
+                    }
+                }
+                
+                const lockBadge = document.getElementById('lol-target-lock-badge');
+                if (lockBadge) {
+                    if (data.target_window_locked) {
+                        lockBadge.innerHTML = '<i class="fa-solid fa-lock"></i> 🎯 LoL 창 고정됨';
+                        lockBadge.style.color = 'var(--green-glow)';
+                        lockBadge.style.borderColor = 'rgba(0, 255, 135, 0.4)';
+                    } else {
+                        lockBadge.innerHTML = '<i class="fa-solid fa-crosshairs"></i> LoL 전용 창 탐색 중';
+                        lockBadge.style.color = 'var(--cyan-glow)';
+                        lockBadge.style.borderColor = 'rgba(0, 229, 255, 0.3)';
+                    }
+                }
+
+                const alertsBox = document.getElementById('minimap-alerts-box');
+                if (alertsBox && data.recent_alerts && data.recent_alerts.length > 0) {
+                    alertsBox.innerHTML = data.recent_alerts.slice().reverse().map(a => `
+                        <div style="margin-bottom: 6px; padding: 6px 8px; background: rgba(255,255,255,0.04); border-left: 3px solid ${a.threat_level === 'HIGH' ? '#ff0055' : a.threat_level === 'MEDIUM' ? '#ff9900' : '#00e5ff'}; border-radius: 4px;">
+                            <div style="display:flex; justify-content:space-between; font-size:11px;">
+                                <span style="font-weight:700; color:#fff;">${a.title || '전술 브리핑'}</span>
+                                <span style="color:#8b949e;">${a.time || ''}</span>
+                            </div>
+                            <div style="color:#c9d1d9; font-size:11.5px; margin-top:2px;">${a.message}</div>
+                        </div>
+                    `).join('');
+                }
+
+                if (data.debug_image_b64) {
+                    const preview = document.getElementById('minimap-preview');
+                    if (preview) preview.src = `data:image/jpeg;base64,${data.debug_image_b64}`;
+                }
+                if (data.last_enemies) {
+                    const elEnemy = document.getElementById('enemy-count');
+                    if (elEnemy) elEnemy.innerText = `${data.last_enemies.length} 명`;
+                    const enemyZones = data.last_enemies.map(e => e.zone).filter((v, i, a) => a.indexOf(v) === i);
+                    const elZones = document.getElementById('enemy-zones');
+                    if (elZones) elZones.innerText = enemyZones.length ? enemyZones.join(', ') : '전장 안개 속 미탐지';
+                }
+                if (data.last_allies) {
+                    const elAlly = document.getElementById('ally-count');
+                    if (elAlly) elAlly.innerText = `${data.last_allies.length} 명`;
+                }
+                const elPerf = document.getElementById('minimap-perf');
+                if (elPerf) elPerf.innerText = `스캔 지연: ${data.latency_ms || 0}ms | GPU 부하: 0.0%`;
+            } catch (e) {}
+        }
+
         // 4-2. 🖥️ 해상도 프리셋 적용 및 동기화 JS
         async function applyResolutionPreset(presetKey) {
             try {
@@ -1881,6 +2075,41 @@
                         updatePresetButtonsUI(data.current_preset, data.screen_res);
                     }
                 }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // 4-3. 🖥️ LoL 인게임 플로팅 올인원 HUD 실행 및 오토파일럿
+        async function launchOverlayPopup() {
+            try {
+                window.open(`${API_BASE}/overlay`, 'LoLTacticalHUD', 'width=380,height=500,menubar=no,toolbar=no,location=no,status=no');
+                await fetch(`${API_BASE}/api/lol/overlay/launch`, { method: 'POST' });
+                appendLog('LOL', '인게임 올인원 플로팅 오버레이 HUD가 실행되었습니다.');
+            } catch (e) {
+                window.open(`${API_BASE}/overlay`, 'LoLTacticalHUD', 'width=380,height=500');
+            }
+        }
+
+        let isAutopilotEnabled = true;
+        async function toggleAutopilotService() {
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/autopilot/toggle`, { method: 'POST' });
+                const data = await res.json();
+                isAutopilotEnabled = data.enabled;
+                const badge = document.getElementById('lol-autopilot-badge');
+                if (badge) {
+                    if (isAutopilotEnabled) {
+                        badge.innerHTML = '<i class="fa-solid fa-robot"></i> 🤖 오토파일럿: ON';
+                        badge.style.color = '#c084fc';
+                        badge.style.borderColor = 'rgba(192, 132, 252, 0.35)';
+                    } else {
+                        badge.innerHTML = '<i class="fa-solid fa-power-off"></i> ⏸️ 오토파일럿: OFF';
+                        badge.style.color = 'var(--text-muted)';
+                        badge.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                    }
+                }
+                appendLog('LOL', `전자동 인게임 오토파일럿: ${isAutopilotEnabled ? '활성화' : '비활성화'}`);
             } catch (e) {
                 console.error(e);
             }
@@ -2013,7 +2242,7 @@
                         } else if (att.rating === 'SLOW') {
                             chipBg = 'rgba(245, 158, 11, 0.15)'; chipBorder = 'rgba(245, 158, 11, 0.4)'; chipColor = '#f59e0b';
                         }
-                        chip.style.cssText = `background: ${chipBg}; border: 1px solid ${chipBorder}; color: ${chipColor}; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 4px; font-family: monospace;`;
+                    chip.style.cssText = `background: ${chipBg}; border: 1px solid ${chipBorder}; color: ${chipColor}; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 4px; font-family: monospace;`;
                         chip.innerText = `${att.delta_ms}ms (${att.rating === 'PERFECT' ? 'PERFECT' : att.rating === 'TOO_FAST' ? 'FAST' : 'SLOW'})`;
                         chipsContainer.appendChild(chip);
                     });
@@ -2021,8 +2250,88 @@
             } catch (e) {}
         }
 
+        // 5. 🎲 칼바람 나락 199종 증강체 실시간 추천 & 검색 JS
+        async function recommendAdminAugment() {
+            const c1 = document.getElementById('admin-aug-choice1').value.trim();
+            const c2 = document.getElementById('admin-aug-choice2').value.trim();
+            const c3 = document.getElementById('admin-aug-choice3').value.trim();
+            const role = document.getElementById('admin-aug-role').value;
+            const champ = document.getElementById('admin-aug-champ').value.trim();
+
+            const choices = [c1, c2, c3].filter(x => x.length > 0);
+            if (choices.length === 0) {
+                alert('최소 1개 이상의 증강체 이름을 입력해주세요.');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/api/lol/coach/recommend_augment`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        choices: choices,
+                        champion_name: champ,
+                        role: role
+                    })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    const box = document.getElementById('admin-aug-result-box');
+                    document.getElementById('admin-aug-result-name').innerText = `🏆 1순위: ${data.recommended}`;
+                    document.getElementById('admin-aug-result-meta').innerText = `등급: ${data.rarity || '👑 골드'} | 승률: ${data.win_rate || 'N/A'} | 픽률: ${data.pick_rate || 'N/A'}`;
+                    document.getElementById('admin-aug-result-desc').innerText = data.description || '효과 설명';
+                    document.getElementById('admin-aug-result-reason').innerText = `💡 추천 사유: ${data.reason || '챔피언/역할군 시너지 1위'}`;
+                    box.style.display = 'block';
+                    appendLog('LOL', `칼바람 증강 추천 완료: 1순위 [${data.recommended}]`);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function searchAdminAugments(keyword) {
+            const container = document.getElementById('admin-aug-search-results');
+            if (!container) return;
+
+            try {
+                const url = keyword ? `${API_BASE}/api/lol/coach/search_augment?query=${encodeURIComponent(keyword)}&limit=15` : `${API_BASE}/api/lol/coach/augments?limit=15`;
+                const res = await fetch(url);
+                if (res.ok) {
+                    const list = await res.json();
+                    if (!list || list.length === 0) {
+                        container.innerHTML = '<div style="font-size:11px; color:#8b949e; text-align:center; padding:10px;">검색 결과가 없습니다.</div>';
+                        return;
+                    }
+                    container.innerHTML = list.map(item => `
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 6px 10px; display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                            <div style="flex:1;">
+                                <div style="font-weight:700; font-size:12px; color:#fff; display:flex; align-items:center; gap:6px;">
+                                    <span>${item.name_ko}</span>
+                                    <span style="font-size:10px; color:#8b949e;">(${item.name_en})</span>
+                                    <span style="font-size:10px; padding:1px 5px; border-radius:3px; background:rgba(192,132,252,0.15); color:#c084fc;">${item.rarity}</span>
+                                </div>
+                                <div style="font-size:11px; color:#c9d1d9; margin-top:2px; line-height:1.4;">${item.description}</div>
+                            </div>
+                            <div style="text-align:right; font-size:10px; color:#ffd700; font-weight:700; white-space:nowrap;">
+                                승률: ${item.win_rate}<br><span style="color:#8b949e;">픽률: ${item.pick_rate}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function loadAllAugmentsList() {
+            document.getElementById('admin-aug-search-input').value = '';
+            searchAdminAugments('');
+        }
+
         // 6. 초기 로드 및 주기적 실행 (0ms 즉시 복원 & 메트릭 초기화)
         restoreCachedMetrics();
+        searchAdminAugments('');
         updateMetrics();
         initMasterVolume();
         restoreAllUserPreferences();

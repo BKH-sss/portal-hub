@@ -2,6 +2,25 @@
 
 ---
 
+## 🏆 [2026-09-07] v3.7.0 - LoL Ultimate Tactical Master Suite (실시간 라이브 데이터·스펠/오브젝트 트래커 & 올인원 HUD & 오토파일럿)
+
+### 📌 패치 개요
+- **개발 목적**: 롤(League of Legends) 인게임 승률을 극대화하기 위해, **Riot Live Client API(Port 2999) 실시간 데이터 엔진, 적 5인 스펠(점멸/텔포) 쿨다운 추적 및 15초 전 음성 예고, 드래곤/바론/유충 5대 오브젝트 카운트다운, 팀 골드 격차(+Gold Lead) & CS/min 게이지, 칼바람 증강체 추천 팝업, 그리고 전자동 인게임 오토파일럿 데몬**을 완성하여 롤 완벽 서포트 시스템을 구축했습니다.
+- **적용 일자**: **2026년 09월 07일 (월)**
+- **릴리즈 버전**: `v3.7.0`
+
+### 🌟 신규 추가 및 업그레이드 모듈 상세 내역
+
+| 파일명 | 구분 | 핵심 기능 및 상세 내역 |
+| :--- | :---: | :--- |
+| [`modules/lol_live_game_tracker.py`](file:///C:/Users/skbkh/Desktop/html/chat%20bot/modules/lol_live_game_tracker.py) | **신규** | **실시간 인게임 라이브 데이터 & 스펠/오브젝트 트래커**<br>• Riot Live Client Data API 0.8s 초저지연 비동기 폴링<br>• 적 5인 소환사 주문(점멸 300s, 텔포, 점화 등) 실시간 카운트다운 & 만료 15초 전 사전 음성 예고<br>• 5대 오브젝트(용, 바론, 유충, 전령, 장로) 자동 리젠 타이머 & 60s/30s 전 브리핑<br>• 실시간 팀 골드 격차(+2.4k Gold Lead) 및 분당 CS(CS/min) 연산<br>• 1100G/1300G/3000G 파워 스파이크 황금 귀환 알리미 |
+| [`modules/lol_overlay_hud.py`](file:///C:/Users/skbkh/Desktop/html/chat%20bot/modules/lol_overlay_hud.py) | **대규모 업그레이드** | **인게임 올인원 플로팅 마스터 HUD (`/overlay`)**<br>• 4대 전술 탭 뷰 (레이더, 적 스펠, 오브젝트, 증강체) 원클릭 전환<br>• 상단 실시간 인게임 시간, 맵 모드, 골드 격차 배지 통합<br>• 적 스펠 버튼 클릭 시 즉시 쿨다운 프로그레스 바 가동<br>• 사이버틱 반투명 다크 글래스모피즘(Glassmorphism) 및 콤팩트 미니멀 반응형 UI |
+| [`modules/lol_autopilot_service.py`](file:///C:/Users/skbkh/Desktop/html/chat%20bot/modules/lol_autopilot_service.py) | **신규** | **전자동 인게임 오토파일럿 & 라이프사이클 관리자**<br>• 롤 실행 $\rightarrow$ 픽창 $\rightarrow$ 인게임 $\rightarrow$ 게임 종료 전 과정 100% 무인 자동 감지<br>• 픽창: 칼바람 눈덩이 스펠 착용 확인 & 챔피언 매치업 분석<br>• 인게임 시작: 미니맵 트래커 + 라이브 트래커 자동 가동 & 스카디 출격 브리핑<br>• 게임 종료: 미니맵 트래커 대기 모드 전환 + 오답노트 & 브라이어 팩폭 피드백 자동 생성 |
+| [`modules/__init__.py`](file:///C:/Users/skbkh/Desktop/html/chat%20bot/modules/__init__.py) | **라우팅 확장** | 신규 라이브 트래커 및 오토파일럿 라우터 일괄 등록 (총 19개 라우터 체계 완비) |
+| [`modules/jarvis_extension_router.py`](file:///C:/Users/skbkh/Desktop/html/chat%20bot/modules/jarvis_extension_router.py) | **라우팅 확장** | 통합 확장 라우터에 신규 LoL 모듈 라우터 마운트 |
+
+---
+
 ## 🚀 [2026-09-04] v3.6.0 - Modern DeepLeague 실시간 롤(LoL) 미니맵 전술 비전 레이더 & 5대 전술 모듈 패키지 전격 릴리즈
 
 ### 📌 패치 개요

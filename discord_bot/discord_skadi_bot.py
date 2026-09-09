@@ -87,16 +87,6 @@ except ImportError:
         ScheduleManager = None
         logger.warning("schedule_manager 모듈을 찾을 수 없습니다.")
 
-# 🎴 199종 롤 칼바람 증강 & 코치 엔진 로드
-try:
-    from modules.lol_ai_coach import AugmentEngine, AramMayhemCoach, RiftChallengerCoach
-except ImportError:
-    try:
-        from lol_ai_coach import AugmentEngine, AramMayhemCoach, RiftChallengerCoach
-    except ImportError:
-        AugmentEngine = None
-        logger.warning("lol_ai_coach 모듈을 찾을 수 없습니다.")
-
 # 📊 3개년 자산성장성 & 부채비율 120% 이하 주식 퀀트 엔진 로드
 try:
     import stock_engine
@@ -1954,80 +1944,6 @@ async def cmd_status(ctx: commands.Context):
     await ctx.send(embed=embed)
 
 
-@bot.command(name="증강", aliases=["augment", "증강추천", "aug"])
-async def cmd_lol_augment(ctx: commands.Context, *args):
-    """칼바람 199종 증강 3지선다 AI 1순위 추천 (예: !증강 되풀이 보석건틀릿 축소엔진 [이즈리얼])"""
-    if not AugmentEngine:
-        await ctx.send("미안해, 마스터... 롤 증강체 엔진(lol_ai_coach) 모듈을 불러올 수 없어.")
-        return
-
-    if len(args) < 2:
-        await ctx.send("💡 **사용법:** `!증강 <증강1> <증강2> <증강3> [챔피언이름]`\n*예시:* `!증강 되풀이 보석건틀릿 축소엔진 이즈리얼`")
-        return
-
-    choices = list(args[:3])
-    champ = args[3] if len(args) > 3 else "이즈리얼"
-
-    try:
-        res = AugmentEngine.recommend_best(choices, champion_name=champ)
-        rec = res.get("recommended")
-        if not rec:
-            await ctx.send("선택한 증강체를 찾을 수 없어, 마스터.")
-            return
-
-        embed = discord.Embed(
-            title=f"❄️ 칼바람 3지선다 AI 추천 결과 • [{champ}]",
-            description=f"마스터, 3개 선택지 중 통계와 시너지가 가장 높은 1순위 증강이야!",
-            color=0xe11d48
-        )
-        embed.add_field(
-            name=f"👑 압도적 1순위: {rec['name_ko']} ({rec.get('name_en', '')})",
-            value=f"• 등급: **{rec.get('rarity', '골드')}**\n• 승률: **{rec.get('win_rate', '-')}** | 픽률: **{rec.get('pick_rate', '-')}**\n• 효과: {rec.get('description', '')[:200]}",
-            inline=False
-        )
-        embed.add_field(name="🎙️ 스카디 실시간 코칭 음성", value=f"🔊 *\"{res.get('voice_text', '')}\"*", inline=False)
-        embed.set_footer(text="ARAM Mayhem 199 Augment Database • JARVIS Engine")
-
-        await ctx.send(embed=embed)
-
-        if ctx.guild and ctx.guild.voice_client and ctx.guild.voice_client.is_connected():
-            v_file = await generate_voice_audio(res.get('voice_text', ''))
-            if v_file:
-                await play_voice_audio(ctx.guild.voice_client, v_file)
-    except Exception as e:
-        await ctx.send(f"증강체 추천 분석 실패: {e}")
-
-
-@bot.command(name="증강검색", aliases=["aug_search", "증강정보"])
-async def cmd_lol_augment_search(ctx: commands.Context, *, keyword: str):
-    """199종 칼바람 증강체 실시간 검색 (예: !증강검색 스킬 가속)"""
-    if not AugmentEngine:
-        await ctx.send("미안해, 마스터... 롤 증강체 엔진 모듈을 불러올 수 없어.")
-        return
-
-    try:
-        results = AugmentEngine.search_augments(keyword, limit=5)
-        if not results:
-            await ctx.send(f"🔍 `{keyword}` 관련 증강체를 찾을 수 없어, 마스터.")
-            return
-
-        embed = discord.Embed(
-            title=f"🎴 199종 증강체 검색 결과 • [{keyword}]",
-            description=f"상위 {len(results)}개 증강체 정보야.",
-            color=0x9333ea
-        )
-        for aug in results:
-            embed.add_field(
-                name=f"#{aug.get('rank', '-')} [{aug.get('rarity', '골드')}] {aug.get('name_ko', '')} ({aug.get('name_en', '')})",
-                value=f"• 승률: **{aug.get('win_rate', '-')}** | 픽률: **{aug.get('pick_rate', '-')}**\n• {aug.get('description', '')[:120]}",
-                inline=False
-            )
-        embed.set_footer(text="ARAM Mayhem 199 Augments Knowledge Base")
-        await ctx.send(embed=embed)
-    except Exception as e:
-        await ctx.send(f"증강체 검색 실패: {e}")
-
-
 @bot.command(name="진단", aliases=["diag", "시스템", "하드웨어"])
 async def cmd_system_diag(ctx: commands.Context):
     """PC 하드웨어 (RTX 4080 Super / CPU / RAM) 및 백엔드 상태 진단"""
@@ -2049,7 +1965,6 @@ async def cmd_system_diag(ctx: commands.Context):
     embed.add_field(name="🖥️ CPU 점유율", value=f"`{cpu_usage}%`", inline=True)
     embed.add_field(name="🧠 시스템 RAM", value=f"`{mem_gb}`", inline=True)
     embed.add_field(name="🎮 GPU 그래픽카드", value=f"`{gpu_info}`", inline=False)
-    embed.add_field(name="🎴 199종 롤 증강 엔진", value="✅ 온라인 (AramMayhem Knowledge Base)", inline=True)
     embed.add_field(name="📅 캘린더 & 할 일 매니저", value="✅ SQLite DB 정상 연동", inline=True)
     embed.add_field(name="📶 봇 통신 지연시간", value=f"`{round(bot.latency * 1000)}ms`", inline=True)
     embed.set_footer(text="JARVIS Observability & System Controller")
@@ -2062,16 +1977,16 @@ async def cmd_system_diag(ctx: commands.Context):
 # ------------------------------------------------------------
 @bot.command(name="주식", aliases=["주식리포트", "성장주", "주식순위", "stock", "미국주식", "국내주식", "해외주식"])
 async def cmd_stock_report(ctx: commands.Context, *, query: Optional[str] = None):
-    """국내/미국 주식 3개년 성장성 TOP 리포트 및 개별 종목 정밀 팩폭 진단"""
+    """3개년 성장성 + 부채비율 120% 이하 건전 우량주 퀀트 브리핑"""
     if not stock_engine:
-        await ctx.send("⚠️ `stock_engine` 모듈을 불러올 수 없어 주식 분석을 수행할 수 없습니다.")
+        await ctx.send("미안해, 마스터... 주식 퀀트 엔진 모듈을 불러올 수 없어.")
         return
 
-    async with ctx.typing():
-        q = (query or "").strip().lower()
+    q = query.strip().lower() if query else ""
 
-        # 1. 미국 주식 데일리 성장성 & 모멘텀 TOP 10
-        if q in ["미국", "미국주식", "us", "usa", "해외", "해외주식"]:
+    async with ctx.typing():
+        # 1. 미국 주식 성장성 TOP 10 랭킹 리포트
+        if q in ["미국", "미국주식", "us", "usa", "나스닥", "s&p500", "nyse"]:
             report_data = stock_engine.generate_daily_ranking_report_markdown(market="US", top_n=10)
             if report_data["success"]:
                 embed = discord.Embed(
@@ -2084,7 +1999,7 @@ async def cmd_stock_report(ctx: commands.Context, *, query: Optional[str] = None
                 )
                 for i, itm in enumerate(report_data["items"], 1):
                     chg_sign = "+" if itm["change_pct"] >= 0 else ""
-                    field_name = f"{i}. {itm['name']} ({itm['symbol']}) • ${itm['price']:,.2f} ({chg_sign}{itm['change_pct']}%)"
+                    field_name = f"{i}. {itm['name']} ({itm['symbol']}) • ${itm['price']:.2f} ({chg_sign}{itm['change_pct']}%)"
                     field_val = (
                         f"• 📈 **3개년 자산성장률**: `+{itm['asset_growth_3y']}%` ({itm['past_assets_fmt']} ➔ {itm['recent_assets_fmt']})\n"
                         f"• 🛡️ **정규 부채비율**: `{itm['debt_ratio']}%` (총부채 {itm['liabilities_fmt']} / 자본 {itm['equity_fmt']})"
@@ -2096,7 +2011,7 @@ async def cmd_stock_report(ctx: commands.Context, *, query: Optional[str] = None
                 await ctx.send(report_data["message"])
             return
 
-        # 2. 국내(한국) 주식 데일리 성장성 & 모멘텀 TOP 10
+        # 2. 한국 국내 주식 성장성 TOP 10 랭킹 리포트
         if q in ["국내", "국내주식", "한국", "한국주식", "kr", "korea", "코스피", "코스닥"]:
             report_data = stock_engine.generate_daily_ranking_report_markdown(market="KR", top_n=10)
             if report_data["success"]:
@@ -2190,9 +2105,9 @@ async def cmd_stock_report(ctx: commands.Context, *, query: Optional[str] = None
 # 6. 토큰 획득 및 진입점 (Entry Point)
 # ------------------------------------------------------------
 def get_discord_token() -> str:
-    """우선순위에 따라 디스코드 봇 토큰 획득"""
-    # 1. 환경 변수 (다양한 표기 지원)
-    for env_k in ["DISCORD_BOT_TOKEN", "DISCORD_TOKEN", "BOT_TOKEN", "TOKEN"]:
+    """우선순위에 따라 디스코드 봇 토큰 획득 (Bot A: SKADI 일상 어시스턴트)"""
+    # 1. 환경 변수 (SKADI 전용 토큰 우선, 기본 토큰 폴백)
+    for env_k in ["SKADI_BOT_TOKEN", "DISCORD_BOT_TOKEN", "DISCORD_TOKEN", "BOT_TOKEN", "TOKEN"]:
         t = os.environ.get(env_k)
         if t and t.strip():
             return t.strip()

@@ -17,7 +17,7 @@ def get_project_root():
     # 2. PyInstaller 패키징 환경 확인
     if getattr(sys, 'frozen', False):
         exe_dir = os.path.dirname(os.path.abspath(sys.executable))
-        for cand in [exe_dir, os.path.dirname(exe_dir)]:
+        for cand in [exe_dir, os.path.dirname(exe_dir), os.path.dirname(os.path.dirname(exe_dir))]:
             if os.path.exists(os.path.join(cand, "chatbot.html")) and os.path.exists(os.path.join(cand, "brain_server.py")):
                 return cand
 
@@ -40,7 +40,24 @@ tts_process = None
 brain_process = None
 discord_process = None
 
+def get_clean_env():
+    """PyInstaller가 주입한 가상 환경 변수를 제거하여 외부 파이썬 subprocess가 정상 구동되도록 정리"""
+    env = os.environ.copy()
+    for k in ['PYTHONHOME', 'PYTHONPATH', '_MEIPASS', '_MEIPASS2', 'VIRTUAL_ENV']:
+        env.pop(k, None)
+    env['PYTHONUTF8'] = '1'
+    env['PYTHONIOENCODING'] = 'utf-8'
+    return env
+
 def get_python_exe():
+    if not getattr(sys, 'frozen', False):
+        exe = sys.executable
+        if "pythonw.exe" in exe.lower():
+            cand = exe.lower().replace("pythonw.exe", "python.exe")
+            if os.path.exists(cand):
+                return cand
+        return exe
+
     candidates = [
         os.path.expandvars(r"%LOCALAPPDATA%\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\python.exe"),
         os.path.expandvars(r"%LOCALAPPDATA%\Microsoft\WindowsApps\python3.11.exe"),
@@ -53,14 +70,6 @@ def get_python_exe():
     for c in candidates:
         if os.path.exists(c):
             return c
-            
-    if not getattr(sys, 'frozen', False):
-        exe = sys.executable
-        if "pythonw.exe" in exe.lower():
-            cand = exe.lower().replace("pythonw.exe", "python.exe")
-            if os.path.exists(cand):
-                return cand
-        return exe
 
     import shutil
     which_py = shutil.which("python.exe") or shutil.which("python")
@@ -71,10 +80,26 @@ def get_python_exe():
 def is_server_ready():
     try:
         req = urllib.request.Request("http://127.0.0.1:8000/api/health", headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req, timeout=0.8) as resp:
+        with urllib.request.urlopen(req, timeout=1.0) as resp:
             return resp.status == 200
     except Exception:
         return False
+
+def ensure_port_free(port=8000):
+    """지정된 포트를 점유하고 있는 잔여/좀비 프로세스 정리"""
+    try:
+        cur_pid = os.getpid()
+        for conn in psutil.net_connections(kind='inet'):
+            if conn.laddr and conn.laddr.port == port and conn.status == psutil.CONN_LISTEN:
+                if conn.pid and conn.pid != cur_pid:
+                    try:
+                        p = psutil.Process(conn.pid)
+                        p.kill()
+                        time.sleep(0.3)
+                    except Exception:
+                        pass
+    except Exception:
+        pass
 
 def kill_process_tree(pid):
     try:
@@ -101,10 +126,33 @@ def stop_servers():
         try: kill_process_tree(discord_process.pid)
         except: pass
 
+    # 잔여 백그라운드 프로세스(Brain 서버, 디스코드 봇, TTS 등) 완전 종료
+    try:
+        cur_pid = os.getpid()
+        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+            try:
+                pid = proc.info['pid']
+                if pid == cur_pid:
+                    continue
+                cmdline = ' '.join(proc.info.get('cmdline') or []).lower()
+                target_keywords = [
+                    'brain_server',
+                    'discord_skadi_bot',
+                    'api_v2.py',
+                    'uvicorn'
+                ]
+                if any(k in cmdline for k in target_keywords):
+                    proc.kill()
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                pass
+    except Exception:
+        pass
+
 def start_servers():
     global tts_process, brain_process, discord_process
     base_dir = PROJECT_ROOT
     python_exe = get_python_exe()
+    clean_env = get_clean_env()
     
     startupinfo = subprocess.STARTUPINFO()
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
@@ -120,19 +168,26 @@ def start_servers():
                 [tts_python, "api_v2.py", "-a", "127.0.0.1", "-p", "9880", "-c", "GPT_SoVITS/configs/tts_infer.yaml"],
                 cwd=tts_dir,
                 startupinfo=startupinfo,
-                creationflags=creation_flags
+                creationflags=creation_flags,
+                env=clean_env
             )
         except Exception as te:
             print(f"[TTS Launch Error] {te}")
 
     # 2. Brain 서버 백그라운드 시작 (이미 실행 중이지 않을 때만 실행)
     if not is_server_ready():
+        ensure_port_free(8000)
         try:
+            log_path = os.path.join(base_dir, "server_debug.log")
+            log_file = open(log_path, "a", encoding="utf-8", errors="replace")
             brain_process = subprocess.Popen(
                 [python_exe, "-m", "uvicorn", "brain_server:app", "--host", "0.0.0.0", "--port", "8000"],
                 cwd=base_dir,
                 startupinfo=startupinfo,
-                creationflags=creation_flags
+                creationflags=creation_flags,
+                env=clean_env,
+                stdout=log_file,
+                stderr=log_file
             )
         except Exception as be:
             print(f"[Brain Launch Error] {be}")
@@ -145,7 +200,8 @@ def start_servers():
                 [python_exe, "discord_skadi_bot.py"],
                 cwd=os.path.join(base_dir, "discord_bot"),
                 startupinfo=startupinfo,
-                creationflags=creation_flags
+                creationflags=creation_flags,
+                env=clean_env
             )
             print("[Discord Bot] 스카디 디스코드 봇 백그라운드 가동 완료")
         except Exception as de:
@@ -158,18 +214,22 @@ def check_and_redirect(window):
     
     while time.time() - start < max_wait:
         if is_server_ready():
-            time.sleep(0.4)
+            time.sleep(0.3)
             try:
                 window.load_url(target_url)
             except Exception:
                 pass
             return
-        time.sleep(0.25)
+        time.sleep(0.2)
     
-    try:
-        window.load_url(target_url)
-    except Exception:
-        pass
+    # max_wait 초 경과 후 서버 준비 여부 재확인
+    if is_server_ready():
+        try:
+            window.load_url(target_url)
+        except Exception:
+            pass
+    else:
+        print("[Launcher Warning] 서버 시작 대기 시간 초과 (40초). server_debug.log를 확인해주세요.")
 
 if __name__ == "__main__":
     base_dir = PROJECT_ROOT
@@ -194,6 +254,10 @@ if __name__ == "__main__":
         text_select=True
     )
     
+    import atexit
+    atexit.register(stop_servers)
+    window.events.closed += stop_servers
+
     if initial_url == loading_url:
         watcher = threading.Thread(target=check_and_redirect, args=(window,), daemon=True)
         watcher.start()

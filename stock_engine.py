@@ -3,11 +3,16 @@ import re
 import json
 import time
 import datetime
-import requests
 from typing import Dict, List, Any, Optional
 from concurrent.futures import ThreadPoolExecutor
-import yfinance as yf
-from bs4 import BeautifulSoup
+
+_yf = None
+
+def _get_yf():
+    global _yf
+    if _yf is None:
+        import yfinance as _yf
+    return _yf
 
 # ------------------------------------------------------------
 # 1. 대표 한국/미국 안전 우량주 및 ETF 매핑 사전
@@ -114,6 +119,8 @@ def resolve_ticker(query: str):
 
     # 네이버 증권 검색 시도 (한국 주식 크롤링 검색)
     try:
+        import requests
+        from bs4 import BeautifulSoup
         url = f"https://finance.naver.com/search/searchList.naver?query={query}"
         headers = {"User-Agent": "Mozilla/5.0"}
         res = requests.get(url, headers=headers, timeout=3)
@@ -131,7 +138,7 @@ def resolve_ticker(query: str):
 # ------------------------------------------------------------
 # 2. 정확한 회계 원장(Balance Sheet) 추출 및 감사 함수
 # ------------------------------------------------------------
-def extract_balance_sheet_audit(t: yf.Ticker, symbol: str) -> Optional[Dict[str, Any]]:
+def extract_balance_sheet_audit(t: Any, symbol: str) -> Optional[Dict[str, Any]]:
     """
     공식 대차대조표 원장(Balance Sheet)에서:
     1. 총자산 (Total Assets): 최근 결산 연도 vs 3년 전 결산 연도 -> 3개년 총자산 증가율
@@ -221,6 +228,7 @@ def format_currency_amount(amount: float, currency: str = "USD") -> str:
 def get_stock_metrics(ticker_symbol: str):
     """yfinance를 통한 핵심 재무/가격/기술/회계 지표 추출 (기초/안전 투자 위주)"""
     try:
+        yf = _get_yf()
         t = yf.Ticker(ticker_symbol)
         info = t.info
         hist = t.history(period="6mo")

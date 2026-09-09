@@ -462,9 +462,8 @@
 
     <script>
         const SERVER_URL = "http://127.0.0.1:8000/chatbot.html";
-        const TOTAL_ESTIMATED_SECONDS = 7;
-        let remainingSeconds = TOTAL_ESTIMATED_SECONDS;
         let isConnected = false;
+        let elapsedTicks = 0;
 
         const secondsElem = document.getElementById("seconds");
         const statusText = document.getElementById("status-text");
@@ -506,7 +505,7 @@
         window.onServerReady = function() {
             if (isConnected) return;
             isConnected = true;
-            clearInterval(countdownInterval);
+            clearInterval(progressInterval);
 
             for (let i = 0; i < steps.length; i++) {
                 setStepStatus(i, "done");
@@ -518,67 +517,69 @@
 
             setTimeout(() => {
                 window.location.href = SERVER_URL;
-            }, 300);
+            }, 180);
         };
 
         function forceRedirect() {
             window.location.href = SERVER_URL;
         }
 
-        // 1초 단위 타이머
-        const countdownInterval = setInterval(() => {
+        // 빠른 시각적 진행 애니메이션 (서버 부팅 대기 중 자연스러운 피드백)
+        const progressInterval = setInterval(() => {
             if (isConnected) {
-                clearInterval(countdownInterval);
+                clearInterval(progressInterval);
                 return;
             }
 
-            remainingSeconds--;
-            const progressRatio = Math.min(0.95, (TOTAL_ESTIMATED_SECONDS - remainingSeconds) / TOTAL_ESTIMATED_SECONDS);
-            progressBar.style.width = `${Math.max(10, progressRatio * 100)}%`;
+            elapsedTicks++;
+            const pct = Math.min(92, 15 + elapsedTicks * 4);
+            progressBar.style.width = `${pct}%`;
 
-            if (remainingSeconds === 5) {
+            if (elapsedTicks === 2) {
                 setStepStatus(0, "done");
                 setStepStatus(1, "running");
-            } else if (remainingSeconds === 4) {
+            } else if (elapsedTicks === 5) {
                 setStepStatus(1, "done");
                 setStepStatus(2, "running");
-            } else if (remainingSeconds === 2) {
+            } else if (elapsedTicks === 9) {
                 setStepStatus(2, "done");
                 setStepStatus(3, "running");
-            } else if (remainingSeconds === 1) {
+            } else if (elapsedTicks === 14) {
                 setStepStatus(3, "done");
                 setStepStatus(4, "running");
             }
 
-            if (remainingSeconds > 0) {
-                secondsElem.textContent = remainingSeconds;
-            } else {
-                statusText.textContent = "서버 초기화 마무리 중...";
-                countdownDisplay.innerHTML = `<span class="sec-highlight">잠시만 기다려주세요...</span>`;
+            const remainSec = Math.max(1, Math.ceil((25 - elapsedTicks) * 0.15));
+            if (secondsElem) {
+                secondsElem.textContent = remainSec;
             }
-        }, 1000);
+        }, 150);
 
-        // 프론트엔드 안전 헬스체크 (FastAPI /api/health 엔드포인트 검사)
+        // 정밀 헬스체크 (FastAPI /api/health 200 OK 수신 시에만 정확히 진입)
         async function checkServer() {
             if (isConnected) return;
+            
             try {
                 const res = await fetch(`http://127.0.0.1:8000/api/health?t=${Date.now()}`, {
                     method: 'GET',
                     cache: 'no-store'
                 });
                 if (res && res.ok) {
-                    window.onServerReady();
-                } else {
-                    setTimeout(checkServer, 300);
+                    const data = await res.json().catch(() => null);
+                    if (data && data.status === 'ok') {
+                        window.onServerReady();
+                        return;
+                    }
                 }
             } catch (e) {
-                // 서버 기동 대기 중 -> 300ms 후 재시도
-                setTimeout(checkServer, 300);
+                // 서버 기동 중 -> 150ms 후 재시도
             }
+
+            setTimeout(checkServer, 150);
         }
 
-        // 300ms 후부터 헬스체크 시작
-        setTimeout(checkServer, 300);
+        // 헬스체크 시작
+        setTimeout(checkServer, 100);
     </script>
 </body>
 </html>

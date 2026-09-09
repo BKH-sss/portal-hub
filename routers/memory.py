@@ -28,13 +28,6 @@ import signal
 from typing import List, Dict, Any, Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-try:
-    import chromadb
-    from chromadb.utils import embedding_functions
-    HAS_CHROMADB = True
-except ImportError:
-    chromadb = None
-    HAS_CHROMADB = False
 
 from config import MEMORY_DIR, API_KEYS
 import core.state as state
@@ -49,7 +42,7 @@ from grounded_writer import generate_grounded_writing
 router = APIRouter(tags=["Memory & Knowledge & Admin"])
 
 # ==============================================================================
-# 1. ChromaDB 벡터 데이터베이스 초기화 (카테고리별 컬렉션 분리)
+# 1. ChromaDB 벡터 데이터베이스 초기화 (카테고리별 지연 로딩 컬렉션 분리)
 # ==============================================================================
 class SafeCollection:
     """ChromaDB 미설치 또는 로딩 실패 시 서버 크래시를 방지하는 폴백 컬렉션"""
@@ -61,33 +54,70 @@ class SafeCollection:
         pass
     def query(self, *args, **kwargs):
         return {"documents": [[]], "metadatas": [[]], "distances": [[]]}
+    def get(self, *args, **kwargs):
+        return {"documents": [], "metadatas": [], "ids": []}
+    def delete(self, *args, **kwargs):
+        pass
 
-if HAS_CHROMADB:
-    try:
-        CHROMA_DATA_DIR = os.path.join(str(MEMORY_DIR), "chroma_db")
-        os.makedirs(CHROMA_DATA_DIR, exist_ok=True)
-        chroma_client = chromadb.PersistentClient(path=CHROMA_DATA_DIR)
-        default_ef = embedding_functions.DefaultEmbeddingFunction()
-        collection_general = chroma_client.get_or_create_collection(name="general_knowledge", embedding_function=default_ef)
-        collection_lol = chroma_client.get_or_create_collection(name="lol_knowledge", embedding_function=default_ef)
-        collection_maple = chroma_client.get_or_create_collection(name="maple_knowledge", embedding_function=default_ef)
-        collection_r6s = chroma_client.get_or_create_collection(name="r6s_knowledge", embedding_function=default_ef)
-        collection_coding = chroma_client.get_or_create_collection(name="coding_knowledge", embedding_function=default_ef)
-        collection_hacking = chroma_client.get_or_create_collection(name="hacking_knowledge", embedding_function=default_ef)
-    except Exception:
-        collection_general = SafeCollection("general_knowledge")
-        collection_lol = SafeCollection("lol_knowledge")
-        collection_maple = SafeCollection("maple_knowledge")
-        collection_r6s = SafeCollection("r6s_knowledge")
-        collection_coding = SafeCollection("coding_knowledge")
-        collection_hacking = SafeCollection("hacking_knowledge")
-else:
-    collection_general = SafeCollection("general_knowledge")
-    collection_lol = SafeCollection("lol_knowledge")
-    collection_maple = SafeCollection("maple_knowledge")
-    collection_r6s = SafeCollection("r6s_knowledge")
-    collection_coding = SafeCollection("coding_knowledge")
-    collection_hacking = SafeCollection("hacking_knowledge")
+_chroma_client = None
+_default_ef = None
+
+def _get_chroma_client_and_ef():
+    global _chroma_client, _default_ef
+    if _chroma_client is None:
+        try:
+            import chromadb
+            from chromadb.utils import embedding_functions
+            CHROMA_DATA_DIR = os.path.join(str(MEMORY_DIR), "chroma_db")
+            os.makedirs(CHROMA_DATA_DIR, exist_ok=True)
+            _chroma_client = chromadb.PersistentClient(path=CHROMA_DATA_DIR)
+            _default_ef = embedding_functions.DefaultEmbeddingFunction()
+        except Exception:
+            _chroma_client = False
+            _default_ef = False
+    return _chroma_client, _default_ef
+
+class LazyCollection:
+    """ChromaDB 초기화를 첫 사용 시점까지 지연시키는 초고속 프록시 컬렉션"""
+    def __init__(self, name: str):
+        self.name = name
+        self._collection = None
+        self._loaded = False
+
+    def _get_target(self):
+        if not self._loaded:
+            self._loaded = True
+            client, ef = _get_chroma_client_and_ef()
+            if client and ef:
+                try:
+                    self._collection = client.get_or_create_collection(name=self.name, embedding_function=ef)
+                except Exception:
+                    self._collection = SafeCollection(self.name)
+            else:
+                self._collection = SafeCollection(self.name)
+        return self._collection
+
+    def count(self):
+        return self._get_target().count()
+
+    def add(self, *args, **kwargs):
+        return self._get_target().add(*args, **kwargs)
+
+    def query(self, *args, **kwargs):
+        return self._get_target().query(*args, **kwargs)
+
+    def get(self, *args, **kwargs):
+        return self._get_target().get(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        return self._get_target().delete(*args, **kwargs)
+
+collection_general = LazyCollection("general_knowledge")
+collection_lol = LazyCollection("lol_knowledge")
+collection_maple = LazyCollection("maple_knowledge")
+collection_r6s = LazyCollection("r6s_knowledge")
+collection_coding = LazyCollection("coding_knowledge")
+collection_hacking = LazyCollection("hacking_knowledge")
 
 # ==============================================================================
 # 2. Pydantic 요청 스키마 정의

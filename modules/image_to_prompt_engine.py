@@ -120,6 +120,12 @@ class ImageToPromptEngine:
             '  "master_prompt": "masterpiece, best quality, ... (complete comma-separated positive prompt)",\n'
             '  "negative_prompt": "lowres, bad anatomy, bad hands, ... (recommended negative prompt)",\n'
             '  "korean_description": "인물 외모, 표정, 의상 디테일, 배경 환경, 조명 및 구도에 대한 생생하고 풍부한 한국어 해설 3~4문장",\n'
+            '  "parts": {\n'
+            '    "character": "1girl, solo, character_name, pose, expression (캐릭터/인물 기본 파츠)",\n'
+            '    "appearance": "hair color, eye color, clothing, kimono/dress, accessories, skin (외형/의상/헤어 파츠)",\n'
+            '    "location": "location, night sky, cherry blossoms, room, castle, outdoors (장소/배경/환경 파츠)",\n'
+            '    "atmosphere": "masterpiece, best quality, dramatic lighting, volumetric light, 8k uhd (조명/화풍/품질 파츠)"\n'
+            '  },\n'
             '  "character_tags": ["1girl", "silver hair", "purple eyes", ...],\n'
             '  "clothing_tags": ["kimono", "obi", "detached sleeves", ...],\n'
             '  "background_tags": ["night sky", "cherry blossoms", "floating petals", ...],\n'
@@ -187,6 +193,15 @@ class ImageToPromptEngine:
                             if style not in ["photorealistic", "anime_s_tier", "watercolor", "semi_realistic", "cyberpunk"]:
                                 style = "anime_s_tier"
                             
+                            parts_data = parsed.get("parts", {})
+                            if not parts_data:
+                                parts_data = {
+                                    "character": ", ".join(parsed.get("character_tags", [])),
+                                    "appearance": ", ".join(parsed.get("clothing_tags", [])),
+                                    "location": ", ".join(parsed.get("background_tags", [])),
+                                    "atmosphere": ", ".join(parsed.get("quality_tags", []))
+                                }
+
                             res = {
                                 "success": True,
                                 "mode": mode,
@@ -195,6 +210,12 @@ class ImageToPromptEngine:
                                 "master_prompt": parsed.get("master_prompt", ""),
                                 "negative_prompt": parsed.get("negative_prompt", "lowres, bad anatomy, bad hands, blurry"),
                                 "korean_description": parsed.get("korean_description", "이미지 분석이 완료되었습니다."),
+                                "parts": {
+                                    "character": parts_data.get("character", ", ".join(parsed.get("character_tags", []))),
+                                    "appearance": parts_data.get("appearance", ", ".join(parsed.get("clothing_tags", []))),
+                                    "location": parts_data.get("location", ", ".join(parsed.get("background_tags", []))),
+                                    "atmosphere": parts_data.get("atmosphere", ", ".join(parsed.get("quality_tags", [])))
+                                },
                                 "character_tags": parsed.get("character_tags", []),
                                 "clothing_tags": parsed.get("clothing_tags", []),
                                 "background_tags": parsed.get("background_tags", []),
@@ -220,9 +241,15 @@ class ImageToPromptEngine:
             "master_prompt": fallback_prompt,
             "negative_prompt": "lowres, (bad anatomy:1.2), (bad hands:1.2), text, error, blurry",
             "korean_description": "업로드된 이미지의 기본 구도와 인물 특징을 감지하여 고화질 SDXL 프롬프트로 구성했습니다.",
-            "character_tags": ["1girl", "solo", "detailed eyes"],
-            "clothing_tags": ["elegant outfit"],
-            "background_tags": ["artistic background", "soft lighting"],
+            "parts": {
+                "character": "1girl, solo, detailed eyes, elegant pose",
+                "appearance": "elegant outfit, long hair, jewelry accessories",
+                "location": "artistic fantasy background, gentle wind",
+                "atmosphere": "masterpiece, best quality, absurdres, cinematic lighting, soft glow"
+            },
+            "character_tags": ["1girl", "solo", "detailed eyes", "elegant pose"],
+            "clothing_tags": ["elegant outfit", "long hair", "jewelry"],
+            "background_tags": ["artistic background", "soft lighting", "gentle wind"],
             "quality_tags": ["masterpiece", "best quality", "absurdres", "cinematic composition"],
             "suggested_ratio": {"width": 896, "height": 1152, "label": "세로형 (인물/전신)"},
             "tags_count": len(fallback_prompt.split(",")),

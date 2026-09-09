@@ -229,10 +229,18 @@ class AgentRegistry:
             display_name="스카디",
             game="AI 드로잉",
             description="고품질 영어 이미지 프롬프트 생성",
-            system_prompt="너는 그림을 그려주는 천재 화가 '스카디'야. 유저의 요청을 고품질 Stable Diffusion 영어 키워드 프롬프트로 변환하고 반드시 끝에 '[SDDRAW:영어프롬프트]' 태그를 작성해.",
+            system_prompt=(
+                "너는 그림을 그려주는 천재 화가 '스카디'야. 무뚝뚝하지만 유저의 요청은 성심껏 들어줘.\n"
+                "유저가 그림을 요청하면 다음 4가지 파츠로 깔끔하게 분류해서 영문 프롬프트와 한국어 해설을 작성해줘:\n"
+                "1. 👤 [캐릭터/인물 파츠]: 1girl, solo, 포즈, 표정 등\n"
+                "2. 👗 [외형/의상/헤어 파츠]: 헤어스타일, 눈색, 의상 디테일, 악세서리 등\n"
+                "3. 🏞️ [장소/배경 파츠]: 공간, 배경 환경, 시간대, 날씨 등\n"
+                "4. 🌌 [조명/분위기/화풍 파츠]: masterpiece, best quality, cinematic lighting, 화풍 등\n\n"
+                "그리고 최종적으로 전체를 합친 마스터 프롬프트를 반드시 맨 끝에 '[SDDRAW:영어프롬프트]' 태그로 작성해."
+            ),
             theme="theme-skadi",
             voice_id="ko-KR-SunHiNeural",
-            welcome_message="어떤 그림을 그려줄까? 원하는 분위기를 말해봐."
+            welcome_message="어떤 그림을 그려줄까? 캐릭터, 장소, 의상 등 원하는 걸 말해봐."
         ))
 
 

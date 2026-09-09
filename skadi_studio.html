@@ -387,6 +387,120 @@
             border-color: rgba(129, 140, 248, 0.4);
         }
 
+        /* Smart Prompt Parts Drawer (캐릭터 / 외형 / 장소 / 화풍) */
+        .parts-drawer {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 4px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .drawer-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .drawer-tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: #cbd5e1;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .drawer-tab-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: #a855f7;
+            color: #fff;
+        }
+
+        .drawer-tab-btn.active {
+            background: rgba(139, 92, 246, 0.3);
+            border-color: #c084fc;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.35);
+        }
+
+        .drawer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 180px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .drawer-sub-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .drawer-sub-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .drawer-tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .drawer-tag-chip {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-glass);
+            color: #cbd5e1;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            user-select: none;
+        }
+
+        .drawer-tag-chip:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: #c084fc;
+            color: #fff;
+            transform: scale(1.03);
+        }
+
+        .drawer-tag-chip.active {
+            background: rgba(168, 85, 247, 0.3);
+            border-color: #a855f7;
+            color: #f3e8ff;
+            font-weight: 700;
+            box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+        }
+
         /* Ratio Selector */
         .ratio-grid {
             display: grid;
@@ -858,16 +972,19 @@
                     </div>
                     <div class="magic-btn-group">
                         <button class="btn-magic" onclick="enhancePromptWithAI('expand')" title="한국어 입력/단어를 S급 Danbooru 태그 및 고화질 프롬프트로 자동 확장">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> ✨ AI 마법봉 확장
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> ✨ AI 마법봉
+                        </button>
+                        <button class="btn-magic-secondary" onclick="togglePartsDrawer()" title="캐릭터, 외형, 장소, 분위기 파츠별 태그를 골라 담기">
+                            <i class="fa-solid fa-cubes-stacked"></i> 🧩 파츠 선택기
                         </button>
                         <button class="btn-magic-secondary" onclick="enhancePromptWithAI('random_idea')" title="S급 마스터 일러스트 랜덤 프롬프트 아이디어 생성">
-                            <i class="fa-solid fa-dice"></i> 🎲 아이디어 추천
+                            <i class="fa-solid fa-dice"></i> 🎲 랜덤
                         </button>
                     </div>
                 </div>
 
                 <div class="prompt-input-wrapper">
-                    <textarea id="prompt-input" class="prompt-textarea" placeholder="예: 벚꽃 잎이 날리는 밤하늘 아래 서 있는 은발의 무녀, 푸른 눈동자, 신비로운 분위기" oninput="checkPromptAutoRatio(this.value)"></textarea>
+                    <textarea id="prompt-input" class="prompt-textarea" placeholder="예: 벚꽃 잎이 날리는 밤하늘 아래 서 있는 은발의 무녀, 푸른 눈동자, 신비로운 분위기" oninput="checkPromptAutoRatio(this.value); syncDrawerTagStates();"></textarea>
                     <div id="magic-loading-indicator" class="magic-loading" style="display: none;">
                         <i class="fa-solid fa-spinner fa-spin"></i>
                         <span>AI가 S급 프롬프트로 마법 변환 중...</span>
@@ -879,7 +996,161 @@
                     <span id="prompt-feedback-text">AI 최적화 완료</span>
                 </div>
 
-                <div class="prompt-samples">
+                <!-- 🧩 Smart Prompt Parts Drawer (캐릭터 / 외형 / 장소 / 화풍) -->
+                <div class="parts-drawer" id="parts-drawer">
+                    <div class="drawer-header">
+                        <div class="drawer-tabs">
+                            <button class="drawer-tab-btn active" data-tab="char" onclick="switchPartsTab('char', this)">
+                                <i class="fa-solid fa-user" style="color: #ec4899;"></i> 👤 캐릭터
+                            </button>
+                            <button class="drawer-tab-btn" data-tab="appear" onclick="switchPartsTab('appear', this)">
+                                <i class="fa-solid fa-shirt" style="color: #06b6d4;"></i> 👗 외형/의상
+                            </button>
+                            <button class="drawer-tab-btn" data-tab="loc" onclick="switchPartsTab('loc', this)">
+                                <i class="fa-solid fa-mountain-sun" style="color: #3b82f6;"></i> 🏞️ 장소/배경
+                            </button>
+                            <button class="drawer-tab-btn" data-tab="atmos" onclick="switchPartsTab('atmos', this)">
+                                <i class="fa-solid fa-wand-magic" style="color: #eab308;"></i> 🌌 조명/화풍
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 1. Character Tab -->
+                    <div class="drawer-content" id="tab-content-char">
+                        <div class="drawer-sub-group">
+                            <div class="drawer-sub-title"><i class="fa-solid fa-users"></i> 인물 & 시선</div>
+                            <div class="drawer-tag-cloud">
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('1girl', '소녀 1명')">1girl (소녀)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('solo', '단독 샷')">solo (단독)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('1boy', '소년 1명')">1boy (소년)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('2girls', '두 소녀')">2girls (두 소녀)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('chibi', 'SD 꼬마 캐릭터')">chibi (SD 귀여움)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('looking at viewer', '정면 시선 응시')">looking at viewer (정면응시)</span>
+                            </div>
+                        </div>
+                        <div class="drawer-sub-group">
+                            <div class="drawer-sub-title"><i class="fa-solid fa-face-smile"></i> 표정 & 감정</div>
+                            <div class="drawer-tag-cloud">
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('smile', '상냥한 미소')">smile (미소)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('blushing', '붉어지는 볼')">blushing (홍조)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('closed eyes', '눈을 감은')">closed eyes (눈감음)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('tsundere', '츤데레')">tsundere (츤데레)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('serious', '진지한')">serious (진지함)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('expressionless', '무표정')">expressionless (쿨함)</span>
+                            </div>
+                        </div>
+                        <div class="drawer-sub-group">
+                            <div class="drawer-sub-title"><i class="fa-solid fa-person-walking"></i> 포즈 & 구도</div>
+                            <div class="drawer-tag-cloud">
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('standing', '서있는 자세')">standing (서있는)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('sitting', '앉아있는 자세')">sitting (앉아있는)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('floating', '공중에 뜬')">floating (부유하는)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('dynamic pose', '역동적 액션 포즈')">dynamic pose (역동적 포즈)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('peace sign', '브이 포즈')">peace sign (브이)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('holding weapon', '무기를 든')">holding weapon (무기장착)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Appearance Tab -->
+                    <div class="drawer-content" id="tab-content-appear" style="display: none;">
+                        <div class="drawer-sub-group">
+                            <div class="drawer-sub-title"><i class="fa-solid fa-scissors"></i> 헤어스타일 & 컬러</div>
+                            <div class="drawer-tag-cloud">
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('silver hair', '은발')">silver hair (은발)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('black hair', '흑발')">black hair (흑발)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('blonde hair', '금발')">blonde hair (금발)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('pink hair', '분홍머리')">pink hair (분홍머리)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('blue hair', '푸른머리')">blue hair (푸른머리)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('twintails', '트윈테일 양갈래')">twintails (트윈테일)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('ponytail', '포니테일')">ponytail (포니테일)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('long hair', '긴 생머리')">long hair (긴머리)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('short hair', '단발머리')">short hair (단발머리)</span>
+                            </div>
+                        </div>
+                        <div class="drawer-sub-group">
+                            <div class="drawer-sub-title"><i class="fa-solid fa-eye"></i> 눈동자 & 특징</div>
+                            <div class="drawer-tag-cloud">
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('red eyes', '붉은 눈')">red eyes (적안)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('blue eyes', '푸른 눈')">blue eyes (벽안)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('purple eyes', '보라색 눈')">purple eyes (자안)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('golden eyes', '황금빛 눈')">golden eyes (금안)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('cat ears', '고양이 귀')">cat ears (고양이귀)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('elf ears', '엘프 귀')">elf ears (엘프귀)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('glasses', '안경')">glasses (안경)</span>
+                            </div>
+                        </div>
+                        <div class="drawer-sub-group">
+                            <div class="drawer-sub-title"><i class="fa-solid fa-vest"></i> 의상 & 코스튬</div>
+                            <div class="drawer-tag-cloud">
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('kimono', '화려한 기모노')">kimono (기모노)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('sailor uniform', '세일러복')">sailor uniform (세일러복)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('school uniform', '교복')">school uniform (교복)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('maid outfit', '메이드복')">maid outfit (메이드복)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('gothic lolita dress', '고스 로리타 드레스')">gothic lolita (고스로리)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('hoodie', '오버핏 후드티')">hoodie (후드티)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('cyberpunk armor', '사이버펑크 아머')">cyberpunk armor (SF아머)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('swimsuit', '수영복')">swimsuit (수영복)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('wedding dress', '순백의 웨딩드레스')">wedding dress (웨딩드레스)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Location Tab -->
+                    <div class="drawer-content" id="tab-content-loc" style="display: none;">
+                        <div class="drawer-sub-group">
+                            <div class="drawer-sub-title"><i class="fa-solid fa-tree"></i> 자연 & 판타지 공간</div>
+                            <div class="drawer-tag-cloud">
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('cherry blossom garden', '벚꽃 정원')">cherry blossom garden (벚꽃정원)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('night sky, full moon', '보름달 밤하늘')">night sky, full moon (달밤)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('fantasy castle', '판타지 고성')">fantasy castle (판타지 성)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('beach sunset, ocean', '석양 바닷가')">beach sunset (해질녘 바다)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('magical forest', '신비로운 마법의 숲')">magical forest (마법의 숲)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('flower field', '끝없는 꽃밭')">flower field (꽃밭)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('shrine torii', '신사 토리이')">shrine torii (동양풍 신사)</span>
+                            </div>
+                        </div>
+                        <div class="drawer-sub-group">
+                            <div class="drawer-sub-title"><i class="fa-solid fa-city"></i> 도시 & 실내 공간</div>
+                            <div class="drawer-tag-cloud">
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('cyberpunk city, neon street', '사이버펑크 네온 도시')">cyberpunk city (네온도시)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('rainy night, wet street', '비 내리는 밤거리')">rainy night (비 내리는 거리)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('cozy bedroom', '아늑한 침실')">cozy bedroom (아늑한 방)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('coffee shop, cafe', '감성 카페')">coffee shop (카페)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('classroom, window light', '햇살 비치는 교실')">classroom (교실)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('grand library', '웅장한 마법 도서관')">grand library (고대 도서관)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Atmosphere Tab -->
+                    <div class="drawer-content" id="tab-content-atmos" style="display: none;">
+                        <div class="drawer-sub-group">
+                            <div class="drawer-sub-title"><i class="fa-solid fa-sun"></i> 조명 & 광원 연출</div>
+                            <div class="drawer-tag-cloud">
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('cinematic lighting', '영화적 조명')">cinematic lighting (영화조명)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('volumetric light', '틴들 빛내림 현상')">volumetric light (빛내림)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('glowing particles', '반짝이는 마법 입자')">glowing particles (빛입자)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('golden hour, sun flare', '따스한 골든아워 햇살')">golden hour (골든아워)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('dramatic shadow', '극적인 그림자')">dramatic shadow (드라마틱 명암)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('neon rim light', '네온 림라이트')">neon rim light (네온 윤곽광)</span>
+                            </div>
+                        </div>
+                        <div class="drawer-sub-group">
+                            <div class="drawer-sub-title"><i class="fa-solid fa-gem"></i> 마스터 퀄리티 & 화풍 태그</div>
+                            <div class="drawer-tag-cloud">
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('masterpiece, best quality', 'S급 최고 품질')">masterpiece, best quality (S급 품질)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('absurdres', '초고해상도')">absurdres (초고해상도)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('8k uhd, dslr photography', '8K 극실사')">8k uhd (8K 극실사)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('anime visual novel key visual', '애니 키비주얼')">anime key visual (애니 원화)</span>
+                                <span class="drawer-tag-chip" onclick="injectPromptTag('delicate watercolor painting', '섬세한 수채화')">watercolor (섬세 수채화)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="prompt-samples" style="margin-top: 4px;">
                     <span class="sample-tag" onclick="setPrompt('라이덴 쇼군, 벚꽃이 흩날리는 신사, 보라색 기모노, 수채화풍')">🌸 라이덴 쇼군</span>
                     <span class="sample-tag" onclick="setPrompt('은발 붉은눈 고양이귀 소녀, 사이버펑크 네온 비 내리는 거리')">🌃 사이버 고양이귀</span>
                     <span class="sample-tag" onclick="setPrompt('푸른 바다 앞 백사장에 서 있는 청순한 소녀, 석양 노을')">🌅 석양 바닷가</span>
@@ -1581,7 +1852,97 @@
                     badgeText.innerText = '✨ 추출된 이미지 프롬프트가 자동 적용되었습니다!';
                     badge.style.display = 'flex';
                 }
+
+                syncDrawerTagStates();
             }
+        }
+
+        // 🧩 스마트 프롬프트 파츠 드로어 제어 함수들
+        function togglePartsDrawer() {
+            const drawer = document.getElementById('parts-drawer');
+            if (drawer) {
+                if (drawer.style.display === 'none') {
+                    drawer.style.display = 'flex';
+                    syncDrawerTagStates();
+                } else {
+                    drawer.style.display = 'none';
+                }
+            }
+        }
+
+        function switchPartsTab(tabKey, btn) {
+            document.querySelectorAll('.drawer-tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            ['char', 'appear', 'loc', 'atmos'].forEach(k => {
+                const el = document.getElementById(`tab-content-${k}`);
+                if (el) el.style.display = (k === tabKey) ? 'flex' : 'none';
+            });
+        }
+
+        function injectPromptTag(tag, koDesc) {
+            const textarea = document.getElementById('prompt-input');
+            if (!textarea) return;
+
+            let curVal = textarea.value.trim();
+            const tagLower = tag.toLowerCase();
+
+            // 현재 프롬프트에 태그가 이미 포함되어 있으면 토글 제거
+            if (curVal.toLowerCase().includes(tagLower)) {
+                // 콤마나 공백 포함 정규식으로 안전하게 제거
+                const regex = new RegExp(`(?:,\\s*)?${escapeRegExp(tag)}(?:,\\s*)?`, 'gi');
+                curVal = curVal.replace(regex, ', ').trim();
+                curVal = curVal.replace(/^,\s*/, '').replace(/,\s*$/, '').replace(/,\s*,/g, ',');
+                textarea.value = curVal;
+                showFeedbackMessage(`➖ [${koDesc || tag}] 태그 제거됨`);
+            } else {
+                // 없으면 끝에 추가
+                if (curVal && !curVal.endsWith(',')) {
+                    curVal += ', ';
+                } else if (curVal && curVal.endsWith(',')) {
+                    curVal += ' ';
+                }
+                curVal += tag;
+                textarea.value = curVal;
+                showFeedbackMessage(`➕ [${koDesc || tag}] 태그 추가됨`);
+            }
+
+            checkPromptAutoRatio(textarea.value);
+            syncDrawerTagStates();
+        }
+
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        function showFeedbackMessage(msg) {
+            const badge = document.getElementById('prompt-feedback-badge');
+            const badgeText = document.getElementById('prompt-feedback-text');
+            if (badge && badgeText) {
+                badgeText.innerText = msg;
+                badge.style.display = 'flex';
+                setTimeout(() => {
+                    if (badgeText.innerText === msg) {
+                        badge.style.display = 'none';
+                    }
+                }, 2000);
+            }
+        }
+
+        function syncDrawerTagStates() {
+            const promptVal = (document.getElementById('prompt-input')?.value || '').toLowerCase();
+            document.querySelectorAll('.drawer-tag-chip').forEach(chip => {
+                const onclickStr = chip.getAttribute('onclick') || '';
+                const match = onclickStr.match(/injectPromptTag\('([^']+)'/);
+                if (match && match[1]) {
+                    const tag = match[1].toLowerCase();
+                    if (promptVal.includes(tag)) {
+                        chip.classList.add('active');
+                    } else {
+                        chip.classList.remove('active');
+                    }
+                }
+            });
         }
 
         // 초기화
@@ -1590,6 +1951,7 @@
             loadGallery();
             initDragAndPaste();
             checkTransferredPrompt();
+            syncDrawerTagStates();
             setInterval(checkServerStatus, 5000);
         });
     </script>
