@@ -27,6 +27,8 @@ mcp_servers.json
 *.vtt
 *.db
 data/
+!data/portal_data.json
+!data/global_data.json
 .chroma/
 chroma_db/
 .webview_data/
