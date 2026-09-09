@@ -429,6 +429,7 @@ class ScheduleManager:
         return "\r\n".join(lines)
 
 
+
     @staticmethod
     def _mask_url(url: str) -> str:
         """민감한 URL 로그 마스킹 (앞 15자만 노출하고 나머지는 *** 처리)"""
@@ -465,6 +466,19 @@ class ScheduleManager:
                 masked = cls._mask_url(target_url)
                 logger.error(f"구글 캘린더 iCal 다운로드 실패 ({masked}): {e}")
                 return {"status": "error", "message": f"구글 캘린더 다운로드 실패 ({masked})"}
+
+        # 1. RFC 5545 Line Folding 언폴딩
+        unfolded_content = re.sub(r"\r?\n[ \t]", "", raw_content)
+
+        # 2. VEVENT 추출
+        events = re.findall(r"BEGIN:VEVENT(.*?)END:VEVENT", unfolded_content, flags=re.DOTALL)
+        if not events:
+            return {"status": "warning", "message": "가져올 캘린더 일정이 없습니다.", "count": 0}
+
+        now_sync_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        added_count = 0
+        updated_count = 0
+        cancelled_count = 0
 
         for ev in events:
             # STATUS: CANCELLED 확인

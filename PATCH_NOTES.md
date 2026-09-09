@@ -315,7 +315,6 @@
 | [`modules/lol_autopilot_service.py`](file:///C:/Users/skbkh/Desktop/html/chat%20bot/modules/lol_autopilot_service.py) | **신규** | **전자동 인게임 오토파일럿 & 라이프사이클 관리자**<br>• 롤 실행 $\rightarrow$ 픽창 $\rightarrow$ 인게임 $\rightarrow$ 게임 종료 전 과정 100% 무인 자동 감지<br>• 픽창: 칼바람 눈덩이 스펠 착용 확인 & 챔피언 매치업 분석<br>• 인게임 시작: 미니맵 트래커 + 라이브 트래커 자동 가동 & 스카디 출격 브리핑<br>• 게임 종료: 미니맵 트래커 대기 모드 전환 + 오답노트 & 브라이어 팩폭 피드백 자동 생성 |
 | [`modules/__init__.py`](file:///C:/Users/skbkh/Desktop/html/chat%20bot/modules/__init__.py) | **라우팅 확장** | 신규 라이브 트래커 및 오토파일럿 라우터 일괄 등록 (총 19개 라우터 체계 완비) |
 | [`modules/jarvis_extension_router.py`](file:///C:/Users/skbkh/Desktop/html/chat%20bot/modules/jarvis_extension_router.py) | **라우팅 확장** | 통합 확장 라우터에 신규 LoL 모듈 라우터 마운트 |
-
 ---
 
 ## 🚀 [2026-09-04] v3.6.0 - Modern DeepLeague 실시간 롤(LoL) 미니맵 전술 비전 레이더 & 5대 전술 모듈 패키지 전격 릴리즈
