@@ -1,8 +1,0 @@
-{
-  "bot_token": "",
-  "command_prefix": "!",
-  "riot_api_key": "",
-  "master_discord_id": "",
-  "auto_reply_channels": [],
-  "enable_natural_language_routing": true
-}
