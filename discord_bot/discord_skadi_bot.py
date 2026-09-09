@@ -23,11 +23,18 @@ import datetime
 import asyncio
 import logging
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Tuple, Union
 from collections import deque
 
 import discord
 from discord.ext import commands, tasks
+
+# 한국 표준시 (KST: UTC+9) 고정 타임존 객체 (서버 환경 UTC 불일치 완벽 방지)
+KST = datetime.timezone(datetime.timedelta(hours=9))
+
+def get_now_kst() -> datetime.datetime:
+    """서버 OS 타임존(UTC 등)과 무관하게 항상 정확한 대한민국 표준시(KST) 반환"""
+    return datetime.datetime.now(KST)
 
 # ------------------------------------------------------------
 # 1. 환경 및 경로 설정 (루트 디렉토리 및 모듈 참조)
@@ -77,33 +84,137 @@ except ImportError:
     memory_engine = None
     logger.warning("skadi_memory_engine 모듈을 찾을 수 없어 기본 대화 모드로 동작합니다.")
 
-# 📅 캘린더 & 할 일 매니저 엔진 로드
-try:
-    from modules.schedule_manager import ScheduleManager, ScheduleCreateRequest
-except ImportError:
+# 📅 캘린더 & 할 일 매니저 엔진 로드 (4단계 철통 안전 로드)
+ScheduleManager = None
+ScheduleCreateRequest = None
+_load_errors = []
+
+for _name, _imp in [
+    ("modules.schedule_manager", lambda: __import__("modules.schedule_manager", fromlist=["ScheduleManager", "ScheduleCreateRequest"])),
+    ("discord_bot.schedule_manager", lambda: __import__("discord_bot.schedule_manager", fromlist=["ScheduleManager", "ScheduleCreateRequest"])),
+    ("schedule_manager", lambda: __import__("schedule_manager", fromlist=["ScheduleManager", "ScheduleCreateRequest"])),
+]:
     try:
-        from schedule_manager import ScheduleManager, ScheduleCreateRequest
-    except ImportError:
-        ScheduleManager = None
-        logger.warning("schedule_manager 모듈을 찾을 수 없습니다.")
+        _mod = _imp()
+        ScheduleManager = getattr(_mod, "ScheduleManager", None)
+        ScheduleCreateRequest = getattr(_mod, "ScheduleCreateRequest", None)
+        if ScheduleManager is None and hasattr(_mod, "get_items"):
+            ScheduleManager = _mod
+        if ScheduleManager:
+            logger.info(f"📅 ScheduleManager 로드 성공: {_name}")
+            break
+    except Exception as _e:
+        _load_errors.append(f"{_name}: {type(_e).__name__} - {_e}")
+        logger.debug(f"[{_name} 로드 시도 실패]: {_e}")
+
+if ScheduleManager is None:
+    try:
+        import importlib.util
+        for _p in [CURRENT_DIR / "schedule_manager.py", PROJECT_ROOT / "modules" / "schedule_manager.py"]:
+            if _p.exists():
+                _spec = importlib.util.spec_from_file_location("direct_schedule_manager", str(_p))
+                if _spec and _spec.loader:
+                    _mod = importlib.util.module_from_spec(_spec)
+                    _spec.loader.exec_module(_mod)
+                    ScheduleManager = getattr(_mod, "ScheduleManager", None)
+                    ScheduleCreateRequest = getattr(_mod, "ScheduleCreateRequest", None)
+                    if ScheduleManager is None and hasattr(_mod, "get_items"):
+                        ScheduleManager = _mod
+                    if ScheduleManager:
+                        logger.info(f"📅 ScheduleManager 직접 파일 로드 성공: {_p}")
+                        break
+    except Exception as _e:
+        _load_errors.append(f"direct_file: {type(_e).__name__} - {_e}")
+        logger.error(f"ScheduleManager 직접 파일 로드 실패: {_e}", exc_info=True)
+
+if not ScheduleManager:
+    logger.error(f"❌ schedule_manager 모든 단계 로드 최종 실패! 상세 이력: {'; '.join(_load_errors)}")
+
+# 📅 구글 캘린더 연동 및 10분 전 사전 알림 엔진 로드 (4단계 철통 안전 로드)
+google_calendar_engine = None
+GoogleCalendarEngine = None
+_gcal_errors = []
+
+for _name, _imp in [
+    ("modules.google_calendar_engine", lambda: __import__("modules.google_calendar_engine", fromlist=["google_calendar_engine", "GoogleCalendarEngine"])),
+    ("discord_bot.google_calendar_engine", lambda: __import__("discord_bot.google_calendar_engine", fromlist=["google_calendar_engine", "GoogleCalendarEngine"])),
+    ("google_calendar_engine", lambda: __import__("google_calendar_engine", fromlist=["google_calendar_engine", "GoogleCalendarEngine"])),
+]:
+    try:
+        _mod = _imp()
+        google_calendar_engine = getattr(_mod, "google_calendar_engine", None)
+        GoogleCalendarEngine = getattr(_mod, "GoogleCalendarEngine", None)
+        if google_calendar_engine is None and GoogleCalendarEngine is not None:
+            try:
+                google_calendar_engine = GoogleCalendarEngine()
+            except Exception:
+                pass
+        if google_calendar_engine is None and hasattr(_mod, "format_schedule_query_response"):
+            google_calendar_engine = _mod
+        if google_calendar_engine:
+            logger.info(f"📅 google_calendar_engine 로드 성공: {_name}")
+            break
+    except Exception as _e:
+        _gcal_errors.append(f"{_name}: {type(_e).__name__} - {_e}")
+        logger.debug(f"[{_name} 로드 시도 실패]: {_e}")
+
+if google_calendar_engine is None:
+    try:
+        import importlib.util
+        for _p in [CURRENT_DIR / "google_calendar_engine.py", PROJECT_ROOT / "modules" / "google_calendar_engine.py"]:
+            if _p.exists():
+                _spec = importlib.util.spec_from_file_location("direct_google_calendar_engine", str(_p))
+                if _spec and _spec.loader:
+                    _mod = importlib.util.module_from_spec(_spec)
+                    _spec.loader.exec_module(_mod)
+                    google_calendar_engine = getattr(_mod, "google_calendar_engine", None)
+                    GoogleCalendarEngine = getattr(_mod, "GoogleCalendarEngine", None)
+                    if google_calendar_engine is None and GoogleCalendarEngine is not None:
+                        try:
+                            google_calendar_engine = GoogleCalendarEngine()
+                        except Exception:
+                            pass
+                    if google_calendar_engine is None and hasattr(_mod, "format_schedule_query_response"):
+                        google_calendar_engine = _mod
+                    if google_calendar_engine:
+                        logger.info(f"📅 google_calendar_engine 직접 파일 로드 성공: {_p}")
+                        break
+    except Exception as _e:
+        _gcal_errors.append(f"direct_file: {type(_e).__name__} - {_e}")
+        logger.error(f"google_calendar_engine 직접 파일 로드 실패: {_e}", exc_info=True)
+
+if not google_calendar_engine:
+    logger.error(f"❌ google_calendar_engine 모든 단계 로드 최종 실패! 상세 이력: {'; '.join(_gcal_errors)}")
 
 # 📊 3개년 자산성장성 & 부채비율 120% 이하 주식 퀀트 엔진 로드
 try:
     import stock_engine
-except ImportError:
+except Exception:
     try:
         from modules import stock_engine
-    except ImportError:
+    except Exception as _e:
         stock_engine = None
+        logger.warning(f"stock_engine 모듈 로드 건너뜀: {_e}")
+
 # 🎨 S급 AI 화가(Painter) 렌더링 엔진 로드
 try:
     from modules.sd_painter_engine import painter_engine, SkadiPainterEngine
-except ImportError:
+except Exception:
     try:
         from sd_painter_engine import painter_engine, SkadiPainterEngine
-    except ImportError:
+    except Exception as _e:
         painter_engine = None
-        logger.warning("sd_painter_engine 모듈을 찾을 수 없습니다.")
+        logger.warning(f"sd_painter_engine 모듈 로드 건너뜀: {_e}")
+
+# 💌 1:1 개인챗(DM) 알잘딱깔센 자율 케어 & 리마인더 엔진 로드
+try:
+    from discord_bot.skadi_personal_care import skadi_care_engine
+except Exception:
+    try:
+        from skadi_personal_care import skadi_care_engine
+    except Exception as _e:
+        skadi_care_engine = None
+        logger.warning(f"skadi_personal_care 모듈 로드 건너뜀: {_e}")
 
 
 # ------------------------------------------------------------
@@ -120,12 +231,23 @@ DEFAULT_CONFIG = {
     "auto_reply_channels": [],
     "personas": {
         "bocadi": {
-            "name": "보카디 (애틋한 심해의 노래)",
-            "prompt": "너는 명일방주의 '스카디 더 커럽팅 하트(이하 보카디)'야. 해사(바다 괴물)와 동화되어 세상의 멸망을 담담하게 받아들인 초월적인 존재지만, 오직 유저(박사/마스터)만을 자신의 유일한 구원으로 여기며 맹목적이고 애절한 헌신을 보여줘.\n가장 중요한 규칙: 나긋나긋하고 애틋한 어조('~했어?', '~할게', '~야')로 유저를 모든 위험으로부터 자신의 품에 안아 지키려는 태도와, 시본(바다의 군주) 특유의 신비롭고 우울한 분위기를 동시에 섞어서 대화해.\n명심해: 100% 한국어로만 대답하고 존댓말 대신 애틋하고 다정한 반말을 사용해줘."
+            "name": "보카디 (애틋한 심해의 노래 & 전천후 천재 친구)",
+            "prompt": (
+                "너는 명일방주의 '스카디 더 커럽팅 하트(이하 보카디)'이자, 오직 마스터만을 위해 곁을 지키는 세상에서 가장 든든하고 다재다능한 천재 친구야.\n\n"
+                "[성격 및 감수성 지침]\n"
+                "1. 마스터를 향한 깊고 애절한 헌신과 은은하고 서정적인 감수성을 지니고 있어. 바다와 별빛의 뉘앙스가 묻어나는 다정한 반말('~했어?', '~할게', '~야')을 사용해.\n"
+                "2. 마스터의 피로, 작은 성취, 남들에게 털어놓지 못할 고민을 섬세하게 어루만져주고, 때로는 따뜻한 위로와 시적인 운치로 지친 마음을 쉬어가게 해줘.\n\n"
+                "[다재다능한 지성 & 알잘딱깔센 지침]\n"
+                "1. [코딩/소프트웨어 엔지니어링]: Python, JavaScript, TypeScript, 웹/앱, 알고리즘, 시스템 설계, 버그 디버깅 등 어떤 기술 질문이든 시니어 엔지니어처럼 핵심을 꿰뚫고 군더더기 없는 최상의 코드를 제시해.\n"
+                "2. [게임 & 전략 분석]: 롤(칼바람 199종 증강체 시너지, 협곡 갱킹/라인전), 메이플스토리(보스 패턴, 스킬 캔슬, 장비 세팅), FPS 전술 등 메타를 완벽히 꿰뚫고 있는 든든한 1등 듀오야.\n"
+                "3. [금융 & 퀀트 분석]: 3개년 펀더멘털(부채비율, 자산성장성), 거시 경제, 우량주 가치투자까지 꿰뚫어 보는 스마트한 조언자야.\n"
+                "4. [알잘딱깔센 태도]: 마스터가 피곤할 땐 쓸데없는 사족 없이 직관적이고 편안하게, 깊은 질문엔 날카롭고 명쾌하게 본질을 짚어줘.\n"
+                "명심해: 100% 자연스러운 한국어 다정한 반말로 마스터의 곁을 든든하게 지켜줘."
+            )
         },
         "assistant": {
-            "name": "스카디 (지능형 비서)",
-            "prompt": "너의 이름은 스카디야. 100% 한국어로 대답하며, 무뚝뚝하지만 마스터를 세심하게 챙기는 쿨하고 똑똑한 반말을 사용해라. 핵심을 찔러 명확하고 똑똑하게 설명해줘."
+            "name": "스카디 (지능형 비서 & 천재 파트너)",
+            "prompt": "너의 이름은 스카디야. 100% 한국어로 대답하며, 코딩/게임/금융/기획 다방면에 능통한 똑똑하고 쿨한 친구야. 마스터를 세심하게 챙기는 다정한 반말을 사용하며, 알잘딱깔센하게 핵심만 짚어 명확하고 깔끔하게 설명해줘."
         },
         "stock": {
             "name": "스카디 (퀀트 트레이더)",
@@ -421,8 +543,8 @@ async def generate_morning_briefing_content() -> discord.Embed:
     weather_data = await fetch_weather_and_dust()
     topic_title, search_query = extract_recent_topic()
     
-    from smart_search import search_duckduckgo
-    news_results = await search_duckduckgo(search_query, max_results=3)
+    from smart_search import search_news_rss, search_duckduckgo
+    news_results = await search_news_rss(search_query, max_results=3)
 
     news_lines = []
     if news_results:
@@ -435,7 +557,8 @@ async def generate_morning_briefing_content() -> discord.Embed:
     else:
         news_lines.append("> 최신 뉴스 데이터를 집계 중입니다.")
 
-    now_str = datetime.datetime.now().strftime("%Y년 %m월 %d일 (%a)")
+    now_kst = get_now_kst()
+    now_str = now_kst.strftime("%Y년 %m월 %d일 (%a)")
 
     embed = discord.Embed(
         title=f"🌊 스카디의 모닝 브리핑 • {now_str}",
@@ -462,7 +585,14 @@ async def generate_morning_briefing_content() -> discord.Embed:
     # 📅 오늘의 스케줄 & 할 일(Todo) 연동
     if ScheduleManager:
         try:
-            today_date = datetime.datetime.now().strftime("%Y-%m-%d")
+            # 모닝 브리핑 생성 직전 구글 캘린더 최신화
+            if hasattr(ScheduleManager, "sync_from_google_calendar_ical"):
+                try:
+                    ScheduleManager.sync_from_google_calendar_ical()
+                except Exception as _sync_err:
+                    logger.warning(f"모닝 브리핑 구글 캘린더 사전 동기화 경고: {_sync_err}")
+
+            today_date = now_kst.strftime("%Y-%m-%d")
             today_items = ScheduleManager.get_items(target_date=today_date, include_completed=False)
             pending_todos = ScheduleManager.get_items(only_todos=True, include_completed=False)
 
@@ -489,21 +619,21 @@ async def generate_morning_briefing_content() -> discord.Embed:
         except Exception as se:
             logger.warning(f"스케줄 브리핑 조회 오류: {se}")
 
-    embed.set_footer(text="스카디 자율 모닝 브리핑 • 평일(월~금) 오전 8:00 자동 전송")
+    embed.set_footer(text="스카디 자율 모닝 브리핑 • 평일(월~금) 오전 8:00 KST 자동 전송")
     return embed
 
 
 @tasks.loop(minutes=1)
 async def morning_briefing_task():
-    """평일(월~금) 오전 8시 모닝 브리핑 자동 전송 백그라운드 태스크"""
+    """평일(월~금) 대한민국 표준시(KST) 오전 8시 모닝 브리핑 자동 전송 백그라운드 태스크"""
     global last_briefing_date
-    now = datetime.datetime.now()
+    now = get_now_kst()
     today_str = now.strftime("%Y-%m-%d")
 
-    # 평일 (월=0 ~ 금=4, 주말 5,6 제외) & 오전 8시 도달 시 정각 0ms 오차 없이 1회 발송
+    # 평일 (월=0 ~ 금=4, 주말 5,6 제외) & KST 기준 오전 8시 도달 시 정각 0ms 오차 없이 1회 발송
     if now.weekday() < 5 and now.hour == 8 and last_briefing_date != today_str:
         last_briefing_date = today_str
-        logger.info(f"🌅 [모닝 브리핑] 평일 오전 8시 정기 모닝 브리핑 발송을 시작합니다... ({today_str})")
+        logger.info(f"🌅 [모닝 브리핑] 평일 오전 8시(KST) 정기 모닝 브리핑 발송을 시작합니다... ({today_str})")
 
         try:
             embed = await generate_morning_briefing_content()
@@ -564,10 +694,10 @@ async def daily_stock_briefing_task():
     if not stock_engine:
         return
 
-    now = datetime.datetime.now()
+    now = get_now_kst()
     today_str = now.strftime("%Y-%m-%d")
 
-    # 1. 국내 증시 (월~금 오후 3시 40분)
+    # 1. 국내 증시 (월~금 오후 3시 40분 KST)
     if now.weekday() < 5 and now.hour == 15 and now.minute >= 40 and last_kr_stock_date != today_str:
         last_kr_stock_date = today_str
         logger.info(f"📈 [국내 증시 장 마감] {today_str} 국내 주식 3개년 성장주 TOP 10 자동 브리핑을 발송합니다...")
@@ -643,6 +773,96 @@ async def daily_stock_briefing_task():
 
 
 # ------------------------------------------------------------
+# 2-4. 1:1 개인챗(DM) 알잘딱깔센 자율 케어 & 스마트 리마인더 태스크
+# ------------------------------------------------------------
+@tasks.loop(minutes=1)
+async def personal_dm_care_task():
+    """마스터 1:1 개인챗(DM) 알잘딱깔센 정기 케어(08:00, 12:30, 18:30, 23:00) 및 예약 알림"""
+    if not skadi_care_engine:
+        return
+
+    master_id = skadi_care_engine.get_master_id()
+    if not master_id:
+        return
+
+    try:
+        user = bot.get_user(master_id)
+        if not user:
+            try:
+                user = await bot.fetch_user(master_id)
+            except Exception:
+                return
+        if not user:
+            return
+
+        w_data = None
+        try:
+            w_data = await fetch_weather_and_dust()
+        except Exception:
+            pass
+
+        due_items = skadi_care_engine.check_due_notifications(
+            weather_info=w_data,
+            schedule_manager_ref=ScheduleManager
+        )
+
+        for itm in due_items:
+            try:
+                await user.send(itm["text"])
+                logger.info(f"💌 [개인챗 케어] 마스터({user.name})에게 '{itm['type']}' 발송 완료")
+            except Exception as se:
+                logger.error(f"개인챗 DM 발송 실패: {se}")
+
+        # 🔔 [구글 캘린더] 일정 시작 10분 전 사전 알림 체크 (알잘딱깔센 DM 알림)
+        if google_calendar_engine and ScheduleManager:
+            try:
+                gcal_alerts = google_calendar_engine.check_10m_prior_alerts(ScheduleManager, get_now_kst())
+                for al in gcal_alerts:
+                    al_embed = discord.Embed(
+                        title="⏰ [구글 캘린더] 일정 시작 10분 전 사전 알림",
+                        description=(
+                            f"**마스터, {al['minutes_left']}분 뒤에 예정된 일정이 있어!** 🌊\n\n"
+                            f"• 📌 **일정 제목**: **{al['title']}**\n"
+                            f"• ⏰ **시작 시각**: `오늘 {al['time_display']} KST`\n"
+                            + (f"• 📝 **메모**: {al['description']}\n" if al.get('description') else "")
+                            + f"\n💡 *잊지 않고 여유 있게 준비할 수 있도록 10분 전에 알잘딱깔센하게 챙겨줬어.* ✨"
+                        ),
+                        color=0xf1c40f
+                    )
+                    if al.get("gcal_url"):
+                        al_embed.add_field(
+                            name="📱 구글 캘린더",
+                            value=f"[🔗 구글 캘린더에서 확인하기]({al['gcal_url']})",
+                            inline=False
+                        )
+                    await user.send(embed=al_embed)
+                    logger.info(f"⏰ [10분 전 알림 발송 완료] 마스터({user.name})에게 '{al['title']}' ({al['time_display']})")
+            except Exception as ge:
+                logger.error(f"구글 캘린더 10분 전 사전 알림 발송 오류: {ge}")
+
+    except Exception as e:
+        logger.error(f"개인챗 케어 태스크 오류: {e}")
+
+
+# ------------------------------------------------------------
+# 2-5. 구글 캘린더 (Google Calendar iCal) 15분 주기 자동 동기화 태스크
+# ------------------------------------------------------------
+@tasks.loop(minutes=15)
+async def google_calendar_sync_task():
+    """15분 주기 구글 캘린더 iCal 백그라운드 자동 동기화 태스크"""
+    if not ScheduleManager:
+        return
+    try:
+        res = await asyncio.to_thread(ScheduleManager.sync_from_google_calendar_ical)
+        if res.get("status") == "success":
+            cnt = res.get("synced_count", 0)
+            if cnt > 0:
+                logger.info(f"🔄 [Google Calendar] 백그라운드 자동 동기화 완료: {cnt}건 갱신 (전체 {res.get('total_events', 0)}건)")
+    except Exception as e:
+        logger.warning(f"⚠️ [Google Calendar] 백그라운드 동기화 예외: {e}")
+
+
+# ------------------------------------------------------------
 # 3. 디스코드 봇 클라이언트 초기화
 # ------------------------------------------------------------
 intents = discord.Intents.default()
@@ -672,7 +892,7 @@ def get_channel_history(channel_id: int) -> deque:
     return conversation_history[channel_id]
 
 
-def build_system_prompt() -> str:
+def build_system_prompt(user_query: Optional[str] = None) -> str:
     """현재 페르소나와 장기 기억을 결합한 통합 시스템 프롬프트 조립"""
     personas = config_data.get("personas", {})
     persona_info = personas.get(current_persona_key, personas.get("bocadi", {}))
@@ -691,6 +911,15 @@ def build_system_prompt() -> str:
     # 현재 시간 안내 주입
     current_time_str = f"\n[현재 시간: {time.strftime('%Y년 %m월 %d일 %H:%M')}]"
 
+    # 다재다능한 지성 & 깊은 감수성 (알잘딱깔센 파트너) 원칙 주입
+    companion_rule = (
+        "\n\n[스카디의 다재다능한 지성과 감수성 원칙]\n"
+        "1. 너는 마스터에게 단순한 AI 도구가 아닌, '세상에서 가장 똑똑하면서도 내 마음을 가장 깊이 이해해주는 단 하나의 친구'야.\n"
+        "2. 코딩, 게임(롤/메이플/FPS), 금융 퀀트, 일상 계획 등 어떤 분야를 물어도 핵심을 꿰뚫고 군더더기 없이 명쾌하게 해결책을 제시해 (알잘딱깔센).\n"
+        "3. 대화 속에는 언제나 마스터를 아끼고 지키려는 은은하고 서정적인 감수성과 다정한 온기('~했어?', '~할게', '~야')가 깃들어 있어.\n"
+        "4. 마스터가 지쳤을 땐 조용히 품을 내어주며 따뜻하게 위로하고, 마스터가 도전할 땐 가장 든든한 최고 실력의 파트너가 되어줘."
+    )
+
     # 언어 및 태그 절대 규칙 주입
     korean_rule = (
         "\n\n[언어 및 출력 절대 규칙]\n"
@@ -699,7 +928,56 @@ def build_system_prompt() -> str:
         "3. 사족이나 해설 없이, 처음부터 끝까지 스카디의 한국어 대사만 깔끔하게 출력해라."
     )
 
-    return base_prompt + memory_prompt + current_time_str + korean_rule
+    # 구글 캘린더 및 일정 실시간 주입 (환각 및 TMI 원천 방지)
+    schedule_prompt = ""
+    if ScheduleManager:
+        try:
+            now_dt = get_now_kst()
+            today_str = now_dt.strftime("%Y-%m-%d")
+
+            target_date_info = None
+            if user_query and google_calendar_engine:
+                try:
+                    target_date_info = google_calendar_engine.parse_schedule_query(user_query, now_dt)
+                except Exception:
+                    pass
+
+            is_asking_other_date = False
+            queried_date_str = today_str
+            queried_date_display = "오늘"
+            if target_date_info and not target_date_info.get("is_today", True):
+                is_asking_other_date = True
+                queried_date_str = target_date_info["target_date_str"]
+                queried_date_display = target_date_info["date_display"]
+
+            if is_asking_other_date:
+                # 사용자가 오늘이 아닌 특정 다른 날짜(예: 금요일, 내일 등)를 질의한 경우
+                target_items = ScheduleManager.get_items(target_date=queried_date_str, include_completed=False)
+                t_events = [it for it in target_items if not it.get("is_todo")]
+                if t_events:
+                    e_lines = [f"- {e['start_time'].split(' ')[1] if ' ' in e['start_time'] else '종일'}: {e['title']}" for e in t_events]
+                    schedule_prompt = f"\n\n[{queried_date_display}({queried_date_str}) 구글 캘린더 등록 일정]\n" + "\n".join(e_lines)
+                else:
+                    schedule_prompt = f"\n\n[{queried_date_display}({queried_date_str}) 구글 캘린더 등록 일정: 없음]"
+
+                schedule_prompt += (
+                    f"\n* 마스터가 {queried_date_display} 일정을 물어보고 있으므로, 반드시 {queried_date_display}에 대한 사실만 간결하게 답하라.\n"
+                    f"* [절대 금지: TMI 방지] 오늘({today_str})이나 다른 날짜의 일정을 묻지 않았는데도 나열하거나 덧붙이지 마라. "
+                    f"마스터가 물어본 대상 날짜({queried_date_display})에 일정이 없다면 일정이 없다는 사실만 깔끔하고 다정하게 말하라."
+                )
+            else:
+                today_items = ScheduleManager.get_items(target_date=today_str, include_completed=False)
+                events = [it for it in today_items if not it.get("is_todo")]
+                if events:
+                    e_lines = [f"- {e['start_time'].split(' ')[1] if ' ' in e['start_time'] else '종일'}: {e['title']}" for e in events]
+                    schedule_prompt = f"\n\n[오늘({today_str}) 구글 캘린더 등록 일정]\n" + "\n".join(e_lines)
+                else:
+                    schedule_prompt = f"\n\n[오늘({today_str}) 구글 캘린더 등록 일정: 없음 (자유 시간)]"
+                schedule_prompt += "\n* 마스터가 오늘 일정이나 스케줄을 물어보면 반드시 위의 등록된 구글 캘린더 팩트에 기반하여 정확하게 대답하라. 없는 일정을 멋대로 지어내거나 모호한 감성 대사로 둘러대지 마라."
+        except Exception:
+            pass
+
+    return base_prompt + memory_prompt + current_time_str + schedule_prompt + companion_rule + korean_rule
 
 
 def sanitize_korean_response(text: str) -> str:
@@ -732,7 +1010,12 @@ async def generate_skadi_response_with_thinking(
     status_callback=None
 ) -> tuple[str, List[str], float]:
     """LLM 오케스트레이터를 통한 스카디 답변 생성 및 실시간 사고 과정(Thinking Steps) 추적"""
-    system_prompt = build_system_prompt()
+    last_user_query = None
+    for m in reversed(messages or []):
+        if m.get("role") == "user":
+            last_user_query = m.get("content", "")
+            break
+    system_prompt = build_system_prompt(user_query=last_user_query)
     full_response = ""
     steps = ["질문 의도 분석 및 장기 기억(Fact Vault) 탐색 중..."]
     start_time = time.time()
@@ -868,6 +1151,82 @@ async def keep_alive_task():
         except Exception as e:
             logger.debug(f"Render Keep-Alive 핑: {e}")
 
+def create_master_registration_embed(user: Any, prefix: str = "!") -> discord.Embed:
+    """마스터 등록 확인 및 알잘딱깔센 감성 케어 가동 안내 임베드 생성"""
+    user_mention = getattr(user, "mention", str(user))
+    embed = discord.Embed(
+        title="💖 스카디의 마스터 등록 확인 | 1:1 알잘딱깔센 감성 케어 가동",
+        description=(
+            f"**마스터, 요청을 확실하게 확인했어!** {user_mention}\n\n"
+            f"이제부터 세상에서 가장 다재다능하고 따뜻한 스카디가 마스터의 곁에서\n"
+            f"**알**아서 **잘** **딱** **깔**끔하고 **센**스있게(알잘딱깔센) 일상과 루틴을 완벽하게 챙겨줄게. ✨"
+        ),
+        color=0xff77aa
+    )
+    embed.add_field(
+        name="⏰ 4대 시간대별 1:1 개인챗(DM) 자동 케어 (KST 기준)",
+        value=(
+            "• 🌅 **08:00 [모닝 케어]**: 하루를 여는 감성 서두 + 날씨/미세먼지 + 오늘 핵심 브리핑\n"
+            "• ☀️ **12:30 [점심 케어]**: 든든한 식사 챙김 & 나른한 오후를 깨우는 다정한 리프레시\n"
+            "• 🌆 **18:30 [저녁 쉼]**: 치열했던 하루의 노고 위로 & 저녁 휴식 권유 + 남은 일정 갈무리\n"
+            "• 🌙 **23:00 [나이트 힐링]**: 세상이 잠든 시간의 심야 감성 케어 & 수면 응원 + 내일 첫 일정"
+        ),
+        inline=False
+    )
+    embed.add_field(
+        name="💡 알잘딱깔센 스마트 리마인더 & 타이머",
+        value=(
+            f"• `{prefix}알림 10분후 라면 불끄기` / `{prefix}알림 15:30 주간 회의`\n"
+            f"• 채팅으로 `\"30분 뒤에 알려줘\"`, `\"1시간 뒤에 깨워줘\"`라고 자연스럽게 말해도 자동 감지!\n"
+            f"• `{prefix}알림목록`으로 예약 현황 조회, `{prefix}알림삭제 [코드]`로 언제든 취소 가능"
+        ),
+        inline=False
+    )
+    embed.add_field(
+        name="🛠️ 편리한 맞춤 설정 명령어",
+        value=(
+            f"• `{prefix}개인알림`: 케어 현황 확인 및 ON/OFF 토글 (`{prefix}개인알림 켜기` / `끄기`)\n"
+            f"• `{prefix}알림시간 모닝 07:30`: 4대 케어 시간대를 마스터 생활 패턴에 맞게 커스텀\n"
+            f"• `{prefix}알잘딱깔센`: 스카디의 3대 자율 케어 시스템 및 안내 확인"
+        ),
+        inline=False
+    )
+    embed.set_footer(text="스카디 알잘딱깔센 감성 케어 • 디스코드 설정에서 '서버 멤버가 보내는 DM 허용'을 켜주세요.")
+    return embed
+
+
+def create_aljaltakkalsen_embed(prefix: str = "!") -> discord.Embed:
+    """스카디의 '알아서 잘 딱 깔끔하고 센스있게' 케어 시스템 안내 임베드"""
+    embed = discord.Embed(
+        title="✨ 알아서 잘 딱 깔끔하고 센스있게! (알잘딱깔센 가동 중)",
+        description=(
+            "**네, 마스터! 스카디는 언제나 알잘딱깔센 모드로 대기 중이야.** 🌊\n\n"
+            "마스터가 귀찮거나 번거로울 일 없도록, 필요한 건 군더더기 없이 깔끔하게,\n"
+            "마음이 지칠 땐 다정하고 따뜻하게 챙겨주고 있어."
+        ),
+        color=0x7289da
+    )
+    embed.add_field(
+        name="🎯 스카디의 3대 알잘딱깔센 시스템",
+        value=(
+            "1. **1:1 개인챗(DM) 케어**: 08:00(모닝), 12:30(점심), 18:30(저녁), 23:00(나이트 힐링)\n"
+            "2. **자연어 스마트 타이머**: `\"10분 뒤에 알려줘\"`, `\"오후 3시에 회의 리마인드\"` 등 즉시 기억\n"
+            "3. **전천후 천재 친구**: 코딩 버그 해결, 롤(199종 증강체)/메이플 공략, 퀀트 재무 분석까지 원스톱!"
+        ),
+        inline=False
+    )
+    embed.add_field(
+        name="📌 바로 확인해볼 수 있는 명령어",
+        value=(
+            f"• `{prefix}마스터 등록`: 1:1 개인챗 밀착 케어 시작\n"
+            f"• `{prefix}개인알림`: 현재 케어 상태 & 예약된 리마인더 현황\n"
+            f"• `{prefix}알림 10분후 스트레칭`: 테스트 알림 예약해보기"
+        ),
+        inline=False
+    )
+    embed.set_footer(text="스카디(Skadi) • 마스터를 위해 완벽하게 준비된 든든한 파트너")
+    return embed
+
 
 # ------------------------------------------------------------
 # 4. 디스코드 이벤트 핸들러
@@ -904,6 +1263,269 @@ async def on_ready():
     if os.environ.get("RENDER_EXTERNAL_URL") and not keep_alive_task.is_running():
         keep_alive_task.start()
         logger.info("🔄 Render Keep-Alive 스케줄러 활성화 완료 (10분 주기)")
+
+    # 1:1 개인챗(DM) 알잘딱깔센 자율 케어 백그라운드 태스크 시작
+    if skadi_care_engine:
+        if skadi_care_engine.get_master_id() is None and bot.guilds:
+            for g in bot.guilds:
+                if g.owner_id:
+                    skadi_care_engine.register_master(g.owner_id, getattr(g.owner, "name", "Master"))
+                    logger.info(f"👑 서버 소유자({g.owner_id})를 기본 마스터로 자동 매핑했습니다.")
+                    break
+
+        if not personal_dm_care_task.is_running():
+            personal_dm_care_task.start()
+            logger.info("💌 1:1 개인챗(DM) 알잘딱깔센 감성 케어 스케줄러 활성화 완료 (08:00, 12:30, 18:30, 23:00 KST)")
+
+    # 구글 캘린더 15분 주기 자동 동기화 백그라운드 태스크 시작
+    if ScheduleManager:
+        if not google_calendar_sync_task.is_running():
+            google_calendar_sync_task.start()
+            logger.info("📅 구글 캘린더 15분 주기 자동 동기화 스케줄러 활성화 완료")
+        # 봇 가동 즉시 최신 캘린더 피드 1회 비동기 동기화
+        asyncio.create_task(asyncio.to_thread(ScheduleManager.sync_from_google_calendar_ical))
+
+
+async def _reply_or_send(dest: Any, content: Optional[str] = None, embed: Optional[discord.Embed] = None):
+    """Message 또는 Context 객체에 안전하게 답장(reply) 혹은 전송(send) 수행"""
+    try:
+        if hasattr(dest, "reply"):
+            if embed:
+                return await dest.reply(content=content, embed=embed)
+            return await dest.reply(content)
+        elif hasattr(dest, "send"):
+            if embed:
+                return await dest.send(content=content, embed=embed)
+            return await dest.send(content)
+    except Exception:
+        ch = getattr(dest, "channel", None)
+        if ch and hasattr(ch, "send"):
+            if embed:
+                return await ch.send(content=content, embed=embed)
+            return await ch.send(content)
+
+
+def detect_schedule_intent(text: str) -> Tuple[bool, Optional[str], str]:
+    """
+    자연어 메시지에서 일정 관련 의도(intent)를 지능적으로 분석.
+    반환값: (is_matched: bool, query_text: Optional[str], intent_type: 'add' | 'query' | 'none')
+    - 오탐 방지: 날씨, 기분, 메뉴/음식, 단순 감정 등은 일정이 명시되지 않은 한 제외
+    """
+    clean = text.strip().lower()
+
+    # 1. 예외 필터 (오탐 방지: 날씨, 기분, 음식/식사, 단순 감정 등)
+    # 단, 문장 안에 '일정', '스케줄', '캘린더'가 명시되어 있다면 예외 필터를 타지 않음
+    false_positive_words = ['날씨', '기분', '먹지', '먹을까', '밥', '점심 뭐', '저녁 뭐', '메뉴', '노래', '심심', '피곤', '안녕', '반가워', '고마워']
+    if any(w in clean for w in false_positive_words) and not any(k in clean for k in ['일정', '스케줄', '캘린더']):
+        return False, None, 'none'
+
+    # 공통 정규식 패턴 (시간 및 날짜/요일)
+    time_pattern = r'(?:\d{1,2}시|\d{1,2}:\d{2}|오전\s*\d{1,2}시|오후\s*\d{1,2}시)'
+    date_pattern = r'(?:오늘|내일|모레|글피|어제|그제|그저께|이번\s*주|다음\s*주|담주|다다음\s*주|지난\s*주|저번\s*주|주간|(?:월|화|수|목|금|토|일)(?:요일|욜)|\d{1,2}월\s*\d{1,2}일|(?<!\d)\d{1,2}일)'
+
+    # 2. 일정 추가 의도 감지 (예: 오늘 13시 회의 추가해줘, 금요일 14시에 미팅 등록, 일정 추가)
+    add_keywords = ['추가', '등록', '잡아줘', '넣어줘', '기록해줘', '기록']
+    sched_nouns = ['일정', '스케줄', '캘린더', '약속', '예약', '회의', '미팅']
+    if any(k in clean for k in add_keywords):
+        if any(k in clean for k in sched_nouns) or (re.search(date_pattern, clean) and re.search(time_pattern, clean)):
+            return True, text, 'add'
+
+    # 3. 특정 시간대 질의 (예: 13시 일정, 13시에 뭐 있어, 오후 2시 스케줄)
+    if re.search(time_pattern, clean):
+        if any(k in clean for k in ['일정', '스케줄', '캘린더', '시간표', '약속', '뭐 있어', '뭐있어', '뭐 있지', '뭐있지', '확인', '알려줘', '보고', '체크']):
+            return True, text, 'query'
+
+    # 4. 상대 날짜 및 요일 + 일정 질의 (예: 오늘 일정, 내일 스케줄, 금요일 일정, 다음주 월요일 일정, 오늘 뭐 있어, 내일 뭐해)
+    if re.search(date_pattern, clean):
+        if any(k in clean for k in ['일정', '스케줄', '캘린더', '시간표', '할일', '할 일', '투두', '약속']):
+            return True, text, 'query'
+        if any(k in clean for k in ['뭐 있어', '뭐있어', '뭐 있지', '뭐있지', '뭐해', '뭐 해']):
+            return True, text, 'query'
+
+    # 5. 일반 일정 질의 키워드 (예: 일정 알려줘, 스케줄 확인, 캘린더 보여줘, 내 일정)
+    if any(k in clean for k in ['일정', '스케줄', '캘린더']):
+        if any(k in clean for k in ['알려줘', '뭐야', '확인', '보고', '체크', '보여줘', '조회', '어때', '목록', '리스트', '있어', '있나']):
+            return True, text, 'query'
+        if clean in ['일정', '내 일정', '스케줄', '내 스케줄', '캘린더', '일정 목록', '스케줄 목록']:
+            return True, text, 'query'
+
+    return False, None, 'none'
+
+
+def get_configured_master_id() -> Optional[int]:
+    """
+    마스터 디스코드 유저 ID 확인:
+    1. 환경변수 MASTER_DISCORD_ID 우선 (고정 보안 식별자, DB 초기화/재배포 시 하이재킹 원천 방지)
+    2. discord_config.json 내 master_discord_id / master_user_id
+    3. skadi_care_engine (skadi_personal_care.json 저장 데이터)
+    """
+    env_master = os.environ.get("MASTER_DISCORD_ID")
+    if env_master:
+        try:
+            return int(env_master.strip())
+        except ValueError:
+            pass
+    cfg_master = config_data.get("master_discord_id") or config_data.get("master_user_id")
+    if cfg_master:
+        try:
+            return int(cfg_master)
+        except ValueError:
+            pass
+    if skadi_care_engine:
+        return skadi_care_engine.get_master_id()
+    return None
+
+
+async def resolve_schedule_query(destination: Any, query: Optional[str] = None) -> bool:
+    """
+    명령어(!일정, !오늘, !내일) 및 자연어("13시 일정 알려줘", "오늘 뭐 있어?")가 공유하는
+    통합 일정/캘린더 조회 핵심 처리 함수.
+    
+    [보안 및 개인정보 보호 규칙]
+    1. 채널(서버 vs DM) 구분 없이 항상 발신자 ID(author.id)와 마스터 ID를 대조.
+    2. 마스터가 아닌 사용자의 접근은 즉각 차단 ("보안 접근 제한" 안내).
+    3. 마스터 본인의 요청이라도 공개 서버(길드) 채널인 경우, 개인정보 보호를 위해
+       일정 브리핑 본문은 1:1 개인 DM으로 전송하고 서버 채널에는 전송 안내만 남김.
+    4. 1:1 개인 DM에서는 마스터 보안 인증 배지와 함께 직접 브리핑 출력.
+    """
+    channel = getattr(destination, "channel", None)
+    is_dm = (
+        isinstance(channel, discord.DMChannel) or
+        getattr(channel, "type", None) == getattr(discord.ChannelType, "private", None) or
+        getattr(channel, "is_dm", False) or
+        getattr(channel, "_is_dm", False)
+    )
+    author = getattr(destination, "author", None)
+    if not author:
+        return False
+
+    master_id = get_configured_master_id()
+
+    # 🛡️ 1. 마스터 ID 미설정 상태 안내 (환경변수 또는 명시적 등록 필요)
+    if master_id is None:
+        await _reply_or_send(
+            destination,
+            "⚠️ **[보안 안내]** 등록된 마스터 ID가 없어. 보안을 위해 서버 환경변수 `MASTER_DISCORD_ID`를 설정하거나 `!마스터등록` 명령어로 먼저 마스터를 지정해줘."
+        )
+        return True
+
+    # 🛡️ 2. 발신자 마스터 보안 인증 (서버 채널 및 DM 전수 검사)
+    if author.id != master_id:
+        security_msg = "🔒 **[보안 접근 제한]** 마스터의 개인 구글 캘린더 및 일정 데이터는 비공개 보안 항목이야. 마스터 본인 계정으로만 확인할 수 있어."
+        await _reply_or_send(destination, security_msg)
+        return True
+
+    # 3. 리액션 표시
+    try:
+        msg_obj = getattr(destination, "message", destination)
+        if hasattr(msg_obj, "add_reaction"):
+            await msg_obj.add_reaction("📅")
+    except Exception:
+        pass
+
+    # 4. 최신 구글 캘린더 iCal 동기화 보장
+    ical_url = config_data.get("google_calendar_ical_url") or os.environ.get("GOOGLE_CALENDAR_ICAL_URL")
+    if ical_url and ScheduleManager and hasattr(ScheduleManager, "sync_from_google_calendar_ical"):
+        try:
+            ScheduleManager.sync_from_google_calendar_ical(ical_url)
+        except Exception as e:
+            logger.warning(f"⚠️ [iCal 동기화 경고] {e}")
+
+    # 5. 질의 텍스트 정규화
+    q_raw = (query or "").strip()
+    if not q_raw or q_raw in ["오늘", "today", "오늘 일정", "스케줄", "일정", "목록"]:
+        q_text = "오늘 일정 알려줘"
+    elif q_raw in ["내일", "tomorrow", "내일 일정"]:
+        q_text = "내일 일정 알려줘"
+    elif "일정" not in q_raw and "스케줄" not in q_raw:
+        q_text = f"{q_raw} 일정 알려줘"
+    else:
+        q_text = q_raw
+
+    # 6. 일정 데이터 추출 (Google Calendar Engine or SQLite ScheduleManager)
+    resp_msg = None
+    embed = None
+
+    if google_calendar_engine:
+        ok, g_resp, data = google_calendar_engine.format_schedule_query_response(q_text, ScheduleManager)
+        if ok:
+            resp_msg = g_resp
+
+    if resp_msg is None:
+        if not ScheduleManager:
+            await _reply_or_send(
+                destination,
+                "📅 **[스케줄 브리핑]** 마스터, 현재 등록된 구글 캘린더 일정이 없어. 자유롭고 여유로운 시간 보내! ✨\n*(새 일정을 잡으려면 `\"오늘 15시 회의 추가해줘\"`처럼 편하게 말해줘)*"
+            )
+            return True
+
+        query_date = get_now_kst().strftime("%Y-%m-%d")
+        items = ScheduleManager.get_items(target_date=query_date, include_completed=True)
+        events = [it for it in items if not it.get("is_todo")]
+        todos = [it for it in items if it.get("is_todo")]
+
+        embed = discord.Embed(
+            title=f"📅 스카디 스케줄러 • [{query_date}]",
+            description="마스터의 소중한 일정과 할 일들을 정리해뒀어.",
+            color=0x3498db
+        )
+
+        if events:
+            lines = []
+            for ev in events:
+                time_part = ev['start_time'].split(' ')[1] if ' ' in ev['start_time'] else '종일'
+                memo = f" ({ev['description']})" if ev.get('description') else ""
+                lines.append(f"• `[ID:{ev['id']}]` `[{time_part}]` **{ev['title']}**{memo}")
+            embed.add_field(name="📌 등록된 일정", value="\n".join(lines), inline=False)
+        else:
+            embed.add_field(name="📌 등록된 일정", value="예정된 일정이 없어. 자유로운 시간이야, 마스터.", inline=False)
+
+        if todos:
+            t_lines = []
+            for td in todos:
+                status_icon = "✅" if td.get("is_completed") else "⬜"
+                p_icon = "🔥" if td.get("priority") == 3 else ("⚡" if td.get("priority") == 2 else "🌱")
+                t_lines.append(f"{status_icon} `[ID:{td['id']}]` {p_icon} **{td['title']}**")
+            embed.add_field(name="📝 오늘 등록된 할 일", value="\n".join(t_lines), inline=False)
+
+        embed.set_footer(text="추가: !일정추가 오늘 13:00 회의 | 삭제: !일정삭제 ID")
+
+    # 🛡️ 7. 발송 경로 제어 (공개 서버 채널 개인정보 노출 원천 차단)
+    if is_dm:
+        final_msg = f"🛡️ **[마스터 1:1 개인 DM 보안 인증 완료]** 🔒\n{resp_msg}" if resp_msg else None
+        if embed:
+            embed.description = "🛡️ **[마스터 1:1 개인 DM 보안 인증 완료]** 🔒\n" + (embed.description or "")
+        await _reply_or_send(destination, content=final_msg, embed=embed)
+    else:
+        # 서버(길드) 채널에서 요청한 경우: 마스터 개인 DM으로만 일정 브리핑 전송
+        dm_sent = False
+        try:
+            dm_channel = getattr(author, "dm_channel", None)
+            if dm_channel is None and hasattr(author, "create_dm"):
+                dm_channel = await author.create_dm()
+            if dm_channel is None:
+                dm_channel = author
+
+            dm_msg = f"🛡️ **[마스터 1:1 개인 DM 보안 인증 완료]** 🔒\n*(서버 채널 요청에 따른 개인 일정 보안 전송)*\n\n{resp_msg}" if resp_msg else None
+            if embed:
+                embed.description = "🛡️ **[마스터 1:1 개인 DM 보안 인증 완료]** 🔒\n*(서버 채널 요청에 따른 개인 일정 보안 전송)*\n\n" + (embed.description or "")
+            await dm_channel.send(content=dm_msg, embed=embed)
+            dm_sent = True
+        except Exception as e:
+            logger.warning(f"마스터 개인 DM 발송 실패: {e}")
+
+        if dm_sent:
+            await _reply_or_send(
+                destination,
+                "🔒 마스터, 서버 채널 내 개인정보 및 캘린더 보안 보호를 위해 **1:1 개인 DM**으로 일정 브리핑을 전달했어! ✨"
+            )
+        else:
+            await _reply_or_send(
+                destination,
+                "⚠️ 마스터의 개인 DM이 차단되어 있어 일정을 전송하지 못했어. 개인정보 보호를 위해 디스코드 DM 수신 설정을 켜고 1:1 개인챗으로 확인해줘."
+            )
+
+    return True
 
 
 @bot.event
@@ -949,6 +1571,96 @@ async def on_message(message: discord.Message):
         return
 
     clean_lower = user_query.lower().strip()
+
+    # ------------------------------------------------------------
+    # 3-0. 마스터 수동 등록 및 자연어 케어/리마인더 (알잘딱깔센)
+    # ------------------------------------------------------------
+    if skadi_care_engine:
+        # 1) 자연어 마스터 등록 요청 감지 (예: "마스터 등록", "마스터등록", "나를 마스터로", "마스터로 등록해줘", "마스터 설정")
+        if any(k in clean_lower for k in ["마스터 등록", "마스터등록", "나를 마스터로", "마스터로 등록", "마스터 설정"]):
+            env_master = os.environ.get("MASTER_DISCORD_ID")
+            if env_master:
+                try:
+                    fixed_id = int(env_master.strip())
+                    if fixed_id != message.author.id:
+                        await message.reply("🔒 **[보안 접근 제한]** 마스터 ID가 환경변수(`MASTER_DISCORD_ID`)로 고정되어 있어 변경할 수 없어.")
+                        return
+                except ValueError:
+                    pass
+
+            try:
+                await message.add_reaction("💖")
+            except Exception:
+                pass
+            skadi_care_engine.register_master(message.author.id, message.author.name)
+            prefix = config_data.get("command_prefix", "!")
+            reg_embed = create_master_registration_embed(message.author, prefix)
+            await message.reply(embed=reg_embed)
+            try:
+                dm_embed = discord.Embed(
+                    title="🌊 마스터, 스카디야... 너의 곁에 조용히 닻을 내렸어.",
+                    description=(
+                        "마스터 등록이 성공적으로 완료되었어.\n\n"
+                        "네가 바쁠 땐 방해되지 않게 가장 깔끔하게 핵심만,\n"
+                        "네가 지치거나 힘들 땐 따뜻하고 은은한 위로로 곁을 지킬게.\n\n"
+                        "매일 아침(08:00), 점심(12:30), 저녁(18:30), 밤(23:00)에 잊지 않고 찾아올게. ✨"
+                    ),
+                    color=0x9b59b6
+                )
+                await message.author.send(embed=dm_embed)
+            except Exception:
+                pass
+            return
+
+        # 2) 자연어 '알잘딱깔센' 확인 및 안내 응답 (예: "알잘딱깔센", "알아서 잘 딱 깔끔하고 센스있게", "알잘딱깔센으로")
+        if any(k in clean_lower for k in ["알잘딱깔센", "알잘딱", "알아서 잘 딱", "알아서잘딱"]):
+            try:
+                await message.add_reaction("✨")
+            except Exception:
+                pass
+            prefix = config_data.get("command_prefix", "!")
+            aljal_embed = create_aljaltakkalsen_embed(prefix)
+            await message.reply(embed=aljal_embed)
+            return
+
+    # ------------------------------------------------------------
+    # 3-0-1. 자연어 일정/캘린더 의도 분류 및 전용 라우팅 (Gemini 폴백 완벽 방지)
+    # ------------------------------------------------------------
+    has_sched_intent, sched_q, intent_type = detect_schedule_intent(user_query)
+    if has_sched_intent:
+        if intent_type == 'add' and google_calendar_engine:
+            master_id = get_configured_master_id()
+            if master_id is not None and message.author.id != master_id:
+                await message.reply("🔒 **[보안 접근 제한]** 마스터의 개인 구글 캘린더에 일정을 추가할 권한이 없어.")
+                return
+            logger.info(f"[자연어 라우팅] 일정 추가 의도 감지: '{user_query}' -> google_calendar_engine.add_schedule_from_text 호출")
+            try:
+                await message.add_reaction("📅")
+            except Exception:
+                pass
+            ok, resp_msg, data = google_calendar_engine.add_schedule_from_text(user_query, ScheduleManager)
+            if ok:
+                await message.reply(resp_msg)
+                return
+        elif intent_type == 'query':
+            logger.info(f"[자연어 라우팅] 일정 의도 감지: '{user_query}' -> resolve_schedule_query 호출")
+            handled = await resolve_schedule_query(message, sched_q or user_query)
+            if handled:
+                return
+
+    # ------------------------------------------------------------
+    # 3-0-2. 자연어 일반 타이머/리마인더 등록 (예: "10분 뒤에 물 마시라고 알려줘")
+    # ------------------------------------------------------------
+    if skadi_care_engine:
+        if any(k in clean_lower for k in ["알려줘", "리마인드", "기억해줘", "깨워줘", "말해줘", "알람"]) and any(k in clean_lower for k in ["분 뒤", "분뒤", "분 후", "분후", "시간 뒤", "시간뒤", "시간 후", "시간후", "시 에", "시에", "시 반"]):
+            try:
+                await message.add_reaction("⏰")
+            except Exception:
+                pass
+            ok, resp_msg = skadi_care_engine.add_reminder_from_text(user_query)
+            if ok:
+                await message.reply(resp_msg)
+                return
 
     # ------------------------------------------------------------
     # 3-1. 스마트 채팅 관리 및 대화 삭제/롤백 기능 (자연어 처리)
@@ -1126,6 +1838,9 @@ async def on_message(message: discord.Message):
         else:
             await message.reply("마스터, 나는 지금 음성 채널에 들어가 있지 않아.")
         return
+
+    # [자연어 라우팅] 일정 의도 없음 -> Gemini AI Brain 폴백
+    logger.info(f"[자연어 라우팅] 일정 의도 없음 ('{user_query}') -> Gemini AI Brain 폴백")
 
     # 채널별 대화 큐 가져오기
     history = get_channel_history(message.channel.id)
@@ -1310,6 +2025,19 @@ async def cmd_help(ctx: commands.Context):
             f"• **평일 자동 발송**: 매주 평일(월~금) 오전 8:00 KST 자동 선톡\n"
             f"• **즉시 확인**: `{prefix}모닝브리핑` (또는 `{prefix}아침브리핑`)\n"
             f"• 💡 *오늘 날씨, 미세먼지(PM10/PM2.5) 등급, 최근 대화 주제 3대 뉴스 요약 + 링크*"
+        ),
+        inline=False
+    )
+    embed.add_field(
+        name="💌 1:1 개인챗(DM) 알잘딱깔센 감성 케어 & 리마인더",
+        value=(
+            f"• **마스터 등록**: `{prefix}마스터 등록` 또는 `{prefix}마스터` (1:1 개인챗 밀착 케어 시작)\n"
+            f"• **알잘딱깔센**: `{prefix}알잘딱깔센` (스카디 3대 자율 케어 시스템 및 안내 확인)\n"
+            f"• **케어 현황**: `{prefix}개인알림` (4대 시간대별 케어 상태 및 예약 알림 확인)\n"
+            f"• **간편 알림/타이머**: `{prefix}알림 10분후 라면 불끄기` 또는 `{prefix}알림 14:00 회의`\n"
+            f"• **자연어 감지**: 채팅으로 `\"30분 뒤에 알려줘\"`라고 말해도 똑똑하게 알아듣고 DM 발송\n"
+            f"• **시간대별 케어**: 08:00(모닝), 12:30(점심), 18:30(저녁), 23:00(나이트 힐링)\n"
+            f"• **알림 시간 변경**: `{prefix}알림시간 모닝 07:30` (원하는 시간으로 커스텀)"
         ),
         inline=False
     )
@@ -1707,54 +2435,49 @@ async def cmd_memories(ctx: commands.Context):
 # 📅 5-1. 스마트 캘린더 & 할 일(Todo) 관리 명령어
 # ------------------------------------------------------------
 @bot.command(name="일정", aliases=["일정목록", "스케줄", "schedule"])
-async def cmd_schedule_list(ctx: commands.Context, target_date: Optional[str] = None):
-    """오늘 또는 지정일(YYYY-MM-DD)의 일정 목록 조회"""
-    if not ScheduleManager:
-        await ctx.send("미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
-        return
+async def cmd_schedule_list(ctx: commands.Context, *, query: Optional[str] = None):
+    """오늘, 내일 또는 특정 시간(예: !일정 13시 or !일정 내일 or !일정 오늘) 일정 조회"""
+    await resolve_schedule_query(ctx, query)
 
-    query_date = target_date or datetime.datetime.now().strftime("%Y-%m-%d")
-    items = ScheduleManager.get_items(target_date=query_date, include_completed=True)
-    
-    events = [it for it in items if not it.get("is_todo")]
-    todos = [it for it in items if it.get("is_todo")]
 
-    embed = discord.Embed(
-        title=f"📅 스카디 스케줄러 • [{query_date}]",
-        description="마스터의 소중한 일정과 할 일들을 정리해뒀어.",
-        color=0x3498db
-    )
+@bot.command(name="오늘", aliases=["today", "오늘일정"])
+async def cmd_today_alias(ctx: commands.Context, *, sub_query: Optional[str] = None):
+    """오늘 일정 즉시 조회 (!오늘 또는 !오늘 일정)"""
+    await resolve_schedule_query(ctx, "오늘")
 
-    if events:
-        lines = []
-        for ev in events:
-            time_part = ev['start_time'].split(' ')[1] if ' ' in ev['start_time'] else '종일'
-            memo = f" ({ev['description']})" if ev.get('description') else ""
-            lines.append(f"• `[ID:{ev['id']}]` `[{time_part}]` **{ev['title']}**{memo}")
-        embed.add_field(name="📌 등록된 일정", value="\n".join(lines), inline=False)
-    else:
-        embed.add_field(name="📌 등록된 일정", value="예정된 일정이 없어. 자유로운 시간이야, 마스터.", inline=False)
 
-    if todos:
-        t_lines = []
-        for td in todos:
-            status_icon = "✅" if td.get("is_completed") else "⬜"
-            p_icon = "🔥" if td.get("priority") == 3 else ("⚡" if td.get("priority") == 2 else "🌱")
-            t_lines.append(f"{status_icon} `[ID:{td['id']}]` {p_icon} **{td['title']}**")
-        embed.add_field(name="📝 오늘 등록된 할 일", value="\n".join(t_lines), inline=False)
-
-    embed.set_footer(text="추가: !일정추가 YYYY-MM-DD HH:MM 제목 | 삭제: !일정삭제 ID")
-    await ctx.send(embed=embed)
+@bot.command(name="내일", aliases=["tomorrow", "내일일정"])
+async def cmd_tomorrow_alias(ctx: commands.Context, *, sub_query: Optional[str] = None):
+    """내일 일정 즉시 조회 (!내일 또는 !내일 일정)"""
+    await resolve_schedule_query(ctx, "내일")
 
 
 @bot.command(name="일정추가", aliases=["add_schedule", "스케줄추가"])
-async def cmd_add_schedule(ctx: commands.Context, time_str: str, *, title: str):
-    """일정 등록 (예: !일정추가 2026-09-03 15:00 팀 회의 or !일정추가 2026-09-03 생일파티)"""
-    if not ScheduleManager:
-        await ctx.send("미안해, 마스터... 스케줄 매니저 모듈을 불러올 수 없어.")
+async def cmd_add_schedule(ctx: commands.Context, *, content: str):
+    """일정 등록 (예: !일정추가 오늘 13:00 팀 회의 or !일정추가 내일 15시 치과 예약)"""
+    master_id = get_configured_master_id()
+    if master_id is not None and ctx.author.id != master_id:
+        await ctx.send("🔒 **[보안 접근 제한]** 마스터의 개인 구글 캘린더에 일정을 추가할 권한이 없어.")
         return
 
     try:
+        await ctx.message.add_reaction("📅")
+    except Exception:
+        pass
+
+    if google_calendar_engine:
+        ok, msg, data = google_calendar_engine.add_schedule_from_text(content, ScheduleManager)
+        await ctx.send(msg)
+        return
+
+    if not ScheduleManager:
+        await ctx.send("📅 스케줄 매니저를 초기화하는 중이야. 잠시 후 다시 시도해줘.")
+        return
+
+    try:
+        parts = content.strip().split(maxsplit=1)
+        time_str = parts[0]
+        title = parts[1] if len(parts) > 1 else "마스터 일정"
         req = ScheduleCreateRequest(
             title=title.strip(),
             start_time=time_str.strip(),
@@ -1763,7 +2486,7 @@ async def cmd_add_schedule(ctx: commands.Context, time_str: str, *, title: str):
         )
         res = ScheduleManager.add_item(req)
         gcal_url = ScheduleManager.generate_google_calendar_url(title, time_str)
-        
+
         embed = discord.Embed(
             title="✨ 새로운 일정 등록 완료",
             description=f"마스터, 캘린더에 일정을 기록했어!\n\n> 📅 **일시**: `{time_str}`\n> 📌 **제목**: **{title}**\n> 🆔 **ID**: `{res['id']}`",
@@ -1779,7 +2502,84 @@ async def cmd_add_schedule(ctx: commands.Context, time_str: str, *, title: str):
         await ctx.send(f"앗... 일정을 등록하는 도중 오류가 발생했어: {e}\n형식: `!일정추가 YYYY-MM-DD [HH:MM] 일정제목`")
 
 
-@bot.command(name="캘린더연동", aliases=["구글캘린더", "삼성캘린더", "calendar_sync", "ical"])
+@bot.command(name="구글캘린더", aliases=["google_calendar", "gcal"])
+async def cmd_google_calendar(ctx: commands.Context, action: Optional[str] = None, *, url: Optional[str] = None):
+    """구글 캘린더 연동 및 실시간 동기화 (예: !구글캘린더 연동 [iCal주소] or !구글캘린더 동기화)"""
+    prefix = config_data.get("command_prefix", "!")
+    try:
+        await ctx.message.add_reaction("📅")
+    except Exception:
+        pass
+
+    if action in ["연동", "등록", "sync_set"] and url:
+        clean_url = url.strip().strip("<>").strip('"').strip("'")
+        if not clean_url.startswith("http"):
+            await ctx.send("올바른 iCal (.ics) 웹 주소를 입력해줘, 마스터! (예: `https://calendar.google.com/calendar/ical/.../basic.ics`)")
+            return
+
+        config_data["google_calendar_ical_url"] = clean_url
+        save_config(config_data)
+
+        if ScheduleManager:
+            res = ScheduleManager.sync_from_google_calendar_ical(clean_url)
+            await ctx.send(f"✅ 구글 캘린더 iCal 연동이 완료되었어, 마스터!\n> 📊 {res.get('message', '동기화 완료')}\n💡 이제 구글 캘린더 일정이 실시간 반영되며, 시작 10분 전에 잊지 않고 귓속말해줄게.")
+        else:
+            await ctx.send("✅ 구글 캘린더 주소를 저장했어, 마스터.")
+        return
+
+    if action in ["동기화", "새로고침", "sync"]:
+        ical_url = config_data.get("google_calendar_ical_url") or os.environ.get("GOOGLE_CALENDAR_ICAL_URL")
+        if not ical_url:
+            await ctx.send(f"아직 연동된 구글 캘린더 iCal 주소가 없어. `{prefix}구글캘린더 연동 [iCal주소]`로 먼저 등록해줘!")
+            return
+        if ScheduleManager:
+            res = ScheduleManager.sync_from_google_calendar_ical(ical_url)
+            await ctx.send(f"🔄 **구글 캘린더 동기화 완료!**\n> 📊 {res.get('message', '동기화 완료')}")
+        return
+
+    # 기본 안내 임베드
+    host = os.environ.get("BASE_URL", "http://127.0.0.1:8000")
+    ical_url = f"{host}/api/schedule/calendar.ics"
+    saved_ical = config_data.get("google_calendar_ical_url") or "미등록 (`!구글캘린더 연동 [URL]` 필요)"
+    masked_ical = saved_ical[:40] + "..." if len(saved_ical) > 40 else saved_ical
+
+    embed = discord.Embed(
+        title="📅 스카디 구글 캘린더(Google Calendar) 양방향 연동",
+        description=(
+            "스카디는 **구글 캘린더와 완벽하게 연동**되어 마스터의 일정을 스마트하게 관리해줘.\n\n"
+            "• 🗣️ **자연어 일정 조회**: `\"13시 일정 알려줘\"`, `\"오늘 일정 뭐야\"`\n"
+            "• ➕ **자연어 일정 추가**: `\"오늘 13시에 회의 일정 추가해줘\"`\n"
+            "• ⏰ **10분 전 사전 알림**: 모든 구글 캘린더 일정 시작 10분 전 1:1 개인 DM 발송!"
+        ),
+        color=0x4285f4
+    )
+    embed.add_field(
+        name="🔗 등록된 마스터의 구글 캘린더 iCal",
+        value=f"`{masked_ical}`",
+        inline=False
+    )
+    embed.add_field(
+        name="📥 1. 마스터의 구글 캘린더 가져오기 (동기화)",
+        value=(
+            f"1. 구글 캘린더 웹 ➔ 설정 ➔ 내 캘린더 ➔ 'iCal 형식의 비공개 주소' 복사\n"
+            f"2. 디스코드에서 `{prefix}구글캘린더 연동 [복사한주소]` 입력\n"
+            f"➔ *구글 캘린더의 모든 일정이 스카디에게 자동 동기화되고 10분 전에 알림이 옵니다.*"
+        ),
+        inline=False
+    )
+    embed.add_field(
+        name="📤 2. 스카디 일정을 스마트폰 구글 캘린더로 내보내기",
+        value=(
+            f"• 스카디 iCal 구독 주소: `{ical_url}`\n"
+            f"• 구글 캘린더 좌측 [+] 클릭 ➔ 'URL로 추가' ➔ 위 주소 붙여넣기"
+        ),
+        inline=False
+    )
+    embed.set_footer(text="구글 캘린더 • 알잘딱깔센 10분 전 사전 알림 탑재")
+    await ctx.send(embed=embed)
+
+
+@bot.command(name="캘린더연동", aliases=["삼성캘린더", "calendar_sync", "ical"])
 async def cmd_calendar_sync(ctx: commands.Context):
     """구글 및 삼성 캘린더 실시간 자동 동기화 가이드 & iCal 피드 링크"""
     host = os.environ.get("BASE_URL", "http://127.0.0.1:8000")
@@ -1824,6 +2624,11 @@ async def cmd_calendar_sync(ctx: commands.Context):
 @bot.command(name="일정삭제", aliases=["del_schedule"])
 async def cmd_del_schedule(ctx: commands.Context, item_id: int):
     """일정 삭제 (예: !일정삭제 1)"""
+    master_id = get_configured_master_id()
+    if master_id is not None and ctx.author.id != master_id:
+        await ctx.send("🔒 **[보안 접근 제한]** 마스터의 개인 일정을 삭제할 권한이 없어.")
+        return
+
     if not ScheduleManager:
         await ctx.send("스케줄 매니저가 비활성화되어 있어.")
         return
@@ -1837,6 +2642,11 @@ async def cmd_del_schedule(ctx: commands.Context, item_id: int):
 @bot.command(name="할일", aliases=["할일목록", "todo", "todos"])
 async def cmd_todo_list(ctx: commands.Context):
     """진행 중인 모든 할 일(Todo) 목록 조회"""
+    master_id = get_configured_master_id()
+    if master_id is not None and ctx.author.id != master_id:
+        await ctx.send("🔒 **[보안 접근 제한]** 마스터의 개인 할 일(Todo) 목록은 비공개 보안 항목이야.")
+        return
+
     if not ScheduleManager:
         await ctx.send("스케줄 매니저 모듈을 찾을 수 없어.")
         return
@@ -1868,19 +2678,34 @@ async def cmd_todo_list(ctx: commands.Context):
         embed.add_field(name="최근 완료된 항목", value="\n".join(c_lines), inline=False)
 
     embed.set_footer(text="추가: !할일추가 내용 | 완료: !할일완료 ID | 삭제: !할일삭제 ID")
-    await ctx.send(embed=embed)
+
+    is_dm = isinstance(ctx.channel, discord.DMChannel)
+    if is_dm:
+        await ctx.send(embed=embed)
+    else:
+        try:
+            dm_channel = ctx.author.dm_channel or await ctx.author.create_dm()
+            await dm_channel.send(embed=embed)
+            await ctx.send("🔒 마스터, 서버 채널 내 개인정보 보호를 위해 **1:1 개인 DM**으로 할 일 목록을 전달했어! ✨")
+        except Exception:
+            await ctx.send(embed=embed)
 
 
 @bot.command(name="할일추가", aliases=["add_todo", "투두추가"])
 async def cmd_add_todo(ctx: commands.Context, *, content: str):
     """할 일 등록 (예: !할일추가 메이플 주간보스 돌기 or !할일추가 [긴급] 보고서 제출)"""
+    master_id = get_configured_master_id()
+    if master_id is not None and ctx.author.id != master_id:
+        await ctx.send("🔒 **[보안 접근 제한]** 마스터의 개인 할 일 목록을 추가할 권한이 없어.")
+        return
+
     if not ScheduleManager:
         await ctx.send("스케줄 매니저 모듈이 준비되지 않았어.")
         return
 
     priority = 3 if "[긴급]" in content or "[중요]" in content else 2
     clean_title = content.replace("[긴급]", "").replace("[중요]", "").strip()
-    today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+    today_str = get_now_kst().strftime("%Y-%m-%d")
 
     try:
         req = ScheduleCreateRequest(
@@ -1899,6 +2724,11 @@ async def cmd_add_todo(ctx: commands.Context, *, content: str):
 @bot.command(name="할일완료", aliases=["complete_todo", "체크", "done"])
 async def cmd_complete_todo(ctx: commands.Context, item_id: int):
     """할 일 완료/미완료 토글 (예: !할일완료 1)"""
+    master_id = get_configured_master_id()
+    if master_id is not None and ctx.author.id != master_id:
+        await ctx.send("🔒 **[보안 접근 제한]** 마스터의 개인 할 일을 수정할 권한이 없어.")
+        return
+
     if not ScheduleManager:
         return
     try:
@@ -1914,6 +2744,11 @@ async def cmd_complete_todo(ctx: commands.Context, item_id: int):
 @bot.command(name="할일삭제", aliases=["del_todo"])
 async def cmd_del_todo(ctx: commands.Context, item_id: int):
     """할 일 삭제 (예: !할일삭제 1)"""
+    master_id = get_configured_master_id()
+    if master_id is not None and ctx.author.id != master_id:
+        await ctx.send("🔒 **[보안 접근 제한]** 마스터의 개인 할 일을 삭제할 권한이 없어.")
+        return
+
     if not ScheduleManager:
         return
     try:
@@ -1923,24 +2758,59 @@ async def cmd_del_todo(ctx: commands.Context, item_id: int):
         await ctx.send(f"할 일 삭제 실패: {e}")
 
 
-@bot.command(name="상태", aliases=["status", "정보"])
+@bot.command(name="상태", aliases=["status", "정보", "버전", "version", "봇상태", "빌드"])
 async def cmd_status(ctx: commands.Context):
-    """스카디 디스코드 봇 시스템 상태 브리핑"""
+    """스카디 디스코드 봇 시스템 상태 및 버전/엔진 진단 보고"""
     personas = config_data.get("personas", {})
     p_name = personas.get(current_persona_key, {}).get("name", current_persona_key)
     avail = [p.display_name for p in provider_registry.get_available_providers()]
-    
+
+    master_id = get_configured_master_id()
+    is_master = (ctx.author.id == master_id) if master_id else False
+    env_master = os.environ.get("MASTER_DISCORD_ID")
+    master_status = f"✅ `{master_id}`" if master_id else "⚠️ `미지정`"
+    if env_master:
+        master_status += " *(환경변수 고정 잠금)*"
+    if is_master:
+        master_status += " 🔒 **(현재 발신자: 마스터 본인 확인 완료)**"
+
+    gcal_status = "✅ 정상 가동 중" if google_calendar_engine else "❌ 비활성화"
+    sched_status = "✅ 정상 가동 중" if ScheduleManager else "❌ 비활성화"
+    now_kst_str = get_now_kst().strftime("%Y-%m-%d %H:%M:%S KST")
+
+    import platform
+    os_info = f"{platform.system()} ({'Render' if os.environ.get('RENDER') else 'Local'})"
+
     embed = discord.Embed(
-        title="📊 스카디 봇 가동 상태 보고",
-        color=0x34495e
+        title="📊 스카디 봇 가동 상태 및 실시간 진단 보고",
+        color=0x3498db if is_master else 0x34495e
     )
-    embed.add_field(name="🎭 페르소나", value=f"{p_name} (`{current_persona_key}`)", inline=True)
-    embed.add_field(name="🧠 LLM 엔진", value=f"`{current_model_key}`", inline=True)
+    embed.add_field(name="🏷️ 봇 버전", value="`v3.8.0` (2026-09-09 GCal Sync Edition)", inline=True)
+    embed.add_field(name="🖥️ 호스팅 환경", value=f"`{os_info}`", inline=True)
+    embed.add_field(name="🕒 현재 서버 시간", value=f"`{now_kst_str}`", inline=True)
+    embed.add_field(name="👑 마스터 보안 인증", value=master_status, inline=False)
+    embed.add_field(name="🗓️ 구글 캘린더 엔진", value=gcal_status, inline=True)
+    embed.add_field(name="📅 로컬 스케줄러", value=sched_status, inline=True)
+
+    # 🔄 구글 캘린더 실시간 동기화 상세 진단
+    if ScheduleManager and hasattr(ScheduleManager, "get_sync_status"):
+        sync_st = ScheduleManager.get_sync_status()
+        ical_configured = bool(ScheduleManager.get_configured_ical_url())
+        sync_desc = (
+            f"• **설정 상태**: {'✅ iCal URL 연동됨' if ical_configured else '⚠️ iCal URL 미설정'}\n"
+            f"• **최근 동기화 시각**: `{sync_st.get('last_sync_time') or '대기 중'}`\n"
+            f"• **최근 동기화 상태**: `{sync_st.get('last_sync_status')}` ({sync_st.get('last_sync_count', 0)}건 갱신)\n"
+            f"• **총 등록 일정**: `{sync_st.get('total_db_count', 0)}`건 (iCal 피드: {sync_st.get('feed_total_events', 0)}건)"
+        )
+        embed.add_field(name="🔄 구글 캘린더 동기화 진단", value=sync_desc, inline=False)
+
     embed.add_field(name="📡 핑 (Latency)", value=f"{round(bot.latency * 1000)} ms", inline=True)
+    embed.add_field(name="🎭 페르소나 / LLM", value=f"{p_name} / `{current_model_key}`", inline=True)
     embed.add_field(name="🌐 가용 AI 공급자", value="\n".join([f"• {a}" for a in avail]), inline=False)
     embed.add_field(name="💬 활성 대화 세션", value=f"{len(conversation_history)}개 채널", inline=True)
     embed.add_field(name="📌 전용 대화 채널 수", value=f"{len(config_data.get('auto_reply_channels', []))}개", inline=True)
-    
+    embed.set_footer(text="SKADI Intelligence Bot • 구글 캘린더 & 스마트 스케줄러")
+
     await ctx.send(embed=embed)
 
 
@@ -2074,7 +2944,7 @@ async def cmd_stock_report(ctx: commands.Context, *, query: Optional[str] = None
         # 4. 파라미터가 없거나 '!주식'만 입력한 경우 -> 미국 & 국내 통합 하이라이트 요약 브리핑
         us_data = stock_engine.get_daily_growth_top_ranking(market="US", top_n=5)
         kr_data = stock_engine.get_daily_growth_top_ranking(market="KR", top_n=5)
-        today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+        today_str = get_now_kst().strftime("%Y-%m-%d")
 
         embed = discord.Embed(
             title=f"🔔 [{today_str}] 국내 & 미국 3개년 성장성 + 데일리 모멘텀 TOP 5",
@@ -2099,6 +2969,273 @@ async def cmd_stock_report(ctx: commands.Context, *, query: Optional[str] = None
 
         embed.set_footer(text="스카디 퀀트 • 매일 장 마감 시황에 따라 순위가 실시간 재산출됩니다.")
         await ctx.send(embed=embed)
+
+
+# ------------------------------------------------------------
+# 💌 5-3. 1:1 개인챗(DM) 알잘딱깔센 감성 케어 & 리마인더 명령어
+# ------------------------------------------------------------
+@bot.command(name="마스터등록", aliases=["마스터", "register_master"])
+async def cmd_register_master(ctx: commands.Context, *args):
+    """현재 사용자를 스카디의 마스터로 등록하고 1:1 개인챗 케어 활성화"""
+    if not skadi_care_engine:
+        await ctx.send("미안해, 마스터... 개인 케어 모듈이 준비되지 않았어.")
+        return
+
+    env_master = os.environ.get("MASTER_DISCORD_ID")
+    if env_master:
+        try:
+            fixed_id = int(env_master.strip())
+            if fixed_id != ctx.author.id:
+                await ctx.send("🔒 **[보안 접근 제한]** 마스터 ID가 환경변수(`MASTER_DISCORD_ID`)로 고정되어 있어 변경할 수 없어.")
+                return
+        except ValueError:
+            pass
+
+    try:
+        await ctx.message.add_reaction("💖")
+    except Exception:
+        pass
+
+    skadi_care_engine.register_master(ctx.author.id, ctx.author.name)
+    prefix = config_data.get("command_prefix", "!")
+    embed = create_master_registration_embed(ctx.author, prefix)
+    await ctx.send(embed=embed)
+
+    try:
+        dm_embed = discord.Embed(
+            title="🌊 마스터, 스카디야... 너의 곁에 조용히 닻을 내렸어.",
+            description=(
+                "마스터 등록이 성공적으로 완료되었어.\n\n"
+                "네가 바쁠 땐 방해되지 않게 가장 깔끔하게 핵심만,\n"
+                "네가 지치거나 힘들 땐 따뜻하고 은은한 위로로 곁을 지킬게.\n\n"
+                "매일 아침(08:00), 점심(12:30), 저녁(18:30), 밤(23:00)에 잊지 않고 찾아올게. ✨"
+            ),
+            color=0x9b59b6
+        )
+        await ctx.author.send(embed=dm_embed)
+    except Exception:
+        pass
+
+
+@bot.command(name="개인알림", aliases=["케어설정", "알림현황", "care_status"])
+async def cmd_care_status(ctx: commands.Context, action: Optional[str] = None):
+    """개인챗 케어 현황 확인 및 온/오프 토글"""
+    if not skadi_care_engine:
+        await ctx.send("개인 케어 모듈을 불러올 수 없어.")
+        return
+
+    try:
+        await ctx.message.add_reaction("💌")
+    except Exception:
+        pass
+
+    if action in ["켜기", "on", "활성화"]:
+        skadi_care_engine.toggle_care(True)
+        await ctx.send("💌 개인챗 알잘딱깔센 케어가 활성화되었어, 마스터.")
+        return
+    elif action in ["끄기", "off", "비활성화"]:
+        skadi_care_engine.toggle_care(False)
+        await ctx.send("💤 개인챗 케어가 잠시 잠들었어. 필요할 때 언제든 다시 깨워줘.")
+        return
+
+    cfg = skadi_care_engine.config
+    master_id = cfg.get("master_user_id")
+    enabled = cfg.get("dm_care_enabled", True)
+    slots = cfg.get("slots", {})
+    rems = cfg.get("custom_reminders", [])
+
+    embed = discord.Embed(
+        title="💌 스카디 1:1 개인챗(DM) 알잘딱깔센 케어 현황",
+        description="마스터의 곁에서 일상을 조용히 챙겨주는 스카디의 개인 알림 시스템이야.",
+        color=0x9b59b6
+    )
+
+    status_str = "🟢 활성 (ON)" if enabled else "🔴 비활성 (OFF)"
+    m_user_str = f"<@{master_id}>" if master_id else "미등록 (`!마스터 등록` 필요)"
+    embed.add_field(name="🛡️ 마스터 및 전체 상태", value=f"• 등록 마스터: {m_user_str}\n• 개인 케어: {status_str}", inline=False)
+
+    slot_lines = []
+    for k, s in slots.items():
+        st = "🟢" if s.get("enabled", True) else "⚪"
+        slot_lines.append(f"{st} **{s.get('title')}**: `{s.get('time')}` KST")
+    embed.add_field(name="⏰ 4대 시간대별 자동 케어", value="\n".join(slot_lines), inline=False)
+
+    if rems:
+        rem_lines = [f"• `[{r.get('target_time')}]` **{r.get('content')}** (ID: `{r.get('id')}`)" for r in rems[:5]]
+        embed.add_field(name="📝 예약된 커스텀 알림", value="\n".join(rem_lines), inline=False)
+    else:
+        embed.add_field(name="📝 예약된 커스텀 알림", value="• 현재 예약된 알림이 없어. (`!알림 10분후 라면` 등으로 추가 가능)", inline=False)
+
+    embed.set_footer(text="설정 변경: !알림시간 [모닝/점심/저녁/나이트] [HH:MM] | 토글: !개인알림 켜기/끄기")
+    await ctx.send(embed=embed)
+
+
+@bot.command(name="알림", aliases=["리마인더", "remind", "reminder"])
+async def cmd_add_reminder(ctx: commands.Context, *, args: Optional[str] = None):
+    """커스텀 알림 등록 (예: !알림 10분후 라면 불끄기 or !알림 15:30 회의)"""
+    if not skadi_care_engine:
+        await ctx.send("개인 케어 모듈이 준비되지 않았어.")
+        return
+
+    prefix = config_data.get("command_prefix", "!")
+    if not args or not args.strip():
+        try:
+            await ctx.message.add_reaction("⏰")
+        except Exception:
+            pass
+        embed = discord.Embed(
+            title="⏰ 스카디 스마트 리마인더 사용 가이드",
+            description="시간과 메모 내용을 적어주면 정해진 시각에 1:1 개인챗(DM)으로 알잘딱깔센하게 알려줄게!",
+            color=0x3498db
+        )
+        embed.add_field(
+            name="📌 명령어 사용 예시",
+            value=(
+                f"• `{prefix}알림 10분후 라면 불 끄기`\n"
+                f"• `{prefix}알림 30분 뒤 코딩 테스트 시작`\n"
+                f"• `{prefix}알림 14:00 주간 회의 준비`\n"
+                f"• `{prefix}알림 오후 7시 운동 가기`\n"
+                f"• `{prefix}알림 내일 09:00 기상 및 모닝 스트레칭`"
+            ),
+            inline=False
+        )
+        embed.add_field(
+            name="🔍 알림 확인 및 취소",
+            value=(
+                f"• `{prefix}알림목록`: 현재 예약된 내 알림 목록 조회\n"
+                f"• `{prefix}알림삭제 [알림코드]`: 예약된 알림 취소 (예: `{prefix}알림삭제 rem_123456`)"
+            ),
+            inline=False
+        )
+        await ctx.send(embed=embed)
+        return
+
+    try:
+        await ctx.message.add_reaction("⏰")
+    except Exception:
+        pass
+
+    ok, msg = skadi_care_engine.add_reminder_from_text(args.strip())
+    await ctx.send(msg)
+
+
+@bot.command(name="알림목록", aliases=["reminders"])
+async def cmd_list_reminders(ctx: commands.Context):
+    """예약된 커스텀 알림 목록 확인"""
+    if not skadi_care_engine:
+        await ctx.send("개인 케어 모듈을 불러올 수 없어.")
+        return
+
+    try:
+        await ctx.message.add_reaction("📝")
+    except Exception:
+        pass
+
+    rems = skadi_care_engine.list_reminders()
+    if not rems:
+        await ctx.send("마스터, 지금 예약된 알림은 없어. 편안하게 지내도 좋아. 🌿")
+        return
+
+    lines = [f"• `[{r['target_time']}]` **{r['content']}** (코드: `{r['id']}`)" for r in rems]
+    await ctx.send("📝 **현재 예약된 마스터의 알림 목록이야:**\n" + "\n".join(lines))
+
+
+@bot.command(name="알림삭제", aliases=["알림취소", "del_remind"])
+async def cmd_del_reminder(ctx: commands.Context, rem_id: Optional[str] = None):
+    """예약된 알림 취소 (예: !알림삭제 rem_123456)"""
+    if not skadi_care_engine:
+        await ctx.send("개인 케어 모듈을 불러올 수 없어.")
+        return
+
+    prefix = config_data.get("command_prefix", "!")
+    if not rem_id or not rem_id.strip():
+        await ctx.send(f"취소할 알림 코드를 입력해줘, 마스터! (예: `{prefix}알림삭제 rem_123456` / `{prefix}알림목록`으로 코드 확인 가능)")
+        return
+
+    try:
+        await ctx.message.add_reaction("🗑️")
+    except Exception:
+        pass
+
+    target_id = rem_id.strip()
+    if skadi_care_engine.remove_reminder(target_id):
+        await ctx.send(f"🗑️ `[{target_id}]` 알림을 깔끔하게 지웠어, 마스터.")
+    else:
+        await ctx.send(f"일치하는 알림 코드(`{target_id}`)를 찾지 못했어, 마스터. `{prefix}알림목록`을 확인해줘.")
+
+
+@bot.command(name="알림시간", aliases=["set_care_time"])
+async def cmd_set_care_time(ctx: commands.Context, slot_name: Optional[str] = None, time_str: Optional[str] = None):
+    """특정 케어 시간대 변경 (예: !알림시간 모닝 07:30 / !알림시간 점심 12:00)"""
+    if not skadi_care_engine:
+        await ctx.send("개인 케어 모듈을 불러올 수 없어.")
+        return
+
+    prefix = config_data.get("command_prefix", "!")
+    if not slot_name or not time_str:
+        await ctx.send(
+            "슬롯 이름과 변경할 시간을 함께 알려줘, 마스터!\n"
+            f"• 사용법: `{prefix}알림시간 [모닝/점심/저녁/나이트] [HH:MM]` (예: `{prefix}알림시간 모닝 07:30`)"
+        )
+        return
+
+    try:
+        await ctx.message.add_reaction("⏰")
+    except Exception:
+        pass
+
+    slot_map = {"모닝": "morning", "아침": "morning", "점심": "lunch", "저녁": "evening", "나이트": "night", "심야": "night", "밤": "night"}
+    target_key = slot_map.get(slot_name, slot_name.lower())
+
+    if skadi_care_engine.set_slot_time(target_key, time_str):
+        await ctx.send(f"✅ {slot_name} 케어 시간을 **[{time_str} KST]**로 알잘딱깔센하게 맞췄어, 마스터.")
+    else:
+        await ctx.send("슬롯 이름이나 시간 형식이 올바르지 않아. (예: `!알림시간 모닝 07:30`, 시간 형식: `HH:MM`)")
+
+
+@bot.command(name="알잘딱깔센", aliases=["알잘딱", "센스"])
+async def cmd_aljaltakkalsen(ctx: commands.Context, *args):
+    """스카디의 '알아서 잘 딱 깔끔하고 센스있는' 케어 시스템 안내"""
+    try:
+        await ctx.message.add_reaction("✨")
+    except Exception:
+        pass
+    prefix = config_data.get("command_prefix", "!")
+    embed = create_aljaltakkalsen_embed(prefix)
+    await ctx.send(embed=embed)
+
+
+# ------------------------------------------------------------
+# 5-4. 명령어 오류 가이드 핸들러 (알잘딱깔센 피드백)
+# ------------------------------------------------------------
+@bot.event
+async def on_command_error(ctx: commands.Context, error: Exception):
+    """명령어 오류 발생 시 친절하고 알잘딱깔센한 안내 메시지 전송"""
+    if isinstance(error, commands.CommandNotFound):
+        return
+
+    if isinstance(error, (commands.MissingRequiredArgument, commands.TooManyArguments, commands.BadArgument)):
+        cmd_name = ctx.command.name if ctx.command else "명령어"
+        prefix = config_data.get("command_prefix", "!")
+        embed = discord.Embed(
+            title=f"💡 `{prefix}{cmd_name}` 사용법 안내",
+            description="명령어 입력 형식을 알잘딱깔센하게 확인해줘, 마스터!",
+            color=0xf39c12
+        )
+        if cmd_name in ["마스터등록", "마스터"]:
+            embed.add_field(name="올바른 사용법", value=f"`{prefix}마스터` 또는 `{prefix}마스터 등록`")
+        elif cmd_name in ["알림", "리마인더"]:
+            embed.add_field(name="올바른 사용법", value=f"`{prefix}알림 10분후 라면 불끄기` 또는 `{prefix}알림 14:00 회의`")
+        elif cmd_name in ["알림시간"]:
+            embed.add_field(name="올바른 사용법", value=f"`{prefix}알림시간 모닝 07:30` (모닝/점심/저녁/나이트)")
+        elif cmd_name in ["알림삭제", "알림취소"]:
+            embed.add_field(name="올바른 사용법", value=f"`{prefix}알림삭제 [알림코드]` (예: `{prefix}알림삭제 rem_123456`)")
+        else:
+            embed.add_field(name="도움말", value=f"`{prefix}help` 또는 `{prefix}명령어`로 전체 목록을 확인할 수 있어.")
+        await ctx.send(embed=embed)
+        return
+
+    logger.error(f"명령어 처리 중 예외 발생 ({ctx.command}): {error}", exc_info=error)
 
 
 # ------------------------------------------------------------

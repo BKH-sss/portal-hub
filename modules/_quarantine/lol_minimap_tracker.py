@@ -28,8 +28,21 @@ import base64
 import threading
 from typing import Dict, Any, List, Optional, Tuple
 
-from fastapi import APIRouter
-from pydantic import BaseModel, Field
+try:
+    from modules._safe_router import (
+        APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+        JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+        CORSMiddleware, BaseModel, Field
+    )
+except ImportError:
+    try:
+        from _safe_router import (
+            APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+            JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+            CORSMiddleware, BaseModel, Field
+        )
+    except ImportError:
+        pass
 from PIL import Image, ImageDraw
 
 # 고성능 벡터 연산 라이브러리 임포트 (미설치 시 폴백 대비)

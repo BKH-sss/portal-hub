@@ -16,8 +16,21 @@ lol_vision_gap_checker.py
 import time
 from typing import Dict, Any, Optional
 
-from fastapi import APIRouter
-from pydantic import BaseModel, Field
+try:
+    from modules._safe_router import (
+        APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+        JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+        CORSMiddleware, BaseModel, Field
+    )
+except ImportError:
+    try:
+        from _safe_router import (
+            APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+            JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+            CORSMiddleware, BaseModel, Field
+        )
+    except ImportError:
+        pass
 
 try:
     import numpy as np

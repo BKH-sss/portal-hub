@@ -12,8 +12,21 @@ jarvis_extension_router.py
 
 import sys
 from pathlib import Path
-from fastapi import APIRouter
-from fastapi.responses import FileResponse
+try:
+    from modules._safe_router import (
+        APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+        JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+        CORSMiddleware, BaseModel, Field
+    )
+except ImportError:
+    try:
+        from _safe_router import (
+            APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+            JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+            CORSMiddleware, BaseModel, Field
+        )
+    except ImportError:
+        pass
 
 # 상위 디렉토리 참조 추가
 CURRENT_DIR = Path(__file__).parent
@@ -67,8 +80,6 @@ async def serve_admin_dashboard():
 # =============================================================================
 if __name__ == "__main__":
     import uvicorn
-    from fastapi import FastAPI
-    from fastapi.middleware.cors import CORSMiddleware
 
     test_app = FastAPI(title="JARVIS Extension Server (Standalone Test)")
     test_app.add_middleware(
