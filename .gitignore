@@ -26,7 +26,7 @@ mcp_servers.json
 *.log
 *.vtt
 *.db
-data/
+data/*
 !data/portal_data.json
 !data/global_data.json
 .chroma/

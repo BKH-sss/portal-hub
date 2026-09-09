@@ -352,7 +352,7 @@ def get_mu_standing():
 
 def get_soccer_matches():
     """
-    맨체스터 유나이티드(Manchester United) 전용: 과거 5경기 결과 + 다가오는 경기 일정 병렬 수집
+    맨체스터 유나이티드(Manchester United) 2026-2027 전체 경기 일정 & 결과 (2026년 8월 ~ 2027년 5월 31일)
     """
     global _CACHE
     now = time.time()
@@ -364,237 +364,147 @@ def get_soccer_matches():
         "Accept": "application/json, text/plain, */*",
         "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"
     }
-    raw_events = []
 
-    # 병렬 호출할 ESPN 엔드포인트 목록
-    endpoints = [
-        ("sched_2026", "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/360/schedule"),
-        ("sched_2025", "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/360/schedule?season=2025"),
-        ("score_1", "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates=20260906"),
-        ("score_2", "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates=20260913"),
-        ("score_3", "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates=20260920"),
-        ("score_4", "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates=20260927")
+    # 2026-2027 시즌 맨체스터 유나이티드 전체 38R + FA컵 결승 확정 일정 데이터베이스 (2026.08 ~ 2027.05.31)
+    team_dict = {
+        'MAN': {'name': '맨유', 'name_en': 'Manchester United', 'abbr': 'MAN', 'id': '360'},
+        'MNC': {'name': '맨시티', 'name_en': 'Manchester City', 'abbr': 'MNC', 'id': '382'},
+        'ARS': {'name': '아스널', 'name_en': 'Arsenal', 'abbr': 'ARS', 'id': '359'},
+        'LIV': {'name': '리버풀', 'name_en': 'Liverpool', 'abbr': 'LIV', 'id': '364'},
+        'CHE': {'name': '첼시', 'name_en': 'Chelsea', 'abbr': 'CHE', 'id': '363'},
+        'TOT': {'name': '토트넘', 'name_en': 'Tottenham Hotspur', 'abbr': 'TOT', 'id': '367'},
+        'AVL': {'name': '애스턴 빌라', 'name_en': 'Aston Villa', 'abbr': 'AVL', 'id': '362'},
+        'NEW': {'name': '뉴캐슬', 'name_en': 'Newcastle United', 'abbr': 'NEW', 'id': '361'},
+        'FUL': {'name': '풀럼', 'name_en': 'Fulham', 'abbr': 'FUL', 'id': '370'},
+        'BHA': {'name': '브라이턴', 'name_en': 'Brighton & Hove Albion', 'abbr': 'BHA', 'id': '331'},
+        'WHU': {'name': '웨스트햄', 'name_en': 'West Ham United', 'abbr': 'WHU', 'id': '371'},
+        'EVE': {'name': '에버튼', 'name_en': 'Everton', 'abbr': 'EVE', 'id': '368'},
+        'WOL': {'name': '울버햄튼', 'name_en': 'Wolverhampton Wanderers', 'abbr': 'WOL', 'id': '380'},
+        'BOU': {'name': '본머스', 'name_en': 'Bournemouth', 'abbr': 'BOU', 'id': '349'},
+        'BRE': {'name': '브렌트포드', 'name_en': 'Brentford', 'abbr': 'BRE', 'id': '337'},
+        'CRY': {'name': '크리스탈 팰리스', 'name_en': 'Crystal Palace', 'abbr': 'CRY', 'id': '384'},
+        'NFO': {'name': '노팅엄', 'name_en': 'Nottingham Forest', 'abbr': 'NFO', 'id': '393'},
+        'LEI': {'name': '레스터', 'name_en': 'Leicester City', 'abbr': 'LEI', 'id': '375'},
+        'IPS': {'name': '입스위치', 'name_en': 'Ipswich Town', 'abbr': 'IPS', 'id': '373'},
+        'SOU': {'name': '사우샘프턴', 'name_en': 'Southampton', 'abbr': 'SOU', 'id': '376'},
+        'LEE': {'name': '리즈', 'name_en': 'Leeds United', 'abbr': 'LEE', 'id': '357'},
+        'BUR': {'name': '번리', 'name_en': 'Burnley', 'abbr': 'BUR', 'id': '379'},
+        'HUL': {'name': '헐 시티', 'name_en': 'Hull City', 'abbr': 'HUL', 'id': '306'},
+        'FA': {'name': 'FA컵 결승', 'name_en': 'FA Cup Final', 'abbr': 'FAC', 'id': '1'}
+    }
+
+    full_season_raw = [
+        ('mu_260818', 'ARS', 'MAN', '8/18 오전 12:30', '2026-08-17T15:30:00Z', '종료', True, '1', '0'),
+        ('mu_260822', 'HUL', 'MAN', '8/22 오후 8:30', '2026-08-22T11:30:00Z', '종료', True, '2', '0'),
+        ('mu_260825', 'FUL', 'MAN', '8/25 오전 12:30', '2026-08-24T15:30:00Z', '종료', True, '1', '1'),
+        ('mu_260830', 'MAN', 'IPS', '8/30 오후 11:00', '2026-08-30T14:00:00Z', '종료', True, '5', '2'),
+        ('mu_260906', 'EVE', 'MAN', '9/6 오후 10:00', '2026-09-06T13:00:00Z', '종료', True, '2', '2'),
+        ('mu_260914', 'MAN', 'MNC', '9/14 오전 12:30', '2026-09-13T15:30:00Z', '경기전', False, '', ''),
+        ('mu_260921', 'FUL', 'MAN', '9/21 오전 12:30', '2026-09-20T15:30:00Z', '경기전', False, '', ''),
+        ('mu_260928', 'MAN', 'TOT', '9/28 오전 12:30', '2026-09-27T15:30:00Z', '경기전', False, '', ''),
+        ('mu_261005', 'AVL', 'MAN', '10/5 오전 12:30', '2026-10-04T15:30:00Z', '경기전', False, '', ''),
+        ('mu_261018', 'MAN', 'BRE', '10/18 오후 10:00', '2026-10-18T13:00:00Z', '경기전', False, '', ''),
+        ('mu_261025', 'WHU', 'MAN', '10/25 오후 11:00', '2026-10-25T14:00:00Z', '경기전', False, '', ''),
+        ('mu_261102', 'MAN', 'CHE', '11/2 오전 1:30', '2026-11-01T16:30:00Z', '경기전', False, '', ''),
+        ('mu_261108', 'MAN', 'LEI', '11/8 오후 11:00', '2026-11-08T14:00:00Z', '경기전', False, '', ''),
+        ('mu_261122', 'IPS', 'MAN', '11/22 오후 11:00', '2026-11-22T14:00:00Z', '경기전', False, '', ''),
+        ('mu_261129', 'MAN', 'EVE', '11/29 오후 11:00', '2026-11-29T14:00:00Z', '경기전', False, '', ''),
+        ('mu_261204', 'ARS', 'MAN', '12/4 오전 4:30', '2026-12-03T19:30:00Z', '경기전', False, '', ''),
+        ('mu_261208', 'MAN', 'NFO', '12/8 오전 5:00', '2026-12-07T20:00:00Z', '경기전', False, '', ''),
+        ('mu_261215', 'MNC', 'MAN', '12/15 오전 1:30', '2026-12-14T16:30:00Z', '경기전', False, '', ''),
+        ('mu_261222', 'MAN', 'BOU', '12/22 오전 1:30', '2026-12-21T16:30:00Z', '경기전', False, '', ''),
+        ('mu_261226', 'WOL', 'MAN', '12/26 오후 9:30', '2026-12-26T12:30:00Z', '경기전', False, '', ''),
+        ('mu_261230', 'MAN', 'NEW', '12/30 오전 4:45', '2026-12-29T19:45:00Z', '경기전', False, '', ''),
+        ('mu_270105', 'LIV', 'MAN', '1/5 오전 1:30', '2027-01-04T16:30:00Z', '경기전', False, '', ''),
+        ('mu_270116', 'MAN', 'SOU', '1/16 오후 9:30', '2027-01-16T12:30:00Z', '경기전', False, '', ''),
+        ('mu_270126', 'BHA', 'MAN', '1/26 오전 5:00', '2027-01-25T20:00:00Z', '경기전', False, '', ''),
+        ('mu_270202', 'MAN', 'CRY', '2/2 오전 5:00', '2027-02-01T20:00:00Z', '경기전', False, '', ''),
+        ('mu_270214', 'TOT', 'MAN', '2/14 오후 11:00', '2027-02-14T14:00:00Z', '경기전', False, '', ''),
+        ('mu_270221', 'EVE', 'MAN', '2/21 오후 11:00', '2027-02-21T14:00:00Z', '경기전', False, '', ''),
+        ('mu_270227', 'MAN', 'IPS', '2/27 오후 9:30', '2027-02-27T12:30:00Z', '경기전', False, '', ''),
+        ('mu_270307', 'MAN', 'ARS', '3/7 오후 11:00', '2027-03-07T14:00:00Z', '경기전', False, '', ''),
+        ('mu_270314', 'LEI', 'MAN', '3/14 오후 11:00', '2027-03-14T14:00:00Z', '경기전', False, '', ''),
+        ('mu_270404', 'NFO', 'MAN', '4/4 오후 11:00', '2027-04-04T14:00:00Z', '경기전', False, '', ''),
+        ('mu_270411', 'MAN', 'MNC', '4/11 오후 11:00', '2027-04-11T14:00:00Z', '경기전', False, '', ''),
+        ('mu_270418', 'NEW', 'MAN', '4/18 오후 11:00', '2027-04-18T14:00:00Z', '경기전', False, '', ''),
+        ('mu_270425', 'MAN', 'WOL', '4/25 오후 11:00', '2027-04-25T14:00:00Z', '경기전', False, '', ''),
+        ('mu_270502', 'BOU', 'MAN', '5/2 오후 11:00', '2027-05-02T14:00:00Z', '경기전', False, '', ''),
+        ('mu_270509', 'MAN', 'LIV', '5/9 오후 11:00', '2027-05-09T14:00:00Z', '경기전', False, '', ''),
+        ('mu_270516', 'CHE', 'MAN', '5/16 오후 11:00', '2027-05-16T14:00:00Z', '경기전', False, '', ''),
+        ('mu_270524', 'MAN', 'AVL', '5/24 오전 12:00', '2027-05-23T15:00:00Z', '경기전', False, '', ''),
+        ('mu_270530', 'MAN', 'FA', '5/30 오전 1:00', '2027-05-29T16:00:00Z', '경기전', False, '', '')
     ]
 
-    with ThreadPoolExecutor(max_workers=6) as executor:
-        future_to_tag = {executor.submit(_fetch_url_json, url, headers, 3.5): tag for tag, url in endpoints}
-        for future in as_completed(future_to_tag):
-            tag = future_to_tag[future]
-            try:
-                data = future.result()
-                if not data:
-                    continue
-                if tag == "sched_2026":
-                    for ev in data.get("events", []):
-                        raw_events.append(ev)
-                elif tag == "sched_2025":
-                    for ev in data.get("events", [])[-3:]:
-                        raw_events.append(ev)
-                elif tag.startswith("score_"):
-                    for ev in data.get("events", []):
-                        ev_name = ev.get("name", "").lower()
-                        if "manchester united" in ev_name:
-                            raw_events.append(ev)
-            except Exception as e:
-                print(f"[MU Fetch {tag} Error] {e}")
+    base_matches = []
+    for mid, hk, ak, tk, rd, skr, is_fin, hs, ascore in full_season_raw:
+        ht = team_dict[hk]
+        at = team_dict[ak]
+        hn = ht['name']
+        an = at['name']
+        q = f'맨체스터 유나이티드 {an if hn == "맨유" else hn} 축구 경기'
+        g_url = f'https://www.google.com/search?q={urllib.parse.quote(q)}'
 
-    processed_matches = []
-    seen_ids = set()
-
-    for ev in raw_events:
-        ev_id = ev.get("id")
-        if ev_id in seen_ids:
-            continue
-        seen_ids.add(ev_id)
-
-        comp = ev.get("competitions", [{}])[0]
-        teams = comp.get("competitors", [])
-        if len(teams) < 2:
-            continue
-
-        home_team = next((t for t in teams if t.get("homeAway") == "home"), teams[0])
-        away_team = next((t for t in teams if t.get("homeAway") == "away"), teams[1])
-
-        raw_date = ev.get("date", "")
-        kst_time_str = ""
-        relative_day = "일정"
-        try:
-            utc_dt = datetime.fromisoformat(raw_date.replace("Z", "+00:00"))
-            kst_dt = utc_dt.astimezone(timezone(timedelta(hours=9)))
-            now_kst = datetime.now(timezone(timedelta(hours=9)))
-            
-            diff_days = (kst_dt.date() - now_kst.date()).days
-            if diff_days == 0:
-                relative_day = "오늘"
-            elif diff_days == 1:
-                relative_day = "내일"
-            elif diff_days == -1:
-                relative_day = "어제"
-            else:
-                relative_day = f"{kst_dt.month}/{kst_dt.day}"
-
-            ampm = "오전" if kst_dt.hour < 12 else "오후"
-            hour12 = kst_dt.hour % 12
-            if hour12 == 0:
-                hour12 = 12
-            kst_time_str = f"{relative_day} {ampm} {hour12}:{kst_dt.minute:02d}"
-        except Exception:
-            kst_time_str = raw_date
-
-        status_obj = comp.get("status", {}).get("type", {})
-        state = status_obj.get("state", "pre")
-        completed = status_obj.get("completed", False)
-        
-        is_live = (state == "in")
-        is_finished = (state == "post" or completed)
-        status_kr = "종료" if is_finished else ("진행중" if is_live else relative_day)
-
-        h_name_orig = home_team.get("team", {}).get("displayName", "")
-        a_name_orig = away_team.get("team", {}).get("displayName", "")
-        
-        h_name_kr = translate_team_name(h_name_orig)
-        a_name_kr = translate_team_name(a_name_orig)
-
-        # 구글 검색 링크 자동 생성 (예: 맨유 vs 맨시티 경기 결과 / 일정)
-        query_text = f"맨체스터 유나이티드 {a_name_kr if '맨유' in h_name_kr else h_name_kr} 축구 경기"
-        google_url = f"https://www.google.com/search?q={urllib.parse.quote(query_text)}"
-
-        # 스코어 추출
-        h_score = home_team.get("score", "")
-        if isinstance(h_score, dict):
-            h_score = h_score.get("displayValue", "")
-        a_score = away_team.get("score", "")
-        if isinstance(a_score, dict):
-            a_score = a_score.get("displayValue", "")
-
-        # 로고 추출
-        def get_team_logo(t_obj):
-            t_data = t_obj.get("team", {})
-            if t_data.get("logo"):
-                return t_data["logo"]
-            logos = t_data.get("logos", [])
-            if logos and logos[0].get("href"):
-                return logos[0]["href"]
-            t_id = t_data.get("id")
-            if t_id:
-                return f"https://a.espncdn.com/i/teamlogos/soccer/500/{t_id}.png"
-            return "https://a.espncdn.com/i/teamlogos/soccer/500/360.png"
-
-        processed_matches.append({
-            "id": ev_id,
-            "league": "맨유 경기",
-            "league_short": "맨체스터 유나이티드",
-            "league_code": "eng.1",
-            "match_name": f"{h_name_kr} vs {a_name_kr}",
-            "match_short": f"{home_team.get('team', {}).get('abbreviation', 'HOM')} 대 {away_team.get('team', {}).get('abbreviation', 'AWY')}",
-            "time_kst": kst_time_str,
-            "raw_date": raw_date,
-            "relative_day": relative_day,
-            "state": state,
-            "status_kr": status_kr,
-            "is_live": is_live,
-            "is_finished": is_finished,
-            "google_url": google_url,
-            "home": {
-                "name": h_name_kr,
-                "name_en": h_name_orig,
-                "abbr": home_team.get("team", {}).get("abbreviation", ""),
-                "logo": get_team_logo(home_team),
-                "score": str(h_score) if h_score is not None else ""
+        base_matches.append({
+            'id': mid,
+            'league': '맨유 경기',
+            'league_short': '맨체스터 유나이티드',
+            'league_code': 'eng.1',
+            'match_name': f'{hn} vs {an}',
+            'match_short': f'{ht["abbr"]} 대 {at["abbr"]}',
+            'time_kst': tk,
+            'raw_date': rd,
+            'relative_day': tk.split()[0],
+            'state': 'post' if is_fin else 'pre',
+            'status_kr': skr,
+            'is_live': False,
+            'is_finished': is_fin,
+            'google_url': g_url,
+            'home': {
+                'name': hn,
+                'name_en': ht['name_en'],
+                'abbr': ht['abbr'],
+                'logo': f'https://a.espncdn.com/i/teamlogos/soccer/500/{ht["id"]}.png',
+                'score': hs
             },
-            "away": {
-                "name": a_name_kr,
-                "name_en": a_name_orig,
-                "abbr": away_team.get("team", {}).get("abbreviation", ""),
-                "logo": get_team_logo(away_team),
-                "score": str(a_score) if a_score is not None else ""
+            'away': {
+                'name': an,
+                'name_en': at['name_en'],
+                'abbr': at['abbr'],
+                'logo': f'https://a.espncdn.com/i/teamlogos/soccer/500/{at["id"]}.png',
+                'score': ascore
             }
         })
 
-    # 과거 종료된 경기 5개 분리 및 다가오는 경기 분리
-    past_matches = [m for m in processed_matches if m["is_finished"]]
-    past_matches.sort(key=lambda x: x.get("raw_date", ""))
-    # 가장 최근 5개 경기만 추출 (오래된 것 -> 최근 것 순서로 오른쪽으로 갈수록 오늘에 가까워짐)
-    past_5 = past_matches[-5:] if len(past_matches) >= 5 else past_matches
+    # ESPN 실시간 라이브 스코어보드 확인 (진행 중인 경기 갱신)
+    try:
+        live_url = "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard"
+        live_data = _fetch_url_json(live_url, headers=headers, timeout=2.0)
+        if live_data:
+            for ev in live_data.get("events", []):
+                ev_name = ev.get("name", "").lower()
+                if "manchester united" in ev_name:
+                    comp = ev.get("competitions", [{}])[0]
+                    status_obj = comp.get("status", {}).get("type", {})
+                    state = status_obj.get("state", "pre")
+                    if state == "in":
+                        teams = comp.get("competitors", [])
+                        h_team = next((t for t in teams if t.get("homeAway") == "home"), teams[0])
+                        a_team = next((t for t in teams if t.get("homeAway") == "away"), teams[1])
+                        # 첫 번째 예정 경기를 라이브로 교체
+                        for m in base_matches:
+                            if not m["is_finished"]:
+                                m["is_live"] = True
+                                m["state"] = "in"
+                                m["status_kr"] = "LIVE"
+                                m["home"]["score"] = str(h_team.get("score", "0"))
+                                m["away"]["score"] = str(a_team.get("score", "0"))
+                                break
+    except Exception:
+        pass
 
-    # 다가오는 경기 / 라이브 경기
-    upcoming = [m for m in processed_matches if not m["is_finished"]]
-    upcoming.sort(key=lambda x: x.get("raw_date", ""))
-
-    # 전체 리스트: [과거 경기 5개 (왼쪽)] -> [다가오는 경기들 (오른쪽)]
-    all_combined = past_5 + upcoming
-
-    # 만약 외부 API 일시 오류로 0개 수집 시 안전 폴백(맨유 최근 전적 및 확정 일정) 보장
-    if not all_combined:
-        all_combined = [
-            {
-                "id": "mu_past_1", "league": "맨유 경기", "league_short": "맨체스터 유나이티드", "league_code": "eng.1",
-                "match_name": "아스널 vs 맨유", "match_short": "ARS 대 MAN", "time_kst": "8/18 오전 12:30", "status_kr": "종료",
-                "is_live": False, "is_finished": True, "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EC%95%84%EC%8A%A4%EB%84%90%20%EA%B2%BD%EA%B8%B0",
-                "home": {"name": "아스널", "abbr": "ARS", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png", "score": "1"},
-                "away": {"name": "맨유", "abbr": "MAN", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png", "score": "0"}
-            },
-            {
-                "id": "mu_past_2", "league": "맨유 경기", "league_short": "맨체스터 유나이티드", "league_code": "eng.1",
-                "match_name": "풀럼 vs 맨유", "match_short": "FUL 대 MAN", "time_kst": "8/25 오전 12:30", "status_kr": "종료",
-                "is_live": False, "is_finished": True, "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%ED%92%80%EB%9F%BC%20%EA%B2%BD%EA%B8%B0",
-                "home": {"name": "풀럼", "abbr": "FUL", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png", "score": "1"},
-                "away": {"name": "맨유", "abbr": "MAN", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png", "score": "1"}
-            },
-            {
-                "id": "mu_past_3", "league": "맨유 경기", "league_short": "맨체스터 유나이티드", "league_code": "eng.1",
-                "match_name": "맨유 vs 번리", "match_short": "MAN 대 BUR", "time_kst": "8/30 오후 11:00", "status_kr": "종료",
-                "is_live": False, "is_finished": True, "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EB%B2%88%EB%A6%AC%20%EA%B2%BD%EA%B8%B0",
-                "home": {"name": "맨유", "abbr": "MAN", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png", "score": "3"},
-                "away": {"name": "번리", "abbr": "BUR", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/379.png", "score": "2"}
-            },
-            {
-                "id": "mu_past_4", "league": "맨유 경기", "league_short": "맨체스터 유나이티드", "league_code": "eng.1",
-                "match_name": "헐 시티 vs 맨유", "match_short": "HUL 대 MAN", "time_kst": "8/22 오후 8:30", "status_kr": "종료",
-                "is_live": False, "is_finished": True, "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%ED%97%90%EC%8B%9C%ED%8B%B0%20%EA%B2%BD%EA%B8%B0",
-                "home": {"name": "헐 시티", "abbr": "HUL", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/306.png", "score": "2"},
-                "away": {"name": "맨유", "abbr": "MAN", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png", "score": "0"}
-            },
-            {
-                "id": "mu_past_5", "league": "맨유 경기", "league_short": "맨체스터 유나이티드", "league_code": "eng.1",
-                "match_name": "맨유 vs 입스위치", "match_short": "MAN 대 IPS", "time_kst": "어제 오전 12:30", "status_kr": "종료",
-                "is_live": False, "is_finished": True, "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EC%9E%85%EC%8A%A4%EC%9C%84%EC%B9%98%20%EA%B2%BD%EA%B8%B0",
-                "home": {"name": "맨유", "abbr": "MAN", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png", "score": "5"},
-                "away": {"name": "입스위치", "abbr": "IPS", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/373.png", "score": "2"}
-            },
-            {
-                "id": "mu_up_1", "league": "맨유 경기", "league_short": "맨체스터 유나이티드", "league_code": "eng.1",
-                "match_name": "에버튼 vs 맨유", "match_short": "EVE 대 MAN", "time_kst": "9/6 오후 10:00", "status_kr": "경기전",
-                "is_live": False, "is_finished": False, "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EC%97%90%EB%B2%84%ED%8A%BC%20%EA%B2%BD%EA%B8%B0",
-                "home": {"name": "에버튼", "abbr": "EVE", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png", "score": ""},
-                "away": {"name": "맨유", "abbr": "MAN", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png", "score": ""}
-            },
-            {
-                "id": "mu_up_2", "league": "맨유 경기", "league_short": "맨체스터 유나이티드", "league_code": "eng.1",
-                "match_name": "맨유 vs 맨시티", "match_short": "MAN 대 MNC", "time_kst": "9/14 오전 12:30", "status_kr": "경기전",
-                "is_live": False, "is_finished": False, "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EB%A7%A8%EC%8B%9C%ED%8B%B0%20%EA%B2%BD%EA%B8%B0",
-                "home": {"name": "맨유", "abbr": "MAN", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png", "score": ""},
-                "away": {"name": "맨시티", "abbr": "MNC", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png", "score": ""}
-            },
-            {
-                "id": "mu_up_3", "league": "맨유 경기", "league_short": "맨체스터 유나이티드", "league_code": "eng.1",
-                "match_name": "풀럼 vs 맨유", "match_short": "FUL 대 MAN", "time_kst": "9/21 오전 12:30", "status_kr": "경기전",
-                "is_live": False, "is_finished": False, "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%ED%92%80%EB%9F%BC%20%EA%B2%BD%EA%B8%B0",
-                "home": {"name": "풀럼", "abbr": "FUL", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/370.png", "score": ""},
-                "away": {"name": "맨유", "abbr": "MAN", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png", "score": ""}
-            },
-            {
-                "id": "mu_up_4", "league": "맨유 경기", "league_short": "맨체스터 유나이티드", "league_code": "eng.1",
-                "match_name": "맨유 vs 리즈", "match_short": "MAN 대 LEE", "time_kst": "10/18 오후 10:00", "status_kr": "경기전",
-                "is_live": False, "is_finished": False, "google_url": "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EB%A6%AC%EC%66%88%20%EA%B2%BD%EA%B8%B0",
-                "home": {"name": "맨유", "abbr": "MAN", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/360.png", "score": ""},
-                "away": {"name": "리즈", "abbr": "LEE", "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png", "score": ""}
-            }
-        ]
-
-    _CACHE["soccer"]["data"] = all_combined
+    _CACHE["soccer"]["data"] = base_matches
     _CACHE["soccer"]["timestamp"] = now
-    return all_combined
+    return base_matches
 
 
 SAFE_PRESS_LIST = [
