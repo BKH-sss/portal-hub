@@ -12,6 +12,7 @@ venv/
 
 # Secrets & API Keys (CRITICAL SECURITY)
 config.py
+!desktop_overlay/config.py
 .env
 .env.*
 discord_config.json
