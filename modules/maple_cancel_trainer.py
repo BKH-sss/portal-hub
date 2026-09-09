@@ -20,8 +20,21 @@ import ctypes
 import asyncio
 import threading
 from typing import Dict, Any, List, Optional
-from pydantic import BaseModel, Field
-from fastapi import APIRouter, HTTPException
+try:
+    from modules._safe_router import (
+        APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+        JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+        CORSMiddleware, BaseModel, Field
+    )
+except ImportError:
+    try:
+        from _safe_router import (
+            APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+            JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+            CORSMiddleware, BaseModel, Field
+        )
+    except ImportError:
+        pass
 
 router = APIRouter(prefix="/api/maple/cancel", tags=["MapleStory Cancel Trainer"])
 

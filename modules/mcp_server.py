@@ -16,8 +16,21 @@ import json
 import asyncio
 from typing import Dict, Any, List, Optional
 from pathlib import Path
-from fastapi import APIRouter, Request
-from fastapi.responses import JSONResponse
+try:
+    from modules._safe_router import (
+        APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+        JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+        CORSMiddleware, BaseModel, Field
+    )
+except ImportError:
+    try:
+        from _safe_router import (
+            APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+            JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+            CORSMiddleware, BaseModel, Field
+        )
+    except ImportError:
+        pass
 
 # 상위 모듈 참조 설정
 sys.path.append(str(Path(__file__).parent.parent))

@@ -395,16 +395,22 @@ class SkadiPersonalCareEngine:
         m_cfg = slots.get("morning", {})
         if m_cfg.get("enabled", True) and m_cfg.get("time") == hm_str and last_sent.get("morning") != today_str:
             last_sent["morning"] = today_str
-            # 스케줄 정보 조회
+            # 스케줄 정보 조회 전 구글 캘린더 최신 상태 동기화 시도
             sched_lines = []
             if schedule_manager_ref:
+                try:
+                    if hasattr(schedule_manager_ref, "sync_from_google_calendar_ical"):
+                        sync_res = schedule_manager_ref.sync_from_google_calendar_ical()
+                        logger.info(f"[PersonalCare] 모닝 케어 전 구글 캘린더 동기화 완료: {sync_res}")
+                except Exception as sync_err:
+                    logger.warning(f"[PersonalCare] 모닝 케어 구글 캘린더 동기화 경고: {sync_err}")
                 try:
                     items = schedule_manager_ref.get_items(target_date=today_str, include_completed=False)
                     for it in items[:4]:
                         t_part = it['start_time'].split(' ')[1] if ' ' in it['start_time'] else '종일'
                         sched_lines.append(f"• `[{t_part}]` **{it['title']}**")
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.warning(f"[PersonalCare] 모닝 케어 일정 조회 오류: {e}")
             msg, _ = self.build_morning_message(weather_info, sched_lines)
             results.append({"type": "care", "slot": "morning", "text": msg})
 
@@ -437,6 +443,11 @@ class SkadiPersonalCareEngine:
             last_sent["night"] = today_str
             tmr_first = None
             if schedule_manager_ref:
+                try:
+                    if hasattr(schedule_manager_ref, "sync_from_google_calendar_ical"):
+                        schedule_manager_ref.sync_from_google_calendar_ical()
+                except Exception:
+                    pass
                 try:
                     tmr_date = (now + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
                     tmr_items = schedule_manager_ref.get_items(target_date=tmr_date, include_completed=False)

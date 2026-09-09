@@ -597,6 +597,13 @@ async def generate_morning_briefing_content() -> discord.Embed:
     # 📅 오늘의 스케줄 & 할 일(Todo) 연동
     if ScheduleManager:
         try:
+            # 모닝 브리핑 생성 직전 구글 캘린더 최신화
+            if hasattr(ScheduleManager, "sync_from_google_calendar_ical"):
+                try:
+                    ScheduleManager.sync_from_google_calendar_ical()
+                except Exception as _sync_err:
+                    logger.warning(f"모닝 브리핑 구글 캘린더 사전 동기화 경고: {_sync_err}")
+
             today_date = now_kst.strftime("%Y-%m-%d")
             today_items = ScheduleManager.get_items(target_date=today_date, include_completed=False)
             pending_todos = ScheduleManager.get_items(only_todos=True, include_completed=False)
@@ -847,6 +854,24 @@ async def personal_dm_care_task():
 
     except Exception as e:
         logger.error(f"개인챗 케어 태스크 오류: {e}")
+
+
+# ------------------------------------------------------------
+# 2-5. 구글 캘린더 (Google Calendar iCal) 15분 주기 자동 동기화 태스크
+# ------------------------------------------------------------
+@tasks.loop(minutes=15)
+async def google_calendar_sync_task():
+    """15분 주기 구글 캘린더 iCal 백그라운드 자동 동기화 태스크"""
+    if not ScheduleManager:
+        return
+    try:
+        res = await asyncio.to_thread(ScheduleManager.sync_from_google_calendar_ical)
+        if res.get("status") == "success":
+            cnt = res.get("synced_count", 0)
+            if cnt > 0:
+                logger.info(f"🔄 [Google Calendar] 백그라운드 자동 동기화 완료: {cnt}건 갱신 (전체 {res.get('total_events', 0)}건)")
+    except Exception as e:
+        logger.warning(f"⚠️ [Google Calendar] 백그라운드 동기화 예외: {e}")
 
 
 # ------------------------------------------------------------
@@ -1225,6 +1250,14 @@ async def on_ready():
         if not personal_dm_care_task.is_running():
             personal_dm_care_task.start()
             logger.info("💌 1:1 개인챗(DM) 알잘딱깔센 감성 케어 스케줄러 활성화 완료 (08:00, 12:30, 18:30, 23:00 KST)")
+
+    # 구글 캘린더 15분 주기 자동 동기화 백그라운드 태스크 시작
+    if ScheduleManager:
+        if not google_calendar_sync_task.is_running():
+            google_calendar_sync_task.start()
+            logger.info("📅 구글 캘린더 15분 주기 자동 동기화 스케줄러 활성화 완료")
+        # 봇 가동 즉시 최신 캘린더 피드 1회 비동기 동기화
+        asyncio.create_task(asyncio.to_thread(ScheduleManager.sync_from_google_calendar_ical))
 
 
 async def _reply_or_send(dest: Any, content: Optional[str] = None, embed: Optional[discord.Embed] = None):
@@ -2721,12 +2754,25 @@ async def cmd_status(ctx: commands.Context):
         title="📊 스카디 봇 가동 상태 및 실시간 진단 보고",
         color=0x3498db if is_master else 0x34495e
     )
-    embed.add_field(name="🏷️ 봇 버전", value="`v3.7.1` (2026-09-08 Release)", inline=True)
+    embed.add_field(name="🏷️ 봇 버전", value="`v3.8.0` (2026-09-09 GCal Sync Edition)", inline=True)
     embed.add_field(name="🖥️ 호스팅 환경", value=f"`{os_info}`", inline=True)
     embed.add_field(name="🕒 현재 서버 시간", value=f"`{now_kst_str}`", inline=True)
     embed.add_field(name="👑 마스터 보안 인증", value=master_status, inline=False)
     embed.add_field(name="🗓️ 구글 캘린더 엔진", value=gcal_status, inline=True)
     embed.add_field(name="📅 로컬 스케줄러", value=sched_status, inline=True)
+
+    # 🔄 구글 캘린더 실시간 동기화 상세 진단
+    if ScheduleManager and hasattr(ScheduleManager, "get_sync_status"):
+        sync_st = ScheduleManager.get_sync_status()
+        ical_configured = bool(ScheduleManager.get_configured_ical_url())
+        sync_desc = (
+            f"• **설정 상태**: {'✅ iCal URL 연동됨' if ical_configured else '⚠️ iCal URL 미설정'}\n"
+            f"• **최근 동기화 시각**: `{sync_st.get('last_sync_time') or '대기 중'}`\n"
+            f"• **최근 동기화 상태**: `{sync_st.get('last_sync_status')}` ({sync_st.get('last_sync_count', 0)}건 갱신)\n"
+            f"• **총 등록 일정**: `{sync_st.get('total_db_count', 0)}`건 (iCal 피드: {sync_st.get('feed_total_events', 0)}건)"
+        )
+        embed.add_field(name="🔄 구글 캘린더 동기화 진단", value=sync_desc, inline=False)
+
     embed.add_field(name="📡 핑 (Latency)", value=f"{round(bot.latency * 1000)} ms", inline=True)
     embed.add_field(name="🎭 페르소나 / LLM", value=f"{p_name} / `{current_model_key}`", inline=True)
     embed.add_field(name="🌐 가용 AI 공급자", value="\n".join([f"• {a}" for a in avail]), inline=False)
