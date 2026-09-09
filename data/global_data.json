@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-09 20:18:07",
+  "generated_at": "2026-09-09 20:20:34",
   "total_count": 150,
   "market_tickers": [
     {
@@ -46,17 +46,17 @@
     },
     {
       "name": "USD/KRW",
-      "price_str": "1,337.68원",
-      "price": 1337.68,
-      "change": -0.44,
-      "change_str": "-0.44%"
+      "price_str": "1,337.90원",
+      "price": 1337.9,
+      "change": -0.42,
+      "change_str": "-0.42%"
     },
     {
       "name": "BITCOIN",
-      "price_str": "$78,799",
-      "price": 78798.89,
-      "change": 0.46,
-      "change_str": "+0.46%"
+      "price_str": "$78,804",
+      "price": 78804.3,
+      "change": 0.47,
+      "change_str": "+0.47%"
     }
   ],
   "news": {
@@ -146,7 +146,7 @@
         "title_ko": "🤖 [AI·프론티어] Pilots considered aborting landing after touchdown in Miami cargo crash, NTSB says",
         "desc": "Pilots considered aborting landing after touchdown in Miami cargo crash, NTSB says  Reuters",
         "desc_ko": "Pilots considered aborting landing after touchdown in Miami cargo crash, NTSB says",
-        "time_ago": "6h ago",
+        "time_ago": "7h ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788927590,
         "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOOFFTRHY4RnFqaFFMQmJ3d2UzdkpBd2x0ZXVUeG16N2NWTUVrNzBlYWlrQmQ2SDVJbGJmckNkaU40QUxjSV8tcFpaOG1kaWdhaXdodDlCMjc5UG10cm8tZjNoNERFX2tmdG14alFEZlRyblk2RmhVN3dDZWlJVXRITjdqV25TNlFfLUlBMkVvdWpYbi1FeTVlSmhiYjRITEs1VTd1OW9UMGF6QU1zWmQzZWRKSXI4eDM3elladFpITmNGS0R3azc5SWxKV2dlQWRxaUJtbVRB?oc=5",
@@ -222,7 +222,7 @@
         "title_ko": "🤖 [AI·프론티어] Indian shares decline on crude spike; Coforge tumbles after chairman's exit",
         "desc": "Indian shares decline on crude spike; Coforge tumbles after chairman's exit  Reuters",
         "desc_ko": "Indian shares decline on crude spike; Coforge tumbles after chairman's exit",
-        "time_ago": "8h ago",
+        "time_ago": "9h ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788920400,
         "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQUTJ5YTBDcXdScFdqQUJJNmpuSC1YYmZtQUJEbDdlV3dEazhPNWtIb3MwV2lqQTdqakNBZDhlZ21uMHMzNWp4ZFF2djRtZ3hnQnlnRnhzel9CbzJsXzJnSHg3aUlCUGZzZDc1RnpENVBQMEtUUXVYcThYUG1pU1dPdVpqR1BPWjlJSWYwRW02MU9nOVNxV3h5UTFRTHVaSnVPQmU1QW5mZGRWci1oZ2FqUG1TYU9fSGhzS1E?oc=5",
@@ -290,25 +290,6 @@
         ]
       },
       {
-        "id": "orbis_ai_tech_30_1788907920",
-        "category": "ai_tech",
-        "category_label": "AI & Tech",
-        "press": "Reuters",
-        "title": "India's Coforge slides nearly 9% as chairman quits over board evaluation concerns",
-        "title_ko": "🤖 [AI·프론티어] India's Coforge slides nearly 9% as chairman quits over board evaluation concerns",
-        "desc": "India's Coforge slides nearly 9% as chairman quits over board evaluation concerns  Reuters",
-        "desc_ko": "India's Coforge slides nearly 9% as chairman quits over board evaluation concerns",
-        "time_ago": "12h ago",
-        "pubDate": "2026. 09. 09",
-        "timestamp": 1788907920,
-        "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQZVVNWUtmYU1LelZQTWtIUnd6dTJwdUNyaGdZcndoME44YTJFeGRNbFBGbXpXdXF6TmFmUG5POUdNcmsxYWVTckRhMW1RUVhXeEd1LUFoSHdNM0JDVlZqSC1lZy1Zc2VZSVdfTUhNVDZRVDNXZURJYWVhNXZBdmd3V1RfRk1BUWRJbS1KbVNpTDFELWFCUElRd1pzOWxDa0hBdjc2QUFqRG9sTHFGb2ZsVWwzYXBTMTZtNFE?oc=5",
-        "points": [
-          "핵심 내용: India's Coforge slides nearly 9% as chairman quits over board evaluation concerns",
-          "India's Coforge slides nearly 9% as chairman quits over board evaluation concerns  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
         "id": "orbis_ai_tech_39_1788903420",
         "category": "ai_tech",
         "category_label": "AI & Tech",
@@ -366,7 +347,7 @@
         ]
       },
       {
-        "id": "orbis_ai_tech_38_1788901140",
+        "id": "orbis_ai_tech_37_1788901140",
         "category": "ai_tech",
         "category_label": "AI & Tech",
         "press": "Reuters",
@@ -613,7 +594,7 @@
         ]
       },
       {
-        "id": "orbis_ai_tech_32_1788877187",
+        "id": "orbis_ai_tech_31_1788877187",
         "category": "ai_tech",
         "category_label": "AI & Tech",
         "press": "Reuters",
@@ -621,7 +602,7 @@
         "title_ko": "🤖 [AI·프론티어] EU wants initial Chinese action on trade gap by early October",
         "desc": "EU wants initial Chinese action on trade gap by early October  Reuters",
         "desc_ko": "EU wants initial Chinese action on trade gap by early October",
-        "time_ago": "20h ago",
+        "time_ago": "21h ago",
         "pubDate": "2026. 09. 08",
         "timestamp": 1788877187,
         "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPWjNtYW00MklwT1hHUEVPaWVaQmpWVzFJUFE2N05VcUdSOEdldDF2M21WX2VwTWE4NHlndXVaNnVQemp4VFl5UDlpZjBLaXJNMmlmNkxqRmJPZEQ3Y2hVckljVEZjaXkwMDlyNTVqVTNWY1pZODJJMHhNeTgwc2J1Tkd5UkpKeEc2OVpfYVROcW5HZmItRk1tZUF4WVpMOUszTjc3MGNERWk4UQ?oc=5",
@@ -630,9 +611,47 @@
           "EU wants initial Chinese action on trade gap by early October  Reuters",
           "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
+      },
+      {
+        "id": "orbis_ai_tech_88_1788876946",
+        "category": "ai_tech",
+        "category_label": "AI & Tech",
+        "press": "Reuters",
+        "title": "'Harry Potter' publisher Bloomsbury's founder Nigel Newton plots CEO handover after 40 years",
+        "title_ko": "🤖 [AI·프론티어] 'Harry Potter' publisher Bloomsbury's founder Nigel Newton plots CEO handover after 40 years",
+        "desc": "'Harry Potter' publisher Bloomsbury's founder Nigel Newton plots CEO handover after 40 years  Reuters",
+        "desc_ko": "'Harry Potter' publisher Bloomsbury's founder Nigel Newton plots CEO handover after 40 years",
+        "time_ago": "21h ago",
+        "pubDate": "2026. 09. 08",
+        "timestamp": 1788876946,
+        "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQY2NvbGw5aTNrQW5ncFl5Y0JrYkVhbzFSQUt6djl1cGU3R1MtX0lCb2RyYTBQMURWS0VzUktfSjRxd1Bkdkxic25oTmc4SUJleEx2SUo3elNUcGFYa25seWNGU2o0ajNxT2JxaHZyNExkU0Z5enphMTlwRVoxTnluWURUS2tEQjdJaUlNNjlsQmlVNlhhSkRZbFEyRnBOSWVBck02RzQwLW1Ud1pRYWhidkhMRERPRkZtRTV2M3RxdER4Mm1tMmdKWkpPZlBWUQ?oc=5",
+        "points": [
+          "핵심 내용: 'Harry Potter' publisher Bloomsbury's founder Nigel Newton plots CEO handover after 40 years",
+          "'Harry Potter' publisher Bloomsbury's founder Nigel Newton plots CEO handover after 40 years  Reuters",
+          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
       }
     ],
     "economy": [
+      {
+        "id": "orbis_economy_81_1788952672",
+        "category": "economy",
+        "category_label": "Economy & Markets",
+        "press": "WSJ",
+        "title": "Global Bond Markets Take a Breather",
+        "title_ko": "📈 [글로벌 금융·경제] Global Bond Markets Take a Breather",
+        "desc": "Global Bond Markets Take a Breather  WSJ",
+        "desc_ko": "Global Bond Markets Take a Breather",
+        "time_ago": "2m ago",
+        "pubDate": "2026. 09. 09",
+        "timestamp": 1788952672,
+        "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPLW1CTWp1LW5Zclhoc0hEeUlGOV9XelNnUGwtREZoeU9SOGdLR3ZBRDVtY3FDb25Ma2poRXJ5R3dmbVdJVDJTaktpVndRdXJfYWhFT1pMV0tMOURqSGFUWEF1aTVudVVTWXR1Rkh1US1CZmx4VDFVWlBlZTBnRG1RLS1vZ2swaEFtNzh5bzlmVzdKQQ?oc=5",
+        "points": [
+          "핵심 내용: Global Bond Markets Take a Breather",
+          "Global Bond Markets Take a Breather  WSJ",
+          "공신력 검증: 전 세계 주요 언론사 WSJ을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
       {
         "id": "orbis_economy_78_1788949416",
         "category": "economy",
@@ -642,7 +661,7 @@
         "title_ko": "📈 [글로벌 금융·경제] Stocks Climb As Rate Hike Fears Ebb",
         "desc": "Stocks Climb As Rate Hike Fears Ebb  WSJ",
         "desc_ko": "Stocks Climb As Rate Hike Fears Ebb",
-        "time_ago": "54m ago",
+        "time_ago": "56m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788949416,
         "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNaUgwNUxRVFZEcWlGNnRRVU1YYmo0Y2VvcVJDUURTeDBYRzdDSmVFNWZ6RlhGeXZ6cFdsUFpUVENWV2l2TjZaaDRHMXMxODhDb2w2OC1VVU9OZmN1a0x3TnhicUxuVXRQV2N3eWtvbGF1RnNlVDVkZzRRcWRpSGd6Q2hReTM0a1g0OFE?oc=5",
@@ -653,26 +672,26 @@
         ]
       },
       {
-        "id": "orbis_economy_81_1788949176",
+        "id": "orbis_economy_40_1788947926",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "WSJ",
-        "title": "Global Bond Markets Take a Breather",
-        "title_ko": "📈 [글로벌 금융·경제] Global Bond Markets Take a Breather",
-        "desc": "Global Bond Markets Take a Breather  WSJ",
-        "desc_ko": "Global Bond Markets Take a Breather",
-        "time_ago": "58m ago",
+        "title": "Gold Under Pressure With This Week’s Inflation Data in Focus",
+        "title_ko": "📈 [글로벌 금융·경제] Gold Under Pressure With This Week’s Inflation Data in Focus",
+        "desc": "Gold Under Pressure With This Week’s Inflation Data in Focus  WSJ",
+        "desc_ko": "Gold Under Pressure With This Week’s Inflation Data in Focus",
+        "time_ago": "1h ago",
         "pubDate": "2026. 09. 09",
-        "timestamp": 1788949176,
-        "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPLW1CTWp1LW5Zclhoc0hEeUlGOV9XelNnUGwtREZoeU9SOGdLR3ZBRDVtY3FDb25Ma2poRXJ5R3dmbVdJVDJTaktpVndRdXJfYWhFT1pMV0tMOURqSGFUWEF1aTVudVVTWXR1Rkh1US1CZmx4VDFVWlBlZTBnRG1RLS1vZ2swaEFtNzh5bzlmVzdKQQ?oc=5",
+        "timestamp": 1788947926,
+        "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPM0VLc2Z3b1BIeUI5a1plb0luc1J3bE1mUjdyeG9hbTVIZ21laW4wcmcyZTYwNnNqa3VRVFZEY0Jrd28wUVJ6aUFvYmNxa25Sczc1VE1rYWNYWFZFYXZCLW0zMmtHNXp0aU1PRXR5TUt2a3dkV09sYndZckdmTVg1bTVoZDBjc1pVY1hOaGdKS1NCZ1ZrejZqSGJpbml1OGRYUk04WlJaOA?oc=5",
         "points": [
-          "핵심 내용: Global Bond Markets Take a Breather",
-          "Global Bond Markets Take a Breather  WSJ",
+          "핵심 내용: Gold Under Pressure With This Week’s Inflation Data in Focus",
+          "Gold Under Pressure With This Week’s Inflation Data in Focus  WSJ",
           "공신력 검증: 전 세계 주요 언론사 WSJ을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
-        "id": "orbis_economy_66_1788947779",
+        "id": "orbis_economy_67_1788947779",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "WSJ",
@@ -691,7 +710,7 @@
         ]
       },
       {
-        "id": "orbis_economy_35_1788947638",
+        "id": "orbis_economy_34_1788947638",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "WSJ",
@@ -786,7 +805,7 @@
         ]
       },
       {
-        "id": "orbis_economy_65_1788928982",
+        "id": "orbis_economy_66_1788928982",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "WSJ",
@@ -824,7 +843,7 @@
         ]
       },
       {
-        "id": "orbis_economy_64_1788925020",
+        "id": "orbis_economy_65_1788925020",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "CNBC",
@@ -862,7 +881,7 @@
         ]
       },
       {
-        "id": "orbis_economy_34_1788906911",
+        "id": "orbis_economy_33_1788906911",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "Reuters",
@@ -881,7 +900,7 @@
         ]
       },
       {
-        "id": "orbis_economy_91_1788906600",
+        "id": "orbis_economy_86_1788906600",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "WSJ",
@@ -900,7 +919,7 @@
         ]
       },
       {
-        "id": "orbis_economy_86_1788901686",
+        "id": "orbis_economy_88_1788901686",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "Reuters",
@@ -976,7 +995,7 @@
         ]
       },
       {
-        "id": "orbis_economy_29_1788892380",
+        "id": "orbis_economy_28_1788892380",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "WSJ",
@@ -995,7 +1014,7 @@
         ]
       },
       {
-        "id": "orbis_economy_96_1788887818",
+        "id": "orbis_economy_97_1788887818",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "Reuters",
@@ -1022,7 +1041,7 @@
         "title_ko": "📈 [글로벌 금융·경제] Five spots to watch as the bond market creeps up on 5%",
         "desc": "Five spots to watch as the bond market creeps up on 5%  Reuters",
         "desc_ko": "Five spots to watch as the bond market creeps up on 5%",
-        "time_ago": "18h ago",
+        "time_ago": "19h ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788884410,
         "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQTkQyZERqYnVfdnBjajUtTFJ6OE1YT3dZbkhfRHU0MHdRb003eFVnQjJpWHYwekJaR0NSLUdGWDVKZ0pVRzJZLXpXdjRmM2V2SVNpeVByQ3RsOHN6SEUxaV80WHFxZHp2bEJfS3hLUHFvbl9ENkFTWjZnWktvTzktOVk5enBfWkdMVFJldTJn?oc=5",
@@ -1033,7 +1052,7 @@
         ]
       },
       {
-        "id": "orbis_economy_67_1788874902",
+        "id": "orbis_economy_68_1788874902",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "CNBC",
@@ -1090,7 +1109,7 @@
         ]
       },
       {
-        "id": "orbis_economy_97_1788863535",
+        "id": "orbis_economy_98_1788863535",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "WSJ",
@@ -1128,7 +1147,7 @@
         ]
       },
       {
-        "id": "orbis_economy_70_1788861240",
+        "id": "orbis_economy_71_1788861240",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "WSJ",
@@ -1183,30 +1202,11 @@
           "ECB Set to Raise Key Rate Again, Signal Caution on Further Moves  WSJ",
           "공신력 검증: 전 세계 주요 언론사 WSJ을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
-      },
-      {
-        "id": "orbis_economy_87_1788847980",
-        "category": "economy",
-        "category_label": "Economy & Markets",
-        "press": "Bloomberg",
-        "title": "The Wall of Political and Economic Risks Is Growing",
-        "title_ko": "📈 [글로벌 금융·경제] The Wall of Political and Economic Risks Is Growing",
-        "desc": "The Wall of Political and Economic Risks Is Growing  Bloomberg.com",
-        "desc_ko": "The Wall of Political and Economic Risks Is Growing",
-        "time_ago": "1d ago",
-        "pubDate": "2026. 09. 08",
-        "timestamp": 1788847980,
-        "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPNWw4NHV5dC16UWRxRkNKUXRXNXN2SHlhUzVlWVhueXBNRElqZU4tbkpkbE1ZVXVBb1Ffc3RodlNkMnpvd0dfS25nSThCdkZKREZrT2ZSakNkT1dyR19aZFJUUlM3VWhwQ1dpTnJBeHdPNUtPdjMyVldZRTRVTHU4TVRxYUxYVXl6VGo2RE5pNEV2YmNERUJHNXVIY1QtbHpjbGc2ZktSSzhib0VvZnBVUQ?oc=5",
-        "points": [
-          "핵심 내용: The Wall of Political and Economic Risks Is Growing",
-          "The Wall of Political and Economic Risks Is Growing  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
       }
     ],
     "semiconductors": [
       {
-        "id": "orbis_semiconductors_4_1788952075",
+        "id": "orbis_semiconductors_5_1788952075",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "CNBC",
@@ -1214,7 +1214,7 @@
         "title_ko": "🤖 [AI·프론티어] IonQ CEO Niccolo de Masi on quantum computing, AI and cybersecurity",
         "desc": "IonQ CEO Niccolo de Masi on quantum computing, AI and cybersecurity  CNBC",
         "desc_ko": "IonQ CEO Niccolo de Masi on quantum computing, AI and cybersecurity",
-        "time_ago": "10m ago",
+        "time_ago": "12m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788952075,
         "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPeHU2em16eFA4V1dzX3Z2blczeTdmakNnQUxSWUlQaWxmdWhGZVFmMnctUTVTenNLcEk3SWhkS3RvN0JzUTA1bzJZa1pLU1ZZRzVjdzNDVlVsZFQ0d2NJcmUxN2NuR1QwQ090UHQ3ckxWbjk4NHdxODMxUTM2SUFvb0NLTkpsdDBDRmNDRHlvWTl6bEJjRkN4NzkyTlQ1cW1SOEF1RjhBQTk4M3ExS0E?oc=5",
@@ -1233,7 +1233,7 @@
         "title_ko": "💻 [반도체·하드웨어] New chipmaking research may help quantum chips lose less light",
         "desc": "New chipmaking research may help quantum chips lose less light  Stock Titan",
         "desc_ko": "New chipmaking research may help quantum chips lose less light",
-        "time_ago": "18m ago",
+        "time_ago": "20m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788951600,
         "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQSlhyWndZUnVRN0ZlSnB5dXZzUTlQQ0RQWG9UZU9ZV05MZHM2ZVI1bzJtUzc5NjBZcnZLUG5YOW5HOVdEbHZ4cDVZcGdtZTM4bU9zQ3pyeDU1em5EcUU0STZqMjIyc21fbG1oa2NXTUlwbDBXRGxTWHdRWlA4MlZLVnNxMHo5eGtFeTZLZThyaVYyejFibDFlR2ozQnJYMmFUdk1yWW9EczlNZ21fQnF4UXB1Z3I1VFNwLWtGeg?oc=5",
@@ -1244,7 +1244,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_28_1788951237",
+        "id": "orbis_semiconductors_27_1788951237",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "simplywall.st",
@@ -1252,7 +1252,7 @@
         "title_ko": "💻 [반도체·하드웨어] Rigetti Computing (RGTI) Secures $100 Million In CHIPS Act Funding",
         "desc": "Rigetti Computing (RGTI) Secures $100 Million In CHIPS Act Funding  simplywall.st",
         "desc_ko": "Rigetti Computing (RGTI) Secures $100 Million In CHIPS Act Funding",
-        "time_ago": "24m ago",
+        "time_ago": "26m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788951237,
         "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNSUtOZ2NXMWNBbm5QaE1uTW1LRG5nZXdwMzIyVXY4UTd2UXJjRFZVWjkyZTNEZDk1RGxUaTJtSWV6QmNlUzU5YUJMZHR3emRLaENrZWhvYVlTRTBYRmRZYVExSzQtNzJPR3AyVDlub3BrbXpNeVhBVE1MN0FOY2pkbEVJb056YXgyYkJORDJoNzVmTE5SNEFwcTRYWG5PcUdUQ3R3cnRsOVFOcGZKcGFObDU2MU5od3JULWZSR1IwVGFjTDdlR0VIOXFrbVJwazJWZEVxYU83em1DQdIB3wFBVV95cUxORFRYQzNXLThCQ1dEanB0S1hKNEF0OEJBanEwZ1ZrRjlfVGRnX3hNdEdac3ZidlQ3dDAyZ1BSOGgza2tKWmNTb2h2MVJmbjJOeXEybjlITWxndjVoQ19BcG9qVWF4MFpUbDFBTGVYLUJkWXkxWlJyRGRDa01WTHRyc2gwN3hlUXQxRERxUUNJT0Vmc0VHMm9OdWllSDh0LTJySmQxQTlra3NOX19MbV95dHFGeHZGNFVoRzJyY1JJQl8wTVR3SVhoNHV5UnZQc2FDTEkteEowT1lrSUpqTEhz?oc=5",
@@ -1271,7 +1271,7 @@
         "title_ko": "🤖 [AI·프론티어] Israeli startup Quantum Machines builds the brain behind quantum computers",
         "desc": "Israeli startup Quantum Machines builds the brain behind quantum computers  Ynetnews",
         "desc_ko": "Israeli startup Quantum Machines builds the brain behind quantum computers",
-        "time_ago": "25m ago",
+        "time_ago": "27m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788951173,
         "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBfVVdzSG9vQ3EySVVocEhvWDg3UTlOX0hXSHBBMXpKWHA4WkJrM2hNZHo4VG95V2RILUQ3dlJkaTlVNDdTTVpkR21KbjJhbFROejhiUFBrNVluQ2tXaWM3WHlOdWlGNGRQOTMw?oc=5",
@@ -1290,7 +1290,7 @@
         "title_ko": "💻 [반도체·하드웨어] Israeli startup Qedma tackles quantum computing’s biggest weakness",
         "desc": "Israeli startup Qedma tackles quantum computing’s biggest weakness  Ynetnews",
         "desc_ko": "Israeli startup Qedma tackles quantum computing’s biggest weakness",
-        "time_ago": "25m ago",
+        "time_ago": "28m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788951135,
         "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE0zdDRDeG9MTGhCc04xT1Z6N0kwa3VSTzdGRnZFREtfdmFYakNNaWpXdl8tSFVmSHlrQ3VZbHVGR0FQYzNFLTJWMTd4Y2tMVk9JaWJLOEcxTGFiS0R6MWJqYzhGeTMxTlc0alRn?oc=5",
@@ -1309,7 +1309,7 @@
         "title_ko": "💻 [반도체·하드웨어] AMD and Nvidia Just Experienced an Unprecedented Valuation Split",
         "desc": "AMD and Nvidia Just Experienced an Unprecedented Valuation Split  Currently.com",
         "desc_ko": "AMD and Nvidia Just Experienced an Unprecedented Valuation Split",
-        "time_ago": "43m ago",
+        "time_ago": "45m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788950100,
         "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNVlZ1UVo5b1ZGaE11eF9uYktxVi1fM0s4N19wUmViSnFZTG5kQzJLWnViQUVNQjU0dTFMRmVuell5aHFrM2xpalJxUlcwNm5TU2hfY1dUaS1nOU9UcTUwdVZjMm9UaHE3TFlxd2pmUGpvTzYxamJlbll6T0Q2UnJLV3VjSWhnQlFubEljcG5pRUxJamJLOVQ4?oc=5",
@@ -1328,7 +1328,7 @@
         "title_ko": "💻 [반도체·하드웨어] Quantinuum CHIPS into global initiative with $100m R&D award from US government",
         "desc": "Quantinuum CHIPS into global initiative with $100m R&D award from US government  Business Weekly",
         "desc_ko": "Quantinuum CHIPS into global initiative with $100m R&D award from US government",
-        "time_ago": "47m ago",
+        "time_ago": "49m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788949831,
         "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxObGJwREswUHVyZ0x4Q21mYU9TVVFycERtLTFvMERrd0ZiT1Y1RF9PLVMxcmtQWG9CUUVycmhsRTY1cmFOOC1nQXJrY2p4R3FBRWxHMUFzZkJrZFItb2llV1lyYVVDNmMzQVNLTmNRc2ljeTNINTRWc2NKNGRPaEZtQ3FQVVUwQm9ub01zVEQtcnFmOWJ0eFE4S2pTTFBuUExIRU9fWVk1TllUOUc5eHlVdTVaRGdFYm8?oc=5",
@@ -1339,7 +1339,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_2_1788948122",
+        "id": "orbis_semiconductors_3_1788948122",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "Physics World",
@@ -1358,7 +1358,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_72_1788947752",
+        "id": "orbis_semiconductors_64_1788947752",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "TNGlobal",
@@ -1396,6 +1396,44 @@
         ]
       },
       {
+        "id": "orbis_semiconductors_62_1788947349",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Macau Business",
+        "title": "Fujitsu develops diamond-spin quantum computer prototype",
+        "title_ko": "💻 [반도체·하드웨어] Fujitsu develops diamond-spin quantum computer prototype",
+        "desc": "Fujitsu develops diamond-spin quantum computer prototype  Macau Business",
+        "desc_ko": "Fujitsu develops diamond-spin quantum computer prototype",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 09",
+        "timestamp": 1788947349,
+        "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNSUhzTWw5YlFYQTVTbmhwQTJsc1BXMGFmTmtqUEFOekpCT3hITUdZM2dQOWRrRWpXNGhGX1lOUUpaUnhZNW5uRjVNMDVzT0dQUEphc1RCU0tWakRQa1JrY0FGcVhXOFREbU1kb1BzcUJSSmswY0ZoSEs5LVV5bFRETXJyaUZkSWN6UjZ3?oc=5",
+        "points": [
+          "핵심 내용: Fujitsu develops diamond-spin quantum computer prototype",
+          "Fujitsu develops diamond-spin quantum computer prototype  Macau Business",
+          "공신력 검증: 전 세계 주요 언론사 Macau Business을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_1_1788946899",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "NVIDIA",
+        "title": "GTC - NVIDIA",
+        "title_ko": "💻 [반도체·하드웨어] GTC - NVIDIA",
+        "desc": "GTC - NVIDIA  NVIDIA",
+        "desc_ko": "GTC - NVIDIA",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 09",
+        "timestamp": 1788946899,
+        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5IX1lvZGNiMnNKQkk5dzZ1X2g5Y2xnbjgzQU56cnlNcHhMM3V4Szdncl9MVUVEVmtaZzJXUXBxNGtUQ2lBZlNWeXhIWVBad0xVeW8tTWFxQkRmbjFtRHJMdkJETQ?oc=5",
+        "points": [
+          "핵심 내용: GTC - NVIDIA",
+          "GTC - NVIDIA  NVIDIA",
+          "공신력 검증: 전 세계 주요 언론사 NVIDIA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
         "id": "orbis_semiconductors_11_1788946035",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
@@ -1412,6 +1450,25 @@
           "핵심 내용: Nvidia-Backed Firm in Indonesia Signs $3.1 Billion GPU Loan",
           "Nvidia-Backed Firm in Indonesia Signs $3.1 Billion GPU Loan  Bloomberg.com",
           "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_65_1788944100",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "finance.biggo.com",
+        "title": "IonQ Unveils Quantum Computer Blueprint Capable of Cracking Bitcoin Encryption in 25.7 Days",
+        "title_ko": "💻 [반도체·하드웨어] IonQ Unveils Quantum Computer Blueprint Capable of Cracking Bitcoin Encryption in 25.7 Days",
+        "desc": "IonQ Unveils Quantum Computer Blueprint Capable of Cracking Bitcoin Encryption in 25.7 Days  finance.biggo.com",
+        "desc_ko": "IonQ Unveils Quantum Computer Blueprint Capable of Cracking Bitcoin Encryption in 25.7 Days",
+        "time_ago": "2h ago",
+        "pubDate": "2026. 09. 09",
+        "timestamp": 1788944100,
+        "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE8yU2NiZ1RuYldxUlllR0ZSQmJFMElVTm9ZTktYSUtrZHVWdThNek56T1dtVUVCS2J0QndxeDVUbmVzdzBIajAyMGxyUmllMHNySXFlSndMcnRXT2ZKaGFpRU4tVTVjUGRsbllEY29aSktTQ0pRUlE?oc=5",
+        "points": [
+          "핵심 내용: IonQ Unveils Quantum Computer Blueprint Capable of Cracking Bitcoin Encryption in 25.7 Days",
+          "IonQ Unveils Quantum Computer Blueprint Capable of Cracking Bitcoin Encryption in 25.7 Days  finance.biggo.com",
+          "공신력 검증: 전 세계 주요 언론사 finance.biggo.com을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
@@ -1434,7 +1491,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_5_1788943385",
+        "id": "orbis_semiconductors_6_1788943385",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "The Motley Fool",
@@ -1472,7 +1529,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_67_1788941402",
+        "id": "orbis_semiconductors_71_1788941402",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "TradingView",
@@ -1491,7 +1548,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_58_1788941199",
+        "id": "orbis_semiconductors_60_1788941199",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "TechPowerUp",
@@ -1529,7 +1586,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_76_1788939054",
+        "id": "orbis_semiconductors_77_1788939054",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "Mshale",
@@ -1548,7 +1605,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_85_1788938571",
+        "id": "orbis_semiconductors_87_1788938571",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "ET Entrepreneur",
@@ -1567,7 +1624,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_60_1788936900",
+        "id": "orbis_semiconductors_55_1788936900",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "digitimes",
@@ -1605,26 +1662,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_6_1788936034",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "NVIDIA",
-        "title": "GTC - NVIDIA",
-        "title_ko": "💻 [반도체·하드웨어] GTC - NVIDIA",
-        "desc": "GTC - NVIDIA  NVIDIA",
-        "desc_ko": "GTC - NVIDIA",
-        "time_ago": "4h ago",
-        "pubDate": "2026. 09. 09",
-        "timestamp": 1788936034,
-        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5IX1lvZGNiMnNKQkk5dzZ1X2g5Y2xnbjgzQU56cnlNcHhMM3V4Szdncl9MVUVEVmtaZzJXUXBxNGtUQ2lBZlNWeXhIWVBad0xVeW8tTWFxQkRmbjFtRHJMdkJETQ?oc=5",
-        "points": [
-          "핵심 내용: GTC - NVIDIA",
-          "GTC - NVIDIA  NVIDIA",
-          "공신력 검증: 전 세계 주요 언론사 NVIDIA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_56_1788934223",
+        "id": "orbis_semiconductors_58_1788934223",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "tech-insider.org",
@@ -1681,7 +1719,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_78_1788932205",
+        "id": "orbis_semiconductors_80_1788932205",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "Telecompaper",
@@ -1700,7 +1738,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_27_1788929907",
+        "id": "orbis_semiconductors_28_1788929907",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "fundsforngos.org",
@@ -1736,44 +1774,6 @@
           "IonQ Just Raised Its 2026 Revenue Outlook by About 60%",
           "공신력 검증: 전 세계 주요 언론사 The Motley Fool을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
-      },
-      {
-        "id": "orbis_semiconductors_3_1788926844",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "IBM",
-        "title": "Cleveland Clinic, RIKEN, IBM named Gordon Bell finalists",
-        "title_ko": "💻 [반도체·하드웨어] Cleveland Clinic, RIKEN, IBM named Gordon Bell finalists",
-        "desc": "Cleveland Clinic, RIKEN, IBM named Gordon Bell finalists  IBM",
-        "desc_ko": "Cleveland Clinic, RIKEN, IBM named Gordon Bell finalists",
-        "time_ago": "7h ago",
-        "pubDate": "2026. 09. 09",
-        "timestamp": 1788926844,
-        "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFB6b3pjRHgwNFdVY3NyR3RkSlV0UnR6SVoyTkd0ZlB4UWZLR3pvMDJ6dkEzYXBSQTZWMEdscWdYaF82Z25tOTltY0laT0I2WVFla3AxMG9Mb1psWmJTTEF6ZWJQdXFCWGhpM0xv?oc=5",
-        "points": [
-          "핵심 내용: Cleveland Clinic, RIKEN, IBM named Gordon Bell finalists",
-          "Cleveland Clinic, RIKEN, IBM named Gordon Bell finalists  IBM",
-          "공신력 검증: 전 세계 주요 언론사 IBM을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_14_1788926583",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "IBM Newsroom",
-        "title": "Cleveland Clinic, RIKEN and IBM Team Advance to Finals for 2026 ACM Gordon Bell Prize",
-        "title_ko": "💻 [반도체·하드웨어] Cleveland Clinic, RIKEN and IBM Team Advance to Finals for 2026 ACM Gordon Bell Prize",
-        "desc": "Cleveland Clinic, RIKEN and IBM Team Advance to Finals for 2026 ACM Gordon Bell Prize  IBM Newsroom",
-        "desc_ko": "Cleveland Clinic, RIKEN and IBM Team Advance to Finals for 2026 ACM Gordon Bell Prize",
-        "time_ago": "7h ago",
-        "pubDate": "2026. 09. 09",
-        "timestamp": 1788926583,
-        "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPWlVpNU1uNWdzMF9ManVOaXFqc0lsU096VXF5anpiOVIxUGNsUk1qWks3c1JNMHEwWWJRaXZGeEJDbVF6Y1gwMF8tQndZdy1PYlR6cFlCYnhUeGpBNG91WTJLT0NteFZiRkdIdnREQTVYWDFJOUZHZWo3UWVWeTg4TXBxdldzMXQ0OVBJeXBZMWRWMTNvLUJab2tXVlpQUXI3NlpiOFc5MXZYV2swM2JXUko4RmxxZzc1SzRZclZn?oc=5",
-        "points": [
-          "핵심 내용: Cleveland Clinic, RIKEN and IBM Team Advance to Finals for 2026 ACM Gordon Bell Prize",
-          "Cleveland Clinic, RIKEN and IBM Team Advance to Finals for 2026 ACM Gordon Bell Prize  IBM Newsroom",
-          "공신력 검증: 전 세계 주요 언론사 IBM Newsroom을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
       }
     ],
     "science_space": [
@@ -1786,7 +1786,7 @@
         "title_ko": "🚀 [우주·미래과학] Have we found alien life? Hundreds of scientists weigh in",
         "desc": "Have we found alien life? Hundreds of scientists weigh in  Science Daily",
         "desc_ko": "Have we found alien life? Hundreds of scientists weigh in",
-        "time_ago": "2m ago",
+        "time_ago": "5m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788952519,
         "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB5blVxRE1na002eUFXUWpoRUlMODhVc0FDUldld2Jwb1V3SGxBNjBseUk2T0hHZmdoWEhkZnJIM1VaV0E5Um9tZW9WT0pRdUNCalVLeE4xRmdFaHB6UVUyLVVQazA1bHBsaGlXZjNn?oc=5",
@@ -1835,7 +1835,7 @@
         ]
       },
       {
-        "id": "orbis_science_space_39_1788939929",
+        "id": "orbis_science_space_40_1788939929",
         "category": "science_space",
         "category_label": "Space & Science",
         "press": "Space Daily",
@@ -1892,7 +1892,7 @@
         ]
       },
       {
-        "id": "orbis_science_space_28_1788934849",
+        "id": "orbis_science_space_31_1788934849",
         "category": "science_space",
         "category_label": "Space & Science",
         "press": "NASA",
@@ -1911,7 +1911,7 @@
         ]
       },
       {
-        "id": "orbis_science_space_40_1788926700",
+        "id": "orbis_science_space_42_1788926700",
         "category": "science_space",
         "category_label": "Space & Science",
         "press": "NASA",
@@ -1949,7 +1949,7 @@
         ]
       },
       {
-        "id": "orbis_science_space_46_1788926400",
+        "id": "orbis_science_space_48_1788926400",
         "category": "science_space",
         "category_label": "Space & Science",
         "press": "warwickonline.com",
@@ -1968,7 +1968,7 @@
         ]
       },
       {
-        "id": "orbis_science_space_44_1788925104",
+        "id": "orbis_science_space_45_1788925104",
         "category": "science_space",
         "category_label": "Space & Science",
         "press": "SciTechDaily",
@@ -2006,26 +2006,7 @@
         ]
       },
       {
-        "id": "orbis_science_space_31_1788902805",
-        "category": "science_space",
-        "category_label": "Space & Science",
-        "press": "NASA",
-        "title": "Unlocking Forest Diversity from Above: Fieldwork at Smithsonian’s BiodiversiTREE",
-        "title_ko": "🚀 [우주·미래과학] Unlocking Forest Diversity from Above: Fieldwork at Smithsonian’s BiodiversiTREE",
-        "desc": "Unlocking Forest Diversity from Above: Fieldwork at Smithsonian’s BiodiversiTREE  NASA Science (.gov)",
-        "desc_ko": "Unlocking Forest Diversity from Above: Fieldwork at Smithsonian’s BiodiversiTREE",
-        "time_ago": "13h ago",
-        "pubDate": "2026. 09. 09",
-        "timestamp": 1788902805,
-        "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPaE5wY01IbFVEcjgzVzE4V01XRXI0N251ZjRMUkZFRWRDdHFLS0hNMGNJaDIyN2ZWS19ac3ZrUVl0YktOazRIdDJSQ0s5aTBuODdRVTI5V0d6R3ZodGdUeHJqUE45eWROTmFSR21JazNLWnAyeE5oRzhNdjZkRmdPckpzcEg?oc=5",
-        "points": [
-          "핵심 내용: Unlocking Forest Diversity from Above: Fieldwork at Smithsonian’s BiodiversiTREE",
-          "Unlocking Forest Diversity from Above: Fieldwork at Smithsonian’s BiodiversiTREE  NASA Science (.gov)",
-          "공신력 검증: 전 세계 주요 언론사 NASA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_science_space_32_1788902514",
+        "id": "orbis_science_space_35_1788902514",
         "category": "science_space",
         "category_label": "Space & Science",
         "press": "Earth.com",
@@ -2041,6 +2022,25 @@
           "핵심 내용: Hidden stars make distant galaxies four times heavier than expected",
           "Hidden stars make distant galaxies four times heavier than expected  Earth.com",
           "공신력 검증: 전 세계 주요 언론사 Earth.com을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_science_space_39_1788901577",
+        "category": "science_space",
+        "category_label": "Space & Science",
+        "press": "NASA",
+        "title": "Mount Sharp Inside Gale Crater, Mars",
+        "title_ko": "🚀 [우주·미래과학] Mount Sharp Inside Gale Crater, Mars",
+        "desc": "Mount Sharp Inside Gale Crater, Mars  NASA Science (.gov)",
+        "desc_ko": "Mount Sharp Inside Gale Crater, Mars",
+        "time_ago": "14h ago",
+        "pubDate": "2026. 09. 09",
+        "timestamp": 1788901577,
+        "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBDeVhqOHFKcUJZcFB2VzNxZ3B0S29yR1dXa3p6cVhPTHhET0RTNGc3T2E1LThNNmVBcUFiRDljdzhOZVJVSkRJdDVXUjFWNmtsQXgtTWczZU1tamZOa1lJTHpucXRLekF4bFE2VGlRV1VJdVdRZFJ1bjNB?oc=5",
+        "points": [
+          "핵심 내용: Mount Sharp Inside Gale Crater, Mars",
+          "Mount Sharp Inside Gale Crater, Mars  NASA Science (.gov)",
+          "공신력 검증: 전 세계 주요 언론사 NASA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
@@ -2082,7 +2082,7 @@
         ]
       },
       {
-        "id": "orbis_science_space_30_1788889585",
+        "id": "orbis_science_space_33_1788889585",
         "category": "science_space",
         "category_label": "Space & Science",
         "press": "NASA",
@@ -2158,7 +2158,7 @@
         ]
       },
       {
-        "id": "orbis_science_space_34_1788882470",
+        "id": "orbis_science_space_37_1788882470",
         "category": "science_space",
         "category_label": "Space & Science",
         "press": "NASA",
@@ -2177,7 +2177,7 @@
         ]
       },
       {
-        "id": "orbis_science_space_47_1788881135",
+        "id": "orbis_science_space_49_1788881135",
         "category": "science_space",
         "category_label": "Space & Science",
         "press": "TechCrunch",
@@ -2196,7 +2196,7 @@
         ]
       },
       {
-        "id": "orbis_science_space_17_1788877930",
+        "id": "orbis_science_space_30_1788877930",
         "category": "science_space",
         "category_label": "Space & Science",
         "press": "NASA",
@@ -2211,25 +2211,6 @@
         "points": [
           "핵심 내용: Lunar Surface Innovation Initiative",
           "Lunar Surface Innovation Initiative  nasa.gov",
-          "공신력 검증: 전 세계 주요 언론사 NASA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_science_space_41_1788877683",
-        "category": "science_space",
-        "category_label": "Space & Science",
-        "press": "NASA",
-        "title": "Hanging Sand Dunes within Coprates Chasma",
-        "title_ko": "🚀 [우주·미래과학] Hanging Sand Dunes within Coprates Chasma",
-        "desc": "Hanging Sand Dunes within Coprates Chasma  NASA Science (.gov)",
-        "desc_ko": "Hanging Sand Dunes within Coprates Chasma",
-        "time_ago": "20h ago",
-        "pubDate": "2026. 09. 08",
-        "timestamp": 1788877683,
-        "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxOS1RRNXhCSm5Gbk8zWmdjamlPNnkteXhZOHN1bGIweTBGYVVONXN3YWRxYXV5Qk95Q0VyN2FqOVV3a0NyQzlnZm1jZ1hsX2Rxd3FoZ0hRcV9QbEIwSVZKOHhGTTA3RXhPTnM4Z21zLUhyT255RkwyYVBFZEh3VkQ3MWlR?oc=5",
-        "points": [
-          "핵심 내용: Hanging Sand Dunes within Coprates Chasma",
-          "Hanging Sand Dunes within Coprates Chasma  NASA Science (.gov)",
           "공신력 검증: 전 세계 주요 언론사 NASA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
@@ -2253,7 +2234,26 @@
         ]
       },
       {
-        "id": "orbis_science_space_14_1788876568",
+        "id": "orbis_science_space_17_1788876885",
+        "category": "science_space",
+        "category_label": "Space & Science",
+        "press": "NASA",
+        "title": "Earth’s Energy out of Balance",
+        "title_ko": "🚀 [우주·미래과학] Earth’s Energy out of Balance",
+        "desc": "Earth’s Energy out of Balance  NASA Science (.gov)",
+        "desc_ko": "Earth’s Energy out of Balance",
+        "time_ago": "21h ago",
+        "pubDate": "2026. 09. 08",
+        "timestamp": 1788876885,
+        "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPTXJ2cExXVUxDa3pBdmZ2bVhCV1Nfb0JZT2wwTVVVeTZ2T2FyM0E5d1NocnNwZVJlaWxkNFNDY2xUWU8yQU9OOVd2NUdLVV83QzYwOUhWLUZwN1lMdmhWQjhwZV9oclhLbVVCT1MyS09oNVNUYVlDaGVZMjI3UmxuYnZpVVE4UTh3YVJN?oc=5",
+        "points": [
+          "핵심 내용: Earth’s Energy out of Balance",
+          "Earth’s Energy out of Balance  NASA Science (.gov)",
+          "공신력 검증: 전 세계 주요 언론사 NASA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_science_space_13_1788876568",
         "category": "science_space",
         "category_label": "Space & Science",
         "press": "NASA",
@@ -2291,7 +2291,7 @@
         ]
       },
       {
-        "id": "orbis_science_space_35_1788876212",
+        "id": "orbis_science_space_38_1788876212",
         "category": "science_space",
         "category_label": "Space & Science",
         "press": "NASA",
@@ -2306,25 +2306,6 @@
         "points": [
           "핵심 내용: Mars Orbiter Camera Views the “Face on Mars” – Comparison with Viking",
           "Mars Orbiter Camera Views the “Face on Mars” – Comparison with Viking  NASA Science (.gov)",
-          "공신력 검증: 전 세계 주요 언론사 NASA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_science_space_36_1788876019",
-        "category": "science_space",
-        "category_label": "Space & Science",
-        "press": "NASA",
-        "title": "InSight Images a Sunset on Mars",
-        "title_ko": "🚀 [우주·미래과학] InSight Images a Sunset on Mars",
-        "desc": "InSight Images a Sunset on Mars  NASA Science (.gov)",
-        "desc_ko": "InSight Images a Sunset on Mars",
-        "time_ago": "21h ago",
-        "pubDate": "2026. 09. 08",
-        "timestamp": 1788876019,
-        "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9EeU9BeGlfX0tvMXF6dmZhLTM0LXdyNjhJNTFxb09PUmxHUEhON2pZX21RRmg0V0VLVzJabWUxMUtVNXI2aE1MenlzZFliZG5IZ1FRQUd5LTNqSmtPc1g5anZKeExiUW03aF9GVWF6SHo3TUQ4?oc=5",
-        "points": [
-          "핵심 내용: InSight Images a Sunset on Mars",
-          "InSight Images a Sunset on Mars  NASA Science (.gov)",
           "공신력 검증: 전 세계 주요 언론사 NASA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
@@ -2346,11 +2327,30 @@
           "Hubble Space Telescope Finds Source of Magellanic Stream  NASA Science (.gov)",
           "공신력 검증: 전 세계 주요 언론사 NASA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
+      },
+      {
+        "id": "orbis_science_space_16_1788875835",
+        "category": "science_space",
+        "category_label": "Space & Science",
+        "press": "NASA",
+        "title": "Winds of rubies and sapphires strike the sky of giant planet",
+        "title_ko": "🚀 [우주·미래과학] Winds of rubies and sapphires strike the sky of giant planet",
+        "desc": "Winds of rubies and sapphires strike the sky of giant planet  NASA Science (.gov)",
+        "desc_ko": "Winds of rubies and sapphires strike the sky of giant planet",
+        "time_ago": "21h ago",
+        "pubDate": "2026. 09. 08",
+        "timestamp": 1788875835,
+        "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOQ2M0M1FWcGFfYkxpUmZUUWFaeGdvRmNxZ25pY1RrQUd6ZDFTRi1fU19UN2J4WkRteWMzQXVxUWRYdWZPekhHVVlOSmdIdkgtWi1ndE5oNUlDR21sMFFsa2NYdGFkYnlUUUVkaDZGY2pDYTFSeUpDaGxXeko0Qld0YlU2cU5yUk04S0VSQkstSzNlT3Z1cEFWQVFfcTI3a3U1OHlaUHlNZm1IQQ?oc=5",
+        "points": [
+          "핵심 내용: Winds of rubies and sapphires strike the sky of giant planet",
+          "Winds of rubies and sapphires strike the sky of giant planet  NASA Science (.gov)",
+          "공신력 검증: 전 세계 주요 언론사 NASA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
       }
     ],
     "geopolitics": [
       {
-        "id": "orbis_geopolitics_65_1788950495",
+        "id": "orbis_geopolitics_66_1788950495",
         "category": "geopolitics",
         "category_label": "World & Geopolitics",
         "press": "Reuters",
@@ -2358,7 +2358,7 @@
         "title_ko": "🌐 [국제정세·외교] COMMENTARY: In a global economic heatwave, beware financial wildfires: Mike Dolan",
         "desc": "COMMENTARY: In a global economic heatwave, beware financial wildfires: Mike Dolan  Reuters",
         "desc_ko": "COMMENTARY: In a global economic heatwave, beware financial wildfires: Mike Dolan",
-        "time_ago": "36m ago",
+        "time_ago": "38m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788950495,
         "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPWEM0dzdnbGhzdFJRRUdQVkFya0g4SU5DQVp5d1dybVNBZlhoQnVCd2JLRUNsemJhOC1wd0JvYmE2a2thT2NFZ2w1clhSUy1MUHd4UkhmTm5VNXlLWUpaMmwxUUVZU0ZCTXRwMUNaNEhaV1ZNbWhtUXpwM1RtQVVTd3FJbXR3WThjM1lhOWVwRUN1NFY0SllLcHNraHByVGM1TXpnT29SN1h1TWJwaW1oSUNxU0dvakQ1dDNPdlRja2FSOFdyeXN5dlh1OA?oc=5",
@@ -2407,7 +2407,7 @@
         ]
       },
       {
-        "id": "orbis_geopolitics_66_1788941790",
+        "id": "orbis_geopolitics_67_1788941790",
         "category": "geopolitics",
         "category_label": "World & Geopolitics",
         "press": "Reuters",
@@ -2559,7 +2559,7 @@
         ]
       },
       {
-        "id": "orbis_geopolitics_2_1788918315",
+        "id": "orbis_geopolitics_1_1788918315",
         "category": "geopolitics",
         "category_label": "World & Geopolitics",
         "press": "BBC World",
@@ -2654,7 +2654,7 @@
         ]
       },
       {
-        "id": "orbis_geopolitics_74_1788902503",
+        "id": "orbis_geopolitics_59_1788902503",
         "category": "geopolitics",
         "category_label": "World & Geopolitics",
         "press": "Reuters",
@@ -2692,7 +2692,7 @@
         ]
       },
       {
-        "id": "orbis_geopolitics_51_1788901140",
+        "id": "orbis_geopolitics_52_1788901140",
         "category": "geopolitics",
         "category_label": "World & Geopolitics",
         "press": "Reuters",
@@ -2711,7 +2711,7 @@
         ]
       },
       {
-        "id": "orbis_geopolitics_50_1788899981",
+        "id": "orbis_geopolitics_51_1788899981",
         "category": "geopolitics",
         "category_label": "World & Geopolitics",
         "press": "Reuters",
@@ -2757,7 +2757,7 @@
         "title_ko": "🌐 [국제정세·외교] Bosnia expels two Serbian embassy diplomats in protest over Mladic funeral",
         "desc": "Bosnia expels two Serbian embassy diplomats in protest over Mladic funeral  Reuters",
         "desc_ko": "Bosnia expels two Serbian embassy diplomats in protest over Mladic funeral",
-        "time_ago": "14h ago",
+        "time_ago": "15h ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788898750,
         "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNT25MUng0Q2VMVGFmRzZvWkMtdnFtOHNZZjNuc183ZkhmS29fR0d3VDFnODFNT2RSUFJval84VjBVZjZnUXNZSkJRU01VeEZOTnJ0ZS1KekNEa2RUYms2T05xOEZEMWxlaXV4NXhhZjF2WWh0QUFvQXBNaHRydFRZMGJQa1NZQjdWazVFQUNFX0JWQUFRRTF4Tnk3UTBtVUhVSzRicjVkVF9YQnNvV2J5MGRFTQ?oc=5",
@@ -2882,7 +2882,7 @@
         ]
       },
       {
-        "id": "orbis_geopolitics_73_1788885080",
+        "id": "orbis_geopolitics_74_1788885080",
         "category": "geopolitics",
         "category_label": "World & Geopolitics",
         "press": "Reuters",
@@ -2922,6 +2922,25 @@
     ],
     "all": [
       {
+        "id": "orbis_economy_81_1788952672",
+        "category": "economy",
+        "category_label": "Economy & Markets",
+        "press": "WSJ",
+        "title": "Global Bond Markets Take a Breather",
+        "title_ko": "📈 [글로벌 금융·경제] Global Bond Markets Take a Breather",
+        "desc": "Global Bond Markets Take a Breather  WSJ",
+        "desc_ko": "Global Bond Markets Take a Breather",
+        "time_ago": "2m ago",
+        "pubDate": "2026. 09. 09",
+        "timestamp": 1788952672,
+        "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPLW1CTWp1LW5Zclhoc0hEeUlGOV9XelNnUGwtREZoeU9SOGdLR3ZBRDVtY3FDb25Ma2poRXJ5R3dmbVdJVDJTaktpVndRdXJfYWhFT1pMV0tMOURqSGFUWEF1aTVudVVTWXR1Rkh1US1CZmx4VDFVWlBlZTBnRG1RLS1vZ2swaEFtNzh5bzlmVzdKQQ?oc=5",
+        "points": [
+          "핵심 내용: Global Bond Markets Take a Breather",
+          "Global Bond Markets Take a Breather  WSJ",
+          "공신력 검증: 전 세계 주요 언론사 WSJ을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
         "id": "orbis_science_space_0_1788952519",
         "category": "science_space",
         "category_label": "Space & Science",
@@ -2930,7 +2949,7 @@
         "title_ko": "🚀 [우주·미래과학] Have we found alien life? Hundreds of scientists weigh in",
         "desc": "Have we found alien life? Hundreds of scientists weigh in  Science Daily",
         "desc_ko": "Have we found alien life? Hundreds of scientists weigh in",
-        "time_ago": "2m ago",
+        "time_ago": "5m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788952519,
         "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB5blVxRE1na002eUFXUWpoRUlMODhVc0FDUldld2Jwb1V3SGxBNjBseUk2T0hHZmdoWEhkZnJIM1VaV0E5Um9tZW9WT0pRdUNCalVLeE4xRmdFaHB6UVUyLVVQazA1bHBsaGlXZjNn?oc=5",
@@ -2941,7 +2960,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_4_1788952075",
+        "id": "orbis_semiconductors_5_1788952075",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "CNBC",
@@ -2949,7 +2968,7 @@
         "title_ko": "🤖 [AI·프론티어] IonQ CEO Niccolo de Masi on quantum computing, AI and cybersecurity",
         "desc": "IonQ CEO Niccolo de Masi on quantum computing, AI and cybersecurity  CNBC",
         "desc_ko": "IonQ CEO Niccolo de Masi on quantum computing, AI and cybersecurity",
-        "time_ago": "10m ago",
+        "time_ago": "12m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788952075,
         "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPeHU2em16eFA4V1dzX3Z2blczeTdmakNnQUxSWUlQaWxmdWhGZVFmMnctUTVTenNLcEk3SWhkS3RvN0JzUTA1bzJZa1pLU1ZZRzVjdzNDVlVsZFQ0d2NJcmUxN2NuR1QwQ090UHQ3ckxWbjk4NHdxODMxUTM2SUFvb0NLTkpsdDBDRmNDRHlvWTl6bEJjRkN4NzkyTlQ1cW1SOEF1RjhBQTk4M3ExS0E?oc=5",
@@ -2960,7 +2979,7 @@
         ]
       },
       {
-        "id": "orbis_all_27_1788951721",
+        "id": "orbis_all_28_1788951721",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Bloomberg",
@@ -2968,7 +2987,7 @@
         "title_ko": "🤖 [AI·프론티어] Google DeepMind Predicts 9 Billion DNA Changes With AI",
         "desc": "Google DeepMind Predicts 9 Billion DNA Changes With AI  Bloomberg.com",
         "desc_ko": "Google DeepMind Predicts 9 Billion DNA Changes With AI",
-        "time_ago": "16m ago",
+        "time_ago": "18m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788951721,
         "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPc0JLNlR1YVJpSURiSXpvNHdfQVNhaGVxV1gtSkdZRWUzYXFaWkhiNHhfSl9DZGlIczBxbFNISWFhbVRpY3BMRXdzVzBNOHFKdUhvQkl4MmVLdWlYOVNzcU96ZjlRMnI1dHlZRWJmTG1Oa05CeW16NGFOdmhsMTh3bGphcW82T3NtaFo5a3dtdG5VWFRyay1BUDdfUWYtS0t4SUwzSTR2TExuc2FWVzVv?oc=5",
@@ -2987,7 +3006,7 @@
         "title_ko": "💻 [반도체·하드웨어] New chipmaking research may help quantum chips lose less light",
         "desc": "New chipmaking research may help quantum chips lose less light  Stock Titan",
         "desc_ko": "New chipmaking research may help quantum chips lose less light",
-        "time_ago": "18m ago",
+        "time_ago": "20m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788951600,
         "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQSlhyWndZUnVRN0ZlSnB5dXZzUTlQQ0RQWG9UZU9ZV05MZHM2ZVI1bzJtUzc5NjBZcnZLUG5YOW5HOVdEbHZ4cDVZcGdtZTM4bU9zQ3pyeDU1em5EcUU0STZqMjIyc21fbG1oa2NXTUlwbDBXRGxTWHdRWlA4MlZLVnNxMHo5eGtFeTZLZThyaVYyejFibDFlR2ozQnJYMmFUdk1yWW9EczlNZ21fQnF4UXB1Z3I1VFNwLWtGeg?oc=5",
@@ -2998,7 +3017,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_28_1788951237",
+        "id": "orbis_semiconductors_27_1788951237",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "simplywall.st",
@@ -3006,7 +3025,7 @@
         "title_ko": "💻 [반도체·하드웨어] Rigetti Computing (RGTI) Secures $100 Million In CHIPS Act Funding",
         "desc": "Rigetti Computing (RGTI) Secures $100 Million In CHIPS Act Funding  simplywall.st",
         "desc_ko": "Rigetti Computing (RGTI) Secures $100 Million In CHIPS Act Funding",
-        "time_ago": "24m ago",
+        "time_ago": "26m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788951237,
         "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNSUtOZ2NXMWNBbm5QaE1uTW1LRG5nZXdwMzIyVXY4UTd2UXJjRFZVWjkyZTNEZDk1RGxUaTJtSWV6QmNlUzU5YUJMZHR3emRLaENrZWhvYVlTRTBYRmRZYVExSzQtNzJPR3AyVDlub3BrbXpNeVhBVE1MN0FOY2pkbEVJb056YXgyYkJORDJoNzVmTE5SNEFwcTRYWG5PcUdUQ3R3cnRsOVFOcGZKcGFObDU2MU5od3JULWZSR1IwVGFjTDdlR0VIOXFrbVJwazJWZEVxYU83em1DQdIB3wFBVV95cUxORFRYQzNXLThCQ1dEanB0S1hKNEF0OEJBanEwZ1ZrRjlfVGRnX3hNdEdac3ZidlQ3dDAyZ1BSOGgza2tKWmNTb2h2MVJmbjJOeXEybjlITWxndjVoQ19BcG9qVWF4MFpUbDFBTGVYLUJkWXkxWlJyRGRDa01WTHRyc2gwN3hlUXQxRERxUUNJT0Vmc0VHMm9OdWllSDh0LTJySmQxQTlra3NOX19MbV95dHFGeHZGNFVoRzJyY1JJQl8wTVR3SVhoNHV5UnZQc2FDTEkteEowT1lrSUpqTEhz?oc=5",
@@ -3025,7 +3044,7 @@
         "title_ko": "🤖 [AI·프론티어] Israeli startup Quantum Machines builds the brain behind quantum computers",
         "desc": "Israeli startup Quantum Machines builds the brain behind quantum computers  Ynetnews",
         "desc_ko": "Israeli startup Quantum Machines builds the brain behind quantum computers",
-        "time_ago": "25m ago",
+        "time_ago": "27m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788951173,
         "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBfVVdzSG9vQ3EySVVocEhvWDg3UTlOX0hXSHBBMXpKWHA4WkJrM2hNZHo4VG95V2RILUQ3dlJkaTlVNDdTTVpkR21KbjJhbFROejhiUFBrNVluQ2tXaWM3WHlOdWlGNGRQOTMw?oc=5",
@@ -3044,7 +3063,7 @@
         "title_ko": "💻 [반도체·하드웨어] Israeli startup Qedma tackles quantum computing’s biggest weakness",
         "desc": "Israeli startup Qedma tackles quantum computing’s biggest weakness  Ynetnews",
         "desc_ko": "Israeli startup Qedma tackles quantum computing’s biggest weakness",
-        "time_ago": "25m ago",
+        "time_ago": "28m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788951135,
         "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE0zdDRDeG9MTGhCc04xT1Z6N0kwa3VSTzdGRnZFREtfdmFYakNNaWpXdl8tSFVmSHlrQ3VZbHVGR0FQYzNFLTJWMTd4Y2tMVk9JaWJLOEcxTGFiS0R6MWJqYzhGeTMxTlc0alRn?oc=5",
@@ -3055,7 +3074,7 @@
         ]
       },
       {
-        "id": "orbis_geopolitics_65_1788950495",
+        "id": "orbis_geopolitics_66_1788950495",
         "category": "geopolitics",
         "category_label": "World & Geopolitics",
         "press": "Reuters",
@@ -3063,7 +3082,7 @@
         "title_ko": "🌐 [국제정세·외교] COMMENTARY: In a global economic heatwave, beware financial wildfires: Mike Dolan",
         "desc": "COMMENTARY: In a global economic heatwave, beware financial wildfires: Mike Dolan  Reuters",
         "desc_ko": "COMMENTARY: In a global economic heatwave, beware financial wildfires: Mike Dolan",
-        "time_ago": "36m ago",
+        "time_ago": "38m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788950495,
         "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPWEM0dzdnbGhzdFJRRUdQVkFya0g4SU5DQVp5d1dybVNBZlhoQnVCd2JLRUNsemJhOC1wd0JvYmE2a2thT2NFZ2w1clhSUy1MUHd4UkhmTm5VNXlLWUpaMmwxUUVZU0ZCTXRwMUNaNEhaV1ZNbWhtUXpwM1RtQVVTd3FJbXR3WThjM1lhOWVwRUN1NFY0SllLcHNraHByVGM1TXpnT29SN1h1TWJwaW1oSUNxU0dvakQ1dDNPdlRja2FSOFdyeXN5dlh1OA?oc=5",
@@ -3082,7 +3101,7 @@
         "title_ko": "💻 [반도체·하드웨어] AMD and Nvidia Just Experienced an Unprecedented Valuation Split",
         "desc": "AMD and Nvidia Just Experienced an Unprecedented Valuation Split  Currently.com",
         "desc_ko": "AMD and Nvidia Just Experienced an Unprecedented Valuation Split",
-        "time_ago": "43m ago",
+        "time_ago": "45m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788950100,
         "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNVlZ1UVo5b1ZGaE11eF9uYktxVi1fM0s4N19wUmViSnFZTG5kQzJLWnViQUVNQjU0dTFMRmVuell5aHFrM2xpalJxUlcwNm5TU2hfY1dUaS1nOU9UcTUwdVZjMm9UaHE3TFlxd2pmUGpvTzYxamJlbll6T0Q2UnJLV3VjSWhnQlFubEljcG5pRUxJamJLOVQ4?oc=5",
@@ -3093,7 +3112,7 @@
         ]
       },
       {
-        "id": "orbis_all_34_1788949924",
+        "id": "orbis_all_35_1788949924",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Bloomberg",
@@ -3101,7 +3120,7 @@
         "title_ko": "🤖 [AI·프론티어] Taiwan’s Exports Surge to Record on Demand for AI Products",
         "desc": "Taiwan’s Exports Surge to Record on Demand for AI Products  Bloomberg.com",
         "desc_ko": "Taiwan’s Exports Surge to Record on Demand for AI Products",
-        "time_ago": "46m ago",
+        "time_ago": "48m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788949924,
         "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPUUpqSExsbXhiNFRJeWVLVHZZV0dqQXYweU0tZEZGb0pvUHBwbHQwMWwwaXlNUWtTQTN1VjlLT2xfdFFSZTFxZUZnTVVKRmxLdkVPUTZSeks0OVJRY0pHVTE2R1RyRlVKT0Rnb2FXeGJhaWxYdnNNaHg3ckQ5cUl2VlRRaUFYVE9vOWFyaFBNeUNoZV8ya1FIVlNwOWg0SG53LXVBN0tSeDNxS3I4Z1E?oc=5",
@@ -3120,7 +3139,7 @@
         "title_ko": "💻 [반도체·하드웨어] Quantinuum CHIPS into global initiative with $100m R&D award from US government",
         "desc": "Quantinuum CHIPS into global initiative with $100m R&D award from US government  Business Weekly",
         "desc_ko": "Quantinuum CHIPS into global initiative with $100m R&D award from US government",
-        "time_ago": "47m ago",
+        "time_ago": "49m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788949831,
         "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxObGJwREswUHVyZ0x4Q21mYU9TVVFycERtLTFvMERrd0ZiT1Y1RF9PLVMxcmtQWG9CUUVycmhsRTY1cmFOOC1nQXJrY2p4R3FBRWxHMUFzZkJrZFItb2llV1lyYVVDNmMzQVNLTmNRc2ljeTNINTRWc2NKNGRPaEZtQ3FQVVUwQm9ub01zVEQtcnFmOWJ0eFE4S2pTTFBuUExIRU9fWVk1TllUOUc5eHlVdTVaRGdFYm8?oc=5",
@@ -3131,7 +3150,7 @@
         ]
       },
       {
-        "id": "orbis_all_33_1788949800",
+        "id": "orbis_all_34_1788949800",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Bloomberg",
@@ -3139,7 +3158,7 @@
         "title_ko": "🤖 [AI·프론티어] Mexico Fintech Kapital Raises Funds to Build Out AI Platform",
         "desc": "Mexico Fintech Kapital Raises Funds to Build Out AI Platform  Bloomberg.com",
         "desc_ko": "Mexico Fintech Kapital Raises Funds to Build Out AI Platform",
-        "time_ago": "48m ago",
+        "time_ago": "50m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788949800,
         "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPZXBTRnN1X2UxQlU1RmxWRHpBazVqRmY3VTRCYW8tTndITWdmRFRFSDdGZl9PNkE1dnpla3FJTHRxX1F0NHdDNUdBS1ppamdubmluT1lqaTA2TDUxUm5qZ3o1WFlDaXdwWGt4UnNheU9CUk5zTjE4Sm1WVXNrMElSb2l2TEhpbHg4T1liYXl0UXFLbWVwYjJreVVlNTBYY3FxQzE1UEJYbW1iT081VXRZbA?oc=5",
@@ -3150,7 +3169,7 @@
         ]
       },
       {
-        "id": "orbis_all_3_1788949741",
+        "id": "orbis_all_5_1788949741",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Bloomberg",
@@ -3158,7 +3177,7 @@
         "title_ko": "🤖 [AI·프론티어] AI Is Helping to Revive Some Corners of Commercial Real Estate",
         "desc": "AI Is Helping to Revive Some Corners of Commercial Real Estate  Bloomberg.com",
         "desc_ko": "AI Is Helping to Revive Some Corners of Commercial Real Estate",
-        "time_ago": "49m ago",
+        "time_ago": "51m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788949741,
         "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQTnRCVVl4ZkJodC0xeUZudW5ySFFJVFF3TUVGX1ZxaEVaWkhHUEM4T014djJ0clBpVG0wMDJuOVo0cFZYTFhlaVVOdWtQM01JcnZid1dhQXduUVNpRGM5X2hwQzR5ZmtNN2c1YUZEZTVrTGEyU25oQ2gwb21xcjA1ZHVpN01iR0NBcGE3bEJxQl81a2hVaUY3dVktemI5UDA4cWk1dDBZTTVjMjJ2NlczWUkwMA?oc=5",
@@ -3177,7 +3196,7 @@
         "title_ko": "📈 [글로벌 금융·경제] Stocks Climb As Rate Hike Fears Ebb",
         "desc": "Stocks Climb As Rate Hike Fears Ebb  WSJ",
         "desc_ko": "Stocks Climb As Rate Hike Fears Ebb",
-        "time_ago": "54m ago",
+        "time_ago": "56m ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788949416,
         "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNaUgwNUxRVFZEcWlGNnRRVU1YYmo0Y2VvcVJDUURTeDBYRzdDSmVFNWZ6RlhGeXZ6cFdsUFpUVENWV2l2TjZaaDRHMXMxODhDb2w2OC1VVU9OZmN1a0x3TnhicUxuVXRQV2N3eWtvbGF1RnNlVDVkZzRRcWRpSGd6Q2hReTM0a1g0OFE?oc=5",
@@ -3188,26 +3207,7 @@
         ]
       },
       {
-        "id": "orbis_economy_81_1788949176",
-        "category": "economy",
-        "category_label": "Economy & Markets",
-        "press": "WSJ",
-        "title": "Global Bond Markets Take a Breather",
-        "title_ko": "📈 [글로벌 금융·경제] Global Bond Markets Take a Breather",
-        "desc": "Global Bond Markets Take a Breather  WSJ",
-        "desc_ko": "Global Bond Markets Take a Breather",
-        "time_ago": "58m ago",
-        "pubDate": "2026. 09. 09",
-        "timestamp": 1788949176,
-        "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPLW1CTWp1LW5Zclhoc0hEeUlGOV9XelNnUGwtREZoeU9SOGdLR3ZBRDVtY3FDb25Ma2poRXJ5R3dmbVdJVDJTaktpVndRdXJfYWhFT1pMV0tMOURqSGFUWEF1aTVudVVTWXR1Rkh1US1CZmx4VDFVWlBlZTBnRG1RLS1vZ2swaEFtNzh5bzlmVzdKQQ?oc=5",
-        "points": [
-          "핵심 내용: Global Bond Markets Take a Breather",
-          "Global Bond Markets Take a Breather  WSJ",
-          "공신력 검증: 전 세계 주요 언론사 WSJ을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_63_1788949125",
+        "id": "orbis_all_64_1788949125",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Reuters",
@@ -3215,7 +3215,7 @@
         "title_ko": "⚡ [글로벌 속보] Bangladesh fights world's worst measles outbreak after vaccine gaps",
         "desc": "Bangladesh fights world's worst measles outbreak after vaccine gaps  Reuters",
         "desc_ko": "Bangladesh fights world's worst measles outbreak after vaccine gaps",
-        "time_ago": "59m ago",
+        "time_ago": "1h ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788949125,
         "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1JeGxJY0pmT0tmdy13enNtN2t2Q2Z1dFEyTGFkMTFlOHBYakJfOUJ0SG9sbmN4YmprRV9qUEdYendPbmpDZWV3MmRYc2NGVW5EN0pLNHpSVGJBZWI1NHdaVTJkdzA0bVE?oc=5",
@@ -3226,7 +3226,7 @@
         ]
       },
       {
-        "id": "orbis_all_43_1788949063",
+        "id": "orbis_all_44_1788949063",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Reuters",
@@ -3245,7 +3245,7 @@
         ]
       },
       {
-        "id": "orbis_all_5_1788948630",
+        "id": "orbis_all_4_1788948630",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Reuters",
@@ -3264,7 +3264,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_2_1788948122",
+        "id": "orbis_semiconductors_3_1788948122",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "Physics World",
@@ -3283,7 +3283,26 @@
         ]
       },
       {
-        "id": "orbis_all_16_1788947913",
+        "id": "orbis_economy_40_1788947926",
+        "category": "economy",
+        "category_label": "Economy & Markets",
+        "press": "WSJ",
+        "title": "Gold Under Pressure With This Week’s Inflation Data in Focus",
+        "title_ko": "📈 [글로벌 금융·경제] Gold Under Pressure With This Week’s Inflation Data in Focus",
+        "desc": "Gold Under Pressure With This Week’s Inflation Data in Focus  WSJ",
+        "desc_ko": "Gold Under Pressure With This Week’s Inflation Data in Focus",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 09",
+        "timestamp": 1788947926,
+        "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPM0VLc2Z3b1BIeUI5a1plb0luc1J3bE1mUjdyeG9hbTVIZ21laW4wcmcyZTYwNnNqa3VRVFZEY0Jrd28wUVJ6aUFvYmNxa25Sczc1VE1rYWNYWFZFYXZCLW0zMmtHNXp0aU1PRXR5TUt2a3dkV09sYndZckdmTVg1bTVoZDBjc1pVY1hOaGdKS1NCZ1ZrejZqSGJpbml1OGRYUk04WlJaOA?oc=5",
+        "points": [
+          "핵심 내용: Gold Under Pressure With This Week’s Inflation Data in Focus",
+          "Gold Under Pressure With This Week’s Inflation Data in Focus  WSJ",
+          "공신력 검증: 전 세계 주요 언론사 WSJ을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_all_20_1788947913",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Reuters",
@@ -3302,7 +3321,7 @@
         ]
       },
       {
-        "id": "orbis_all_14_1788947856",
+        "id": "orbis_all_19_1788947856",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Reuters",
@@ -3321,7 +3340,7 @@
         ]
       },
       {
-        "id": "orbis_economy_66_1788947779",
+        "id": "orbis_economy_67_1788947779",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "WSJ",
@@ -3340,7 +3359,7 @@
         ]
       },
       {
-        "id": "orbis_semiconductors_72_1788947752",
+        "id": "orbis_semiconductors_64_1788947752",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
         "press": "TNGlobal",
@@ -3359,7 +3378,7 @@
         ]
       },
       {
-        "id": "orbis_economy_35_1788947638",
+        "id": "orbis_economy_34_1788947638",
         "category": "economy",
         "category_label": "Economy & Markets",
         "press": "WSJ",
@@ -3378,7 +3397,7 @@
         ]
       },
       {
-        "id": "orbis_all_67_1788947525",
+        "id": "orbis_all_69_1788947525",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Bloomberg",
@@ -3416,7 +3435,45 @@
         ]
       },
       {
-        "id": "orbis_all_35_1788947259",
+        "id": "orbis_all_66_1788947358",
+        "category": "all",
+        "category_label": "Global Breaking",
+        "press": "WRAL",
+        "title": "Suspected measles cases kill nearly 1,000 as Bangladesh struggles to contain outbreak",
+        "title_ko": "🤖 [AI·프론티어] Suspected measles cases kill nearly 1,000 as Bangladesh struggles to contain outbreak",
+        "desc": "Suspected measles cases kill nearly 1,000 as Bangladesh struggles to contain outbreak  WRAL",
+        "desc_ko": "Suspected measles cases kill nearly 1,000 as Bangladesh struggles to contain outbreak",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 09",
+        "timestamp": 1788947358,
+        "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQeWI5RndxWkNnRHZNdlJmaElyQmZSbTliV0JsYktVQVNQbHl6clpMRFFYNHE3NXVfYi1oWFRYNnBubjNmLXNtX0Ytd29iNzJBN3JuZ2xwZEJqaWdJUUduWmF2by0tZklfY2VQWmwzdDhzTS1kWG1KZS0xcTBPWDliSFJLcER4UV81NlBPT2h0WEI2bGV5VmtWZE40eElNeXVLZ1JIUDVLVm1oems3NTZMcnlYZUxpZzc1TlVJdklB?oc=5",
+        "points": [
+          "핵심 내용: Suspected measles cases kill nearly 1,000 as Bangladesh struggles to contain outbreak",
+          "Suspected measles cases kill nearly 1,000 as Bangladesh struggles to contain outbreak  WRAL",
+          "공신력 검증: 전 세계 주요 언론사 WRAL을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_62_1788947349",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "Macau Business",
+        "title": "Fujitsu develops diamond-spin quantum computer prototype",
+        "title_ko": "💻 [반도체·하드웨어] Fujitsu develops diamond-spin quantum computer prototype",
+        "desc": "Fujitsu develops diamond-spin quantum computer prototype  Macau Business",
+        "desc_ko": "Fujitsu develops diamond-spin quantum computer prototype",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 09",
+        "timestamp": 1788947349,
+        "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNSUhzTWw5YlFYQTVTbmhwQTJsc1BXMGFmTmtqUEFOekpCT3hITUdZM2dQOWRrRWpXNGhGX1lOUUpaUnhZNW5uRjVNMDVzT0dQUEphc1RCU0tWakRQa1JrY0FGcVhXOFREbU1kb1BzcUJSSmswY0ZoSEs5LVV5bFRETXJyaUZkSWN6UjZ3?oc=5",
+        "points": [
+          "핵심 내용: Fujitsu develops diamond-spin quantum computer prototype",
+          "Fujitsu develops diamond-spin quantum computer prototype  Macau Business",
+          "공신력 검증: 전 세계 주요 언론사 Macau Business을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_all_36_1788947259",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "BBC World",
@@ -3432,6 +3489,25 @@
           "핵심 내용: Oil hits $100 a barrel for first time since July after US and Houthi strikes",
           "Oil hits $100 a barrel for first time since July after US and Houthi strikes  BBC",
           "공신력 검증: 전 세계 주요 언론사 BBC World을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_semiconductors_1_1788946899",
+        "category": "semiconductors",
+        "category_label": "Chips & Hardware",
+        "press": "NVIDIA",
+        "title": "GTC - NVIDIA",
+        "title_ko": "💻 [반도체·하드웨어] GTC - NVIDIA",
+        "desc": "GTC - NVIDIA  NVIDIA",
+        "desc_ko": "GTC - NVIDIA",
+        "time_ago": "1h ago",
+        "pubDate": "2026. 09. 09",
+        "timestamp": 1788946899,
+        "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5IX1lvZGNiMnNKQkk5dzZ1X2g5Y2xnbjgzQU56cnlNcHhMM3V4Szdncl9MVUVEVmtaZzJXUXBxNGtUQ2lBZlNWeXhIWVBad0xVeW8tTWFxQkRmbjFtRHJMdkJETQ?oc=5",
+        "points": [
+          "핵심 내용: GTC - NVIDIA",
+          "GTC - NVIDIA  NVIDIA",
+          "공신력 검증: 전 세계 주요 언론사 NVIDIA을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
@@ -3454,7 +3530,7 @@
         ]
       },
       {
-        "id": "orbis_all_62_1788946663",
+        "id": "orbis_all_63_1788946663",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Reuters",
@@ -3473,7 +3549,7 @@
         ]
       },
       {
-        "id": "orbis_all_56_1788946620",
+        "id": "orbis_all_55_1788946620",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "AP News",
@@ -3492,7 +3568,7 @@
         ]
       },
       {
-        "id": "orbis_all_23_1788946550",
+        "id": "orbis_all_24_1788946550",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Reuters",
@@ -3549,7 +3625,7 @@
         ]
       },
       {
-        "id": "orbis_all_32_1788945569",
+        "id": "orbis_all_33_1788945569",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Bloomberg",
@@ -3557,7 +3633,7 @@
         "title_ko": "🤖 [AI·프론티어] Global Credit Market Revs Up Again After $70 Billion of Issuance",
         "desc": "Global Credit Market Revs Up Again After $70 Billion of Issuance  Bloomberg.com",
         "desc_ko": "Global Credit Market Revs Up Again After $70 Billion of Issuance",
-        "time_ago": "1h ago",
+        "time_ago": "2h ago",
         "pubDate": "2026. 09. 09",
         "timestamp": 1788945569,
         "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPTW41Y2R5d1k2X01DRFBvQWJCVVhwZU5qSFpSVVB6UEpWY0t3cXd0TlZJSVdYMjE0TFFGN2RjYVhnNnIxUFNPUEgxVTRhUUVuR0hpVGZpRGtQMTFmeGNfSlZCd0NPZ2lzcmVpbkNyU0lDZFVHYjRMRlM4aXQ1VHp6eGVKUTBOWkRvZmduUGZVN25kVHVTZGs3bldaTlV4bmRDV05RZkhlajk2X0pWRHlpYnhNcTc?oc=5",
@@ -3568,7 +3644,7 @@
         ]
       },
       {
-        "id": "orbis_all_44_1788945483",
+        "id": "orbis_all_45_1788945483",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Bloomberg",
@@ -3584,6 +3660,25 @@
           "핵심 내용: US Hits Several Iran Oil Tankers in Response to Warship Attack",
           "US Hits Several Iran Oil Tankers in Response to Warship Attack  Bloomberg.com",
           "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
+        "id": "orbis_all_60_1788945419",
+        "category": "all",
+        "category_label": "Global Breaking",
+        "press": "WRAL",
+        "title": "Oil rises past $100 a barrel after the latest wave of Middle East attacks",
+        "title_ko": "⚡ [글로벌 속보] Oil rises past $100 a barrel after the latest wave of Middle East attacks",
+        "desc": "Oil rises past $100 a barrel after the latest wave of Middle East attacks  WRAL",
+        "desc_ko": "Oil rises past $100 a barrel after the latest wave of Middle East attacks",
+        "time_ago": "2h ago",
+        "pubDate": "2026. 09. 09",
+        "timestamp": 1788945419,
+        "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNaFItb1l2V2RiaG5POHBzZXotSVpWYW9zWFM4Q1VIRFlZdG8tWXNqYkZ4c3dUUnd0NkY3VVY0NWxleEhWZWpXNURreVpTUTg0c3g0R0tydDZWYzZZVmdsZDRYTl80NDI0ZHpLVkt0Q0tOUk9fcDlHd01JRmtRNC15ZnZ6YU10Q0NMVHFaRWlxei02TmYxVGs1ZVlqNmJvamlGZmdvdkY2ZjBoaUMy?oc=5",
+        "points": [
+          "핵심 내용: Oil rises past $100 a barrel after the latest wave of Middle East attacks",
+          "Oil rises past $100 a barrel after the latest wave of Middle East attacks  WRAL",
+          "공신력 검증: 전 세계 주요 언론사 WRAL을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       },
       {
@@ -3606,6 +3701,25 @@
         ]
       },
       {
+        "id": "orbis_all_50_1788945258",
+        "category": "all",
+        "category_label": "Global Breaking",
+        "press": "WRAL",
+        "title": "Airlines scramble to dig out from tech problems that canceled 1,750 flights in the UK",
+        "title_ko": "🤖 [AI·프론티어] Airlines scramble to dig out from tech problems that canceled 1,750 flights in the UK",
+        "desc": "Airlines scramble to dig out from tech problems that canceled 1,750 flights in the UK  WRAL",
+        "desc_ko": "Airlines scramble to dig out from tech problems that canceled 1,750 flights in the UK",
+        "time_ago": "2h ago",
+        "pubDate": "2026. 09. 09",
+        "timestamp": 1788945258,
+        "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNVXhzb1RjTWgxTWtGOWgwSWZYbGNMTmtFVVNmUkYyY3dHaHZvLThfMUpTaTZLRnJMUzdCSXdYSmpyRnFCUDdlNlNKWGE0LVctb0dBTzVDUXlpWkxwWWJlT3NWYVpqc3o1R245VjZ1WmMzaEJkQnl6MHljVVZReVVIUklsOUNydFVhOVB0UTN5SER1QlhlTlNxMVFrSXNjdC01YkhlSDNxb3hGR1BOcC1oWlZ4aDNLS0VJcFBfNmJR?oc=5",
+        "points": [
+          "핵심 내용: Airlines scramble to dig out from tech problems that canceled 1,750 flights in the UK",
+          "Airlines scramble to dig out from tech problems that canceled 1,750 flights in the UK  WRAL",
+          "공신력 검증: 전 세계 주요 언론사 WRAL을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+        ]
+      },
+      {
         "id": "orbis_geopolitics_25_1788945123",
         "category": "geopolitics",
         "category_label": "World & Geopolitics",
@@ -3625,7 +3739,7 @@
         ]
       },
       {
-        "id": "orbis_all_28_1788944627",
+        "id": "orbis_all_29_1788944627",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Bozeman Daily Chronicle",
@@ -3644,7 +3758,7 @@
         ]
       },
       {
-        "id": "orbis_all_50_1788944403",
+        "id": "orbis_all_51_1788944403",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Bloomberg",
@@ -3701,7 +3815,7 @@
         ]
       },
       {
-        "id": "orbis_all_81_1788944400",
+        "id": "orbis_all_82_1788944400",
         "category": "all",
         "category_label": "Global Breaking",
         "press": "Bloomberg",
@@ -3739,136 +3853,22 @@
         ]
       },
       {
-        "id": "orbis_all_17_1788943976",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "Google to Invest €13 Billion in AI Infrastructure in Finland",
-        "title_ko": "🤖 [AI·프론티어] Google to Invest €13 Billion in AI Infrastructure in Finland",
-        "desc": "Google to Invest €13 Billion in AI Infrastructure in Finland  Bloomberg.com",
-        "desc_ko": "Google to Invest €13 Billion in AI Infrastructure in Finland",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 09",
-        "timestamp": 1788943976,
-        "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPUnRWOHhfSHVOanRzam11TkE1MkFfZWhyLTBaOERZYmZjNFlNOHR0S1B4NnVPMnpVWjB1UkpXQldDWUE1VUU1aUwxWFNpMERibV9GQk9vZW52UHMwdVdKMDl1QzlQdDRIcmdxUm9WcXJCZ3RDSHQtY3pwd2pXR2tlejQxUzRMTll6X2FoRk02MG82TjF5cHo4bGpmNFNDMmI4RlFjV1RiTjdhci1MR2JoOUliTV8?oc=5",
-        "points": [
-          "핵심 내용: Google to Invest €13 Billion in AI Infrastructure in Finland",
-          "Google to Invest €13 Billion in AI Infrastructure in Finland  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_10_1788943721",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Reuters",
-        "title": "Google to invest $15 billion in AI infrastructure and buy nuclear power in Finland",
-        "title_ko": "🤖 [AI·프론티어] Google to invest $15 billion in AI infrastructure and buy nuclear power in Finland",
-        "desc": "Google to invest $15 billion in AI infrastructure and buy nuclear power in Finland  Reuters",
-        "desc_ko": "Google to invest $15 billion in AI infrastructure and buy nuclear power in Finland",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 09",
-        "timestamp": 1788943721,
-        "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNcGlWeGFlRDRYZVowU2Y0Y0FJTlRmQW5ubjJwNGcxb3NsQnRBUVo5eWtMdnhoSlAzM0FKdlJHWkpJR2lxZUZHcWg5cFBqb1NxNm9Ma0MwR3AweEZpUEFTZ1JRZ3pjSDN6V2VOdE1nUjhBQU1PdlJ5Z29xSDloZHZOOExRbHotYVlRUDd0X2tpa2JVR3U1NTBHc3VhZkYzMDN4ZE9KWl9lZnFBZzkwZEE?oc=5",
-        "points": [
-          "핵심 내용: Google to invest $15 billion in AI infrastructure and buy nuclear power in Finland",
-          "Google to invest $15 billion in AI infrastructure and buy nuclear power in Finland  Reuters",
-          "공신력 검증: 전 세계 주요 언론사 Reuters을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_16_1788943506",
+        "id": "orbis_semiconductors_65_1788944100",
         "category": "semiconductors",
         "category_label": "Chips & Hardware",
-        "press": "The Motley Fool",
-        "title": "Prediction: AMD Stock Could Outrun Nvidia Over the Next 3 Years -- Here's the Bull Case",
-        "title_ko": "💻 [반도체·하드웨어] Prediction: AMD Stock Could Outrun Nvidia Over the Next 3 Years -- Here's the Bull Case",
-        "desc": "Prediction: AMD Stock Could Outrun Nvidia Over the Next 3 Years -- Here's the Bull Case  The Motley Fool",
-        "desc_ko": "Prediction: AMD Stock Could Outrun Nvidia Over the Next 3 Years -- Here's the Bull Case",
+        "press": "finance.biggo.com",
+        "title": "IonQ Unveils Quantum Computer Blueprint Capable of Cracking Bitcoin Encryption in 25.7 Days",
+        "title_ko": "💻 [반도체·하드웨어] IonQ Unveils Quantum Computer Blueprint Capable of Cracking Bitcoin Encryption in 25.7 Days",
+        "desc": "IonQ Unveils Quantum Computer Blueprint Capable of Cracking Bitcoin Encryption in 25.7 Days  finance.biggo.com",
+        "desc_ko": "IonQ Unveils Quantum Computer Blueprint Capable of Cracking Bitcoin Encryption in 25.7 Days",
         "time_ago": "2h ago",
         "pubDate": "2026. 09. 09",
-        "timestamp": 1788943506,
-        "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQRkV0d3FNU09xZ3BPVVpneEtwdmhzVkh1LVlDaFY4XzRwbzBGSzZpR2J1UEh5bmhReWJBbmkxX1VCYXE1ZUJDUGxWeDdFVDZ3ZzdrcmJfcHItdkdkamRINjlXMWduOWZsLVBhZWs4NVJ1aHE2RlBsWUcwbUdoTzNvYUpXenNicUpIUmFrUjVuOUxoVGZ0VE5Z?oc=5",
+        "timestamp": 1788944100,
+        "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE8yU2NiZ1RuYldxUlllR0ZSQmJFMElVTm9ZTktYSUtrZHVWdThNek56T1dtVUVCS2J0QndxeDVUbmVzdzBIajAyMGxyUmllMHNySXFlSndMcnRXT2ZKaGFpRU4tVTVjUGRsbllEY29aSktTQ0pRUlE?oc=5",
         "points": [
-          "핵심 내용: Prediction: AMD Stock Could Outrun Nvidia Over the Next 3 Years -- Here's the Bull Case",
-          "Prediction: AMD Stock Could Outrun Nvidia Over the Next 3 Years -- Here's the Bull Case  The Motley Fool",
-          "공신력 검증: 전 세계 주요 언론사 The Motley Fool을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_51_1788943419",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "Apple’s Rally Pressures New CEO to Deliver on Foldable iPhone",
-        "title_ko": "⚡ [글로벌 속보] Apple’s Rally Pressures New CEO to Deliver on Foldable iPhone",
-        "desc": "Apple’s Rally Pressures New CEO to Deliver on Foldable iPhone  Bloomberg.com",
-        "desc_ko": "Apple’s Rally Pressures New CEO to Deliver on Foldable iPhone",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 09",
-        "timestamp": 1788943419,
-        "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNdWQyelpBcjlrbF9oRDM1X1BCQ0ZEVldpQjU2Vkh2bHpNQlFlY0R1YnVqTEtmV0EtYzR6X2hOQ3VWOEh4NHFSaHJHcjhlaTgwSDRUMUpGbHptOFl1NlNqYXRPSGdSeUJzU1FmaTItMnJSbndmdm1fWlBTYjhObkJ5TTZoSnhhemJTX29XQ1RCMVZ1dFpzSGwwSlMxZU9lejdSVjhkZ1hram45RDViWko3NVRB?oc=5",
-        "points": [
-          "핵심 내용: Apple’s Rally Pressures New CEO to Deliver on Foldable iPhone",
-          "Apple’s Rally Pressures New CEO to Deliver on Foldable iPhone  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_semiconductors_5_1788943385",
-        "category": "semiconductors",
-        "category_label": "Chips & Hardware",
-        "press": "The Motley Fool",
-        "title": "3 Quantum Computing Stocks Have Issued a $63 Million Warning This Year That Wall Street Cannot Ignore",
-        "title_ko": "💻 [반도체·하드웨어] 3 Quantum Computing Stocks Have Issued a $63 Million Warning This Year That Wall Street Cannot Ignore",
-        "desc": "3 Quantum Computing Stocks Have Issued a $63 Million Warning This Year That Wall Street Cannot Ignore  The Motley Fool",
-        "desc_ko": "3 Quantum Computing Stocks Have Issued a $63 Million Warning This Year That Wall Street Cannot Ignore",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 09",
-        "timestamp": 1788943385,
-        "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQNUtUTkotQnZ2Vk45dllxRk5fQkZlVnZMdzFLdHljeVBXejJlYzJwZkhYM3o4SzlaS0tvY0JILThfd1JkZnpWRmxHbVNLTFdiWWpCaVI4aDJLQmVBTFJER2lvV1NSeDVwZ1pDU0p4S2hfc0tXSXdud1VLQUsxZVRQbExFa2NwRWlaVTl3cVc1cw?oc=5",
-        "points": [
-          "핵심 내용: 3 Quantum Computing Stocks Have Issued a $63 Million Warning This Year That Wall Street Cannot Ignore",
-          "3 Quantum Computing Stocks Have Issued a $63 Million Warning This Year That Wall Street Cannot Ignore  The Motley Fool",
-          "공신력 검증: 전 세계 주요 언론사 The Motley Fool을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_science_space_7_1788942871",
-        "category": "science_space",
-        "category_label": "Space & Science",
-        "press": "BBN Times",
-        "title": "NASA’s New Roman Space Telescope Could Find 100,000 New Worlds",
-        "title_ko": "🚀 [우주·미래과학] NASA’s New Roman Space Telescope Could Find 100,000 New Worlds",
-        "desc": "NASA’s New Roman Space Telescope Could Find 100,000 New Worlds  BBN Times",
-        "desc_ko": "NASA’s New Roman Space Telescope Could Find 100,000 New Worlds",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 09",
-        "timestamp": 1788942871,
-        "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQcmlaUDVjdTJZLWs5NmdKVDdZVTNweExrTE1NN2RmZDI4NXE5Nndwd2s4R0R5QWlmbUJBSHdjZTJVWkNxdVI0bVIzNU5ua2JlWFR5U0pzcVBza2ZKM1g3ak5ldlJEN1RsTmI5dTQ3WFdDbzVsdmFZeWtWN2RmRnBqWjRIYnFIZlZGWDJ3T3lENl9JVjRrRnVLdGt3TQ?oc=5",
-        "points": [
-          "핵심 내용: NASA’s New Roman Space Telescope Could Find 100,000 New Worlds",
-          "NASA’s New Roman Space Telescope Could Find 100,000 New Worlds  BBN Times",
-          "공신력 검증: 전 세계 주요 언론사 BBN Times을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
-        ]
-      },
-      {
-        "id": "orbis_all_42_1788942457",
-        "category": "all",
-        "category_label": "Global Breaking",
-        "press": "Bloomberg",
-        "title": "Zara Owner Inditex’s Sales Grow, Showing Retailer’s Resilience",
-        "title_ko": "🤖 [AI·프론티어] Zara Owner Inditex’s Sales Grow, Showing Retailer’s Resilience",
-        "desc": "Zara Owner Inditex’s Sales Grow, Showing Retailer’s Resilience  Bloomberg.com",
-        "desc_ko": "Zara Owner Inditex’s Sales Grow, Showing Retailer’s Resilience",
-        "time_ago": "2h ago",
-        "pubDate": "2026. 09. 09",
-        "timestamp": 1788942457,
-        "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdXFyV0VWR2cwQ1pzMW1tbVRsZXNjbGVwdUZkVF9OMEhHMkM5b2RQZFJWWlpZVC1pS2FHYmR1dEhaSGJ1M1JsZ0pKc0F5dGFLamJjaGRRQ3JtQ0Rnc1ExSi1ocF9Td2ktb2pHLUNvcl83WkJSd0NtM2pNMlp3aHFUeVhIZXZaeHhYZlhMcDNobEJxTngxcDZzU2FvSjMwZy1Wb2c?oc=5",
-        "points": [
-          "핵심 내용: Zara Owner Inditex’s Sales Grow, Showing Retailer’s Resilience",
-          "Zara Owner Inditex’s Sales Grow, Showing Retailer’s Resilience  Bloomberg.com",
-          "공신력 검증: 전 세계 주요 언론사 Bloomberg을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
+          "핵심 내용: IonQ Unveils Quantum Computer Blueprint Capable of Cracking Bitcoin Encryption in 25.7 Days",
+          "IonQ Unveils Quantum Computer Blueprint Capable of Cracking Bitcoin Encryption in 25.7 Days  finance.biggo.com",
+          "공신력 검증: 전 세계 주요 언론사 finance.biggo.com을 통해 실시간 팩트체크를 거친 핵심 외신입니다."
         ]
       }
     ]
