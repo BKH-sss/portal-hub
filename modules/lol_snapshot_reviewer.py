@@ -21,8 +21,21 @@ from datetime import datetime
 from typing import Dict, Any, List, Optional
 from pathlib import Path
 
-from fastapi import APIRouter
-from pydantic import BaseModel, Field
+try:
+    from modules._safe_router import (
+        APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+        JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+        CORSMiddleware, BaseModel, Field
+    )
+except ImportError:
+    try:
+        from _safe_router import (
+            APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+            JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+            CORSMiddleware, BaseModel, Field
+        )
+    except ImportError:
+        pass
 from PIL import Image, ImageDraw
 
 try:

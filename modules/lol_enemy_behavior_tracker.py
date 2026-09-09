@@ -31,8 +31,21 @@ import math
 import time
 from enum import Enum
 from typing import Dict, Any, List, Optional, Tuple
-from pydantic import BaseModel, Field
-from fastapi import APIRouter
+try:
+    from modules._safe_router import (
+        APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+        JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+        CORSMiddleware, BaseModel, Field
+    )
+except ImportError:
+    try:
+        from _safe_router import (
+            APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+            JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+            CORSMiddleware, BaseModel, Field
+        )
+    except ImportError:
+        pass
 
 # =============================================================================
 # 🚀 1. FastAPI 독립 APIRouter 정의 (외부 적용은 하지 않고 단독 모듈로 대기)

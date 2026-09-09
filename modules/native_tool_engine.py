@@ -14,7 +14,21 @@ native_tool_engine.py
 import json
 import asyncio
 from typing import Dict, Any, List, Callable, Optional
-from pydantic import BaseModel
+try:
+    from modules._safe_router import (
+        APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+        JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+        CORSMiddleware, BaseModel, Field
+    )
+except ImportError:
+    try:
+        from _safe_router import (
+            APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+            JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+            CORSMiddleware, BaseModel, Field
+        )
+    except ImportError:
+        pass
 
 # =============================================================================
 # 📋 1. 표준 Tool Definitions (JSON Schema 규격)

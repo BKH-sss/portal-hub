@@ -13,43 +13,52 @@ schedule_manager.py
 """
 
 import os
+import re
 import sqlite3
-from datetime import datetime, date, timedelta
-from typing import List, Dict, Any, Optional
+import logging
+from datetime import datetime, date, timedelta, timezone
+from typing import List, Dict, Any, Optional, Tuple
 from pathlib import Path
+
+logger = logging.getLogger("ScheduleManager")
+
+KST = timezone(timedelta(hours=9))
+
+def get_now_kst() -> datetime:
+    return datetime.now(KST)
+
 try:
-    from fastapi import APIRouter, HTTPException
-    from pydantic import BaseModel, Field
-    HAS_FASTAPI = True
+    from modules._safe_router import get_safe_router, APIRouter, HTTPException, BaseModel, Field
 except ImportError:
-    HAS_FASTAPI = False
-    class DummyRouter:
-        def __init__(self, *args, **kwargs): pass
-        def get(self, *args, **kwargs): return lambda f: f
-        def post(self, *args, **kwargs): return lambda f: f
-        def put(self, *args, **kwargs): return lambda f: f
-        def delete(self, *args, **kwargs): return lambda f: f
-        def patch(self, *args, **kwargs): return lambda f: f
-        def include_router(self, *args, **kwargs): pass
-    APIRouter = DummyRouter
-    class HTTPException(Exception):
-        def __init__(self, status_code: int, detail: str = ""):
-            self.status_code = status_code
-            self.detail = detail
-            super().__init__(detail)
-    class BaseModel:
-        def __init__(self, **kwargs):
-            for k, v in kwargs.items():
-                setattr(self, k, v)
-        def dict(self):
-            return self.__dict__
-    def Field(default=None, **kwargs):
-        return default
+    try:
+        from _safe_router import get_safe_router, APIRouter, HTTPException, BaseModel, Field
+    except ImportError:
+        class DummyRouter:
+            def __init__(self, *args, **kwargs): pass
+            def get(self, *args, **kwargs): return lambda f: f
+            def post(self, *args, **kwargs): return lambda f: f
+            def put(self, *args, **kwargs): return lambda f: f
+            def delete(self, *args, **kwargs): return lambda f: f
+            def patch(self, *args, **kwargs): return lambda f: f
+            def include_router(self, *args, **kwargs): pass
+        APIRouter = DummyRouter
+        def get_safe_router(*args, **kwargs): return DummyRouter()
+        class HTTPException(Exception):
+            def __init__(self, status_code: int = 400, detail: str = ""):
+                self.status_code = status_code
+                self.detail = detail
+                super().__init__(detail)
+        class BaseModel:
+            def __init__(self, **kwargs):
+                for k, v in kwargs.items(): setattr(self, k, v)
+            def dict(self, *args, **kwargs): return self.__dict__.copy()
+            def model_dump(self, *args, **kwargs): return self.__dict__.copy()
+        def Field(default=None, **kwargs): return None if default is Ellipsis else default
 
 # =============================================================================
 # 🚀 1. FastAPI APIRouter 및 DB 경로 설정
 # =============================================================================
-router = APIRouter(prefix="/api/schedule", tags=["Schedule & Tasks"])
+router = get_safe_router(prefix="/api/schedule", tags=["Schedule & Tasks"])
 
 # 데이터베이스 저장 디렉토리 및 파일 경로
 MODULE_DIR = Path(__file__).resolve().parent
@@ -96,12 +105,13 @@ class ScheduleDatabase:
 
     @classmethod
     def init_db(cls):
-        """데이터베이스 테이블 초기화 (테이블이 없을 시 자동 생성)"""
+        """데이터베이스 테이블 초기화 및 스키마 자동 마이그레이션"""
         with cls.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS schedules (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    uid TEXT,
                     title TEXT NOT NULL,
                     category TEXT DEFAULT 'default',
                     start_time TEXT NOT NULL,
@@ -110,13 +120,62 @@ class ScheduleDatabase:
                     is_todo INTEGER DEFAULT 0,
                     is_completed INTEGER DEFAULT 0,
                     priority INTEGER DEFAULT 2,
+                    last_synced_at TEXT,
                     created_at TEXT DEFAULT CURRENT_TIMESTAMP
                 )
             """)
+            # 기존 테이블에 uid 및 last_synced_at 컬럼 무중단 안전 마이그레이션
+            for col_def in ["uid TEXT", "last_synced_at TEXT"]:
+                try:
+                    cursor.execute(f"ALTER TABLE schedules ADD COLUMN {col_def}")
+                except Exception:
+                    pass
+            try:
+                cursor.execute("CREATE INDEX IF NOT EXISTS idx_schedules_uid ON schedules(uid)")
+                cursor.execute("CREATE INDEX IF NOT EXISTS idx_schedules_start ON schedules(start_time)")
+            except Exception:
+                pass
             conn.commit()
 
 # 모듈 로드 시 DB 초기화 실행
 ScheduleDatabase.init_db()
+
+
+def parse_ical_datetime_to_kst(raw_val: str) -> Tuple[str, bool]:
+    """
+    iCal 날짜/시각 문자열을 정확한 대한민국 표준시(KST: UTC+9)로 변환
+    반환값: (start_time_str: 'YYYY-MM-DD HH:MM' 또는 'YYYY-MM-DD', is_all_day: bool)
+    """
+    clean_val = raw_val.strip()
+    if ":" in clean_val:
+        clean_val = clean_val.split(":")[-1].strip()
+
+    # 1. UTC 날짜-시각 (예: 20260909T010000Z 또는 20260909T0100Z)
+    if "T" in clean_val and clean_val.endswith("Z"):
+        core = clean_val.rstrip("Z")
+        if len(core) >= 15:
+            utc_dt = datetime.strptime(core[:15], "%Y%m%dT%H%M%S").replace(tzinfo=timezone.utc)
+        elif len(core) >= 13:
+            utc_dt = datetime.strptime(core[:13], "%Y%m%dT%H%M").replace(tzinfo=timezone.utc)
+        else:
+            return clean_val[:8], True
+        kst_dt = utc_dt.astimezone(KST)
+        return kst_dt.strftime("%Y-%m-%d %H:%M"), False
+
+    # 2. 로컬 날짜-시각 (예: 20260909T100000)
+    if "T" in clean_val:
+        core = clean_val.split("T")
+        d_part = core[0]
+        t_part = core[1]
+        date_str = f"{d_part[:4]}-{d_part[4:6]}-{d_part[6:8]}"
+        time_str = f"{t_part[:2]}:{t_part[2:4]}"
+        return f"{date_str} {time_str}", False
+
+    # 3. 종일 일정 (예: 20260909)
+    if len(clean_val) >= 8 and clean_val[:8].isdigit():
+        return f"{clean_val[:4]}-{clean_val[4:6]}-{clean_val[6:8]}", True
+
+    return clean_val, False
 
 
 # =============================================================================
@@ -124,6 +183,46 @@ ScheduleDatabase.init_db()
 # =============================================================================
 class ScheduleManager:
     """일정 및 할 일 CRUD 및 모닝 브리핑 포맷팅 엔진"""
+
+    _last_sync_time: Optional[str] = None
+    _last_sync_status: str = "미동기화"
+    _last_sync_count: int = 0
+    _total_feed_events: int = 0
+
+    @classmethod
+    def get_total_count(cls) -> int:
+        try:
+            with ScheduleDatabase.get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT COUNT(*) as cnt FROM schedules")
+                row = cursor.fetchone()
+                return row["cnt"] if row else 0
+        except Exception:
+            return 0
+
+    @classmethod
+    def get_sync_status(cls) -> Dict[str, Any]:
+        return {
+            "last_sync_time": cls._last_sync_time or "동기화 이력 없음",
+            "last_sync_status": cls._last_sync_status,
+            "last_sync_count": cls._last_sync_count,
+            "total_feed_events": cls._total_feed_events,
+            "total_db_schedules": cls.get_total_count()
+        }
+
+    @staticmethod
+    def get_configured_ical_url() -> Optional[str]:
+        """환경변수 및 설정 파일에서 구글 캘린더 iCal 비공개 URL 탐색"""
+        url = os.environ.get("GOOGLE_CALENDAR_ICAL_URL")
+        if url and url.strip().startswith("http"):
+            return url.strip()
+        try:
+            from config import GOOGLE_CALENDAR_ICAL_URL
+            if GOOGLE_CALENDAR_ICAL_URL and GOOGLE_CALENDAR_ICAL_URL.strip().startswith("http"):
+                return GOOGLE_CALENDAR_ICAL_URL.strip()
+        except Exception:
+            pass
+        return None
 
     @staticmethod
     def add_item(data: ScheduleCreateRequest) -> Dict[str, Any]:
@@ -196,24 +295,26 @@ class ScheduleManager:
                 raise HTTPException(status_code=404, detail="삭제할 항목을 찾을 수 없습니다.")
             return {"status": "success", "message": f"ID {item_id} 삭제 완료"}
 
-    @staticmethod
-    def get_morning_briefing_summary() -> str:
+    @classmethod
+    def get_morning_briefing_summary(cls, target_date: Optional[str] = None) -> str:
         """
         🌅 자율 모닝 브리핑용 일정 & 할 일 요약 문자열 생성
         - 오늘 예정된 일정 목록
         - 마감되지 않은 긴급/중요 Todo 목록을 포맷팅하여 반환
         """
-        # 0. 구글 캘린더 자동 동기화 (설정된 경우)
-        try:
-            from config import GOOGLE_CALENDAR_ICAL_URL
-            if GOOGLE_CALENDAR_ICAL_URL:
-                ScheduleManager.sync_from_google_calendar_ical(GOOGLE_CALENDAR_ICAL_URL)
-        except Exception:
-            pass
+        # 0. 구글 캘린더 최신 자동 동기화 보장
+        ical_url = cls.get_configured_ical_url()
+        if ical_url:
+            try:
+                sync_res = cls.sync_from_google_calendar_ical(ical_url)
+                logger.info(f"🌅 [모닝 브리핑] 캘린더 자동 동기화 완료: {sync_res.get('message')}")
+            except Exception as e:
+                logger.warning(f"🌅 [모닝 브리핑] 캘린더 자동 동기화 경고: {e}")
 
-        today_str = datetime.now().strftime("%Y-%m-%d")
-        today_items = ScheduleManager.get_items(target_date=today_str, include_completed=False)
-        pending_todos = ScheduleManager.get_items(only_todos=True, include_completed=False)
+        now_kst = get_now_kst()
+        today_str = target_date or now_kst.strftime("%Y-%m-%d")
+        today_items = cls.get_items(target_date=today_str, include_completed=False)
+        pending_todos = cls.get_items(only_todos=True, include_completed=False)
 
         lines = [f"📅 **[{today_str} 오늘의 스케줄 & 브리핑]**"]
 
@@ -328,62 +429,130 @@ class ScheduleManager:
         return "\r\n".join(lines)
 
 
-    @staticmethod
-    def sync_from_google_calendar_ical(ical_url: str) -> Dict[str, Any]:
+    @classmethod
+    def sync_from_google_calendar_ical(cls, ical_url: Optional[str] = None, ical_content: Optional[str] = None) -> Dict[str, Any]:
         """
-        🌐 외부 구글 캘린더 iCal (basic.ics) URL을 읽어와서 로컬 schedule.db에 자동 동기화
+        🌐 외부 구글 캘린더 iCal (basic.ics) URL을 읽어와서 로컬 schedule.db에 자동 동기화 (RFC 5545 준수)
+        - RFC 5545 Line Folding 자동 언폴딩 처리
+        - UTC(Z) -> 대한민국 표준시(KST: UTC+9) 정확한 시차 변환 (오전/새벽 일정 날짜 누락 원천 방지)
+        - UID 기준 upsert (중복 저장 방지 및 일정 일시 변경 시 자동 업데이트)
+        - CANCELLED 취소 일정 자동 필터링
+        - 동기화 메트릭(최종 시각, 피드 개수, 갱신 개수) 자동 갱신
         """
-        import urllib.request
-        import re
-        if not ical_url or not ical_url.startswith("http"):
-            return {"status": "error", "message": "올바른 iCal (.ics) URL이 아닙니다."}
-            
-        try:
-            req = urllib.request.Request(ical_url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
-            with urllib.request.urlopen(req, timeout=10.0) as resp:
-                content = resp.read().decode('utf-8', errors='replace')
-        except Exception as e:
-            return {"status": "error", "message": f"구글 캘린더 iCal 다운로드 실패: {e}"}
+        raw_content = ical_content
+        if raw_content is None:
+            import urllib.request
+            target_url = (ical_url or cls.get_configured_ical_url() or "").strip()
+            if not target_url or not target_url.startswith("http"):
+                err_msg = "올바른 iCal (.ics) URL이 설정되지 않았습니다 (GOOGLE_CALENDAR_ICAL_URL 환경변수 확인 필요)."
+                cls._last_sync_status = f"FAILED: {err_msg}"
+                logger.error(f"❌ [구글 캘린더 동기화 실패] {err_msg}")
+                return {"status": "error", "message": err_msg, "synced_count": 0}
 
-        events = re.findall(r'BEGIN:VEVENT(.*?)END:VEVENT', content, flags=re.DOTALL)
-        synced_count = 0
-        
+            try:
+                req = urllib.request.Request(
+                    target_url,
+                    headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) SkadiDiscordBot/3.7'}
+                )
+                with urllib.request.urlopen(req, timeout=12.0) as resp:
+                    raw_bytes = resp.read()
+                    raw_content = raw_bytes.decode('utf-8', errors='replace')
+            except Exception as e:
+                err_msg = f"구글 캘린더 iCal 다운로드 실패: {type(e).__name__} - {e}"
+                cls._last_sync_status = f"FAILED: {err_msg}"
+                logger.error(f"❌ [구글 캘린더 동기화 다운로드 오류] {err_msg}", exc_info=True)
+                return {"status": "error", "message": err_msg, "synced_count": 0}
+
+        # 1. RFC 5545 Line Unfolding (\r\n 또는 \n 뒤의 공백/탭 연결)
+        content = re.sub(r"\r?\n[ \t]", "", raw_content)
+
+        # 2. VEVENT 추출
+        events = re.findall(r"BEGIN:VEVENT(.*?)END:VEVENT", content, flags=re.DOTALL)
+        inserted_count = 0
+        updated_count = 0
+        cancelled_count = 0
+        now_sync_str = get_now_kst().strftime("%Y-%m-%d %H:%M:%S KST")
+
         for ev in events:
-            summary_m = re.search(r'SUMMARY:(.*?)(?:\r?\n[A-Z]|\r?\nEND)', ev)
-            summary = summary_m.group(1).strip().replace("\\,", ",") if summary_m else "구글 캘린더 일정"
-            
-            dtstart_m = re.search(r'DTSTART(?:;[^:]+)?:(\d{8}(?:T\d{6}Z?)?)', ev)
+            # STATUS: CANCELLED 확인
+            status_m = re.search(r"^STATUS:\s*(.*?)$", ev, flags=re.MULTILINE)
+            if status_m and status_m.group(1).strip().upper() == "CANCELLED":
+                cancelled_count += 1
+                continue
+
+            # UID 확인
+            uid_m = re.search(r"^UID:\s*(.*?)$", ev, flags=re.MULTILINE)
+            uid = uid_m.group(1).strip() if uid_m else None
+
+            # SUMMARY 확인
+            summary_m = re.search(r"^SUMMARY:\s*(.*?)$", ev, flags=re.MULTILINE)
+            summary = summary_m.group(1).strip().replace("\\,", ",").replace("\\;", ";") if summary_m else "구글 캘린더 일정"
+
+            # DTSTART 확인 및 KST 변환
+            dtstart_m = re.search(r"^DTSTART(?:;[^:\r\n]+)?:\s*([^\r\n]+)", ev, flags=re.MULTILINE)
             if not dtstart_m:
                 continue
-            raw_dt = dtstart_m.group(1)
-            
-            if "T" in raw_dt:
-                date_part = f"{raw_dt[:4]}-{raw_dt[4:6]}-{raw_dt[6:8]}"
-                time_part = f"{raw_dt[9:11]}:{raw_dt[11:13]}"
-                start_time_str = f"{date_part} {time_part}"
-            else:
-                start_time_str = f"{raw_dt[:4]}-{raw_dt[4:6]}-{raw_dt[6:8]}"
-                
-            desc_m = re.search(r'DESCRIPTION:(.*?)(?:\r?\n[A-Z]|\r?\nEND)', ev)
+            start_time_str, is_all_day = parse_ical_datetime_to_kst(dtstart_m.group(1))
+
+            # DTEND 확인 및 KST 변환
+            dtend_m = re.search(r"^DTEND(?:;[^:\r\n]+)?:\s*([^\r\n]+)", ev, flags=re.MULTILINE)
+            end_time_str = parse_ical_datetime_to_kst(dtend_m.group(1))[0] if dtend_m else None
+
+            # DESCRIPTION 확인
+            desc_m = re.search(r"^DESCRIPTION:\s*(.*?)$", ev, flags=re.MULTILINE)
             desc = desc_m.group(1).strip().replace("\\n", "\n").replace("\\,", ",") if desc_m else "구글 캘린더 동기화"
-            
-            with ScheduleDatabase.get_connection() as conn:
-                cursor = conn.cursor()
-                cursor.execute("SELECT id FROM schedules WHERE title = ? AND start_time = ?", (summary, start_time_str))
-                row = cursor.fetchone()
-                if not row:
-                    cursor.execute("""
-                        INSERT INTO schedules (title, category, start_time, description, is_todo, is_completed, priority)
-                        VALUES (?, 'google', ?, ?, 0, 0, 2)
-                    """, (summary, start_time_str, desc))
-                    conn.commit()
-                    synced_count += 1
+
+            # 3. UID 기반 upsert 처리
+            try:
+                with ScheduleDatabase.get_connection() as conn:
+                    cursor = conn.cursor()
+                    row = None
+                    if uid:
+                        cursor.execute("SELECT id, start_time, title FROM schedules WHERE uid = ?", (uid,))
+                        row = cursor.fetchone()
+                    if not row:
+                        cursor.execute("SELECT id, start_time, title FROM schedules WHERE title = ? AND start_time = ?", (summary, start_time_str))
+                        row = cursor.fetchone()
+
+                    if row:
+                        item_id = row["id"]
+                        cursor.execute("""
+                            UPDATE schedules
+                            SET uid = ?, title = ?, category = 'google', start_time = ?, end_time = ?, description = ?, last_synced_at = ?
+                            WHERE id = ?
+                        """, (uid, summary, start_time_str, end_time_str, desc, now_sync_str, item_id))
+                        conn.commit()
+                        updated_count += 1
+                    else:
+                        cursor.execute("""
+                            INSERT INTO schedules (uid, title, category, start_time, end_time, description, is_todo, is_completed, priority, last_synced_at)
+                            VALUES (?, ?, 'google', ?, ?, ?, 0, 0, 2, ?)
+                        """, (uid, summary, start_time_str, end_time_str, desc, now_sync_str))
+                        conn.commit()
+                        inserted_count += 1
+            except Exception as db_e:
+                logger.error(f"스케줄 DB upsert 오류 ({summary}): {db_e}")
+
+        total_synced = inserted_count + updated_count
+        cls._last_sync_time = now_sync_str
+        cls._last_sync_status = "SUCCESS"
+        cls._last_sync_count = total_synced
+        cls._total_feed_events = len(events)
+
+        succ_msg = f"구글 캘린더에서 {len(events)}개 일정을 분석하여 {total_synced}개 동기화 완료 (신규 {inserted_count}, 갱신 {updated_count})"
+        logger.info(f"📅 [구글 캘린더 동기화 성공] {succ_msg}")
 
         return {
             "status": "success",
             "total_events_in_feed": len(events),
-            "newly_synced_count": synced_count,
-            "message": f"구글 캘린더에서 {len(events)}개의 일정을 확인하고, {synced_count}개의 새로운 일정을 동기화했습니다."
+            "total_events": len(events),
+            "newly_synced_count": inserted_count,
+            "updated_count": updated_count,
+            "total_synced": total_synced,
+            "synced_count": total_synced,
+            "cancelled_count": cancelled_count,
+            "last_sync_time": now_sync_str,
+            "message": succ_msg
         }
 
 

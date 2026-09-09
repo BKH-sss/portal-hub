@@ -16,7 +16,21 @@ import re
 import io
 import asyncio
 from typing import AsyncGenerator
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+try:
+    from modules._safe_router import (
+        APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+        JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+        CORSMiddleware, BaseModel, Field
+    )
+except ImportError:
+    try:
+        from _safe_router import (
+            APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+            JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+            CORSMiddleware, BaseModel, Field
+        )
+    except ImportError:
+        pass
 
 # =============================================================================
 # 🚀 1. FastAPI APIRouter 생성

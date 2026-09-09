@@ -34,9 +34,21 @@ import time
 from enum import Enum
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-from pydantic import BaseModel, Field
-from fastapi import APIRouter
-from fastapi.responses import HTMLResponse, JSONResponse
+try:
+    from modules._safe_router import (
+        APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+        JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+        CORSMiddleware, BaseModel, Field
+    )
+except ImportError:
+    try:
+        from _safe_router import (
+            APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+            JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+            CORSMiddleware, BaseModel, Field
+        )
+    except ImportError:
+        pass
 
 # 🛡️ 상대 조합 맞춤형 카운터 분석기 (선택형 독립 모듈 - 파일 삭제/비활성화 시 100% 안전 무시)
 try:

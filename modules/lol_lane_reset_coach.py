@@ -40,8 +40,21 @@ lol_lane_reset_coach.py
 import time
 from enum import Enum
 from typing import Dict, Any, Optional
-from pydantic import BaseModel, Field
-from fastapi import APIRouter
+try:
+    from modules._safe_router import (
+        APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+        JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+        CORSMiddleware, BaseModel, Field
+    )
+except ImportError:
+    try:
+        from _safe_router import (
+            APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+            JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+            CORSMiddleware, BaseModel, Field
+        )
+    except ImportError:
+        pass
 
 # =============================================================================
 # 🚀 1. 독립 FastAPI APIRouter 정의

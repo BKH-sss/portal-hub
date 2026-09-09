@@ -18,8 +18,21 @@ import asyncio
 from typing import Dict, Any, Optional
 from datetime import datetime
 from pathlib import Path
-from fastapi import APIRouter, HTTPException, Response
-from pydantic import BaseModel, Field
+try:
+    from modules._safe_router import (
+        APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+        JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+        CORSMiddleware, BaseModel, Field
+    )
+except ImportError:
+    try:
+        from _safe_router import (
+            APIRouter, HTTPException, Response, HTMLResponse, FileResponse,
+            JSONResponse, Request, WebSocket, WebSocketDisconnect, FastAPI,
+            CORSMiddleware, BaseModel, Field
+        )
+    except ImportError:
+        pass
 
 # 이미지 캡처 라이브러리 (PIL)
 try:
