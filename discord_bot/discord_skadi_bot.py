@@ -904,7 +904,7 @@ def get_channel_history(channel_id: int) -> deque:
     return conversation_history[channel_id]
 
 
-def build_system_prompt() -> str:
+def build_system_prompt(user_query: Optional[str] = None) -> str:
     """현재 페르소나와 장기 기억을 결합한 통합 시스템 프롬프트 조립"""
     personas = config_data.get("personas", {})
     persona_info = personas.get(current_persona_key, personas.get("bocadi", {}))
@@ -940,19 +940,52 @@ def build_system_prompt() -> str:
         "3. 사족이나 해설 없이, 처음부터 끝까지 스카디의 한국어 대사만 깔끔하게 출력해라."
     )
 
-    # 구글 캘린더 및 오늘의 일정 실시간 주입 (환각 방지)
+    # 구글 캘린더 및 일정 실시간 주입 (환각 및 TMI 원천 방지)
     schedule_prompt = ""
     if ScheduleManager:
         try:
-            today_str = get_now_kst().strftime("%Y-%m-%d")
-            today_items = ScheduleManager.get_items(target_date=today_str, include_completed=False)
-            events = [it for it in today_items if not it.get("is_todo")]
-            if events:
-                e_lines = [f"- {e['start_time'].split(' ')[1] if ' ' in e['start_time'] else '종일'}: {e['title']}" for e in events]
-                schedule_prompt = f"\n\n[오늘({today_str}) 구글 캘린더 등록 일정]\n" + "\n".join(e_lines)
+            now_dt = get_now_kst()
+            today_str = now_dt.strftime("%Y-%m-%d")
+
+            target_date_info = None
+            if user_query and google_calendar_engine:
+                try:
+                    target_date_info = google_calendar_engine.parse_schedule_query(user_query, now_dt)
+                except Exception:
+                    pass
+
+            is_asking_other_date = False
+            queried_date_str = today_str
+            queried_date_display = "오늘"
+            if target_date_info and not target_date_info.get("is_today", True):
+                is_asking_other_date = True
+                queried_date_str = target_date_info["target_date_str"]
+                queried_date_display = target_date_info["date_display"]
+
+            if is_asking_other_date:
+                # 사용자가 오늘이 아닌 특정 다른 날짜(예: 금요일, 내일 등)를 질의한 경우
+                target_items = ScheduleManager.get_items(target_date=queried_date_str, include_completed=False)
+                t_events = [it for it in target_items if not it.get("is_todo")]
+                if t_events:
+                    e_lines = [f"- {e['start_time'].split(' ')[1] if ' ' in e['start_time'] else '종일'}: {e['title']}" for e in t_events]
+                    schedule_prompt = f"\n\n[{queried_date_display}({queried_date_str}) 구글 캘린더 등록 일정]\n" + "\n".join(e_lines)
+                else:
+                    schedule_prompt = f"\n\n[{queried_date_display}({queried_date_str}) 구글 캘린더 등록 일정: 없음]"
+
+                schedule_prompt += (
+                    f"\n* 마스터가 {queried_date_display} 일정을 물어보고 있으므로, 반드시 {queried_date_display}에 대한 사실만 간결하게 답하라.\n"
+                    f"* [절대 금지: TMI 방지] 오늘({today_str})이나 다른 날짜의 일정을 묻지 않았는데도 나열하거나 덧붙이지 마라. "
+                    f"마스터가 물어본 대상 날짜({queried_date_display})에 일정이 없다면 일정이 없다는 사실만 깔끔하고 다정하게 말하라."
+                )
             else:
-                schedule_prompt = f"\n\n[오늘({today_str}) 구글 캘린더 등록 일정: 없음 (자유 시간)]"
-            schedule_prompt += "\n* 마스터가 일정이나 스케줄을 물어보면 반드시 위의 등록된 구글 캘린더 팩트에 기반하여 정확하게 대답하라. 없는 일정을 멋대로 지어내거나 모호한 감성 대사로 둘러대지 마라."
+                today_items = ScheduleManager.get_items(target_date=today_str, include_completed=False)
+                events = [it for it in today_items if not it.get("is_todo")]
+                if events:
+                    e_lines = [f"- {e['start_time'].split(' ')[1] if ' ' in e['start_time'] else '종일'}: {e['title']}" for e in events]
+                    schedule_prompt = f"\n\n[오늘({today_str}) 구글 캘린더 등록 일정]\n" + "\n".join(e_lines)
+                else:
+                    schedule_prompt = f"\n\n[오늘({today_str}) 구글 캘린더 등록 일정: 없음 (자유 시간)]"
+                schedule_prompt += "\n* 마스터가 오늘 일정이나 스케줄을 물어보면 반드시 위의 등록된 구글 캘린더 팩트에 기반하여 정확하게 대답하라. 없는 일정을 멋대로 지어내거나 모호한 감성 대사로 둘러대지 마라."
         except Exception:
             pass
 
@@ -989,7 +1022,12 @@ async def generate_skadi_response_with_thinking(
     status_callback=None
 ) -> tuple[str, List[str], float]:
     """LLM 오케스트레이터를 통한 스카디 답변 생성 및 실시간 사고 과정(Thinking Steps) 추적"""
-    system_prompt = build_system_prompt()
+    last_user_query = None
+    for m in reversed(messages or []):
+        if m.get("role") == "user":
+            last_user_query = m.get("content", "")
+            break
+    system_prompt = build_system_prompt(user_query=last_user_query)
     full_response = ""
     steps = ["질문 의도 분석 및 장기 기억(Fact Vault) 탐색 중..."]
     start_time = time.time()
@@ -1293,29 +1331,34 @@ def detect_schedule_intent(text: str) -> Tuple[bool, Optional[str], str]:
     if any(w in clean for w in false_positive_words) and not any(k in clean for k in ['일정', '스케줄', '캘린더']):
         return False, None, 'none'
 
-    # 2. 일정 추가 의도 감지
+    # 공통 정규식 패턴 (시간 및 날짜/요일)
+    time_pattern = r'(?:\d{1,2}시|\d{1,2}:\d{2}|오전\s*\d{1,2}시|오후\s*\d{1,2}시)'
+    date_pattern = r'(?:오늘|내일|모레|글피|어제|그제|그저께|이번\s*주|다음\s*주|담주|다다음\s*주|지난\s*주|저번\s*주|주간|(?:월|화|수|목|금|토|일)(?:요일|욜)|\d{1,2}월\s*\d{1,2}일|(?<!\d)\d{1,2}일)'
+
+    # 2. 일정 추가 의도 감지 (예: 오늘 13시 회의 추가해줘, 금요일 14시에 미팅 등록, 일정 추가)
     add_keywords = ['추가', '등록', '잡아줘', '넣어줘', '기록해줘', '기록']
-    sched_nouns = ['일정', '스케줄', '캘린더', '약속', '예약']
-    if any(k in clean for k in sched_nouns) and any(k in clean for k in add_keywords):
-        return True, text, 'add'
+    sched_nouns = ['일정', '스케줄', '캘린더', '약속', '예약', '회의', '미팅']
+    if any(k in clean for k in add_keywords):
+        if any(k in clean for k in sched_nouns) or (re.search(date_pattern, clean) and re.search(time_pattern, clean)):
+            return True, text, 'add'
 
     # 3. 특정 시간대 질의 (예: 13시 일정, 13시에 뭐 있어, 오후 2시 스케줄)
-    time_pattern = r'(?:\d{1,2}시|\d{1,2}:\d{2}|오전\s*\d{1,2}시|오후\s*\d{1,2}시)'
     if re.search(time_pattern, clean):
         if any(k in clean for k in ['일정', '스케줄', '캘린더', '시간표', '약속', '뭐 있어', '뭐있어', '뭐 있지', '뭐있지', '확인', '알려줘', '보고', '체크']):
             return True, text, 'query'
 
-    # 4. 상대 날짜 + 일정 질의 (예: 오늘 일정, 내일 스케줄, 오늘 뭐 있어, 내일 뭐해)
-    date_pattern = r'(?:오늘|내일|모레|글피|이번주|주간)'
+    # 4. 상대 날짜 및 요일 + 일정 질의 (예: 오늘 일정, 내일 스케줄, 금요일 일정, 다음주 월요일 일정, 오늘 뭐 있어, 내일 뭐해)
     if re.search(date_pattern, clean):
         if any(k in clean for k in ['일정', '스케줄', '캘린더', '시간표', '할일', '할 일', '투두', '약속']):
             return True, text, 'query'
         if any(k in clean for k in ['뭐 있어', '뭐있어', '뭐 있지', '뭐있지', '뭐해', '뭐 해']):
             return True, text, 'query'
 
-    # 5. 일반 일정 질의 키워드 (예: 일정 알려줘, 스케줄 확인, 캘린더 보여줘)
+    # 5. 일반 일정 질의 키워드 (예: 일정 알려줘, 스케줄 확인, 캘린더 보여줘, 내 일정)
     if any(k in clean for k in ['일정', '스케줄', '캘린더']):
         if any(k in clean for k in ['알려줘', '뭐야', '확인', '보고', '체크', '보여줘', '조회', '어때', '목록', '리스트', '있어', '있나']):
+            return True, text, 'query'
+        if clean in ['일정', '내 일정', '스케줄', '내 스케줄', '캘린더', '일정 목록', '스케줄 목록']:
             return True, text, 'query'
 
     return False, None, 'none'

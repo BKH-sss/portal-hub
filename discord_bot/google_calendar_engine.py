@@ -106,6 +106,79 @@ class GoogleCalendarEngine:
         except Exception as e:
             logger.debug(f"Google API 모듈 로드 건너뜀: {e}")
 
+    def fetch_google_calendar_events_api(
+        self,
+        target_date: datetime.date,
+        time_min_dt: Optional[datetime.datetime] = None,
+        time_max_dt: Optional[datetime.datetime] = None
+    ) -> List[Dict[str, Any]]:
+        """
+        Google Calendar API (Service Account / OAuth)를 사용하여 특정 일자의 일정을 조회
+        RFC 3339 timeMin, timeMax 표준 사용
+        """
+        if not self.service:
+            return []
+
+        try:
+            if time_min_dt is None:
+                time_min_dt = datetime.datetime.combine(target_date, datetime.time.min).replace(tzinfo=KST)
+            if time_max_dt is None:
+                time_max_dt = datetime.datetime.combine(target_date, datetime.time.max).replace(tzinfo=KST)
+
+            time_min_iso = time_min_dt.isoformat()
+            time_max_iso = time_max_dt.isoformat()
+
+            events_result = self.service.events().list(
+                calendarId='primary',
+                timeMin=time_min_iso,
+                timeMax=time_max_iso,
+                singleEvents=True,
+                orderBy='startTime'
+            ).execute()
+
+            items = events_result.get('items', [])
+            parsed_events = []
+            for item in items:
+                start = item.get('start', {})
+                end = item.get('end', {})
+
+                # start_time 추출 및 KST 포맷팅
+                start_time_str = "종일"
+                if start.get('dateTime'):
+                    try:
+                        dt_s = datetime.datetime.fromisoformat(start['dateTime'])
+                        dt_s_kst = dt_s.astimezone(KST)
+                        start_time_str = dt_s_kst.strftime("%Y-%m-%d %H:%M")
+                    except Exception:
+                        start_time_str = str(start['dateTime'])
+                elif start.get('date'):
+                    start_time_str = start['date']
+
+                end_time_str = ""
+                if end.get('dateTime'):
+                    try:
+                        dt_e = datetime.datetime.fromisoformat(end['dateTime'])
+                        dt_e_kst = dt_e.astimezone(KST)
+                        end_time_str = dt_e_kst.strftime("%Y-%m-%d %H:%M")
+                    except Exception:
+                        end_time_str = str(end['dateTime'])
+                elif end.get('date'):
+                    end_time_str = end['date']
+
+                parsed_events.append({
+                    "id": item.get('id', ''),
+                    "title": item.get('summary', '(제목 없음)'),
+                    "description": item.get('description', ''),
+                    "start_time": start_time_str,
+                    "end_time": end_time_str,
+                    "is_todo": False,
+                    "source": "google_api"
+                })
+            return parsed_events
+        except Exception as e:
+            logger.warning(f"Google Calendar API 조회 실패: {e}")
+            return []
+
     # -------------------------------------------------------------------------
     # 2. 구글 캘린더 웹 등록 템플릿 링크 생성
     # -------------------------------------------------------------------------
@@ -130,14 +203,15 @@ class GoogleCalendarEngine:
         return f"https://calendar.google.com/calendar/render?action=TEMPLATE&text={clean_title}&dates={dates_str}&details={clean_desc}"
 
     # -------------------------------------------------------------------------
-    # 3. 자연어 일정 조회 분석기 (13시 일정 알려줘 등 파싱)
+    # 3. 자연어 일정 조회 분석기 (특정 요일, 상대/절대 날짜 및 시간 파싱)
     # -------------------------------------------------------------------------
     @staticmethod
     def parse_schedule_query(text: str, now: Optional[datetime.datetime] = None) -> Dict[str, Any]:
         """
-        자연어 쿼리에서 대상 일자 및 특정 시간 파싱
-        예: '13시 일정 알려줘' -> 2026-09-08, 13시
-        예: '내일 오후 3시 일정 뭐야' -> 2026-09-09, 15시
+        자연어 쿼리에서 대상 일자(특정 요일/상대 날짜/절대 날짜) 및 특정 시간 파싱
+        예: '금요일 일정 알려줘' -> 2026-09-11 (금요일)
+        예: '다음주 월요일 스케줄' -> 2026-09-14 (다음 주 월요일)
+        예: '13시 일정 알려줘' -> 오늘, 13시
         """
         now_dt = now or get_now_kst()
         clean = text.strip()
@@ -146,15 +220,59 @@ class GoogleCalendarEngine:
         # 1) 날짜 판별
         target_date = now_dt.date()
         date_display = "오늘"
-        if "내일" in clean_lower:
-            target_date = now_dt.date() + datetime.timedelta(days=1)
-            date_display = "내일"
-        elif "모레" in clean_lower or "내일모레" in clean_lower:
-            target_date = now_dt.date() + datetime.timedelta(days=2)
-            date_display = "모레"
+        today_wd = now_dt.weekday()  # 0: 월, 1: 화, 2: 수, 3: 목, 4: 금, 5: 토, 6: 일
+        this_monday = target_date - datetime.timedelta(days=today_wd)
+
+        weekday_map = {"월": 0, "화": 1, "수": 2, "목": 3, "금": 4, "토": 5, "일": 6}
+        weekday_names = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"]
+
+        # 요일 매칭: (다다음주|다음주|담주|이번주|올주|지난주|저번주)?\s*([월화수목금토일])(?:요일|욜)?
+        m_week = re.search(r'(다다음\s*주|다음\s*주|담주|이번\s*주|올주|지난\s*주|저번\s*주)?\s*([월화수목금토일])(?:요일|욜)?', clean)
+
+        # 1-1. 상대 일자 판별
+        if "그제" in clean_lower or "그저께" in clean_lower:
+            target_date = now_dt.date() - datetime.timedelta(days=2)
+            date_display = "그저께"
+        elif "어제" in clean_lower:
+            target_date = now_dt.date() - datetime.timedelta(days=1)
+            date_display = "어제"
         elif "글피" in clean_lower:
             target_date = now_dt.date() + datetime.timedelta(days=3)
             date_display = "글피"
+        elif "모레" in clean_lower or "내일모레" in clean_lower:
+            target_date = now_dt.date() + datetime.timedelta(days=2)
+            date_display = "모레"
+        elif "내일" in clean_lower:
+            target_date = now_dt.date() + datetime.timedelta(days=1)
+            date_display = "내일"
+        elif "오늘" in clean_lower:
+            target_date = now_dt.date()
+            date_display = "오늘"
+        elif m_week and (m_week.group(1) or "요일" in clean or "욜" in clean):
+            modifier = (m_week.group(1) or "").replace(" ", "")
+            wd_char = m_week.group(2)
+            target_wd = weekday_map[wd_char]
+
+            if modifier in ["다음주", "담주"]:
+                target_date = this_monday + datetime.timedelta(days=7 + target_wd)
+                date_display = f"다음 주 {weekday_names[target_wd]}({target_date.month}월 {target_date.day}일)"
+            elif modifier in ["다다음주"]:
+                target_date = this_monday + datetime.timedelta(days=14 + target_wd)
+                date_display = f"다다음 주 {weekday_names[target_wd]}({target_date.month}월 {target_date.day}일)"
+            elif modifier in ["지난주", "저번주"]:
+                target_date = this_monday - datetime.timedelta(days=7 - target_wd)
+                date_display = f"지난 주 {weekday_names[target_wd]}({target_date.month}월 {target_date.day}일)"
+            elif modifier in ["이번주", "올주"]:
+                target_date = this_monday + datetime.timedelta(days=target_wd)
+                date_display = f"이번 주 {weekday_names[target_wd]}({target_date.month}월 {target_date.day}일)"
+            else:
+                # modifier 없음 (예: "금요일 일정 알려줘", "금요일 일정")
+                if target_wd >= today_wd:
+                    diff = target_wd - today_wd
+                else:
+                    diff = 7 - today_wd + target_wd
+                target_date = now_dt.date() + datetime.timedelta(days=diff)
+                date_display = f"{weekday_names[target_wd]}({target_date.month}월 {target_date.day}일)"
         else:
             m_date = re.search(r'(\d{4})[-년\.]\s*(\d{1,2})[-월\.]\s*(\d{1,2})', clean)
             if m_date:
@@ -167,6 +285,15 @@ class GoogleCalendarEngine:
                     m, d = int(m_md.group(1)), int(m_md.group(2))
                     target_date = datetime.date(now_dt.year, m, d)
                     date_display = f"{m}월 {d}일"
+                else:
+                    m_d = re.search(r'(?<!\d)(\d{1,2})일(?!\d)', clean)
+                    if m_d and "일정" not in clean[m_d.start():m_d.end() + 1]:
+                        d = int(m_d.group(1))
+                        try:
+                            target_date = datetime.date(now_dt.year, now_dt.month, d)
+                            date_display = f"{now_dt.month}월 {d}일"
+                        except ValueError:
+                            pass
 
         # 2) 특정 시간(Hour/Minute) 판별
         target_hour = None
@@ -206,9 +333,16 @@ class GoogleCalendarEngine:
                     else:
                         target_minute = 0
 
+        time_min_dt = datetime.datetime.combine(target_date, datetime.time.min).replace(tzinfo=KST)
+        time_max_dt = datetime.datetime.combine(target_date, datetime.time.max).replace(tzinfo=KST)
+
         return {
+            "target_date": target_date,
             "target_date_str": target_date.strftime("%Y-%m-%d"),
             "date_display": date_display,
+            "is_today": (target_date == now_dt.date()),
+            "time_min_iso": time_min_dt.isoformat(),
+            "time_max_iso": time_max_dt.isoformat(),
             "target_hour": target_hour,
             "target_minute": target_minute
         }
@@ -249,9 +383,11 @@ class GoogleCalendarEngine:
         title = clean
         remove_patterns = [
             r'(?:구글\s*캘린더|캘린더|스케줄|일정)(?:에)?',
-            r'(?:오늘|내일|모레|글피)',
+            r'(?:다다음\s*주|다음\s*주|담주|이번\s*주|올주|지난\s*주|저번\s*주)?\s*(?:월|화|수|목|금|토|일)(?:요일|욜)(?:에)?',
+            r'(?:오늘|내일|모레|글피|어제|그제|그저께)(?:에)?',
             r'\d{4}[-년\.]\s*\d{1,2}[-월\.]\s*\d{1,2}일?',
             r'\d{1,2}월\s*\d{1,2}일',
+            r'(?<!\d)\d{1,2}일(?:에)?',
             r'(?:오전|오후)?\s*\d{1,2}시(?:\s*\d{1,2}분|\s*반)?(?:에)?',
             r'\d{1,2}:\d{2}(?:에)?',
             r'(?:추가해줘|추가해|추가|등록해줘|등록해|등록|잡아줘|넣어줘|기록해줘|기록)',
@@ -287,12 +423,22 @@ class GoogleCalendarEngine:
         """
         now = get_now_kst()
         q_info = self.parse_schedule_query(text, now)
+        target_date = q_info["target_date"]
         target_date_str = q_info["target_date_str"]
         date_display = q_info["date_display"]
+        is_today = q_info.get("is_today", False)
         target_hour = q_info["target_hour"]
 
         items = []
-        if schedule_manager_ref:
+        # 1) Google Calendar 공식 API 조회 (연동된 경우)
+        if self.service:
+            try:
+                items = self.fetch_google_calendar_events_api(target_date)
+            except Exception as ge:
+                logger.warning(f"Google Calendar API 조회 중 예외: {ge}")
+
+        # 2) 공식 API 결과가 없거나 service 미연동 시 iCal / 로컬 ScheduleManager 동기화 및 조회
+        if not items and schedule_manager_ref:
             try:
                 # 구글 캘린더 iCal URL이 설정되어 있을 경우 최신 일정 자동 동기화
                 ical_url = os.environ.get("GOOGLE_CALENDAR_ICAL_URL", "")
@@ -313,7 +459,7 @@ class GoogleCalendarEngine:
                 logger.warning(f"스케줄 로드 오류: {e}")
 
         events = [it for it in items if not it.get("is_todo")]
-        all_today_events = events.copy()
+        target_events = events.copy()
 
         # 특정 시간대(예: 13시)가 지정된 경우 필터링
         matching_events = []
@@ -336,7 +482,7 @@ class GoogleCalendarEngine:
                 lines.append(f"• ⏰ **[{t_part}] {ev['title']}**{desc}")
 
             # 10분 전 알림 안내
-            first_time = matching_events[0]['start_time'].split(' ')[1] if ' ' in matching_events[0]['start_time'] else "13:00"
+            first_time = matching_events[0]['start_time'].split(' ')[1] if ' ' in matching_events[0]['start_time'] else f"{target_hour:02d}:00"
             try:
                 dt_obj = datetime.datetime.strptime(f"{target_date_str} {first_time}", "%Y-%m-%d %H:%M")
                 alert_time_str = (dt_obj - datetime.timedelta(minutes=10)).strftime("%H시 %M분")
@@ -355,8 +501,8 @@ class GoogleCalendarEngine:
         # -------------------------------------------------------------
         if target_hour is not None and not matching_events:
             other_lines = []
-            if all_today_events:
-                for ev in all_today_events[:4]:
+            if target_events:
+                for ev in target_events[:4]:
                     t_part = ev['start_time'].split(' ')[1] if ' ' in ev['start_time'] else '종일'
                     other_lines.append(f"• `[{t_part}]` **{ev['title']}**")
                 other_text = f"\n\n**📌 {date_display} 남은 다른 일정:**\n" + "\n".join(other_lines)
@@ -374,21 +520,20 @@ class GoogleCalendarEngine:
         # -------------------------------------------------------------
         # Case C: 날짜 전체 일정을 물어본 경우 ("오늘 일정 알려줘", "내일 일정 확인")
         # -------------------------------------------------------------
-        # 진행 중인 주요 태스크(Todo)도 함께 조회하여 모닝 브리핑과 동일한 알잘딱깔센 지원
+        # 진행 중인 주요 태스크(Todo)는 '오늘' 일정을 물었을 때만 함께 안내 (타 일자 조회 시 TMI 방지)
+        todo_section = ""
         todos = []
-        if schedule_manager_ref and hasattr(schedule_manager_ref, "get_items"):
+        if is_today and schedule_manager_ref and hasattr(schedule_manager_ref, "get_items"):
             try:
                 todos = schedule_manager_ref.get_items(only_todos=True, include_completed=False)
+                if todos:
+                    todo_lines = ["\n**📋 진행 중인 주요 태스크:**"]
+                    for td in todos[:4]:
+                        p_mark = "🔥" if td.get("priority", 2) == 3 else "⚡"
+                        todo_lines.append(f"• {p_mark} {td['title']}")
+                    todo_section = "\n".join(todo_lines)
             except Exception:
                 todos = []
-
-        todo_lines = []
-        if todos:
-            todo_lines.append("\n**📋 진행 중인 주요 태스크:**")
-            for td in todos[:4]:
-                p_mark = "🔥" if td.get("priority", 2) == 3 else "⚡"
-                todo_lines.append(f"• {p_mark} {td['title']}")
-        todo_section = "\n".join(todo_lines)
 
         if events:
             lines = []
@@ -407,13 +552,13 @@ class GoogleCalendarEngine:
             return True, msg, {"title": f"📅 구글 캘린더 • {date_display} 일정 목록", "events": events, "todos": todos}
         else:
             msg = (
-                f"📅 **마스터, {date_display}({target_date_str})에는 등록된 구글 캘린더 일정이 하나도 없어.** ✨\n"
-                f"일정 걱정 없이 여유롭고 자유로운 하루를 보내도 좋아."
-                + (f"\n{todo_section}" if todo_section else "")
+                f"📅 **마스터, {date_display}({target_date_str})에는 등록된 구글 캘린더 일정이 없어.** ✨\n"
+                f"해당 날짜에는 예정된 일정이 없으니, 여유롭고 편안하게 마스터만의 페이스대로 보내도 좋아."
+                + (f"\n{todo_section}" if (is_today and todo_section) else "")
                 + "\n\n"
-                f"💡 *새로운 일정이 생기면 `\"오늘 13시에 회의 일정 추가해줘\"`처럼 언제든 말해줘!*"
+                f"💡 *새로운 일정이 생기면 `\"{date_display} 13시에 회의 일정 추가해줘\"`처럼 언제든 말해줘!*"
             )
-            return True, msg, {"title": f"📅 구글 캘린더 • {date_display} (비어있음)", "events": [], "todos": todos}
+            return True, msg, {"title": f"📅 구글 캘린더 • {date_display} (비어있음)", "events": [], "todos": []}
 
     # -------------------------------------------------------------------------
     # 6. 자연어 일정 추가 처리
