@@ -390,53 +390,59 @@ def get_soccer_matches():
         'LEE': {'name': '리즈', 'name_en': 'Leeds United', 'abbr': 'LEE', 'id': '357'},
         'BUR': {'name': '번리', 'name_en': 'Burnley', 'abbr': 'BUR', 'id': '379'},
         'HUL': {'name': '헐 시티', 'name_en': 'Hull City', 'abbr': 'HUL', 'id': '306'},
+        'ATM': {'name': '아틀레티코', 'name_en': 'Atlético Madrid', 'abbr': 'ATM', 'id': '1068'},
+        'COMO': {'name': '코모', 'name_en': 'Como 1907', 'abbr': 'COMO', 'id': '2572'},
         'FA': {'name': 'FA컵 결승', 'name_en': 'FA Cup Final', 'abbr': 'FAC', 'id': '1'}
     }
 
     full_season_raw = [
-        ('mu_260818', 'ARS', 'MAN', '8/18 오전 12:30', '2026-08-17T15:30:00Z', '종료', True, '1', '0'),
-        ('mu_260822', 'HUL', 'MAN', '8/22 오후 8:30', '2026-08-22T11:30:00Z', '종료', True, '2', '0'),
-        ('mu_260825', 'FUL', 'MAN', '8/25 오전 12:30', '2026-08-24T15:30:00Z', '종료', True, '1', '1'),
-        ('mu_260830', 'MAN', 'IPS', '8/30 오후 11:00', '2026-08-30T14:00:00Z', '종료', True, '5', '2'),
-        ('mu_260906', 'EVE', 'MAN', '9/6 오후 10:00', '2026-09-06T13:00:00Z', '종료', True, '2', '2'),
-        ('mu_260914', 'MAN', 'MNC', '9/14 오전 12:30', '2026-09-13T15:30:00Z', '종료', True, '0', '1'),
-        ('mu_260921', 'FUL', 'MAN', '9/21 오전 12:30', '2026-09-20T15:30:00Z', '경기전', False, '', ''),
-        ('mu_260928', 'MAN', 'TOT', '9/28 오전 12:30', '2026-09-27T15:30:00Z', '경기전', False, '', ''),
-        ('mu_261005', 'AVL', 'MAN', '10/5 오전 12:30', '2026-10-04T15:30:00Z', '경기전', False, '', ''),
-        ('mu_261018', 'MAN', 'BRE', '10/18 오후 10:00', '2026-10-18T13:00:00Z', '경기전', False, '', ''),
-        ('mu_261025', 'WHU', 'MAN', '10/25 오후 11:00', '2026-10-25T14:00:00Z', '경기전', False, '', ''),
-        ('mu_261102', 'MAN', 'CHE', '11/2 오전 1:30', '2026-11-01T16:30:00Z', '경기전', False, '', ''),
-        ('mu_261108', 'MAN', 'LEI', '11/8 오후 11:00', '2026-11-08T14:00:00Z', '경기전', False, '', ''),
-        ('mu_261122', 'IPS', 'MAN', '11/22 오후 11:00', '2026-11-22T14:00:00Z', '경기전', False, '', ''),
-        ('mu_261129', 'MAN', 'EVE', '11/29 오후 11:00', '2026-11-29T14:00:00Z', '경기전', False, '', ''),
-        ('mu_261204', 'ARS', 'MAN', '12/4 오전 4:30', '2026-12-03T19:30:00Z', '경기전', False, '', ''),
-        ('mu_261208', 'MAN', 'NFO', '12/8 오전 5:00', '2026-12-07T20:00:00Z', '경기전', False, '', ''),
-        ('mu_261215', 'MNC', 'MAN', '12/15 오전 1:30', '2026-12-14T16:30:00Z', '경기전', False, '', ''),
-        ('mu_261222', 'MAN', 'BOU', '12/22 오전 1:30', '2026-12-21T16:30:00Z', '경기전', False, '', ''),
-        ('mu_261226', 'WOL', 'MAN', '12/26 오후 9:30', '2026-12-26T12:30:00Z', '경기전', False, '', ''),
-        ('mu_261230', 'MAN', 'NEW', '12/30 오전 4:45', '2026-12-29T19:45:00Z', '경기전', False, '', ''),
-        ('mu_270105', 'LIV', 'MAN', '1/5 오전 1:30', '2027-01-04T16:30:00Z', '경기전', False, '', ''),
-        ('mu_270116', 'MAN', 'SOU', '1/16 오후 9:30', '2027-01-16T12:30:00Z', '경기전', False, '', ''),
-        ('mu_270126', 'BHA', 'MAN', '1/26 오전 5:00', '2027-01-25T20:00:00Z', '경기전', False, '', ''),
-        ('mu_270202', 'MAN', 'CRY', '2/2 오전 5:00', '2027-02-01T20:00:00Z', '경기전', False, '', ''),
-        ('mu_270214', 'TOT', 'MAN', '2/14 오후 11:00', '2027-02-14T14:00:00Z', '경기전', False, '', ''),
-        ('mu_270221', 'EVE', 'MAN', '2/21 오후 11:00', '2027-02-21T14:00:00Z', '경기전', False, '', ''),
-        ('mu_270227', 'MAN', 'IPS', '2/27 오후 9:30', '2027-02-27T12:30:00Z', '경기전', False, '', ''),
-        ('mu_270307', 'MAN', 'ARS', '3/7 오후 11:00', '2027-03-07T14:00:00Z', '경기전', False, '', ''),
-        ('mu_270314', 'LEI', 'MAN', '3/14 오후 11:00', '2027-03-14T14:00:00Z', '경기전', False, '', ''),
-        ('mu_270404', 'NFO', 'MAN', '4/4 오후 11:00', '2027-04-04T14:00:00Z', '경기전', False, '', ''),
-        ('mu_270411', 'MAN', 'MNC', '4/11 오후 11:00', '2027-04-11T14:00:00Z', '경기전', False, '', ''),
-        ('mu_270418', 'NEW', 'MAN', '4/18 오후 11:00', '2027-04-18T14:00:00Z', '경기전', False, '', ''),
-        ('mu_270425', 'MAN', 'WOL', '4/25 오후 11:00', '2027-04-25T14:00:00Z', '경기전', False, '', ''),
-        ('mu_270502', 'BOU', 'MAN', '5/2 오후 11:00', '2027-05-02T14:00:00Z', '경기전', False, '', ''),
-        ('mu_270509', 'MAN', 'LIV', '5/9 오후 11:00', '2027-05-09T14:00:00Z', '경기전', False, '', ''),
-        ('mu_270516', 'CHE', 'MAN', '5/16 오후 11:00', '2027-05-16T14:00:00Z', '경기전', False, '', ''),
-        ('mu_270524', 'MAN', 'AVL', '5/24 오전 12:00', '2027-05-23T15:00:00Z', '경기전', False, '', ''),
-        ('mu_270530', 'MAN', 'FA', '5/30 오전 1:00', '2027-05-29T16:00:00Z', '경기전', False, '', '')
+        ('mu_260818', 'ARS', 'MAN', '8/18 오전 12:30', '2026-08-17T15:30:00Z', '종료', True, '1', '0', 'EPL'),
+        ('mu_260822', 'HUL', 'MAN', '8/22 오후 8:30', '2026-08-22T11:30:00Z', '종료', True, '2', '0', 'EPL'),
+        ('mu_260825', 'FUL', 'MAN', '8/25 오전 12:30', '2026-08-24T15:30:00Z', '종료', True, '1', '1', 'EPL'),
+        ('mu_260830', 'MAN', 'IPS', '8/30 오후 11:00', '2026-08-30T14:00:00Z', '종료', True, '5', '2', 'EPL'),
+        ('mu_260906', 'EVE', 'MAN', '9/6 오후 10:00', '2026-09-06T13:00:00Z', '종료', True, '2', '2', 'EPL'),
+        ('mu_260914', 'MAN', 'MNC', '9/14 오전 12:30', '2026-09-13T15:30:00Z', '종료', True, '0', '1', 'EPL'),
+        ('mu_cup_260917', 'MAN', 'BHA', '내일 오전 4:00', '2026-09-16T19:00:00Z', '경기전', False, '', '', '리그컵 3R'),
+        ('mu_260921', 'FUL', 'MAN', '9/21 오전 12:30', '2026-09-20T15:30:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_261011', 'MAN', 'TOT', '10/11 오전 1:30', '2026-10-10T16:30:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_ucl_261014', 'ATM', 'MAN', '10/14 오전 4:00', '2026-10-13T19:00:00Z', '경기전', False, '', '', 'UCL'),
+        ('mu_261018', 'LEE', 'MAN', '10/18 오후 10:00', '2026-10-18T13:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_ucl_261022', 'COMO', 'MAN', '10/22 오전 1:45', '2026-10-21T16:45:00Z', '경기전', False, '', '', 'UCL'),
+        ('mu_261025', 'MAN', 'BOU', '10/25 오후 11:00', '2026-10-25T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_261102', 'MAN', 'CHE', '11/2 오전 1:30', '2026-11-01T16:30:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_261108', 'MAN', 'LEI', '11/8 오후 11:00', '2026-11-08T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_261122', 'IPS', 'MAN', '11/22 오후 11:00', '2026-11-22T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_261129', 'MAN', 'EVE', '11/29 오후 11:00', '2026-11-29T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_261204', 'ARS', 'MAN', '12/4 오전 4:30', '2026-12-03T19:30:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_261208', 'MAN', 'NFO', '12/8 오전 5:00', '2026-12-07T20:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_261215', 'MNC', 'MAN', '12/15 오전 1:30', '2026-12-14T16:30:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_261222', 'MAN', 'BOU', '12/22 오전 1:30', '2026-12-21T16:30:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_261226', 'WOL', 'MAN', '12/26 오후 9:30', '2026-12-26T12:30:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_261230', 'MAN', 'NEW', '12/30 오전 4:45', '2026-12-29T19:45:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270105', 'LIV', 'MAN', '1/5 오전 1:30', '2027-01-04T16:30:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270116', 'MAN', 'SOU', '1/16 오후 9:30', '2027-01-16T12:30:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270126', 'BHA', 'MAN', '1/26 오전 5:00', '2027-01-25T20:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270202', 'MAN', 'CRY', '2/2 오전 5:00', '2027-02-01T20:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270214', 'TOT', 'MAN', '2/14 오후 11:00', '2027-02-14T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270221', 'EVE', 'MAN', '2/21 오후 11:00', '2027-02-21T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270227', 'MAN', 'IPS', '2/27 오후 9:30', '2027-02-27T12:30:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270307', 'MAN', 'ARS', '3/7 오후 11:00', '2027-03-07T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270314', 'LEI', 'MAN', '3/14 오후 11:00', '2027-03-14T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270404', 'NFO', 'MAN', '4/4 오후 11:00', '2027-04-04T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270411', 'MAN', 'MNC', '4/11 오후 11:00', '2027-04-11T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270418', 'NEW', 'MAN', '4/18 오후 11:00', '2027-04-18T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270425', 'MAN', 'WOL', '4/25 오후 11:00', '2027-04-25T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270502', 'BOU', 'MAN', '5/2 오후 11:00', '2027-05-02T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270509', 'MAN', 'LIV', '5/9 오후 11:00', '2027-05-09T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270516', 'CHE', 'MAN', '5/16 오후 11:00', '2027-05-16T14:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270524', 'MAN', 'AVL', '5/24 오전 12:00', '2027-05-23T15:00:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_270530', 'MAN', 'FA', '5/30 오전 1:00', '2027-05-29T16:00:00Z', '경기전', False, '', '', 'FA컵')
     ]
 
     base_matches = []
-    for mid, hk, ak, tk, rd, skr, is_fin, hs, ascore in full_season_raw:
+    for item in full_season_raw:
+        mid, hk, ak, tk, rd, skr, is_fin, hs, ascore = item[:9]
+        comp_badge = item[9] if len(item) > 9 else '맨유 경기'
         ht = team_dict[hk]
         at = team_dict[ak]
         hn = ht['name']
@@ -446,9 +452,9 @@ def get_soccer_matches():
 
         base_matches.append({
             'id': mid,
-            'league': '맨유 경기',
-            'league_short': '맨체스터 유나이티드',
-            'league_code': 'eng.1',
+            'league': comp_badge,
+            'league_short': comp_badge,
+            'league_code': 'eng.1' if 'EPL' in comp_badge else ('cup' if '리그컵' in comp_badge else 'uefa'),
             'match_name': f'{hn} vs {an}',
             'match_short': f'{ht["abbr"]} 대 {at["abbr"]}',
             'time_kst': tk,
@@ -519,32 +525,50 @@ def get_soccer_matches():
     except Exception as e:
         print(f"[MU Schedule Overlay Error] {e}")
 
-    # 2. ESPN 실시간 라이브 스코어보드 확인 (진행 중인 경기 갱신)
+    # 2. ESPN 전 리그(리그컵, 유럽 대항전 등) 실시간 라이브 스코어보드 확인 (진행 중 / 당일 경기 갱신)
     try:
-        live_url = "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard"
-        live_data = _fetch_url_json(live_url, headers=headers, timeout=2.0)
-        if live_data:
-            for ev in live_data.get("events", []):
-                ev_name = ev.get("name", "").lower()
-                if "manchester united" in ev_name:
+        now_dt = datetime.now(timezone.utc)
+        for delta in [-1, 0, 1]:
+            d_str = (now_dt + timedelta(days=delta)).strftime("%Y%m%d")
+            live_url = f"https://site.web.api.espn.com/apis/site/v2/sports/soccer/all/scoreboard?dates={d_str}"
+            live_data = _fetch_url_json(live_url, headers=headers, timeout=2.5)
+            if live_data:
+                for ev in live_data.get("events", []):
                     comp = ev.get("competitions", [{}])[0]
-                    status_obj = comp.get("status", {}).get("type", {})
-                    state = status_obj.get("state", "pre")
-                    if state == "in":
-                        teams = comp.get("competitors", [])
+                    teams = comp.get("competitors", [])
+                    # 맨유 1군(id: 360) 경기만 엄격 필터링
+                    if any(str(t.get("team", {}).get("id")) == "360" for t in teams):
+                        status_obj = comp.get("status", {}).get("type", {})
+                        state = status_obj.get("state", "pre")
+                        completed = status_obj.get("completed", False)
                         h_team = next((t for t in teams if t.get("homeAway") == "home"), teams[0])
                         a_team = next((t for t in teams if t.get("homeAway") == "away"), teams[1])
-                        # 첫 번째 예정 경기를 라이브로 교체
+                        h_abbr = h_team.get("team", {}).get("abbreviation")
+                        a_abbr = a_team.get("team", {}).get("abbreviation")
+                        h_score = str(h_team.get("score", ""))
+                        a_score = str(a_team.get("score", ""))
+                        ev_date_str = ev.get("date", "")[:10]
+
                         for m in base_matches:
-                            if not m["is_finished"]:
-                                m["is_live"] = True
-                                m["state"] = "in"
-                                m["status_kr"] = "LIVE"
-                                m["home"]["score"] = str(h_team.get("score", "0"))
-                                m["away"]["score"] = str(a_team.get("score", "0"))
+                            m_date_str = m.get("raw_date", "")[:10]
+                            is_match = (m["home"]["abbr"] == h_abbr and m["away"]["abbr"] == a_abbr) or (m_date_str and m_date_str == ev_date_str)
+                            if is_match:
+                                if state == "in":
+                                    m["is_live"] = True
+                                    m["state"] = "in"
+                                    m["status_kr"] = "LIVE"
+                                    if h_score: m["home"]["score"] = h_score
+                                    if a_score: m["away"]["score"] = a_score
+                                elif completed or state == "post":
+                                    m["is_finished"] = True
+                                    m["is_live"] = False
+                                    m["status_kr"] = "종료"
+                                    m["state"] = "post"
+                                    if h_score: m["home"]["score"] = h_score
+                                    if a_score: m["away"]["score"] = a_score
                                 break
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"[MU All Scoreboard Error] {e}")
 
     _CACHE["soccer"]["data"] = base_matches
     _CACHE["soccer"]["timestamp"] = now
