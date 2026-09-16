@@ -399,7 +399,7 @@ def get_soccer_matches():
         ('mu_260825', 'FUL', 'MAN', '8/25 오전 12:30', '2026-08-24T15:30:00Z', '종료', True, '1', '1'),
         ('mu_260830', 'MAN', 'IPS', '8/30 오후 11:00', '2026-08-30T14:00:00Z', '종료', True, '5', '2'),
         ('mu_260906', 'EVE', 'MAN', '9/6 오후 10:00', '2026-09-06T13:00:00Z', '종료', True, '2', '2'),
-        ('mu_260914', 'MAN', 'MNC', '9/14 오전 12:30', '2026-09-13T15:30:00Z', '경기전', False, '', ''),
+        ('mu_260914', 'MAN', 'MNC', '9/14 오전 12:30', '2026-09-13T15:30:00Z', '종료', True, '0', '1'),
         ('mu_260921', 'FUL', 'MAN', '9/21 오전 12:30', '2026-09-20T15:30:00Z', '경기전', False, '', ''),
         ('mu_260928', 'MAN', 'TOT', '9/28 오전 12:30', '2026-09-27T15:30:00Z', '경기전', False, '', ''),
         ('mu_261005', 'AVL', 'MAN', '10/5 오전 12:30', '2026-10-04T15:30:00Z', '경기전', False, '', ''),
@@ -475,7 +475,51 @@ def get_soccer_matches():
             }
         })
 
-    # ESPN 실시간 라이브 스코어보드 확인 (진행 중인 경기 갱신)
+    # 1. ESPN 공식 일정/결과 API 실시간 자동 동기화 (최신 종료 경기 스코어 및 상태 자동 반영)
+    try:
+        schedule_url = "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/360/schedule"
+        sched_data = _fetch_url_json(schedule_url, headers=headers, timeout=3.0)
+        if sched_data:
+            for ev in sched_data.get("events", []):
+                comp = ev.get("competitions", [{}])[0]
+                status_obj = comp.get("status", {}).get("type", {})
+                state = status_obj.get("state", "pre")
+                completed = status_obj.get("completed", False)
+
+                teams = comp.get("competitors", [])
+                if len(teams) < 2:
+                    continue
+                h = next((t for t in teams if t.get("homeAway") == "home"), teams[0])
+                a = next((t for t in teams if t.get("homeAway") == "away"), teams[1])
+                h_abbr = h.get("team", {}).get("abbreviation")
+                a_abbr = a.get("team", {}).get("abbreviation")
+                h_score = str(h.get("score", {}).get("displayValue", "") if isinstance(h.get("score"), dict) else h.get("score", ""))
+                a_score = str(a.get("score", {}).get("displayValue", "") if isinstance(a.get("score"), dict) else a.get("score", ""))
+                ev_date_str = ev.get("date", "")[:10]
+
+                for m in base_matches:
+                    m_date_str = m.get("raw_date", "")[:10]
+                    is_abbr_match = (m["home"]["abbr"] == h_abbr and m["away"]["abbr"] == a_abbr)
+                    if is_abbr_match or (m_date_str and m_date_str == ev_date_str):
+                        if completed or state == "post":
+                            m["is_finished"] = True
+                            m["is_live"] = False
+                            m["status_kr"] = "종료"
+                            m["state"] = "post"
+                            if h_score: m["home"]["score"] = h_score
+                            if a_score: m["away"]["score"] = a_score
+                        elif state == "in":
+                            m["is_finished"] = False
+                            m["is_live"] = True
+                            m["status_kr"] = "LIVE"
+                            m["state"] = "in"
+                            if h_score: m["home"]["score"] = h_score
+                            if a_score: m["away"]["score"] = a_score
+                        break
+    except Exception as e:
+        print(f"[MU Schedule Overlay Error] {e}")
+
+    # 2. ESPN 실시간 라이브 스코어보드 확인 (진행 중인 경기 갱신)
     try:
         live_url = "https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard"
         live_data = _fetch_url_json(live_url, headers=headers, timeout=2.0)

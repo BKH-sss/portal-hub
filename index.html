@@ -210,14 +210,25 @@
                        href="https://www.google.com/search?q=%ED%94%84%EB%A6%AC%EB%AF%B8%EC%96%B4%EB%A6%AC%EA%B7%B8+%EC%88%9C%EC%9C%84" 
                        target="_blank" 
                        rel="noopener noreferrer" 
-                       title="클릭 시 2025/26 잉글랜드 프리미어리그 전체 순위표 보기"
+                       title="클릭 시 2026/27 잉글랜드 프리미어리그 전체 순위표 보기"
                        class="flex items-center gap-1 text-[10px] font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/80 hover:bg-amber-100 dark:hover:bg-amber-900/80 px-2.5 py-0.5 rounded-full border border-amber-200 dark:border-amber-800/60 transition shadow-sm cursor-pointer group">
                         <span class="text-xs">🏆</span>
-                        <span id="muStandingText">EPL 10위 (1승 1패 · 3점)</span>
+                        <span id="muStandingText">EPL 13위 (1-1-2, 4점)</span>
                         <svg class="w-2.5 h-2.5 text-amber-500 group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                         </svg>
                     </a>
+
+                    <!-- 실시간 자동 갱신 인디케이터 & 수동 새로고침 -->
+                    <div class="hidden sm:flex items-center gap-1.5 ml-1">
+                        <span id="soccerLiveIndicator" class="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span id="soccerLiveText">실시간 연동중</span>
+                        </span>
+                        <button onclick="fetchSoccerDirect()" class="text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 transition p-1" title="경기 일정 및 결과 즉시 새로고침">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        </button>
+                    </div>
                 </div>
                 <div class="flex items-center gap-1.5">
                     <button onclick="scrollSoccer(-300)" class="p-1 rounded-full bg-slate-200/80 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition text-xs">
@@ -712,8 +723,8 @@
                 time_kst: "9/14 오전 12:30",
                 raw_date: "2026-09-13T15:30:00Z",
                 relative_day: "9/14",
-                status_kr: "경기전",
-                is_finished: false,
+                status_kr: "종료",
+                is_finished: true,
                 is_live: false,
                 google_url: "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EB%A7%A8%EC%8B%9C%ED%8B%B0%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
                 home: {
@@ -721,14 +732,14 @@
                     name_en: "Manchester United",
                     abbr: "MAN",
                     logo: "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
-                    score: ""
+                    score: "0"
                 },
                 away: {
                     name: "맨시티",
                     name_en: "Manchester City",
                     abbr: "MNC",
                     logo: "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
-                    score: ""
+                    score: "1"
                 }
             },
             {
@@ -2017,8 +2028,9 @@
                 // FastAPI 백엔드가 없거나 타임아웃된 환경 (GitHub Pages 등)
             }
 
-            // GitHub Pages 환경에서는 브라우저가 직접 Open-Meteo 실시간 기상 정보 갱신
+            // GitHub Pages 환경에서는 브라우저가 직접 Open-Meteo 실시간 기상 정보 및 ESPN 실시간 축구 갱신
             fetchWeatherDirect(currentCity);
+            fetchSoccerDirect();
         }
 
         async function fetchOverview() {
@@ -2026,12 +2038,17 @@
             await fetchStaticPortalData();
             // 2) 라이브 데이터 백그라운드 최신화
             revalidateLiveData();
+            // 3) 60초 주기 실시간 축구 경기 & 순위 무중단 자동 갱신 폴링
+            if (!soccerPollTimer) {
+                soccerPollTimer = setInterval(fetchSoccerDirect, 60000);
+            }
         }
 
         async function fetchSoccerOnly() {
             if (staticPortalData && staticPortalData.soccer) {
                 renderSoccer(staticPortalData.soccer);
             }
+            fetchSoccerDirect();
         }
 
         async function fetchWeatherOnly(city) {
@@ -2110,6 +2127,160 @@
                 }
             } catch (wErr) {
                 console.warn('Weather direct fetch error:', wErr);
+            }
+        }
+
+        // ⚽ ESPN 브라우저 CORS 실시간 경기 일정 & 스코어 & 순위 다이렉트 갱신 (무중단 실시간 동기화)
+        let soccerPollTimer = null;
+        let isFetchingSoccer = false;
+
+        async function fetchSoccerDirect() {
+            if (isFetchingSoccer) return;
+            isFetchingSoccer = true;
+
+            const liveInd = document.getElementById('soccerLiveIndicator');
+            const liveText = document.getElementById('soccerLiveText');
+            if (liveText) liveText.textContent = '동기화 중...';
+
+            try {
+                // 1. EPL 실시간 순위 조회 (CORS 지원)
+                const standingPromise = fetch('https://site.web.api.espn.com/apis/v2/sports/soccer/eng.1/standings')
+                    .then(res => res.ok ? res.json() : null)
+                    .then(sdata => {
+                        if (!sdata) return;
+                        for (const group of (sdata.children || [])) {
+                            for (const entry of (group.standings?.entries || [])) {
+                                const t = entry.team || {};
+                                if (String(t.id) === '360' || (t.displayName || '').toLowerCase().includes('manchester united')) {
+                                    const stats = {};
+                                    (entry.stats || []).forEach(s => { stats[s.name] = s.displayValue; });
+                                    const rank = stats.rank || '13';
+                                    const points = stats.points || '4';
+                                    const overall = stats.overall || '1-1-2';
+                                    const badgeText = `EPL ${rank}위 (${overall}, ${points}점)`;
+                                    const sEl = document.getElementById('muStandingText');
+                                    if (sEl) sEl.textContent = badgeText;
+                                    if (staticPortalData) {
+                                        staticPortalData.mu_standing = { rank, rank_text: `EPL ${rank}위`, points, record: overall, badge_text: badgeText };
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }).catch(() => {});
+
+                // 2. 맨유 경기 일정 및 완료 경기 스코어 실시간 조회 (CORS 지원)
+                const schedulePromise = fetch('https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/teams/360/schedule')
+                    .then(res => res.ok ? res.json() : null)
+                    .catch(() => null);
+
+                // 3. 현재 진행 중인 LIVE 스코어보드 조회 (CORS 지원)
+                const livePromise = fetch('https://site.web.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard')
+                    .then(res => res.ok ? res.json() : null)
+                    .catch(() => null);
+
+                const [_, schData, liveData] = await Promise.all([standingPromise, schedulePromise, livePromise]);
+
+                let targetMatches = (staticPortalData && staticPortalData.soccer && staticPortalData.soccer.length > 0)
+                    ? staticPortalData.soccer
+                    : DEFAULT_MANUTD_FALLBACK;
+
+                let updated = false;
+
+                // 스케줄 API 반영 (종료 경기 최신화)
+                if (schData && schData.events) {
+                    for (const ev of schData.events) {
+                        const comp = (ev.competitions || [])[0] || {};
+                        const status = comp.status?.type || {};
+                        const state = status.state || 'pre';
+                        const completed = comp.status?.type?.completed || false;
+                        const teams = comp.competitors || [];
+                        if (teams.length < 2) continue;
+
+                        const h = teams.find(t => t.homeAway === 'home') || teams[0];
+                        const a = teams.find(t => t.homeAway === 'away') || teams[1];
+                        const hAbbr = h.team?.abbreviation;
+                        const aAbbr = a.team?.abbreviation;
+                        const hScore = String(h.score?.displayValue ?? h.score ?? '');
+                        const aScore = String(a.score?.displayValue ?? a.score ?? '');
+                        const evDate = (ev.date || '').slice(0, 10);
+
+                        for (const m of targetMatches) {
+                            const mDate = (m.raw_date || '').slice(0, 10);
+                            const isMatch = (m.home?.abbr === hAbbr && m.away?.abbr === aAbbr) || (mDate && mDate === evDate);
+                            if (isMatch) {
+                                if (completed || state === 'post') {
+                                    if (!m.is_finished || m.home?.score !== hScore || m.away?.score !== aScore) {
+                                        m.is_finished = true;
+                                        m.is_live = false;
+                                        m.status_kr = '종료';
+                                        m.state = 'post';
+                                        if (hScore) m.home.score = hScore;
+                                        if (aScore) m.away.score = aScore;
+                                        updated = true;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // 라이브 스코어보드 반영
+                let hasLiveMatch = false;
+                if (liveData && liveData.events) {
+                    for (const ev of liveData.events) {
+                        if ((ev.name || '').toLowerCase().includes('manchester united')) {
+                            const comp = (ev.competitions || [])[0] || {};
+                            const status = comp.status?.type || {};
+                            if (status.state === 'in') {
+                                const teams = comp.competitors || [];
+                                const h = teams.find(t => t.homeAway === 'home') || teams[0];
+                                const a = teams.find(t => t.homeAway === 'away') || teams[1];
+                                const hScore = String(h?.score ?? '0');
+                                const aScore = String(a?.score ?? '0');
+                                
+                                for (const m of targetMatches) {
+                                    if (!m.is_finished) {
+                                        m.is_live = true;
+                                        m.state = 'in';
+                                        m.status_kr = 'LIVE';
+                                        m.home.score = hScore;
+                                        m.away.score = aScore;
+                                        updated = true;
+                                        hasLiveMatch = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (updated) {
+                    renderSoccer(targetMatches);
+                    if (!staticPortalData) staticPortalData = {};
+                    staticPortalData.soccer = targetMatches;
+                    localStorage.setItem('portal_snapshot_data', JSON.stringify(staticPortalData));
+                }
+
+                // 실시간 상태 배지 업데이트
+                if (liveInd) {
+                    if (hasLiveMatch) {
+                        liveInd.className = 'inline-flex items-center gap-1 text-[10px] font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60 px-2 py-0.5 rounded-full border border-rose-500/30';
+                        liveInd.innerHTML = '<span class="w-2 h-2 rounded-full bg-rose-500 live-pulse"></span><span>LIVE 중계중</span>';
+                    } else {
+                        liveInd.className = 'inline-flex items-center gap-1 text-[10px] font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/20';
+                        liveInd.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span id="soccerLiveText">실시간 연동완료</span>';
+                    }
+                }
+            } catch (err) {
+                console.warn('[Direct Soccer Fetch Error]', err);
+                if (liveInd) {
+                    liveInd.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span><span id="soccerLiveText">동기화 대기</span>';
+                }
+            } finally {
+                isFetchingSoccer = false;
             }
         }
 
