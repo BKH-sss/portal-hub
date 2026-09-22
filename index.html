@@ -749,11 +749,11 @@
                 league_code: "cup",
                 match_name: "맨유 vs 브라이턴",
                 match_short: "MAN 대 BHA",
-                time_kst: "내일 오전 4:00",
+                time_kst: "9/17 오전 4:00",
                 raw_date: "2026-09-16T19:00:00Z",
-                relative_day: "내일",
-                status_kr: "경기전",
-                is_finished: false,
+                relative_day: "9/17",
+                status_kr: "종료",
+                is_finished: true,
                 is_live: false,
                 google_url: "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%EB%B8%8C%EB%9D%BC%EC%9D%B4%ED%84%B4%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
                 home: {
@@ -761,14 +761,14 @@
                     name_en: "Manchester United",
                     abbr: "MAN",
                     logo: "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
-                    score: ""
+                    score: "2"
                 },
                 away: {
                     name: "브라이턴",
                     name_en: "Brighton & Hove Albion",
                     abbr: "BHA",
                     logo: "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
-                    score: ""
+                    score: "1"
                 }
             },
             {
@@ -781,8 +781,8 @@
                 time_kst: "9/21 오전 12:30",
                 raw_date: "2026-09-20T15:30:00Z",
                 relative_day: "9/21",
-                status_kr: "경기전",
-                is_finished: false,
+                status_kr: "종료",
+                is_finished: true,
                 is_live: false,
                 google_url: "https://www.google.com/search?q=%EB%A7%A8%EC%B2%B4%EC%8A%A4%ED%84%B0%20%EC%9C%A0%EB%82%98%EC%9D%B4%ED%8B%B0%EB%93%9C%20%ED%92%80%EB%9F%BC%20%EC%B6%95%EA%B5%AC%20%EA%B2%BD%EA%B8%B0",
                 home: {
@@ -790,14 +790,14 @@
                     name_en: "Fulham",
                     abbr: "FUL",
                     logo: "https://a.espncdn.com/i/teamlogos/soccer/500/370.png",
-                    score: ""
+                    score: "1"
                 },
                 away: {
                     name: "맨유",
                     name_en: "Manchester United",
                     abbr: "MAN",
                     logo: "https://a.espncdn.com/i/teamlogos/soccer/500/360.png",
-                    score: ""
+                    score: "1"
                 }
             },
             {
@@ -2302,8 +2302,10 @@
 
                         for (const m of targetMatches) {
                             const mDate = (m.raw_date || '').slice(0, 10);
-                            const isMatch = (m.home?.abbr === hAbbr && m.away?.abbr === aAbbr) || (mDate && mDate === evDate);
-                            if (isMatch) {
+                            const isDateMatch = (mDate && mDate === evDate);
+                            const isAbbrMatch = (m.home?.abbr === hAbbr && m.away?.abbr === aAbbr);
+                            
+                            if (isDateMatch || (isAbbrMatch && !m.is_finished)) {
                                 if (completed || state === 'post') {
                                     if (!m.is_finished || m.home?.score !== hScore || m.away?.score !== aScore) {
                                         m.is_finished = true;
@@ -2343,8 +2345,10 @@
 
                                 for (const m of targetMatches) {
                                     const mDate = (m.raw_date || '').slice(0, 10);
-                                    const isMatch = (m.home?.abbr === hAbbr && m.away?.abbr === aAbbr) || (mDate && mDate === evDate);
-                                    if (isMatch) {
+                                    const isDateMatch = (mDate && mDate === evDate);
+                                    const isAbbrMatch = (m.home?.abbr === hAbbr && m.away?.abbr === aAbbr);
+
+                                    if (isDateMatch || (isAbbrMatch && !m.is_finished)) {
                                         if (state === 'in') {
                                             m.is_live = true;
                                             m.state = 'in';
@@ -2367,6 +2371,22 @@
                                         break;
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+
+                // 과거 경기 자동 안전 처리 (경기 시작 3시간 이상 경과 시 자동 종료 상태 보정)
+                const curEpoch = Date.now();
+                for (const m of targetMatches) {
+                    if (!m.is_finished && m.raw_date) {
+                        const mTime = new Date(m.raw_date).getTime();
+                        if (curEpoch > mTime + (3 * 60 * 60 * 1000)) {
+                            if (!m.is_live && m.status_kr === '경기전') {
+                                m.is_finished = true;
+                                m.status_kr = '종료';
+                                m.state = 'post';
+                                updated = true;
                             }
                         }
                     }

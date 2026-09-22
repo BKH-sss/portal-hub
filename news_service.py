@@ -402,8 +402,8 @@ def get_soccer_matches():
         ('mu_260830', 'MAN', 'IPS', '8/30 오후 11:00', '2026-08-30T14:00:00Z', '종료', True, '5', '2', 'EPL'),
         ('mu_260906', 'EVE', 'MAN', '9/6 오후 10:00', '2026-09-06T13:00:00Z', '종료', True, '2', '2', 'EPL'),
         ('mu_260914', 'MAN', 'MNC', '9/14 오전 12:30', '2026-09-13T15:30:00Z', '종료', True, '0', '1', 'EPL'),
-        ('mu_cup_260917', 'MAN', 'BHA', '내일 오전 4:00', '2026-09-16T19:00:00Z', '경기전', False, '', '', '리그컵 3R'),
-        ('mu_260921', 'FUL', 'MAN', '9/21 오전 12:30', '2026-09-20T15:30:00Z', '경기전', False, '', '', 'EPL'),
+        ('mu_cup_260917', 'MAN', 'BHA', '9/17 오전 4:00', '2026-09-16T19:00:00Z', '종료', True, '2', '1', '리그컵 3R'),
+        ('mu_260921', 'FUL', 'MAN', '9/21 오전 12:30', '2026-09-20T15:30:00Z', '종료', True, '1', '1', 'EPL'),
         ('mu_261011', 'MAN', 'TOT', '10/11 오전 1:30', '2026-10-10T16:30:00Z', '경기전', False, '', '', 'EPL'),
         ('mu_ucl_261014', 'ATM', 'MAN', '10/14 오전 4:00', '2026-10-13T19:00:00Z', '경기전', False, '', '', 'UCL'),
         ('mu_261018', 'LEE', 'MAN', '10/18 오후 10:00', '2026-10-18T13:00:00Z', '경기전', False, '', '', 'EPL'),
@@ -505,8 +505,10 @@ def get_soccer_matches():
 
                 for m in base_matches:
                     m_date_str = m.get("raw_date", "")[:10]
+                    is_date_match = (m_date_str and m_date_str == ev_date_str)
                     is_abbr_match = (m["home"]["abbr"] == h_abbr and m["away"]["abbr"] == a_abbr)
-                    if is_abbr_match or (m_date_str and m_date_str == ev_date_str):
+                    
+                    if is_date_match or (is_abbr_match and not m["is_finished"]):
                         if completed or state == "post":
                             m["is_finished"] = True
                             m["is_live"] = False
