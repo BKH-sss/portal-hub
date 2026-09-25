@@ -250,83 +250,113 @@
             </div>
         </section>
 
-        <!-- 🌤️ 상단 섹션 2: 날씨 기상 예보 & 미세먼지 위젯 바 -->
-        <section class="glass-card rounded-2xl p-4 sm:p-5 shadow-sm">
-            <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+        <!-- 🌤️ 상단 섹션 2: 실시간 날씨 기상 예보 & 미세먼지 위젯 바 -->
+        <section class="glass-card rounded-2xl p-5 shadow-sm">
+            <!-- 헤더: 타이틀 및 컨트롤 (새로고침 등) -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 border-b border-slate-200 dark:border-slate-800 pb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-400 text-lg shadow-inner">🌤️</div>
+                    <h2 class="text-base font-bold tracking-tight text-slate-800 dark:text-slate-200">실시간 기상 정보</h2>
+                    <span id="weatherLiveIndicator" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2.5 py-1 rounded-full border border-blue-500/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                        <span id="weatherLiveText">실시간 동기화중</span>
+                    </span>
+                </div>
                 
-                <!-- 좌측: 지역 선택 및 현재 날씨 메인 정보 -->
-                <div class="flex items-center gap-4 flex-wrap sm:flex-nowrap">
+                <div class="flex items-center flex-wrap gap-3">
                     <!-- 지역 셀렉트 -->
-                    <div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800/90 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <div class="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
                         <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                         </svg>
-                        <select id="citySelect" onchange="changeCity(this.value)" class="bg-transparent dark:bg-slate-800 text-xs font-bold text-slate-800 dark:text-slate-100 outline-none cursor-pointer">
+                        <select id="citySelect" onchange="changeCity(this.value)" class="bg-transparent dark:bg-slate-800 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none cursor-pointer">
                             <option value="서울" class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100" selected>서울 (수도권)</option>
                             <option value="수원" class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100">수원 (경기)</option>
                             <option value="익산" class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100">익산 (전북)</option>
                             <option value="부산" class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100">부산 (영남)</option>
                         </select>
-                        <a id="naverWeatherLink" 
-                           href="https://weather.naver.com/" 
-                           target="_blank" 
-                           rel="noopener noreferrer" 
-                           title="클릭 시 네이버 공식 날씨(NAVER Weather) 페이지로 이동"
-                           class="flex items-center gap-1.5 text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/30 transition shadow-sm cursor-pointer group">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                            <span>네이버 날씨 연동</span>
-                            <svg class="w-2.5 h-2.5 group-hover:translate-x-0.5 transition text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                            </svg>
-                        </a>
                     </div>
-
-                    <!-- 현재 날씨 아이콘 및 기온 -->
-                    <div class="flex items-center gap-3">
-                        <span id="weatherIcon" class="text-3xl sm:text-4xl">☀️</span>
-                        <div>
-                            <div class="flex items-baseline gap-1.5">
-                                <span id="currentTemp" class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">--°</span>
-                                <span id="weatherDesc" class="text-xs font-semibold text-slate-600 dark:text-slate-300">맑음</span>
-                            </div>
-                            <div class="text-[11px] text-slate-400">
-                                체감 <span id="feelsLike" class="font-medium text-slate-600 dark:text-slate-300">--°</span> · 
-                                최고 <span id="tempMax" class="text-rose-500 font-medium">--°</span> / 
-                                최저 <span id="tempMin" class="text-blue-500 font-medium">--°</span>
-                            </div>
-                        </div>
+                    
+                    <a id="naverWeatherLink" 
+                       href="https://weather.naver.com/" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="flex items-center gap-1 text-[11px] px-3 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-200 dark:border-emerald-800/60 transition shadow-sm">
+                        네이버 날씨 상세 보기
+                    </a>
+                    
+                    <button onclick="fetchWeatherDirect(document.getElementById('citySelect').value)" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold transition shadow-md shadow-blue-500/20" title="날씨 즉시 새로고침">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        <span>새로고침</span>
+                    </button>
+                </div>
+            </div>
+        
+            <!-- 본문: 현재 날씨, 공기질, 시간별 예보를 3단 분할 레이아웃으로 직관성 향상 -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                
+                <!-- 1단: 현재 날씨 메인 정보 -->
+                <div class="md:col-span-4 flex items-center justify-center md:justify-start gap-5">
+                    <div class="w-24 h-24 flex items-center justify-center bg-gradient-to-b from-blue-50 to-white dark:from-slate-800 dark:to-slate-900 rounded-[2rem] border border-blue-100 dark:border-slate-700 shadow-inner">
+                        <span id="weatherIcon" class="text-6xl drop-shadow-lg">☀️</span>
                     </div>
-
-                    <!-- 실시간 미세먼지 / 초미세먼지 상태 배지 -->
-                    <div class="flex items-center gap-2 pl-0 sm:pl-4 sm:border-l border-slate-200 dark:border-slate-800">
-                        <!-- 미세먼지 PM10 -->
-                        <div class="flex flex-col items-start bg-slate-50 dark:bg-slate-800/50 px-2.5 py-1.5 rounded-lg border border-slate-200/80 dark:border-slate-700/80">
-                            <div class="text-[10px] text-slate-400 font-medium">미세먼지 (PM10)</div>
-                            <div class="flex items-center gap-1 mt-0.5">
-                                <span id="pm10Badge" class="text-xs font-bold px-1.5 py-0.2 rounded text-white bg-blue-500">좋음</span>
-                                <span id="pm10Val" class="text-xs font-mono font-semibold text-slate-700 dark:text-slate-200">18.2 µg</span>
-                            </div>
+                    <div class="flex flex-col">
+                        <div class="flex items-baseline gap-2 mb-1">
+                            <span id="currentTemp" class="text-5xl font-black text-slate-900 dark:text-white tracking-tighter">--°</span>
+                            <span id="weatherDesc" class="text-base font-bold text-slate-600 dark:text-slate-300">맑음</span>
                         </div>
-
-                        <!-- 초미세먼지 PM2.5 -->
-                        <div class="flex flex-col items-start bg-slate-50 dark:bg-slate-800/50 px-2.5 py-1.5 rounded-lg border border-slate-200/80 dark:border-slate-700/80">
-                            <div class="text-[10px] text-slate-400 font-medium">초미세먼지 (PM2.5)</div>
-                            <div class="flex items-center gap-1 mt-0.5">
-                                <span id="pm25Badge" class="text-xs font-bold px-1.5 py-0.2 rounded text-white bg-emerald-500">좋음</span>
-                                <span id="pm25Val" class="text-xs font-mono font-semibold text-slate-700 dark:text-slate-200">11.4 µg</span>
+                        <div class="flex flex-col gap-1 text-xs text-slate-500 dark:text-slate-400 font-medium">
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+                                체감 온도: <span id="feelsLike" class="font-bold text-slate-700 dark:text-slate-200">--°</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+                                기온 분포: <span id="tempMax" class="font-bold text-rose-500">최고 --°</span> / <span id="tempMin" class="font-bold text-blue-500">최저 --°</span>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- 우측: 향후 시간별 예보 가로 미니 띠 -->
-                <div class="flex-1 max-w-full lg:max-w-md overflow-x-auto hide-scrollbar pt-1 lg:pt-0">
-                    <div id="hourlyForecast" class="flex items-center gap-3 text-center">
-                        <!-- 시간별 예보 동적 삽입 -->
+        
+                <!-- 2단: 미세먼지 공기질 정보 -->
+                <div class="md:col-span-3 flex flex-col justify-center gap-3 px-0 md:px-6 md:border-x border-slate-200 dark:border-slate-800">
+                    <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                        현재 공기질 (미세먼지)
+                    </h3>
+                    <div class="flex flex-col gap-2.5">
+                        <div class="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-2xl border border-slate-200/60 dark:border-slate-700/80 flex items-center justify-between shadow-sm">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] text-slate-500 font-bold">미세먼지 (PM10)</span>
+                                <span id="pm10Val" class="text-xs font-mono font-bold text-slate-700 dark:text-slate-300 mt-0.5">-- µg</span>
+                            </div>
+                            <span id="pm10Badge" class="text-xs font-black px-2.5 py-1 rounded-lg text-white bg-slate-300">--</span>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-2xl border border-slate-200/60 dark:border-slate-700/80 flex items-center justify-between shadow-sm">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] text-slate-500 font-bold">초미세먼지 (PM2.5)</span>
+                                <span id="pm25Val" class="text-xs font-mono font-bold text-slate-700 dark:text-slate-300 mt-0.5">-- µg</span>
+                            </div>
+                            <span id="pm25Badge" class="text-xs font-black px-2.5 py-1 rounded-lg text-white bg-slate-300">--</span>
+                        </div>
                     </div>
                 </div>
-
+        
+                <!-- 3단: 시간별 단기 예보 -->
+                <div class="md:col-span-5 flex flex-col justify-center overflow-hidden">
+                    <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        향후 시간별 예보
+                    </h3>
+                    <div class="overflow-x-auto hide-scrollbar pb-2">
+                        <div id="hourlyForecast" class="flex items-center gap-2.5">
+                            <!-- 시간별 예보 동적 삽입 -->
+                            <div class="text-xs text-slate-400">데이터를 불러오는 중...</div>
+                        </div>
+                    </div>
+                </div>
+        
             </div>
         </section>
 
@@ -364,11 +394,11 @@
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                         안전 공신력 언론 검증됨
                     </span>
-                    <button onclick="refreshData(true)" id="refreshBtn" class="flex items-center gap-1 px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition text-xs font-medium">
+                    <button onclick="refreshNewsData()" id="refreshBtn" class="flex items-center gap-1 px-2.5 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition text-xs font-medium">
                         <svg id="refreshIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                         </svg>
-                        <span>새로고침</span>
+                        <span>뉴스 새로고침</span>
                     </button>
                 </div>
             </div>
@@ -2146,7 +2176,15 @@
             fetchWeatherDirect(city);
         }
 
+        let isFetchingWeather = false;
         async function fetchWeatherDirect(city) {
+            if (isFetchingWeather) return;
+            isFetchingWeather = true;
+
+            const liveInd = document.getElementById('weatherLiveIndicator');
+            const liveText = document.getElementById('weatherLiveText');
+            if (liveText) liveText.textContent = '동기화 중...';
+
             // Open-Meteo 브라우저 CORS 실시간 조회 (서울, 수원, 익산, 부산)
             const cityCoords = {
                 "서울": [37.5665, 126.9780],
@@ -2213,10 +2251,20 @@
                     };
                     renderWeather(weatherPayload);
                 }
+                
+                if (liveInd) {
+                    liveInd.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span><span id="weatherLiveText">실시간 연동완료</span>';
+                }
             } catch (wErr) {
                 console.warn('Weather direct fetch error:', wErr);
+                if (liveInd) {
+                    liveInd.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span><span id="weatherLiveText">동기화 대기</span>';
+                }
+            } finally {
+                isFetchingWeather = false;
             }
         }
+
 
         // ⚽ ESPN 브라우저 CORS 실시간 경기 일정 & 스코어 & 순위 다이렉트 갱신 (무중단 실시간 동기화)
         let soccerPollTimer = null;
@@ -2453,10 +2501,16 @@
         }
 
         function refreshData(isManual = false) {
+            // 전역 새로고침 시 전체 영역 동기화 (5분 주기 자동 갱신용)
+            fetchOverview();
+        }
+
+        function refreshNewsData() {
+            // 뉴스 영역 수동 새로고침 (뉴스 데이터만 동기화)
             const icon = document.getElementById('refreshIcon');
             if (icon) icon.classList.add('animate-spin');
 
-            fetchOverview().finally(() => {
+            fetchNewsOnly(currentCategory).finally(() => {
                 setTimeout(() => {
                     if (icon) icon.classList.remove('animate-spin');
                 }, 500);
