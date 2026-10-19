@@ -222,6 +222,85 @@ class ChessGame {
         return hash;
     }
 
+    /**
+     * 표준 FEN(Forsyth-Edwards Notation) 문자열 생성
+     */
+    toFEN() {
+        let fen = '';
+        for (let r = 0; r < 8; r++) {
+            let empty = 0;
+            for (let c = 0; c < 8; c++) {
+                const p = this.board[r][c];
+                if (!p) {
+                    empty++;
+                } else {
+                    if (empty > 0) {
+                        fen += empty;
+                        empty = 0;
+                    }
+                    const color = p[0];
+                    const type = p[1];
+                    fen += (color === 'w' ? type.toUpperCase() : type.toLowerCase());
+                }
+            }
+            if (empty > 0) fen += empty;
+            if (r < 7) fen += '/';
+        }
+
+        fen += ' ' + (this.turn || 'w');
+
+        let castling = '';
+        if (this.castling && this.castling.w) {
+            if (this.castling.w.kingSide) castling += 'K';
+            if (this.castling.w.queenSide) castling += 'Q';
+        }
+        if (this.castling && this.castling.b) {
+            if (this.castling.b.kingSide) castling += 'k';
+            if (this.castling.b.queenSide) castling += 'q';
+        }
+        fen += ' ' + (castling || '-');
+
+        if (this.enPassant) {
+            const files = ['a','b','c','d','e','f','g','h'];
+            const epRank = 8 - this.enPassant.r;
+            const epFile = files[this.enPassant.c];
+            fen += ' ' + epFile + epRank;
+        } else {
+            fen += ' -';
+        }
+
+        fen += ' 0 ' + (Math.floor(this.moveHistory.length / 2) + 1);
+        return fen;
+    }
+
+    /**
+     * 표준 PGN(Portable Game Notation) 기보 문자열 생성
+     */
+    toPGN() {
+        let pgn = '[Event "Skadi Chess Online"]\n';
+        pgn += `[Site "https://bkh-sss.github.io/portal-hub/skadi_chess.html"]\n`;
+        pgn += `[Date "${new Date().toISOString().slice(0, 10)}"]\n`;
+        pgn += '[White "Master"]\n';
+        pgn += '[Black "Skadi AI"]\n';
+        let result = '*';
+        if (this.isGameOver) {
+            if (this.winner === 'w') result = '1-0';
+            else if (this.winner === 'b') result = '0-1';
+            else if (this.winner === 'draw') result = '1/2-1/2';
+        }
+        pgn += `[Result "${result}"]\n\n`;
+
+        const moves = this.moveHistory;
+        for (let i = 0; i < moves.length; i += 2) {
+            const num = Math.floor(i / 2) + 1;
+            const wMove = moves[i] || '';
+            const bMove = moves[i + 1] ? ' ' + moves[i + 1] : '';
+            pgn += `${num}. ${wMove}${bMove} `;
+        }
+        pgn += result;
+        return pgn.trim();
+    }
+
     getPiece(r, c) {
         if (r < 0 || r > 7 || c < 0 || c > 7) return null;
         return this.board[r][c];
@@ -792,20 +871,37 @@ class SkadiPersona {
         }
     }
 
-    generateFeedback(game, userMove, botMove, isUserBlunder) {
+    generateFeedback(game, userMove, botMove, isUserBlunder, playerSide = 'w') {
+        const botColor = playerSide === 'w' ? 'b' : 'w';
+        const userColor = playerSide;
+
         const quotes = {
             userBlunder: [
                 "야! 멍청하게 기물을 그냥 갖다 바치냐? 두뇌 회전 속도가 왜 이래?",
                 "너 체스 처음 해보냐? 거기를 두면 내 먹잇감밖에 더 되냐!",
                 "헛웃음 나오네. 섀도우 복싱이라도 더 하고 와라!"
             ],
-            userCheck: [
+            userCheckToBot: [
+                "체크라고? 날 압박할 셈인가? 왕의 퇴로는 이미 계산되어 있어.",
+                "제법 날카로운 체크군. 하지만 내 방어선을 뚫진 못할 거다."
+            ],
+            botCheckToUser: [
                 "체크다! 네 왕 목 달아나기 전에 빨리 도망쳐라!",
-                "방심했지? 킹 위치가 너무 허술하다고 소리치고 있잖아!"
+                "방심했지? 킹 위치가 너무 허술하다고 소리치고 있잖아!",
+                "체크. 왕의 퇴로를 먼저 계산하는 게 좋을 거야."
+            ],
+            queenCapturedByBot: [
+                "퀸을 잃었군, 마스터. 전열을 다시 가다듬는 게 좋을 거야.",
+                "크하하! 가장 강력한 퀸이 쓰러졌다. 왕국은 이제 내 거다!"
+            ],
+            queenCapturedByUser: [
+                "내 퀸을 잡았다고 우쭐대지 마! 아직 판을 뒤집을 전술은 남아있다.",
+                "제법이군. 퀸을 내어줬지만 경기는 지금부터 시작이다."
             ],
             botCapture: [
                 "크하하! 네 기물은 내가 맛있게 잘 먹었다!",
-                "각도가 딱 나왔어. 넌 방금 치명적인 실수를 한 거야."
+                "각도가 딱 나왔어. 넌 방금 치명적인 실수를 한 거야.",
+                "기물 득실 차이가 벌어지고 있어. 따라올 수 있겠나?"
             ],
             normalMove: [
                 "음, 나쁘지 않은 수지만 내 전술을 뚫긴 부족해.",
@@ -813,10 +909,12 @@ class SkadiPersona {
                 "망설이지 말고 덤벼라, 마스터!"
             ],
             skadiWin: [
+                "체크메이트. 내 전술 계산 범위 내의 완벽한 결과네.",
                 "체크메이트! 항복해라 마스터! 내 전술 분석 완승이다!",
                 "게임 끝이다! 보드의 왕관은 내 거다."
             ],
             userWin: [
+                "내가 읽지 못한 수라니... 인정하지, 훌륭한 대국이었어.",
                 "웩... 내가 졌다고? 인정 못 해, 당장 한 판 더 해!"
             ]
         };
@@ -825,19 +923,31 @@ class SkadiPersona {
         let type = "normal";
 
         if (game.isGameOver) {
-            if (game.winner === 'b') {
+            if (game.winner === botColor) {
                 message = quotes.skadiWin[Math.floor(Math.random() * quotes.skadiWin.length)];
                 type = "win";
-            } else if (game.winner === 'w') {
-                message = quotes.userWin[0];
+            } else if (game.winner === userColor) {
+                message = quotes.userWin[Math.floor(Math.random() * quotes.userWin.length)];
                 type = "win";
+            } else {
+                message = "무승부군. 팽팽한 수싸움이었어.";
+                type = "normal";
             }
         } else if (isUserBlunder) {
             message = quotes.userBlunder[Math.floor(Math.random() * quotes.userBlunder.length)];
             type = "blunder";
-        } else if (game.isKingInCheck('w')) {
-            message = quotes.userCheck[Math.floor(Math.random() * quotes.userCheck.length)];
+        } else if (botMove && botMove.captured && botMove.captured.toLowerCase() === 'q') {
+            message = quotes.queenCapturedByBot[Math.floor(Math.random() * quotes.queenCapturedByBot.length)];
             type = "check";
+        } else if (userMove && userMove.captured && userMove.captured.toLowerCase() === 'q') {
+            message = quotes.queenCapturedByUser[Math.floor(Math.random() * quotes.queenCapturedByUser.length)];
+            type = "blunder";
+        } else if (game.isKingInCheck(userColor)) {
+            message = quotes.botCheckToUser[Math.floor(Math.random() * quotes.botCheckToUser.length)];
+            type = "check";
+        } else if (game.isKingInCheck(botColor)) {
+            message = quotes.userCheckToBot[Math.floor(Math.random() * quotes.userCheckToBot.length)];
+            type = "normal";
         } else if (botMove && botMove.captured) {
             message = quotes.botCapture[Math.floor(Math.random() * quotes.botCapture.length)];
             type = "normal";
@@ -927,7 +1037,10 @@ class SkadiChessUI {
 
         this.initDOM();
         this.bindEvents();
-        this.startNewGame();
+        this.initWorker();
+        if (!this.restoreGameState()) {
+            this.startNewGame();
+        }
     }
 
     initDOM() {
@@ -994,6 +1107,138 @@ class SkadiChessUI {
         if (this.aiExpTextEl) this.aiExpTextEl.innerText = `${data.exp_percent || 0}%`;
         if (this.aiLevelBarEl) this.aiLevelBarEl.style.width = `${data.exp_percent || 0}%`;
         if (this.aiTrainedGamesEl) this.aiTrainedGamesEl.innerText = `${data.total_trained_games || 0}`;
+    }
+
+    /**
+     * 1. Web Worker 백그라운드 스레드 초기화 (UI 스레드 블로킹 방지)
+     */
+    initWorker() {
+        this.worker = null;
+        this.workerJobId = 0;
+        this.currentJobId = 0;
+        try {
+            this.worker = new Worker('skadi_worker.js?v=7.1');
+            this.worker.onmessage = (e) => this.handleWorkerMessage(e);
+            this.worker.onerror = (e) => {
+                console.warn('Skadi Worker error, falling back to main-thread execution:', e);
+                this.worker = null;
+            };
+        } catch (err) {
+            console.warn('Web Worker initialization skipped (e.g. file:// protocol restriction):', err);
+            this.worker = null;
+        }
+    }
+
+    handleWorkerMessage(e) {
+        const data = e.data;
+        if (!data) return;
+
+        if (data.type === 'BEST_MOVE_RESULT') {
+            if (data.jobId !== this.currentJobId) return; // 만료된 비동기 작업 무시
+            this.applyBotMove(data.botMove, data.userMove, data.isUserBlunder);
+        } else if (data.type === 'HINT_RESULT') {
+            if (data.jobId !== this.currentJobId) return;
+            this.applyHintResult(data.hintMove);
+        }
+    }
+
+    applyBotMove(botMove, userMove, isUserBlunder) {
+        if (this.game.isGameOver) return;
+        if (botMove) {
+            this.game.makeMove(botMove);
+            this.game.checkGameOver();
+            this.renderBoard();
+            this.updateUI();
+
+            const feedback = this.persona.generateFeedback(this.game, userMove, botMove, isUserBlunder, this.playerSide);
+            this.setSkadiSpeech(feedback.message, feedback.type);
+
+            // 대국 상태 로컬스토리지 자동 영구 저장
+            this.saveGameState();
+        }
+    }
+
+    /**
+     * 2. 대국 상태 및 FEN / PGN 로컬스토리지 자동 영구 저장 (새로고침 방지)
+     */
+    saveGameState() {
+        if (this.game.isGameOver || this.game.moveHistory.length === 0) {
+            localStorage.removeItem('skadi_chess_active_game');
+            return;
+        }
+        const state = {
+            board: this.game.board,
+            turn: this.game.turn,
+            castling: this.game.castling,
+            enPassant: this.game.enPassant,
+            moveHistory: this.game.moveHistory,
+            capturedPieces: this.game.capturedPieces,
+            positionHistory: this.game.positionHistory,
+            undoStack: this.game.undoStack,
+            boardHistory: this.game.boardHistory,
+            playerSide: this.playerSide,
+            playerColor: this.playerColor,
+            gameMode: this.gameMode,
+            aiDepth: this.aiDepth,
+            whiteTime: this.whiteTime,
+            blackTime: this.blackTime,
+            fen: this.game.toFEN(),
+            pgn: this.game.toPGN()
+        };
+        try {
+            localStorage.setItem('skadi_chess_active_game', JSON.stringify(state));
+            localStorage.setItem('skadi_chess_fen', state.fen);
+            localStorage.setItem('skadi_chess_pgn', state.pgn);
+        } catch (e) {}
+    }
+
+    /**
+     * 2-B. 새로고침 후 이전 대국 상태 자동 복원
+     */
+    restoreGameState() {
+        try {
+            const raw = localStorage.getItem('skadi_chess_active_game');
+            if (!raw) return false;
+            const state = JSON.parse(raw);
+            if (!state || !state.board || !state.moveHistory || state.moveHistory.length === 0) return false;
+
+            this.game.board = state.board;
+            this.game.turn = state.turn || 'w';
+            this.game.castling = state.castling || { w: { kingSide: true, queenSide: true }, b: { kingSide: true, queenSide: true } };
+            this.game.enPassant = state.enPassant || null;
+            this.game.moveHistory = state.moveHistory || [];
+            this.game.capturedPieces = state.capturedPieces || { w: [], b: [] };
+            this.game.positionHistory = state.positionHistory || [this.game.getBoardHash()];
+            this.game.undoStack = state.undoStack || [];
+            this.game.boardHistory = state.boardHistory || [JSON.parse(JSON.stringify(this.game.board))];
+            this.game.isGameOver = false;
+
+            if (state.playerSide) this.playerSide = state.playerSide;
+            if (state.playerColor) {
+                this.playerColor = state.playerColor;
+                if (this.playerColorSelectEl) this.playerColorSelectEl.value = state.playerColor;
+            }
+            if (state.gameMode) {
+                this.gameMode = state.gameMode;
+                if (this.gameModeSelectEl) this.gameModeSelectEl.value = state.gameMode;
+            }
+            if (state.aiDepth) {
+                this.aiDepth = state.aiDepth;
+                const diffEl = document.getElementById('difficultySelect');
+                if (diffEl) diffEl.value = state.aiDepth;
+            }
+            if (state.whiteTime !== undefined) this.whiteTime = state.whiteTime;
+            if (state.blackTime !== undefined) this.blackTime = state.blackTime;
+
+            this.renderBoard();
+            this.updateUI();
+            this.startTimer();
+            this.setSkadiSpeech(`이전 대국을 복원했어 (${this.game.moveHistory.length}수 진행 중). 어디 한 번 계속해볼까?`, "normal");
+            return true;
+        } catch (e) {
+            console.warn("대국 복원 실패:", e);
+            return false;
+        }
     }
 
     /**
@@ -1089,6 +1334,21 @@ class SkadiChessUI {
     bindEvents() {
         document.getElementById('btnRestart').addEventListener('click', () => this.startNewGame());
         document.getElementById('btnUndo').addEventListener('click', () => this.undoMove());
+
+        const btnCopyPgn = document.getElementById('btnCopyPgn');
+        if (btnCopyPgn) {
+            btnCopyPgn.addEventListener('click', () => {
+                const pgnText = this.game.toPGN();
+                navigator.clipboard.writeText(pgnText).then(() => {
+                    const originalText = btnCopyPgn.innerText;
+                    btnCopyPgn.innerText = '✅ 복사 완료!';
+                    setTimeout(() => { btnCopyPgn.innerText = originalText; }, 1800);
+                    this.setSkadiSpeech("현재 대국의 전체 PGN 기보를 클립보드에 복사했어.", "normal");
+                }).catch(() => {
+                    this.setSkadiSpeech("기보 복사 중 권한 오류가 발생했어.", "blunder");
+                });
+            });
+        }
 
         const btnReplay = document.getElementById('btnReviewReplay');
         if (btnReplay) btnReplay.addEventListener('click', () => this.startReplay());
@@ -1293,6 +1553,9 @@ class SkadiChessUI {
 
     startNewGame() {
         this.stopSelfPlay();
+        localStorage.removeItem('skadi_chess_active_game');
+        localStorage.removeItem('skadi_chess_fen');
+        localStorage.removeItem('skadi_chess_pgn');
         this.game.resetGame();
         this.selectedSquare = null;
         this.validMoves = [];
@@ -1594,15 +1857,19 @@ class SkadiChessUI {
         this.renderBoard();
         this.updateUI();
 
+        // 1. 대국 상태 로컬스토리지 영구 저장
+        this.saveGameState();
+
         const evalAfter = this.game.evaluateBoard();
         const isBlunder = (evalBefore - evalAfter) > 250;
 
         if (this.game.isGameOver) {
-            this.persona.generateFeedback(this.game, move, null, false);
+            this.persona.generateFeedback(this.game, move, null, false, this.playerSide);
+            this.saveGameState();
             return;
         }
 
-        setTimeout(() => this.triggerBotTurn(move, isBlunder), 400);
+        setTimeout(() => this.triggerBotTurn(move, isBlunder), 300);
     }
 
     showPromotionModal() {
@@ -1622,16 +1889,35 @@ class SkadiChessUI {
         if (this.game.isGameOver) return;
 
         const botColor = this.playerSide === 'w' ? 'b' : 'w';
-        const botMove = this.engine.getBestMove(this.aiDepth, botColor, this.currentTactic);
-        if (botMove) {
-            this.game.makeMove(botMove);
-            this.game.checkGameOver(); // 봇 수 완료 후 게임오버 검사
-            this.renderBoard();
-            this.updateUI();
 
-            const feedback = this.persona.generateFeedback(this.game, userMove, botMove, isUserBlunder);
-            this.setSkadiSpeech(feedback.message, feedback.type);
+        // 1. Web Worker 비동기 백그라운드 계산 (UI 스레드 프리징 100% 방지)
+        if (this.worker) {
+            const jobId = ++this.workerJobId;
+            this.currentJobId = jobId;
+            this.setSkadiSpeech("스카디가 최선의 수를 수만 가지 계산 중이다...", "normal");
+
+            this.worker.postMessage({
+                type: 'CALCULATE_BEST_MOVE',
+                board: this.game.board,
+                turn: this.game.turn,
+                castling: this.game.castling,
+                enPassant: this.game.enPassant,
+                moveHistory: this.game.moveHistory,
+                depth: this.aiDepth,
+                color: botColor,
+                tactic: this.currentTactic,
+                jobId: jobId,
+                userMove: userMove,
+                isUserBlunder: isUserBlunder
+            });
+            return;
         }
+
+        // 2. Worker 미지원 환경(로컬 file:// 등) Fail-Open 비동기 Fallback
+        setTimeout(() => {
+            const botMove = this.engine.getBestMove(this.aiDepth, botColor, this.currentTactic);
+            this.applyBotMove(botMove, userMove, isUserBlunder);
+        }, 50);
     }
 
     setSkadiSpeech(text, type = "normal") {
@@ -1916,6 +2202,7 @@ class SkadiChessUI {
             this.reviewShown = false;
             this.renderBoard();
             this.updateUI();
+            this.saveGameState();
             
             this.setSkadiSpeech("수를 무르는 건 게이머의 자존심을 버리는 짓이다! 특별히 한 번만 봐주마.", "blunder");
         } else {

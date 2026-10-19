@@ -191,8 +191,11 @@
                     <button id="btnReplayExit" class="btn-primary" style="background-color: var(--cc-danger);">리플레이 종료</button>
                 </div>
 
-                <!-- 기보 (숨기거나 작게 표시) -->
-                <h3 class="history-header">게임 기보 (PGN)</h3>
+                <!-- 기보 및 PGN 복사 버튼 -->
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px; margin-bottom: 6px;">
+                    <h3 class="history-header" style="margin: 0;">게임 기보 (PGN)</h3>
+                    <button id="btnCopyPgn" class="btn-secondary" style="font-size: 11px; padding: 3px 8px; width: auto; border-radius: 6px;" title="현재 대국 기보(PGN)를 클립보드에 복사">📋 기보 복사</button>
+                </div>
                 <div id="historyList" class="history-list"></div>
             </div>
 
