@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>ERECHTHEION | 에레크테이온 인텔리전스 포털</title>
+    <!-- 1. 다크 모드 초기 깜빡임(FOUC) 방지 인라인 스크립트 (<head> 최상단 실행) -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('portal_theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -85,6 +97,25 @@
         @keyframes pulse-ring {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.4; transform: scale(1.15); }
+        }
+        /* 2. 스켈레톤 UI (데이터 로딩 시 레이아웃 덜컹거림 및 깜빡임 방지) */
+        .skeleton {
+            background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s infinite ease-in-out;
+            color: transparent !important;
+            border-radius: 6px;
+            user-select: none;
+            pointer-events: none;
+            display: inline-block;
+        }
+        html.dark .skeleton {
+            background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+            background-size: 200% 100%;
+        }
+        @keyframes skeleton-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
     </style>
 </head>
@@ -303,17 +334,17 @@
                     </div>
                     <div class="flex flex-col">
                         <div class="flex items-baseline gap-2 mb-1">
-                            <span id="currentTemp" class="text-5xl font-black text-slate-900 dark:text-white tracking-tighter">--°</span>
-                            <span id="weatherDesc" class="text-base font-bold text-slate-600 dark:text-slate-300">맑음</span>
+                            <span id="currentTemp" class="text-5xl font-black text-slate-900 dark:text-white tracking-tighter skeleton">--°</span>
+                            <span id="weatherDesc" class="text-base font-bold text-slate-600 dark:text-slate-300 skeleton">맑음</span>
                         </div>
                         <div class="flex flex-col gap-1 text-xs text-slate-500 dark:text-slate-400 font-medium">
                             <div class="flex items-center gap-2">
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                                체감 온도: <span id="feelsLike" class="font-bold text-slate-700 dark:text-slate-200">--°</span>
+                                체감 온도: <span id="feelsLike" class="font-bold text-slate-700 dark:text-slate-200 skeleton">--°</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600"></span>
-                                기온 분포: <span id="tempMax" class="font-bold text-rose-500">최고 --°</span> / <span id="tempMin" class="font-bold text-blue-500">최저 --°</span>
+                                기온 분포: <span id="tempMax" class="font-bold text-rose-500 skeleton">최고 --°</span> / <span id="tempMin" class="font-bold text-blue-500 skeleton">최저 --°</span>
                             </div>
                         </div>
                     </div>
@@ -329,16 +360,16 @@
                         <div class="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-2xl border border-slate-200/60 dark:border-slate-700/80 flex items-center justify-between shadow-sm">
                             <div class="flex flex-col">
                                 <span class="text-[10px] text-slate-500 font-bold">미세먼지 (PM10)</span>
-                                <span id="pm10Val" class="text-xs font-mono font-bold text-slate-700 dark:text-slate-300 mt-0.5">-- µg</span>
+                                <span id="pm10Val" class="text-xs font-mono font-bold text-slate-700 dark:text-slate-300 mt-0.5 skeleton">-- µg</span>
                             </div>
-                            <span id="pm10Badge" class="text-xs font-black px-2.5 py-1 rounded-lg text-white bg-slate-300">--</span>
+                            <span id="pm10Badge" class="text-xs font-black px-2.5 py-1 rounded-lg text-white bg-slate-300 skeleton">--</span>
                         </div>
                         <div class="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-2xl border border-slate-200/60 dark:border-slate-700/80 flex items-center justify-between shadow-sm">
                             <div class="flex flex-col">
                                 <span class="text-[10px] text-slate-500 font-bold">초미세먼지 (PM2.5)</span>
-                                <span id="pm25Val" class="text-xs font-mono font-bold text-slate-700 dark:text-slate-300 mt-0.5">-- µg</span>
+                                <span id="pm25Val" class="text-xs font-mono font-bold text-slate-700 dark:text-slate-300 mt-0.5 skeleton">-- µg</span>
                             </div>
-                            <span id="pm25Badge" class="text-xs font-black px-2.5 py-1 rounded-lg text-white bg-slate-300">--</span>
+                            <span id="pm25Badge" class="text-xs font-black px-2.5 py-1 rounded-lg text-white bg-slate-300 skeleton">--</span>
                         </div>
                     </div>
                 </div>
@@ -559,30 +590,53 @@
         let newsDataCache = [];
         let currentHeroItem = null;
 
-        // 테마 관리 (다크모드 / 라이트모드)
+        // 1. 테마 관리 (다크모드 / 라이트모드 상태 유지 및 아이콘 동기화)
         function initTheme() {
-            const isDark = localStorage.getItem('portal_theme') === 'dark' || 
+            const isDark = document.documentElement.classList.contains('dark') ||
+                localStorage.getItem('portal_theme') === 'dark' || 
                 (!localStorage.getItem('portal_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
             if (isDark) {
                 document.documentElement.classList.add('dark');
-                document.getElementById('moonIcon').classList.add('hidden');
-                document.getElementById('sunIcon').classList.remove('hidden');
+                const moon = document.getElementById('moonIcon');
+                const sun = document.getElementById('sunIcon');
+                if (moon) moon.classList.add('hidden');
+                if (sun) sun.classList.remove('hidden');
             } else {
                 document.documentElement.classList.remove('dark');
-                document.getElementById('sunIcon').classList.add('hidden');
-                document.getElementById('moonIcon').classList.remove('hidden');
+                const moon = document.getElementById('moonIcon');
+                const sun = document.getElementById('sunIcon');
+                if (sun) sun.classList.add('hidden');
+                if (moon) moon.classList.remove('hidden');
             }
         }
 
         function toggleTheme() {
             const isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('portal_theme', isDark ? 'dark' : 'light');
+            const moon = document.getElementById('moonIcon');
+            const sun = document.getElementById('sunIcon');
             if (isDark) {
-                document.getElementById('moonIcon').classList.add('hidden');
-                document.getElementById('sunIcon').classList.remove('hidden');
+                if (moon) moon.classList.add('hidden');
+                if (sun) sun.classList.remove('hidden');
             } else {
-                document.getElementById('sunIcon').classList.add('hidden');
-                document.getElementById('moonIcon').classList.remove('hidden');
+                if (sun) sun.classList.add('hidden');
+                if (moon) moon.classList.remove('hidden');
+            }
+        }
+
+        // 1-B. 날씨 지역 로컬스토리지 상태 복원 (익산, 서울, 수원, 부산 등)
+        function initRegion() {
+            const savedRegion = localStorage.getItem('portal_region');
+            if (savedRegion) {
+                currentCity = savedRegion;
+                const citySelect = document.getElementById('citySelect');
+                if (citySelect) {
+                    citySelect.value = savedRegion;
+                }
+                const naverLink = document.getElementById('naverWeatherLink');
+                if (naverLink) {
+                    naverLink.href = `https://search.naver.com/search.naver?query=${encodeURIComponent(savedRegion + ' 날씨')}`;
+                }
             }
         }
 
@@ -1820,6 +1874,18 @@
             }, 300);
         }
 
+        // 2. 스켈레톤 UI 헬퍼 및 날씨 & 미세먼지 렌더링
+        const WEATHER_SKELETON_IDS = ['currentTemp', 'weatherDesc', 'feelsLike', 'tempMax', 'tempMin', 'pm10Val', 'pm10Badge', 'pm25Val', 'pm25Badge'];
+
+        function setWeatherSkeleton(active = true) {
+            WEATHER_SKELETON_IDS.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                if (active) el.classList.add('skeleton');
+                else el.classList.remove('skeleton');
+            });
+        }
+
         // 🌤️ 날씨 & 미세먼지 렌더링
         function renderWeather(w) {
             if (!w || !w.current) return;
@@ -1848,6 +1914,9 @@
             pm25Badge.textContent = pm25.label || '좋음';
             pm25Badge.style.backgroundColor = pm25.color || '#3b82f6';
             document.getElementById('pm25Val').textContent = `${pm25.val} µg/m³`;
+
+            // 데이터 렌더링 완료 시 스켈레톤 애니메이션 제거
+            setWeatherSkeleton(false);
 
             // 시간별 예보
             const hourlyContainer = document.getElementById('hourlyForecast');
@@ -2033,12 +2102,17 @@
             window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, '_blank');
         }
 
-        // 도시 변경
+        // 도시 변경 및 지역 로컬스토리지 영구 저장 (익산, 서울, 수원, 부산)
         function changeCity(city) {
             currentCity = city;
+            localStorage.setItem('portal_region', city);
             const naverLink = document.getElementById('naverWeatherLink');
             if (naverLink) {
                 naverLink.href = `https://search.naver.com/search.naver?query=${encodeURIComponent(city + ' 날씨')}`;
+            }
+            // 캐시된 날씨 데이터가 없는 경우 스켈레톤 UI 활성화
+            if (!staticPortalData || !staticPortalData.weather || !staticPortalData.weather[city]) {
+                setWeatherSkeleton(true);
             }
             fetchWeatherOnly(city);
         }
@@ -2638,6 +2712,7 @@
         // 초기 구동 (0초 즉시 스냅샷 렌더링 + 백그라운드 최신화)
         window.addEventListener('DOMContentLoaded', () => {
             initTheme();
+            initRegion();
             initHeroWallpaper();
             loadInitialSnapshot();
             fetchOverview();

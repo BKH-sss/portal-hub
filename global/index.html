@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORBIS | 오르비스 글로벌 인텔리전스 외신 포털</title>
+    <!-- 1. 다크 모드 초기 깜빡임(FOUC) 방지 인라인 스크립트 -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('portal_global_theme') || localStorage.getItem('portal_theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -96,6 +108,25 @@
         @keyframes pulse-ring {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.4; transform: scale(1.15); }
+        }
+        /* 2. 스켈레톤 UI (데이터 로딩 시 레이아웃 덜컹거림 및 깜빡임 방지) */
+        .skeleton {
+            background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s infinite ease-in-out;
+            color: transparent !important;
+            border-radius: 6px;
+            user-select: none;
+            pointer-events: none;
+            display: inline-block;
+        }
+        html.dark .skeleton {
+            background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+            background-size: 200% 100%;
+        }
+        @keyframes skeleton-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
     </style>
 </head>

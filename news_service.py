@@ -3,6 +3,7 @@
 4차 산업(AI, 컴퓨터, 미래산업) 뉴스 + 날씨/미세먼지 + 축구 경기 일정 통합 서비스
 """
 
+import os
 import urllib.request
 import urllib.parse
 import xml.etree.ElementTree as ET
@@ -178,6 +179,18 @@ def _fetch_naver_weather(city: str):
     except Exception as e:
         return None
 
+def _fetch_openweather(city: str, api_key: str):
+    """OpenWeatherMap 공식 API 조회 (GitHub Secrets 또는 환경 변수 WEATHER_API_KEY 설정 시 활용)"""
+    if not api_key:
+        return None
+    city_en_map = {"서울": "Seoul", "수원": "Suwon", "익산": "Iksan", "부산": "Busan"}
+    city_en = city_en_map.get(city, "Seoul")
+    try:
+        owm_url = f"https://api.openweathermap.org/data/2.5/weather?q={city_en}&appid={api_key}&units=metric&lang=kr"
+        return _fetch_url_json(owm_url, timeout=3.5)
+    except Exception:
+        return None
+
 def _fetch_open_meteo(lat: float, lon: float):
     """Open-Meteo 기상 위성 데이터 조회 (단독 스레드 실행용)"""
     try:
@@ -196,7 +209,7 @@ def _fetch_open_meteo(lat: float, lon: float):
 def get_weather_and_air(city: str = "서울"):
     """
     선택한 도시의 실시간 날씨, 기상 예보 및 미세먼지(PM10, PM2.5) 수집
-    - 네이버 날씨와 Open-Meteo를 병렬 스레드로 동시 호출하여 0.3초 내 초고속 응답
+    - 네이버 날씨, Open-Meteo, 및 OpenWeatherMap(키 설정 시)을 병렬 스레드로 동시 호출하여 0.3초 내 초고속 응답
     """
     global _CACHE
     if city not in KOREA_CITIES:
@@ -210,16 +223,43 @@ def get_weather_and_air(city: str = "서울"):
     coords = KOREA_CITIES[city]
     lat, lon = coords["lat"], coords["lon"]
 
-    # 1 & 2 병렬 동시 호출
+    # 1 & 2 병렬 동시 호출 (선택적으로 OpenWeatherMap 포함)
     naver_data = None
     w_data = None
-    with ThreadPoolExecutor(max_workers=2) as executor:
+    owm_data = None
+    weather_api_key = os.environ.get("WEATHER_API_KEY", "").strip()
+
+    with ThreadPoolExecutor(max_workers=3) as executor:
         fut_naver = executor.submit(_fetch_naver_weather, city)
         fut_meteo = executor.submit(_fetch_open_meteo, lat, lon)
+        fut_owm = executor.submit(_fetch_openweather, city, weather_api_key) if weather_api_key else None
         naver_data = fut_naver.result()
         w_data = fut_meteo.result()
+        if fut_owm:
+            try:
+                owm_data = fut_owm.result()
+            except Exception:
+                owm_data = None
 
     try:
+        # OpenWeatherMap 데이터가 유효하면 naver_data 보완/대체
+        if owm_data and isinstance(owm_data, dict) and "main" in owm_data:
+            owm_main = owm_data.get("main", {})
+            owm_weather_arr = owm_data.get("weather", [{}])
+            owm_desc = owm_weather_arr[0].get("description", "") if owm_weather_arr else ""
+            if naver_data is None:
+                naver_data = {}
+            if naver_data.get("temp") is None and "temp" in owm_main:
+                naver_data["temp"] = float(owm_main["temp"])
+            if naver_data.get("feels_like") is None and "feels_like" in owm_main:
+                naver_data["feels_like"] = float(owm_main["feels_like"])
+            if not naver_data.get("desc") and owm_desc:
+                naver_data["desc"] = owm_desc
+            if naver_data.get("temp_min") is None and "temp_min" in owm_main:
+                naver_data["temp_min"] = float(owm_main["temp_min"])
+            if naver_data.get("temp_max") is None and "temp_max" in owm_main:
+                naver_data["temp_max"] = float(owm_main["temp_max"])
+
         cur_w = w_data.get("current", {}) if w_data else {}
         daily = w_data.get("daily", {}) if w_data else {}
         hourly = w_data.get("hourly", {}) if w_data else {}
