@@ -117,9 +117,41 @@
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
+
+        /* 3. 상단 실시간 뉴스 헤드라인 티커 롤링 애니메이션 */
+        .ticker-animate {
+            display: inline-flex;
+            white-space: nowrap;
+            animation: ticker-roll 45s linear infinite;
+        }
+        .ticker-animate:hover {
+            animation-play-state: paused;
+        }
+        @keyframes ticker-roll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 min-h-screen flex flex-col">
+
+    <!-- 최상단 실시간 주요 속보 & 뉴스 헤드라인 티커 바 -->
+    <div class="bg-slate-900 text-slate-200 text-[11px] py-1.5 px-4 border-b border-slate-800 overflow-hidden select-none relative z-30">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <div class="flex items-center gap-2 shrink-0 font-bold text-amber-400">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 live-pulse"></span>
+                <span class="tracking-wider uppercase text-[10px]">실시간 주요 속보</span>
+            </div>
+            <div class="flex-1 overflow-hidden relative">
+                <div id="liveNewsTickerContainer" class="ticker-animate flex items-center gap-8 text-slate-300 text-[11px]">
+                    <span class="inline-flex items-center gap-2 text-slate-400">실시간 뉴스를 동기화 중입니다...</span>
+                </div>
+            </div>
+            <div class="hidden lg:flex items-center gap-3 text-[10px] text-slate-400 shrink-0 font-medium">
+                <span class="flex items-center gap-1.5 text-slate-400"><span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>24H Real-Time Stream</span>
+            </div>
+        </div>
+    </div>
 
     <!-- 상단 고정 네비게이션 헤더 -->
     <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
@@ -1931,8 +1963,47 @@
             }
         }
 
+        // 📰 기본 뉴스 티커 폴백 데이터
+        const DEFAULT_NEWS_TICKER_FALLBACK = [
+            { press: "AI/빅테크", title: "생성형 AI 모델 및 자율주행 에이전트 기술 글로벌 패권 경쟁 가속화", link: "https://news.google.com", time_ago: "방금 전" },
+            { press: "반도체", title: "차세대 HBM 및 고대역폭 메모리 생산 라인 대규모 증설 발표", link: "https://news.google.com", time_ago: "10분 전" },
+            { press: "로보틱스", title: "인간형 휴머노이드 로봇 물류 및 제조 현장 본격 실증 투입", link: "https://news.google.com", time_ago: "25분 전" },
+            { press: "게임산업", title: "글로벌 e스포츠 및 차세대 실시간 그래픽스 엔진 생태계 확장", link: "https://news.google.com", time_ago: "35분 전" },
+            { press: "미래기술", title: "온디바이스 AI 칩셋 탑재 차세대 스마트 디바이스 생태계 확대", link: "https://news.google.com", time_ago: "50분 전" }
+        ];
+
+        // 📰 최상단 실시간 주요 속보 티커 바 렌더링
+        function renderNewsTicker(newsList) {
+            const container = document.getElementById('liveNewsTickerContainer');
+            if (!container) return;
+            const items = (newsList && newsList.length > 0) ? newsList.slice(0, 15) : DEFAULT_NEWS_TICKER_FALLBACK;
+
+            const htmlContent = items.map(item => {
+                const press = item.press || item.category_badge || '속보';
+                const rawTitle = item.title || '';
+                const cleanTitle = rawTitle.replace(/"/g, '&quot;');
+                const link = item.link || '#';
+                const time = item.time_ago || '';
+                return `
+                    <span class="inline-flex items-center gap-2 group whitespace-nowrap">
+                        <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-slate-800 text-amber-400 border border-slate-700/80 shrink-0">${press}</span>
+                        <a href="${link}" target="_blank" rel="noopener noreferrer" class="hover:text-amber-300 font-medium text-slate-200 transition-colors inline-block max-w-[280px] sm:max-w-md md:max-w-lg lg:max-w-none truncate" title="${cleanTitle}">
+                            ${cleanTitle}
+                        </a>
+                        ${time ? `<span class="text-[10px] text-slate-400 font-mono shrink-0">${time}</span>` : ''}
+                        <span class="text-slate-600 font-bold select-none ml-2 shrink-0">•</span>
+                    </span>
+                `;
+            }).join('');
+
+            // 끊김 없는 무한 루프 롤링을 위해 2회 반복 결합
+            container.innerHTML = htmlContent + htmlContent;
+        }
+
         // 🚀 뉴스 카드 렌더링
         function renderNews(newsList) {
+            // 상단 주요 속보 티커도 함께 동기화
+            renderNewsTicker(newsList);
             const grid = document.getElementById('newsGrid');
             const heroCard = document.getElementById('heroNewsCard');
             if (!grid) return;
@@ -2144,15 +2215,18 @@
                             renderWeather(cached.weather[currentCity] || cached.weather['서울']);
                         }
                         if (cached.news && (cached.news[currentCategory] || cached.news['all'])) {
-                            renderNews(cached.news[currentCategory] || cached.news['all']);
+                            const newsToShow = cached.news[currentCategory] || cached.news['all'];
+                            renderNews(newsToShow);
+                            renderNewsTicker(cached.news['all'] || newsToShow);
                         }
                         return true;
                     }
                 }
             } catch (e) {}
 
-            // 로컬 스토리지 캐시가 전혀 없는 첫 방문자라도 즉시 기본 맨유 경기 렌더링 (스켈레톤 지연 제거)
+            // 로컬 스토리지 캐시가 전혀 없는 첫 방문자라도 즉시 기본 맨유 경기 및 뉴스 티커 렌더링 (스켈레톤 지연 제거)
             renderSoccer(DEFAULT_MANUTD_FALLBACK);
+            renderNewsTicker(DEFAULT_NEWS_TICKER_FALLBACK);
             return false;
         }
 
@@ -2175,8 +2249,12 @@
                             if (json.weather && (json.weather[currentCity] || json.weather['서울'])) {
                                 renderWeather(json.weather[currentCity] || json.weather['서울']);
                             }
-                            if (json.news && (json.news[currentCategory] || json.news['all'])) {
-                                renderNews(json.news[currentCategory] || json.news['all']);
+                            if (json.news) {
+                                const allNews = json.news['all'] || json.news[currentCategory] || Object.values(json.news)[0];
+                                if (allNews) renderNewsTicker(allNews);
+                                if (json.news[currentCategory] || json.news['all']) {
+                                    renderNews(json.news[currentCategory] || json.news['all']);
+                                }
                             }
                             return true;
                         }
@@ -2200,7 +2278,10 @@
                     if (data && data.success) {
                         if (data.soccer) renderSoccer(data.soccer);
                         if (data.weather) renderWeather(data.weather);
-                        if (data.news) renderNews(data.news);
+                        if (data.news) {
+                            renderNews(data.news);
+                            renderNewsTicker(data.news);
+                        }
 
                         if (!staticPortalData) staticPortalData = {};
                         if (data.soccer) staticPortalData.soccer = data.soccer;
